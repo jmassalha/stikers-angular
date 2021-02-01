@@ -1,0 +1,65 @@
+import { HashLocationStrategy, LocationStrategy } from "@angular/common";
+import { NgModule } from "@angular/core";
+import { RouterModule, Routes } from "@angular/router";
+import { DashboardComponent } from "./dashboard/dashboard.component";
+import { LoginComponent } from "./login/login.component";
+import { ChadsComponent } from "./chads/chads.component";
+import { HearingComponent } from "./hearing/hearing.component";
+import { SurgeryComponent } from "./surgery/surgery.component";
+import { MrbaotComponent } from "./mrbaot/mrbaot.component";
+import { EshbozComponent } from "./eshboz/eshboz.component";
+import { DimotComponent } from "./dimot/dimot.component";
+import { CoronaformComponent } from "./coronaform/coronaform.component";
+import { PoriadepartsComponent } from "./poriadeparts/poriadeparts.component";
+import { SendsmsComponent } from "./sendsms/sendsms.component";
+import { SendsmsadminComponent } from "./sendsmsadmin/sendsmsadmin.component";
+import { RolesComponent } from "./roles/roles.component";
+import { CoronaresultformComponent } from "./coronaresultform/coronaresultform.component";
+import { GlucoseComponent } from "./glucose/glucose.component";
+import { MershamComponent } from "./mersham/mersham.component";
+import { DrugsComponent } from "./drugs/drugs.component";
+import { CortinasComponent } from "./cortinas/cortinas.component";
+import { CortinasdepartsComponent } from "./cortinasdeparts/cortinasdeparts.component";
+import { CortinasnotificationComponent } from "./cortinasnotification/cortinasnotification.component";
+import { CoronavaccineComponent } from "./coronavaccine/coronavaccine.component";
+import { Covid19reportComponent } from "./covid19report/covid19report.component";
+import { ConsultationsComponent } from "./consultations/consultations.component";
+import { ResearchesusersComponent } from "./researchesusers/researchesusers.component";
+import { ResearchespatientsComponent } from "./researchespatients/researchespatients.component";
+import { ResearchesComponent } from "./researches/researches.component";
+const routes: Routes = [
+    { path: "dashboard", component: DashboardComponent },
+    { path: "login", component: LoginComponent },
+    { path: "chads", component: ChadsComponent },
+    { path: "hearing", component: HearingComponent },
+    { path: "surgery", component: SurgeryComponent },
+    { path: "mrbaot", component: MrbaotComponent },
+    { path: "eshboz", component: EshbozComponent },
+    { path: "dimot", component: DimotComponent },
+    { path: "coronaform", component: CoronaformComponent },
+    { path: "poriadeparts", component: PoriadepartsComponent },
+    { path: "roles", component: RolesComponent },
+    { path: "sendsms", component: SendsmsComponent },
+    { path: "sendsmsadmin", component: SendsmsadminComponent },
+    { path: "coronaresultform", component: CoronaresultformComponent },
+    { path: "glucose", component: GlucoseComponent },
+    { path: "mersham", component: MershamComponent },
+    { path: "drugs", component: DrugsComponent },
+    { path: "cortinas", component: CortinasComponent },
+    { path: "cortinasdeparts", component: CortinasdepartsComponent },
+    { path: "coronavaccine", component: CoronavaccineComponent },
+    { path: "cortinasnotification", component: CortinasnotificationComponent },
+    { path: "covid19report", component: Covid19reportComponent },
+    { path: "consultations", component: ConsultationsComponent },
+    { path: "researchesusers", component: ResearchesusersComponent },
+    { path: "researchespatients", component: ResearchespatientsComponent },
+    { path: "researches", component: ResearchesComponent },
+    { path: "", component: LoginComponent },
+];
+@NgModule({
+    imports: [RouterModule.forRoot(routes)],
+    exports: [RouterModule],
+    providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
+    declarations: [],
+})
+export class AppRoutingModule {}

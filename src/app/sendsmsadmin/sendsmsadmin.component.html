@@ -1,0 +1,60 @@
+<div id="page-toshow">
+    <h1 class="page-title text-center">שליחת הודעות הנהלה</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form" [formGroup]="sendSmsForm" >
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <textarea
+                                                required
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="תוכן הודעה"
+                                                name="smsText"
+                                                rows="17"
+                                                formControlName="smsText"
+                                                >{{ smsText }}</textarea
+                                            >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <textarea
+                                                required
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="מס' טלפון"
+                                                name="smsNumbers"
+                                                rows="17"
+                                                formControlName="smsNumbers"
+                                                >{{ smsNumbers }}</textarea
+                                            >
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button
+                                mat-raised-button
+                                type="submit"
+                                class="btn btn-primary btn-raised"
+                                (click)="sendSms()"
+                            >
+                                שלח
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

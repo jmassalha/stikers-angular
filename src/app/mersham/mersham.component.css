@@ -1,0 +1,65 @@
+#prespictionsDetailsBtn {
+    position: absolute;
+    bottom: 50px;
+    right: 180px;
+    z-index: 10;
+    font-size: 30px;
+}
+.mat-raised-button {
+    font-weight: bold;
+}
+#prespictionsDetailsBtn_2 {
+    z-index: 10;
+}
+
+.pos-relative {
+    position: relative;
+}
+.mat-form-field-appearance-fill .mat-form-field-flex {
+    border-radius: 4px 4px 0 0;
+    padding: 0.1em 0.1em 0 0.1em;
+}
+.form-control {
+    height: 35px;
+}
+.search-input {
+    direction: rtl;
+    text-align: right;
+    height: 40px;
+    padding: 0 10px;
+    position: absolute;
+    top: 0;
+    border-bottom: 1px solid #d3d3d3;
+    box-shadow: 0 0 3px 0 #a0a0a0;
+}
+
+.cancellRow::after {
+    content: "";
+    width: calc(100% - 280px);
+    height: 2px;
+    background: indianred;
+    position: absolute;
+    left: 29px;
+    right: 29px;
+    margin-top: 18px;
+}
+.cancellRow {
+    position: relative;
+    color: indianred;
+    text-decoration: line-through;
+}
+.left-img {
+    position: absolute;
+    left: 10px;
+    top: 10px;
+    width: 100px;
+}
+.right-img {
+    position: absolute;
+    right: 10px;
+    top: 10px;
+    width: 100px;
+}
+.rel {
+    position: relative;
+}

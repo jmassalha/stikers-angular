@@ -1,0 +1,315 @@
+<h1 class="page-title text-center">תפוקת חדר ניתוח</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div dir="rtl" class="card w-85-p">
+                <div dir="rtl" class="card-body">
+                    <form class="form">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input matInput autocomplete="off" placeholder="חפש" [(ngModel)]="fliterVal"
+                                            name="fliterVal">
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input matInput autocomplete="off" placeholder="מ תאריך" required
+                                            (focus)="startdate.open()" [(ngModel)]="startdateVal" name="startdate"
+                                            [matDatepicker]="startdate" >
+                                        <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+                                        <mat-datepicker #startdate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input matInput autocomplete="off" placeholder="עד תאריך "
+                                            (focus)="enddate.open()" required [(ngModel)]="enddateVal" name="enddate"
+                                            [matDatepicker]="enddate" >
+                                        <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+                                        <mat-datepicker #enddate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>משמרת</mat-label>
+                                        <mat-select [(value)]="Shift" required>
+                                            <mat-option value="-1">הכל</mat-option>
+                                            <mat-option value="BOKER">בוקר</mat-option>
+                                            <mat-option value="3RV">ערב</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>מחלקה</mat-label>
+                                        <mat-select [(value)]="Depart" required multiple>
+                                            <mat-option value="-1">הכל</mat-option>
+                                            <mat-option value="כירורגיה">כירורגיה </mat-option>
+                                            <mat-option value="אורתופדיה">אורתופדיה </mat-option>
+                                            <mat-option value="עיניים">עיניים </mat-option>
+                                            <mat-option value="יולדות">יולדות </mat-option>
+                                            <mat-option value="אורולוגיה">אורולוגיה </mat-option>
+                                            <mat-option value="אף אוזן וגרון">אף אוזן וגרון </mat-option>
+                                            <mat-option value="נשים">נשים </mat-option>
+                                            <mat-option value="כירורגיה לב">כירורגיה לב </mat-option>
+                                            <mat-option value="כירורגית כלי דם">כירורגית כלי דם </mat-option>
+                                            <mat-option value="פלסטיקה">פלסטיקה </mat-option>
+                                            <mat-option value="כירורגיה חזה">כירורגיה חזה </mat-option>
+                                            <mat-option value="פה ולסת">פה ולסת </mat-option>
+                                            <mat-option value="כירורגית ילדים">כירורגית ילדים </mat-option>
+                                            <mat-option value="גסטרו ילדים">גסטרו ילדים </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="row">
+                            <div class="form-group">
+                                <mat-label>סוג ניתוח</mat-label>
+                            </div>
+                            <mat-list class="row-all">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-checkbox [(ngModel)]="master_checked"
+                                                [(indeterminate)]="master_indeterminate" (change)="master_change()"
+                                                name="ALL" cheked="true"><b>הכל</b></mat-checkbox>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-checkbox (change)="list_change()" [(ngModel)]="SurgeryType[0]"
+                                                name="SISIOT" #SISIOT value="SISIOT">ססיות</mat-checkbox>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-checkbox (change)="list_change()" [(ngModel)]="SurgeryType[1]"
+                                                name="D7OF" #D7OF value="D7OF">דחופים</mat-checkbox>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-checkbox (change)="list_change()" [(ngModel)]="SurgeryType[2]"
+                                                name="AMBOLATORY" #AMBOLATORY value="AMBOLATORY">אמבולטורים
+                                            </mat-checkbox>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-checkbox (change)="list_change()" [(ngModel)]="SurgeryType[3]"
+                                                name="ELECTIVE" #ELECTIVE value="ELECTIVE">אלקטיבי</mat-checkbox>
+                                        </mat-list-item>
+                                    </div>
+                                </div>
+
+                            </mat-list>
+                            <div dir="rtl" class="col-md-12 text-right">
+                                <div class="form-group">
+                                    <label class="label-year">בחר שנה</label>
+                                    <mat-radio-group  name="years"
+                                    class="inline-radio-group"
+                                    >
+                                    <!-- >[(ngModel)]="_yearToSearch" -->
+                                        <mat-radio-button class="inline-radio-group-in"  *ngFor="let year of yearsToSelect.list" name="year" [checked]="year.checked" [value]="year.ID" (change)="radioChange($event)">
+                                            {{year.ID}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <mat-label>רבעון</mat-label>
+                            </div>
+                            <mat-list class="row-all">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" [checked]="true" #all value="all">הכל</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" #one value="1">I</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" #two value="2">II</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" #Three value="3">III
+                                            </mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" #four value="4">IV</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                </div>
+
+                            </mat-list>
+                        </div>
+                        
+                        <button type="submit" class="btn btn-link d-none none-all btn-raised"
+                            (click)="getReportExcel($event)">
+                            <img src="assets/images/excel.png">
+                        </button>
+                        <button mat-raised-button type="submit" class="btn btn-primary btn-raised"
+                            (click)="getReport($event)">הצג</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<br>
+<div class="container-fluid text-right">
+    <div class="row" style="flex-flow: column-reverse;">
+        <div class="colde d-nonea" id="totalBarChart"></div>
+    </div>
+    <div class="row" style="flex-flow: column-reverse;">
+        <div class="colde d-nonea" id="LineChart"></div>
+    </div>
+    <div class="row" style="flex-flow: column-reverse;">
+        <div class="1col1 d-nonea" id="departSurgery"></div>
+        <div class="1col1 " id="surgeryCount"></div>
+    </div>
+</div>
+<br>
+<hr>
+<div class="container-fluid text-right pb-60">
+    <div class="row">
+        <div class="col" id="_departments"></div>
+    </div>
+</div>
+<div class="d-none container-fluid">
+    <div class="row">
+        <div dir="rtl" class="col">
+            <div class="table-responsive">
+                <div class="table-spinner-container">
+                    <mat-form-field>
+                        <input matInput (keyup)="applyFilter($event.target.value)" placeholder="חפש">
+                    </mat-form-field>
+                    <table class="table" matSort mat-table [dataSource]="dataSource">
+                        <ng-container matColumnDef="S_ID">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> מס' שורה </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_ID}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_SURGERY_NUMBER">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> מס' ניתוח </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_SURGERY_NUMBER}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_CASE_NUMBER">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> מס' מקרה </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_CASE_NUMBER}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_DEPARTMENT">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_DEPARTMENT}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_SURGERY_DATE">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> תאריך ניתוח </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_SURGERY_DATE}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_DEPARTMENT_REQUEST">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה מבצעת </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_DEPARTMENT_REQUEST}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_ROOM_NUMBER">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> חדר </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_ROOM_NUMBER}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_SURGERY_CODE">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> קוד ניתוח </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_SURGERY_CODE}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_SURGERY_NAME">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> שם ניתוח </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_SURGERY_NAME}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_SURGERY_TYPE">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> סוג ניתוח </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_SURGERY_TYPE}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_TIME_ROOM_ENTER">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> שעת כניסה לחדר </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_TIME_ROOM_ENTER}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_TIME_START_NARCOTIC">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> שעת הרדמה </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_TIME_START_NARCOTIC}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_TIME_SURGERY_START">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> שעת התחלת ניתוח </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_TIME_SURGERY_START}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_TIME_SURGERY_END">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> שעת סיום ניתוח </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_TIME_SURGERY_END}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_TIME_END_NARCOTIC">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> שעת סיום הרדמה </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_TIME_END_NARCOTIC}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_TIME_ROOM_EXIT">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> שעת יציאה מהחדר </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_TIME_ROOM_EXIT}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_SURGEON_NAME">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> מנתיח ראשי </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_SURGEON_NAME}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_NARCOTIC_TYPE">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> סוג הרמה </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_NARCOTIC_TYPE}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_NAME_OF_NARCOTIC">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> מרדים </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_NAME_OF_NARCOTIC}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_SURGEON_STAFF">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> צוות </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_SURGEON_STAFF}} </td>
+                        </ng-container>
+                        <ng-container matColumnDef="S_ROW_ID">
+                            <th mat-header-cell *matHeaderCellDef mat-sort-header> מס' </th>
+                            <td mat-cell *matCellDef="let element"> {{element.S_ROW_ID}} </td>
+                        </ng-container>
+                        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                    </table>
+                </div>
+                <!-- PAGINATION -->
+                <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 20]" [pageSize]="10"
+                    showFirstLastButtons (page)="getPaginatorData($event)"></mat-paginator>
+            </div>
+
+        </div>
+    </div>
+
+</div>

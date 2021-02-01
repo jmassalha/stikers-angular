@@ -1,0 +1,11 @@
+{
+  "targets": {
+    "toremapp-198821": {
+      "hosting": {
+        "my-app": [
+          "toremapp-198821"
+        ]
+      }
+    }
+  }
+}
