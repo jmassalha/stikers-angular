@@ -88,6 +88,7 @@ export interface Prescription {
     Case_Number: string;
     Depart: string;
     Seode_Depart: string;
+    hideOrShow: boolean;
     
 }
 export interface PrescriptionRow {
@@ -101,7 +102,7 @@ export interface PrescriptionRow {
     MenonValVal: string;
     MenonCalcVal: string;
     Way_Of_ProvidingVal: string;
-    Days_ProtocolVal: string;
+    Days_ProtocolVal: string[];
     MedListVal: string;
     rowIdPreVal: string;
     newRow: Boolean;
@@ -221,7 +222,7 @@ export class MershamComponent implements OnInit {
     Depart_In: string;
     Seode_Depart_In: string;
     KUPA_In: string;
-
+    ShowPerm: boolean;
     Carboplatin: Boolean;
     calcByGender: number;
     rowElementPres: Prescription = {
@@ -258,6 +259,7 @@ export class MershamComponent implements OnInit {
         Case_Number: "",
         Depart: "",
         Seode_Depart: "",
+        hideOrShow: true,
     };;
     constructor(
         private activeModal: NgbActiveModal,
@@ -268,7 +270,23 @@ export class MershamComponent implements OnInit {
         private elementRef: ElementRef,
         //private cdRef:ChangeDetectorRef,
         private formBuilder: FormBuilder
-    ) {}
+    ) {
+        let that = this;
+        window.onbeforeprint = function() {
+            console.log('This will be called before the user prints.');
+            that.editRow(null,null, that.rowElementPres, 'false');
+            var head = document.head || document.getElementsByTagName('head')[0];
+            var style = document.createElement('style');
+            style.type = 'text/css';
+            style.media = 'print';
+            var landscape = true;
+            style.appendChild(document.createTextNode(landscape ?
+              '@page { size: A4 landscape; margin: 0in;}' :
+              '@page { size: A4;  margin: 0in; }'));
+          
+            head.appendChild(style);
+        };
+    }
     @Input()
     fullnameVal: string;
     rowElement: Prescription = {
@@ -305,6 +323,7 @@ export class MershamComponent implements OnInit {
         Case_Number: "",
         Depart: "",
         Seode_Depart: "",
+        hideOrShow: true,
     };
     weightVal: string;
     heightVal: string;
@@ -350,6 +369,7 @@ export class MershamComponent implements OnInit {
         //this.rowElementPres = 
         $('body').addClass('bg-blue-light');
         this.prem = true;
+        this.ShowPerm = true;
         this.getPermission();
         this.printForm= {
             MedicationSensitivityVal: "",
@@ -611,7 +631,7 @@ export class MershamComponent implements OnInit {
                             break;
                         case "2":
                         case 2:
-                            
+                            this.ShowPerm = false;
                             this.prem = false;
                             this.displayedColumns = [
                                 "PerscriptionID",
@@ -626,6 +646,7 @@ export class MershamComponent implements OnInit {
                         case "3":
                         case 3:
                             this.prem = false;
+                            this.ShowPerm = false;
                             this.displayedColumns = [
                                 "PerscriptionID",
                                 "RegistrationDate",
@@ -721,6 +742,7 @@ export class MershamComponent implements OnInit {
             });
         
     }
+   
     printRowInside(){
         ////////debugger
         this.editRow(null,null, this.rowElementPres, 'false');
@@ -788,7 +810,7 @@ export class MershamComponent implements OnInit {
         //debugger
     }
     editRow(content, _type, _element, openModal) {
-       // ////debugger
+       debugger
         this.FIRST_NAME_In = _element.PatientFirstName;
         this.LAST_NAME_In = _element.PatientLastName;
         this.MID_NAME_In = _element.FatherName;
@@ -984,7 +1006,7 @@ export class MershamComponent implements OnInit {
 
         this.getPresFromServer(_element.PerscriptionID);
         if(openModal == 'true'){
-            this.modalService.open(content, this.modalOptions).result.then(
+            this.modalService.open(content, {windowClass: 'width-1010'}).result.then(
                 (result) => {
                     this.closeResult = `Closed with: ${result}`;
                     //////////////////////////debugger
@@ -1092,6 +1114,7 @@ export class MershamComponent implements OnInit {
         //     MedListVal: [{value:_element.MedListVal, disabled: this.dis}, false],
         //     rowIdPreVal: [{value:_element.rowIdPreVal, disabled: this.dis}, false],
         // });
+        debugger
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
@@ -1160,7 +1183,7 @@ export class MershamComponent implements OnInit {
         this.submitted = true;
         //////////////////////////debugger
         // stop here if form is invalid
-       debugger
+       //debugger
         if (this.PrespictionForm.invalid || this.rows.invalid) {
             this.openSnackBar("נא למלא את כל השדות המסומנים באדום", "error-font-gib");
             return;
@@ -1184,7 +1207,12 @@ export class MershamComponent implements OnInit {
         
         //this.PrespictionForm.value.statusRowVal = ;
         var ParentFrom = this.PrespictionForm.value;
+        for(var i = 0; i < this.rows.value.length; i++){
+            this.rows.value[i]["Days_ProtocolVal"] = this.rows.value[i]["Days_ProtocolVal"].join(',')
+        }
         var tableFrom = this.rows.value;
+        //debugger
+        //return
        // ////////debugger
         this.http
             .post(
@@ -1350,7 +1378,7 @@ export class MershamComponent implements OnInit {
             SolutionVal: ["", false],
             MenonValVal: ["", false],
             Way_Of_ProvidingVal: ["", false],
-            Days_ProtocolVal: ["", false],
+            Days_ProtocolVal: [[], false],
             MenonCalcVal: [{ value: "", disabled: false }, false],
             MedListVal: ["", false],
             rowIdPreVal: [this.ROW_ID_IN_TABLE + 1, false],
@@ -1542,7 +1570,7 @@ export class MershamComponent implements OnInit {
                         ],
                         Days_ProtocolVal: [
                             {
-                                value: Medicine_Prescriptions[i].ProtocolDay,
+                                value: Medicine_Prescriptions[i].ProtocolDay.split(','),
                                 disabled: this.dis,
                             },
                             false,
@@ -1579,7 +1607,7 @@ export class MershamComponent implements OnInit {
                         MenonValVal:  Medicine_Prescriptions[i].Dosage,
                         MenonCalcVal:  clc,
                         Way_Of_ProvidingVal:  Medicine_Prescriptions[i].MedAdministrationType,
-                         Days_ProtocolVal:  Medicine_Prescriptions[i].ProtocolDay,
+                         Days_ProtocolVal:  Medicine_Prescriptions[i].ProtocolDay.split(','),
                          MedListVal:  Medicine_Prescriptions[i].DrugName,
                          rowIdPreVal:  Medicine_Prescriptions[i].MedicinID,
                          newRow: false
@@ -1666,8 +1694,16 @@ export class MershamComponent implements OnInit {
 
                 ////////////////////////debugger
                 for (var i = 0; i < DataPrecpiction.length; i++) {
-                    //////debugger;
-
+                    //debugger;
+                    var ShowRow = false;
+                    if(( DataPrecpiction[i].Status == 'נעול')){
+                        ShowRow = true;
+                    }else if(this.prem){
+                       // debugger
+                       ShowRow = true;
+                    }else{
+                        ShowRow = false;
+                    }
                     this.TABLE_DATA.push({
                         PerscriptionID: DataPrecpiction[i].PerscriptionID,
                         ID: DataPrecpiction[i].ID,
@@ -1709,6 +1745,7 @@ export class MershamComponent implements OnInit {
                         Case_Number: DataPrecpiction[i].Case_Number,
                         Depart: DataPrecpiction[i].Depart,
                         Seode_Depart: DataPrecpiction[i].Seode_Depart,
+                        hideOrShow: ShowRow,
                     });
                     switch (DataPrecpiction[i].Status) {
                         case "שמור":

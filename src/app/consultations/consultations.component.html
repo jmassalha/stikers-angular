@@ -593,6 +593,12 @@
                     [height]="heightC" -->
             <br /><br />
             <div class="row rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ מעל 30 דקות
+                </h6>
                 <div class="col-6">
                     <google-chart
                         #departDoingTotal
@@ -620,6 +626,46 @@
                 
             </div><br /><br />
             <div class="row rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ כולל 30 דקות
+                </h6>
+                <div class="col-6">
+                    <google-chart
+                        #departDoingTotalAll
+                        [title]="titleDepartDoingTotalAll"
+                        [type]="barChartC"
+                        [data]="DepartsDataDoingTotalAll"
+                        [columns]="DepartsDoingTotalColumnsAll"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-6">
+                    <google-chart
+                        #departDoingAvgAll
+                        [title]="titleDepartDoingAvgAll"
+                        [type]="barChartC"
+                        [data]="DepartsDataDoingAvgAll"
+                        [columns]="DepartsDoingAvgColumnsAll"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div><br /><br />
+            
+            <div class="row rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ מעל 30 דקות
+                </h6>
                 <div class="col-6">
                     <google-chart
                         #departRequestTotal
@@ -639,6 +685,110 @@
                         [type]="barChartC"
                         [data]="DepartsDataRequestAvg"
                         [columns]="DepartsRequestAvgColumns"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div>
+            <br /><br />
+            <div class="row rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ מעל 30 דקות
+(ללא פרא רפואי)
+                </h6>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestTotal
+                        [title]="titleDepartRequestTotalNotPara"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestTotalNotPara"
+                        [columns]="DepartsRequestTotalColumnsNotPara"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestAvg
+                        [title]="titleDepartRequestAvgNotPara"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestAvgNotPara"
+                        [columns]="DepartsRequestAvgColumnsNotPara"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div>
+            <br /><br />
+            <div class="row rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ כולל 30 דקות
+                </h6>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestTotalAll
+                        [title]="titleDepartRequestTotalAll"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestTotalAll"
+                        [columns]="DepartsRequestTotalColumnsAll"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestAvgAll
+                        [title]="titleDepartRequestAvgAll"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestAvgAll"
+                        [columns]="DepartsRequestAvgColumnsAll"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div>
+            <br /><br />
+            <div class="row rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ כולל 30 דקות
+(ללא פרא רפואי)
+                </h6>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestTotalAll
+                        [title]="titleDepartRequestTotalAllNotPara"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestTotalAllNotPara"
+                        [columns]="DepartsRequestTotalColumnsAllNotPara"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestAvgAll
+                        [title]="titleDepartRequestAvgAllNotPara"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestAvgAllNotPara"
+                        [columns]="DepartsRequestAvgColumnsAllNotPara"
                         [options]="optionsBarsV"
                         
                     >

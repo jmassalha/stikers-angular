@@ -778,7 +778,9 @@
                                 }"
                                 mat-row
                                 *matRowDef="let row; columns: displayedColumns"
-                                [hidden]=" (row.Status != 'נעול' && !this.prem) || ( row.statusNotToDo != '0' && !this.prem) ? true : false"
+                                [hidden]="
+                                    (!row.hideOrShow)   ? true : false
+                                "
                             ></tr>
                         </table>
                     </div>
@@ -797,7 +799,7 @@
 </div>
 
 <ng-template #addPrespictionModal let-modal let-c="close" let-d="dismiss">
-    <div class="page">
+    <div class="page parent-modal-100100">
         <form
             dir="rtl"
             id="PrespictionFormID"
@@ -1217,12 +1219,11 @@
                             name="statusNotToDo"
                             (change)="changeActiveAndSave($event, this)"
                             formControlName="statusNotToDo"
-                            class="example-margin"                            
+                            class="example-margin"
                             >לא לביצוע</mat-checkbox
                         >
                     </div>
-                    &nbsp;
-                    &nbsp;
+                    &nbsp; &nbsp;
                     <div class="cover-me">
                         <div class="cover-in"></div>
                         <mat-checkbox
@@ -1244,7 +1245,7 @@
                     />
                     <button
                         type="submit"
-                        *ngIf="this.isButtonVisible  && this.prem"
+                        *ngIf="this.isButtonVisible && this.prem"
                         id="submitAll_1"
                         mat-raised-button
                         color="yello"
@@ -1254,7 +1255,7 @@
                     &nbsp;&nbsp;&nbsp;
                     <button
                         type="submit"
-                        *ngIf="this.isButtonVisible  && this.prem"
+                        *ngIf="this.isButtonVisible && this.prem"
                         id="submitAll"
                         mat-raised-button
                         color="yello"
@@ -1264,7 +1265,7 @@
                     </button>
                     &nbsp;&nbsp;&nbsp;
                     <button
-                        *ngIf="this.isButtonVisible  && this.prem"
+                        *ngIf="this.isButtonVisible && this.prem"
                         type="button"
                         id="prespictionsDetailsBtn_2"
                         (click)="
@@ -1340,7 +1341,12 @@
                                             <mat-select
                                                 formControlName="noteVal"
                                                 value="element.noteVal"
-                                                [ngClass]="this.rows.controls[rowIdx].status == 'INVALID' ?'has-error':'no-error'"
+                                                [ngClass]="
+                                                    this.rows.controls[rowIdx]
+                                                        .status == 'INVALID'
+                                                        ? 'has-error'
+                                                        : 'no-error'
+                                                "
                                             >
                                                 <mat-option
                                                     *ngFor="let Unit of Notes"
@@ -1720,7 +1726,7 @@
                                                 formControlName="Days_ProtocolVal"
                                                 value="  {{
                                                     element.Days_ProtocolVal
-                                                }}"
+                                                }}" multiple
                                             >
                                                 <mat-option
                                                     *ngFor="
@@ -1841,7 +1847,10 @@
                                     >
                                         <div class="example-button-container">
                                             <button
-                                                *ngIf="this.isButtonVisible  && this.prem"
+                                                *ngIf="
+                                                    this.isButtonVisible &&
+                                                    this.prem
+                                                "
                                                 (click)="
                                                     deleteRow(
                                                         deleteModal,

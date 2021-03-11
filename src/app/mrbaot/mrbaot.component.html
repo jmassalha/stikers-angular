@@ -79,6 +79,17 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>   
+                            </div><div class="col">
+                                <div class="form-group">                                  
+                                    <mat-form-field>
+                                        <mat-label>סוג ביקור</mat-label>
+                                        <mat-select [(value)]="PatientType" required>
+                                            <mat-option value="-1">הכל</mat-option>
+                                            <mat-option value="003">אמבולטורי</mat-option>
+                                            <mat-option value="001">אשפוז</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>   
                             </div>
                             <div dir="rtl" class="col-md-12 text-right">
                                 <div class="form-group">

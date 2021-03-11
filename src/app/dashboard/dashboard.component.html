@@ -58,7 +58,7 @@
                     <td>{{ Depart.Name }}</td>
                     <td>{{ Depart.BedsTeken }}</td>
                     <td>{{ Depart.Used }}</td>
-                    <td>{{ Depart.Used / Depart.BedsTeken * 100 | number:'1.0-0'}} %</td>
+                    <td>{{ Depart.BedsTeken!=0 && Depart.BedsTeken!=""?  (Depart.Used / Depart.BedsTeken * 100 | number:'1.0-0') + "%" : ""}} </td>
                 </tr>
             </tbody>
         </table>

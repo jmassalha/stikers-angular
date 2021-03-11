@@ -27,6 +27,14 @@ import { ConsultationsComponent } from "./consultations/consultations.component"
 import { ResearchesusersComponent } from "./researchesusers/researchesusers.component";
 import { ResearchespatientsComponent } from "./researchespatients/researchespatients.component";
 import { ResearchesComponent } from "./researches/researches.component";
+import { Sarscov2Component } from "./sarscov2/sarscov2.component";
+import { AddpatientcoronaformComponent } from "./addpatientcoronaform/addpatientcoronaform.component";
+import { SarsresultsComponent } from "./sarsresults/sarsresults.component";
+import { MaternityComponent } from "./maternity/maternity.component";
+import { MaternitypatientsComponent } from "./maternitypatients/maternitypatients.component";
+import { EmergencycallgroupsComponent } from "./emergencycallgroups/emergencycallgroups.component";
+import { EmergencymembersComponent } from "./emergencymembers/emergencymembers.component";
+import { EmployeesComponent } from "./employees/employees.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -54,6 +62,14 @@ const routes: Routes = [
     { path: "researchesusers", component: ResearchesusersComponent },
     { path: "researchespatients", component: ResearchespatientsComponent },
     { path: "researches", component: ResearchesComponent },
+    { path: "sarscov2", component: Sarscov2Component },
+    { path: "addpatientcoronaform", component: AddpatientcoronaformComponent },
+    { path: "sarsresults", component: SarsresultsComponent },
+    { path: "maternity", component: MaternityComponent },
+    { path: "maternitypatients", component: MaternitypatientsComponent },
+    { path: "emergencycallgroups", component: EmergencycallgroupsComponent },
+    { path: "emergencymembers", component: EmergencymembersComponent },
+    { path: "employees", component: EmployeesComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

@@ -91,7 +91,43 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
-
+            
+            <li class="nav-item">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> אזעקת חירום </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            
+                            <li class="nav-item" *ngIf="_shoEmergincyCall">
+                                <a class="nav-link" routerLink="emergencycallgroups"
+                                    >קבוצות</a
+                                >
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+            <li class="nav-item">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> מועדון יולדות </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            
+                            <li class="nav-item" *ngIf="_shomaternity">
+                                <a class="nav-link" routerLink="maternity"
+                                    >פרויקטים</a
+                                >
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -164,6 +200,12 @@
                         </mat-expansion-panel-header>
                         <ul>
                             <li class="nav-item" *ngIf="_shoCoronavaccine">
+                                <a class="nav-link" routerLink="sarscov2"
+                                    >נוגדנים לקורונה</a
+                                >
+                            </li>
+                        
+                            <li class="nav-item" *ngIf="_shoCoronavaccine">
                                 <a class="nav-link" routerLink="coronavaccine"
                                     >חיסון לקורונה</a
                                 >
@@ -191,6 +233,22 @@
                                     class="nav-link"
                                     routerLink="coronaresultform"
                                     >תוצאת קורונה באנגלית</a
+                                >
+                            </li>
+
+                            <li class="nav-item" *ngIf="_shoCoronaform">
+                                <a
+                                    class="nav-link"
+                                    routerLink="sarsresults"
+                                    >תוצאת בדיקת נוגדנים</a
+                                >
+                            </li>
+
+                            <li class="nav-item" *ngIf="_SHowToAdmins">
+                                <a
+                                    class="nav-link"
+                                    routerLink="addpatientcoronaform"
+                                    >הוספת מטופל לא עבר בממשק - בדיקות קורונה</a
                                 >
                             </li>
                         </ul>

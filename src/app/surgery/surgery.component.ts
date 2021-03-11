@@ -19,7 +19,14 @@ import { Chart } from "chart.js";
 import { Time } from "@angular/common";
 import { FormControl } from "@angular/forms";
 import * as Fun from "../public.functions";
-
+export interface Surgens {
+    id: string;
+    name: string;
+}
+export interface DropOption {
+    ID: string;
+    S_DEPARTMENT: string;
+}
 export interface Surgery {
     S_ID: number;
     S_SURGERY_NUMBER: string;
@@ -58,6 +65,9 @@ export class SurgeryComponent implements OnInit {
     closeResult: string;
     Shift: string;
     Depart: string[];
+    Departs: DropOption[];
+    SurgenType: string[];
+    Surgen: string;
     /**
      * Method is use to download file.
      * @param data - Array Buffer data
@@ -106,9 +116,14 @@ export class SurgeryComponent implements OnInit {
     _fun = new Fun.Functions();
     Sdate: FormControl;
     Edate: FormControl;
-    
+    SurgensList: Surgens[] = [];
     _yearToSearch = 0;
     ngOnInit() {
+        this.Depart = ["-1"];
+        this.SurgenType = ["-1"];
+        this.Surgen = "0";
+        this.getSurgens();
+        this.getDropDownFromServer();
         this._fun.RunFunction();
         this.yearsToSelect = this._fun.yearsToSelect;
         if(this.yearsToSelect.list[0]["checked"]){
@@ -145,6 +160,36 @@ export class SurgeryComponent implements OnInit {
             
         })
         //console.log(this.paginator.pageIndex);
+    }
+    getSurgens() {
+        $("#loader").removeClass("d-none");
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgens", {})
+            .subscribe((Response) => {
+                //// ////debugger
+                this.SurgensList = [];
+
+                var json = $.parseJSON(Response["d"]);
+                // // ////debugger
+                var _d = $.parseJSON(json["surgensList"]);
+
+                for (const [key, value] of Object.entries(_d)) {
+                  //  debugger
+                    var _sD: Surgens = { id: key, name: value.toString() };
+
+                    this.SurgensList.push(_sD);
+                }
+
+                $("#loader").addClass("d-none");
+                /*
+                  $(_d).each(function(i,k){
+                      // ////debugger
+                      //var _sD: Depart = {id: i, name: k};
+
+                      //this.departs.push(_sD);
+                  })*/
+                //// ////debugger
+            });
     }
     radioChange(event: MatRadioChange) {
          ////debugger
@@ -194,7 +239,9 @@ export class SurgeryComponent implements OnInit {
                 this.paginator.pageSize,
                 filterValue,
                 this.Shift,
-                this.Depart
+                this.Depart,
+                this.SurgenType,
+                this.Surgen
             );
         }
         //this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -211,7 +258,9 @@ export class SurgeryComponent implements OnInit {
                 this.paginator.pageSize,
                 this.fliterVal,
                 this.Shift,
-                this.Depart
+                this.Depart,
+                this.SurgenType,
+                this.Surgen
             );
         }
     }
@@ -226,7 +275,9 @@ export class SurgeryComponent implements OnInit {
                 this.paginator.pageSize,
                 this.fliterVal,
                 this.Shift,
-                this.Depart
+                this.Depart,
+                this.SurgenType,
+                this.Surgen,
             );
     }
     
@@ -300,6 +351,21 @@ export class SurgeryComponent implements OnInit {
                 }
             );
     }
+    public getDropDownFromServer() {
+        debugger
+
+        this.http
+            .post(
+                "http://srv-apps/wsrfc/WebService.asmx/getSurgeryDeparts",
+                {}
+            )
+            .subscribe((Response) => {
+                var json = $.parseJSON(Response["d"]);
+                json = $.parseJSON(json["SurgeryDeparts"]);
+                debugger
+                this.Departs = json;
+            });
+    }
     public getDataFormServer(
         _startDate: string,
         _endDate: string,
@@ -307,11 +373,17 @@ export class SurgeryComponent implements OnInit {
         _pageSize: number,
         _filterVal: string,
         _surgeryShift: string,
-        _Depart: string[]
+        _Depart: string[],
+        _SurgenType: string[],
+        _Surgen: string,
     ) {
         if(_Depart == undefined || _Depart == null){
             ////debugger;
             _Depart = ["-1"];
+        }
+        if(_SurgenType == undefined || _SurgenType == null){
+            ////debugger;
+            _SurgenType = ["-1"];
         }
         let _surgeryType = "";
         let _counter = 0;
@@ -327,7 +399,7 @@ export class SurgeryComponent implements OnInit {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        ////debugger
+        debugger
         $("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeries", {
@@ -338,12 +410,14 @@ export class SurgeryComponent implements OnInit {
                 _freeText: _filterVal,
                 _surgeryShift: _surgeryShift,
                 _surgeryType: _surgeryType,
-                _depart: _Depart
+                _depart: _Depart,
+                _surgenType: _SurgenType,
+                _surgen: _Surgen,
             })
             .subscribe(
                 Response => {
                     $("#_departments").empty();
-                    //  //debugger
+                    debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                     var json = $.parseJSON(Response["d"]);
                     //let surgeries = $.parseJSON(json["aaData"]);
@@ -421,7 +495,7 @@ export class SurgeryComponent implements OnInit {
                         s < $.parseJSON(json["SurgeryDepart"]).length;
                         s++
                     ) {
-                        //_footer.empty().append('<p class="row"><span class="col-9">סה"כ</span><span class="col-1">'+totalPast+'</span><span  class="col-1">'+totalNow+'</span><p>');
+                        //_footer.empty().append('<p class="row"><span class="col-md-8 col-sm-8 col-xs-8">סה"כ</span><span class="col-md-2 col-sm-2 col-xs-2">'+totalPast+'</span><span  class="col-md-2 col-sm-2 col-xs-2">'+totalNow+'</span><p>');
 
                         if (
                             _departToCheck !=
@@ -448,9 +522,9 @@ export class SurgeryComponent implements OnInit {
                             _footer
                                 .empty()
                                 .append(
-                                    '<p class="row"><span class="col-9  text-left">סה"כ לתקופה: </span><span  class="col-1">' +
+                                    '<p class="row"><span class="col-md-8 col-sm-8 col-xs-8  text-left">סה"כ לתקופה: </span><span  class="col-md-2 col-sm-2 col-xs-2">' +
                                         totalNow +
-                                        '</span><span class="col-1">' +
+                                        '</span><span class="col-md-2 col-sm-2 col-xs-2">' +
                                         totalPast +
                                         "</span><p>"
                                 );
@@ -464,11 +538,11 @@ export class SurgeryComponent implements OnInit {
 
                             _div.empty();
                             let _header = $(
-                                '<div class="card-header"><h1 class="row"><span class="col-9">' +
+                                '<div class="card-header"><h1 class="row"><span class="col-md-8 col-sm-8 col-xs-8">' +
                                     _departToCheck +
-                                    '</span><span class="col-1">' +
+                                    '</span><span class="col-md-2 col-sm-2 col-xs-2">' +
                                     _yearStart +
-                                    '</span><span class="col-1">' +
+                                    '</span><span class="col-md-2 col-sm-2 col-xs-2">' +
                                     (_yearStart - 1) +
                                     "</span></h1></div>"
                             );
@@ -494,11 +568,11 @@ export class SurgeryComponent implements OnInit {
                             ];
                         }
                         let _p = $(
-                            '<p class="row"><span class="col-9">' +
+                            '<p class="row"><span class="col-md-8 col-sm-8 col-xs-8">' +
                                 $.parseJSON(json["SurgeryName"])[s] +
-                                '</span><span class="col-1">' +
+                                '</span><span class="col-md-2 col-sm-2 col-xs-2">' +
                                 $.parseJSON(json["SurgeryCounter"])[s] +
-                                '</span><span class="col-1">' +
+                                '</span><span class="col-md-2 col-sm-2 col-xs-2">' +
                                 _val +
                                 "</span></p>"
                         );
@@ -546,9 +620,9 @@ export class SurgeryComponent implements OnInit {
                     _footer
                         .empty()
                         .append(
-                            '<p class="row"><span class="col-9 text-left">סה"כ לתקופה: </span><span  class="col-1">' +
+                            '<p class="row"><span class="col-md-8 col-sm-8 col-xs-8 text-left">סה"כ לתקופה: </span><span  class="col-md-2 col-sm-2 col-xs-2">' +
                                 totalNow +
-                                '</span><span class="col-1">' +
+                                '</span><span class="col-md-2 col-sm-2 col-xs-2">' +
                                 totalPast +
                                 "</span><p>"
                         );

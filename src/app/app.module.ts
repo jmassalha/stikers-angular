@@ -65,6 +65,14 @@ import { ConsultationsComponent } from './consultations/consultations.component'
 import { ResearchesusersComponent } from './researchesusers/researchesusers.component';
 import { ResearchesComponent } from './researches/researches.component';
 import { ResearchespatientsComponent } from './researchespatients/researchespatients.component';
+import { Sarscov2Component } from './sarscov2/sarscov2.component';
+import { AddpatientcoronaformComponent } from './addpatientcoronaform/addpatientcoronaform.component';
+import { SarsresultsComponent } from './sarsresults/sarsresults.component';
+import { MaternityComponent } from './maternity/maternity.component';
+import { MaternitypatientsComponent } from './maternitypatients/maternitypatients.component';
+import { EmergencycallgroupsComponent } from './emergencycallgroups/emergencycallgroups.component';
+import { EmergencymembersComponent } from './emergencymembers/emergencymembers.component';
+import { EmployeesComponent } from './employees/employees.component';
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -102,7 +110,15 @@ const maskConfig: Partial<IConfig> = {
     ConsultationsComponent,
     ResearchesusersComponent,
     ResearchesComponent,
-    ResearchespatientsComponent
+    ResearchespatientsComponent,
+    Sarscov2Component,
+    AddpatientcoronaformComponent,
+    SarsresultsComponent,
+    MaternityComponent,
+    MaternitypatientsComponent,
+    EmergencycallgroupsComponent,
+    EmergencymembersComponent,
+    EmployeesComponent
   ],
   imports: [
     GoogleChartsModule,

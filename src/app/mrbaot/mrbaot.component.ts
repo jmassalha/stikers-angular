@@ -56,6 +56,7 @@ export class MrbaotComponent implements OnInit {
     modalOptions: NgbModalOptions;
     closeResult: string;
     Depart: string;
+    PatientType: string;
 
     displayedColumns: string[] = [
         "PM_CASE_NUMBER",
@@ -84,6 +85,7 @@ export class MrbaotComponent implements OnInit {
     Sdate: FormControl;
     Edate: FormControl;
     ngOnInit() {
+        this.PatientType = "-1";
         this._fun.RunFunction();
         this.yearsToSelect = this._fun.yearsToSelect;
         if (this.yearsToSelect.list[0]["checked"]) {
@@ -126,7 +128,8 @@ export class MrbaotComponent implements OnInit {
                 this.paginator.pageIndex,
                 10,
                 filterValue,
-                this.Depart
+                this.Depart,
+                this.PatientType,
             );
         }
         //this.dataSource.filter = filterValue.trim().toLowerCase();
@@ -147,7 +150,8 @@ export class MrbaotComponent implements OnInit {
                 this.paginator.pageIndex,
                 10,
                 this.fliterVal,
-                this.Depart
+                this.Depart,
+                this.PatientType
             );
         }
     }
@@ -159,7 +163,8 @@ export class MrbaotComponent implements OnInit {
                 0,
                 10,
                 this.fliterVal,
-                this.Depart
+                this.Depart,
+                this.PatientType
             );
     }
 
@@ -171,7 +176,8 @@ export class MrbaotComponent implements OnInit {
                 0,
                 10,
                 this.fliterVal,
-                this.Depart
+                this.Depart,
+                this.PatientType
             );
     }
     public getDataFormServer(
@@ -180,7 +186,8 @@ export class MrbaotComponent implements OnInit {
         _pageIndex: number,
         _pageSize: number,
         _filterVal: string,
-        _Depart: string
+        _Depart: string,
+        _PatientType: string
     ) {
         let _surgeryType = "";
         let _counter = 0;
@@ -202,6 +209,7 @@ export class MrbaotComponent implements OnInit {
                     _pageSize: _pageSize,
                     _freeText: _filterVal,
                     _depart: _Depart,
+                    _PatientType: _PatientType,
                 }
             )
             .subscribe(
@@ -322,18 +330,18 @@ export class MrbaotComponent implements OnInit {
                         '<div class="card text-right" dir="rtl"></div>'
                     );
                     let _header = $(
-                        '<div class="card-header"><h1 class="row"><span class="col-4"><span class="depname"></span></span><span class="col-2 text-center">מס ביקורים ' +
+                        '<div class="card-header"><h1 class="row"><span class="col-4" style="float: right;"><span class="depname"></span></span><span style="float: right;" class="col-2 text-center">מס ביקורים ' +
                             _yearEnd +
-                            '</span><span class="col-2 text-center">מס ביקורים ' +
+                            '</span><span style="float: right;" class="col-2 text-center">מס ביקורים ' +
                             (_yearStart - 1) +
-                            '</span><span class="col-2 text-center">מס מבקרים חדשים</span><span class="col-2 text-center">מס מבקרים חוזרים</span></h1></div>'
+                            '</span><span style="float: right;" class="col-2 text-center">מס מבקרים חדשים</span><span style="float: right;" class="col-2 text-center">מס מבקרים חוזרים</span></h1></div>'
                     );
                     let _bodyCard = $('<div class="card-body"></div>');
                     let _row = $(
-                        '<p class="row rowBord"><span class="col-4 dep"></span><span class="col-2 text-center new"></span><span class="col-2 text-center past"></span><span class="col-2 text-center new2"></span><span class="col-2 text-center past2"></span></p>'
+                        '<p class="row rowBord"><span style="float: right;" class="col-4 dep"></span><span style="float: right;" class="col-2 text-center new"></span><span style="float: right;" class="col-2 text-center past"></span><span style="float: right;" class="col-2 text-center new2"></span><span style="float: right;" class="col-2 text-center past2"></span></p>'
                     );
                     let _footer = $(
-                        '<div class="card-footer"><h5 class="row"><span class="col-4 text-left">סה"כ</span><span class="col-2 text-center fnew"></span><span class="col-2 text-center fpast"></span><span class="col-2 text-center fnew2"></span><span class="col-2 text-center fpast2"></span></h5></div>'
+                        '<div class="card-footer"><h5 class="row"><span style="float: right;" class="col-4 text-left">סה"כ</span><span style="float: right;" class="col-2 text-center fnew"></span><span style="float: right;" class="col-2 text-center fpast"></span><span style="float: right;" class="col-2 text-center fnew2"></span><span style="float: right;" class="col-2 text-center fpast2"></span></h5></div>'
                     );
                     let i = 0;
                     let _depName = "";

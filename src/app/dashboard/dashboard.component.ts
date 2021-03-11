@@ -77,7 +77,7 @@ export class DashboardComponent implements OnInit {
                     var aaobj = JSON.parse("[" + aobj[0] + "]");
                     ////debugger
                     aobjTotal = $.parseJSON(aobjTotal);
-
+//debugger
                     aaobj.forEach((element, index) => {
                         ////debugger
                         if (element.BedsReal != "0") {
@@ -91,6 +91,8 @@ export class DashboardComponent implements OnInit {
                                     break;
                                 }
                             }
+                        }else{
+                            //debugger
                         }
                     });
 

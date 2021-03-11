@@ -212,7 +212,7 @@ form {
     margin-bottom: 20px;
 }
 .colde {
-    width: 50%;
+    width: 75%;
     margin: auto;
 }
 .card-body p.row:last-child {
@@ -473,6 +473,24 @@ mark {
 #formTable .mat-form-field-appearance-fill .mat-form-field-underline::before {
     background: none !important;
 }
+#_departments  .row {
+    display: block;
+    width: 100%;
+    float: left;
+}
+#_departments .card-header h1{
+    font-size: 14px;
+}
+#_departments .col-md-8,#_departments  .col-sm-8,#_departments  .col-xs-8{
+    float: right;
+    width: 60% !important;
+    padding: 0 5px !important;
+}
+#_departments .col-md-2,#_departments  .col-sm-2,#_departments  .col-xs-2{
+    float: left;
+    width: 20% !important; 
+    padding: 0 5px !important;
+}
 #formTable td.mat-cell:first-child {
     border-right: 2px solid #afafff !important;
 }
@@ -549,9 +567,48 @@ mark {
 .card.no-bg .card-body {
     flex: 0 0 auto;
 }
+.w-100100{
+    width: 100%  !important;
+}
 .card.no-bg {
     position: relative;
     height: 1280px;
+}
+.sars-form-in p{
+    display: block;
+    float: right;
+    width: 100%;
+    margin: 0;
+}
+.sars-form-in .mat-radio-button.mat-radio-disabled .mat-radio-inner-circle, .sars-form-in .mat-radio-button.mat-radio-disabled .mat-radio-ripple .mat-ripple-element {
+    background-color: rgba(0,0,0,1);
+}
+.sars-form-in .mat-radio-button.mat-radio-disabled.mat-radio-checked .mat-radio-outer-circle, .sars-form-in  .mat-radio-button.mat-radio-disabled .mat-radio-outer-circle {
+    border-color: rgba(0,0,0,1);
+}
+.sars-form-in .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
+    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.42) 100%, transparent 0%);
+    background-size: 100%;
+    background-repeat: repeat-x;
+}
+.full-width-30{
+    width: calc(25% - 20px);
+    margin: 5px 10px 5px;
+    float: right;
+
+}
+.full-width-50{
+    width: calc(50% - 20px) !important;
+    margin: 5px 10px 5px;
+    float: right;
+
+}
+.sars-form-in .mat-radio-button{
+    display: inline-block;
+}
+.sars-form-in .mat-form-field-appearance-legacy .mat-form-field-infix {
+    padding: 1.4375em 0;
+    height: 57px;
 }
 .card.no-bg,
 .card.no-bg * {
@@ -562,6 +619,7 @@ mark {
     width: 100%;
     display: block;
     margin: auto;
+    float: right;
 }
 #to-print {
     display: none;
@@ -1089,7 +1147,26 @@ ngx-material-timepicker-container,
     margin-left: 9px;
     direction: ltr;
 }
+.col-3.text-right button{
+    margin-bottom: 10px;;
+}
+.modal-dialog:has(div.parent-modal-100100) { 
+    width: 100% !important;
+    max-width: 100% !important;
+}
+.width-1010 > .modal-dialog{
+    width: 100% !important;
+    max-width: 100% !important;
+}
 /* On screens that are 600px or less, set the background color to olive */
+@media screen and (max-width: 1600px) {
+    #formTable{
+        margin-bottom: 30px;
+        transform: scale(0.89);
+        position: relative;
+        right: -68px;
+    }
+}
 @media screen and (max-width: 798px) {
     .cdk-overlay-pane.mat-datepicker-dialog {
         max-width: 100% !important;
@@ -1179,6 +1256,9 @@ input::-webkit-inner-spin-button {
 .mat-form-field .mat-select.mat-select-invalid {
     border: 1px solid red;
 }
+.mat-select{
+    overflow: hidden;
+}
 #addOrEditReportForm .mat-form-field .mat-select.has-error,
 #addOrEditReportForm .mat-form-field .mat-select.mat-select-invalid {
     border: 0;
@@ -1247,7 +1327,7 @@ input::-webkit-inner-spin-button {
     float: right;
 }
 .stik::after {
-    content: "מדבקת מתחסן";
+    content: "מדבקה";
     position: absolute;
     left: 0;
     right: 0;

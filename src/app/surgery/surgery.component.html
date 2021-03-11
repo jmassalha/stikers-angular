@@ -57,20 +57,49 @@
                                         <mat-label>מחלקה</mat-label>
                                         <mat-select [(value)]="Depart" required multiple>
                                             <mat-option value="-1">הכל</mat-option>
-                                            <mat-option value="כירורגיה">כירורגיה </mat-option>
-                                            <mat-option value="אורתופדיה">אורתופדיה </mat-option>
-                                            <mat-option value="עיניים">עיניים </mat-option>
-                                            <mat-option value="יולדות">יולדות </mat-option>
-                                            <mat-option value="אורולוגיה">אורולוגיה </mat-option>
-                                            <mat-option value="אף אוזן וגרון">אף אוזן וגרון </mat-option>
-                                            <mat-option value="נשים">נשים </mat-option>
-                                            <mat-option value="כירורגיה לב">כירורגיה לב </mat-option>
-                                            <mat-option value="כירורגית כלי דם">כירורגית כלי דם </mat-option>
-                                            <mat-option value="פלסטיקה">פלסטיקה </mat-option>
-                                            <mat-option value="כירורגיה חזה">כירורגיה חזה </mat-option>
-                                            <mat-option value="פה ולסת">פה ולסת </mat-option>
-                                            <mat-option value="כירורגית ילדים">כירורגית ילדים </mat-option>
-                                            <mat-option value="גסטרו ילדים">גסטרו ילדים </mat-option>
+                                            <mat-option
+                                                *ngFor="let Depart of Departs"
+                                                [value]="Depart.ID"
+                                            >
+                                                {{ Depart.S_DEPARTMENT }}
+                                            </mat-option>                                            
+                                        </mat-select> 
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>מנתח</mat-label>
+                                        <mat-select
+                                            name="surgen"
+                                            [(value)]="Surgen"
+                                            required
+                                        >
+                                            <mat-option
+                                                *ngFor="
+                                                    let SurgenIn of SurgensList
+                                                "
+                                                [value]="SurgenIn.id"
+                                                >{{ SurgenIn.name }}</mat-option
+                                            >
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>סוג מנתח</mat-label>
+                                        <mat-select [(value)]="SurgenType" required multiple>
+                                            <mat-option value="-1">הכל</mat-option>
+                                            <mat-option value="מנתח">מנתח </mat-option>
+                                            <mat-option value="מנתח אחראי">מנתח אחראי </mat-option>
+                                            <mat-option value="מנתח משנה">מנתח משנה </mat-option>
+                                            <mat-option value="מנתח נוסף">מנתח נוסף </mat-option>
+                                            <mat-option value="מנתח ראשי">מנתח ראשי </mat-option>
+                                            <mat-option value="עוזר מנתח">עוזר מנתח </mat-option>                                            
                                         </mat-select>
                                     </mat-form-field>
                                 </div>

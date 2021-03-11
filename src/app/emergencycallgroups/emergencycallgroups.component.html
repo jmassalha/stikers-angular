@@ -1,5 +1,5 @@
 <div id="page-toshow">
-    <h1 class="page-title text-center">מחקרים</h1>
+    <h1 class="page-title text-center">קבוצות</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -17,24 +17,6 @@
                                                 [(ngModel)]="fliterVal"
                                                 name="fliterVal"
                                             />
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <mat-label>מצב</mat-label>
-                                            <mat-select [(value)]="activeOrNot">
-                                                <mat-option value="-1"
-                                                    >הכל</mat-option
-                                                >
-                                                <mat-option value="1"
-                                                    >פעיל</mat-option
-                                                >
-                                                <mat-option value="0"
-                                                    >לא פעיל</mat-option
-                                                >
-                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -71,68 +53,35 @@
                         >
                             <ng-container matColumnDef="RowID">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    מס' מחקר
+                                    מס' קבוצה
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.RowID }}
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="ResearchNumber">
-                                <th mat-header-cell *matHeaderCellDef>
-                                    מזהה מחקר
-                                </th>
-                                <td
-                                    mat-cell
-                                    *matCellDef="let element"
-                                    class="text-center"
-                                >
-                                    {{ element.ResearchNumber }}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="ResearchName">
+                            <ng-container matColumnDef="GroupName">
                                 <th
                                     mat-header-cell
                                     *matHeaderCellDef
-                                    width="160"
                                 >
-                                    שם מחקר
+                                    שם קבוצה
                                 </th>
                                 <td
                                     mat-cell
                                     *matCellDef="let element"
-                                    class="text-center"
+                                    class="text-right"
                                 >
-                                    {{ element.ResearchName }}
+                                &nbsp;&nbsp;&nbsp; {{ element.GroupName }}
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="ResearchStartDate">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                    width="110"
-                                >
-                                    תאריך התחלה
-                                </th>
-                                <td
-                                    mat-cell
-                                    *matCellDef="let element"
-                                    class="text-center"
-                                >
-                                    {{ element.ResearchStartDate }}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="ResearchEndDate">
-                                <th mat-header-cell *matHeaderCellDef>
-                                    תאריך סיום
-                                </th>
+                            <ng-container matColumnDef="GroupStatus">
+                                <th mat-header-cell *matHeaderCellDef  width="100">מצב</th>
                                 <td mat-cell *matCellDef="let element">
-                                    {{ element.ResearchEndDate }}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="ResearchStatus">
-                                <th mat-header-cell *matHeaderCellDef>מצב</th>
-                                <td mat-cell *matCellDef="let element">
-                                    {{ element.ResearchStatus == 1 ? "פעיל": "לא פעיל"}}
+                                    {{
+                                        element.GroupStatus == 1
+                                            ? "פעיל"
+                                            : "לא פעיל"
+                                    }}
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="CLICK">
@@ -148,8 +97,8 @@
                                         <button
                                             (click)="
                                                 editRow(
-                                                    ResearchesModal,
-                                                    'Researches',
+                                                    GroupModal,
+                                                    'Group',
                                                     element
                                                 )
                                             "
@@ -163,21 +112,21 @@
                                 </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="CLICK_USERS">
+                            <ng-container matColumnDef="CLICK_emergencymembers">
                                 <th
                                     mat-header-cell
                                     *matHeaderCellDef
                                     width="50"
                                 >
-                                    חוקרים
+                                    חבירים
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     <div class="example-button-container">
                                         <button
                                             (click)="
-                                                showResearchesUsers(
-                                                    ResearchesUsersModal,
-                                                    'ResearchesUsersDetails',
+                                                showemergencymembers(
+                                                    emergencymembersModal,
+                                                    'emergencymembersDetails',
                                                     element
                                                 )
                                             "
@@ -185,27 +134,28 @@
                                             mat-mini-fab
                                             color="primary"
                                         >
-                                            <mat-icon>view_comfy</mat-icon>
+                                            <mat-icon>group_add</mat-icon>
                                         </button>
                                     </div>
                                 </td>
                             </ng-container>
-
-                            <ng-container matColumnDef="CLICK_PATIENT">
+                            <ng-container matColumnDef="SEND_SMS_emergencymembers">
                                 <th
                                     mat-header-cell
                                     *matHeaderCellDef
                                     width="50"
                                 >
-                                    משתתפים
+                                    שליחת SMS
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     <div class="example-button-container">
                                         <button
+                                        
+                                        *ngIf="element.GroupStatus == 1"
                                             (click)="
-                                                showPatient(
-                                                    PatientModal,
-                                                    'PatientDetails',
+                                                SendSmsToemergencymembers(
+                                                    SendSmsToemergencymembersModal,
+                                                    'SendSmsToemergencymembersDetails',
                                                     element
                                                 )
                                             "
@@ -213,7 +163,7 @@
                                             mat-mini-fab
                                             color="primary"
                                         >
-                                            <mat-icon>night_shelter</mat-icon>
+                                            <mat-icon>textsms</mat-icon>
                                         </button>
                                     </div>
                                 </td>
@@ -229,13 +179,13 @@
                         </table>
                     </div>
                     <!-- PAGINATION -->
-                    <mat-paginator
+                    <!-- <mat-paginator
                         [length]="resultsLength"
                         [pageSizeOptions]="[5, 10, 20, 50, 100]"
                         [pageSize]="10"
                         showFirstLastButtons
                         (page)="getPaginatorData($event)"
-                    ></mat-paginator>
+                    ></mat-paginator> -->
                 </div>
             </div>
         </div>
@@ -243,25 +193,25 @@
 </div>
 <button
     type="button"
-    id="ResearchesBtn"
-    (click)="open(ResearchesModal, 'Researches', '')"
+    id="GroupBtn"
+    (click)="open(GroupModal, 'Group', '')"
     mat-fab
     color="primary"
 >
     <i class="material-icons">add</i>
 </button>
-<ng-template #ResearchesModal let-modal>
+<ng-template #GroupModal let-modal>
     <form
         dir="rtl"
-        id="ResearchesFormID"
+        id="GroupFormID"
         class="form col"
-        [formGroup]="ResearchesForm"
+        [formGroup]="GroupForm"
         (ngSubmit)="onSubmit()"
     >
         <div class="modal-header text-right">
             <h4 class="modal-title text-center">
-                מחקר <span class="d-none1">{{ ResearchNumber }}</span> -
-                <span>{{ ResearchName }}</span>
+                קבוצה 
+                
             </h4>
             <button
                 type="button"
@@ -281,94 +231,19 @@
                                 matInput
                                 autocomplete="off"
                                 class="form-control"
-                                placeholder="מס' מחקר"
-                                formControlName="ResearchNumber"
+                                placeholder="שם קבוצה"
+                                formControlName="GroupName"
                                 required
                                 type="text"
                             />
                         </mat-form-field>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <mat-form-field>
-                            <input
-                                matInput
-                                autocomplete="off"
-                                class="form-control"
-                                placeholder="שם מחקר"
-                                formControlName="ResearchName"
-                                required
-                                type="text"
-                            />
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <mat-form-field floatLabel="always">
-                            <input
-                                matInput
-                                autocomplete="off"
-                                class="form-control"
-                                placeholder="תאריך התחלה"
-                                (focus)="ResearchStartDate.open()"
-                                [matDatepicker]="ResearchStartDate"
-                                formControlName="ResearchStartDate"
-                            />
-                            <mat-datepicker-toggle
-                                matSuffix
-                                [for]="ResearchStartDate"
-                            ></mat-datepicker-toggle>
-                            <mat-datepicker #ResearchStartDate format='yyyy-MM-dd'></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <mat-form-field floatLabel="always">
-                            <input
-                                matInput
-                                autocomplete="off"
-                                class="form-control"
-                                placeholder="תאריך סיום"
-                                (focus)="ResearchEndDate.open()"
-                                [matDatepicker]="ResearchEndDate"
-                                formControlName="ResearchEndDate"
-                            />
-                            <mat-datepicker-toggle
-                                matSuffix
-                                [for]="ResearchEndDate"
-                            ></mat-datepicker-toggle>
-                            <mat-datepicker #ResearchEndDate format='yyyy-MM-dd'></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group lh-37">
-                        <mat-form-field floatLabel="always">
-                            
-                            <mat-label>מחלקה</mat-label>
-                            <mat-select
-                            formControlName="ResearchDepart"                               
-                                
-                            >
-                                <mat-option
-                                    *ngFor="let Unit of Departs"
-                                    [value]="Unit.value"
-                                >
-                                    {{ Unit.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>                    
                 </div>
                 <div class="col">
                     <div class="form-group lh-37">
                         <mat-form-field>
                             <mat-label>מצב</mat-label>
-                            <mat-select 
-                            formControlName="ResearchStatus">
+                            <mat-select formControlName="GroupStatus">
                                 <mat-option value="1">פעיל</mat-option>
                                 <mat-option value="0">לא פעיל</mat-option>
                             </mat-select>
@@ -383,10 +258,16 @@
     </form>
 </ng-template>
 
-<ng-template #ResearchesUsersModal let-modal>
-    <app-researchesusers></app-researchesusers>
+<ng-template #emergencymembersModal let-modal>
+    <app-emergencymembers ></app-emergencymembers>
 </ng-template>
 
-<ng-template #PatientModal let-modal>
-    <app-researchespatients></app-researchespatients>
+<ng-template #SendSmsToemergencymembersModal let-modal>  
+    <div class="row">
+        <div class="col">
+            <h1 ngbAutofocus  dir="rtl" class="text-right w-85-p">שליחת הודעה לקבוצה - <span>{{GroupName}}</span></h1>  
+            <app-sendsmsadmin  (parentFun)="CloseModalSendSms()"></app-sendsmsadmin>
+        </div>
+    </div>
+    
 </ng-template>

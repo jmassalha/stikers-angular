@@ -1,5 +1,5 @@
 <div id="page-toshow">
-    <h1 class="page-title text-center">מחקרים</h1>
+    <h1 class="page-title text-center">פרויקטים</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -71,68 +71,56 @@
                         >
                             <ng-container matColumnDef="RowID">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    מס' מחקר
+                                    מס' פרויקט
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.RowID }}
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="ResearchNumber">
+                            <ng-container matColumnDef="MaternityNumber">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    מזהה מחקר
+                                    מזהה פרויקט
                                 </th>
                                 <td
                                     mat-cell
                                     *matCellDef="let element"
                                     class="text-center"
                                 >
-                                    {{ element.ResearchNumber }}
+                                    {{ element.MaternityNumber }}
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="ResearchName">
+                            <ng-container matColumnDef="MaternityName">
                                 <th
                                     mat-header-cell
                                     *matHeaderCellDef
                                     width="160"
                                 >
-                                    שם מחקר
+                                    שם פרויקט
                                 </th>
                                 <td
                                     mat-cell
                                     *matCellDef="let element"
                                     class="text-center"
                                 >
-                                    {{ element.ResearchName }}
+                                    {{ element.MaternityName }}
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="ResearchStartDate">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                    width="110"
-                                >
-                                    תאריך התחלה
-                                </th>
-                                <td
-                                    mat-cell
-                                    *matCellDef="let element"
-                                    class="text-center"
-                                >
-                                    {{ element.ResearchStartDate }}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="ResearchEndDate">
+                            <ng-container matColumnDef="ProjectCost">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    תאריך סיום
+                                    עלות הפרויקט
                                 </th>
                                 <td mat-cell *matCellDef="let element">
-                                    {{ element.ResearchEndDate }}
+                                    {{ element.ProjectCost }}
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="ResearchStatus">
+                            <ng-container matColumnDef="MaternityStatus">
                                 <th mat-header-cell *matHeaderCellDef>מצב</th>
                                 <td mat-cell *matCellDef="let element">
-                                    {{ element.ResearchStatus == 1 ? "פעיל": "לא פעיל"}}
+                                    {{
+                                        element.MaternityStatus == 1
+                                            ? "פעיל"
+                                            : "לא פעיל"
+                                    }}
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="CLICK">
@@ -148,8 +136,8 @@
                                         <button
                                             (click)="
                                                 editRow(
-                                                    ResearchesModal,
-                                                    'Researches',
+                                                    maternityModal,
+                                                    'maternity',
                                                     element
                                                 )
                                             "
@@ -163,41 +151,13 @@
                                 </td>
                             </ng-container>
 
-                            <ng-container matColumnDef="CLICK_USERS">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                    width="50"
-                                >
-                                    חוקרים
-                                </th>
-                                <td mat-cell *matCellDef="let element">
-                                    <div class="example-button-container">
-                                        <button
-                                            (click)="
-                                                showResearchesUsers(
-                                                    ResearchesUsersModal,
-                                                    'ResearchesUsersDetails',
-                                                    element
-                                                )
-                                            "
-                                            class="row-data"
-                                            mat-mini-fab
-                                            color="primary"
-                                        >
-                                            <mat-icon>view_comfy</mat-icon>
-                                        </button>
-                                    </div>
-                                </td>
-                            </ng-container>
-
                             <ng-container matColumnDef="CLICK_PATIENT">
                                 <th
                                     mat-header-cell
                                     *matHeaderCellDef
                                     width="50"
                                 >
-                                    משתתפים
+                                    מטופלות
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     <div class="example-button-container">
@@ -214,6 +174,35 @@
                                             color="primary"
                                         >
                                             <mat-icon>night_shelter</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SEND_SMS_PATIENT">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    שליחת SMS
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                        
+                                        *ngIf="element.MaternityStatus == 1"
+                                            (click)="
+                                                SendSmsToPatient(
+                                                    SendSmsToPatientModal,
+                                                    'SendSmsToPatientDetails',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>textsms</mat-icon>
                                         </button>
                                     </div>
                                 </td>
@@ -243,25 +232,25 @@
 </div>
 <button
     type="button"
-    id="ResearchesBtn"
-    (click)="open(ResearchesModal, 'Researches', '')"
+    id="maternityBtn"
+    (click)="open(maternityModal, 'maternity', '')"
     mat-fab
     color="primary"
 >
     <i class="material-icons">add</i>
 </button>
-<ng-template #ResearchesModal let-modal>
+<ng-template #maternityModal let-modal>
     <form
         dir="rtl"
-        id="ResearchesFormID"
+        id="maternityFormID"
         class="form col"
-        [formGroup]="ResearchesForm"
+        [formGroup]="maternityForm"
         (ngSubmit)="onSubmit()"
     >
         <div class="modal-header text-right">
             <h4 class="modal-title text-center">
-                מחקר <span class="d-none1">{{ ResearchNumber }}</span> -
-                <span>{{ ResearchName }}</span>
+                פרויקט <span class="d-none1">{{ MaternityNumber }}</span> -
+                <span>{{ MaternityName }}</span>
             </h4>
             <button
                 type="button"
@@ -281,8 +270,8 @@
                                 matInput
                                 autocomplete="off"
                                 class="form-control"
-                                placeholder="מס' מחקר"
-                                formControlName="ResearchNumber"
+                                placeholder="מס' פרויקט"
+                                formControlName="MaternityNumber"
                                 required
                                 type="text"
                             />
@@ -296,79 +285,36 @@
                                 matInput
                                 autocomplete="off"
                                 class="form-control"
-                                placeholder="שם מחקר"
-                                formControlName="ResearchName"
+                                placeholder="שם פרויקט"
+                                formControlName="MaternityName"
                                 required
                                 type="text"
                             />
                         </mat-form-field>
                     </div>
                 </div>
+
                 <div class="col">
                     <div class="form-group">
-                        <mat-form-field floatLabel="always">
+                        <mat-form-field>
                             <input
                                 matInput
                                 autocomplete="off"
                                 class="form-control"
-                                placeholder="תאריך התחלה"
-                                (focus)="ResearchStartDate.open()"
-                                [matDatepicker]="ResearchStartDate"
-                                formControlName="ResearchStartDate"
+                                placeholder="עלות הפרויקט"
+                                formControlName="ProjectCost"
+                                required
+                                step="any"
+                                type="number"
                             />
-                            <mat-datepicker-toggle
-                                matSuffix
-                                [for]="ResearchStartDate"
-                            ></mat-datepicker-toggle>
-                            <mat-datepicker #ResearchStartDate format='yyyy-MM-dd'></mat-datepicker>
                         </mat-form-field>
                     </div>
-                </div>
-                <div class="col">
-                    <div class="form-group">
-                        <mat-form-field floatLabel="always">
-                            <input
-                                matInput
-                                autocomplete="off"
-                                class="form-control"
-                                placeholder="תאריך סיום"
-                                (focus)="ResearchEndDate.open()"
-                                [matDatepicker]="ResearchEndDate"
-                                formControlName="ResearchEndDate"
-                            />
-                            <mat-datepicker-toggle
-                                matSuffix
-                                [for]="ResearchEndDate"
-                            ></mat-datepicker-toggle>
-                            <mat-datepicker #ResearchEndDate format='yyyy-MM-dd'></mat-datepicker>
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col">
-                    <div class="form-group lh-37">
-                        <mat-form-field floatLabel="always">
-                            
-                            <mat-label>מחלקה</mat-label>
-                            <mat-select
-                            formControlName="ResearchDepart"                               
-                                
-                            >
-                                <mat-option
-                                    *ngFor="let Unit of Departs"
-                                    [value]="Unit.value"
-                                >
-                                    {{ Unit.name }}
-                                </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>                    
                 </div>
                 <div class="col">
                     <div class="form-group lh-37">
                         <mat-form-field>
                             <mat-label>מצב</mat-label>
-                            <mat-select 
-                            formControlName="ResearchStatus">
+                            <mat-select formControlName="MaternityStatus">
                                 <mat-option value="1">פעיל</mat-option>
                                 <mat-option value="0">לא פעיל</mat-option>
                             </mat-select>
@@ -383,10 +329,16 @@
     </form>
 </ng-template>
 
-<ng-template #ResearchesUsersModal let-modal>
-    <app-researchesusers></app-researchesusers>
+<ng-template #PatientModal let-modal>
+    <app-maternitypatients></app-maternitypatients>
 </ng-template>
 
-<ng-template #PatientModal let-modal>
-    <app-researchespatients></app-researchespatients>
+<ng-template #SendSmsToPatientModal let-modal>  
+    <div class="row">
+        <div class="col">
+            <h1 ngbAutofocus  dir="rtl" class="text-right w-85-p">שליחת הודעה לפרוייקט - <span>{{MaternityName +" - "+ MaternityNumber}}</span></h1>  
+            <app-sendsmsadmin  (parentFun)="CloseModalSendSms()"></app-sendsmsadmin>
+        </div>
+    </div>
+    
 </ng-template>

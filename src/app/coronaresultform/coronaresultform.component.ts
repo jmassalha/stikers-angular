@@ -232,7 +232,7 @@ export class CoronaresultformComponent implements OnInit {
                 } else {
                     CoronaData.L_RESULTS = CoronaData.L_RESULTS;
                 }
-                if (CoronaData.L_GENDER == "ז" || CoronaData.L_GENDER == "1" || CoronaData.L_GENDER == 1) {
+                if (CoronaData.L_GENDER == "ז" || CoronaData.L_GENDER == "זכר"  || CoronaData.L_GENDER == "male" || CoronaData.L_GENDER == "1" || CoronaData.L_GENDER == 1) {
                     CoronaData.L_GENDER = "male";
                 } else {
                     CoronaData.L_GENDER = "female";

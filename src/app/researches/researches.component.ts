@@ -43,8 +43,12 @@ export interface Poria_Researches {
     ResearchStatus: string;
     ResearchStartDate: string;
     ResearchEndDate: string;
+    ResearchDepart: string;
 }
-
+export interface DropOption {
+    value: string;
+    name: string;
+}
 export interface Poria_ResearchesPatients {
     RowID: number;
     PatientId: string;
@@ -107,6 +111,7 @@ export class ResearchesComponent implements OnInit {
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     loader: Boolean;
     tableLoader: Boolean;
+    Departs: DropOption[];
     resultsLength = 0;
     departStatus = 0;
     fliterVal = "";
@@ -138,6 +143,7 @@ export class ResearchesComponent implements OnInit {
     ResearchNumber: string;
 
     ngOnInit(): void {
+        this.getDropDownFromServer();
         $("#loader").removeClass("d-none");
         this.getPermission();
         this.ResearchName = "";
@@ -151,6 +157,7 @@ export class ResearchesComponent implements OnInit {
             ResearchStatus: ["", Validators.required],
             ResearchStartDate: ["", Validators.required],
             ResearchEndDate: ["", Validators.required],
+            ResearchDepart: ["", Validators.required],
             ResearchInsertUser: [
                 localStorage.getItem("loginUserName"),
                 Validators.required,
@@ -269,6 +276,20 @@ export class ResearchesComponent implements OnInit {
                 }, 500);
             });
     }
+    public getDropDownFromServer() {
+        debugger
+
+        this.http
+            .post(
+                "http://srv-apps/wsrfc/WebService.asmx/GetResearchesDepart",
+                {}
+            )
+            .subscribe((Response) => {
+                var json = $.parseJSON(Response["d"]);
+                debugger
+                this.Departs = json;
+            });
+    }
     showPatient(content, _type, _element) {
         localStorage.setItem("ReseachRowId", _element.RowID);
         this.modalService.open(content, this.modalOptions);
@@ -285,6 +306,7 @@ export class ResearchesComponent implements OnInit {
             ResearchNumber: [_element.ResearchNumber, Validators.required],
             ResearchName: [_element.ResearchName, Validators.required],
             ResearchStatus: [_element.ResearchStatus + "", Validators.required],
+            ResearchDepart: [_element.ResearchDepart , Validators.required],
             ResearchStartDate: [
                 _element.ResearchStartDate,
                 Validators.required,
@@ -342,6 +364,7 @@ export class ResearchesComponent implements OnInit {
             ResearchStatus: ["1", Validators.required],
             ResearchStartDate: ["", Validators.required],
             ResearchEndDate: ["", Validators.required],
+            ResearchDepart: ["", Validators.required],
             ResearchInsertUser: [
                 localStorage.getItem("loginUserName"),
                 Validators.required,
@@ -428,6 +451,7 @@ export class ResearchesComponent implements OnInit {
                         ResearchStartDate:
                             Poria_Researches[i].ResearchStartDate,
                         ResearchEndDate: Poria_Researches[i].ResearchEndDate,
+                        ResearchDepart: Poria_Researches[i].ResearchDepart,
                     });
                 }
 

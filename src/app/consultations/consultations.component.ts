@@ -73,6 +73,109 @@ export class ConsultationsComponent implements OnInit {
     @ViewChild("ConsultationsStart_Date") ConsultationsStart_Date: any;
     @ViewChild("ConsultationsStart_Date") ConsultationsEnd_Date: any;
 
+    colors: string[] = [
+        "#00838F",
+        "#827717",
+        "#0D47A1",
+        "#C8E6C9",
+        "#D1C4E9",
+        "#FF6F00",
+        "#3E2723",
+        "#64B5F6",
+        "#0288D1",
+        "#40C4FF",
+        "#FFFDE7",
+        "#0097A7",
+        "#FAFAFA",
+        "#9E9E9E",
+        "#A1887F",
+        "#FFFF8D",
+        "#AA00FF",
+        "#004D40",
+        "#009688",
+        "#8E24AA",
+        "#4FC3F7",
+        "#FFF176",
+        "#AED581",
+        "#7CB342",
+        "#90A4AE",
+        "#F44336",
+        "#EDE7F6",
+        "#9C27B0",
+        "#EF6C00",
+        "#CFD8DC",
+        "#3F51B5",
+        "#FFF9C4",
+        "#7B1FA2",
+        "#FFA726",
+        "#FCE4EC",
+        "#039BE5",
+        "#B3E5FC",
+        "#1B5E20",
+        "#FF7043",
+        "#BBDEFB",
+        "#F9A825",
+        "#CE93D8",
+        "#FFCA28",
+        "#304FFE",
+        "#64FFDA",
+        "#00BCD4",
+        "#F50057",
+        "#ECEFF1",
+        "#FF9800",
+        "#B2EBF2",
+        "#FF5722",
+        "#4DB6AC",
+        "#FF1744",
+        "#3D5AFE",
+        "#B9F6CA",
+        "#7E57C2",
+        "#C2185B",
+        "#283593",
+        "#512DA8",
+        "#795548",
+        "#8BC34A",
+        "#EC407A",
+        "#FFCC80",
+        "#FB8C00",
+        "#80CBC4",
+        "#E1BEE7",
+        "#26A69A",
+        "#CDDC39",
+        "#FFA000",
+        "#80DEEA",
+        "#9FA8DA",
+        "#D81B60",
+        "#E64A19",
+        "#FBC02D",
+        "#448AFF",
+        "#FF8F00",
+        "#FFE57F",
+        "#4527A0",
+        "#F48FB1",
+        "#82B1FF",
+        "#B71C1C",
+        "#D500F9",
+        "#FFEB3B",
+        "#EFEBE9",
+        "#B388FF",
+        "#66BB6A",
+        "#00E5FF",
+        "#FFAB00",
+        "#42A5F5",
+        "#F3E5F5",
+        "#689F38",
+        "#4CAF50",
+        "#000000",
+        "#212121",
+        "#536DFE",
+        "#FF8A65",
+        "#E65100",
+        "#C5CAE9",
+        "#3949AB",
+        "#E57373",
+    ];
+
     modalOptions: NgbModalOptions;
     closeResult: string;
 
@@ -147,33 +250,72 @@ export class ConsultationsComponent implements OnInit {
     totalWithStartTime: any;
     totalWithoutStartTime: any;
 
-    DepartsColumns: any = ["מחלקה", "יעוצים"];
-    WorkersColumns: any = ["עובד", "יעוצים"];
-
-    titleDepartDoingTotal: any = 'סה"כ יעוצים לפי מחלקה מזמינה';
-    DepartsDataDoingTotal: any = [['', 0, '']];
-    DepartsDoingTotalColumns: any = ["מחלקה מבצעת", 'סה"כ יעוצים' ,
-    { role: 'style' }];
-
-    titleDepartRequestTotal: any = 'סה"כ יעוצים לפי מחלקה מבצעת';
-    DepartsDataRequestTotal: any = [['', 0, '']];
-    DepartsRequestTotalColumns: any = ["מחלקה מזמינה", 'סה"כ יעוצים',
-    { role: 'style' } ];
-
-    titleDepartRequestAvg: any = 'ממוצע זמן למתן יעוץ לפי מחלקה מבצעת בשעות';
-    DepartsDataRequestAvg: any = [['', 0, '']];
-    DepartsRequestAvgColumns: any = [
-        'מחלקה מזמינה',
-        'זמן ממוצע לקבלת היעוץ',
-        { role: 'style' }
+    DepartsColumns: any = [
+        "מחלקה",
+        "יעוצים",
+        { role: "style" },
+        { role: "annotation" },
+    ];
+    WorkersColumns: any = [
+        "עובד",
+        "יעוצים",
+        { role: "style" },
+        { role: "annotation" },
     ];
 
-    titleDepartDoingAvg: any = 'ממוצע זמן  לפי מחלקה מזמינה בשעות';
-    DepartsDataDoingAvg: any = [['', 0, '']];
+    titleDepartDoingTotal: any = "יעוצים לחישוב לפי מחלקה מזמינה";
+    DepartsDataDoingTotal: any = [["", 0, "", 0]];
+    DepartsDoingTotalColumns: any = [
+        "מחלקה מבצעת",
+        'סה"כ יעוצים',
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartRequestTotal: any = "יעוצים לחישוב לפי מחלקה מבצעת";
+    DepartsDataRequestTotal: any = [["", 0, "", 0]];
+
+    DepartsRequestTotalColumns: any = [
+        "מחלקה מזמינה",
+        'סה"כ יעוצים',
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartRequestTotalAll: any = 'סה"כ יעוצים לפי מחלקה מבצעת';
+    DepartsDataRequestTotalAll: any = [["", 0, "", 0]];
+    DepartsRequestTotalColumnsAll: any = [
+        "מחלקה מזמינה",
+        'סה"כ יעוצים',
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartRequestAvgAll: any = "ממוצע זמן למתן יעוץ לפי מחלקה מבצעת בשעות";
+    DepartsDataRequestAvgAll: any = [["", 0, "", 0]];
+    DepartsRequestAvgColumnsAll: any = [
+        "מחלקה מזמינה",
+        "זמן ממוצע לקבלת היעוץ",
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartRequestAvg: any = "ממוצע זמן למתן יעוץ לפי מחלקה מבצעת בשעות";
+    DepartsDataRequestAvg: any = [["", 0, "", 0]];
+    DepartsRequestAvgColumns: any = [
+        "מחלקה מזמינה",
+        "זמן ממוצע לקבלת היעוץ",
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartDoingAvg: any = "ממוצע זמן  לפי מחלקה מזמינה בשעות";
+    DepartsDataDoingAvg: any = [["", 0, "", 0]];
     DepartsDoingAvgColumns: any = [
-        'מחלקה מבצעת',
-        'זמן ממוצע למתן יעוץ',
-        { role: 'style' }
+        "מחלקה מבצעת",
+        "זמן ממוצע למתן יעוץ",
+        { role: "style" },
+        { role: "annotation" },
     ];
 
     title6min: any;
@@ -190,13 +332,100 @@ export class ConsultationsComponent implements OnInit {
     widthC: any;
     heightC: any;
 
+    /*
+    titleDepartRequestTotalAll: any = 'סה"כ יעוצים לפי מחלקה מבצעת';
+    DepartsDataRequestTotalAll: any = [["", 0, "", 0]];
+    DepartsRequestTotalColumnsAll: any = [
+        "מחלקה מזמינה",
+        'סה"כ יעוצים',
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    */
+    titleDepartRequestTotalNotPara: any = 'סה"כ יעוצים לפי מחלקה מבצעת';
+    DepartsDataRequestTotalNotPara: any = [["", 0, "", 0]];
+    DepartsRequestTotalColumnsNotPara : any = [
+        "מחלקה מזמינה",
+        'סה"כ יעוצים',
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartRequestAvgNotPara: any = 'ממוצע זמן לפי מחלקה מבצעת';
+    DepartsDataRequestAvgNotPara: any = [["", 0, "", 0]];
+    DepartsRequestAvgColumnsNotPara : any = [
+        "מחלקה מזמינה",
+        'סה"כ יעוצים',
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartRequestTotalAllNotPara: any = 'סה"כ יעוצים לפי מחלקה מבצעת';
+    DepartsDataRequestTotalAllNotPara: any = [["", 0, "", 0]];
+    DepartsRequestTotalColumnsAllNotPara : any = [
+        "מחלקה מזמינה",
+        'סה"כ יעוצים',
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartRequestAvgAllNotPara: any = 'ממוצע זמן לפי מחלקה מבצעת';
+    DepartsDataRequestAvgAllNotPara: any = [["", 0, "", 0]];
+    DepartsRequestAvgColumnsAllNotPara : any = [
+        "מחלקה מזמינה",
+        'סה"כ יעוצים',
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartDoingTotalAll: any = 'סה"כ יעוץ לפי מחלקה מזמינה בשעות';
+    DepartsDataDoingTotalAll: any = [["", 0, "", 0]];
+    DepartsDoingTotalColumnsAll: any = [
+        "מחלקה מזמינה",
+        "זמן ממוצע לקבלת היעוץ",
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
+    titleDepartDoingAvgAll: any = "ממוצע זמן  לפי מחלקה מזמינה בשעות";
+    DepartsDataDoingAvgAll: any = [["", 0, "", 0]];
+    DepartsDoingAvgColumnsAll: any = [
+        "מחלקה מבצעת",
+        "זמן ממוצע למתן יעוץ",
+        { role: "style" },
+        { role: "annotation" },
+    ];
+
     MulBarsRequestDepart: any;
     MulBarsRequestDepartTotalRows: any;
     MulBarsRequestDepartAvgTime: any;
 
+    
+    /*
+    DepartsDataRequestTotalNotPara
+DepartsDataRequestAvgNotPara
+DepartsDataRequestTotalAllNotPara
+DepartsDataRequestAvgAllNotPara
+    */
+   MulBarsRequestDepartNotPara: any;
+   MulBarsRequestDepartTotalRowsNotPara: any;
+   MulBarsRequestDepartAvgTimeNotPara: any;
+   MulBarsRequestDepartAvgTimeAllNotPara: any;
+   MulBarsRequestDepartTotalRowsAllNotPara: any;
+   MulBarsRequestDepartAllNotPara: any;
+
     MulBarsDoingDepart: any;
     MulBarsDoingDepartAvgTime: any;
     MulBarsDoingDepartTotalRows: any;
+
+    MulBarsRequestDepartAll: any;
+    MulBarsRequestDepartTotalRowsAll: any;
+    MulBarsRequestDepartAvgTimeAll: any;
+
+    MulBarsDoingDepartAll: any;
+    MulBarsDoingDepartAvgTimeAll: any;
+    MulBarsDoingDepartTotalRowsAll: any;
 
     titleMulBarsRequestDepart: any;
     typeMulBarsRequestDepart: any;
@@ -253,12 +482,12 @@ export class ConsultationsComponent implements OnInit {
         this._fun.RunFunction();
         this.yearsToSelect = this._fun.yearsToSelect;
         if (this.yearsToSelect.list[0]["checked"]) {
-            this._selectedYear = parseInt(this.yearsToSelect.list[0]["ID"]);
+            this._selectedYear = parseFloat(this.yearsToSelect.list[0]["ID"]);
             this.Sdate = new FormControl(
-                new Date(parseInt(this.yearsToSelect.list[0]["ID"]), 0, 1)
+                new Date(parseFloat(this.yearsToSelect.list[0]["ID"]), 0, 1)
             );
             this.Edate = new FormControl(
-                new Date(parseInt(this.yearsToSelect.list[0]["ID"]), 11, 31)
+                new Date(parseFloat(this.yearsToSelect.list[0]["ID"]), 11, 31)
             );
             this.startdateVal = this.Sdate.value;
             this.enddateVal = this.Edate.value;
@@ -292,6 +521,25 @@ export class ConsultationsComponent implements OnInit {
         }
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
+    shuffle(array) {
+        var currentIndex = array.length,
+            temporaryValue,
+            randomIndex;
+
+        // While there remain elements to shuffle...
+        while (0 !== currentIndex) {
+            // Pick a remaining element...
+            randomIndex = Math.floor(Math.random() * currentIndex);
+            currentIndex -= 1;
+
+            // And swap it with the current element.
+            temporaryValue = array[currentIndex];
+            array[currentIndex] = array[randomIndex];
+            array[randomIndex] = temporaryValue;
+        }
+
+        return array;
+    }
     onTabChanged($event) {
         let clickedIndex = $event.index;
         this.selectedIndexTab = clickedIndex;
@@ -305,77 +553,221 @@ export class ConsultationsComponent implements OnInit {
             },
         };
         this.optionsBarsV = {
-            bars: 'vertical',
-            hAxis:{direction:-1, slantedText:true, slantedTextAngle:90, showTextEvery:1},
+            bars: "vertical",
+            hAxis: {
+                direction: -1,
+                slantedText: true,
+                slantedTextAngle: 90,
+                showTextEvery: 1,
+            },
+            vAxis: {
+                minValue: 0,
+                viewWindow: { min: 0 },
+            },
         };
-       // debugger;
-        this.DepartsDataChart = [['', 0]];
-        this.WorkersDataChart = [['', 0]];
-        this.DepartsDataDoingTotal = [['', 0, '']];
-        this.DepartsDataDoingAvg = [['', 0, '']];
-        this.DepartsDataRequestTotal = [['', 0, '']];
-        this.DepartsDataRequestAvg = [['', 0, '']];
-
-
+        // //debugger;
+        this.DepartsDataChart = [["", 0, "", 0]];
+        this.WorkersDataChart = [["", 0, "", 0]];
+        this.DepartsDataDoingTotal = [["", 0, "", 0]];
+        this.DepartsDataDoingAvg = [["", 0, "", 0]];
+        this.DepartsDataDoingTotalAll = [["", 0, "", 0]];
+        this.DepartsDataDoingAvgAll = [["", 0, "", 0]];
+        this.DepartsDataRequestTotal = [["", 0, "", 0]];
+        this.DepartsDataRequestAvg = [["", 0, "", 0]];
+        //var t = this.shuffle(this.colors);
+        //debugger;
         if (clickedIndex == 1 && this.MulBarsRequestDepart != null) {
-
+            this.DepartsDataRequestTotal = [];
+            this.DepartsDataRequestAvg = [];
             for (var s = 0; s < this.MulBarsRequestDepart.length; s++) {
-                    var _d = [
-                        this.MulBarsRequestDepart[s],
-                        parseInt(this.MulBarsRequestDepartTotalRows[s]),
-                        'color: #'+Math.floor(Math.random()*16777215).toString(16)
-                    ];
-                    var _s = [
-                        this.MulBarsRequestDepart[s],
-                        parseInt(this.MulBarsRequestDepartAvgTime[s]),
-                        'color: #'+Math.floor(Math.random()*16777215).toString(16)
-                    ];
-                   // debugger
-                    this.DepartsDataRequestTotal.push(_d);
-                    this.DepartsDataRequestAvg.push(_s);
-                
-                }
+                var _d = [
+                    this.MulBarsRequestDepart[s],
+                    parseFloat(this.MulBarsRequestDepartTotalRows[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsRequestDepartTotalRows[s]),
+                ];
+                var _s = [
+                    this.MulBarsRequestDepart[s],
+                    parseFloat(this.MulBarsRequestDepartAvgTime[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsRequestDepartAvgTime[s]),
+                ];
+                // //debugger
+                this.DepartsDataRequestTotal.push(_d);
+                this.DepartsDataRequestAvg.push(_s);
+            }
+            if(this.MulBarsRequestDepart.length == 0){
+                this.DepartsDataRequestTotal = [["", 0, "", 0]];
+                this.DepartsDataRequestAvg = [["", 0, "", 0]];
+            }
         }
+        if (clickedIndex == 1 && this.MulBarsRequestDepartAll != null) {
+            this.DepartsDataRequestTotalAll = [];
+            this.DepartsDataRequestAvgAll = [];
+            for (var s = 0; s < this.MulBarsRequestDepartAll.length; s++) {
+                var _d = [
+                    this.MulBarsRequestDepartAll[s],
+                    parseFloat(this.MulBarsRequestDepartTotalRowsAll[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsRequestDepartTotalRowsAll[s]),
+                ];
+                var _s = [
+                    this.MulBarsRequestDepartAll[s],
+                    parseFloat(this.MulBarsRequestDepartAvgTimeAll[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsRequestDepartAvgTimeAll[s]),
+                ];
+                // //debugger
+                this.DepartsDataRequestTotalAll.push(_d);
+                this.DepartsDataRequestAvgAll.push(_s);
+            }
+            if(this.MulBarsRequestDepartAll.length == 0){
+                this.DepartsDataRequestTotalAll = [["", 0, "", 0]];
+                this.DepartsDataRequestAvgAll = [["", 0, "", 0]];
+            }
+        }
+        //debugger
         if (clickedIndex == 1 && this.MulBarsDoingDepart != null) {
-
+            this.DepartsDataDoingTotal = [];
+            this.DepartsDataDoingAvg = [];
             for (var s = 0; s < this.MulBarsDoingDepart.length; s++) {
-                    var _d = [
-                        this.MulBarsDoingDepart[s],
-                        parseInt(this.MulBarsDoingDepartTotalRows[s]),
-                        'color: #'+Math.floor(Math.random()*16777215).toString(16)
-                    ];
-                    var _s = [
-                        this.MulBarsDoingDepart[s],
-                        parseInt(this.MulBarsDoingDepartAvgTime[s]),
-                        'color: #'+Math.floor(Math.random()*16777215).toString(16)
-                    ];
-                   // debugger
-                    this.DepartsDataDoingTotal.push(_d);
-                    this.DepartsDataDoingAvg.push(_s);
-                
-                }
+                var _d = [
+                    this.MulBarsDoingDepart[s],
+                    parseFloat(this.MulBarsDoingDepartTotalRows[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsDoingDepartTotalRows[s]),
+                ];
+                var _s = [
+                    this.MulBarsDoingDepart[s],
+                    parseFloat(this.MulBarsDoingDepartAvgTime[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsDoingDepartAvgTime[s]),
+                ];
+                ////debugger
+                this.DepartsDataDoingTotal.push(_d);
+                this.DepartsDataDoingAvg.push(_s);
+            }
+            if(this.MulBarsDoingDepart.length == 0){
+                this.DepartsDataDoingTotal = [["", 0, "", 0]];
+                this.DepartsDataDoingAvg = [["", 0, "", 0]];
+            }
+        }
+        debugger;
+        if (clickedIndex == 1 && this.MulBarsDoingDepartAll != null) {
+            this.DepartsDataDoingTotalAll = [];
+            this.DepartsDataDoingAvgAll = [];
+            for (var s = 0; s < this.MulBarsDoingDepartAll.length; s++) {
+                var _d = [
+                    this.MulBarsDoingDepartAll[s],
+                    parseFloat(this.MulBarsDoingDepartTotalRowsAll[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsDoingDepartTotalRowsAll[s]),
+                ];
+                var _s = [
+                    this.MulBarsDoingDepartAll[s],
+                    parseFloat(this.MulBarsDoingDepartAvgTimeAll[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsDoingDepartAvgTimeAll[s]),
+                ];
+                ////debugger
+                this.DepartsDataDoingTotalAll.push(_d);
+                this.DepartsDataDoingAvgAll.push(_s);
+            }
+            
+            if(this.MulBarsDoingDepartAll.length == 0){
+                this.DepartsDataDoingTotalAll = [["", 0, "", 0]];
+                this.DepartsDataDoingAvgAll = [["", 0, "", 0]];
+            }
+        }
+        if (clickedIndex == 1 && this.MulBarsRequestDepartAllNotPara != null) {
+            this.DepartsDataRequestTotalAllNotPara = [];
+            this.DepartsDataRequestAvgAllNotPara = [];
+            for (var s = 0; s < this.MulBarsRequestDepartAllNotPara.length; s++) {
+                var _d = [
+                    this.MulBarsRequestDepartAllNotPara[s],
+                    parseFloat(this.MulBarsRequestDepartTotalRowsAllNotPara[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsRequestDepartTotalRowsAllNotPara[s]),
+                ];
+                var _s = [
+                    this.MulBarsRequestDepartAllNotPara[s],
+                    parseFloat(this.MulBarsRequestDepartAvgTimeAllNotPara[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsRequestDepartAvgTimeAllNotPara[s]),
+                ];
+                ////debugger
+                this.DepartsDataRequestTotalAllNotPara.push(_d);
+                this.DepartsDataRequestAvgAllNotPara.push(_s);
+            }
+            
+            if(this.MulBarsRequestDepartAllNotPara.length == 0){
+                this.DepartsDataRequestTotalAllNotPara = [["", 0, "", 0]];
+                this.DepartsDataRequestAvgAllNotPara = [["", 0, "", 0]];
+            }
+        }
+        if (clickedIndex == 1 && this.MulBarsRequestDepartNotPara != null) {
+            this.DepartsDataRequestTotalNotPara = [];
+            this.DepartsDataRequestAvgNotPara = [];
+            for (var s = 0; s < this.MulBarsRequestDepartNotPara.length; s++) {
+                var _d = [
+                    this.MulBarsRequestDepartNotPara[s],
+                    parseFloat(this.MulBarsRequestDepartTotalRowsNotPara[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsRequestDepartTotalRowsNotPara[s]),
+                ];
+                var _s = [
+                    this.MulBarsRequestDepartNotPara[s],
+                    parseFloat(this.MulBarsRequestDepartAvgTimeNotPara[s]),
+                    "color: " + this.colors[s],
+                    parseFloat(this.MulBarsRequestDepartAvgTimeNotPara[s]),
+                ];
+                ////debugger
+                this.DepartsDataRequestTotalNotPara.push(_d);
+                this.DepartsDataRequestAvgNotPara.push(_s);
+            }
+            
+            if(this.MulBarsRequestDepartNotPara.length == 0){
+                this.DepartsDataRequestTotalNotPara = [["", 0, "", 0]];
+                this.DepartsDataRequestAvgNotPara = [["", 0, "", 0]];
+            }
         }
         if (clickedIndex == 1 && this.Departs != null) {
-            // debugger;
+            this.DepartsDataChart = [];
+            // //debugger;
+            var s = 0;
             for (const [key, value] of Object.entries(this.Departs)) {
                 if (value != "") {
                     var _d = [
                         this.Departs[key],
-                        parseInt(this.DepartsDoingTotal[key]),
+                        parseFloat(this.DepartsDoingTotal[key]),
+                        "color: " + this.colors[s],
+                        parseFloat(this.DepartsDoingTotal[key]),
                     ];
                     this.DepartsDataChart.push(_d);
+                    s++;
                 }
+            }
+            if(this.Departs.length == 0){
+                this.DepartsDataChart = [["", 0, "", 0]];
             }
         }
         if (clickedIndex == 1 && this.Workers != null) {
+            this.WorkersDataChart = [];
+            var s = 0;
             for (const [key, value] of Object.entries(this.Workers)) {
                 if (value != "") {
                     var _d = [
                         this.Workers[key],
-                        parseInt(this.WorkersDoingTotal[key]),
+                        parseFloat(this.WorkersDoingTotal[key]),
+                        "color: " + this.colors[s],
+                        parseFloat(this.WorkersDoingTotal[key]),
                     ];
                     this.WorkersDataChart.push(_d);
+                    s++;
                 }
+            }
+            if(this.Workers.length == 0){
+                this.WorkersDataChart = [["", 0, "", 0]];
             }
         }
     }
@@ -441,7 +833,7 @@ export class ConsultationsComponent implements OnInit {
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
             var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)";
-            //// ////debugger;
+            //// //////debugger;
             backgroundColorArray.push(backgound);
 
             backgroundColorArrayOpacity.push(backgoundOpacity);
@@ -458,18 +850,18 @@ export class ConsultationsComponent implements OnInit {
         let optionCall;
         let totalDataLength = _data.length;
         let bgArray = this.getBackgroundArray(totalDataLength);
-        //// ////debugger;
+        //// //////debugger;
         if (_dataType == "multiBar") {
             $("#" + _wrapperId).empty();
             $("#" + _wrapperId).append(
                 '<canvas id="' + _chartId + '"></canvas>'
             );
-            //  // ////debugger
+            //  // //////debugger
             var canvas: HTMLCanvasElement = <HTMLCanvasElement>(
                 document.getElementById(_chartId)
             );
             var ctxIn: CanvasRenderingContext2D = canvas.getContext("2d");
-            ////debugger
+            //////debugger
             var barChartData = {
                 labels: _dataLable,
                 datasets: [
@@ -493,7 +885,7 @@ export class ConsultationsComponent implements OnInit {
                     },
                 ],
             };
-            // ////debugger
+            // //////debugger
             var myChart = new Chart(ctxIn, {
                 type: "bar",
                 data: barChartData,
@@ -536,14 +928,14 @@ export class ConsultationsComponent implements OnInit {
                             //get the concerned dataset
                             var dataset =
                                 data.datasets[tooltipItem.datasetIndex];
-                            // // ////debugger;
+                            // // //////debugger;
                             var total = 0;
                             for (var t = 0; t < dataset.data.length; t++) {
-                                total += parseInt(dataset.data[t]);
+                                total += parseFloat(dataset.data[t]);
                             }
 
                             //get the current items value
-                            var currentValue = parseInt(
+                            var currentValue = parseFloat(
                                 dataset.data[tooltipItem.index]
                             );
                             //calculate the precentage based on the total and current item, also this does a rough rounding to give a whole number
@@ -596,7 +988,7 @@ export class ConsultationsComponent implements OnInit {
         }
         $("#" + _wrapperId).empty();
         $("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-        //  // ////debugger
+        //  // //////debugger
         var canvas: HTMLCanvasElement = <HTMLCanvasElement>(
             document.getElementById(_chartId)
         );
@@ -624,15 +1016,15 @@ export class ConsultationsComponent implements OnInit {
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/GetNamerDeparts", {})
             .subscribe((Response) => {
-                //// ////debugger
+                //// //////debugger
                 this.departsList = [];
 
                 var json = $.parseJSON(Response["d"]);
-                // // ////debugger
+                // // //////debugger
                 var _d = $.parseJSON(json["departsList"]);
 
                 for (const [key, value] of Object.entries(_d)) {
-                    //debugger
+                    ////debugger
                     var _sD: Departs = { id: key, name: value.toString() };
 
                     this.departsList.push(_sD);
@@ -641,12 +1033,12 @@ export class ConsultationsComponent implements OnInit {
                 $("#loader").addClass("d-none");
                 /*
                   $(_d).each(function(i,k){
-                      // ////debugger
+                      // //////debugger
                       //var _sD: Depart = {id: i, name: k};
 
                       //this.departs.push(_sD);
                   })*/
-                //// ////debugger
+                //// //////debugger
             });
     }
     getWorkers(valDepart) {
@@ -656,14 +1048,14 @@ export class ConsultationsComponent implements OnInit {
                 _Depart: valDepart,
             })
             .subscribe((Response) => {
-                debugger
+                //debugger;
                 this.workersList = [];
                 var json = $.parseJSON(Response["d"]);
-                // // ////debugger
+                // // //////debugger
                 var _w = $.parseJSON(json["WorkersList"]);
 
                 for (const [key, value] of Object.entries(_w)) {
-                    //debugger
+                    ////debugger
                     var _sD: Departs = { id: key, name: value.toString() };
 
                     this.workersList.push(_sD);
@@ -671,12 +1063,12 @@ export class ConsultationsComponent implements OnInit {
                 $("#loader").addClass("d-none");
                 /*
                   $(_d).each(function(i,k){
-                      // ////debugger
+                      // //////debugger
                       //var _sD: Depart = {id: i, name: k};
 
                       //this.departs.push(_sD);
                   })*/
-                //// ////debugger
+                //// //////debugger
             });
     }
     getRequest() {
@@ -684,16 +1076,16 @@ export class ConsultationsComponent implements OnInit {
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/GetRequestDeparts", {})
             .subscribe((Response) => {
-                //// ////debugger
+                //// //////debugger
                 this.requestdepartsList = [];
 
                 var json = $.parseJSON(Response["d"]);
-                // // ////debugger
+                // // //////debugger
 
                 var _r = $.parseJSON(json["seodedepartsList"]);
 
                 for (const [key, value] of Object.entries(_r)) {
-                    //debugger
+                    ////debugger
                     var _sD: Departs = { id: key, name: value.toString() };
 
                     this.requestdepartsList.push(_sD);
@@ -702,12 +1094,12 @@ export class ConsultationsComponent implements OnInit {
                 $("#loader").addClass("d-none");
                 /*
                   $(_d).each(function(i,k){
-                      // ////debugger
+                      // //////debugger
                       //var _sD: Depart = {id: i, name: k};
 
                       //this.departs.push(_sD);
                   })*/
-                //// ////debugger
+                //// //////debugger
             });
     }
     public getDataFormServer(
@@ -721,7 +1113,7 @@ export class ConsultationsComponent implements OnInit {
         _Request: string
     ) {
         //;
-        //debugger;
+        ////debugger;
         $("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/GetAllConsultations", {
@@ -738,7 +1130,7 @@ export class ConsultationsComponent implements OnInit {
                 (Response) => {
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                     var json = $.parseJSON(Response["d"]);
-                    debugger
+                    //debugger;
                     this.Departs = $.parseJSON(json["Departs"]);
                     this.MulBarsRequestDepart = $.parseJSON(
                         json["MulBarsRequestDepart"]
@@ -749,14 +1141,50 @@ export class ConsultationsComponent implements OnInit {
                     this.MulBarsRequestDepartAvgTime = $.parseJSON(
                         json["MulBarsRequestDepartAvgTime"]
                     );
+                    this.MulBarsRequestDepartAll = $.parseJSON(
+                        json["MulBarsRequestDepartAll"]
+                    );
+                    this.MulBarsRequestDepartTotalRowsAll = $.parseJSON(
+                        json["MulBarsRequestDepartTotalRowsAll"]
+                    );
+                    this.MulBarsRequestDepartAvgTimeAll = $.parseJSON(
+                        json["MulBarsRequestDepartAvgTimeAll"]
+                    );
                     this.MulBarsDoingDepart = $.parseJSON(
                         json["MulBarsDoingDepart"]
                     );
                     this.MulBarsDoingDepartAvgTime = $.parseJSON(
                         json["MulBarsDoingDepartAvgTime"]
                     );
+                    this.MulBarsRequestDepartNotPara = $.parseJSON(
+                        json["MulBarsRequestDepartNotPara"]
+                    );
+                    this.MulBarsRequestDepartTotalRowsNotPara = $.parseJSON(
+                        json["MulBarsRequestDepartTotalRowsNotPara"]
+                    );
+                    this.MulBarsRequestDepartAvgTimeNotPara = $.parseJSON(
+                        json["MulBarsRequestDepartAvgTimeNotPara"]
+                    );
+                    this.MulBarsRequestDepartAvgTimeAllNotPara = $.parseJSON(
+                        json["MulBarsRequestDepartAvgTimeAllNotPara"]
+                    );
+                    this.MulBarsRequestDepartTotalRowsAllNotPara = $.parseJSON(
+                        json["MulBarsRequestDepartTotalRowsAllNotPara"]
+                    );
+                    this.MulBarsRequestDepartAllNotPara = $.parseJSON(
+                        json["MulBarsRequestDepartAllNotPara"]
+                    );
                     this.MulBarsDoingDepartTotalRows = $.parseJSON(
                         json["MulBarsDoingDepartTotalRows"]
+                    );
+                    this.MulBarsDoingDepartAll = $.parseJSON(
+                        json["MulBarsDoingDepartAll"]
+                    );
+                    this.MulBarsDoingDepartAvgTimeAll = $.parseJSON(
+                        json["MulBarsDoingDepartAvgTimeAll"]
+                    );
+                    this.MulBarsDoingDepartTotalRowsAll = $.parseJSON(
+                        json["MulBarsDoingDepartTotalRowsAll"]
                     );
 
                     this.DepartsDoingTotal = $.parseJSON(
@@ -766,8 +1194,8 @@ export class ConsultationsComponent implements OnInit {
                         json["WorkersDoingTotal"]
                     );
                     this.Workers = $.parseJSON(json["Workers"]);
-                    debugger;
-                    //debugger
+                    //debugger;
+                    ////debugger
                     let Consultations = $.parseJSON(json["aaData"]);
                     for (var i = 0; i < Consultations.length; i++) {
                         if (Consultations[i].MeasurementStatus != "1") {
@@ -818,10 +1246,10 @@ export class ConsultationsComponent implements OnInit {
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA
                     );
-                    this.resultsLength = parseInt(json["iTotalRecords"]);
+                    this.resultsLength = parseFloat(json["iTotalRecords"]);
                     //;
                     /* */
-                    //this.paginator. = parseInt(json["iTotalRecords"]);
+                    //this.paginator. = parseFloat(json["iTotalRecords"]);
                     //this.dataSource.sort = this.sort;
                     // // ////
                     setTimeout(() => {
