@@ -27,6 +27,13 @@ import { ConsultationsComponent } from "./consultations/consultations.component"
 import { ResearchesusersComponent } from "./researchesusers/researchesusers.component";
 import { ResearchespatientsComponent } from "./researchespatients/researchespatients.component";
 import { ResearchesComponent } from "./researches/researches.component";
+import { FillSurveyComponent } from "./fill-survey/fill-survey.component";
+import { CreateSurveyComponent } from "./create-survey/create-survey.component";
+import { FormDashboardComponent } from "./form-dashboard/form-dashboard.component";
+import { UpdateformComponent } from "./updateform/updateform.component";
+import { UpdatesingleformComponent } from "./updatesingleform/updatesingleform.component";
+import { FormsansweredComponent } from "./formsanswered/formsanswered.component";
+
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -54,6 +61,12 @@ const routes: Routes = [
     { path: "researchesusers", component: ResearchesusersComponent },
     { path: "researchespatients", component: ResearchespatientsComponent },
     { path: "researches", component: ResearchesComponent },
+    { path: "fillsurvey/:id", component: FillSurveyComponent },
+    { path: "createsurvey", component: CreateSurveyComponent },
+    { path: "formdashboard", component: FormDashboardComponent },
+    { path: "digitalforms", component: UpdateformComponent },
+    { path: "createorupdateform/:id", component: UpdatesingleformComponent },
+    { path: "formsanswered/:id", component: FormsansweredComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

@@ -1,0 +1,100 @@
+<h2 class="page-title text-center">רשימת שאלונים</h2>
+
+
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div dir="rtl" class="card w-85-p">
+                <div dir="rtl" class="card-body">
+                    <form class="form" [formGroup]="formSearch">
+                        <div class="row">
+                            <div class="col-8">
+                                <div class="form-group mt-3">
+                                    <mat-form-field>
+                                        <input matInput formControlName="searchWord" autocomplete="off" placeholder="חפש לפי שם שאלון" name="fliterVal" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>מחלקות</mat-label>
+                                    <mat-select formControlName="departmentControl">
+                                        <mat-option [value]="">
+                                            הכל
+                                        </mat-option>
+                                        <mat-option *ngFor="let dept of department" [value]="dept">
+                                            {{dept}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <button mat-raised-button type="submit" (click)="searchForm()" class="btn btn-primary btn-raised">
+                            חפש
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div><br><br>
+
+<div dir="rtl">
+    <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <!-- Position Column -->
+        <ng-container matColumnDef="FormID">
+            <mat-header-cell *matHeaderCellDef
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מס' שאלון
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FormID}} </mat-cell>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="FormName">
+            <mat-header-cell *matHeaderCellDef
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם שאלון
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FormName}} </mat-cell>
+        </ng-container>
+
+        <ng-container matColumnDef="formDepartment">
+            <mat-header-cell *matHeaderCellDef
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מחלקה
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FormDepartment}} </mat-cell>
+        </ng-container>
+
+        <!-- Weight Column -->
+        <ng-container matColumnDef="FormDate">
+            <mat-header-cell *matHeaderCellDef
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך יצירת
+                שאלון </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FormDate}} </mat-cell>
+        </ng-container>
+
+        <!-- Update Column -->
+        <ng-container matColumnDef="update">
+            <mat-header-cell *matHeaderCellDef
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> עדכון שאלון
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
+                    color="accent" (click)="openDialogToUpdate(element.FormID)">עדכן</button> </mat-cell>
+        </ng-container>
+
+        <!-- Update Column -->
+        <ng-container matColumnDef="showAll">
+            <mat-header-cell *matHeaderCellDef
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הצגת שאלונים
+            </mat-header-cell>
+            <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
+                    color="primary" (click)="openDialogToAnsweredForms(element.FormID)">הצג</button> </mat-cell>
+        </ng-container>
+
+
+        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+        <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+    </mat-table>
+    <button (click)="openDialogToUpdate(0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"><i
+            class="material-icons">add</i></button>
+    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+</div>

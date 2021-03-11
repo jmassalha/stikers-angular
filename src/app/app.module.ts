@@ -65,6 +65,16 @@ import { ConsultationsComponent } from './consultations/consultations.component'
 import { ResearchesusersComponent } from './researchesusers/researchesusers.component';
 import { ResearchesComponent } from './researches/researches.component';
 import { ResearchespatientsComponent } from './researchespatients/researchespatients.component';
+import { CreateSurveyComponent } from './create-survey/create-survey.component';
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { FillSurveyComponent } from './fill-survey/fill-survey.component';
+import { FormDashboardComponent } from './form-dashboard/form-dashboard.component';
+import { UpdateformComponent } from './updateform/updateform.component';
+import { UpdatesingleformComponent } from './updatesingleform/updatesingleform.component';
+import { FormsansweredComponent } from './formsanswered/formsanswered.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -102,7 +112,13 @@ const maskConfig: Partial<IConfig> = {
     ConsultationsComponent,
     ResearchesusersComponent,
     ResearchesComponent,
-    ResearchespatientsComponent
+    ResearchespatientsComponent,
+    CreateSurveyComponent,
+    FillSurveyComponent,
+    FormDashboardComponent,
+    UpdateformComponent,
+    UpdatesingleformComponent,
+    FormsansweredComponent
   ],
   imports: [
     GoogleChartsModule,
@@ -138,9 +154,11 @@ const maskConfig: Partial<IConfig> = {
     MatDialogModule,
     BrowserModule,
     HttpClientModule,
+    MatTooltipModule,
     DataTablesModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
     MatFormFieldModule,
     MatSortModule,
     MatTableModule,
