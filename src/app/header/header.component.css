@@ -47,6 +47,7 @@
 #app-menu.show{
     right: 0;
     transition: 0.5s right;
+    padding-bottom: 90px;
 }
 #app-menu{
     padding: 10px 15px;

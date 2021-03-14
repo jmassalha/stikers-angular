@@ -440,7 +440,7 @@ export class Sarscov2Component implements OnInit {
                 let SarsData = $.parseJSON(json_2["aaData"]);
                 // debugger;
                 for (var i = 0; i < SarsData.length; i++) {
-                    ////debugger
+                    debugger
                     this.TABLE_DATA.push({
                         PatientID: SarsData[i].PatientID,
                         EmployeePhone: SarsData[i].EmployeePhone,

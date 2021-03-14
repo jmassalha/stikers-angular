@@ -198,7 +198,7 @@ export class SarsresultsComponent implements OnInit {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
         this.getTableFromServer(
             this.startdateVal,
@@ -235,7 +235,7 @@ export class SarsresultsComponent implements OnInit {
     open(content, _type, _element) {
         this.rowFormData = _element;
 
-        debugger;
+        //debugger;
         this.SarsResultsForm = this.fb.group({
             L_MOBILE: [this.rowFormData.L_MOBILE, Validators.required],
             L_EMAIL: [this.rowFormData.L_EMAIL, Validators.required],
@@ -245,9 +245,9 @@ export class SarsresultsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -286,7 +286,7 @@ export class SarsresultsComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -305,11 +305,13 @@ export class SarsresultsComponent implements OnInit {
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = $.parseJSON(Response["d"]);
-                // debugger
+                // //debugger
                 let SarsData = $.parseJSON(json["aaData"]);
-                 debugger;
+                 //debugger;
                 for (var i = 0; i < SarsData.length; i++) {
-                    //debugger
+                    ////debugger
+                    var dateIn = SarsData[i].L_DOB.split('/');
+
                     this.TABLE_DATA.push({
                         L_ROW_ID: SarsData[i].L_ROW_ID,
                         L_CASE_NUMBER: SarsData[i].L_CASE_NUMBER,
@@ -324,7 +326,7 @@ export class SarsresultsComponent implements OnInit {
                         L_LABEL: SarsData[i].L_LABEL,
                         L_F_E_NAME: SarsData[i].L_F_E_NAME,
                         L_L_E_NAME: SarsData[i].L_L_E_NAME,
-                        L_DOB: new Date(SarsData[i].L_DOB),
+                        L_DOB: new Date(dateIn[2], dateIn[1], dateIn[0]),
                         L_PASSPORT: SarsData[i].L_PASSPORT,
                         L_RESULT_TIME: SarsData[i].L_RESULT_TIME,
                         L_SEND_DATE: SarsData[i].L_SEND_DATE,
@@ -335,13 +337,13 @@ export class SarsresultsComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
                     $.parseJSON(json["iTotalRecords"])
                 );
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -350,7 +352,7 @@ export class SarsresultsComponent implements OnInit {
     }
     onSubmit() {
         $("#loader").removeClass("d-none");
-        debugger;
+        //debugger;
         // stop here if form is invalid
         this.SarsResultsForm.value.L_DOB = formatDate(
             this.SarsResultsForm.value.L_DOB,
@@ -361,7 +363,7 @@ export class SarsresultsComponent implements OnInit {
             return;
         }
         //http://srv-ipracticom:8080/WebService.asmx
-        //debugger
+        ////debugger
         this.http
             .post(
                 "http://srv-ipracticom:8080/WebService.asmx/SarsResultsFormSubmit",
@@ -371,7 +373,7 @@ export class SarsresultsComponent implements OnInit {
             )
             .subscribe(
                 (Response) => {
-                    ////debugger;
+                    //////debugger;
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
                         this.openSnackBar("נשלח בהצלחה", "success");
@@ -388,7 +390,7 @@ export class SarsresultsComponent implements OnInit {
                     this.modalService.dismissAll();
                 },
                 (error) => {
-                    // ////debugger;
+                    // //////debugger;
                     $("#loader").addClass("d-none");
                 }
             );
