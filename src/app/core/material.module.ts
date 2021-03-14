@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
+import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   imports: [
     MatExpansionModule,
@@ -25,6 +26,7 @@ import { FormsModule } from '@angular/forms';
     MatInputModule,
     MatDialogModule,
     MatTableModule,
+    MatTooltipModule,
     MatMenuModule,
     MatIconModule,
     MatProgressSpinnerModule
