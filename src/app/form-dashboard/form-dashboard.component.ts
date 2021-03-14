@@ -38,7 +38,7 @@ export class FormDashboardComponent implements OnInit {
     let searchWord = "";
     let departmentControl = this.formSearch.controls['searchWord'].value;
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetAllForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
         _searchWord: searchWord,
         _departmentControl: departmentControl
       })

@@ -122,7 +122,7 @@ export class FormsansweredComponent implements OnInit {
     }
     
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetPersonalDetails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
         _formID: FormID,
         _caseNumber: caseNumber
       })

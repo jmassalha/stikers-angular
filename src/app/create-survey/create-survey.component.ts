@@ -139,7 +139,7 @@ export class CreateSurveyComponent implements OnInit {
     });
 
     this.http
-      .post("http://localhost:64964/WebService.asmx/Forms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/Forms", {
         _FormValues:  survey,
       })
       .subscribe((Response) => {

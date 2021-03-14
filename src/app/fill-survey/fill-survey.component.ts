@@ -144,7 +144,7 @@ export class FillSurveyComponent implements OnInit {
     
     if(!this.surveyForm.invalid){
     this.http
-      .post("http://localhost:64964/WebService.asmx/answerForm", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
         _answerValues: survey,
       })
       .subscribe((Response) => {
@@ -171,7 +171,7 @@ export class FillSurveyComponent implements OnInit {
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
         CaseNumber: this.CaseNumber,
       })
       .subscribe((Response) => {
@@ -185,7 +185,7 @@ export class FillSurveyComponent implements OnInit {
 
   getForm(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetForm", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -202,7 +202,7 @@ export class FillSurveyComponent implements OnInit {
 
   getQuestion(urlID, personalDetails) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetQuestion", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
       })
       .subscribe((Response) => {
@@ -306,7 +306,7 @@ export class FillSurveyComponent implements OnInit {
 
   getOption(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetOption", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
         optionsFormID: urlID,
       })
       .subscribe((Response) => {

@@ -248,14 +248,14 @@ export class UpdatesingleformComponent implements OnInit {
     if (!this.surveyForm.invalid) {
       if (this.urlID === 0) {
         this.http
-          .post("http://localhost:64964/WebService.asmx/Forms", {
+          .post("http://srv-apps/wsrfc/WebService.asmx/Forms", {
             _FormValues: survey,
           })
           .subscribe((Response) => {
           });
       } else {
         this.http
-          .post("http://localhost:64964/WebService.asmx/UpdateForm", {
+          .post("http://srv-apps/wsrfc/WebService.asmx/UpdateForm", {
             updateFormValues: survey, 
           })
           .subscribe((Response) => {
@@ -276,7 +276,7 @@ export class UpdatesingleformComponent implements OnInit {
 
   getFormData(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetFormData", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormData", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -311,7 +311,7 @@ export class UpdatesingleformComponent implements OnInit {
       });
 
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetFormsDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
 
       })
       .subscribe((Response) => {
