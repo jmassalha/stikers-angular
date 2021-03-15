@@ -1,0 +1,159 @@
+<div id="page-toshow">
+    <h2 class="page-title text-center">רשימת שאלונים</h2>
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form" [formGroup]="formSearch">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput formControlName="caseNumber" autocomplete="off"
+                                                placeholder="חפש לפי מספר מקרה" name="fliterVal" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" (click)="searchForm()"
+                                class="btn btn-primary btn-raised">
+                                <span class="material-icons">
+                                    search
+                                    </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div><br><br>
+
+    <div dir="rtl">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+            <ng-container matColumnDef="PatientID">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מספר מקרה
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.PatientID}} </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="PatientName">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם נבדק
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.PatientName}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="PersonalID">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תעודת זהות
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.PatientPassport}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="PatientDate">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך לידה
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.PatientBirthday}}
+                </mat-cell>
+            </ng-container>
+
+            <ng-container matColumnDef="Print">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הדפסת שאלון
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
+                        color="primary" (click)="printRowForm(element)">
+                        <mat-icon>print</mat-icon>
+                    </button> </mat-cell>
+            </ng-container>
+
+
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
+        </mat-table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
+    </div>
+</div>
+
+<div id="form-html-templet" class="d-none-desktop">
+    <div dir="rtl" class="card min-h-100 text-right">
+        <div class="card-header border-bottomIn rel">
+            <img class="full-width" src="assets/images/covid_2_header.png" />
+            <h2 class="text-center pos-abs-center">{{rowFormData.FormName}}</h2>
+
+        </div>
+        <div class="card-body pd-10">
+            <div class="row-1">
+                <div class="colr-12">
+                    <h4>פרטים אישיים</h4>
+                </div>
+            </div>
+            <br />
+            <div class="row-1 text-up box text-right pad-30 justify-content-md-center">
+                <div class="colr-4">
+                    <label><b>מספר מקרה</b></label>
+                    <span class="b-bottom">{{ rowFormData.PatientID }}</span>
+                </div>
+                <div class="colr-4">
+                    <label><b>תעודת זהות</b></label>
+                    <span class="b-bottom">{{ rowFormData.PatientPassport }}</span>
+                </div>
+                <div class="colr-4">
+                    <label><b>שם נבדק</b></label>
+                    <span class="b-bottom">{{
+                        rowFormData.PatientName
+                        }}</span>
+                </div>
+
+                <div class="colr-4">
+                    <label><b>טלפון נייד</b></label>
+                    <span class="b-bottom">{{
+                        rowFormData.PatientPhone
+                        }}</span>
+                </div>
+
+                <div class="colr-4">
+                    <label><b>מין</b></label><span class="b-bottom">{{
+                        rowFormData.PatientGender
+                        }}</span>
+                </div>
+                <div class="colr-4">
+                    <label><b>תאריך לידה</b></label><span class="b-bottom">{{
+                        rowFormData.PatientBirthday
+                        }}</span>
+                </div>
+                <div class="colr-6">
+                    <label><b>מייל</b></label><span class="b-bottom">{{ rowFormData.PatientEmail }}</span>
+                </div>
+                <div class="colr-6">
+                    <label><b>כתובת</b></label><span class="b-bottom">{{
+                        rowFormData.PatientAddress
+                        }}</span>
+                </div>
+            </div>
+            <form class="worker-form-in" [formGroup]="formPrint">
+                <h3>חלק שאלות :</h3>
+                <div class="row-1" *ngFor="let item of rowFormData.Questions">
+                    <div class="colr-12 brs-1">
+                        <p class="fix-mb-5">
+                            <span>
+                                <span><b>{{item.questionValue}}</b>:&nbsp;&nbsp;</span>{{item.AnswerValue}}
+                            </span>
+                        </p>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="card-footer"></div>
+        <div class="pos-botom-fixed">
+            <img class="full-width" src="assets/images/covid_footer.png" />
+        </div>
+    </div>
+</div>

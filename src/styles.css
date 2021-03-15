@@ -12,6 +12,12 @@ footer {
     overflow:hidden;
     width: 100%;
 }*/
+.mat-dialog-container{
+    height: auto !important;
+}
+.cdk-overlay-pane{
+    width: 90%;;
+}
 .google-chart {
     width: 100% !important;
     height: 600px !important;
@@ -1222,6 +1228,14 @@ ngx-material-timepicker-container,
     position: relative;
     height: 52px;
 }
+.text-up .colr-4 {
+    position: relative;
+    height: 52px;
+}
+.text-up .colr-6 {
+    position: relative;
+    height: 52px;
+}
 .text-up .b-bottom {
     position: absolute;
     top: 0;
@@ -1316,6 +1330,10 @@ input::-webkit-inner-spin-button {
 }
 .colr-4 {
     width: 33.3%;
+    float: right;
+}
+.colr-6{
+    width: 50%;
     float: right;
 }
 .colr-12 {

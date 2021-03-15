@@ -35,6 +35,14 @@ import { MaternitypatientsComponent } from "./maternitypatients/maternitypatient
 import { EmergencycallgroupsComponent } from "./emergencycallgroups/emergencycallgroups.component";
 import { EmergencymembersComponent } from "./emergencymembers/emergencymembers.component";
 import { EmployeesComponent } from "./employees/employees.component";
+import { FillSurveyComponent } from "./fill-survey/fill-survey.component";
+import { FormDashboardComponent } from "./form-dashboard/form-dashboard.component";
+import { UpdateformComponent } from "./updateform/updateform.component";
+import { UpdatesingleformComponent } from "./updatesingleform/updatesingleform.component";
+import { FormsansweredComponent } from "./formsanswered/formsanswered.component";
+import { EmailsdashboardComponent } from "./emailsdashboard/emailsdashboard.component";
+import { EmailmanagementComponent } from "./emailmanagement/emailmanagement.component";
+
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -70,6 +78,13 @@ const routes: Routes = [
     { path: "emergencycallgroups", component: EmergencycallgroupsComponent },
     { path: "emergencymembers", component: EmergencymembersComponent },
     { path: "employees", component: EmployeesComponent },
+    { path: "fillsurvey/:id", component: FillSurveyComponent },
+    { path: "formdashboard", component: FormDashboardComponent },
+    { path: "digitalforms", component: UpdateformComponent },
+    { path: "createorupdateform/:id", component: UpdatesingleformComponent },
+    { path: "formsanswered/:id", component: FormsansweredComponent },
+    { path: "emailsdashboard", component: EmailsdashboardComponent },
+    { path: "emailmanagement", component: EmailmanagementComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

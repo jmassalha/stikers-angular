@@ -65,6 +65,7 @@ import { ConsultationsComponent } from './consultations/consultations.component'
 import { ResearchesusersComponent } from './researchesusers/researchesusers.component';
 import { ResearchesComponent } from './researches/researches.component';
 import { ResearchespatientsComponent } from './researchespatients/researchespatients.component';
+
 import { Sarscov2Component } from './sarscov2/sarscov2.component';
 import { AddpatientcoronaformComponent } from './addpatientcoronaform/addpatientcoronaform.component';
 import { SarsresultsComponent } from './sarsresults/sarsresults.component';
@@ -73,6 +74,20 @@ import { MaternitypatientsComponent } from './maternitypatients/maternitypatient
 import { EmergencycallgroupsComponent } from './emergencycallgroups/emergencycallgroups.component';
 import { EmergencymembersComponent } from './emergencymembers/emergencymembers.component';
 import { EmployeesComponent } from './employees/employees.component';
+
+import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { FillSurveyComponent } from './fill-survey/fill-survey.component';
+import { FormDashboardComponent } from './form-dashboard/form-dashboard.component';
+import { UpdateformComponent } from './updateform/updateform.component';
+import { UpdatesingleformComponent } from './updatesingleform/updatesingleform.component';
+import { FormsansweredComponent } from './formsanswered/formsanswered.component';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import { EmailsdashboardComponent } from './emailsdashboard/emailsdashboard.component';
+import { EmailmanagementComponent } from './emailmanagement/emailmanagement.component';
+import {DatePipe} from '@angular/common';
+
+
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -111,6 +126,7 @@ const maskConfig: Partial<IConfig> = {
     ResearchesusersComponent,
     ResearchesComponent,
     ResearchespatientsComponent,
+
     Sarscov2Component,
     AddpatientcoronaformComponent,
     SarsresultsComponent,
@@ -118,7 +134,16 @@ const maskConfig: Partial<IConfig> = {
     MaternitypatientsComponent,
     EmergencycallgroupsComponent,
     EmergencymembersComponent,
-    EmployeesComponent
+    EmployeesComponent,
+    FillSurveyComponent,
+    FormDashboardComponent,
+    UpdateformComponent,
+    UpdatesingleformComponent,
+    FormsansweredComponent,
+
+    FormsansweredComponent,
+    EmailsdashboardComponent,
+    EmailmanagementComponent
   ],
   imports: [
     GoogleChartsModule,
@@ -154,9 +179,11 @@ const maskConfig: Partial<IConfig> = {
     MatDialogModule,
     BrowserModule,
     HttpClientModule,
+    MatTooltipModule,
     DataTablesModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
+    MatSlideToggleModule,
     MatFormFieldModule,
     MatSortModule,
     MatTableModule,
@@ -175,7 +202,7 @@ const maskConfig: Partial<IConfig> = {
     ReactiveFormsModule 
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },DatePipe
     
     
     , NgbActiveModal],

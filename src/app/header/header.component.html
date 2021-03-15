@@ -255,6 +255,54 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
+
+            <li class="nav-item" *ngIf="!_shoSofiMenu">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> טפסים מקוונים </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="formdashboard"
+                                    >דאשבורד שאלונים</a
+                                >
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="digitalforms"
+                                    >ניהול שאלונים</a
+                                >
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+            <li class="nav-item" *ngIf="!_shoSofiMenu">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> פניות ציבור </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="emailsdashboard"
+                                    >דאשבורד פניות</a
+                                >
+                            </li>
+
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="digitalforms"
+                                    >ניהול פניות</a
+                                >
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+
             <li class="nav-item" *ngIf="_shoGlucose && !_shoSofiMenu">
                 <a class="nav-link" routerLink="glucose">נתוני לסוכרת</a>
             </li>

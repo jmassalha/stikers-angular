@@ -1,0 +1,169 @@
+<mat-card>
+  <form dir="rtl" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" autocomplete="off">
+
+    <div class="border-me card-body">
+      <div class="row">
+        <div class="col-8">
+          <mat-form-field class="full-width mt-3">
+            <input formControlName="FormName" matInput placeholder="שם שאלון" maxlength="50" [required]="true">
+          </mat-form-field>
+        </div>
+        <div class="col-4">
+          <mat-form-field appearance="fill">
+            <mat-label>מחלקות</mat-label>
+            <mat-select formControlName="FormDepartmentID">
+              <mat-option *ngFor="let dept of department" [value]="dept.Row_ID">
+                {{dept.Depart_Name}}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+
+    <div class="survey-options">
+      <div formArrayName="surveyQuestions" class="poll-options">
+        <div class="row">
+          <h3 class="list-title" style="float: right;">תחילת מילוי שאלות</h3>
+        </div>
+        <ol class="list-style">
+          <li *ngFor="let questionCtrl of surveyForm.get('surveyQuestions')['controls']; let i = index">
+            <div [formGroupName]="i" class="border-me" *ngIf="questionCtrl.controls['questionStatus'].value === '1'">
+              <div class="row">
+                <div class="col-8">
+                  <mat-form-field class="full-width">
+                    <input formControlName="questionTitle" maxlength="200" matInput placeholder="הכנס שאלה"
+                      [required]="true">
+                  </mat-form-field>
+                  <mat-slide-toggle class="example-margin" color="warn" formControlName="IsRequired">שדה חובה*
+                  </mat-slide-toggle>
+                </div>
+                <div class="col-4">
+                  <mat-form-field class="full-width">
+                    <mat-select formControlName="questionType" placeholder="סוג שאלה" ng-model="myVar"
+                      [(value)]="selectedOption[i]" (selectionChange)="onSeletQuestionType(selectedOption[i], i)"
+                      [required]="true">
+                      <mat-option *ngFor="let type of questions" [value]="type.value">
+                        {{type.viewValue}}
+                      </mat-option>
+                    </mat-select>
+                  </mat-form-field>
+                </div>
+                <div formGroupName="questionGroup" [ngSwitch]="selectedOption[i]">
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'RadioButton'">
+
+                    <div *ngIf="questionCtrl.controls.questionGroup.controls.options">
+                      <ul class="question-type" formArrayName="options">
+                        <li
+                          *ngFor="let optionCtrl of questionCtrl.controls.questionGroup.controls.options.controls let j = index">
+                          <div [formGroupName]="j">
+                            <div *ngIf="optionCtrl.controls['optionStatus'].value == '1'">
+                              <mat-radio-button [disabled]="true" value="1"></mat-radio-button>
+                              <mat-form-field>
+                                <input formControlName="optionText" matInput placeholder="הכנס אפשרות" maxlength="100"
+                                  [required]="true">
+                              </mat-form-field>
+                              <button mat-raised-button class="mb-2" *ngIf="j>=2" (click)="removeOption(optionCtrl,i,j)"
+                                color="warn">
+                                X
+                              </button>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <button mat-raised-button type="button" (click)="addOption(i)"
+                        class="mat-sm-button add-option-btn" color="accent"> <span class="material-icons">
+                          playlist_add
+                          </span></button>
+                    </div>
+                  </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'CheckBox'">
+
+                    <div *ngIf="questionCtrl.controls.questionGroup.controls.options">
+                      <ul class="question-type" formArrayName="options">
+                        <li
+                          *ngFor="let optionCtrl of questionCtrl.controls.questionGroup.controls.options.controls let j = index">
+                          <div [formGroupName]="j">
+                            <div *ngIf="optionCtrl.controls['optionStatus'].value == '1'">
+                              <mat-checkbox class="example-margin" [disabled]="true"></mat-checkbox>
+                              <mat-form-field>
+                                <input formControlName="optionText" matInput placeholder="טקסט אפשרות" maxlength="100"
+                                  [required]="true">
+                              </mat-form-field>
+                              <button mat-raised-button class="mb-2" *ngIf="j>=2" (click)="removeOption(optionCtrl,i,j)"
+                                color="warn">
+                                X
+                              </button>
+                            </div>
+                          </div>
+                        </li>
+                      </ul>
+                      <button mat-raised-button type="button" (click)="addOption(i)"
+                        class="mat-sm-button add-option-btn" color="accent"> <span class="material-icons">
+                          playlist_add
+                          </span></button>
+                    </div>
+                  </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'Text'">
+                    <mat-form-field class="full-width">
+                      <textarea style="resize: none;" disabled matInput placeholder="טקסט"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'TextArea'">
+                    <mat-form-field class="full-width">
+                      <textarea style="resize: none;" disabled matInput placeholder="טקסט חופשי"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'Date'">
+                    <mat-form-field appearance="fill">
+                      <mat-label>אפשרות תאריך</mat-label>
+                      <input matInput [matDatepicker]="picker" [disabled]="true">
+                      <mat-datepicker-toggle matSuffix [for]="picker">
+                      </mat-datepicker-toggle>
+                      <mat-datepicker #picker [disabled]="true"></mat-datepicker>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'Email'">
+                    <mat-form-field class="full-width">
+                      <textarea style="resize: none;" disabled matInput placeholder="אימייל"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'Phone'">
+                    <mat-form-field class="full-width">
+                      <textarea style="resize: none;" disabled matInput placeholder="מספר טלפון"></textarea>
+                    </mat-form-field>
+                  </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'ID'">
+                    <mat-form-field class="full-width">
+                      <textarea style="resize: none;" disabled matInput placeholder="תעודת זהות"></textarea>
+                    </mat-form-field>
+                  </div>
+                </div>
+              </div>
+              <button mat-mini-fab color="warn" type="button" (click)="onRemoveQuestion(i)" class="poll-remove-btn">
+                X
+              </button>
+            </div>
+          </li>
+        </ol>
+        <div fxLayout="row" fxLayoutAlign="end" style="margin-bottom: 10px;">
+          <button type="button" mat-raised-button style="font-weight: bold;font-size: 20px;background-color: yellow;" (click)="onAddQuestion()">
+            <span class="material-icons">
+              add_box
+              </span>
+          </button>
+        </div>
+      </div>
+    </div>
+    <div class="button-row">
+      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary" type="submit" mat-raised-button>
+        <span>שמירת שאלון</span>
+      </button>
+    </div>
+  </form>
+  <!-- <div class="button-row">
+    <button class="full-width mb-5" style="background-color: red;font-size: 20px;font-weight: bold;color: white;" (click)="cancelReturn()" type="submit" mat-raised-button>
+      <span>ביטול וחזרה לרשימה</span>
+    </button>
+  </div> -->
+</mat-card>
