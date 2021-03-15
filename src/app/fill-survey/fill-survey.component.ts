@@ -171,7 +171,7 @@ export class FillSurveyComponent implements OnInit {
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
         CaseNumber: this.CaseNumber,
       })
       .subscribe((Response) => {

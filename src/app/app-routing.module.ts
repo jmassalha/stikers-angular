@@ -42,7 +42,6 @@ import { UpdatesingleformComponent } from "./updatesingleform/updatesingleform.c
 import { FormsansweredComponent } from "./formsanswered/formsanswered.component";
 import { EmailsdashboardComponent } from "./emailsdashboard/emailsdashboard.component";
 import { EmailmanagementComponent } from "./emailmanagement/emailmanagement.component";
-
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },

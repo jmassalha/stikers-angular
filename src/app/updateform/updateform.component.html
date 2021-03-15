@@ -11,12 +11,13 @@
                             <div class="col-8">
                                 <div class="form-group mt-3">
                                     <mat-form-field>
-                                        <input matInput formControlName="searchWord" autocomplete="off" placeholder="חפש לפי שם שאלון" name="fliterVal" />
+                                        <input matInput formControlName="searchWord" autocomplete="off"
+                                            placeholder="חפש לפי שם שאלון" name="fliterVal" />
                                     </mat-form-field>
                                 </div>
                             </div>
                             <div class="col-4">
-                                <mat-form-field appearance="fill">
+                                <mat-form-field>
                                     <mat-label>מחלקה</mat-label>
                                     <mat-select formControlName="departmentControl">
                                         <mat-option [value]="">
@@ -29,10 +30,11 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <button mat-raised-button type="submit" (click)="searchForm()" class="btn btn-primary btn-raised">
+                        <button mat-raised-button type="submit" (click)="searchForm()"
+                            class="btn btn-primary btn-raised">
                             <span class="material-icons">
                                 search
-                                </span>
+                            </span>
                         </button>
                     </form>
                 </div>
@@ -82,7 +84,7 @@
             <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                     color="accent" (click)="openDialogToUpdate(element.FormID)"><span class="material-icons">
                         edit
-                        </span></button> </mat-cell>
+                    </span></button> </mat-cell>
         </ng-container>
 
         <!-- Update Column -->
@@ -93,7 +95,7 @@
             <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                     color="primary" (click)="openDialogToAnsweredForms(element.FormID)"><span class="material-icons">
                         zoom_out_map
-                        </span></button> </mat-cell>
+                    </span></button> </mat-cell>
         </ng-container>
 
 
