@@ -8,11 +8,20 @@ footer {
 .m-5 {
     margin: 1rem 0;
 }
+.pos-me-right-li{
+    position: absolute;
+    right: -35px;
+}
 .form-amen .mat-checkbox-layout,
 .form-amen .mat-checkbox{
     display: block;
     float: right;
     width: 100%;;
+}
+.form-amen ol li{
+    width: calc(50% - 30px)  !important;
+    margin: 0 15px ;
+    float: right;
 }
 ol{
     padding: 0;
