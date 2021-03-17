@@ -45,12 +45,9 @@ import { FormDashboardComponent } from '../form-dashboard/form-dashboard.compone
 import { UpdateformComponent } from '../updateform/updateform.component';
 import { UpdatesingleformComponent } from '../updatesingleform/updatesingleform.component';
 import { FormsansweredComponent } from '../formsanswered/formsanswered.component';
-<<<<<<< HEAD
 import { EventsscheduleComponent } from '../eventsschedule/eventsschedule.component';
-=======
-import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.component';
 import { EmailmanagementComponent } from '../emailmanagement/emailmanagement.component';
->>>>>>> 0b5c13fd96021d77cec1b5ae4d30e59ee6bcfabf
+import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },

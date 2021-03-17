@@ -1,9 +1,5 @@
-<<<<<<< HEAD
-<mat-card class="d-block full-width">
-=======
 
 <mat-card class="form-amen">
->>>>>>> 0b5c13fd96021d77cec1b5ae4d30e59ee6bcfabf
 
   <form dir="rtl" [formGroup]="caseNumberForm" autocomplete="off" *ngIf="CaseNumber == ''">
     <mat-card class="full-width d-block  text-center">
@@ -30,15 +26,10 @@
           <hr>
         </div>
         <ol formArrayName="Answers" class="list-style">
-<<<<<<< HEAD
-          <li class="border-me" *ngFor="let questionCtrl of _questionArr; let i=index">
-            <mat-card [formGroupName]="i" class="d-block full-width mb-3 rel">
-              <span class="pos-me-right">{{i+1}}.&nbsp;&nbsp;</span>
-=======
           <div class="row">
           <li class="border-me  " *ngFor="let questionCtrl of _questionArr; let i=index">
-            <mat-card [formGroupName]="i" class="mb-3">
->>>>>>> 0b5c13fd96021d77cec1b5ae4d30e59ee6bcfabf
+            <mat-card [formGroupName]="i" class="mb-3 rel">
+              <span class="pos-me-right-li">{{i + 1}}. &nbsp;</span>
               <div class="row">
                 <div class="col-12 text-right">
                   <label>{{questionCtrl.QuestionValue}}</label>

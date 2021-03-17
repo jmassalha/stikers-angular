@@ -82,13 +82,10 @@ import { UpdateformComponent } from './updateform/updateform.component';
 import { UpdatesingleformComponent } from './updatesingleform/updatesingleform.component';
 import { FormsansweredComponent } from './formsanswered/formsanswered.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
-<<<<<<< HEAD
 import { EventsscheduleComponent } from './eventsschedule/eventsschedule.component';
-=======
 import { EmailsdashboardComponent } from './emailsdashboard/emailsdashboard.component';
 import { EmailmanagementComponent } from './emailmanagement/emailmanagement.component';
 import {DatePipe} from '@angular/common';
->>>>>>> 0b5c13fd96021d77cec1b5ae4d30e59ee6bcfabf
 
 
 
@@ -144,10 +141,7 @@ const maskConfig: Partial<IConfig> = {
     UpdateformComponent,
     UpdatesingleformComponent,
     FormsansweredComponent,
-<<<<<<< HEAD
-    EventsscheduleComponent
-=======
->>>>>>> 0b5c13fd96021d77cec1b5ae4d30e59ee6bcfabf
+    EventsscheduleComponent,
 
     FormsansweredComponent,
     EmailsdashboardComponent,
