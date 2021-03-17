@@ -5,6 +5,36 @@
 footer {
     z-index: 99999999999999999;
 }
+.m-5 {
+    margin: 1rem 0;
+}
+.form-amen .mat-checkbox-layout,
+.form-amen .mat-checkbox{
+    display: block;
+    float: right;
+    width: 100%;;
+}
+ol{
+    padding: 0;
+}
+.d-block {
+    display: block!important;
+    width: 100%;
+    float: right;
+}
+.mat-checkbox-layout{
+    white-space: break-spaces !important;
+}
+.mat-card{
+    display: block;
+    float: right;
+    width: 100%;
+}
+ol li {
+    width: calc( 50% - 30px);
+    margin: 0 15px;
+    float: right;
+}
 /* .rel{
     position: relative;
     padding-bottom: 250px;

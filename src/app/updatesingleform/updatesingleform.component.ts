@@ -52,7 +52,8 @@ export class UpdatesingleformComponent implements OnInit {
     { value: 'ID', viewValue: 'תעודת זהות' },
     { value: 'Email', viewValue: 'אימייל' },
     { value: 'Phone', viewValue: 'מספר טלפון' },
-    { value: 'Date', viewValue: 'תאריך לידה' },
+    { value: 'Date', viewValue: 'תאריך' },
+    { value: 'Time', viewValue: 'זמן' },
   ];
 
   constructor(

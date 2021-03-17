@@ -1,0 +1,183 @@
+<mat-card>
+
+    <form dir="rtl" [formGroup]="manageComplaintForm" autocomplete="off">
+        <mat-card class="full-width text-center">
+            <label>{{complaintName}}</label>
+        </mat-card>
+
+
+        <div class="survey-options">
+            <div class="row">
+                <h3 class="list-title m-5" style="float: right;">ניהול פניה</h3>
+                <hr>
+            </div>
+            <div class="row">
+                <ol class="list-style">
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>תאריך פניה</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field appearance="fill">
+                                    <input matInput [max]="maxDate" formControlName="Comp_Date"
+                                        [matDatepicker]="picker">
+                                    <mat-datepicker-toggle matSuffix [for]="picker" disabled>
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>סוג פניה</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field class="full-width">
+                                    <mat-select formControlName="Comp_Type" ng-model="myVar">
+                                      <mat-option *ngFor="let type of compTypeList" [value]="type.value">
+                                        {{type.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>מקור פניה</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field class="full-width">
+                                    <mat-select formControlName="Comp_Source" ng-model="myVar">
+                                      <mat-option *ngFor="let related of compSource" [value]="related.value">
+                                        {{related.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>סיווג פונה</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field class="full-width">
+                                    <mat-select formControlName="Comp_Pesron_Relat" ng-model="myVar">
+                                      <mat-option *ngFor="let related of compRelatedPerson" [value]="related.value">
+                                        {{related.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>מחלקה</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field appearance="fill">
+                                    <mat-label>מחלקות</mat-label>
+                                    <mat-select formControlName="Comp_Department">
+                                      <mat-option *ngFor="let dept of department" [value]="dept.Depart_Name">
+                                        {{dept.Depart_Name}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>הערה</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput formControlName="Comp_Note">
+                                </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>תשובה סופית</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput formControlName="Comp_Answer">
+                                </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>תאריך סגירת הפניה</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field appearance="fill">
+                                    <input matInput [max]="maxDate"
+                                        formControlName="Comp_Closing_Date" [matDatepicker]="picker2">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                    <li class="border-me">
+                        <mat-card class="mb-3">
+                            <div class="row">
+                                <div class="col-9 text-right">
+                                    <label>סטטוס</label>
+                                </div>
+                                <div class="col-3 text-center">
+                                </div>
+                                <mat-form-field class="full-width">
+                                    <mat-select formControlName="Comp_Status" ng-model="myVar"
+                                      [required]="true">
+                                      <mat-option *ngFor="let status of compStatus" [value]="status.value">
+                                        {{status.viewValue}}
+                                      </mat-option>
+                                    </mat-select>
+                                  </mat-form-field>
+                            </div>
+                        </mat-card>
+                    </li>
+                </ol>
+            </div>
+            
+        </div>
+        <div class="button-row">
+            <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
+                (click)="fillForm()" type="submit" mat-raised-button>
+                <span>שמירה</span>
+            </button>
+        </div>
+    </form>
+</mat-card>

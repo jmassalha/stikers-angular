@@ -17,7 +17,9 @@
                                 </div>
                             </div>
                             <button mat-raised-button type="submit" (click)="getAllForms()" class="btn btn-primary btn-raised">
-                                חפש
+                                <span class="material-icons">
+                                    search
+                                    </span>
                             </button>
                         </form>
                     </div>
@@ -33,7 +35,7 @@
             <div class="row">
                 <div class="col-3" *ngFor="let item of all_forms_filter" (click)="openDialogToFill(item.FormID)">
                     <mat-card class="card m-2 text-center">
-                        <div class="list-style text-center" style="font-size: 20px;">{{item.FormName}}</div>
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
                         <img src="assets/images/mersham-logo.png">
                         <div class="list-style text-center" style="font-size: 15px;">{{item.FormDepartment}}</div>
                     </mat-card>

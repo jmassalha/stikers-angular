@@ -41,12 +41,16 @@ import { EmergencymembersComponent } from "../emergencymembers/emergencymembers.
 import { EmployeesComponent } from "../employees/employees.component";
 
 import { FillSurveyComponent } from "../fill-survey/fill-survey.component";
-import { CreateSurveyComponent } from '../create-survey/create-survey.component';
 import { FormDashboardComponent } from '../form-dashboard/form-dashboard.component';
 import { UpdateformComponent } from '../updateform/updateform.component';
 import { UpdatesingleformComponent } from '../updatesingleform/updatesingleform.component';
 import { FormsansweredComponent } from '../formsanswered/formsanswered.component';
+<<<<<<< HEAD
 import { EventsscheduleComponent } from '../eventsschedule/eventsschedule.component';
+=======
+import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.component';
+import { EmailmanagementComponent } from '../emailmanagement/emailmanagement.component';
+>>>>>>> 0b5c13fd96021d77cec1b5ae4d30e59ee6bcfabf
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -88,13 +92,14 @@ const routes: Routes = [
   { path: "employees", component: EmployeesComponent },
 
   { path: "fillsurvey/:id", component: FillSurveyComponent },
-  { path: "createsurvey", component: CreateSurveyComponent },
   { path: "formdashboard", component: FormDashboardComponent },
   { path: "digitalforms", component: UpdateformComponent },
   { path: "eventsschedule", component: EventsscheduleComponent },
   { path: "createorupdateform/:id", component: UpdatesingleformComponent },
   { path: "formsanswered/:id", component: FormsansweredComponent },
 
+  { path: "emailsdashboard", component: EmailsdashboardComponent },
+  { path: "emailmanagement", component: EmailmanagementComponent },
   { path: '', component : LoginComponent}
 ];
 @NgModule({

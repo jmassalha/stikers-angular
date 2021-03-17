@@ -27,7 +27,6 @@ import { ConsultationsComponent } from "./consultations/consultations.component"
 import { ResearchesusersComponent } from "./researchesusers/researchesusers.component";
 import { ResearchespatientsComponent } from "./researchespatients/researchespatients.component";
 import { ResearchesComponent } from "./researches/researches.component";
-<<<<<<< HEAD
 import { Sarscov2Component } from "./sarscov2/sarscov2.component";
 import { AddpatientcoronaformComponent } from "./addpatientcoronaform/addpatientcoronaform.component";
 import { SarsresultsComponent } from "./sarsresults/sarsresults.component";
@@ -36,15 +35,13 @@ import { MaternitypatientsComponent } from "./maternitypatients/maternitypatient
 import { EmergencycallgroupsComponent } from "./emergencycallgroups/emergencycallgroups.component";
 import { EmergencymembersComponent } from "./emergencymembers/emergencymembers.component";
 import { EmployeesComponent } from "./employees/employees.component";
-=======
 import { FillSurveyComponent } from "./fill-survey/fill-survey.component";
-import { CreateSurveyComponent } from "./create-survey/create-survey.component";
 import { FormDashboardComponent } from "./form-dashboard/form-dashboard.component";
 import { UpdateformComponent } from "./updateform/updateform.component";
 import { UpdatesingleformComponent } from "./updatesingleform/updatesingleform.component";
 import { FormsansweredComponent } from "./formsanswered/formsanswered.component";
-
->>>>>>> 58adea1568fe374de36d6ab830076f81f7f6c840
+import { EmailsdashboardComponent } from "./emailsdashboard/emailsdashboard.component";
+import { EmailmanagementComponent } from "./emailmanagement/emailmanagement.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -72,7 +69,6 @@ const routes: Routes = [
     { path: "researchesusers", component: ResearchesusersComponent },
     { path: "researchespatients", component: ResearchespatientsComponent },
     { path: "researches", component: ResearchesComponent },
-<<<<<<< HEAD
     { path: "sarscov2", component: Sarscov2Component },
     { path: "addpatientcoronaform", component: AddpatientcoronaformComponent },
     { path: "sarsresults", component: SarsresultsComponent },
@@ -81,14 +77,13 @@ const routes: Routes = [
     { path: "emergencycallgroups", component: EmergencycallgroupsComponent },
     { path: "emergencymembers", component: EmergencymembersComponent },
     { path: "employees", component: EmployeesComponent },
-=======
     { path: "fillsurvey/:id", component: FillSurveyComponent },
-    { path: "createsurvey", component: CreateSurveyComponent },
     { path: "formdashboard", component: FormDashboardComponent },
     { path: "digitalforms", component: UpdateformComponent },
     { path: "createorupdateform/:id", component: UpdatesingleformComponent },
     { path: "formsanswered/:id", component: FormsansweredComponent },
->>>>>>> 58adea1568fe374de36d6ab830076f81f7f6c840
+    { path: "emailsdashboard", component: EmailsdashboardComponent },
+    { path: "emailmanagement", component: EmailmanagementComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

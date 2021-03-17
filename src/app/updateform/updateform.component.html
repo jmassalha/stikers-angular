@@ -11,13 +11,14 @@
                             <div class="col-8">
                                 <div class="form-group mt-3">
                                     <mat-form-field>
-                                        <input matInput formControlName="searchWord" autocomplete="off" placeholder="חפש לפי שם שאלון" name="fliterVal" />
+                                        <input matInput formControlName="searchWord" autocomplete="off"
+                                            placeholder="חפש לפי שם שאלון" name="fliterVal" />
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4 mt-2">
                                 <mat-form-field appearance="fill">
-                                    <mat-label>מחלקות</mat-label>
+                                    <mat-label>מחלקה</mat-label>
                                     <mat-select formControlName="departmentControl">
                                         <mat-option [value]="">
                                             הכל
@@ -29,8 +30,11 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <button mat-raised-button type="submit" (click)="searchForm()" class="btn btn-primary btn-raised">
-                            חפש
+                        <button mat-raised-button type="submit" (click)="searchForm()"
+                            class="btn btn-primary btn-raised">
+                            <span class="material-icons">
+                                search
+                            </span>
                         </button>
                     </form>
                 </div>
@@ -78,7 +82,9 @@
                 style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> עדכון שאלון
             </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
-                    color="accent" (click)="openDialogToUpdate(element.FormID)">עדכן</button> </mat-cell>
+                    color="accent" (click)="openDialogToUpdate(element.FormID)"><span class="material-icons">
+                        edit
+                    </span></button> </mat-cell>
         </ng-container>
 
         <!-- Update Column -->
@@ -87,7 +93,9 @@
                 style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הצגת שאלונים
             </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
-                    color="primary" (click)="openDialogToAnsweredForms(element.FormID)">הצג</button> </mat-cell>
+                    color="primary" (click)="openDialogToAnsweredForms(element.FormID)"><span class="material-icons">
+                        zoom_out_map
+                    </span></button> </mat-cell>
         </ng-container>
 
 

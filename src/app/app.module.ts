@@ -75,7 +75,6 @@ import { EmergencycallgroupsComponent } from './emergencycallgroups/emergencycal
 import { EmergencymembersComponent } from './emergencymembers/emergencymembers.component';
 import { EmployeesComponent } from './employees/employees.component';
 
-import { CreateSurveyComponent } from './create-survey/create-survey.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { FillSurveyComponent } from './fill-survey/fill-survey.component';
 import { FormDashboardComponent } from './form-dashboard/form-dashboard.component';
@@ -83,7 +82,13 @@ import { UpdateformComponent } from './updateform/updateform.component';
 import { UpdatesingleformComponent } from './updatesingleform/updatesingleform.component';
 import { FormsansweredComponent } from './formsanswered/formsanswered.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+<<<<<<< HEAD
 import { EventsscheduleComponent } from './eventsschedule/eventsschedule.component';
+=======
+import { EmailsdashboardComponent } from './emailsdashboard/emailsdashboard.component';
+import { EmailmanagementComponent } from './emailmanagement/emailmanagement.component';
+import {DatePipe} from '@angular/common';
+>>>>>>> 0b5c13fd96021d77cec1b5ae4d30e59ee6bcfabf
 
 
 
@@ -134,15 +139,19 @@ const maskConfig: Partial<IConfig> = {
     EmergencycallgroupsComponent,
     EmergencymembersComponent,
     EmployeesComponent,
-
-    CreateSurveyComponent,
     FillSurveyComponent,
     FormDashboardComponent,
     UpdateformComponent,
     UpdatesingleformComponent,
     FormsansweredComponent,
+<<<<<<< HEAD
     EventsscheduleComponent
+=======
+>>>>>>> 0b5c13fd96021d77cec1b5ae4d30e59ee6bcfabf
 
+    FormsansweredComponent,
+    EmailsdashboardComponent,
+    EmailmanagementComponent
   ],
   imports: [
     GoogleChartsModule,
@@ -201,7 +210,7 @@ const maskConfig: Partial<IConfig> = {
     ReactiveFormsModule 
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },DatePipe
     
     
     , NgbActiveModal],

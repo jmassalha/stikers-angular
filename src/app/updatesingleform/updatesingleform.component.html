@@ -35,7 +35,7 @@
                     <input formControlName="questionTitle" maxlength="200" matInput placeholder="הכנס שאלה"
                       [required]="true">
                   </mat-form-field>
-                  <mat-slide-toggle class="example-margin" color="warn" formControlName="IsRequired">Required Question
+                  <mat-slide-toggle class="example-margin" color="warn" formControlName="IsRequired">שדה חובה*
                   </mat-slide-toggle>
                 </div>
                 <div class="col-4">
@@ -72,7 +72,9 @@
                         </li>
                       </ul>
                       <button mat-raised-button type="button" (click)="addOption(i)"
-                        class="mat-sm-button add-option-btn" color="accent"> הוספת אפשרות</button>
+                        class="mat-sm-button add-option-btn" color="accent"> <span class="material-icons">
+                          playlist_add
+                          </span></button>
                     </div>
                   </div>
                   <div *ngIf="questionCtrl.controls['questionType'].value == 'CheckBox'">
@@ -97,7 +99,9 @@
                         </li>
                       </ul>
                       <button mat-raised-button type="button" (click)="addOption(i)"
-                        class="mat-sm-button add-option-btn" color="accent"> הוספת אפשרות</button>
+                        class="mat-sm-button add-option-btn" color="accent"> <span class="material-icons">
+                          playlist_add
+                          </span></button>
                     </div>
                   </div>
                   <div *ngIf="questionCtrl.controls['questionType'].value == 'Text'">
@@ -118,6 +122,12 @@
                       </mat-datepicker-toggle>
                       <mat-datepicker #picker [disabled]="true"></mat-datepicker>
                     </mat-form-field>
+                  </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'Time'">
+                    <mat-form-field>
+                      <input matInput disabled placeholder="00:00"/>
+                    </mat-form-field>
+                    <ngx-material-timepicker #endTime></ngx-material-timepicker>
                   </div>
                   <div *ngIf="questionCtrl.controls['questionType'].value == 'Email'">
                     <mat-form-field class="full-width">
@@ -144,7 +154,9 @@
         </ol>
         <div fxLayout="row" fxLayoutAlign="end" style="margin-bottom: 10px;">
           <button type="button" mat-raised-button style="font-weight: bold;font-size: 20px;background-color: yellow;" (click)="onAddQuestion()">
-            הוספת שאלה
+            <span class="material-icons">
+              add_box
+              </span>
           </button>
         </div>
       </div>
