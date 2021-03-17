@@ -123,6 +123,12 @@
                       <mat-datepicker #picker [disabled]="true"></mat-datepicker>
                     </mat-form-field>
                   </div>
+                  <div *ngIf="questionCtrl.controls['questionType'].value == 'Time'">
+                    <mat-form-field>
+                      <input matInput disabled placeholder="00:00"/>
+                    </mat-form-field>
+                    <ngx-material-timepicker #endTime></ngx-material-timepicker>
+                  </div>
                   <div *ngIf="questionCtrl.controls['questionType'].value == 'Email'">
                     <mat-form-field class="full-width">
                       <textarea style="resize: none;" disabled matInput placeholder="אימייל"></textarea>

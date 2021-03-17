@@ -218,18 +218,18 @@ export class FillSurveyComponent implements OnInit {
           var surveyAnswersItem;
           if (element.QuestionIsRequired == "False") {
             surveyAnswersItem = this.formBuilder.group({
-              answerContent: [element.QuestionValue, null],
+              answerContent: ['', null],
             });
           } else {
             surveyAnswersItem = this.formBuilder.group({
-              answerContent: [element.QuestionValue, Validators.required],
+              answerContent: ['', Validators.required],
             });
           }
 
           if (element.PinQuestion == "1") {
             if (element.QuestionType == "Phone" && element.QuestionValue == "מספר טלפון") {
               surveyAnswersItem = this.formBuilder.group({
-                answerContent: [personalDetails.PhoneNumber, Validators.compose([Validators.pattern('[- +()0-9]{11,11}'), Validators.required])],
+                answerContent: [personalDetails.PhoneNumber, Validators.compose([Validators.required])],
               });
             }
             else if (element.QuestionType == "ID" && element.QuestionValue == "ת.ז") {

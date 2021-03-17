@@ -5,6 +5,11 @@ import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { Email } from '../emailsdashboard/emailsdashboard.component';
 import { DatePipe } from '@angular/common';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 
 export interface EmailManagement {
@@ -39,12 +44,20 @@ export interface EmailDepartment {
   deptVal: string;
 }
 
+export interface CompSource {
+  value: string;
+  viewValue: string;
+}
+
 @Component({
   selector: 'app-emailmanagement',
   templateUrl: './emailmanagement.component.html',
   styleUrls: ['./emailmanagement.component.css']
 })
 export class EmailmanagementComponent implements OnInit {
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   compTypeList: CompType[] = [
     { value: 'Thank', viewValue: 'תודה' },
@@ -67,7 +80,23 @@ export class EmailmanagementComponent implements OnInit {
     { value: '0', viewValue: 'סגור' },
   ];
 
+  compSource: CompSource[] = [
+    { value: 'MedicalCenterWebsite', viewValue: 'אתר המרכז הרפואי' },
+    { value: 'EMail', viewValue: 'אימייל' },
+    { value: 'Phone', viewValue: 'טלפון' },
+    { value: 'Facebook', viewValue: 'פייסבוק' },
+    { value: 'Frontal', viewValue: 'פנייה פרונטלית' },
+    { value: 'PublicInquiryBox', viewValue: 'תיבת פניות ציבור' },
+  ];
+
+  currentYear = new Date().getFullYear();
+  currentMonth = new Date().getMonth();
+  currentDay = new Date().getDay();
+  maxDate =  new Date(this.currentYear, this.currentMonth+2, this.currentDay - 6);
+  
+
   constructor(
+    private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
     private http: HttpClient,
@@ -84,28 +113,66 @@ export class EmailmanagementComponent implements OnInit {
   urlID: number;
   manageComplaintForm: FormGroup;
 
-  maxDate = Date.now();
+  
+  minDate = "";
 
   ngOnInit(): void {
     this.manageComplaintForm = this.formBuilder.group({
-      CompDateControl: ['', Validators.compose([Validators.required])],
-      CompTypeControl: ['', Validators.compose([Validators.required])],
-      CompSourceControl: ['', Validators.compose([Validators.required])],
-      CompRelatedControl: ['', Validators.compose([Validators.required])],
-      CompDepartmentControl: ['', Validators.compose([Validators.required])],
-      CompNoteControl: ['', Validators.compose([Validators.required])],
-      CompAnswerControl: ['', Validators.compose([Validators.required])],
-      CompClosingDateControl: ['', Validators.compose([Validators.required])],
-      CompStatusControl: ['', Validators.compose([Validators.required])],
+      Comp_Date: ['', Validators.compose([Validators.required])],
+      Comp_Type: ['', null],
+      Comp_Source: ['', null],
+      Comp_Pesron_Relat: ['', null],
+      Comp_Department: ['', null],
+      Comp_Note: ['', null],
+      Comp_Answer: ['', null],
+      Comp_Closing_Date: [Date.now, null],
+      Comp_Status: ['', Validators.compose([Validators.required])],
     })
     this.getEmailMaanagement(this.urlID);
     
+    
+  }
+
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
 
   updateComplaint(){
     console.log(this.manageComplaintForm.value);
-    
+  }
+
+  fillForm() {
+
+    let data = this.manageComplaintForm.value;
+       
+    if(!this.manageComplaintForm.invalid){
+    this.http
+      .post("http://localhost:64964/WebService.asmx/UpdateComplaint", {
+        _compToUpdate: this.manageComplaintForm.value,
+      })
+      .subscribe((Response) => {
+        this.openSnackBar("!נשמר בהצלחה");
+      });
+    this.dialog.closeAll();
+    this.router.navigate(['emailsdashboard']);
+    }else{
+      this.openSnackBar("!לא תקין");
+      // const invalid = [];
+      // const controls = this.manageComplaintForm.controls['Answers']['controls'];
+      // let counter = 1;
+      // for (const name in controls) {
+      //     if (controls[name].invalid) {
+      //         invalid.push(counter);
+      //     }
+      //     counter = counter + 1;
+      // }
+      // this.openSnackBar("!שאלה מספר"+invalid[0]+" לא תקינה ");
+    }
   }
 
 
@@ -122,16 +189,19 @@ export class EmailmanagementComponent implements OnInit {
         this.complaintName = this.all_email_management[0].ComplaintName;
 
         this.manageComplaintForm = this.formBuilder.group({
-          CompDateControl: new FormControl(this.all_email_management[0].Comp_Date, null),
-          CompTypeControl: new FormControl(this.all_email_management[0].Comp_Type, null),
-          CompSourceControl: new FormControl(this.all_email_management[0].Comp_Source, null),
-          CompRelatedControl: new FormControl(this.all_email_management[0].Comp_Pesron_Relat , null),
-          CompDepartmentControl: new FormControl(this.all_email_management[0].Comp_Department, null),
-          CompNoteControl: new FormControl(this.all_email_management[0].Comp_Note, null),
-          CompAnswerControl: new FormControl(this.all_email_management[0].Comp_Answer, null),
-          CompClosingDateControl: new FormControl(this.all_email_management[0].Comp_Closing_Date, null),
-          CompStatusControl: new FormControl(this.all_email_management[0].Comp_Status, null),
+          Row_ID: new FormControl(this.all_email_management[0].Row_ID, null),
+          Comp_Date: new FormControl(this.all_email_management[0].Comp_Date, null),
+          Comp_Type: new FormControl(this.all_email_management[0].Comp_Type, null),
+          Comp_Source: new FormControl(this.all_email_management[0].Comp_Source, null),
+          Comp_Pesron_Relat: new FormControl(this.all_email_management[0].Comp_Pesron_Relat , null),
+          Comp_Department: new FormControl(this.all_email_management[0].Comp_Department, null),
+          Comp_Note: new FormControl(this.all_email_management[0].Comp_Note, null),
+          Comp_Answer: new FormControl(this.all_email_management[0].Comp_Answer, null),
+          Comp_Closing_Date: new FormControl(this.all_email_management[0].Comp_Closing_Date, null),
+          Comp_Status: new FormControl(this.all_email_management[0].Comp_Status, null),
+          Row_ID_FK: new FormControl(this.all_email_management[0].Row_ID_FK, null),
         });
+        
       });
       
 
