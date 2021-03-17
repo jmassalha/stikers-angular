@@ -92,18 +92,23 @@
                 </mat-accordion>
             </li>
             
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="_shoEventsschedule">
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
-                            <mat-panel-title> אזעקת חירום </mat-panel-title>
+                            <mat-panel-title>ניהול יומן אירועים </mat-panel-title>
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
                             
+                            <!-- <li class="nav-item" *ngIf="_shoEmergincyCall">
+                                <a class="nav-link" routerLink="eventsschedule"
+                                    >יומן אירועים</a
+                                >
+                            </li> -->
                             <li class="nav-item" *ngIf="_shoEmergincyCall">
                                 <a class="nav-link" routerLink="emergencycallgroups"
-                                    >קבוצות</a
+                                    >אזעקת חירום</a
                                 >
                             </li>
                         </ul>

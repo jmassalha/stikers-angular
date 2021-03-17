@@ -83,6 +83,7 @@ import { UpdateformComponent } from './updateform/updateform.component';
 import { UpdatesingleformComponent } from './updatesingleform/updatesingleform.component';
 import { FormsansweredComponent } from './formsanswered/formsanswered.component';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import { EventsscheduleComponent } from './eventsschedule/eventsschedule.component';
 
 
 
@@ -139,7 +140,8 @@ const maskConfig: Partial<IConfig> = {
     FormDashboardComponent,
     UpdateformComponent,
     UpdatesingleformComponent,
-    FormsansweredComponent
+    FormsansweredComponent,
+    EventsscheduleComponent
 
   ],
   imports: [
