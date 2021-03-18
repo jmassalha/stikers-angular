@@ -8,11 +8,20 @@ footer {
 .m-5 {
     margin: 1rem 0;
 }
+.pos-me-right-li{
+    position: absolute;
+    right: -35px;
+}
 .form-amen .mat-checkbox-layout,
 .form-amen .mat-checkbox{
     display: block;
     float: right;
     width: 100%;;
+}
+.form-amen ol li{
+    width: calc(50% - 30px)  !important;
+    margin: 0 15px ;
+    float: right;
 }
 ol{
     padding: 0;
@@ -45,9 +54,9 @@ ol > li {
 .mat-dialog-container{
     height: auto !important;
 }
-.cdk-overlay-pane{
+/* .cdk-overlay-pane:not(.mat-datepicker-popup){
     width: 90%;;
-}
+} */
 .google-chart {
     width: 100% !important;
     height: 600px !important;
@@ -1289,8 +1298,14 @@ ngx-material-timepicker-container,
     z-index: 9999;
     padding-bottom: 55px;
 }
+.mat-card.mat-focus-indicator{
+    padding-bottom: 90px;;
+}
 footer {
     z-index: 999;
+}
+.bg-blue-light1 {
+    padding-bottom: 90px;;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {

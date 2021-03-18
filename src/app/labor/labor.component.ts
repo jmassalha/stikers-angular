@@ -291,7 +291,8 @@ export class LaborComponent implements OnInit, AfterViewInit {
                 localStorage.getItem("loginUserName").toLowerCase() == "mkheer"||
                 localStorage.getItem("loginUserName").toLowerCase() == "ssarusi"||
             localStorage.getItem("loginUserName").toLowerCase() == "samos" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "tklinger"
+            localStorage.getItem("loginUserName").toLowerCase() == "tklinger"||
+            localStorage.getItem("loginUserName").toLowerCase() == "aamara"
         ) {
         } else {
             this.router.navigate(["login"]);

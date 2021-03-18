@@ -35,6 +35,7 @@ export class HeaderComponent implements OnInit {
     _SHowToAdmins: Boolean;
     _shomaternity: Boolean;
     _shoEmergincyCall: Boolean;
+    _shoEventsschedule: Boolean;
     getPermission() {
         this.http
             .post(
@@ -71,8 +72,17 @@ export class HeaderComponent implements OnInit {
         this._sendSMSADMIN = false;
         this._formsArea = false;
         this._publicInquiry = false;
+        this._shoEventsschedule = false;
         this._shoEmergincyCall = false;
         this.loginUserName = localStorage.getItem("loginUserName");
+        if (
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "waraidy" ||
+            this.loginUserName.toLowerCase() == "owertheim"
+        ) {
+            this._shoEventsschedule = true;
+        } 
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
@@ -181,7 +191,8 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase()  == "ssarusi"||
             this.loginUserName.toLowerCase() == "sabuhanna" ||
             this.loginUserName.toLowerCase() == "tklinger"
-
+            ||
+            this.loginUserName.toLowerCase() == "aamara"
         ) {
             this._shoCorona = true;
         } else {

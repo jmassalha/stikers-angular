@@ -34,6 +34,7 @@ import {
     AbstractControl,
 } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
+import { formatDate } from "@angular/common";
 
 export interface Demograph {
     FIRST_NAME: string;
@@ -1027,6 +1028,8 @@ export class MershamComponent implements OnInit {
         //}
     }
     copyRowPres(element) {
+
+        debugger
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
@@ -1034,8 +1037,13 @@ export class MershamComponent implements OnInit {
         this.rows.enable();
        // //////debugger
        // return
+        for(var i = 0; i < this.rows.value.length; i++){
+            this.rows.value[i]["Days_ProtocolVal"] = this.rows.value[i]["Days_ProtocolVal"].join(',')
+        }
+        debugger
         var copyParent = this.PrespictionForm.value;
         var copyrows = this.rows.value;
+        
         copyParent.statusRowVal = "false";
         copyParent.rowIdVal = "-100";
         var dateNow = new FormControl(new Date()).value;
@@ -1048,11 +1056,26 @@ export class MershamComponent implements OnInit {
             copyrows[i].newRow = "true"; 
             copyrows[i].rowIdPreVal = (-1)*i;          
         }
+        copyParent.takedateIN = formatDate(
+            copyParent.takedateIN,
+            "yyyy-MM-dd",
+            "en-US"
+        );
+        copyParent.regesterdateIN = formatDate(
+            copyParent.regesterdateIN,
+            "yyyy-MM-dd",
+            "en-US"
+        );
+        if(copyParent.statusNotToDo){
+            copyParent.statusNotToDo = "1";
+        }else{
+            copyParent.statusNotToDo = "0";
+        }
         var ParentFrom =copyParent;
         var tableFrom = copyrows;
-        ////////debugger
+        //debugger
         //return
-       // ////////debugger
+        debugger
         this.http
             .post(
                 "http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction",
@@ -1202,9 +1225,19 @@ export class MershamComponent implements OnInit {
         }else{
             this.PrespictionForm.value.statusNotToDo = "0";
         }
-        this.PrespictionForm.value.regesterdateIN.setDate(this.PrespictionForm.value.regesterdateIN.getDate() + 1)
-        this.PrespictionForm.value.takedateIN.setDate(this.PrespictionForm.value.takedateIN.getDate() + 1)
+        //this.PrespictionForm.value.regesterdateIN.setDate(this.PrespictionForm.value.regesterdateIN.getDate() + 1)
+        //this.PrespictionForm.value.takedateIN.setDate(this.PrespictionForm.value.takedateIN.getDate() + 1)
         
+        this.PrespictionForm.value.takedateIN = formatDate(
+            this.PrespictionForm.value.takedateIN,
+            "yyyy-MM-dd",
+            "en-US"
+        );
+        this.PrespictionForm.value.regesterdateIN = formatDate(
+            this.PrespictionForm.value.regesterdateIN,
+            "yyyy-MM-dd",
+            "en-US"
+        );
         //this.PrespictionForm.value.statusRowVal = ;
         var ParentFrom = this.PrespictionForm.value;
         for(var i = 0; i < this.rows.value.length; i++){

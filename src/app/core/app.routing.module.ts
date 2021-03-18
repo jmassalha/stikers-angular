@@ -45,8 +45,9 @@ import { FormDashboardComponent } from '../form-dashboard/form-dashboard.compone
 import { UpdateformComponent } from '../updateform/updateform.component';
 import { UpdatesingleformComponent } from '../updatesingleform/updatesingleform.component';
 import { FormsansweredComponent } from '../formsanswered/formsanswered.component';
-import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.component';
+import { EventsscheduleComponent } from '../eventsschedule/eventsschedule.component';
 import { EmailmanagementComponent } from '../emailmanagement/emailmanagement.component';
+import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -90,6 +91,7 @@ const routes: Routes = [
   { path: "fillsurvey/:id", component: FillSurveyComponent },
   { path: "formdashboard", component: FormDashboardComponent },
   { path: "digitalforms", component: UpdateformComponent },
+  { path: "eventsschedule", component: EventsscheduleComponent },
   { path: "createorupdateform/:id", component: UpdatesingleformComponent },
   { path: "formsanswered/:id", component: FormsansweredComponent },
 
