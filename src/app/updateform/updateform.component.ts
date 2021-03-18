@@ -70,9 +70,11 @@ searchForm(){
   if(departmentControl == undefined){
     departmentControl = "";
   }
+  let UserName = localStorage.getItem("loginUserName").toLowerCase();
   
   this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
+      .post("http://localhost:64964/WebService.asmx/GetAllUsersForms", {
+        _userName: UserName,
         _searchWord: searchWord,
         _departmentControl: departmentControl
       })
@@ -91,7 +93,7 @@ searchForm(){
         this.dataSource.paginator = this.paginator;
       });
       this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+      .post("http://localhost:64964/WebService.asmx/GetFormsDeparts", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];

@@ -105,12 +105,6 @@ export class EmailsdashboardComponent implements OnInit {
     }else{
       compDateControl = "";
     }
-    
-
-    console.log(compName);
-    console.log(departmentControl);
-    console.log(compDateControl);
-    console.log(compStatusControl);
 
     this.http
       .post("http://localhost:64964/WebService.asmx/Comp_Emails", {

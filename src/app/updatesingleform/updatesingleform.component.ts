@@ -101,8 +101,8 @@ export class UpdatesingleformComponent implements OnInit {
   onAddQuestion() {
     const surveyQuestionItem = new FormGroup({
       'questionID': new FormControl('0', [Validators.required]),
-      'questionTitle': new FormControl('', [Validators.required]),
-      'questionType': new FormControl('', [Validators.required]),
+      'questionTitle': new FormControl(' ', [Validators.required]),
+      'questionType': new FormControl(' ', [Validators.required]),
       'IsRequired': new FormControl(false, [Validators.required]),
       'questionStatus': new FormControl('1', [Validators.required]),
       'questionGroup': new FormGroup({})
@@ -172,7 +172,7 @@ export class UpdatesingleformComponent implements OnInit {
   addOption(index) {
     const optionGroup = new FormGroup({
       'optionID': new FormControl('0', [Validators.required]),
-      'optionText': new FormControl('', [Validators.required]),
+      'optionText': new FormControl(' ', [Validators.required]),
       'optionStatus': new FormControl('1', [Validators.required]),
     });
     (<FormArray>this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionGroup.controls.options).push(optionGroup);
@@ -192,11 +192,6 @@ export class UpdatesingleformComponent implements OnInit {
     (<FormArray>this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionGroup.controls.options).push(optionGroup);
   }
 
-  cancelReturn() {
-
-  }
-
-
   postSurvey() {
     let formData = this.surveyForm.value;
     let FormID = this.FormID;
@@ -205,8 +200,9 @@ export class UpdatesingleformComponent implements OnInit {
     let FormDepartmentID = formData.FormDepartmentID;
     let Questions = [];
     let surveyQuestions = formData.surveyQuestions;
-
-    var survey = new Survey(FormID, FormName, FormDepartment, FormDepartmentID, Questions);
+    let FormCreatorName = localStorage.getItem("loginUserName");
+    
+    var survey = new Survey(FormID, FormName, FormDepartment, FormDepartmentID,FormCreatorName, Questions);
 
     surveyQuestions.forEach((question, index, array) => {
 
@@ -229,7 +225,7 @@ export class UpdatesingleformComponent implements OnInit {
             "OptionStatus": option.optionStatus,
           }
           if (optionItem.OptionID === '0' && optionItem.OptionStatus === '0') {
-            console.log(optionItem);
+            console.log("empty option deleted!");
           }
           else {
             questionItem.QuestionOptions.push(optionItem);
@@ -238,11 +234,10 @@ export class UpdatesingleformComponent implements OnInit {
         });
       }
       if (questionItem.QuestionID === '0' && questionItem.QuestionStatus === '0') {
-        console.log(questionItem);
+        console.log("empty question deleted!");
       } else {
         survey.FormQuestions.push(questionItem);
       }
-
     });
 
 

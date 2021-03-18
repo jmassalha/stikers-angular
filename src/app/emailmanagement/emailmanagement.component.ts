@@ -19,6 +19,12 @@ export interface EmailManagement {
   Comp_Source: string;
   Comp_Pesron_Relate: string;
   Comp_Department: string;
+  PersonID: string;
+  Comp_Sektor: string;
+  RelevantEmployee1: string;
+  Ambolatory: string;
+  Eshpoz: string;
+  ImprovementNote: string;
   Comp_Status: string;
   Comp_Note: string;
   Comp_Answer: string;
@@ -45,6 +51,10 @@ export interface EmailDepartment {
 }
 
 export interface CompSource {
+  value: string;
+  viewValue: string;
+}
+export interface CompSektor {
   value: string;
   viewValue: string;
 }
@@ -78,6 +88,14 @@ export class EmailmanagementComponent implements OnInit {
   compStatus: CompStatus[] = [
     { value: '1', viewValue: 'פתוח' },
     { value: '0', viewValue: 'סגור' },
+  ];
+
+  compSektor: CompSektor[] = [
+    { value: 'Nursing', viewValue: 'סיעוד' },
+    { value: 'Manmash', viewValue: 'מנמ"ש' },
+    { value: 'Medical', viewValue: 'רפואי' },
+    { value: 'ParaMedical', viewValue: 'פרא רפואי' },
+    { value: 'Other', viewValue: 'אחר' },
   ];
 
   compSource: CompSource[] = [
@@ -123,7 +141,13 @@ export class EmailmanagementComponent implements OnInit {
       Comp_Source: ['', null],
       Comp_Pesron_Relat: ['', null],
       Comp_Department: ['', null],
+      Comp_Sektor: ['', null],
+      PersonID: ['', null],
+      ImprovementNote: ['', null],
+      RelevantEmployee1: ['', null],
+      Ambolatory: ['', null],
       Comp_Note: ['', null],
+      Eshpoz: ['', null],
       Comp_Answer: ['', null],
       Comp_Closing_Date: [Date.now, null],
       Comp_Status: ['', Validators.compose([Validators.required])],
@@ -195,14 +219,21 @@ export class EmailmanagementComponent implements OnInit {
           Comp_Source: new FormControl(this.all_email_management[0].Comp_Source, null),
           Comp_Pesron_Relat: new FormControl(this.all_email_management[0].Comp_Pesron_Relat , null),
           Comp_Department: new FormControl(this.all_email_management[0].Comp_Department, null),
+          Comp_Sektor: new FormControl(this.all_email_management[0].Comp_Sektor, null),
           Comp_Note: new FormControl(this.all_email_management[0].Comp_Note, null),
+          RelevantEmployee1: new FormControl(this.all_email_management[0].RelevantEmployee1, null),
+          Ambolatory: new FormControl(this.all_email_management[0].Ambolatory, null),
+          Eshpoz: new FormControl(this.all_email_management[0].Eshpoz, null),
+          ImprovementNote: new FormControl(this.all_email_management[0].ImprovementNote, null),
           Comp_Answer: new FormControl(this.all_email_management[0].Comp_Answer, null),
+          PersonID: new FormControl(this.all_email_management[0].PersonID, null),
           Comp_Closing_Date: new FormControl(this.all_email_management[0].Comp_Closing_Date, null),
           Comp_Status: new FormControl(this.all_email_management[0].Comp_Status, null),
           Row_ID_FK: new FormControl(this.all_email_management[0].Row_ID_FK, null),
         });
         
       });
+    
       
 
       this.http

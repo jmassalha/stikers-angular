@@ -23,7 +23,6 @@ export class FormDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.formSearch = new FormGroup({
-      'searchWord': new FormControl('', null),
       'departmentControl': new FormControl('', null)
     });
     this.getAllForms();
@@ -35,11 +34,9 @@ export class FormDashboardComponent implements OnInit {
   }
 
   getAllForms() {
-    let searchWord = "";
-    let departmentControl = this.formSearch.controls['searchWord'].value;
+    let departmentControl = this.formSearch.controls['departmentControl'].value;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
-        _searchWord: searchWord,
+      .post("http://localhost:64964/WebService.asmx/GetAllForms", {
         _departmentControl: departmentControl
       })
       .subscribe((Response) => {

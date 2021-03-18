@@ -24,6 +24,7 @@ export class PersonalDetails {
 export class CheckBoxAnswers {
   QId: number;
   QAns: string[];
+  QRequired: string;
 }
 
 @Component({
@@ -80,10 +81,7 @@ export class FillSurveyComponent implements OnInit {
 
   ngOnInit() {
     this.urlID;
-    this.getForm(this.urlID);
 
-    this.getOption(this.urlID);
-    this.selectedSubCheckbox = new Array<any>();
   }
 
   myModel(e: any, id: string, questionIndex: number) {
@@ -140,29 +138,29 @@ export class FillSurveyComponent implements OnInit {
       survey.FormAnswers.push(AnswerItem);
 
     });
-    
-    
-    if(!this.surveyForm.invalid){
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
-        _answerValues: survey,
-      })
-      .subscribe((Response) => {
-        this.openSnackBar("!נשמר בהצלחה");
-      });
-    this.dialog.closeAll();
-    this.router.navigate(['formdashboard']);
-    }else{
+
+
+    if (!this.surveyForm.invalid) {
+      this.http
+        .post("http://localhost:64964/WebService.asmx/answerForm", {
+          _answerValues: survey,
+        })
+        .subscribe((Response) => {
+          this.openSnackBar("!נשמר בהצלחה");
+        });
+      this.dialog.closeAll();
+      this.router.navigate(['formdashboard']);
+    } else {
       const invalid = [];
       const controls = this.surveyForm.controls['Answers']['controls'];
       let counter = 1;
       for (const name in controls) {
-          if (controls[name].invalid) {
-              invalid.push(counter);
-          }
-          counter = counter + 1;
+        if (controls[name].invalid) {
+          invalid.push(counter);
+        }
+        counter = counter + 1;
       }
-      this.openSnackBar("!שאלה מספר"+invalid[0]+" לא תקינה ");
+      this.openSnackBar("!שאלה מספר" + invalid[0] + " לא תקינה ");
     }
   }
 
@@ -175,17 +173,19 @@ export class FillSurveyComponent implements OnInit {
         CaseNumber: this.CaseNumber,
       })
       .subscribe((Response) => {
-        //  debugger
-        // 30910740
+        // ***** 30910740
         this.mPersonalDetails = Response["d"];
+        this.getForm(this.urlID);
         this.getQuestion(this.urlID, this.mPersonalDetails);
+        this.getOption(this.urlID);
+        this.selectedSubCheckbox = new Array<any>();
       });
   }
 
 
   getForm(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+      .post("http://localhost:64964/WebService.asmx/GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -202,7 +202,7 @@ export class FillSurveyComponent implements OnInit {
 
   getQuestion(urlID, personalDetails) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
+      .post("http://localhost:64964/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
       })
       .subscribe((Response) => {
@@ -212,7 +212,7 @@ export class FillSurveyComponent implements OnInit {
         var that = this;
         this.ChekBoxQ = new Array<CheckBoxAnswers>();
         this.filter_question_response.forEach(element => {
-          
+
           this._questionArr.push(element);
 
           var surveyAnswersItem;
@@ -283,6 +283,7 @@ export class FillSurveyComponent implements OnInit {
           if (element.QuestionType == "CheckBox") {
 
             var nQ = new CheckBoxAnswers();
+            nQ.QRequired = element.QuestionIsRequired;
             nQ.QId = element.QuestionID
             nQ.QAns = [];
             that.ChekBoxQ.push(nQ);
@@ -306,14 +307,13 @@ export class FillSurveyComponent implements OnInit {
 
   getOption(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
+      .post("http://localhost:64964/WebService.asmx/GetOption", {
         optionsFormID: urlID,
       })
       .subscribe((Response) => {
         this.filter_option_response = Response["d"];
         this._optionArr = [];
         this.filter_option_response.forEach(element => {
-          
           this._optionArr.push(element);
         });
       });

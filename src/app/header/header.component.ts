@@ -24,6 +24,8 @@ export class HeaderComponent implements OnInit {
     _shoMersham: Boolean;
     _shoDrugs: Boolean;
     _shoCortinas: Boolean;
+    _formsArea: Boolean;
+    _publicInquiry: Boolean;
     _shoCortinasSettings: Boolean;
     _shoSofiMenu: Boolean;
     _shoCoronavaccine: Boolean;
@@ -67,6 +69,8 @@ export class HeaderComponent implements OnInit {
         this._shoSofiMenu = false;
         this._shoCoronavaccine = true;
         this._sendSMSADMIN = false;
+        this._formsArea = false;
+        this._publicInquiry = false;
         this._shoEmergincyCall = false;
         this.loginUserName = localStorage.getItem("loginUserName");
         if (
@@ -75,6 +79,23 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._SHowToAdmins = true;
+        } 
+        if (
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "adahabre" ||
+            this.loginUserName.toLowerCase() == "matias" ||
+            this.loginUserName.toLowerCase() == "owertheim"
+        ) {
+            this._publicInquiry = true;
+        } 
+        if (
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "adahabre" ||
+            this.loginUserName.toLowerCase() == "owertheim"
+        ) {
+            this._formsArea = true;
         } 
         
         if (

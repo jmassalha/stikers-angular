@@ -27,7 +27,7 @@
         </div>
         <ol formArrayName="Answers" class="list-style">
           <div class="row">
-          <li class="border-me  " *ngFor="let questionCtrl of _questionArr; let i=index">
+          <li class="col-lg-5 col-sm-12" *ngFor="let questionCtrl of _questionArr; let i=index">
             <mat-card [formGroupName]="i" class="mb-3">
               <div class="row">
                 <div class="col-12 text-right">
@@ -51,17 +51,15 @@
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'CheckBox'">
                     <mat-radio-group>
-                      
                           <div  class="d-block"  *ngFor="let optionCtrl of _optionArr let k = index">
                             <div  class="d-block"  *ngIf="optionCtrl.QuestionIDFK == questionCtrl.QuestionID">
-                              <mat-checkbox class="example-margin" style="float: right;"
+                              <mat-checkbox class="example-margin" style="float: right;" formControlName="answerContent"
                                 (change)="myModel($event,optionCtrl.OptionValue,questionCtrl.QuestionID)">
                                 {{optionCtrl.OptionValue}}</mat-checkbox>
                             </div>
                           </div>
                         <mat-error style="float: right;" *ngIf="questionCtrl.QuestionIsRequired == 'True'">שדה חובה!
                         </mat-error>
-                     
                     </mat-radio-group>
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'Text'">
@@ -79,10 +77,10 @@
                       <mat-label>אפשרות תאריך</mat-label>
                       <input matInput [max]="maxDate | date:'yyyy-MM-dd'" formControlName="answerContent"
                         [matDatepicker]="picker">
-                      <mat-datepicker-toggle matSuffix [for]="picker">
-                      </mat-datepicker-toggle>
-                      <mat-datepicker #picker></mat-datepicker>
+                      
                     </mat-form-field>
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                      <mat-datepicker #picker></mat-datepicker>
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'Time'">
                     <mat-form-field>

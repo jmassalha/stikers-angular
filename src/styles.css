@@ -30,7 +30,7 @@ ol{
     float: right;
     width: 100%;
 }
-ol li {
+ol > li {
     width: calc( 50% - 30px);
     margin: 0 15px;
     float: right;

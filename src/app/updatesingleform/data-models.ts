@@ -4,6 +4,7 @@ export class Survey{
         public FormName: string,
         public FormDepartment: string,
         public FormDepartmentID: string,
+        public FormCreatorName: string,
         public FormQuestions: Question[]
         ){}
 }

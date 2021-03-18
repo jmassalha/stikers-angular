@@ -13,6 +13,12 @@ ul{
     list-style-type: none;
 }
 
+/* ol > li {
+    width: calc( 50% - 30px);
+    margin: 0 15px;
+    float: right;
+} */
+
 .mat-form-field {
     margin-right: 8px;
   }

@@ -5,13 +5,10 @@
     padding: 15px;
 }
 
-/* ol{
-    list-style-type: none;
+ol li {
+    margin: 0 15px;
+    float: right;
 }
-
-ul{
-    list-style-type: none;
-} */
 
 .mat-form-field {
     margin-right: 8px;
