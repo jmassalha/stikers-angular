@@ -18,10 +18,8 @@ footer {
     float: right;
     width: 100%;;
 }
-
-.form-amen ol li{
-    width: calc(50% - 30px)  !important;
-    margin: 0 15px ;
+.form-amen ol>li{
+    
     float: right;
 }
 ol{

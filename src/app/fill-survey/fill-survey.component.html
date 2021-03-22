@@ -25,8 +25,9 @@
         </div>
         <ol formArrayName="Answers" class="list-style">
           <div class="row">
-          <li class="col-lg-6 col-md-6 col-sm-12" *ngFor="let questionCtrl of _questionArr; let i=index">
-            <mat-card [formGroupName]="i" class="mb-3">
+          <li class="col-lg-6 col-sm-12 col-xs-12" *ngFor="let questionCtrl of _questionArr; let i=index">
+            <mat-card [formGroupName]="i" class="mb-3 rel">
+              <span class="pos-me-number-li">{{ i + 1}}. </span>
               <div class="row">
                 <div class="col-12 text-right">
                   <label>{{questionCtrl.QuestionValue}}</label>

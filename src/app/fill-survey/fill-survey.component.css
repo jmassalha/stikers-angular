@@ -22,12 +22,15 @@
     width: 100%;
     float: right;
 }
-
+/* 
 ol li {
     margin: 0 15px;
     float: right;
+} */
+.pos-me-number-li{
+    position: absolute;
+    right: -20px;
 }
-
 .mat-form-field {
     margin-right: 8px;
   }
