@@ -176,7 +176,7 @@ export class EmailmanagementComponent implements OnInit {
        
     if(!this.manageComplaintForm.invalid){
     this.http
-      .post("http://localhost:64964/WebService.asmx/UpdateComplaint", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
         _compToUpdate: this.manageComplaintForm.value,
       })
       .subscribe((Response) => {
@@ -203,7 +203,7 @@ export class EmailmanagementComponent implements OnInit {
 
   getEmailMaanagement(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/Manage_Emails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
         _compID: urlID
       })
       .subscribe((Response) => {
@@ -237,7 +237,7 @@ export class EmailmanagementComponent implements OnInit {
       
 
       this.http
-      .post("http://localhost:64964/WebService.asmx/GetFormsDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
 
       })
       .subscribe((Response) => {

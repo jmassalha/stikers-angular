@@ -35,7 +35,7 @@ export interface EventsDropDownData {
         RowID: string;
         DropDownValue: string;
 }
-export interface EventsScheduleRow {
+export interface EventsDropDownData {
         RowID: string;
         EventDeskID: string;
         EventDesk: string;
@@ -52,6 +52,7 @@ export interface EventsScheduleRow {
         EventInsertUser: string;
         EventUpdateUser: string;
         EventDateTime: string;
+        totalRows: string;
 }
 @Component({
         selector: "app-eventsschedule",
@@ -71,13 +72,13 @@ export class EventsscheduleComponent implements OnInit {
                 "EventName",
                 "EventPriority",
                 "EventStatus",
-                "CLICK"
+                "CLICK",
         ];
         pemAdmin = 2;
         private activeModal: NgbActiveModal;
         modalOptions: NgbModalOptions;
         closeResult: string;
-        TABLE_DATA: EventsScheduleRow[] = [];
+        TABLE_DATA: EventsDropDownData[] = [];
         desks: EventsDropDownData[];
         catss: EventsDropDownData[];
         eventprioritys: EventsDropDownData[];
@@ -90,12 +91,18 @@ export class EventsscheduleComponent implements OnInit {
         fliterVal = "";
         DeskID = "";
         CatID = "";
-        EventPriorityID = "";
+        EventPriorityID = "-1";
         EventStatusID = "";
         startdateVal = "";
         enddateVal = "";
         EventsForm: FormGroup;
         submitted = false;
+        pageSize;
+        pageIndex;
+        EventCatID;
+        EventDeskID;
+        Sdate: FormControl;
+        Edate: FormControl;
         constructor(
                 private _snackBar: MatSnackBar,
                 private router: Router,
@@ -104,7 +111,7 @@ export class EventsscheduleComponent implements OnInit {
                 private formBuilder: FormBuilder,
                 activeModal: NgbActiveModal
         ) {
-                // //debugger
+                // ////debugger
                 this.activeModal = activeModal;
         }
         @Input()
@@ -113,6 +120,14 @@ export class EventsscheduleComponent implements OnInit {
 
         ifMobile: Boolean;
         ngOnInit(): void {
+                this.pageIndex = 0;
+                this.pageSize = 50
+                this.EventCatID = "-1";
+                this.EventDeskID = "-1";
+                this.Sdate = new FormControl(new Date());
+                this.Edate = new FormControl(new Date());
+                this.startdateVal = this.Sdate.value;
+                this.enddateVal = this.Edate.value;
                 if (window.screen.width <= 798) {
                         // 768px portrait
                         this.ifMobile = true;
@@ -123,15 +138,7 @@ export class EventsscheduleComponent implements OnInit {
                 this.DeskID = "-1";
                 this.loader = false;
                 this.dataSource = new MatTableDataSource(this.TABLE_DATA);
-                this.EventsForm = this.formBuilder.group({
-                        EventsName: ["", Validators.required],
-                        EventsStatus: ["", Validators.required],
-                        EventsInsertUser: [
-                                localStorage.getItem("loginUserName"),
-                                Validators.required,
-                        ],
-                        RowID: ["0", false],
-                });
+               
                 console.log("sleep");
                 if (
                         localStorage.getItem("loginUserName").toLowerCase() ==
@@ -148,6 +155,48 @@ export class EventsscheduleComponent implements OnInit {
                         ///$("#chadTable").DataTable();
                 }
                 this.getReport(this);
+                //$("#loader").addClass("d-none");
+                this.desks = this.getDropDownLists("DeskDrop");
+                this.catss = this.getDropDownLists("CatDrop");
+                this.eventprioritys = this.getDropDownLists("PriorityDrop");
+                this.eventStatuss = this.getDropDownLists("StatusDrop");
+                $("#loader").addClass("d-none");
+                ////debugger;
+        }
+        getDropDownLists(mType): EventsDropDownData[] {
+                let mEventsDropDownData: EventsDropDownData[] = [];
+                $("#loader").removeClass("d-none");
+                this.http
+                        .post(
+                                "http://srv-apps/wsrfc/WebService.asmx/GetDropDownsSelects",
+                                {
+                                        mDropDownType: mType,
+                                }
+                        )
+                        .subscribe((Response: EventsDropDownData[]) => {
+                               // //debugger;
+                                mEventsDropDownData = Response;
+                                switch (mType) {
+                                        case "DeskDrop":
+                                               
+                                                this.desks = mEventsDropDownData["d"];
+                                                ////debugger
+                                                break;
+                                        case "CatDrop":
+                                                this.catss = mEventsDropDownData["d"];
+                                               // //debugger
+                                                break;
+                                        case "PriorityDrop":
+                                                this.eventprioritys = mEventsDropDownData["d"];
+                                              //  //debugger
+                                                break;
+                                        case "StatusDrop":
+                                                this.eventStatuss = mEventsDropDownData["d"];
+                                              //  //debugger
+                                                break;
+                                }
+                        });
+                return mEventsDropDownData;
         }
         openSnackBar() {
                 this._snackBar.open("נשמר בהצלחה", "", {
@@ -160,21 +209,21 @@ export class EventsscheduleComponent implements OnInit {
         }
         onSubmit() {
                 this.submitted = true;
-                //////debugger
+                ////////debugger
 
                 if (this.EventsForm.invalid) {
                         return;
                 }
-                ////debugger
+                //////debugger
                 setTimeout(function () {
                         $("#loader").removeClass("d-none");
                 });
-                //debugger;
+                ////debugger;
                 this.http
                         .post(
-                                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateEvents",
+                                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateEvent",
                                 {
-                                        _EventsForm: this.EventsForm.value,
+                                        mEventsScheduleRow: this.EventsForm.value,
                                 }
                         )
                         .subscribe((Response) => {
@@ -189,67 +238,33 @@ export class EventsscheduleComponent implements OnInit {
                 this.modalService.dismissAll();
         }
 
-        showemergencymembers(content, _type, _element) {
-                // debugger;
-                localStorage.setItem("EventsID", _element.RowID);
-                this.modalService.open(content, this.modalOptions);
-        }
-
-        SendSmsToemergencymembers(content, _type, _element) {
-                // debugger;
-                this.EventsName = _element.EventsName;
-                this.http
-                        .post(
-                                "http://srv-apps/wsrfc/WebService.asmx/GetEventsMembersMobiles",
-                                {
-                                        RowID: _element.RowID,
-                                }
-                        )
-                        .subscribe((Response) => {
-                                //localStorage.setItem("EventsRowId", _element.RowID);
-
-                                var Poria_Events = Response["d"];
-                                var textAreaVal = "";
-                                for (var i = 0; i < Poria_Events.length; i++) {
-                                        textAreaVal +=
-                                                Poria_Events[i]["CellNumber"] +
-                                                " - ";
-                                        textAreaVal +=
-                                                Poria_Events[i]["FirstName"] +
-                                                " ";
-                                        textAreaVal +=
-                                                Poria_Events[i]["LastName"] +
-                                                "\r\n";
-                                }
-                                // debugger
-
-                                localStorage.setItem(
-                                        "smsType",
-                                        "SMSEmergencyCall"
-                                );
-                                localStorage.setItem(
-                                        "textAreaVal",
-                                        textAreaVal
-                                );
-                                this.modalService.open(
-                                        content,
-                                        this.modalOptions
-                                );
-                        });
-        }
         CloseModalSendSms() {
                 this.modalService.dismissAll();
         }
         editRow(content, _type, _element) {
                 this.EventsName = _element.EventsName;
-                //debugger;
+                ////debugger;
+                var dateString = _element.EventDateTime;
+                var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
+                var dateArray = reggie.exec(dateString); 
+                var dateObject = new Date(
+                    (+dateArray[1]),
+                    (+dateArray[2])-1, // Careful, month starts at 0!
+                    (+dateArray[3]),
+                    (+dateArray[4]),
+                    (+dateArray[5]),
+                    (+dateArray[6])
+                );
+               // //debugger
                 this.EventsForm = this.formBuilder.group({
-                        EventsName: [_element.EventsName, Validators.required],
-                        EventsStatus: [
-                                _element.EventsStatus + "",
-                                Validators.required,
-                        ],
-                        EventsUpdateUser: [
+                        EventName: [_element.EventName, Validators.required],
+                        EventDeskID: [_element.EventDeskID, Validators.required],
+                        EventCatID: [_element.EventCatID, Validators.required],
+                        EventPriorityID: [_element.EventPriorityID, Validators.required],
+                        EventStatusID: [_element.EventStatusID, Validators.required],
+                        EventDateTime: [dateObject, Validators.required],
+                        EventNote: [_element.EventNote, null],
+                        EventInsertUser: [
                                 localStorage.getItem("loginUserName"),
                                 Validators.required,
                         ],
@@ -258,9 +273,9 @@ export class EventsscheduleComponent implements OnInit {
                 this.modalService.open(content, this.modalOptions).result.then(
                         (result) => {
                                 this.closeResult = `Closed with: ${result}`;
-                                //////debugger
+                                ////////debugger
                                 if ("Save" == result) {
-                                        // ////debugger;
+                                        // //////debugger;
                                         //this.saveChad(_element.ROW_ID);
                                 }
                         },
@@ -272,13 +287,33 @@ export class EventsscheduleComponent implements OnInit {
                 );
         }
         getReport($event: any): void {
-                //////debugger
-                this.getTableFromServer(this.fliterVal);
+                ////////debugger
+                this.getTableFromServer(
+                        this.pageIndex,
+                        this.pageSize,
+                        this.fliterVal,
+                        this.EventStatusID,
+                        this.EventPriorityID,
+                        this.CatID,
+                        this.DeskID,
+                        this.startdateVal,
+                        this.enddateVal
+                );
         }
         applyFilter(filterValue: string) {
                 this.fliterVal = filterValue;
 
-                this.getTableFromServer(this.fliterVal);
+                this.getTableFromServer(
+                        this.pageIndex,
+                        this.pageSize,
+                        this.fliterVal,
+                        this.EventStatusID,
+                        this.EventPriorityID,
+                        this.CatID,
+                        this.DeskID,
+                        this.startdateVal,
+                        this.enddateVal
+                );
 
                 //this.dataSource.filter = filterValue.trim().toLowerCase();
         }
@@ -286,11 +321,16 @@ export class EventsscheduleComponent implements OnInit {
         open(content, _type, _element) {
                 this.EventsNumber = "";
                 this.EventsName = "חדש";
-                ////debugger;
+                //////debugger;
                 this.EventsForm = this.formBuilder.group({
-                        EventsName: ["", Validators.required],
-                        EventsStatus: ["1", Validators.required],
-                        EventsInsertUser: [
+                        EventName: ["", Validators.required],
+                        EventDeskID: ["", Validators.required],
+                        EventCatID: ["", Validators.required],
+                        EventPriorityID: ["", Validators.required],
+                        EventStatusID: ["", Validators.required],
+                        EventDateTime: ["", Validators.required],
+                        EventNote: ["", null],
+                        EventInsertUser: [
                                 localStorage.getItem("loginUserName"),
                                 Validators.required,
                         ],
@@ -299,9 +339,9 @@ export class EventsscheduleComponent implements OnInit {
                 this.modalService.open(content, this.modalOptions).result.then(
                         (result) => {
                                 this.closeResult = `Closed with: ${result}`;
-                                //////debugger
+                                ////////debugger
                                 if ("Save" == result) {
-                                        // ////debugger;
+                                        // //////debugger;
                                         //this.saveChad(_element.ROW_ID);
                                 }
                         },
@@ -325,41 +365,71 @@ export class EventsscheduleComponent implements OnInit {
         ngAfterViewInit(): void {}
         getPaginatorData(event: PageEvent) {
                 //console.log(this.paginator.pageIndex);
+                ////debugger
 
-                this.getTableFromServer(this.fliterVal);
+                this.getTableFromServer(
+                        this.paginator.pageIndex,
+                        this.paginator.pageSize,
+                        this.fliterVal,
+                        this.EventStatusID,
+                        this.EventPriorityID,
+                        this.CatID,
+                        this.DeskID,
+                        this.startdateVal,
+                        this.enddateVal
+                );
         }
 
-        public getTableFromServer(_FreeText: string) {
+        public getTableFromServer(
+                pageIndex,
+                pageSize,
+                serachTxt,
+                EventStatusID,
+                EventPriorityID,
+                EventCatID,
+                EventDeskID,
+                startdateVal,
+                enddateVal
+        ) {
                 let tableLoader = false;
                 if ($("#loader").hasClass("d-none")) {
-                        // ////debugger
+                        // //////debugger
                         tableLoader = true;
                         $("#loader").removeClass("d-none");
                 }
+                //http://localhost:64964/WebService.asmx
                 //http://srv-apps/wsrfc/WebService.asmx
-                //http://srv-apps/wsrfc/WebService.asmx
+                //debugger
                 this.http
                         .post(
-                                "http://srv-apps/wsrfc/WebService.asmx/GetEventss",
+                                "http://srv-apps/wsrfc/WebService.asmx/GetEventsSchedule",
                                 {
-                                        serachTxt: _FreeText,
+                                        pageIndex: pageIndex,
+                                        pageSize: pageSize,
+                                        serachTxt: serachTxt,
+                                        EventStatusID: EventStatusID,
+                                        EventPriorityID: EventPriorityID,
+                                        EventCatID: EventCatID,
+                                        EventDeskID: EventDeskID,
+                                        EventDateFrom: startdateVal,
+                                        EventDateTo: enddateVal,
                                 }
                         )
                         .subscribe((Response) => {
-                                //////debugger
+                                //debugger
                                 this.TABLE_DATA.splice(
                                         0,
                                         this.TABLE_DATA.length
                                 );
                                 this.TABLE_DATA = Response["d"];
 
-                                // ////debugger
+                                // //////debugger
                                 this.dataSource = new MatTableDataSource<any>(
                                         this.TABLE_DATA
                                 );
                                 this.resultsLength = this.TABLE_DATA.length;
                                 setTimeout(function () {
-                                        //////debugger
+                                        ////////debugger
                                         //if (tableLoader) {
                                         $("#loader").addClass("d-none");
                                         // }

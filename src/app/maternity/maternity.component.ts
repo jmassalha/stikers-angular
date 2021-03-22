@@ -141,7 +141,9 @@ export class MaternityComponent implements OnInit {
         if (
             localStorage.getItem("loginUserName").toLowerCase() == "jmassalha" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
+            localStorage.getItem("loginUserName").toLowerCase() == "owertheim" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "raharon"
+            
         ) {
         } else {
             this.router.navigate(["login"]);
