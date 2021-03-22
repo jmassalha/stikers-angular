@@ -36,7 +36,7 @@ export class FormDashboardComponent implements OnInit {
   getAllForms() {
     let departmentControl = this.formSearch.controls['departmentControl'].value;
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetAllForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
         _departmentControl: departmentControl
       })
       .subscribe((Response) => {

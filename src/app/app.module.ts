@@ -16,6 +16,7 @@ import { MatBadgeModule } from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { HeaderComponent } from './header/header.component';
@@ -86,6 +87,7 @@ import { EventsscheduleComponent } from './eventsschedule/eventsschedule.compone
 import { EmailsdashboardComponent } from './emailsdashboard/emailsdashboard.component';
 import { EmailmanagementComponent } from './emailmanagement/emailmanagement.component';
 import {DatePipe} from '@angular/common';
+import { StatusComplaintComponent } from './status-complaint/status-complaint.component';
 
 
 
@@ -145,7 +147,8 @@ const maskConfig: Partial<IConfig> = {
 
     FormsansweredComponent,
     EmailsdashboardComponent,
-    EmailmanagementComponent
+    EmailmanagementComponent,
+    StatusComplaintComponent
   ],
   imports: [
     GoogleChartsModule,
@@ -191,7 +194,8 @@ const maskConfig: Partial<IConfig> = {
     MatTableModule,
     CustomMaterialModule,
     MatButtonModule,     
-    MatDatepickerModule, 
+    MatDatepickerModule,
+    MatAutocompleteModule,
     MatNativeDateModule,
     MatInputModule,
     MatSnackBarModule,

@@ -142,7 +142,7 @@ export class FillSurveyComponent implements OnInit {
 
     if (!this.surveyForm.invalid) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/answerForm", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
           _answerValues: survey,
         })
         .subscribe((Response) => {
@@ -185,7 +185,7 @@ export class FillSurveyComponent implements OnInit {
 
   getForm(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetForm", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -202,7 +202,7 @@ export class FillSurveyComponent implements OnInit {
 
   getQuestion(urlID, personalDetails) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetQuestion", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
       })
       .subscribe((Response) => {
@@ -234,7 +234,7 @@ export class FillSurveyComponent implements OnInit {
             }
             else if (element.QuestionType == "ID" && element.QuestionValue == "ת.ז") {
               surveyAnswersItem = this.formBuilder.group({
-                answerContent: [personalDetails.PersonID, Validators.compose([Validators.pattern('[- +()0-9]{9,10}'), Validators.required])],
+                answerContent: [{value: personalDetails.PersonID, disabled: true}, Validators.compose([Validators.pattern('[- +()0-9]{9,10}'), Validators.required])],
               });
             }
             else if (element.QuestionType == "Email" && element.QuestionValue == "כתובת מייל") {
@@ -244,32 +244,32 @@ export class FillSurveyComponent implements OnInit {
             }
             else if (element.QuestionType == "Text" && element.QuestionValue == "שם פרטי") {
               surveyAnswersItem = this.formBuilder.group({
-                answerContent: [personalDetails.FirstName, Validators.compose([Validators.required])],
+                answerContent: [{value: personalDetails.FirstName, disabled: true}, Validators.compose([Validators.required])],
               });
             }
             else if (element.QuestionType == "Text" && element.QuestionValue == "שם משפחה") {
               surveyAnswersItem = this.formBuilder.group({
-                answerContent: [personalDetails.LastName, Validators.compose([Validators.required])],
+                answerContent: [{value: personalDetails.LastName, disabled: true}, Validators.compose([Validators.required])],
               });
             }
             else if (element.QuestionType == "Text" && element.QuestionValue == "כתובת") {
               surveyAnswersItem = this.formBuilder.group({
-                answerContent: [personalDetails.Address, Validators.compose([Validators.required])],
+                answerContent: [{value: personalDetails.Address, disabled: true}, Validators.compose([Validators.required])],
               });
             }
             else if (element.QuestionType == "Date" && element.QuestionValue == "תאריך לידה") {
               surveyAnswersItem = this.formBuilder.group({
-                answerContent: [personalDetails.DOB, Validators.compose([Validators.required])],
+                answerContent: [{value: personalDetails.DOB, disabled: true}, Validators.compose([Validators.required])],
               });
             }
             else if (element.QuestionType == "RadioButton" && element.QuestionValue == "מין") {
               if (personalDetails.Gender == "1") {
                 surveyAnswersItem = this.formBuilder.group({
-                  answerContent: ['זכר', Validators.compose([Validators.required])],
+                  answerContent: [{value: 'זכר', disabled: true}, Validators.compose([Validators.required])],
                 });
               } else if (personalDetails.Gender == "2") {
                 surveyAnswersItem = this.formBuilder.group({
-                  answerContent: ['נקבה', Validators.compose([Validators.required])],
+                  answerContent: [{value: 'נקבה', disabled: true}, Validators.compose([Validators.required])],
                 });
               } else {
                 surveyAnswersItem = this.formBuilder.group({
@@ -307,7 +307,7 @@ export class FillSurveyComponent implements OnInit {
 
   getOption(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetOption", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
         optionsFormID: urlID,
       })
       .subscribe((Response) => {

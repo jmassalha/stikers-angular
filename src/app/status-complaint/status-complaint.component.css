@@ -1,0 +1,10 @@
+.col-12 :hover{
+    /* transform: scale(1.2,1.1); */
+    cursor: pointer;
+}
+
+.message-card{
+    padding-bottom: 0px;
+    background: whitesmoke;
+    margin: 5px;
+}

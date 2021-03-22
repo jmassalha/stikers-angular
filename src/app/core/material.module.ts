@@ -13,6 +13,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { FormsModule } from '@angular/forms';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
 @NgModule({
   imports: [
@@ -28,6 +29,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatTableModule,
     MatTooltipModule,
     MatMenuModule,
+    MatAutocompleteModule,
     MatIconModule,
     MatProgressSpinnerModule
   ],
@@ -38,7 +40,8 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatToolbarModule, 
     MatButtonModule, 
     MatCardModule, 
-    MatInputModule, 
+    MatInputModule,
+    MatAutocompleteModule,
     MatDialogModule, 
     MatTableModule, 
     MatMenuModule,

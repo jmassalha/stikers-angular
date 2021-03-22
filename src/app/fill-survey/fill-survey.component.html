@@ -2,14 +2,12 @@
 <mat-card class="form-amen">
 
   <form dir="rtl" [formGroup]="caseNumberForm" autocomplete="off" *ngIf="CaseNumber == ''">
-    <mat-card class="full-width d-block  text-center">
       <mat-form-field class="full-width">
         <input formControlName="CaseNumber" matInput placeholder="מספר מקרה">
       </mat-form-field>
-      <button mat-raised-button type="submit" (click)="searchCaseNumber()" class="btn btn-primary btn-raised">
+      <button mat-raised-button type="submit" (click)="searchCaseNumber()" class="btn btn-primary btn-raised mb-2">
         חפש
       </button>
-    </mat-card>
   </form>
 
   <form dir="rtl" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" autocomplete="off" *ngIf="CaseNumber != ''">
@@ -27,7 +25,7 @@
         </div>
         <ol formArrayName="Answers" class="list-style">
           <div class="row">
-          <li class="col-lg-5 col-sm-12" *ngFor="let questionCtrl of _questionArr; let i=index">
+          <li class="col-lg-6 col-md-6 col-sm-12" *ngFor="let questionCtrl of _questionArr; let i=index">
             <mat-card [formGroupName]="i" class="mb-3">
               <div class="row">
                 <div class="col-12 text-right">
@@ -64,12 +62,12 @@
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'Text'">
                     <mat-form-field class="full-width">
-                      <input matInput formControlName="answerContent" type="text" placeholder="תשובה">
+                      <input matInput formControlName="answerContent" type="text">
                     </mat-form-field>
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'TextArea'">
                     <mat-form-field class="full-width">
-                      <input matInput formControlName="answerContent" type="text" max="300" placeholder="תשובה">
+                      <input matInput formControlName="answerContent" type="text" max="300">
                     </mat-form-field>
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'Date'">
@@ -84,23 +82,23 @@
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'Time'">
                     <mat-form-field>
-                      <input matInput [ngxTimepicker]="endTime" [format]="24"  placeholder="00:00" formControlName="answerContent"/>
+                      <input matInput [ngxTimepicker]="endTime" [format]="24" formControlName="answerContent"/>
                     </mat-form-field>
                     <ngx-material-timepicker #endTime></ngx-material-timepicker>
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'Email'">
                     <mat-form-field class="full-width">
-                      <input formControlName="answerContent" matInput type="email" placeholder="אימייל">
+                      <input formControlName="answerContent" matInput type="email">
                     </mat-form-field>
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'Phone'">
                     <mat-form-field class="full-width">
-                      <input formControlName="answerContent" matInput placeholder="מספר טלפון">
+                      <input formControlName="answerContent" matInput>
                     </mat-form-field>
                   </div>
                   <div  class="d-block" *ngIf="questionCtrl.QuestionType == 'ID'">
                     <mat-form-field class="full-width">
-                      <input formControlName="answerContent" matInput placeholder="תעודת זהות">
+                      <input formControlName="answerContent" matInput>
                     </mat-form-field>
                   </div>
                 </div>

@@ -31,3 +31,7 @@ ol li {
 .mat-form-field {
     margin-right: 8px;
   }
+
+.mat-card.mat-focus-indicator {
+    padding-bottom: 0px;
+}

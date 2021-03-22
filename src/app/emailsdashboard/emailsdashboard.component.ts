@@ -5,9 +5,8 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
-import { FormsansweredComponent } from '../formsanswered/formsanswered.component';
+import { StatusComplaintComponent } from '../status-complaint/status-complaint.component';
 import { EmailmanagementComponent } from '../emailmanagement/emailmanagement.component';
-import { formatDate } from 'canvasjs';
 import { DatePipe } from '@angular/common';
 
 export interface Email {
@@ -79,8 +78,8 @@ export class EmailsdashboardComponent implements OnInit {
     dialogRef.componentInstance.urlID = id;
   }
 
-  openDialogToAnsweredForms(id) {
-    let dialogRef = this.dialog.open(FormsansweredComponent);
+  openDialogToStatusComplaint(id) {
+    let dialogRef = this.dialog.open(StatusComplaintComponent);
     dialogRef.componentInstance.urlID = id;
   }
 

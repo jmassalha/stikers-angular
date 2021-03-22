@@ -3,13 +3,14 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
-import { Email } from '../emailsdashboard/emailsdashboard.component';
 import { DatePipe } from '@angular/common';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import {Observable} from 'rxjs';
+import {map, startWith} from 'rxjs/operators';
 
 
 export interface EmailManagement {
@@ -29,6 +30,7 @@ export interface EmailManagement {
   Comp_Note: string;
   Comp_Answer: string;
   Comp_Closing_Date: string;
+  Related_User: string;
 }
 
 export interface CompType {
@@ -55,6 +57,14 @@ export interface CompSource {
   viewValue: string;
 }
 export interface CompSektor {
+  value: string;
+  viewValue: string;
+}
+export interface CompEshpoz {
+  value: string;
+  viewValue: string;
+}
+export interface CompAmbolatory {
   value: string;
   viewValue: string;
 }
@@ -89,6 +99,14 @@ export class EmailmanagementComponent implements OnInit {
     { value: '1', viewValue: 'פתוח' },
     { value: '0', viewValue: 'סגור' },
   ];
+  compEshpoz: CompEshpoz[] = [
+    { value: '1', viewValue: 'כן' },
+    { value: '0', viewValue: 'לא' },
+  ];
+  compAmbolatory: CompAmbolatory[] = [
+    { value: '1', viewValue: 'כן' },
+    { value: '0', viewValue: 'לא' },
+  ];
 
   compSektor: CompSektor[] = [
     { value: 'Nursing', viewValue: 'סיעוד' },
@@ -119,20 +137,26 @@ export class EmailmanagementComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
   ) { }
 
   all_email_management = [];
   FormDepartment: string = "";
   all_departs_filter = [];
+  all_users_filter = [];
   department = [];
+  users = [];
+  usersNames = [];
   email: EmailManagement;
   complaintName: string = "";
+  complainID: string = "";
   urlID: number;
   manageComplaintForm: FormGroup;
 
   
   minDate = "";
+  myControl = new FormControl();
+  filteredOptions: Observable<string[]>;
+  toppings = new FormControl();
 
   ngOnInit(): void {
     this.manageComplaintForm = this.formBuilder.group({
@@ -151,10 +175,19 @@ export class EmailmanagementComponent implements OnInit {
       Comp_Answer: ['', null],
       Comp_Closing_Date: [Date.now, null],
       Comp_Status: ['', Validators.compose([Validators.required])],
+      Related_User: ['', null,]
     })
-    this.getEmailMaanagement(this.urlID);
-    
-    
+    this.getEmailManagement(this.urlID);
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
+  }
+
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.users.filter(option => option.firstname.toLowerCase().includes(filterValue));
   }
 
   openSnackBar(message) {
@@ -165,15 +198,23 @@ export class EmailmanagementComponent implements OnInit {
     });
   }
 
+  shareComplaintWithOthers(){
 
-  updateComplaint(){
-    console.log(this.manageComplaintForm.value);
+      this.http
+      .post("http://localhost:64964/WebService.asmx/AttachCompToUser", {
+        userId: this.myControl.value,
+        compId: this.complainID,
+      })
+      .subscribe((Response) => {
+        if(Response["d"] == true){
+          this.openSnackBar("! נשלח בהצלחה לנמען");
+        }else{
+          this.openSnackBar("! נמען לא קיים");
+        }
+      });
   }
 
-  fillForm() {
-
-    let data = this.manageComplaintForm.value;
-       
+  submitComplaint() {
     if(!this.manageComplaintForm.invalid){
     this.http
       .post("http://localhost:64964/WebService.asmx/UpdateComplaint", {
@@ -186,22 +227,10 @@ export class EmailmanagementComponent implements OnInit {
     this.router.navigate(['emailsdashboard']);
     }else{
       this.openSnackBar("!לא תקין");
-      // const invalid = [];
-      // const controls = this.manageComplaintForm.controls['Answers']['controls'];
-      // let counter = 1;
-      // for (const name in controls) {
-      //     if (controls[name].invalid) {
-      //         invalid.push(counter);
-      //     }
-      //     counter = counter + 1;
-      // }
-      // this.openSnackBar("!שאלה מספר"+invalid[0]+" לא תקינה ");
     }
   }
 
-
-
-  getEmailMaanagement(urlID) {
+  getEmailManagement(urlID) {
     this.http
       .post("http://localhost:64964/WebService.asmx/Manage_Emails", {
         _compID: urlID
@@ -211,6 +240,7 @@ export class EmailmanagementComponent implements OnInit {
 
 
         this.complaintName = this.all_email_management[0].ComplaintName;
+        this.complainID = this.all_email_management[0].Row_ID;
 
         this.manageComplaintForm = this.formBuilder.group({
           Row_ID: new FormControl(this.all_email_management[0].Row_ID, null),
@@ -230,6 +260,7 @@ export class EmailmanagementComponent implements OnInit {
           Comp_Closing_Date: new FormControl(this.all_email_management[0].Comp_Closing_Date, null),
           Comp_Status: new FormControl(this.all_email_management[0].Comp_Status, null),
           Row_ID_FK: new FormControl(this.all_email_management[0].Row_ID_FK, null),
+          Related_User: new FormControl(this.all_email_management[0].email, null),
         });
         
       });
@@ -247,5 +278,20 @@ export class EmailmanagementComponent implements OnInit {
           this.department.push(element);
         })
       });
+
+      this.http
+      .post("http://localhost:64964/WebService.asmx/GetUsersForInquiries", {
+
+      })
+      .subscribe((Response) => {
+        this.all_users_filter = Response["d"];
+
+        this.all_users_filter.forEach(element => {
+          this.users.push(element);
+          this.usersNames.push(element.firstname +" "+ element.lastname);
+        })
+      });
+
+
   }
 }

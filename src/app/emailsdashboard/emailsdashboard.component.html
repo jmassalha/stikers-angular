@@ -17,7 +17,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <mat-form-field appearance="fill">
+                                <mat-form-field appearance="fill" class="form-group">
                                     <mat-label>מחלקה</mat-label>
                                     <mat-select formControlName="departmentControl">
                                         <mat-option [value]="">
@@ -43,7 +43,7 @@
                                 </div>
                             </div>
                             <div class="col-6">
-                                <mat-form-field appearance="fill">
+                                <mat-form-field appearance="fill" class="form-group">
                                     <mat-label>סטטוס</mat-label>
                                     <mat-select formControlName="compStatusControl">
                                         <mat-option [value]="">
@@ -120,7 +120,7 @@
                 style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> סטטוס פניה
             </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
-                    color="primary" (click)="openDialogToAnsweredForms(element.FormID)"><span class="material-icons">
+                    color="primary" (click)="openDialogToStatusComplaint(element.EmailID)"><span class="material-icons">
                         question_answer
                     </span></button> </mat-cell>
         </ng-container>
