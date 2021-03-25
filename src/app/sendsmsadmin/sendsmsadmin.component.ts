@@ -110,7 +110,7 @@ export class SendsmsadminComponent implements OnInit {
     ngAfterViewInit(): void {}
     public GetMessagesTemp(){
         this.http
-            .post("http://localhost:64964/WebService.asmx/GetMessagesTemp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesTemp", {
                 
             })
             .subscribe((Response) => {
