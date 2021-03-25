@@ -10,7 +10,11 @@ import {
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
+export interface Message {
+    ID: number;
+    Title: string;
+    MessageVal: string;
+}
 @Component({
     selector: "app-sendsmsadmin",
     templateUrl: "./sendsmsadmin.component.html",
@@ -22,14 +26,16 @@ export class SendsmsadminComponent implements OnInit {
 
     @Output("parentFun") parentFun: EventEmitter<any> = new EventEmitter();
     sendSmsForm: FormGroup;
+    MessagesTemp: Message[] = [];
     loader: Boolean;
+    emergencyCall: Boolean = false;
     submitted = false;
     smsText: string;
     smsNumbers: string;
     surveyNumber: string;
     toShow: string = "true";
     smsType: string = "SMSOnLineAdmin";
-    textAreaVal: string = localStorage.getItem("textAreaVal");
+    textAreaVal: string = "";
     activeModal: NgbActiveModal;
     constructor(
         private _snackBar: MatSnackBar,
@@ -40,9 +46,15 @@ export class SendsmsadminComponent implements OnInit {
         activeModal: NgbActiveModal
     ) {
         this.activeModal = activeModal;
-        if(this.textAreaVal != "" && this.textAreaVal !== null){
+        if(localStorage.getItem("textAreaVal") && localStorage.getItem("textAreaVal") != ""){
             this.smsType = localStorage.getItem("smsType") ;//"SMSMaternity"
+            this.emergencyCall = true;
+            this.GetMessagesTemp();
+            this.textAreaVal = localStorage.getItem("textAreaVal");
+            localStorage.setItem("textAreaVal", "");
+            debugger
         }else{
+            this.emergencyCall = false;
             this.smsType = "SMSOnLineAdmin";
         }
         this.sendSmsForm = this.formBuilder.group({
@@ -79,6 +91,13 @@ export class SendsmsadminComponent implements OnInit {
             ///$("#chadTable").DataTable();
         }
     }
+    SetMessageVal(val){
+        this.sendSmsForm = this.formBuilder.group({
+            smsText: [val, Validators.required],
+            smsNumbers: [this.textAreaVal, Validators.required],
+            surveyNumber: ["0", Validators.required],
+        });
+    }
     openSnackBar() {
         this._snackBar.open("נשלח בהצלחה", "", {
             duration: 2500,
@@ -89,7 +108,17 @@ export class SendsmsadminComponent implements OnInit {
         });
     }
     ngAfterViewInit(): void {}
-
+    public GetMessagesTemp(){
+        this.http
+            .post("http://localhost:64964/WebService.asmx/GetMessagesTemp", {
+                
+            })
+            .subscribe((Response) => {
+               // debugger
+                this.MessagesTemp = Response["d"];
+               // debugger
+            });
+    }
     public sendSms() {
         ////debugger
         // stop here if form is invalid

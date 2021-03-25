@@ -42,6 +42,9 @@ export interface Poria_Group {
     GroupStatus: string;
     ProjectCost: string;
 }
+export interface GroupsClass {    
+    value: string;    
+}
 export interface Poria_GroupPatients {
     RowID: number;
     PatientId: string;
@@ -67,6 +70,7 @@ export interface Poria_GroupPatients {
     styleUrls: ["./emergencycallgroups.component.css"],
 })
 export class EmergencycallgroupsComponent implements OnInit {
+    @ViewChild('SendSmsToemergencymembersModal', { static: true }) SendSmsToemergencymembersModal: NgbModal;
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -84,6 +88,7 @@ export class EmergencycallgroupsComponent implements OnInit {
     modalOptions: NgbModalOptions;
     closeResult: string;
     TABLE_DATA: Poria_Group[] = [];
+    Groups: GroupsClass[] = [];
     rowFormData = {} as Poria_Group;
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     loader: Boolean;
@@ -93,8 +98,10 @@ export class EmergencycallgroupsComponent implements OnInit {
     fliterVal = "";
     activeOrNot = "";
     GroupForm: FormGroup;
+    GroupSmsToForm: FormGroup;
     submitted = false;
     perm: Boolean = false;
+    NotAllOrNull: Boolean = false;
     constructor(
         private _snackBar: MatSnackBar,
         private router: Router,
@@ -111,12 +118,18 @@ export class EmergencycallgroupsComponent implements OnInit {
     GroupNumber: string;
 
     ngOnInit(): void {
+        this.SendSmsToemergencymembersModal
+        debugger
         $("#loader").removeClass("d-none");
         this.GroupName = "";
         this.GroupNumber = "";
         this.activeOrNot = "-1";
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
+        this.GroupSmsToForm = this.formBuilder.group({
+            GroupSmsTo: ["", Validators.required],
+            GroupSms: ["-1", null],
+        });
         this.GroupForm = this.formBuilder.group({
             GroupName: ["", Validators.required],
             GroupStatus: ["", Validators.required],
@@ -140,6 +153,44 @@ export class EmergencycallgroupsComponent implements OnInit {
         }
         this.getReport(this);
     }
+    public GetMessagesGroupType(Type){
+        this.http
+            .post("http://localhost:64964/WebService.asmx/GetMessagesGroupType", {
+                Type: Type
+            })
+            .subscribe((Response) => {
+               // debugger
+                this.Groups = Response["d"];
+               // debugger
+            });
+    }
+    radioChange($event: MatRadioChange) {
+        console.log($event.source.name, $event.value);
+        
+        if ($event.source.value === '' ) {
+            this.GroupSmsToForm = this.formBuilder.group({
+                GroupSmsTo: ["", Validators.required],
+                GroupSms: ["-1", null],
+            });
+            this.NotAllOrNull = false;
+            // Do whatever you want here
+        }else if($event.source.value === '1' ){
+            this.GroupSmsToForm = this.formBuilder.group({
+                GroupSmsTo: ["1", Validators.required],
+                GroupSms: ["-1", null],
+            });
+            this.NotAllOrNull = false;
+        }else{
+           // debugger
+            this.GroupSmsToForm = this.formBuilder.group({
+                GroupSmsTo: [$event.source.value, Validators.required],
+                GroupSms: ["", Validators.required],
+            });
+            this.GetMessagesGroupType($event.source.value)
+            this.NotAllOrNull = true;
+        }
+
+    }
     openSnackBar() {
         this._snackBar.open("נשמר בהצלחה", "", {
             duration: 2500,
@@ -148,6 +199,41 @@ export class EmergencycallgroupsComponent implements OnInit {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
         });
+    }
+    onSubmitSmsTo() {
+        if (this.GroupSmsToForm.invalid) {
+            return;
+        }
+        setTimeout(function () {
+            $("#loader").removeClass("d-none");
+        });
+        this.http
+            .post(
+                "http://localhost:64964/WebService.asmx/GetGroupMembersMobilesByType",
+                {
+                    mGroupSmsToForm: this.GroupSmsToForm.value,
+                }
+            )
+            .subscribe((Response) => {
+                //localStorage.setItem("GroupRowId", _element.RowID);
+
+                var Poria_Group = Response["d"];
+                var textAreaVal = "";
+                for (var i = 0; i < Poria_Group.length; i++) {
+                    textAreaVal += Poria_Group[i]["CellNumber"] + " - ";
+                    textAreaVal += Poria_Group[i]["FirstName"] + " ";
+                    textAreaVal += Poria_Group[i]["LastName"] + "\r\n";
+                }
+                setTimeout(function () {
+                    $("#loader").addClass("d-none");
+                });
+
+                 //debugger
+
+                localStorage.setItem("smsType", "SMSEmergencyCall");
+                localStorage.setItem("textAreaVal", textAreaVal);
+                this.modalService.open(this.SendSmsToemergencymembersModal, this.modalOptions);
+            });
     }
     onSubmit() {
         this.submitted = true;
@@ -254,6 +340,21 @@ export class EmergencycallgroupsComponent implements OnInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    openSmsTo(content, _type, _element) {
+        this.modalService.open(content, this.modalOptions).result.then(
+            (result) => {
+                this.closeResult = `Closed with: ${result}`;
+                //////debugger
+                if ("Save" == result) {
+                    // ////debugger;
+                    //this.saveChad(_element.ROW_ID);
+                }
+            },
+            (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            }
+        );
+    }
     open(content, _type, _element) {
         this.GroupNumber = "";
         this.GroupName = "חדש";
