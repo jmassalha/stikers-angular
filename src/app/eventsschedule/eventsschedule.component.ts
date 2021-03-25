@@ -397,7 +397,7 @@ export class EventsscheduleComponent implements OnInit {
                         tableLoader = true;
                         $("#loader").removeClass("d-none");
                 }
-                //http://localhost:64964/WebService.asmx
+                //http://srv-apps/wsrfc/WebService.asmx
                 //http://srv-apps/wsrfc/WebService.asmx
                 //debugger
                 this.http

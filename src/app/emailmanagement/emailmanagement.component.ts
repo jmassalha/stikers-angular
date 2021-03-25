@@ -201,7 +201,7 @@ export class EmailmanagementComponent implements OnInit {
   shareComplaintWithOthers(){
 
       this.http
-      .post("http://localhost:64964/WebService.asmx/AttachCompToUser", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
         userId: this.myControl.value,
         compId: this.complainID,
       })
@@ -280,7 +280,7 @@ export class EmailmanagementComponent implements OnInit {
       });
 
       this.http
-      .post("http://localhost:64964/WebService.asmx/GetUsersForInquiries", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
 
       })
       .subscribe((Response) => {

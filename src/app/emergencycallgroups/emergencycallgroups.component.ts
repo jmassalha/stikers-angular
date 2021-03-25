@@ -155,7 +155,7 @@ export class EmergencycallgroupsComponent implements OnInit {
     }
     public GetMessagesGroupType(Type){
         this.http
-            .post("http://localhost:64964/WebService.asmx/GetMessagesGroupType", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesGroupType", {
                 Type: Type
             })
             .subscribe((Response) => {
@@ -209,7 +209,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         });
         this.http
             .post(
-                "http://localhost:64964/WebService.asmx/GetGroupMembersMobilesByType",
+                "http://srv-apps/wsrfc/WebService.asmx/GetGroupMembersMobilesByType",
                 {
                     mGroupSmsToForm: this.GroupSmsToForm.value,
                 }
