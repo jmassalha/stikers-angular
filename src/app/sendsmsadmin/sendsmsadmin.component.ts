@@ -10,6 +10,7 @@ import {
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { ConfirmationDialogService } from  "../confirmation-dialog/confirmation-dialog.service";
 export interface Message {
     ID: number;
     Title: string;
@@ -43,6 +44,7 @@ export class SendsmsadminComponent implements OnInit {
         private http: HttpClient,
         private modalServicematernitypatients: NgbModal,
         private formBuilder: FormBuilder,
+        private confirmationDialogService: ConfirmationDialogService,
         activeModal: NgbActiveModal
     ) {
         this.activeModal = activeModal;
@@ -128,11 +130,7 @@ export class SendsmsadminComponent implements OnInit {
         this.submitted = true;
 
         let tableLoader = false;
-        if ($("#loader").hasClass("d-none")) {
-            // //debugger
-            tableLoader = true;
-            $("#loader").removeClass("d-none");
-        }
+        
         var lines = [];
         $.each(this.sendSmsForm.value.smsNumbers.split(/\n/), function(i, line){
             if(line){
@@ -141,8 +139,16 @@ export class SendsmsadminComponent implements OnInit {
         });
     //console.log(lines);
     //return;
-        debugger
-        this.http
+    this.confirmationDialogService.confirm('נא לאשר..', 'האם אתה בטוח ...? ')
+    .then((confirmed) =>{
+        console.log('User confirmed:', confirmed);
+        if(confirmed){
+            if ($("#loader").hasClass("d-none")) {
+                // //debugger
+                tableLoader = true;
+                $("#loader").removeClass("d-none");
+            }
+            this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
                 smsText: this.sendSmsForm.value.smsText,
                 smsNumbers: this.sendSmsForm.value.smsNumbers,
@@ -158,7 +164,7 @@ export class SendsmsadminComponent implements OnInit {
                 });
                 localStorage.setItem("textAreaVal", "");
                 
-                 this.parentFun.emit();
+                this.parentFun.emit();
                 setTimeout(function () {
                     ////debugger
                     if (tableLoader) {
@@ -166,5 +172,12 @@ export class SendsmsadminComponent implements OnInit {
                     }
                 });
             });
+        }else{
+
+        }
+        
+    } )
+    .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+       
     }
 }

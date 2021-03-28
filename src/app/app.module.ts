@@ -88,6 +88,8 @@ import { EmailsdashboardComponent } from './emailsdashboard/emailsdashboard.comp
 import { EmailmanagementComponent } from './emailmanagement/emailmanagement.component';
 import {DatePipe} from '@angular/common';
 import { StatusComplaintComponent } from './status-complaint/status-complaint.component';
+import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
+import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 
 
 
@@ -148,7 +150,8 @@ const maskConfig: Partial<IConfig> = {
     FormsansweredComponent,
     EmailsdashboardComponent,
     EmailmanagementComponent,
-    StatusComplaintComponent
+    StatusComplaintComponent,
+    ConfirmationDialogComponent
   ],
   imports: [
     GoogleChartsModule,
@@ -210,7 +213,7 @@ const maskConfig: Partial<IConfig> = {
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },DatePipe
     
-    
+      ,ConfirmationDialogService
     , NgbActiveModal],
   bootstrap: [AppComponent]
 })
