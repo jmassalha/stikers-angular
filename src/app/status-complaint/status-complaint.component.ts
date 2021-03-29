@@ -1,9 +1,14 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar } from '@angular/material/snack-bar';
 import { Router } from '@angular/router';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-status-complaint',
@@ -12,12 +17,16 @@ import { Router } from '@angular/router';
 })
 export class StatusComplaintComponent implements OnInit {
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   constructor(
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
+    private datePipe: DatePipe
   ) { }
 
 
@@ -39,11 +48,30 @@ export class StatusComplaintComponent implements OnInit {
     this.messanger = this.formBuilder.group({
       MessageValue: ['', null],
       UserName: [this.UserName, null],
-      MessageDate: [Date.now, null],
-      MessageTime: [Date.now, null],
+      MessageDate: ['', null],
+      MessageTime: ['', null],
       Complaint: ['', null]
     });
     this.getRelevantComplaints(this.urlID);
+  }
+
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  deleteMessage(messageID,ComplaintID){
+      this.http
+        .post("http://localhost:64964/WebService.asmx/DeleteMessage", {
+          _messageID: messageID
+        })
+        .subscribe((Response) => {
+          this.getAndSendMessages(ComplaintID);
+          this.openSnackBar("!הודעה נמחקה");
+        });
   }
 
   getRelevantComplaints(urlID){
@@ -56,29 +84,24 @@ export class StatusComplaintComponent implements OnInit {
       });
   }
 
-  sendMessage() {
-    console.log(this.messanger.value);
-  }
-
-  getComplaintForMessaging(urlID) {
+  getAndSendMessages(urlID) {
     this._choosed = true;
-    this.messanger.controls['Complaint'].setValue(urlID); 
+    let UserName = localStorage.getItem("loginUserName").toLowerCase();
+    let myDate = new Date();
+    let messageDate = this.datePipe.transform(myDate, 'yyyy/MM/dd');
+    let messageTime = myDate.getHours()+':'+myDate.getMinutes()+':'+myDate.getSeconds(); 
+    this.messanger.controls['Complaint'].setValue(urlID);
+    this.messanger.controls['MessageDate'].setValue(messageDate);
+    this.messanger.controls['MessageTime'].setValue(messageTime);
+    this.messanger.controls['UserName'].setValue(UserName);
     this.http
       .post("http://localhost:64964/WebService.asmx/ComplaintMessanger", {
         _messageClass: this.messanger.value,
       })
       .subscribe((Response) => {
         this.messagesArray = Response["d"];
-        console.log(this.messagesArray);
-        // this.messanger = this.formBuilder.group({
-        //   MessageValue: new FormControl('', null),
-        //   FirstName: new FormControl('', null),
-        //   LastName: new FormControl('', null),
-        //   MessageDate: new FormControl(Response["d"].MessageDate, null),
-        //   MessageTime: new FormControl(Response["d"].MessageTime, null),
-        //   Complaint: new FormControl(Response["d"].Complaint , null),
-        // });
-
+        this.CompID = this.messagesArray[0].Complaint;
+        this.messanger.controls['MessageValue'].setValue("");
       });
   }
 }

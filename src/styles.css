@@ -52,7 +52,17 @@ ol > li {
 }*/
 .mat-dialog-container{
     height: auto !important;
+    display: block;
+    padding: 0px;
+    border-radius: 4px;
+    box-sizing: border-box;
+    overflow: auto;
+    outline: 0;
+    width: 100%;
+    min-height: inherit;
+    max-height: inherit;
 }
+
 /* .cdk-overlay-pane:not(.mat-datepicker-popup){
     width: 90%;;
 } */

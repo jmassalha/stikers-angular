@@ -1,10 +1,11 @@
 <div class="survey-options" *ngIf="! _choosed">
     <div class="poll-options">
         <div class="row">
-            <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getComplaintForMessaging(comp.Row_ID)">
+            <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getAndSendMessages(comp.Row_ID)">
                 <mat-card class="card m-2 text-center">
                     <div class="list-style text-center" style="font-size: 10px;">:מחלקה רלוונטית</div>
-                    <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">{{comp.Comp_Department}}</div>
+                    <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">
+                        {{comp.Comp_Department}}</div>
                 </mat-card>
             </div>
         </div>
@@ -15,17 +16,28 @@
     <mat-card class="full-width text-center pb-0 mb-3">
         <label style="font-size: 20px;">complaintName</label>
     </mat-card>
-    <mat-card class="message-card full-width" *ngFor="let message of messagesArray">
-        <p style="float: right;">{{message.FirstName}} {{message.LastName}}</p>
-        <p>תאריך: {{message.MessageDate}} שעה: {{message.MessageTime}}</p>
-        <p style="margin-bottom: 1rem;">{{message.MessageValue}}</p>
-    </mat-card>
+    <div class="full-width" *ngFor="let message of messagesArray">
+        <mat-card class="message-card full-width" *ngIf="message.UserName != UserName">
+            <p style="float: right;">{{message.FirstName}} {{message.LastName}}</p>
+            <p>תאריך: {{message.MessageDate}} שעה: {{message.MessageTime}}</p>
+            <p style="margin-bottom: 1rem;float: right;">{{message.MessageValue}}</p>
+        </mat-card>
+        <mat-card class="message-card2 full-width" *ngIf="message.UserName == UserName">
+            <span class="material-icons" (click)="deleteMessage(message.Row_ID,message.Complaint)">
+                delete
+                </span>
+            <p style="float: right;">{{message.FirstName}} {{message.LastName}}</p>
+            <p>תאריך: {{message.MessageDate}} שעה: {{message.MessageTime}}</p>
+            <p style="margin-bottom: 1rem;float: right;">{{message.MessageValue}}</p>
+        </mat-card>
+    </div>
+
     <mat-form-field>
         <input matInput formControlName="MessageValue" autocomplete="off" placeholder="הקלד תגובה" name="fliterVal" />
     </mat-form-field>
     <div class="button-row">
         <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
-            (click)="sendMessage()" type="submit" mat-raised-button>
+            (click)="getAndSendMessages(CompID)" type="submit" mat-raised-button>
             <span>שלח תגובה</span>
         </button>
     </div>

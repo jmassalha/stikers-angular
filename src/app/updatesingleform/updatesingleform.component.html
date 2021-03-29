@@ -1,4 +1,4 @@
-<mat-card>
+<mat-card class="form-amen">
   <form dir="rtl" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" autocomplete="off">
 
     <div class="border-me card-body">
@@ -20,12 +20,21 @@
         </div>
       </div>
     </div>
-
+    <div class="row">
+      <div class="col">
+        <h3 class="list-title m-3 text-center">יצירת שאלות</h3>
+      </div>
+      <div class="col">
+        <section class="example-section">
+          <mat-radio-group>
+            <mat-checkbox class="list-title m-3 text-center" formControlName="isCaseNumber">עם מספר מקרה?
+            </mat-checkbox>
+          </mat-radio-group>
+        </section>
+      </div>
+    </div>
     <div class="survey-options">
       <div formArrayName="surveyQuestions" class="poll-options">
-        <div class="row">
-          <h3 class="list-title" style="float: right;">תחילת מילוי שאלות</h3>
-        </div>
         <ol class="list-style">
           <div class="row">
             <li class="col-lg-6 col-sm-12"

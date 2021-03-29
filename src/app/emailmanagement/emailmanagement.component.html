@@ -1,4 +1,17 @@
-<form dir="rtl" [formGroup]="manageComplaintForm" autocomplete="off">
+<div class="survey-options" *ngIf="chooseComp">
+    <div class="poll-options">
+        <div class="row">
+            <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getEmailManagement(urlID)">
+                <mat-card class="card m-2 text-center">
+                    <div class="list-style text-center" style="font-size: 10px;">:מחלקה רלוונטית</div>
+                    <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">{{comp.Comp_Department}}</div>
+                </mat-card>
+            </div>
+        </div>
+    </div>
+</div>
+
+<form dir="rtl" [formGroup]="manageComplaintForm" autocomplete="off" *ngIf="!chooseComp">
     <mat-card class="full-width text-center">
         <label style="font-size: 20px;">{{complaintName}}</label>
         <button mat-raised-button class="btn btn-primary btn-raised float-left" (click)="shareComplaintWithOthers()">
@@ -200,8 +213,12 @@
     </div>
     <div class="button-row">
         <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
-            (click)="submitComplaint()" type="submit" mat-raised-button>
-            <span>שמירה</span>
+            (click)="submitComplaint(_ifUpdate)" type="submit" mat-raised-button *ngIf="_ifUpdate">
+            <span>שמירת פנייה</span>
+        </button>
+        <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
+            (click)="submitComplaint(_ifUpdate)" type="submit" mat-raised-button *ngIf="!_ifUpdate">
+            <span>הוספת פנייה</span>
         </button>
     </div>
 </form>

@@ -66,3 +66,8 @@ ol{
     opacity: 0.75;
     font-size: 0.75em;
   }
+  
+  .col-12 :hover{
+    /* transform: scale(1.2,1.1); */
+    cursor: pointer;
+}

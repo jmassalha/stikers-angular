@@ -69,6 +69,7 @@ export class UpdatesingleformComponent implements OnInit {
   Row_ID: string = "";
   FormName: string = "";
   FormID: string = "";
+  isCaseNumber: any;
   QuestionID: string = "";
   urlID: number;
 
@@ -93,6 +94,7 @@ export class UpdatesingleformComponent implements OnInit {
       'FormID': new FormControl("0", [Validators.required]),
       'FormName': new FormControl(this.FormName, [Validators.required]),
       'FormDepartment': new FormControl(this.FormDepartment, null),
+      'isCaseNumber': new FormControl('', null),
       'FormDepartmentID': new FormControl(this.FormDepartmentID, [Validators.required]),
       'surveyQuestions': surveyQuestions,
     });
@@ -196,13 +198,18 @@ export class UpdatesingleformComponent implements OnInit {
     let formData = this.surveyForm.value;
     let FormID = this.FormID;
     let FormName = formData.FormName;
+    let isCaseNumber = formData.isCaseNumber;
+    if(isCaseNumber == "" || isCaseNumber == false){
+      isCaseNumber = "0";
+    }else{
+      isCaseNumber = "1";
+    }
     let FormDepartment = formData.FormDepartment;
     let FormDepartmentID = formData.FormDepartmentID;
     let Questions = [];
     let surveyQuestions = formData.surveyQuestions;
     let FormCreatorName = localStorage.getItem("loginUserName");
-    
-    var survey = new Survey(FormID, FormName, FormDepartment, FormDepartmentID,FormCreatorName, Questions);
+    var survey = new Survey(FormID, FormName, FormDepartment,isCaseNumber, FormDepartmentID,FormCreatorName, Questions);
 
     surveyQuestions.forEach((question, index, array) => {
 
@@ -240,7 +247,6 @@ export class UpdatesingleformComponent implements OnInit {
       }
     });
 
-
     if (!this.surveyForm.invalid) {
       if (this.urlID === 0) {
         this.http
@@ -251,7 +257,7 @@ export class UpdatesingleformComponent implements OnInit {
           });
       } else {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/UpdateForm", {
+          .post("http://localhost:64964/WebService.asmx/UpdateForm", {
             updateFormValues: survey, 
           })
           .subscribe((Response) => {
@@ -272,7 +278,7 @@ export class UpdatesingleformComponent implements OnInit {
 
   getFormData(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormData", {
+      .post("http://localhost:64964/WebService.asmx/GetFormData", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -288,6 +294,12 @@ export class UpdatesingleformComponent implements OnInit {
         this.FormDepartmentID = this.filter_form_response.FormDepartmentID;
         this.surveyForm.controls['FormID'].patchValue(this.FormID);
         this.surveyForm.controls['FormName'].patchValue(this.FormName);
+        if(this.filter_form_response.isCaseNumber == "0"){
+          this.isCaseNumber = false;
+        }else{
+          this.isCaseNumber = true;
+        }
+        this.surveyForm.controls['isCaseNumber'].patchValue(this.isCaseNumber);
         this.surveyForm.controls['FormDepartment'].patchValue(this.FormDepartment);
         this.surveyForm.controls['FormDepartmentID'].patchValue(this.FormDepartmentID);
         this._questionArr = this.filter_form_response.FormQuestions;

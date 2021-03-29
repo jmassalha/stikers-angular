@@ -45,7 +45,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   TABLE_DATA: Email[] = [];
   displayedColumns: string[] = [
-    'FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'showAll'
+    'FormID', 'FormName', 'formDepartment', 'FormDate', 'update','add', 'showAll'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -73,9 +73,10 @@ export class EmailsdashboardComponent implements OnInit {
 
   }
 
-  openDialogToManageEmail(id) {
+  openDialogToManageEmail(id,fakeID) {
     let dialogRef = this.dialog.open(EmailmanagementComponent);
     dialogRef.componentInstance.urlID = id;
+    dialogRef.componentInstance.fakeID = fakeID;
   }
 
   openDialogToStatusComplaint(id) {
@@ -106,7 +107,7 @@ export class EmailsdashboardComponent implements OnInit {
     }
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
+      .post("http://localhost:64964/WebService.asmx/Comp_Emails", {
         _compName: compName,
         _compDepartment: departmentControl,
         _compDate: compDateControl,
@@ -130,7 +131,6 @@ export class EmailsdashboardComponent implements OnInit {
             EmailDateTime: this.all_forms_filter[i].EmailDateTime,
           });
         }
-
         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
         this.dataSource.paginator = this.paginator;
       });

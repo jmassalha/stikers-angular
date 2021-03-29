@@ -5,6 +5,15 @@
 
 .message-card{
     padding-bottom: 0px;
-    background: whitesmoke;
+    background: floralwhite;
     margin: 5px;
+}
+.message-card2{
+    padding-bottom: 0px;
+    background: lemonchiffon;
+    margin: 5px;
+}
+
+.material-icons:hover{
+    cursor: pointer;
 }

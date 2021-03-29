@@ -1,15 +1,18 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, VERSION } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { Router, ParamMap, ActivatedRoute } from "@angular/router";
 import { Survey, Question, Option } from './data-models';
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, Observable } from 'rxjs';
+import { Result } from '@zxing/library';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
+import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+import { BarcodeFormat } from '@zxing/library';
 export class PersonalDetails {
   FirstName: string;
   LastName: string;
@@ -30,11 +33,40 @@ export class CheckBoxAnswers {
 @Component({
   selector: 'app-fill-survey',
   templateUrl: './fill-survey.component.html',
-  styleUrls: ['./fill-survey.component.css']
+  styleUrls: ['./fill-survey.component.css'],
 })
 
 export class FillSurveyComponent implements OnInit {
 
+  availableDevices: MediaDeviceInfo[];
+  deviceCurrent: MediaDeviceInfo;
+  deviceSelected: string;
+
+  formatsEnabled: BarcodeFormat[] = [
+    BarcodeFormat.CODE_128,
+    BarcodeFormat.DATA_MATRIX,
+    BarcodeFormat.EAN_13,
+    BarcodeFormat.QR_CODE,
+  ];
+
+  hasDevices: boolean;
+  hasPermission: boolean;
+
+  qrResultString: string;
+
+  torchEnabled = false;
+  torchAvailable$ = new BehaviorSubject<boolean>(false);
+  tryHarder = false;
+
+  // ngVersion = VERSION.full;
+
+  // @ViewChild('scanner') scanner: ZXingScannerComponent;
+  // hasDevices: boolean;
+  // hasPermission: boolean;
+  // qrResultString: string;
+  // qrResult: Result;
+  // availableDevices: MediaDeviceInfo[];
+  // currentDevice: MediaDeviceInfo;
 
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -51,8 +83,9 @@ export class FillSurveyComponent implements OnInit {
 
   _formID: string;
   _formName: string;
+  isCaseNumber: string;
+  withCaseNumber: boolean;
   _formDate: string;
-  _formPath: string;
   CaseNumber: string = '';
   _questionArr = [];
   _optionArr = [];
@@ -65,8 +98,60 @@ export class FillSurveyComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private cd: ChangeDetectorRef,
+    private readonly _dialog: MatDialog
   ) { }
+
+
+  clearResult(): void {
+    this.qrResultString = null;
+  }
+
+  onCamerasFound(devices: MediaDeviceInfo[]): void {
+    this.availableDevices = devices;
+    this.hasDevices = Boolean(devices && devices.length);
+  }
+
+  onCodeResult(resultString: string) {
+    this.qrResultString = resultString;
+    console.log(resultString);
+    this.caseNumberForm.controls['CaseNumber'].setValue(resultString);
+    this.searchCaseNumber();
+  }
+
+  onDeviceSelectChange(selected: string) {
+    const selectedStr = selected || '';
+    if (this.deviceSelected === selectedStr) { return; }
+    this.deviceSelected = selectedStr;
+    const device = this.availableDevices.find(x => x.deviceId === selected);
+    this.deviceCurrent = device || undefined;
+  }
+
+  onDeviceChange(device: MediaDeviceInfo) {
+    const selectedStr = device?.deviceId || '';
+    if (this.deviceSelected === selectedStr) { return; }
+    this.deviceSelected = selectedStr;
+    this.deviceCurrent = device || undefined;
+  }
+
+
+  onHasPermission(has: boolean) {
+    this.hasPermission = has;
+  }
+
+  onTorchCompatible(isCompatible: boolean): void {
+    this.torchAvailable$.next(isCompatible || false);
+  }
+
+  toggleTorch(): void {
+    this.torchEnabled = !this.torchEnabled;
+  }
+
+  toggleTryHarder(): void {
+    this.tryHarder = !this.tryHarder;
+  }
+
   ChekBoxQ: CheckBoxAnswers[];
   surveyAnswers: FormArray = this.formBuilder.array([]);
   surveyForm: FormGroup = this.formBuilder.group({
@@ -81,8 +166,9 @@ export class FillSurveyComponent implements OnInit {
 
   ngOnInit() {
     this.urlID;
-
+    this.searchCaseNumber();
   }
+
 
   myModel(e: any, id: string, questionIndex: number) {
 
@@ -105,7 +191,7 @@ export class FillSurveyComponent implements OnInit {
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
-      duration: 5000,
+      duration: 3000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
@@ -142,7 +228,7 @@ export class FillSurveyComponent implements OnInit {
 
     if (!this.surveyForm.invalid) {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+        .post("http://localhost:64964/WebService.asmx/answerForm", {
           _answerValues: survey,
         })
         .subscribe((Response) => {
@@ -168,6 +254,7 @@ export class FillSurveyComponent implements OnInit {
 
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
+    this.withCaseNumber = false;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
         CaseNumber: this.CaseNumber,
@@ -176,8 +263,6 @@ export class FillSurveyComponent implements OnInit {
         // ***** 30910740
         this.mPersonalDetails = Response["d"];
         this.getForm(this.urlID);
-        this.getQuestion(this.urlID, this.mPersonalDetails);
-        this.getOption(this.urlID);
         this.selectedSubCheckbox = new Array<any>();
       });
   }
@@ -185,29 +270,35 @@ export class FillSurveyComponent implements OnInit {
 
   getForm(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+      .post("http://localhost:64964/WebService.asmx/GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
-
         this.filter_form_response = Response["d"];
-
         this._formID = this.filter_form_response.FormID;
         this._formName = this.filter_form_response.FormName;
         this._formDate = this.filter_form_response.FormDate;
-        this._formPath = this.filter_form_response.FormPath;
-
+        this.isCaseNumber = this.filter_form_response.isCaseNumber;
+        if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
+          this.openSnackBar("!מספר מקרה לא תקין");
+          this.withCaseNumber = true;
+        } else {
+          this.withCaseNumber = false;
+          this.getQuestion(this.urlID, this.mPersonalDetails);
+          this.getOption(this.urlID);
+        }
       });
+
   }
 
   getQuestion(urlID, personalDetails) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
+      .post("http://localhost:64964/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
+        isCaseNumber: this.isCaseNumber
       })
       .subscribe((Response) => {
         this.filter_question_response = Response["d"];
-
         this.surveyAnswers = this.formBuilder.array([]);
         var that = this;
         this.ChekBoxQ = new Array<CheckBoxAnswers>();
@@ -225,58 +316,59 @@ export class FillSurveyComponent implements OnInit {
               answerContent: ['', Validators.required],
             });
           }
-
-          if (element.PinQuestion == "1") {
-            if (element.QuestionType == "Phone" && element.QuestionValue == "מספר טלפון") {
-              surveyAnswersItem = this.formBuilder.group({
-                answerContent: [personalDetails.PhoneNumber, Validators.compose([Validators.required])],
-              });
-            }
-            else if (element.QuestionType == "ID" && element.QuestionValue == "ת.ז") {
-              surveyAnswersItem = this.formBuilder.group({
-                answerContent: [{value: personalDetails.PersonID, disabled: true}, Validators.compose([Validators.pattern('[- +()0-9]{9,10}'), Validators.required])],
-              });
-            }
-            else if (element.QuestionType == "Email" && element.QuestionValue == "כתובת מייל") {
-              surveyAnswersItem = this.formBuilder.group({
-                answerContent: [personalDetails.Email, Validators.compose([Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), Validators.required])],
-              });
-            }
-            else if (element.QuestionType == "Text" && element.QuestionValue == "שם פרטי") {
-              surveyAnswersItem = this.formBuilder.group({
-                answerContent: [{value: personalDetails.FirstName, disabled: true}, Validators.compose([Validators.required])],
-              });
-            }
-            else if (element.QuestionType == "Text" && element.QuestionValue == "שם משפחה") {
-              surveyAnswersItem = this.formBuilder.group({
-                answerContent: [{value: personalDetails.LastName, disabled: true}, Validators.compose([Validators.required])],
-              });
-            }
-            else if (element.QuestionType == "Text" && element.QuestionValue == "כתובת") {
-              surveyAnswersItem = this.formBuilder.group({
-                answerContent: [{value: personalDetails.Address, disabled: true}, Validators.compose([Validators.required])],
-              });
-            }
-            else if (element.QuestionType == "Date" && element.QuestionValue == "תאריך לידה") {
-              surveyAnswersItem = this.formBuilder.group({
-                answerContent: [{value: personalDetails.DOB, disabled: true}, Validators.compose([Validators.required])],
-              });
-            }
-            else if (element.QuestionType == "RadioButton" && element.QuestionValue == "מין") {
-              if (personalDetails.Gender == "1") {
+          if (personalDetails.PersonID != null) {
+            if (element.PinQuestion == "1") {
+              if (element.QuestionType == "Phone" && element.QuestionValue == "מספר טלפון") {
                 surveyAnswersItem = this.formBuilder.group({
-                  answerContent: [{value: 'זכר', disabled: true}, Validators.compose([Validators.required])],
-                });
-              } else if (personalDetails.Gender == "2") {
-                surveyAnswersItem = this.formBuilder.group({
-                  answerContent: [{value: 'נקבה', disabled: true}, Validators.compose([Validators.required])],
-                });
-              } else {
-                surveyAnswersItem = this.formBuilder.group({
-                  answerContent: ['', Validators.compose([Validators.required])],
+                  answerContent: [personalDetails.PhoneNumber, Validators.compose([Validators.required])],
                 });
               }
+              else if (element.QuestionType == "ID" && element.QuestionValue == "ת.ז") {
+                surveyAnswersItem = this.formBuilder.group({
+                  answerContent: [{ value: personalDetails.PersonID, disabled: true }, Validators.compose([Validators.pattern('[- +()0-9]{9,10}'), Validators.required])],
+                });
+              }
+              else if (element.QuestionType == "Email" && element.QuestionValue == "כתובת מייל") {
+                surveyAnswersItem = this.formBuilder.group({
+                  answerContent: [personalDetails.Email, Validators.compose([Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), Validators.required])],
+                });
+              }
+              else if (element.QuestionType == "Text" && element.QuestionValue == "שם פרטי") {
+                surveyAnswersItem = this.formBuilder.group({
+                  answerContent: [{ value: personalDetails.FirstName, disabled: true }, Validators.compose([Validators.required])],
+                });
+              }
+              else if (element.QuestionType == "Text" && element.QuestionValue == "שם משפחה") {
+                surveyAnswersItem = this.formBuilder.group({
+                  answerContent: [{ value: personalDetails.LastName, disabled: true }, Validators.compose([Validators.required])],
+                });
+              }
+              else if (element.QuestionType == "Text" && element.QuestionValue == "כתובת") {
+                surveyAnswersItem = this.formBuilder.group({
+                  answerContent: [{ value: personalDetails.Address, disabled: true }, Validators.compose([Validators.required])],
+                });
+              }
+              else if (element.QuestionType == "Date" && element.QuestionValue == "תאריך לידה") {
+                surveyAnswersItem = this.formBuilder.group({
+                  answerContent: [{ value: personalDetails.DOB, disabled: true }, Validators.compose([Validators.required])],
+                });
+              }
+              else if (element.QuestionType == "RadioButton" && element.QuestionValue == "מין") {
+                if (personalDetails.Gender == "1") {
+                  surveyAnswersItem = this.formBuilder.group({
+                    answerContent: [{ value: 'זכר', disabled: true }, Validators.compose([Validators.required])],
+                  });
+                } else if (personalDetails.Gender == "2") {
+                  surveyAnswersItem = this.formBuilder.group({
+                    answerContent: [{ value: 'נקבה', disabled: true }, Validators.compose([Validators.required])],
+                  });
+                } else {
+                  surveyAnswersItem = this.formBuilder.group({
+                    answerContent: ['', Validators.compose([Validators.required])],
+                  });
+                }
 
+              }
             }
           }
 
@@ -307,7 +399,7 @@ export class FillSurveyComponent implements OnInit {
 
   getOption(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
+      .post("http://localhost:64964/WebService.asmx/GetOption", {
         optionsFormID: urlID,
       })
       .subscribe((Response) => {

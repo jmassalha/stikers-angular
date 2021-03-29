@@ -140,6 +140,7 @@ export class EmailmanagementComponent implements OnInit {
   ) { }
 
   all_email_management = [];
+  all_complaints_filter = [];
   FormDepartment: string = "";
   all_departs_filter = [];
   all_users_filter = [];
@@ -150,6 +151,7 @@ export class EmailmanagementComponent implements OnInit {
   complaintName: string = "";
   complainID: string = "";
   urlID: number;
+  fakeID: number;
   manageComplaintForm: FormGroup;
 
   
@@ -157,6 +159,8 @@ export class EmailmanagementComponent implements OnInit {
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
   toppings = new FormControl();
+  chooseComp: boolean;
+  _ifUpdate:boolean;
 
   ngOnInit(): void {
     this.manageComplaintForm = this.formBuilder.group({
@@ -176,8 +180,24 @@ export class EmailmanagementComponent implements OnInit {
       Comp_Closing_Date: [Date.now, null],
       Comp_Status: ['', Validators.compose([Validators.required])],
       Related_User: ['', null,]
-    })
-    this.getEmailManagement(this.urlID);
+    });
+
+    //to split the complaint
+    if(this.fakeID == 0 && this.urlID != 0){
+      this._ifUpdate = false;
+      this.chooseComp = false;
+      this.getEmailManagement(this.urlID);
+      //for genrating new complaint 
+    }else if(this.urlID == 0 && this.fakeID == 0){
+      this._ifUpdate = false;
+      this.chooseComp = false;
+      //open the complaints cards
+    }else{
+      this._ifUpdate = true;
+      this.chooseComp = true;
+    }
+
+    this.getRelevantComplaints(this.urlID);
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
@@ -214,11 +234,12 @@ export class EmailmanagementComponent implements OnInit {
       });
   }
 
-  submitComplaint() {
+  submitComplaint(_ifUpdate) {
     if(!this.manageComplaintForm.invalid){
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
+      .post("http://localhost:64964/WebService.asmx/UpdateComplaint", {
         _compToUpdate: this.manageComplaintForm.value,
+        ifUpdate: _ifUpdate
       })
       .subscribe((Response) => {
         this.openSnackBar("!נשמר בהצלחה");
@@ -230,9 +251,20 @@ export class EmailmanagementComponent implements OnInit {
     }
   }
 
-  getEmailManagement(urlID) {
+  getRelevantComplaints(urlID){
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
+      .post("http://localhost:64964/WebService.asmx/GetRelevantComplaints", {
+        _urlID: urlID
+      })
+      .subscribe((Response) => {
+        this.all_complaints_filter = Response["d"];
+      });
+  }
+
+  getEmailManagement(urlID) {
+    this.chooseComp = false;
+    this.http
+      .post("http://localhost:64964/WebService.asmx/Manage_Emails", {
         _compID: urlID
       })
       .subscribe((Response) => {

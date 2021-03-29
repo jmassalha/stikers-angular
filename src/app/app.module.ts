@@ -9,6 +9,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
+import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -66,7 +67,6 @@ import { ConsultationsComponent } from './consultations/consultations.component'
 import { ResearchesusersComponent } from './researchesusers/researchesusers.component';
 import { ResearchesComponent } from './researches/researches.component';
 import { ResearchespatientsComponent } from './researchespatients/researchespatients.component';
-
 import { Sarscov2Component } from './sarscov2/sarscov2.component';
 import { AddpatientcoronaformComponent } from './addpatientcoronaform/addpatientcoronaform.component';
 import { SarsresultsComponent } from './sarsresults/sarsresults.component';
@@ -75,7 +75,6 @@ import { MaternitypatientsComponent } from './maternitypatients/maternitypatient
 import { EmergencycallgroupsComponent } from './emergencycallgroups/emergencycallgroups.component';
 import { EmergencymembersComponent } from './emergencymembers/emergencymembers.component';
 import { EmployeesComponent } from './employees/employees.component';
-
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
 import { FillSurveyComponent } from './fill-survey/fill-survey.component';
 import { FormDashboardComponent } from './form-dashboard/form-dashboard.component';
@@ -186,11 +185,13 @@ const maskConfig: Partial<IConfig> = {
     HttpClientModule,
     MatTooltipModule,
     DataTablesModule,
+    ZXingScannerModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
     MatSlideToggleModule,
     MatFormFieldModule,
     MatSortModule,
+    
     MatTableModule,
     CustomMaterialModule,
     MatButtonModule,     
