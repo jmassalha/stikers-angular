@@ -107,7 +107,7 @@ export class EmailsdashboardComponent implements OnInit {
     }
 
     this.http
-      .post("http://localhost:64964/WebService.asmx/Comp_Emails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
         _compName: compName,
         _compDepartment: departmentControl,
         _compDate: compDateControl,
