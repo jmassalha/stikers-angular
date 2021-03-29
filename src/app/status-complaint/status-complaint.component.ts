@@ -76,7 +76,7 @@ export class StatusComplaintComponent implements OnInit {
 
   getRelevantComplaints(urlID){
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetRelevantComplaints", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
         _urlID: urlID
       })
       .subscribe((Response) => {
@@ -95,7 +95,7 @@ export class StatusComplaintComponent implements OnInit {
     this.messanger.controls['MessageTime'].setValue(messageTime);
     this.messanger.controls['UserName'].setValue(UserName);
     this.http
-      .post("http://localhost:64964/WebService.asmx/ComplaintMessanger", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/ComplaintMessanger", {
         _messageClass: this.messanger.value,
       })
       .subscribe((Response) => {

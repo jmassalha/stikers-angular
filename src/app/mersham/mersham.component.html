@@ -1495,7 +1495,15 @@
                                             appearance="fill"
                                             floatLabel="always"
                                         >
-                                            <mat-select
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            class="form-control"
+                                            formControlName="Solution_VolumeVal"
+                                            step="any"
+                                            type="number"
+                                        />
+                                            <!-- <mat-select
                                                 formControlName="Solution_VolumeVal"
                                                 value="{{
                                                     element.Solution_VolumeVal
@@ -1509,7 +1517,7 @@
                                                 >
                                                     {{ Solution_V.viewValue }}
                                                 </mat-option>
-                                            </mat-select>
+                                            </mat-select> -->
                                         </mat-form-field>
                                     </td>
                                 </ng-container>
@@ -2759,14 +2767,22 @@
                     <div class="form-group">
                         <mat-form-field appearance="fill" floatLabel="always">
                             <mat-label>נפח התמיסה</mat-label>
-                            <mat-select formControlName="Solution_VolumeVal">
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                formControlName="Solution_VolumeVal"
+                                step="any"
+                                type="number"
+                            />
+                            <!-- <mat-select formControlName="Solution_VolumeVal">
                                 <mat-option
                                     *ngFor="let Solution_V of Solution_Volume"
                                     [value]="Solution_V.value"
                                 >
                                     {{ Solution_V.viewValue }}
                                 </mat-option>
-                            </mat-select>
+                            </mat-select> -->
                         </mat-form-field>
                     </div>
                 </div>

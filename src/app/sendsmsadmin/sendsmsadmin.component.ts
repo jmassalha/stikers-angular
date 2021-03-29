@@ -10,7 +10,12 @@ import {
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
-
+import { ConfirmationDialogService } from  "../confirmation-dialog/confirmation-dialog.service";
+export interface Message {
+    ID: number;
+    Title: string;
+    MessageVal: string;
+}
 @Component({
     selector: "app-sendsmsadmin",
     templateUrl: "./sendsmsadmin.component.html",
@@ -22,14 +27,16 @@ export class SendsmsadminComponent implements OnInit {
 
     @Output("parentFun") parentFun: EventEmitter<any> = new EventEmitter();
     sendSmsForm: FormGroup;
+    MessagesTemp: Message[] = [];
     loader: Boolean;
+    emergencyCall: Boolean = false;
     submitted = false;
     smsText: string;
     smsNumbers: string;
     surveyNumber: string;
     toShow: string = "true";
     smsType: string = "SMSOnLineAdmin";
-    textAreaVal: string = localStorage.getItem("textAreaVal");
+    textAreaVal: string = "";
     activeModal: NgbActiveModal;
     constructor(
         private _snackBar: MatSnackBar,
@@ -37,12 +44,19 @@ export class SendsmsadminComponent implements OnInit {
         private http: HttpClient,
         private modalServicematernitypatients: NgbModal,
         private formBuilder: FormBuilder,
+        private confirmationDialogService: ConfirmationDialogService,
         activeModal: NgbActiveModal
     ) {
         this.activeModal = activeModal;
-        if(this.textAreaVal != "" && this.textAreaVal !== null){
+        if(localStorage.getItem("textAreaVal") && localStorage.getItem("textAreaVal") != ""){
             this.smsType = localStorage.getItem("smsType") ;//"SMSMaternity"
+            this.emergencyCall = true;
+            this.GetMessagesTemp();
+            this.textAreaVal = localStorage.getItem("textAreaVal");
+            localStorage.setItem("textAreaVal", "");
+            debugger
         }else{
+            this.emergencyCall = false;
             this.smsType = "SMSOnLineAdmin";
         }
         this.sendSmsForm = this.formBuilder.group({
@@ -79,6 +93,13 @@ export class SendsmsadminComponent implements OnInit {
             ///$("#chadTable").DataTable();
         }
     }
+    SetMessageVal(val){
+        this.sendSmsForm = this.formBuilder.group({
+            smsText: [val, Validators.required],
+            smsNumbers: [this.textAreaVal, Validators.required],
+            surveyNumber: ["0", Validators.required],
+        });
+    }
     openSnackBar() {
         this._snackBar.open("נשלח בהצלחה", "", {
             duration: 2500,
@@ -89,7 +110,17 @@ export class SendsmsadminComponent implements OnInit {
         });
     }
     ngAfterViewInit(): void {}
-
+    public GetMessagesTemp(){
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesTemp", {
+                
+            })
+            .subscribe((Response) => {
+               // debugger
+                this.MessagesTemp = Response["d"];
+               // debugger
+            });
+    }
     public sendSms() {
         ////debugger
         // stop here if form is invalid
@@ -99,11 +130,7 @@ export class SendsmsadminComponent implements OnInit {
         this.submitted = true;
 
         let tableLoader = false;
-        if ($("#loader").hasClass("d-none")) {
-            // //debugger
-            tableLoader = true;
-            $("#loader").removeClass("d-none");
-        }
+        
         var lines = [];
         $.each(this.sendSmsForm.value.smsNumbers.split(/\n/), function(i, line){
             if(line){
@@ -112,8 +139,16 @@ export class SendsmsadminComponent implements OnInit {
         });
     //console.log(lines);
     //return;
-        debugger
-        this.http
+    this.confirmationDialogService.confirm('נא לאשר..', 'האם אתה בטוח ...? ')
+    .then((confirmed) =>{
+        console.log('User confirmed:', confirmed);
+        if(confirmed){
+            if ($("#loader").hasClass("d-none")) {
+                // //debugger
+                tableLoader = true;
+                $("#loader").removeClass("d-none");
+            }
+            this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
                 smsText: this.sendSmsForm.value.smsText,
                 smsNumbers: this.sendSmsForm.value.smsNumbers,
@@ -129,7 +164,7 @@ export class SendsmsadminComponent implements OnInit {
                 });
                 localStorage.setItem("textAreaVal", "");
                 
-                 this.parentFun.emit();
+                this.parentFun.emit();
                 setTimeout(function () {
                     ////debugger
                     if (tableLoader) {
@@ -137,5 +172,12 @@ export class SendsmsadminComponent implements OnInit {
                     }
                 });
             });
+        }else{
+
+        }
+        
+    } )
+    .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+       
     }
 }

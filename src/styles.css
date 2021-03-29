@@ -12,6 +12,15 @@ footer {
     position: absolute;
     right: -35px;
 }
+.modal-dialog.modal-sm{
+    max-width: 300px;
+}
+.d-block.fade.modal.show{
+    display: flex !important;
+    width: 100%;
+    float: right;
+    background: rgba(0, 0, 0, 0.8);
+}
 .form-amen .mat-checkbox-layout,
 .form-amen .mat-checkbox{
     display: block;

@@ -192,6 +192,15 @@
     </div>
 </div>
 <button
+type="button"
+id="GroupSmsBtn"
+(click)="openSmsTo(SendSmsToModal, 'Group', '')"
+mat-fab
+color="primary"
+>
+<i class="material-icons">textsms</i>
+</button>
+<button
     type="button"
     id="GroupBtn"
     (click)="open(GroupModal, 'Group', '')"
@@ -200,6 +209,66 @@
 >
     <i class="material-icons">add</i>
 </button>
+
+<ng-template #SendSmsToModal let-modal>
+    <form
+        dir="rtl"
+        id="GroupFormID"
+        class="form col"
+        [formGroup]="GroupSmsToForm"
+        (ngSubmit)="onSubmitSmsTo()"
+    >
+        <div class="modal-header text-right">
+            <h4 class="modal-title text-center">
+                שליחת הודעה 
+                
+            </h4>
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body text-right" dir="rtl">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group"> 
+                                              
+                        <mat-label>שליחת הודעה לפי: </mat-label>
+                        <mat-radio-group (change)="radioChange($event)" formControlName="GroupSmsTo">
+                            <mat-radio-button value="">לא נבחר</mat-radio-button>&nbsp;
+                            <mat-radio-button value="1">כלל בית חולים</mat-radio-button>&nbsp;
+                            <mat-radio-button value="2">סקטור</mat-radio-button>&nbsp;
+                            <mat-radio-button value="3">מחלקות</mat-radio-button>
+                        </mat-radio-group>                       
+                    </div>
+                </div>
+                
+                <div  *ngIf="NotAllOrNull" class="col">
+                    <div class="form-group"> 
+                        <mat-form-field appearance="fill">     
+                            <mat-label>בחר סקטור או מחלקה: </mat-label>
+                            <mat-select formControlName="GroupSms">
+                                <mat-option [value]="-1">לא נבחר סקטור או מחלקה</mat-option>
+                                <mat-option *ngFor="let Group of Groups" [value]="Group.value">
+                                    {{Group.value}}
+                                </mat-option>
+                            </mat-select>    
+                        </mat-form-field>                                    
+                    </div>
+                </div>
+               
+            </div>
+        </div>
+        <div class="modal-footer text-left">
+            <button type="submit" class="btn btn-outline-dark">שלח הודעה</button>
+        </div>
+    </form>
+</ng-template>
+
 <ng-template #GroupModal let-modal>
     <form
         dir="rtl"
