@@ -8,7 +8,7 @@
             <input formControlName="FormName" matInput placeholder="שם שאלון" maxlength="50" [required]="true">
           </mat-form-field>
         </div>
-        <div class="col-4">
+        <div class="col-4" *ngIf="surveyForm.controls['GeneralForm'].value == '0'">
           <mat-form-field appearance="fill">
             <mat-label>מחלקות</mat-label>
             <mat-select formControlName="FormDepartmentID">
@@ -28,6 +28,14 @@
         <section class="example-section">
           <mat-radio-group>
             <mat-checkbox class="list-title m-3 text-center" formControlName="isCaseNumber">עם מספר מקרה?
+            </mat-checkbox>
+          </mat-radio-group>
+        </section>
+      </div>
+      <div class="col">
+        <section class="example-section">
+          <mat-radio-group>
+            <mat-checkbox class="list-title m-3 text-center" formControlName="GeneralForm">טופס כללי?
             </mat-checkbox>
           </mat-radio-group>
         </section>

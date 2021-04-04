@@ -3,7 +3,7 @@ import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@ang
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { FillSurveyComponent } from '../fill-survey/fill-survey.component';
-import {MatDialog} from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 
 @Component({
   selector: 'app-form-dashboard',
@@ -12,8 +12,12 @@ import {MatDialog} from '@angular/material/dialog';
 })
 export class FormDashboardComponent implements OnInit {
 
+
   all_forms_filter = [];
+  all_forms_filter_general = [];
+  all_forms_filter_not_general = [];
   formSearch: FormGroup;
+  chooseForm: FormGroup;
 
   constructor(
     public dialog: MatDialog,
@@ -23,7 +27,10 @@ export class FormDashboardComponent implements OnInit {
 
   ngOnInit(): void {
     this.formSearch = new FormGroup({
-      'departmentControl': new FormControl('', null)
+      'formNameControl': new FormControl('', null)
+    });
+    this.chooseForm = new FormGroup({
+      'SwitchForms': new FormControl('1', null)
     });
     this.getAllForms();
   }
@@ -34,16 +41,25 @@ export class FormDashboardComponent implements OnInit {
   }
 
   getAllForms() {
-    let departmentControl = this.formSearch.controls['departmentControl'].value;
+    let formNameControl = this.formSearch.controls['formNameControl'].value;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
-        _departmentControl: departmentControl
+        _formNameControl: formNameControl
       })
       .subscribe((Response) => {
-
+        this.all_forms_filter = [];
+        this.all_forms_filter_general = [];
+        this.all_forms_filter_not_general = [];
         this.all_forms_filter = Response["d"];
-
+        this.all_forms_filter.forEach(element => {
+          if (element.GeneralForm == "0") {
+            this.all_forms_filter_not_general.push(element);
+          } else {
+            this.all_forms_filter_general.push(element);
+          }
+        });
       });
+
   }
 
 }

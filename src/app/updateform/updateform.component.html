@@ -43,7 +43,7 @@
         <!-- Position Column -->
         <ng-container matColumnDef="FormID">
             <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מס' שאלון
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מס' טופס
             </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FormID}} </mat-cell>
         </ng-container>
@@ -51,7 +51,7 @@
         <!-- Name Column -->
         <ng-container matColumnDef="FormName">
             <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם שאלון
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם טופס
             </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FormName}} </mat-cell>
         </ng-container>
@@ -67,14 +67,14 @@
         <ng-container matColumnDef="FormDate">
             <mat-header-cell *matHeaderCellDef
                 style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך יצירת
-                שאלון </mat-header-cell>
+                הטופס </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FormDate}} </mat-cell>
         </ng-container>
 
         <!-- Update Column -->
         <ng-container matColumnDef="update">
             <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> עדכון שאלון
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> עדכון טופס
             </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                     color="accent" (click)="openDialogToUpdate(element.FormID)"><span class="material-icons">
@@ -85,7 +85,7 @@
         <!-- Update Column -->
         <ng-container matColumnDef="showAll">
             <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הצגת שאלונים
+                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הצגת טופס
             </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                     color="primary" (click)="openDialogToAnsweredForms(element.FormID)"><span class="material-icons">

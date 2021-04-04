@@ -11,30 +11,60 @@
                                 <div class="col-12">
                                     <div class="form-group">
                                         <mat-form-field>
-                                            <input matInput formControlName="departmentControl" autocomplete="off" placeholder="חפש לפי שם מחלקה" name="fliterVal" />
+                                            <input matInput formControlName="formNameControl" autocomplete="off"
+                                                placeholder="חפש לפי שם טופס" name="fliterVal" />
                                         </mat-form-field>
                                     </div>
                                 </div>
                             </div>
-                            <button mat-raised-button type="submit" (click)="getAllForms()" class="btn btn-primary btn-raised">
+                            <button mat-raised-button type="submit" (click)="getAllForms()"
+                                class="btn btn-primary btn-raised">
                                 <span class="material-icons">
                                     search
-                                    </span>
+                                </span>
                             </button>
                         </form>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row mt-2">
+            <form class="form" [formGroup]="chooseForm">
+                <mat-radio-group aria-label="Select an option" formControlName="SwitchForms">
+                    <mat-radio-button value="0">טפסים כלליים</mat-radio-button>
+                    <mat-radio-button value="1">טפסים מחלקתיים</mat-radio-button>
+                    <mat-radio-button value="2">הכל</mat-radio-button>
+                </mat-radio-group>
+            </form>
+        </div>
     </div><br><br>
 
 
 
-    <div class="survey-options">
+    <div class="survey-options" *ngIf="chooseForm.controls['SwitchForms'].value == '1' || chooseForm.controls['SwitchForms'].value == '2'">
+        <div style="font-size: 20px; background-color: rgb(235, 231, 231);display: flex;padding-right: 3px;">
+            <div>טפסים מחלקתיים</div>
+        </div>
         <div class="poll-options">
             <div class="row">
-                <div class="col-3" *ngFor="let item of all_forms_filter" (click)="openDialogToFill(item.FormID)">
-                    <mat-card class="card m-2 text-center">
+                <div class="col-3" *ngFor="let item of all_forms_filter_not_general" (click)="openDialogToFill(item.FormID)">
+                    <mat-card class="card m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
+                        <img src="assets/images/mersham-logo.png">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormDepartment}}</div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="survey-options" *ngIf="chooseForm.controls['SwitchForms'].value == '0' || chooseForm.controls['SwitchForms'].value == '2'">
+        <div style="font-size: 20px; background-color: rgb(235, 231, 231);display: flex;padding-right: 3px;">
+            <div>טפסים כלליים</div>
+        </div>
+        <div class="poll-options">
+            <div class="row">
+                <div class="col-3" *ngFor="let item of all_forms_filter_general" (click)="openDialogToFill(item.FormID)">
+                    <mat-card class="card m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
                         <img src="assets/images/mersham-logo.png">
                         <div class="list-style text-center" style="font-size: 15px;">{{item.FormDepartment}}</div>

@@ -65,7 +65,7 @@ export class StatusComplaintComponent implements OnInit {
 
   deleteMessage(messageID,ComplaintID){
       this.http
-        .post("http://localhost:64964/WebService.asmx/DeleteMessage", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/DeleteMessage", {
           _messageID: messageID
         })
         .subscribe((Response) => {

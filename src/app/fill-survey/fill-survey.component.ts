@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, VERSION } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Input,AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder, AbstractControl } from '@angular/forms';
-import { Router, ParamMap, ActivatedRoute } from "@angular/router";
-import { Survey, Question, Option } from './data-models';
+import { Router, ActivatedRoute } from "@angular/router";
+import { Survey } from './data-models';
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, fromEvent } from 'rxjs';
 import { Result } from '@zxing/library';
 import {
   MatSnackBar,
@@ -13,6 +13,7 @@ import {
 import { MatDialog } from '@angular/material/dialog';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { BarcodeFormat } from '@zxing/library';
+import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 export class PersonalDetails {
   FirstName: string;
   LastName: string;
@@ -22,7 +23,6 @@ export class PersonalDetails {
   PhoneNumber: string;
   Email: string;
   Address: string;
-
 }
 export class CheckBoxAnswers {
   QId: number;
@@ -58,16 +58,6 @@ export class FillSurveyComponent implements OnInit {
   torchAvailable$ = new BehaviorSubject<boolean>(false);
   tryHarder = false;
 
-  // ngVersion = VERSION.full;
-
-  // @ViewChild('scanner') scanner: ZXingScannerComponent;
-  // hasDevices: boolean;
-  // hasPermission: boolean;
-  // qrResultString: string;
-  // qrResult: Result;
-  // availableDevices: MediaDeviceInfo[];
-  // currentDevice: MediaDeviceInfo;
-
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -91,6 +81,7 @@ export class FillSurveyComponent implements OnInit {
   _optionArr = [];
   surveyAnswersItem = [];
   maxDate = Date.now();
+  canvasEl: HTMLCanvasElement
 
   constructor(
     public dialog: MatDialog,
@@ -102,55 +93,152 @@ export class FillSurveyComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private readonly _dialog: MatDialog
   ) { }
+  
+  @ViewChild('canvas') public canvas: ElementRef; 
 
+  @Input() public width = 200;
+  @Input() public height = 100;
 
-  clearResult(): void {
-    this.qrResultString = null;
+  private cx: CanvasRenderingContext2D;
+
+  public ngAfterViewInit() {
+    this.canvasEl = this.canvas.nativeElement;
+    this.cx = this.canvasEl.getContext('2d');
+
+    this.canvasEl.width = this.width;
+    this.canvasEl.height = this.height;
+
+    this.cx.lineWidth = 3;
+    this.cx.lineCap = 'round';
+    this.cx.strokeStyle = '#000';
+
+    this.captureEvents(this.canvasEl);
+  }
+  
+  private captureEvents(canvasEl: HTMLCanvasElement) {
+    // this will capture all mousedown events from the canvas element
+    fromEvent(canvasEl, 'mousedown')
+      .pipe(
+        switchMap((e) => {
+          // after a mouse down, we'll record all mouse moves
+          return fromEvent(canvasEl, 'mousemove')
+            .pipe(
+              // we'll stop (and unsubscribe) once the user releases the mouse
+              // this will trigger a 'mouseup' event    
+              takeUntil(fromEvent(canvasEl, 'mouseup')),
+              // we'll also stop (and unsubscribe) once the mouse leaves the canvas (mouseleave event)
+              takeUntil(fromEvent(canvasEl, 'mouseleave')),
+              // pairwise lets us get the previous value to draw a line from
+              // the previous point to the current point    
+              pairwise()
+            )
+        })
+      )
+      .subscribe((res: [MouseEvent, MouseEvent]) => {
+        const rect = canvasEl.getBoundingClientRect();
+  
+        // previous and current position with the offset
+        const prevPos = {
+          x: res[0].clientX - rect.left,
+          y: res[0].clientY - rect.top
+        };
+  
+        const currentPos = {
+          x: res[1].clientX - rect.left,
+          y: res[1].clientY - rect.top
+        };
+  
+        // this method we'll implement soon to do the actual drawing
+        this.drawOnCanvas(prevPos, currentPos);
+      });
+      fromEvent(canvasEl, 'touchstart').pipe(switchMap(() => {
+        return fromEvent(canvasEl, 'touchmove').pipe(
+          takeUntil(fromEvent(canvasEl, 'touchend')),
+          takeUntil(fromEvent(canvasEl, 'touchcancel')),
+          pairwise()
+        );
+      })).subscribe((res: [TouchEvent, TouchEvent]) => {
+        const rect = canvasEl.getBoundingClientRect();
+
+        const prevPos = {
+          x: res[0].touches[0].clientX - rect.left,
+          y: res[0].touches[0].clientY - rect.top
+        };
+        res[0].preventDefault();
+        res[0].stopImmediatePropagation();
+
+        const currentPos = {
+          x: res[1].touches[0].clientX - rect.left,
+          y: res[1].touches[0].clientY - rect.top
+        };
+        res[1].preventDefault();
+        res[1].stopImmediatePropagation();
+
+        this.drawOnCanvas(prevPos, currentPos);
+      });
   }
 
-  onCamerasFound(devices: MediaDeviceInfo[]): void {
-    this.availableDevices = devices;
-    this.hasDevices = Boolean(devices && devices.length);
+  private drawOnCanvas(prevPos: { x: number, y: number }, currentPos: { x: number, y: number }) {
+    if (!this.cx) { return; }
+
+    this.cx.beginPath();
+
+    if (prevPos) {
+      this.cx.moveTo(prevPos.x, prevPos.y);
+      this.cx.lineTo(currentPos.x, currentPos.y);
+      this.cx.stroke();
+    }
   }
 
-  onCodeResult(resultString: string) {
-    this.qrResultString = resultString;
-    console.log(resultString);
-    this.caseNumberForm.controls['CaseNumber'].setValue(resultString);
-    this.searchCaseNumber();
-  }
+//this comment is for the BarCode Scanner ** temporarly unavailable
 
-  onDeviceSelectChange(selected: string) {
-    const selectedStr = selected || '';
-    if (this.deviceSelected === selectedStr) { return; }
-    this.deviceSelected = selectedStr;
-    const device = this.availableDevices.find(x => x.deviceId === selected);
-    this.deviceCurrent = device || undefined;
-  }
+  // clearResult(): void {
+  //   this.qrResultString = null;
+  // }
 
-  onDeviceChange(device: MediaDeviceInfo) {
-    const selectedStr = device?.deviceId || '';
-    if (this.deviceSelected === selectedStr) { return; }
-    this.deviceSelected = selectedStr;
-    this.deviceCurrent = device || undefined;
-  }
+  // onCamerasFound(devices: MediaDeviceInfo[]): void {
+  //   this.availableDevices = devices;
+  //   this.hasDevices = Boolean(devices && devices.length);
+  // }
+
+  // onCodeResult(resultString: string) {
+  //   this.qrResultString = resultString;
+  //   console.log(resultString);
+  //   this.caseNumberForm.controls['CaseNumber'].setValue(resultString);
+  //   this.searchCaseNumber();
+  // }
+
+  // onDeviceSelectChange(selected: string) {
+  //   const selectedStr = selected || '';
+  //   if (this.deviceSelected === selectedStr) { return; }
+  //   this.deviceSelected = selectedStr;
+  //   const device = this.availableDevices.find(x => x.deviceId === selected);
+  //   this.deviceCurrent = device || undefined;
+  // }
+
+  // onDeviceChange(device: MediaDeviceInfo) {
+  //   const selectedStr = device?.deviceId || '';
+  //   if (this.deviceSelected === selectedStr) { return; }
+  //   this.deviceSelected = selectedStr;
+  //   this.deviceCurrent = device || undefined;
+  // }
 
 
-  onHasPermission(has: boolean) {
-    this.hasPermission = has;
-  }
+  // onHasPermission(has: boolean) {
+  //   this.hasPermission = has;
+  // }
 
-  onTorchCompatible(isCompatible: boolean): void {
-    this.torchAvailable$.next(isCompatible || false);
-  }
+  // onTorchCompatible(isCompatible: boolean): void {
+  //   this.torchAvailable$.next(isCompatible || false);
+  // }
 
-  toggleTorch(): void {
-    this.torchEnabled = !this.torchEnabled;
-  }
+  // toggleTorch(): void {
+  //   this.torchEnabled = !this.torchEnabled;
+  // }
 
-  toggleTryHarder(): void {
-    this.tryHarder = !this.tryHarder;
-  }
+  // toggleTryHarder(): void {
+  //   this.tryHarder = !this.tryHarder;
+  // }
 
   ChekBoxQ: CheckBoxAnswers[];
   surveyAnswers: FormArray = this.formBuilder.array([]);
@@ -200,11 +288,14 @@ export class FillSurveyComponent implements OnInit {
 
   fillForm() {
     let FormID = this._formID;
-    let formData = this.surveyForm.value;
+    let formData = this.surveyForm.getRawValue();
     let Answers = [];
+    let nurseInCharge = localStorage.getItem("loginUserName").toLowerCase();
+    let nurseInChargeDepartment = localStorage.getItem("Depart").toLowerCase();
+    let Signature = this.canvasEl.toDataURL();
     let surveyAnswers = formData.Answers;
     let CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
-    var survey = new Survey(FormID, CaseNumber, Answers);
+    var survey = new Survey(FormID, CaseNumber,nurseInCharge,nurseInChargeDepartment,Signature, Answers);
 
     surveyAnswers.forEach((answer, index, array) => {
       this.ChekBoxQ.forEach(i => {
@@ -224,34 +315,36 @@ export class FillSurveyComponent implements OnInit {
       survey.FormAnswers.push(AnswerItem);
 
     });
-
-
-    if (!this.surveyForm.invalid) {
-      this.http
-        .post("http://localhost:64964/WebService.asmx/answerForm", {
-          _answerValues: survey,
-        })
-        .subscribe((Response) => {
-          this.openSnackBar("!נשמר בהצלחה");
-        });
-      this.dialog.closeAll();
-      this.router.navigate(['formdashboard']);
-    } else {
-      const invalid = [];
-      const controls = this.surveyForm.controls['Answers']['controls'];
-      let counter = 1;
-      for (const name in controls) {
-        if (controls[name].invalid) {
-          invalid.push(counter);
+    if(Signature == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABkCAYAAADDhn8LAAACnklEQVR4Xu3VsRHAMAzEsHj/pTOBXbB9pFchyLycz0eAwFXgsCFA4C4gEK+DwENAIJ4HAYF4AwSagD9IczM1IiCQkUNbswkIpLmZGhEQyMihrdkEBNLcTI0ICGTk0NZsAgJpbqZGBAQycmhrNgGBNDdTIwICGTm0NZuAQJqbqREBgYwc2ppNQCDNzdSIgEBGDm3NJiCQ5mZqREAgI4e2ZhMQSHMzNSIgkJFDW7MJCKS5mRoREMjIoa3ZBATS3EyNCAhk5NDWbAICaW6mRgQEMnJoazYBgTQ3UyMCAhk5tDWbgECam6kRAYGMHNqaTUAgzc3UiIBARg5tzSYgkOZmakRAICOHtmYTEEhzMzUiIJCRQ1uzCQikuZkaERDIyKGt2QQE0txMjQgIZOTQ1mwCAmlupkYEBDJyaGs2AYE0N1MjAgIZObQ1m4BAmpupEQGBjBzamk1AIM3N1IiAQEYObc0mIJDmZmpEQCAjh7ZmExBIczM1IiCQkUNbswkIpLmZGhEQyMihrdkEBNLcTI0ICGTk0NZsAgJpbqZGBAQycmhrNgGBNDdTIwICGTm0NZuAQJqbqREBgYwc2ppNQCDNzdSIgEBGDm3NJiCQ5mZqREAgI4e2ZhMQSHMzNSIgkJFDW7MJCKS5mRoREMjIoa3ZBATS3EyNCAhk5NDWbAICaW6mRgQEMnJoazYBgTQ3UyMCAhk5tDWbgECam6kRAYGMHNqaTUAgzc3UiIBARg5tzSYgkOZmakRAICOHtmYTEEhzMzUiIJCRQ1uzCQikuZkaERDIyKGt2QQE0txMjQgIZOTQ1mwCAmlupkYEBDJyaGs2AYE0N1MjAgIZObQ1m4BAmpupEQGBjBzamk1AIM3N1IiAQEYObc0mIJDmZmpE4Af1gABlH0hlGgAAAABJRU5ErkJggg=="){
+      this.openSnackBar("נא לחתום על הטופס");
+    }else{
+      if (!this.surveyForm.invalid) {
+        this.http
+          .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+            _answerValues: survey,
+          })
+          .subscribe((Response) => {
+            this.openSnackBar("!נשמר בהצלחה");
+          });
+        this.dialog.closeAll();
+        this.router.navigate(['formdashboard']);
+      } else {
+        const invalid = [];
+        const controls = this.surveyForm.controls['Answers']['controls'];
+        let counter = 1;
+        for (const name in controls) {
+          if (controls[name].invalid) {
+            invalid.push(counter);
+          }
+          counter = counter + 1;
         }
-        counter = counter + 1;
+        this.openSnackBar("!שאלה מספר" + invalid[0] + " לא תקינה ");
       }
-      this.openSnackBar("!שאלה מספר" + invalid[0] + " לא תקינה ");
     }
   }
 
 
-
+// how to identify the specific form to update if there is no case number **maybe special number for the specefic form?
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.withCaseNumber = false;
@@ -261,6 +354,7 @@ export class FillSurveyComponent implements OnInit {
       })
       .subscribe((Response) => {
         // ***** 30910740
+        // ***** 0010739355
         this.mPersonalDetails = Response["d"];
         this.getForm(this.urlID);
         this.selectedSubCheckbox = new Array<any>();
@@ -270,7 +364,7 @@ export class FillSurveyComponent implements OnInit {
 
   getForm(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetForm", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -288,12 +382,12 @@ export class FillSurveyComponent implements OnInit {
           this.getOption(this.urlID);
         }
       });
-
+      this.ngAfterViewInit();
   }
 
   getQuestion(urlID, personalDetails) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetQuestion", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
         isCaseNumber: this.isCaseNumber
       })
@@ -303,8 +397,9 @@ export class FillSurveyComponent implements OnInit {
         var that = this;
         this.ChekBoxQ = new Array<CheckBoxAnswers>();
         this.filter_question_response.forEach(element => {
-
-          this._questionArr.push(element);
+          if(element.QuestionValue != "חתימה"){
+            this._questionArr.push(element);
+          
 
           var surveyAnswersItem;
           if (element.QuestionIsRequired == "False") {
@@ -330,7 +425,7 @@ export class FillSurveyComponent implements OnInit {
               }
               else if (element.QuestionType == "Email" && element.QuestionValue == "כתובת מייל") {
                 surveyAnswersItem = this.formBuilder.group({
-                  answerContent: [personalDetails.Email, Validators.compose([Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$'), Validators.required])],
+                  answerContent: [personalDetails.Email, Validators.compose([Validators.pattern('^[a-z0-9._%+-]+@[a-z0-9.-]+\\.[a-z]{2,4}$')])],
                 });
               }
               else if (element.QuestionType == "Text" && element.QuestionValue == "שם פרטי") {
@@ -382,6 +477,7 @@ export class FillSurveyComponent implements OnInit {
 
           }
           this.surveyAnswers.push(surveyAnswersItem);
+        }
         });
         this.updateView();
         this.surveyForm = this.formBuilder.group({
@@ -399,7 +495,7 @@ export class FillSurveyComponent implements OnInit {
 
   getOption(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetOption", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
         optionsFormID: urlID,
       })
       .subscribe((Response) => {
@@ -413,6 +509,10 @@ export class FillSurveyComponent implements OnInit {
 
   onSubmit() {
     this.fillForm();
+    // var link = document.createElement('a');
+    // link.download = 'download.png';
+    // link.href = this.canvasEl.toDataURL();
+    // link.click();
   }
 
 }

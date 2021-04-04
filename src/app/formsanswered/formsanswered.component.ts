@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { UpdatesingleformComponent } from '../updatesingleform/updatesingleform.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import { DomSanitizer } from '@angular/platform-browser';
 
 export interface Patient {
   FormID: string;
@@ -19,6 +20,8 @@ export interface Patient {
   PatientBirthday: string;
   PatientAddress: string;
   FormName: string;
+  isCaseNumber: string;
+  Signature: any;
   Questions: string[];
 }
 
@@ -33,13 +36,6 @@ export interface Questions {
   selector: 'app-formsanswered',
   templateUrl: './formsanswered.component.html',
   styleUrls: ['./formsanswered.component.css'],
-  animations: [
-    trigger('detailExpand', [
-      state('collapsed', style({ height: '0px', minHeight: '0' })),
-      state('expanded', style({ height: '*' })),
-      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
-    ]),
-  ],
 })
 export class FormsansweredComponent implements OnInit {
 
@@ -59,9 +55,11 @@ export class FormsansweredComponent implements OnInit {
   all_package_filter = [];
   department = [];
 
-  formSearch: FormGroup;
+  formSearchPatient: FormGroup;
+  formSearchEmployee: FormGroup;
   formPrint: FormGroup;
   urlID: number;
+  isCaseNumber: string;
 
   TABLE_DATA: Patient[] = [];
   TABLE_DATA2: Questions[] = [];
@@ -78,20 +76,23 @@ export class FormsansweredComponent implements OnInit {
     public dialog: MatDialog,
     private router: Router,
     private http: HttpClient,
-    private fb: FormBuilder) { }
+    private fb: FormBuilder,
+    private _sanitizer: DomSanitizer) { }
 
 
   ngOnInit(): void {
-
-    this.formSearch = new FormGroup({
+    this.formSearchPatient = new FormGroup({
       'caseNumber': new FormControl('', null),
-      'departmentControl': new FormControl('', null)
+      'personalPassport': new FormControl('', null),
+    });
+    this.formSearchEmployee = new FormGroup({
+      'EmployeeName': new FormControl('', null),
+      'EmployeeDepartment': new FormControl('', null),
     });
     this.formPrint = new FormGroup({
       'question': new FormControl('', null),
     })
     this.searchForm();
-
   }
 
   openDialogToUpdate(id) {
@@ -101,7 +102,6 @@ export class FormsansweredComponent implements OnInit {
 
   public printRowForm(row): void {
     this.rowFormData = row;
-
     this.formPrint = this.fb.group({
       question: [this.rowFormData.Questions, null],
     });
@@ -113,21 +113,30 @@ export class FormsansweredComponent implements OnInit {
     }, 1500);
   }
 
-
+// needs employees in charge table to show when the form is without case number 
   searchForm() {
-    let caseNumber = this.formSearch.controls['caseNumber'].value;
+    let caseNumber = this.formSearchPatient.controls['caseNumber'].value;
+    let personalPassport = this.formSearchPatient.controls['personalPassport'].value;
     let FormID = this.urlID;
     if (caseNumber == undefined) {
       caseNumber = null;
+    }
+    if(personalPassport == undefined || personalPassport == null){
+      personalPassport ="";
     }
     
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
         _formID: FormID,
-        _caseNumber: caseNumber
+        _caseNumber: caseNumber,
+        _personalPassport: personalPassport,
       })
       .subscribe((Response) => {
         this.all_forms_filter = Response["d"];
+        this.isCaseNumber = '3';
+        if(this.all_forms_filter[0]){
+          this.isCaseNumber = this.all_forms_filter[0].isCaseNumber;
+        }
 
         this.TABLE_DATA = [];
 
@@ -143,6 +152,8 @@ export class FormsansweredComponent implements OnInit {
             PatientGender: this.all_forms_filter[i].PersonalGender,
             PatientAddress: this.all_forms_filter[i].PersonalAddress,
             FormName: this.all_forms_filter[i].FormName,
+            isCaseNumber: this.all_forms_filter[i].isCaseNumber,
+            Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature),
             Questions: this.all_forms_filter[i].PersonAnswers,
           });
         }
@@ -150,5 +161,6 @@ export class FormsansweredComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
   }
-
+//this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature 
+//+ toReturnImage.base64string);
 }
