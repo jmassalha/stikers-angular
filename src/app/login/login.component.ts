@@ -37,8 +37,11 @@ export class LoginComponent implements OnInit {
                     response => {
                         //debugger;
                         $("#loader").addClass("d-none");
-                        if (response["d"] == "true") {
+                        var arrRes = (response["d"]).split(' -');
+                        debugger
+                        if (arrRes[0].replace('"','') == "TRUE") {
                             localStorage.setItem("loginState", "true");
+                            localStorage.setItem("Depart", arrRes[1].trim().replace('"',''));
                             localStorage.setItem(
                                 "loginUserName",
                                 this.username
