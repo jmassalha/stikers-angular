@@ -15,7 +15,7 @@ footer {
 .modal-dialog.modal-sm{
     max-width: 300px;
 }
-.d-block.fade.modal.show{
+.d-block.fade.modal.show:not(.d-block.fade.modal.show.width-1010){
     display: flex !important;
     width: 100%;
     float: right;
@@ -1331,7 +1331,7 @@ input::-webkit-inner-spin-button {
 }
 .mat-form-field .mat-select.has-error,
 .mat-form-field .mat-select.mat-select-invalid {
-    border: 1px solid red;
+    border: 0px solid red;
 }
 .mat-select{
     overflow: hidden;
