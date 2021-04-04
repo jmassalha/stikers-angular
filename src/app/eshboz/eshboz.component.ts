@@ -404,7 +404,7 @@ export class EshbozComponent implements OnInit {
         ////debugger
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-ipracticom:8080/WebService.asmx/GetEshbozemApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetEshbozemApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
