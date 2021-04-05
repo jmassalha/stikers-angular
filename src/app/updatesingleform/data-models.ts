@@ -4,6 +4,7 @@ export class Survey{
         public FormName: string,
         public FormDepartment: string,
         public isCaseNumber: string,
+        public UserDepart: string,
         public GeneralForm: string,
         public FormDepartmentID: string,
         public FormCreatorName: string,

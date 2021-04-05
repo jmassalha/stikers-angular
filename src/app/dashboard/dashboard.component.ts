@@ -61,7 +61,7 @@ export class DashboardComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/TfosaDashBoardApp",
+                "http://srv-apps/wsrfc/WebService.asmx//TfosaDashBoardApp",
                 {
                     _depart: _Depart,
                 }

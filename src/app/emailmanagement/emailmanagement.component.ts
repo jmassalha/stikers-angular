@@ -221,7 +221,7 @@ export class EmailmanagementComponent implements OnInit {
   shareComplaintWithOthers(){
 
       this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//AttachCompToUser", {
         userId: this.myControl.value,
         compId: this.complainID,
       })
@@ -237,7 +237,7 @@ export class EmailmanagementComponent implements OnInit {
   submitComplaint(_ifUpdate) {
     if(!this.manageComplaintForm.invalid){
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//UpdateComplaint", {
         _compToUpdate: this.manageComplaintForm.value,
         ifUpdate: _ifUpdate
       })
@@ -253,7 +253,7 @@ export class EmailmanagementComponent implements OnInit {
 
   getRelevantComplaints(urlID){
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetRelevantComplaints", {
         _urlID: urlID
       })
       .subscribe((Response) => {
@@ -264,7 +264,7 @@ export class EmailmanagementComponent implements OnInit {
   getEmailManagement(urlID) {
     this.chooseComp = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//Manage_Emails", {
         _compID: urlID
       })
       .subscribe((Response) => {
@@ -300,7 +300,7 @@ export class EmailmanagementComponent implements OnInit {
       
 
       this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetFormsDeparts", {
 
       })
       .subscribe((Response) => {
@@ -312,7 +312,7 @@ export class EmailmanagementComponent implements OnInit {
       });
 
       this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetUsersForInquiries", {
 
       })
       .subscribe((Response) => {

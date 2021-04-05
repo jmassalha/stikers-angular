@@ -217,7 +217,8 @@ export class UpdatesingleformComponent implements OnInit {
     let Questions = [];
     let surveyQuestions = formData.surveyQuestions;
     let FormCreatorName = localStorage.getItem("loginUserName").toLowerCase();
-    var survey = new Survey(FormID, FormName, FormDepartment,isCaseNumber,GeneralForm, FormDepartmentID,FormCreatorName, Questions);
+    let UserDepart = localStorage.getItem("Depart").toLowerCase();
+    var survey = new Survey(FormID, FormName, FormDepartment,isCaseNumber,UserDepart,GeneralForm, FormDepartmentID,FormCreatorName, Questions);
 
     surveyQuestions.forEach((question, index, array) => {
 
@@ -258,14 +259,14 @@ export class UpdatesingleformComponent implements OnInit {
     if (!this.surveyForm.invalid) {
       if (this.urlID === 0) {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/Forms", {
+          .post("http://srv-apps/wsrfc/WebService.asmx//Forms", {
             _FormValues: survey,
           })
           .subscribe((Response) => {
           });
       } else {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/UpdateForm", {
+          .post("http://srv-apps/wsrfc/WebService.asmx//UpdateForm", {
             updateFormValues: survey, 
           })
           .subscribe((Response) => {
@@ -286,7 +287,7 @@ export class UpdatesingleformComponent implements OnInit {
 
   getFormData(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormData", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetFormData", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -333,7 +334,7 @@ export class UpdatesingleformComponent implements OnInit {
       });
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetFormsDeparts", {
 
       })
       .subscribe((Response) => {

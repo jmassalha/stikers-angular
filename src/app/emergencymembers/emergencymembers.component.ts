@@ -147,7 +147,7 @@ export class EmergencymembersComponent implements OnInit {
       //debugger;
       this.http
           .post(
-              "http://srv-apps/wsrfc/WebService.asmx/RemoveMemberFromGroup",
+              "http://srv-apps/wsrfc/WebService.asmx//RemoveMemberFromGroup",
               {
                 MemberId: this.removeMemberForm.value.EmployeeID,
                 GroupId: this.removeMemberForm.value.GroupId,
@@ -220,10 +220,10 @@ export class EmergencymembersComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         //debugger
-        //http://srv-apps/wsrfc/WebService.asmx
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetGroupEmployeesMember",
+                "http://srv-apps/wsrfc/WebService.asmx//GetGroupEmployeesMember",
                 {
                     _FreeText: _FreeText,
                     _GroupID: this.GroupID,

@@ -137,7 +137,7 @@ export class RolesComponent implements OnInit {
         this.rowElement.R_ROW_ID = this.rolesForm.value.rowIdVal;
        // //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaRoles", {
+            .post("http://srv-apps/wsrfc/WebService.asmx//PoriaRoles", {
                 _roleName: this.rolesForm.value.fullnameVal,
                 _roleStatus: 1,
                 _rowId: this.rolesForm.value.rowIdVal,
@@ -267,7 +267,7 @@ export class RolesComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaRoles", {
+            .post("http://srv-apps/wsrfc/WebService.asmx//GetPoriaRoles", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _FreeText: _FreeText,

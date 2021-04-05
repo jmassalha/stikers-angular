@@ -201,7 +201,7 @@ export class CoronaresultformComponent implements OnInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/RunGetLastRequestResult",
+                "http://srv-apps/wsrfc/WebService.asmx//RunGetLastRequestResult",
                 {
                     _ID: _ID,
                 }

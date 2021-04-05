@@ -39,7 +39,7 @@ export class HeaderComponent implements OnInit {
     getPermission() {
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/getResearchPermission",
+                "http://srv-apps/wsrfc/WebService.asmx//getResearchPermission",
                 {
                     _UserName: localStorage.getItem("loginUserName"),
                 }

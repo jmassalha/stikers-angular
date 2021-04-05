@@ -171,7 +171,7 @@ export class PoriadepartsComponent implements OnInit {
         this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text;
         //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaDeparts", {
+            .post("http://srv-apps/wsrfc/WebService.asmx//PoriaDeparts", {
                 _departName: this.departsForm.value.fullnameVal,
                 _departStatus: 1,
                 _sheetId: this.departsForm.value.idSheet,
@@ -343,7 +343,7 @@ export class PoriadepartsComponent implements OnInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetPoriaDeparts",
+                "http://srv-apps/wsrfc/WebService.asmx//GetPoriaDeparts",
                 {
                     _pageIndex: _pageIndex,
                     _pageSize: _pageSize,

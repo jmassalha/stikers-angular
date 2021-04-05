@@ -25,20 +25,17 @@ export class LoginComponent implements OnInit {
         }
     }
     login(): void {
-        ////debugger
         $("#loader").removeClass("d-none");
         if (this.username && this.password) {
             this.http
-                .post("http://srv-apps/wsrfc/WebService.asmx/Login", {
+                .post("http://srv-apps/wsrfc/WebService.asmx//Login", {
                     _userName: this.username,
                     _mPassword: this.password
                 })
                 .subscribe(
                     response => {
-                        //debugger;
                         $("#loader").addClass("d-none");
                         var arrRes = (response["d"]).split(' -');
-                        debugger
                         if (arrRes[0].replace('"','') == "TRUE") {
                             localStorage.setItem("loginState", "true");
                             localStorage.setItem("Depart", arrRes[1].trim().replace('"',''));

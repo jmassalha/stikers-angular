@@ -93,7 +93,9 @@ export class FillSurveyComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private readonly _dialog: MatDialog
   ) { }
-  
+
+
+  // Digital Signature Section
   @ViewChild('canvas') public canvas: ElementRef; 
 
   @Input() public width = 200;
@@ -116,39 +118,27 @@ export class FillSurveyComponent implements OnInit {
   }
   
   private captureEvents(canvasEl: HTMLCanvasElement) {
-    // this will capture all mousedown events from the canvas element
     fromEvent(canvasEl, 'mousedown')
       .pipe(
         switchMap((e) => {
-          // after a mouse down, we'll record all mouse moves
           return fromEvent(canvasEl, 'mousemove')
             .pipe(
-              // we'll stop (and unsubscribe) once the user releases the mouse
-              // this will trigger a 'mouseup' event    
               takeUntil(fromEvent(canvasEl, 'mouseup')),
-              // we'll also stop (and unsubscribe) once the mouse leaves the canvas (mouseleave event)
               takeUntil(fromEvent(canvasEl, 'mouseleave')),
-              // pairwise lets us get the previous value to draw a line from
-              // the previous point to the current point    
               pairwise()
             )
         })
       )
       .subscribe((res: [MouseEvent, MouseEvent]) => {
         const rect = canvasEl.getBoundingClientRect();
-  
-        // previous and current position with the offset
         const prevPos = {
           x: res[0].clientX - rect.left,
           y: res[0].clientY - rect.top
         };
-  
         const currentPos = {
           x: res[1].clientX - rect.left,
           y: res[1].clientY - rect.top
         };
-  
-        // this method we'll implement soon to do the actual drawing
         this.drawOnCanvas(prevPos, currentPos);
       });
       fromEvent(canvasEl, 'touchstart').pipe(switchMap(() => {
@@ -291,11 +281,10 @@ export class FillSurveyComponent implements OnInit {
     let formData = this.surveyForm.getRawValue();
     let Answers = [];
     let nurseInCharge = localStorage.getItem("loginUserName").toLowerCase();
-    let nurseInChargeDepartment = localStorage.getItem("Depart").toLowerCase();
     let Signature = this.canvasEl.toDataURL();
     let surveyAnswers = formData.Answers;
     let CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
-    var survey = new Survey(FormID, CaseNumber,nurseInCharge,nurseInChargeDepartment,Signature, Answers);
+    var survey = new Survey(FormID, CaseNumber,nurseInCharge,Signature, Answers);
 
     surveyAnswers.forEach((answer, index, array) => {
       this.ChekBoxQ.forEach(i => {
@@ -320,7 +309,7 @@ export class FillSurveyComponent implements OnInit {
     }else{
       if (!this.surveyForm.invalid) {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+          .post("http://srv-apps/wsrfc/WebService.asmx//answerForm", {
             _answerValues: survey,
           })
           .subscribe((Response) => {
@@ -349,7 +338,7 @@ export class FillSurveyComponent implements OnInit {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.withCaseNumber = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetPersonalDetails", {
         CaseNumber: this.CaseNumber,
       })
       .subscribe((Response) => {
@@ -364,7 +353,7 @@ export class FillSurveyComponent implements OnInit {
 
   getForm(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -387,7 +376,7 @@ export class FillSurveyComponent implements OnInit {
 
   getQuestion(urlID, personalDetails) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetQuestion", {
         questionsFormID: urlID,
         isCaseNumber: this.isCaseNumber
       })
@@ -495,7 +484,7 @@ export class FillSurveyComponent implements OnInit {
 
   getOption(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
+      .post("http://srv-apps/wsrfc/WebService.asmx//GetOption", {
         optionsFormID: urlID,
       })
       .subscribe((Response) => {

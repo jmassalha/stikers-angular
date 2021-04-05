@@ -169,7 +169,7 @@ export class StaffComponent implements OnInit {
 
     getRoles() {
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetRoles", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx//GetRoles", {})
             .subscribe((Response) => {
                 //// //debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -203,7 +203,7 @@ export class StaffComponent implements OnInit {
     
     getDeparts() {
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx//GetDeparts", {})
             .subscribe((Response) => {
                 //// //debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -262,7 +262,7 @@ export class StaffComponent implements OnInit {
         this.rowElement.DS_ROLE_NAME = resultRoles['name'];
         // //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaStaff", {
+            .post("http://srv-apps/wsrfc/WebService.asmx//PoriaStaff", {
                 _staffName: this.staffForm.value.fullnameVal,
                 _DEPART_ID: this.staffForm.value.DS_DEPART_ID,
                 _STAFF_ROLE: this.staffForm.value.DS_STAFF_ROLE,
@@ -433,7 +433,7 @@ export class StaffComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaStaff", {
+            .post("http://srv-apps/wsrfc/WebService.asmx//GetPoriaStaff", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _FreeText: _FreeText,

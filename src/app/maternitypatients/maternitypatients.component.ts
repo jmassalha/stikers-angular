@@ -169,7 +169,7 @@ export class MaternitypatientsComponent implements OnInit {
         //debugger;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateMaternityPatients",
+                "http://srv-apps/wsrfc/WebService.asmx//InsertOrUpdateMaternityPatients",
                 {
                     _patientForm: this.patientForm.value,
                 }
@@ -331,7 +331,7 @@ export class MaternitypatientsComponent implements OnInit {
         //debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/getMaternityPatientsTable",
+                "http://srv-apps/wsrfc/WebService.asmx//getMaternityPatientsTable",
                 {
                     _pageIndex: _pageIndex,
                     _pageSize: _pageSize,
