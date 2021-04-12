@@ -191,7 +191,7 @@ export class InvoicesComponent implements OnInit {
       $("#loader").removeClass("d-none");
       this.http
           .post(
-              "http://srv-apps/wsrfc/WebService.asmx//GetInvoicesApp",
+              "http://srv-apps/wsrfc/WebService.asmx/GetInvoicesApp",
               {
                   _fromDate: _startDate,
                   _toDate: _endDate,

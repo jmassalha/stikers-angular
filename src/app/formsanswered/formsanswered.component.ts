@@ -141,7 +141,7 @@ export class FormsansweredComponent implements OnInit {
     }
     
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetPersonalDetailsForForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
         _formID: FormID,
         _caseNumber: caseNumber,
         _personalPassport: personalPassport,
@@ -182,7 +182,7 @@ export class FormsansweredComponent implements OnInit {
     let FormID = this.urlID;
    
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetNurseInChargeForForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetNurseInChargeForForms", {
         _formID: FormID,
         _NurseUserName: NurseUserName,
         _NurseFullName: NurseFullName,
