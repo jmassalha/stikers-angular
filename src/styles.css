@@ -1329,9 +1329,9 @@ input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
     -webkit-appearance: none;
 }
-.mat-form-field .mat-select.has-error,
-.mat-form-field .mat-select.mat-select-invalid {
-    border: 0px solid red;
+#PrespictionFormIDRow .mat-form-field .mat-select.has-error,
+#PrespictionFormIDRow .mat-form-field .mat-select.mat-select-invalid {
+    border: 1px solid red  !important;
 }
 .mat-select{
     overflow: hidden;
