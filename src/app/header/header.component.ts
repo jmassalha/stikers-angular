@@ -104,7 +104,8 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "adahabre" ||
             this.loginUserName.toLowerCase() == "owertheim"||
-            this.loginUserName.toLowerCase() == "klibai"
+            this.loginUserName.toLowerCase() == "klibai"||
+            this.loginUserName.toLowerCase() == "smatta"
         ) {
             this._formsArea = true;
         } 

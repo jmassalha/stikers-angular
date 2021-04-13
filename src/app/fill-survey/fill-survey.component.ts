@@ -5,6 +5,8 @@ import { Question, Survey } from './data-models';
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, fromEvent } from 'rxjs';
 import { Result } from '@zxing/library';
+import { MatPaginator } from '@angular/material/paginator';
+import { MatTableDataSource } from '@angular/material/table';
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -29,6 +31,15 @@ export class CheckBoxAnswers {
   QAns: string[];
   QRequired: string;
 }
+export class Table {
+  constructor(
+    public Row_ID: string,
+    public TableText: string,
+    public ColsType: string,
+    public ColsSplitNumber: string,
+    public TableStatus: string,
+  ) { }
+}
 
 @Component({
   selector: 'app-fill-survey',
@@ -37,6 +48,11 @@ export class CheckBoxAnswers {
 })
 
 export class FillSurveyComponent implements OnInit {
+
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  displayedColumns: string[] = [];
+  TABLE_DATA: Table[] = [];
+  dataSource = new MatTableDataSource(this.TABLE_DATA);
 
   availableDevices: MediaDeviceInfo[];
   deviceCurrent: MediaDeviceInfo;
@@ -79,19 +95,25 @@ export class FillSurveyComponent implements OnInit {
   CaseNumber: string = '';
   _questionArr = [];
   _optionArr = [];
+  _tableArr = [];
   surveyAnswersItem = [];
   maxDate = Date.now();
-  canvasEl: HTMLCanvasElement
+  canvasEl: HTMLCanvasElement;
+
+  userTable: FormGroup;
+  control: FormArray;
+  mode: boolean;
+  touchedRows: any;
 
   constructor(
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private cd: ChangeDetectorRef,
-    private readonly _dialog: MatDialog
+    private readonly _dialog: MatDialog,
+    private fb: FormBuilder,
+    private router: Router
   ) { }
 
 
@@ -233,8 +255,20 @@ export class FillSurveyComponent implements OnInit {
 
   ChekBoxQ: CheckBoxAnswers[];
   surveyAnswers: FormArray = this.formBuilder.array([]);
+  // TablesColsRows: FormArray = this.formBuilder.array([]);
+  onlyColumns: FormArray = this.formBuilder.array([]);
+  TablesColsRows: FormArray = this.formBuilder.array([{
+    Columns: this.onlyColumns,
+    RowValue: ['', null],
+    RowIDFK: ['', null],
+  }]);
+  surveyTables: FormArray = this.formBuilder.array([{
+    ColumnRows: this.TablesColsRows,
+    TableID: new FormControl('', null)
+  }]);
   surveyForm: FormGroup = this.formBuilder.group({
     Answers: this.surveyAnswers,
+    Tables: this.surveyTables,
   });
 
   caseNumberForm = new FormGroup({
@@ -247,7 +281,6 @@ export class FillSurveyComponent implements OnInit {
     this.urlID;
     this.searchCaseNumber();
   }
-
 
   myModel(e: any, id: string, questionIndex: number) {
 
@@ -276,7 +309,6 @@ export class FillSurveyComponent implements OnInit {
     });
   }
 
-
   fillForm() {
     let FormID = this._formID;
     let formData = this.surveyForm.getRawValue();
@@ -284,16 +316,17 @@ export class FillSurveyComponent implements OnInit {
     let nurseInCharge = localStorage.getItem("loginUserName").toLowerCase();
     let Signature = this.canvasEl.toDataURL();
     let surveyAnswers = formData.Answers;
+    let Tables = [];
+    let surveyTables = formData.Tables;
     let CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
-    var survey = new Survey(FormID, CaseNumber, nurseInCharge, Signature, Answers);
-
+    var survey = new Survey(FormID, CaseNumber, nurseInCharge, Signature, Answers, surveyTables, Tables);
     surveyAnswers.forEach((answer, index, array) => {
       this.ChekBoxQ.forEach(i => {
         if (i.QId == this._questionArr[index].QuestionID) {
           answer.answerContent = i.QAns.toString();
         }
       });
-      if(this._questionArr[index].QuestionType != "TextArea"){
+      if (this._questionArr[index].QuestionType != "TextArea") {
         let AnswerItem = {
           'AnswerID': index,
           "AnswerValue": answer.answerContent,
@@ -304,17 +337,15 @@ export class FillSurveyComponent implements OnInit {
           "PinQuestion": this._questionArr[index].PinQuestion,
         }
         survey.FormAnswers.push(AnswerItem);
-  
       }
-      
     });
-    debugger
+
     if (Signature == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAEYklEQVR4Xu3UAQkAAAwCwdm/9HI83BLIOdw5AgQIRAQWySkmAQIEzmB5AgIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlACBB1YxAJfjJb2jAAAAAElFTkSuQmCC") {
       this.openSnackBar("נא לחתום על הטופס");
     } else {
       if (!this.surveyForm.invalid) {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+          .post("http://localhost:64964/WebService.asmx/answerForm", {
             _answerValues: survey,
           })
           .subscribe((Response) => {
@@ -337,8 +368,6 @@ export class FillSurveyComponent implements OnInit {
     }
   }
 
-
-  // how to identify the specific form to update if there is no case number **maybe special number for the specefic form?
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.withCaseNumber = false;
@@ -358,7 +387,7 @@ export class FillSurveyComponent implements OnInit {
 
   getForm(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+      .post("http://localhost:64964/WebService.asmx/GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -368,17 +397,147 @@ export class FillSurveyComponent implements OnInit {
         this._formOpenText = this.filter_form_response.FormOpenText;
         this._formDate = this.filter_form_response.FormDate;
         this.isCaseNumber = this.filter_form_response.isCaseNumber;
+        this.onlyColumns = this.formBuilder.array([]);
+        this.TablesColsRows = this.formBuilder.array([]);
+        this.surveyTables = this.formBuilder.array([]);
+        var surveyTablesItem;
+        var tableControl;
+        var columnControlItem;
+
         if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
           this.openSnackBar("!מספר מקרה לא תקין");
           this.withCaseNumber = true;
         } else {
           this.withCaseNumber = false;
+          // initialize the tables
+          this.filter_form_response.FormTable.forEach(element => {
+            this._tableArr.push(element);
+          });
+          // takes the data of each table
+          this.TABLE_DATA = [];
+          for (var i = 0; i < this._tableArr.length; i++) {
+            this.TablesColsRows = this.formBuilder.array([]);
+            this.TABLE_DATA.push({
+              Row_ID: this.filter_form_response.FormTable[i].Row_ID,
+              TableText: this.filter_form_response.FormTable[i].TableText,
+              ColsType: this.filter_form_response.FormTable[i].ColsType,
+              ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
+              TableStatus: this.filter_form_response.FormTable[i].TableStatus,
+            });
+            for (var r = 0; r < this._tableArr[i].rowsGroup.length; r++) {
+              this.onlyColumns = this.formBuilder.array([]);
+              for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
+                surveyTablesItem = this.formBuilder.group({
+                  tableAnswerContent: ["", null],
+                  ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
+                  checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
+                  ColType: [this._tableArr[i].colsGroup[k].ColType, null],
+                  ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
+                });
+                this.onlyColumns.push(surveyTablesItem);
+              }
+              columnControlItem = this.formBuilder.group({
+                Columns: this.onlyColumns,
+                RowValue: [this._tableArr[i].rowsGroup[r].rowsText, null],
+                RowIDFK: [this._tableArr[i].rowsGroup[r].Row_ID, null]
+              });
+              this.TablesColsRows.push(columnControlItem);
+            }
+            this.updateView2();
+            tableControl = this.formBuilder.group({
+              ColumnRows: this.TablesColsRows,
+              TableID: [this._tableArr[i].Row_ID, null],
+            });
+            this.surveyTables.push(tableControl);
+          }
+          this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+          this.dataSource.paginator = this.paginator;
           this.getQuestion(this.urlID, this.mPersonalDetails);
           this.getOption(this.urlID);
         }
+
+        this.surveyForm = this.formBuilder.group({
+          Tables: this.surveyTables
+        });
       });
+
     this.ngAfterViewInit();
   }
+
+
+  // getForm(urlID) {
+  //   this.http
+  //     .post("http://localhost:64964/WebService.asmx/GetForm", {
+  //       formFormID: urlID,
+  //     })
+  //     .subscribe((Response) => {
+  //       this.filter_form_response = Response["d"];
+  //       this._formID = this.filter_form_response.FormID;
+  //       this._formName = this.filter_form_response.FormName;
+  //       this._formOpenText = this.filter_form_response.FormOpenText;
+  //       this._formDate = this.filter_form_response.FormDate;
+  //       this.isCaseNumber = this.filter_form_response.isCaseNumber;
+  //       this.TablesColsRows = this.formBuilder.array([]);
+  //       this.surveyTables = this.formBuilder.array([]);
+  //       var surveyTablesItem;
+  //       var tableControl;
+
+  //       if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
+  //         this.openSnackBar("!מספר מקרה לא תקין");
+  //         this.withCaseNumber = true;
+  //       } else {
+  //         this.withCaseNumber = false;
+  //         // initialize the tables
+  //         this.filter_form_response.FormTable.forEach(element => {
+  //           this._tableArr.push(element);
+  //         });
+  //         // takes the data of each table
+  //         this.TABLE_DATA = [];
+  //         for (var i = 0; i < this._tableArr.length; i++) {
+  //           this.TablesColsRows = this.formBuilder.array([]);;
+  //           this.TABLE_DATA.push({
+  //             Row_ID: this.filter_form_response.FormTable[i].Row_ID,
+  //             TableText: this.filter_form_response.FormTable[i].TableText,
+  //             ColsType: this.filter_form_response.FormTable[i].ColsType,
+  //             ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
+  //             TableStatus: this.filter_form_response.FormTable[i].TableStatus,
+  //           });
+  //           var inputsConter = 0;
+  //           if(this._tableArr[i].rowsGroup[0].rowsText != ""){
+  //             inputsConter = this._tableArr[i].rowsGroup.length * (this._tableArr[i].colsGroup.length  - 1)
+  //           }else{
+  //             inputsConter = this._tableArr[i].rowsGroup.length * (this._tableArr[i].colsGroup.length  )
+  //           }
+  //           for (var r = 0; r < inputsConter ; r++) {
+  //             surveyTablesItem = this.formBuilder.group({
+  //               tableAnswerContent: ["", Validators.required],
+  //             });
+  //             this.TablesColsRows.push(surveyTablesItem);
+  //           }
+  //           this._tableArr[i].colsGroup.forEach(element => {
+
+  //           })
+  //           this.updateView2();
+  //           tableControl = this.formBuilder.group({
+  //             ColumnRows: this.TablesColsRows,
+  //             TableID: ['', null],
+  //           });
+  //           this.surveyTables.push(tableControl);
+
+  //         }
+  //         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+  //         this.dataSource.paginator = this.paginator;
+  //         this.getQuestion(this.urlID, this.mPersonalDetails);
+  //         this.getOption(this.urlID);
+  //       }
+
+  //       this.surveyForm = this.formBuilder.group({
+  //         Tables: this.surveyTables
+  //       });
+  //     });
+
+  //   this.ngAfterViewInit();
+  // }
 
   getQuestion(urlID, personalDetails) {
     this.http
@@ -389,13 +548,17 @@ export class FillSurveyComponent implements OnInit {
       .subscribe((Response) => {
         this.filter_question_response = Response["d"];
         this.surveyAnswers = this.formBuilder.array([]);
+
         var that = this;
+
         this.ChekBoxQ = new Array<CheckBoxAnswers>();
         this.filter_question_response.forEach(element => {
           // if(element.QuestionValue != "חתימה"){
           this._questionArr.push(element);
 
+
           var surveyAnswersItem;
+
           if (element.QuestionIsRequired == "False") {
             surveyAnswersItem = this.formBuilder.group({
               answerContent: ['', null],
@@ -456,34 +619,38 @@ export class FillSurveyComponent implements OnInit {
                     answerContent: ['', Validators.compose([Validators.required])],
                   });
                 }
-
               }
             }
           }
 
           if (element.QuestionType == "CheckBox") {
-
             var nQ = new CheckBoxAnswers();
             nQ.QRequired = element.QuestionIsRequired;
             nQ.QId = element.QuestionID
             nQ.QAns = [];
             that.ChekBoxQ.push(nQ);
-
           }
           this.surveyAnswers.push(surveyAnswersItem);
+
           // }
         });
+
         this.updateView();
         this.surveyForm = this.formBuilder.group({
           Answers: this.surveyAnswers,
+          Tables: this.surveyTables
         });
-
       });
   }
 
 
   updateView() {
     this.answersData.next(this.surveyAnswers.controls);
+  }
+  updateView2() {
+    this.answersData.next(this.surveyTables.controls);
+    this.answersData.next(this.TablesColsRows.controls);
+    this.answersData.next(this.onlyColumns.controls);
   }
 
 

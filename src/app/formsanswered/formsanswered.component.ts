@@ -27,6 +27,8 @@ export interface Patient {
   Signature: any;
   Questions: string[];
 }
+
+
 // export interface Nurse {
 //   FormID: string;
 //   UserName: string;
@@ -151,7 +153,7 @@ export class FormsansweredComponent implements OnInit {
     }
     
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
+      .post("http://localhost:64964/WebService.asmx/GetPersonalDetailsForForms", {
         _formID: FormID,
         _caseNumber: caseNumber,
         _personalPassport: personalPassport,
@@ -165,7 +167,8 @@ export class FormsansweredComponent implements OnInit {
         }
         this.TABLE_DATA = [];
         for (var i = 0; i < this.all_forms_filter.length; i++) {
-          this.TABLE_DATA.push({
+          if(this.all_forms_filter[i].isCaseNumber == '1'){
+            this.TABLE_DATA.push({
             FormID: this.all_forms_filter[i].formID,
             PatientID: this.all_forms_filter[i].CaseNumber,
             PatientName: this.all_forms_filter[i].PersonalFirstName+' '+this.all_forms_filter[i].PersonalLastName,
@@ -182,6 +185,26 @@ export class FormsansweredComponent implements OnInit {
             Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature),
             Questions: this.all_forms_filter[i].PersonAnswers,
           });
+          }else{
+            this.TABLE_DATA.push({
+              FormID: this.all_forms_filter[i].formID,
+              PatientID: "",
+              PatientName: "",
+              DateOfFillForm: this.all_forms_filter[i].DateOfFillForm.split(' ')[0],
+              PatientBirthday: "",
+              PatientPassport: "",
+              PatientPhone: "",
+              PatientEmail: "",
+              PatientGender: "",
+              PatientAddress: "",
+              NurseInCharge: this.all_forms_filter[i].UserName,
+              FormName: this.all_forms_filter[i].FormName,
+              isCaseNumber: "",
+              Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].PersonalSignature),
+              Questions: this.all_forms_filter[i].NurseAnswers,
+            });
+          }
+          
         }
         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
         this.dataSource.paginator = this.paginator;

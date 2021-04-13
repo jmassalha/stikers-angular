@@ -13,12 +13,11 @@
     </button>
   </form>
 
-  <form dir="rtl" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" autocomplete="off" *ngIf="!withCaseNumber">
 
+  <form dir="rtl" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" autocomplete="off" *ngIf="!withCaseNumber">
     <mat-card class="full-width text-center">
       <label>{{_formName}}</label>
     </mat-card>
-
     <div class="survey-options w-100100 float-right">
       <div class="poll-options">
         <div class="row">
@@ -28,7 +27,7 @@
             </div>
           </div>
         </div>
-        <ol formArrayName="Answers" class="list-style">
+        <ol formArrayName="Answers" class="list-style fix-jmal">
           <div class="row">
             <li
               [ngClass]="{'col-md-12 col-xs-12 col-sm-12': questionCtrl.QuestionType == 'TextArea', ' col-md-6 col-xs-12 col-sm-6' : questionCtrl.QuestionType != 'TextArea' }"
@@ -101,7 +100,9 @@
                       </mat-form-field>
                     </div>
                     <div class="d-block" *ngIf="questionCtrl.QuestionType == 'ID'">
-
+                      <mat-form-field class="full-width">
+                        <input formControlName="answerContent" matInput>
+                      </mat-form-field>
                     </div>
                     <div class="d-block" *ngIf="questionCtrl.QuestionType == 'Signature'">
                       <mat-form-field class="full-width">
@@ -114,15 +115,56 @@
             </li>
           </div>
         </ol>
+        <div class="d-block">
+          <h3 style="text-align: right;"><strong>חלק טבלאות</strong></h3>
+        </div>
+        <div formArrayName="Tables">
+          <div *ngFor="let table of _tableArr; let tableIndex = index" [formGroupName]="tableIndex"
+            style="margin-top: 20px;">
+            <mat-divider></mat-divider>
+            <div class="row" style="display: block;">
+              <h4 style="text-align: center;">{{table.TableText}}</h4>
+            </div>
+            <div formArrayName="ColumnRows" class="row" id="table-overflow">
+              <div class="col">
+                <table class="table responsive-table">
+                  <tr>
+                    <th *ngFor="let column of table.colsGroup" style="text-align: center;">
+                      {{column.colsText}}
+                    </th>
+                  </tr>
+                  <tr *ngFor="let row of table.rowsGroup; let output = index" [formGroupName]="output">
+                    <td *ngFor="let column of table.colsGroup; let output2 = index" formArrayName="Columns">
+                      <span *ngIf="row.rowsText != '' && output2 == 0;else input_other"
+                        style="text-align: right;float: right;">{{row.rowsText}}</span>
+                      <ng-template #input_other>
+                        <mat-form-field class="fix-my-width" [formGroupName]="output2" *ngIf="column.ColType == 'Text'">
+                          <input matInput formControlName="tableAnswerContent" class="table-form-input">
+                        </mat-form-field>
+                        <section class="example-section" [formGroupName]="output2" *ngIf="column.ColType == 'CheckBox'">
+                          <mat-radio-group>
+                            <mat-checkbox class="list-title m-3 text-center" formControlName="tableAnswerContent">
+                            </mat-checkbox>
+                          </mat-radio-group>
+                        </section>
+                      </ng-template>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+
     <div class="full-width mb-2">
       <div class="row" style="text-align: right;">חתימה</div>
       <canvas class="row" #canvas id="canvas"></canvas>
       <button mat-raised-button color="secondary" style="float: right;" type="button" (click)="resetSign()"><span>תיקון
           חתימה</span></button>
     </div>
-
     <div class="button-row">
       <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
         type="submit" mat-raised-button>

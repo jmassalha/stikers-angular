@@ -778,13 +778,13 @@
                                 }"
                                 mat-row
                                 *matRowDef="let row; columns: displayedColumns"
-                                [hidden]="
-                                    (!row.hideOrShow)   ? true : false
-                                "
+                                
                             ></tr>
                         </table>
                     </div>
-                    <!-- PAGINATION -->
+                    <!-- PAGINATION [hidden]="
+                                    (!row.hideOrShow)   ? true : false
+                                " -->
                     <mat-paginator
                         [length]="resultsLength"
                         [pageSizeOptions]="[5, 10, 20, 50, 100]"
@@ -2592,39 +2592,10 @@
             </p>
         </div>
     </div>
-    <div class="row break-page"></div>
-    <div class="d-none row">
-        <div class="col-12">
-            <div class="rel row">
-                <div class="col-2">
-                    <img class="right-img" src="assets/images/gci-logo.png" />
-                </div>
-                <div class="col-8">
-                    <h3 class="modal-title text-center">
-                        מרכז רפואי ע"ש ברוך פדה - פוריה
-                    </h3>
-                    <h2 class="modal-title text-center">
-                        מרשם רוקחי והוראות לטיפול תרופתי
-                    </h2>
-                    <p>
-                        <span><b>שם מטופל&nbsp;:&nbsp;</b></span
-                        ><span> {{ FIRST_NAME }} {{ LAST_NAME }}</span>
-                        &nbsp;&nbsp;&nbsp;&nbsp;
-                        <span><b>ת.ז&nbsp;:&nbsp;</b></span
-                        ><span> {{ ID }}</span>
-                    </p>
-                </div>
-                <div class="col-2">
-                    <img
-                        class="left-img"
-                        src="assets/images/mersham-logo.png"
-                    />
-                </div>
-            </div>
-        </div>
-    </div>
+    <div *ngIf="this.drugs?.length" class="row break-page"></div>
+    
 
-    <div class="row rel">
+    <div *ngIf="this.drugs?.length" class="row rel">
         <div
             class="col-6 avoid-break rel"
             *ngFor="let drug of drugs; let i = index"

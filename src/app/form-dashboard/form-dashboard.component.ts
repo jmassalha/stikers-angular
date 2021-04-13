@@ -5,6 +5,8 @@ import { HttpClient } from "@angular/common/http";
 import { FillSurveyComponent } from '../fill-survey/fill-survey.component';
 import { MatDialog } from '@angular/material/dialog';
 
+
+
 @Component({
   selector: 'app-form-dashboard',
   templateUrl: './form-dashboard.component.html',
@@ -12,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 })
 export class FormDashboardComponent implements OnInit {
 
-
+ 
   all_forms_filter = [];
   all_forms_filter_general = [];
   all_forms_filter_not_general = [];
@@ -44,7 +46,7 @@ export class FormDashboardComponent implements OnInit {
     let formNameControl = this.formSearch.controls['formNameControl'].value;
     let nurseUser = localStorage.getItem('loginUserName');
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
+      .post("http://localhost:64964/WebService.asmx/GetAllForms", {
         _formNameControl: formNameControl,
         _nurseUser: nurseUser,
       })

@@ -39,6 +39,7 @@ export class UpdatesingleformComponent implements OnInit {
   department = [];
   _formArr = [];
   _questionArr = [];
+  _formTableArr = [];
 
 
   questions: QuestionType[] = [
@@ -71,9 +72,11 @@ export class UpdatesingleformComponent implements OnInit {
   FormOpenText: string = "";
   isCaseNumber: any;
   TableForm: any;
+  checkBoxV: any;
   GeneralForm: any;
   QuestionID: string = "";
   urlID: number;
+  tableIndex: string;
 
 
   ngOnInit() {
@@ -81,20 +84,20 @@ export class UpdatesingleformComponent implements OnInit {
     this.getFormData(this.urlID);
   }
 
-  counterCols(index) {
-    let numberOfCols = this.tableFormGroup.controls.tableArray.value[index].colsnumber;
-    if (numberOfCols > 0) {
-      return new Array(numberOfCols);
-    }
-  }
-  counterRows(index) {
-    let arrayOfCols = [];
-    let numberOFRows = this.tableFormGroup.controls.tableArray.value[index].rowsnumber;
-    if (numberOFRows > 0) {
-
-      return new Array(numberOFRows);
-    }
-  }
+  // counterCols(index) {
+  //   console.log(index);
+  //   let numberOfCols = this.tableFormGroup.controls.tableArray.value[index].colsnumber;
+  //   if (numberOfCols > 0) {
+  //     return new Array(numberOfCols);
+  //   }
+  // }
+  // counterRows(index) {
+  //   console.log(index);
+  //   let numberOFRows = this.tableFormGroup.controls.tableArray.value[index].rowsnumber;
+  //   if (numberOFRows > 0) {
+  //     return new Array(numberOFRows);
+  //   }
+  // }
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
@@ -137,19 +140,22 @@ export class UpdatesingleformComponent implements OnInit {
 
   onAddTable() {
     const tableColItem = new FormGroup({
-      'tableid': new FormControl('0', null),
-      'colsnumber': new FormControl('1', null),
-      'tabletext': new FormControl('', null),
-      'colstype': new FormControl('Text', null),
-      'rowsnumber': new FormControl('1', null),
-      'tablestatus': new FormControl('1', null),
-      'colssplit': new FormControl('0', null),
+      'Row_ID': new FormControl('0', null),
+      'TableText': new FormControl('', null),
+      'ColsType': new FormControl('Text', null),
+      'TableStatus': new FormControl('1', null),
+      'ColsSplitNumber': new FormControl('', null),
       'colsGroup': new FormGroup({}),
       'rowsGroup': new FormGroup({})
     });
     (<FormArray>this.tableFormGroup.get('tableArray')).push(tableColItem);
+    let loopCounter = this.tableFormGroup.controls.tableArray.value.length;
+    for (let i = loopCounter-1; i < loopCounter; i++) {
+      this.addColumnsControls(i);
+      this.addRowsControls(i);
+    }
   }
-
+  // for updating the form
   onAddQuestion2(counter, element) {
     if (element.QuestionIsRequired === "True") {
       element.QuestionIsRequired = true;
@@ -171,13 +177,28 @@ export class UpdatesingleformComponent implements OnInit {
       this.addOptionControls2(element.QuestionOptions, counter);
     }
   }
+  // for updating the form
+  onAddTable2(element, counter2) {
+    const surveyTableItem = new FormGroup({
+      'Row_ID': new FormControl(element.Row_ID, null),
+      'TableText': new FormControl(element.TableText, null),
+      'ColsType': new FormControl(element.ColsType, null),
+      'TableStatus': new FormControl(element.TableStatus, null),
+      'ColsSplitNumber': new FormControl(element.ColsSplitNumber, null),
+      'colsGroup': new FormGroup({}),
+      'rowsGroup': new FormGroup({})
+    });
+    (<FormArray>this.tableFormGroup.get('tableArray')).push(surveyTableItem);
+    this.addColumnsControls2(element.ColumnsRowsGroup, counter2);
+    this.addRowsControls2(element.ColumnsRowsGroup, counter2);
+  }
 
   onRemoveQuestion(index) {
     this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionStatus.patchValue("0");
   }
 
   onRemoveTable(index) {
-    this.tableFormGroup.controls.tableArray['controls'][index].controls.tablestatus.patchValue("0");
+    this.tableFormGroup.controls.tableArray['controls'][index].controls.TableStatus.patchValue("0");
   }
 
   onSeletQuestionType(questionType, index) {
@@ -194,7 +215,7 @@ export class UpdatesingleformComponent implements OnInit {
     this.addOption(index);
     this.addOption(index);
   }
-
+  // for updating the form
   addOptionControls2(questionOptions, index) {
     let options = new FormArray([]);
     let IsRequired = new FormControl(false);
@@ -222,42 +243,96 @@ export class UpdatesingleformComponent implements OnInit {
   }
 
   addColumnsControls(index) {
-    let numberOfCols = this.tableFormGroup.controls.tableArray['controls'][index].controls.colsnumber.value;
     let column = new FormArray([]);
     (this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup).addControl('column', column);
     this.clearFormArray((<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column));
-    this.addCols(index, numberOfCols);
-
+    this.addCols(index);
   }
-
-  addCols(index, numberOfCols) {
-    for (let i = 0; i < parseInt(numberOfCols); i++) {
-      const colsNewGroup = new FormGroup({
-        'colsText': new FormControl('', null),
-      });
-      (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column).push(colsNewGroup);
+  // for updating the form
+  addColumnsControls2(ColumnsRowsGroup, index) {
+    let column = new FormArray([]);
+    (this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup).addControl('column', column);
+    this.clearFormArray((<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column));
+    let _size = Object.keys(ColumnsRowsGroup).length;
+    for (let i = 0; i < _size; i++) {
+      if (ColumnsRowsGroup[i].ColStatus !== "") {
+        this.addCols2(index, ColumnsRowsGroup[i]);
+      }
     }
   }
-  
-  addRowsControls(index) {
-    let numberOfRows = this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsnumber.value;
+  // for updating the form
+  addRowsControls2(ColumnsRowsGroup, index) {
     let row = new FormArray([]);
     (this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup).addControl('row', row);
     this.clearFormArray((<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.controls.row));
-    this.addRows(index, numberOfRows);
+    let _size = Object.keys(ColumnsRowsGroup).length;
+    for (let i = 0; i < _size; i++) {
+      if (ColumnsRowsGroup[i].RowStatus !== "") {
+        this.addRows2(index, ColumnsRowsGroup[i]);
+      }
+    }
   }
 
-  addRows(index, numberOfRows) {
-    for (let i = 0; i < parseInt(numberOfRows); i++) {
-      const rowsNewGroup = new FormGroup({
-        'rowsText': new FormControl('', null),
-      });
-      (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.controls.row).push(rowsNewGroup);
+  addCols(index) {
+    const colsNewGroup = new FormGroup({
+      'Row_ID': new FormControl('0', null),
+      'colsText': new FormControl('', null),
+      'checkBoxV': new FormControl('0', null),
+      'colStatus': new FormControl('1', null),
+    });
+    (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column).push(colsNewGroup);
+  }
+  // for updating the form
+  addCols2(index, element) {
+    if(element.checkBoxV == "0"){
+      element.checkBoxV = false;
+    }else{
+      element.checkBoxV = true;
     }
+    const colsNewGroup = new FormGroup({
+      'Row_ID': new FormControl(element.Row_ID, null),
+      'colsText': new FormControl(element.ColText, null),
+      'checkBoxV': new FormControl(element.checkBoxV, null),
+      'colStatus': new FormControl(element.ColStatus, null),
+    });
+    (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column).push(colsNewGroup);
+  }
+
+  addRowsControls(index) {
+    let row = new FormArray([]);
+    (this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup).addControl('row', row);
+    this.clearFormArray((<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.controls.row));
+    this.addRows(index);
+  }
+
+  addRows(index) {
+    const rowsNewGroup = new FormGroup({
+      'Row_ID': new FormControl('0', null),
+      'rowsText': new FormControl('', null),
+      'rowStatus': new FormControl('1', null),
+    });
+    (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.controls.row).push(rowsNewGroup);
+  }
+  // for updating the form
+  addRows2(index, element) {
+    const rowsNewGroup = new FormGroup({
+      'Row_ID': new FormControl(element.Row_ID, null),
+      'rowsText': new FormControl(element.RowText, null),
+      'rowStatus': new FormControl(element.RowStatus, null),
+    });
+    (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.controls.row).push(rowsNewGroup);
   }
 
   removeOption(element, questionIndex, itemIndex) {
     <FormArray>this.surveyForm.controls.surveyQuestions['controls'][questionIndex].controls.questionGroup.controls.options.controls[itemIndex].controls.optionStatus.patchValue("0");
+  }
+
+  removeColumn(TableIndex, columnIndex) {
+    <FormArray>this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.colStatus.patchValue("0");
+  }
+
+  removeRow(TableIndex, rowIndex) {
+    <FormArray>this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.rowsGroup.controls.row.controls[rowIndex].controls.rowStatus.patchValue("0");
   }
 
   // this one is for updating existing form
@@ -273,6 +348,7 @@ export class UpdatesingleformComponent implements OnInit {
 
   postSurvey() {
     let formData = this.surveyForm.value;
+    let formTable = this.tableFormGroup.value;
     let FormID = this.FormID;
     let FormName = formData.FormName;
     let FormOpenText = formData.FormOpenText;
@@ -298,10 +374,63 @@ export class UpdatesingleformComponent implements OnInit {
     }
 
     let Questions = [];
+    let Tables = [];
     let surveyQuestions = formData.surveyQuestions;
+    let tableArray = formTable.tableArray;
     let FormCreatorName = localStorage.getItem("loginUserName").toLowerCase();
     let UserDepart = localStorage.getItem("Depart").toLowerCase();
-    var survey = new Survey(FormID, FormName, FormOpenText, TableForm, FormDepartment, isCaseNumber, UserDepart, GeneralForm, FormDepartmentID, FormCreatorName, Questions);
+    var survey = new Survey(FormID, FormName, FormOpenText, TableForm, FormDepartment, isCaseNumber, UserDepart, GeneralForm, FormDepartmentID, FormCreatorName, Questions, Tables);
+
+
+    tableArray.forEach(table => {
+      let tableItem = {
+        'Row_ID': table.Row_ID,
+        'TableText': table.TableText,
+        'ColsType': table.ColsType,
+        'TableStatus': table.TableStatus,
+        'ColsSplitNumber': table.ColsSplitNumber,
+        'colsGroup': [],
+        'rowsGroup': [],
+      }
+      if (table.colsGroup.hasOwnProperty('column')) {
+
+        table.colsGroup.column.forEach(column => {
+          if(column.checkBoxV == true){
+            column.checkBoxV = '1';
+          }else{
+            column.checkBoxV = '0';
+          }
+          let colItem = {
+            "Row_ID": column.Row_ID,
+            "colsText": column.colsText,
+            "checkBoxV": column.checkBoxV,
+            "colStatus": column.colStatus,
+          }
+          if (colItem.colStatus === '0' && colItem.Row_ID === '0') {
+            console.log("column deleted!")
+          } else {
+            tableItem.colsGroup.push(colItem);
+          }
+        });
+      }
+      if (table.rowsGroup.hasOwnProperty('row')) {
+
+        table.rowsGroup.row.forEach(row => {
+          let rowItem = {
+            "Row_ID": row.Row_ID,
+            "rowsText": row.rowsText,
+            "rowStatus": row.rowStatus,
+          }
+          if (rowItem.rowStatus === '0' && rowItem.Row_ID === '0') {
+            console.log("row deleted!")
+          } else {
+            tableItem.rowsGroup.push(rowItem);
+          }
+        });
+      }
+      survey.FormTable.push(tableItem);
+    });
+
 
     surveyQuestions.forEach((question, index, array) => {
       let questionItem = {
@@ -336,18 +465,18 @@ export class UpdatesingleformComponent implements OnInit {
         survey.FormQuestions.push(questionItem);
       }
     });
-
-    if (!this.surveyForm.invalid) {
+    
+    if (!this.surveyForm.invalid && !this.tableFormGroup.invalid) {
       if (this.urlID === 0) {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/Forms", {
+          .post("http://localhost:64964/WebService.asmx/Forms", {
             _FormValues: survey,
           })
           .subscribe((Response) => {
           });
       } else {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/UpdateForm", {
+          .post("http://localhost:64964/WebService.asmx/UpdateForm", {
             updateFormValues: survey,
           })
           .subscribe((Response) => {
@@ -364,12 +493,11 @@ export class UpdatesingleformComponent implements OnInit {
 
   getFormData(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormData", {
+      .post("http://localhost:64964/WebService.asmx/GetFormData", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
         this.filter_form_response = Response["d"];
-
         this.FormName = this.filter_form_response.FormName;
         this.FormID = this.filter_form_response.FormID;
         this.FormOpenText = this.filter_form_response.FormOpenText;
@@ -391,6 +519,7 @@ export class UpdatesingleformComponent implements OnInit {
         } else {
           this.TableForm = true;
         }
+        
         this.FormDepartment = this.filter_form_response.FormDepartment;
         this.FormDepartmentID = this.filter_form_response.FormDepartmentID;
         this.surveyForm.controls['FormID'].patchValue(this.FormID);
@@ -402,7 +531,9 @@ export class UpdatesingleformComponent implements OnInit {
         this.surveyForm.controls['FormDepartment'].patchValue(this.FormDepartment);
         this.surveyForm.controls['FormDepartmentID'].patchValue(this.FormDepartmentID);
         this._questionArr = this.filter_form_response.FormQuestions;
+        this._formTableArr = this.filter_form_response.FormTable;
         let counter = 0;
+        let counter2 = 0;
 
         if (this._questionArr != null) {
           this._questionArr.forEach(element => {
@@ -412,6 +543,12 @@ export class UpdatesingleformComponent implements OnInit {
               counter = counter + 1;
             }
 
+          });
+        }
+        if (this._formTableArr != null) {
+          this._formTableArr.forEach(element => {
+            this.onAddTable2(element, counter2);
+            counter2 = counter2 + 1;
           });
         }
 
@@ -432,10 +569,7 @@ export class UpdatesingleformComponent implements OnInit {
   }
 
   onSubmit() {
-    // this.postSurvey();
-    this.addColumnsControls(0);
-    this.addRowsControls(0);
-    console.log(this.tableFormGroup.value);
+    this.postSurvey();
   }
 
 }

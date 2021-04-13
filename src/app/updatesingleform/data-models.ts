@@ -10,7 +10,8 @@ export class Survey{
         public GeneralForm: string,
         public FormDepartmentID: string,
         public FormCreatorName: string,
-        public FormQuestions: Question[]
+        public FormQuestions: Question[],
+        public FormTable: Table[],
         ){}
 }
 
@@ -22,7 +23,33 @@ export class Question{
         public QuestionIsRequired: boolean,
         ){}
 }
+export class Table{
+    constructor( 
+        public Row_ID: string,
+        public TableText: string,
+        public ColsType: string,
+        public ColsSplitNumber: string,
+        public TableStatus: string,
+        public colsGroup: colsGroup[],
+        public rowsGroup: rowsGroup[],
+        ){}
+}
 
+export class colsGroup{
+    constructor( 
+        public Row_ID: string,
+        public colsText: string,
+        public checkBoxV: string,
+        public colStatus: string,
+        ){}
+}
+export class rowsGroup{
+    constructor( 
+        public Row_ID: string,
+        public rowsText: string,
+        public rowStatus: string,
+        ){}
+}
 export class Answer{
     constructor( 
         public AnswerID: number,

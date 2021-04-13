@@ -17,10 +17,11 @@
 .mat-dialog-container > .ng-star-inserted > .mat-card{
     padding-bottom: 95px;
 }
-.ng-star-inserted{
+.fix-jmal li{
     display: block;
     width: 100%;
     float: right;
+    margin-bottom: 5px;
 }
 
 .pos-me-number-li{
@@ -44,7 +45,7 @@ form{
     width: 400px;
     border: 1px solid #000; 
 }
-
+/* for adjusting the signature canvas */
 @media only screen and (max-width: 630px) {
     #canvas { 
         height: 150px;
@@ -53,4 +54,33 @@ form{
     }
     
   }
+/* when the mat cards become one each row */
+  @media only screen and (max-width: 576px) {
+    #table-overflow {
+        overflow: auto;
+    }
+  }
 
+  table {
+    width: 100%;
+  }
+
+.table td, .table th {
+    padding: 0px;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+}
+
+h4{
+   text-align: center;
+    font-size: 15px;
+}
+
+.table-form-input {
+    display: block;
+    position: relative;
+    flex: auto;
+    min-width: 0;
+    width: 100%;
+    border: 1px solid black;
+}
