@@ -158,7 +158,7 @@ export class DrugsComponent implements OnInit {
 
     getMedGroups() {
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//GetTbl_MedGroups", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetTbl_MedGroups", {})
             .subscribe((Response) => {
                  ////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -222,7 +222,7 @@ export class DrugsComponent implements OnInit {
         }
         // //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//insertOrUpdateDrug", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateDrug", {
               drugRow: this.drugForm.value,
             })
             .subscribe((Response) => {
@@ -346,7 +346,7 @@ export class DrugsComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//getDrugsTbl", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getDrugsTbl", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _FreeText: _FreeText,

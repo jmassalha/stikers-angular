@@ -2,6 +2,8 @@ export class Survey{
     constructor( 
         public FormID: string,
         public FormName: string,
+        public FormOpenText: string,
+        public TableForm: string,
         public FormDepartment: string,
         public isCaseNumber: string,
         public UserDepart: string,

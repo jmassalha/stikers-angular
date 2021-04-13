@@ -117,7 +117,7 @@ export class SendsmsComponent implements OnInit {
        // //debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx//SendSMSOnLine",
+                "http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLine",
                 {
                     smsText: this.sendSmsForm.value.smsText,
                     smsNumbers: this.sendSmsForm.value.smsNumbers,

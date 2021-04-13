@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { UpdatesingleformComponent } from '../updatesingleform/updatesingleform.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common';
 
 export interface Patient {
   FormID: string;
@@ -16,26 +17,28 @@ export interface Patient {
   PatientPassport: string;
   PatientPhone: string;
   PatientEmail: string;
+  NurseInCharge: string;
   PatientGender: string;
   PatientBirthday: string;
   PatientAddress: string;
   FormName: string;
+  DateOfFillForm: string;
   isCaseNumber: string;
   Signature: any;
   Questions: string[];
 }
-export interface Nurse {
-  FormID: string;
-  UserName: string;
-  FormName: string;
-  FirstName: string;
-  LastName: string;
-  isCaseNumber2: string;
-  Department: string;
-  Signature: any;
-  fillDate: any;
-  Questions: string[];
-}
+// export interface Nurse {
+//   FormID: string;
+//   UserName: string;
+//   FormName: string;
+//   FirstName: string;
+//   LastName: string;
+//   isCaseNumber2: string;
+//   Department: string;
+//   Signature: any;
+//   fillDate: any;
+//   Questions: string[];
+// }
 
 export interface Questions {
   QuestionVal: string;
@@ -62,11 +65,12 @@ export class FormsansweredComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   all_forms_filter = [];
   form_patients: Patient;
-  form_nurse: Nurse;
+  // form_nurse: Nurse;
   all_questions_filter = [];
   all_answers_filter = [];
   all_package_filter = [];
   department = [];
+  todaysDate = Date.now;
 
   formSearchPatient: FormGroup;
   formSearchEmployee: FormGroup;
@@ -76,16 +80,16 @@ export class FormsansweredComponent implements OnInit {
   isCaseNumber2: string;
 
   TABLE_DATA: Patient[] = [];
-  TABLE_DATA2: Nurse[] = [];
+  // TABLE_DATA2: Nurse[] = [];
   rowFormData = {} as Patient;
-  rowFormData2 = {} as Nurse;
+  // rowFormData2 = {} as Nurse;
   displayedColumns: string[] = [
-    'PatientID', 'PatientName', 'PersonalID', 'PatientDate', 'Print'
+    'PatientID', 'PatientName', 'PersonalID','NurseInCharge', 'PatientDate', 'Print'
   ];
 
   expandedElement: Patient | null;
   dataSource = new MatTableDataSource(this.TABLE_DATA);
-  dataSource2 = new MatTableDataSource(this.TABLE_DATA2);
+  // dataSource2 = new MatTableDataSource(this.TABLE_DATA2);
 
   constructor(
     public dialog: MatDialog,
@@ -99,16 +103,14 @@ export class FormsansweredComponent implements OnInit {
     this.formSearchPatient = new FormGroup({
       'caseNumber': new FormControl('', null),
       'personalPassport': new FormControl('', null),
-    });
-    this.formSearchEmployee = new FormGroup({
-      'EmployeeName': new FormControl('', null),
+      'FillDate': new FormControl('', null),
       'EmployeeUserName': new FormControl('', null),
     });
     this.formPrint = new FormGroup({
       'question': new FormControl('', null),
     })
     this.searchForm();
-    this.nurseSearchForm();
+    // this.nurseSearchForm();
   }
 
   openDialogToUpdate(id) {
@@ -132,7 +134,15 @@ export class FormsansweredComponent implements OnInit {
   searchForm() {
     let caseNumber = this.formSearchPatient.controls['caseNumber'].value;
     let personalPassport = this.formSearchPatient.controls['personalPassport'].value;
+    let FillDate = this.formSearchPatient.controls['FillDate'].value;
+    let EmployeeUserName = this.formSearchPatient.controls['EmployeeUserName'].value;
     let FormID = this.urlID;
+    let pipe = new DatePipe('en-US');
+    if(!(FillDate == undefined || FillDate == "" || FillDate == null)){
+      FillDate = pipe.transform(FillDate, 'yyyy/MM/dd');
+    }else{
+      FillDate = "";
+    }
     if (caseNumber == undefined) {
       caseNumber = null;
     }
@@ -141,14 +151,15 @@ export class FormsansweredComponent implements OnInit {
     }
     
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetPersonalDetailsForForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
         _formID: FormID,
         _caseNumber: caseNumber,
         _personalPassport: personalPassport,
+        _fillDate: FillDate,
+        _employeeUserName: EmployeeUserName,
       })
       .subscribe((Response) => {
         this.all_forms_filter = Response["d"];
-        this.isCaseNumber = '3';
         if(this.all_forms_filter[0]){
           this.isCaseNumber = this.all_forms_filter[0].isCaseNumber;
         }
@@ -158,12 +169,14 @@ export class FormsansweredComponent implements OnInit {
             FormID: this.all_forms_filter[i].formID,
             PatientID: this.all_forms_filter[i].CaseNumber,
             PatientName: this.all_forms_filter[i].PersonalFirstName+' '+this.all_forms_filter[i].PersonalLastName,
-            PatientBirthday: this.all_forms_filter[i].PersonAnswers[0].FillFormDate.split(' ')[0],
+            DateOfFillForm: this.all_forms_filter[i].DateOfFillForm.split(' ')[0],
+            PatientBirthday: this.all_forms_filter[i].PersonalBirthday.split(' ')[0],
             PatientPassport: this.all_forms_filter[i].PersonalID,
             PatientPhone: this.all_forms_filter[i].PersonalPhone,
             PatientEmail: this.all_forms_filter[i].PersonalEmail,
             PatientGender: this.all_forms_filter[i].PersonalGender,
             PatientAddress: this.all_forms_filter[i].PersonalAddress,
+            NurseInCharge: this.all_forms_filter[i].NurseInCharge,
             FormName: this.all_forms_filter[i].FormName,
             isCaseNumber: this.all_forms_filter[i].isCaseNumber,
             Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature),
@@ -175,43 +188,43 @@ export class FormsansweredComponent implements OnInit {
       });
   }
 
-  nurseSearchForm() {
+  // nurseSearchForm() {
 
-    let NurseUserName = this.formSearchEmployee.controls['EmployeeUserName'].value;
-    let NurseFullName = this.formSearchEmployee.controls['EmployeeName'].value;
-    let FormID = this.urlID;
+  //   let NurseUserName = this.formSearchEmployee.controls['EmployeeUserName'].value;
+  //   let NurseFullName = this.formSearchEmployee.controls['EmployeeName'].value;
+  //   let FormID = this.urlID;
    
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetNurseInChargeForForms", {
-        _formID: FormID,
-        _NurseUserName: NurseUserName,
-        _NurseFullName: NurseFullName,
-      })
-      .subscribe((Response) => {
-        this.all_forms_filter = Response["d"];
-        this.isCaseNumber2 = '3';
-        if(this.all_forms_filter[0]){
-          this.isCaseNumber2 = this.all_forms_filter[0].isCaseNumber;
-        }
-        this.TABLE_DATA2 = [];
-        for (var i = 0; i < this.all_forms_filter.length; i++) {
-          this.TABLE_DATA2.push({
-            FormID: this.all_forms_filter[i].formID,
-            UserName: this.all_forms_filter[i].UserName,
-            FormName: this.all_forms_filter[i].FormName,
-            Department: this.all_forms_filter[i].Department,
-            FirstName: this.all_forms_filter[i].FirstName+' '+this.all_forms_filter[i].LastName,
-            LastName: this.all_forms_filter[i].LastName,
-            isCaseNumber2: this.all_forms_filter[i].isCaseNumber,
-            fillDate: this.all_forms_filter[i].NurseAnswers[0].FillFormDate.split(' ')[0],
-            Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].PersonalSignature),
-            Questions: this.all_forms_filter[i].NurseAnswers,
-          });
-        }
-        this.dataSource2 = new MatTableDataSource<any>(this.TABLE_DATA2);
-        this.dataSource2.paginator = this.paginator;
-      });
-  }
+  //   this.http
+  //     .post("http://srv-apps/wsrfc/WebService.asmx/GetNurseInChargeForForms", {
+  //       _formID: FormID,
+  //       _NurseUserName: NurseUserName,
+  //       _NurseFullName: NurseFullName,
+  //     })
+  //     .subscribe((Response) => {
+  //       this.all_forms_filter = Response["d"];
+  //       this.isCaseNumber2 = '3';
+  //       if(this.all_forms_filter[0]){
+  //         this.isCaseNumber2 = this.all_forms_filter[0].isCaseNumber;
+  //       }
+  //       this.TABLE_DATA2 = [];
+  //       for (var i = 0; i < this.all_forms_filter.length; i++) {
+  //         this.TABLE_DATA2.push({
+  //           FormID: this.all_forms_filter[i].formID,
+  //           UserName: this.all_forms_filter[i].UserName,
+  //           FormName: this.all_forms_filter[i].FormName,
+  //           Department: this.all_forms_filter[i].Department,
+  //           FirstName: this.all_forms_filter[i].FirstName+' '+this.all_forms_filter[i].LastName,
+  //           LastName: this.all_forms_filter[i].LastName,
+  //           isCaseNumber2: this.all_forms_filter[i].isCaseNumber,
+  //           fillDate: this.all_forms_filter[i].NurseAnswers[0].FillFormDate.split(' ')[0],
+  //           Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].PersonalSignature),
+  //           Questions: this.all_forms_filter[i].NurseAnswers,
+  //         });
+  //       }
+  //       this.dataSource2 = new MatTableDataSource<any>(this.TABLE_DATA2);
+  //       this.dataSource2.paginator = this.paginator;
+  //     });
+  // }
 //this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature 
 //+ toReturnImage.base64string);
 }

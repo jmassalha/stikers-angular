@@ -174,7 +174,7 @@ export class MaternityComponent implements OnInit {
         debugger;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx//InsertOrUpdateMaternity",
+                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateMaternity",
                 {
                     _maternityForm: this.maternityForm.value,
                 }
@@ -202,7 +202,7 @@ export class MaternityComponent implements OnInit {
         this.MaternityName = _element.MaternityNumber;
         this.MaternityNumber = _element.MaternityName;
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//GetMaternityPatientMobiles", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMaternityPatientMobiles", {
                 RowID: _element.RowID,
             })
             .subscribe((Response) => {
@@ -347,7 +347,7 @@ export class MaternityComponent implements OnInit {
         //http://srv-apps/wsrfc/WebService.asmx/
         //http://srv-apps/wsrfc/WebService.asmx/
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//GetMaternityTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMaternityTable", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _freeText: _FreeText,

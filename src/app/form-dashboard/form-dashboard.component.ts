@@ -42,9 +42,11 @@ export class FormDashboardComponent implements OnInit {
 
   getAllForms() {
     let formNameControl = this.formSearch.controls['formNameControl'].value;
+    let nurseUser = localStorage.getItem('loginUserName');
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetAllForms", {
-        _formNameControl: formNameControl
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
+        _formNameControl: formNameControl,
+        _nurseUser: nurseUser,
       })
       .subscribe((Response) => {
         this.all_forms_filter = [];

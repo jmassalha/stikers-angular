@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
         $("#loader").removeClass("d-none");
         if (this.username && this.password) {
             this.http
-                .post("http://srv-apps/wsrfc/WebService.asmx//Login", {
+                .post("http://srv-apps/wsrfc/WebService.asmx/Login", {
                     _userName: this.username,
                     _mPassword: this.password
                 })

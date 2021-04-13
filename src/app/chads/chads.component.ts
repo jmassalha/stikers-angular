@@ -228,7 +228,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
         ////debugger;
         //return;
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//SaveRelevantOrNotChad", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SaveRelevantOrNotChad", {
                 mRelevantOrNot: this.RelevantForm.value
             })
             .subscribe(
@@ -241,7 +241,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
     }
     getDeparts(){
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//GetChadsDeparts", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetChadsDeparts", {
                 
             })
             .subscribe(
@@ -302,7 +302,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
     private saveChad(_rowID) {
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//saveChad", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/saveChad", {
                 _chadVal: this.chadVal,
                 _chadDate: this.chadDate,
                 _chadTool: this.chadTool,
@@ -604,7 +604,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
         //// ////debugger
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//GetReportTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetReportTable", {
                 _reportTableName: _tableName,
                 _fromDate: _startDate,
                 _toDate: _endDate,

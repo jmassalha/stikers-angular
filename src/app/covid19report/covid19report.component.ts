@@ -450,7 +450,7 @@ export class Covid19reportComponent implements OnInit {
         taht.addOrEditReportForm.value.Reporting_Date_Time = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
         debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//SubmitCovid19Report", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitCovid19Report", {
                 mCovid19Report: taht.addOrEditReportForm.value,
             })
             .subscribe((Response) => {
@@ -477,7 +477,7 @@ export class Covid19reportComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//GetAllReporting", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllReporting", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,

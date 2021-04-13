@@ -282,7 +282,7 @@ export class CoronavaccineComponent implements OnInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx//SendSmsToCoronaSurvey",
+                "http://srv-apps/wsrfc/WebService.asmx/SendSmsToCoronaSurvey",
                 {
                     _FullName: this.fullnameVal,
                     _id: this.idPatient,
@@ -548,7 +548,7 @@ export class CoronavaccineComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx//GetAllVaccine", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllVaccine", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,

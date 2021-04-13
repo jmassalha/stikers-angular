@@ -39,6 +39,18 @@ form{
     padding-left: 0px;
 }
 
-canvas { 
+#canvas { 
+    height: 200px;
+    width: 400px;
     border: 1px solid #000; 
 }
+
+@media only screen and (max-width: 630px) {
+    #canvas { 
+        height: 150px;
+        width: 250px;
+        border: 1px solid #000; 
+    }
+    
+  }
+

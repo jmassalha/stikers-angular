@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
-import { Survey, Question, Option } from './data-models';
+import { Survey } from './data-models';
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import {
@@ -16,7 +16,6 @@ export interface QuestionType {
 export interface FormDepartment {
   deptVal: string;
 }
-
 @Component({
   selector: 'app-updatesingleform',
   templateUrl: './updatesingleform.component.html',
@@ -24,10 +23,10 @@ export interface FormDepartment {
 })
 export class UpdatesingleformComponent implements OnInit {
 
-
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   surveyForm: FormGroup;
+  tableFormGroup: FormGroup;
   selectedOption = [];
   editMode = false;
 
@@ -41,8 +40,6 @@ export class UpdatesingleformComponent implements OnInit {
   _formArr = [];
   _questionArr = [];
 
-  // counter = 0;
-
 
   questions: QuestionType[] = [
     { value: 'RadioButton', viewValue: 'בחירה יחידה' },
@@ -54,6 +51,7 @@ export class UpdatesingleformComponent implements OnInit {
     { value: 'Phone', viewValue: 'מספר טלפון' },
     { value: 'Date', viewValue: 'תאריך' },
     { value: 'Time', viewValue: 'זמן' },
+    { value: 'Signature', viewValue: 'חתימה' },
   ];
 
   constructor(
@@ -64,12 +62,15 @@ export class UpdatesingleformComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder
   ) { }
+
   FormDepartment: string = "";
   FormDepartmentID: string = "";
   Row_ID: string = "";
   FormName: string = "";
   FormID: string = "";
+  FormOpenText: string = "";
   isCaseNumber: any;
+  TableForm: any;
   GeneralForm: any;
   QuestionID: string = "";
   urlID: number;
@@ -78,7 +79,21 @@ export class UpdatesingleformComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.getFormData(this.urlID);
+  }
 
+  counterCols(index) {
+    let numberOfCols = this.tableFormGroup.controls.tableArray.value[index].colsnumber;
+    if (numberOfCols > 0) {
+      return new Array(numberOfCols);
+    }
+  }
+  counterRows(index) {
+    let arrayOfCols = [];
+    let numberOFRows = this.tableFormGroup.controls.tableArray.value[index].rowsnumber;
+    if (numberOFRows > 0) {
+
+      return new Array(numberOFRows);
+    }
   }
 
   openSnackBar(message) {
@@ -91,14 +106,20 @@ export class UpdatesingleformComponent implements OnInit {
 
   private initForm() {
     let surveyQuestions = new FormArray([]);
+    let tableArray = new FormArray([]);
     this.surveyForm = new FormGroup({
       'FormID': new FormControl("0", [Validators.required]),
       'FormName': new FormControl(this.FormName, [Validators.required]),
       'FormDepartment': new FormControl(this.FormDepartment, null),
-      'isCaseNumber': new FormControl('', null),
-      'GeneralForm': new FormControl('', null),
-      'FormDepartmentID': new FormControl(this.FormDepartmentID, [Validators.required]),
+      'isCaseNumber': new FormControl(this.isCaseNumber, null),
+      'GeneralForm': new FormControl(this.GeneralForm, null),
+      'FormOpenText': new FormControl(this.FormOpenText, null),
+      'TableForm': new FormControl(this.TableForm, null),
+      'FormDepartmentID': new FormControl(this.FormDepartmentID, null),
       'surveyQuestions': surveyQuestions,
+    });
+    this.tableFormGroup = new FormGroup({
+      'tableArray': tableArray,
     });
   }
 
@@ -112,6 +133,21 @@ export class UpdatesingleformComponent implements OnInit {
       'questionGroup': new FormGroup({})
     });
     (<FormArray>this.surveyForm.get('surveyQuestions')).push(surveyQuestionItem);
+  }
+
+  onAddTable() {
+    const tableColItem = new FormGroup({
+      'tableid': new FormControl('0', null),
+      'colsnumber': new FormControl('1', null),
+      'tabletext': new FormControl('', null),
+      'colstype': new FormControl('Text', null),
+      'rowsnumber': new FormControl('1', null),
+      'tablestatus': new FormControl('1', null),
+      'colssplit': new FormControl('0', null),
+      'colsGroup': new FormGroup({}),
+      'rowsGroup': new FormGroup({})
+    });
+    (<FormArray>this.tableFormGroup.get('tableArray')).push(tableColItem);
   }
 
   onAddQuestion2(counter, element) {
@@ -140,6 +176,10 @@ export class UpdatesingleformComponent implements OnInit {
     this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionStatus.patchValue("0");
   }
 
+  onRemoveTable(index) {
+    this.tableFormGroup.controls.tableArray['controls'][index].controls.tablestatus.patchValue("0");
+  }
+
   onSeletQuestionType(questionType, index) {
     if (questionType === 'RadioButton' || questionType === 'CheckBox') {
       this.addOptionControls(questionType, index)
@@ -154,7 +194,6 @@ export class UpdatesingleformComponent implements OnInit {
     this.addOption(index);
     this.addOption(index);
   }
-
 
   addOptionControls2(questionOptions, index) {
     let options = new FormArray([]);
@@ -182,10 +221,46 @@ export class UpdatesingleformComponent implements OnInit {
     (<FormArray>this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionGroup.controls.options).push(optionGroup);
   }
 
+  addColumnsControls(index) {
+    let numberOfCols = this.tableFormGroup.controls.tableArray['controls'][index].controls.colsnumber.value;
+    let column = new FormArray([]);
+    (this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup).addControl('column', column);
+    this.clearFormArray((<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column));
+    this.addCols(index, numberOfCols);
+
+  }
+
+  addCols(index, numberOfCols) {
+    for (let i = 0; i < parseInt(numberOfCols); i++) {
+      const colsNewGroup = new FormGroup({
+        'colsText': new FormControl('', null),
+      });
+      (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column).push(colsNewGroup);
+    }
+  }
+  
+  addRowsControls(index) {
+    let numberOfRows = this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsnumber.value;
+    let row = new FormArray([]);
+    (this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup).addControl('row', row);
+    this.clearFormArray((<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.controls.row));
+    this.addRows(index, numberOfRows);
+  }
+
+  addRows(index, numberOfRows) {
+    for (let i = 0; i < parseInt(numberOfRows); i++) {
+      const rowsNewGroup = new FormGroup({
+        'rowsText': new FormControl('', null),
+      });
+      (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.controls.row).push(rowsNewGroup);
+    }
+  }
+
   removeOption(element, questionIndex, itemIndex) {
     <FormArray>this.surveyForm.controls.surveyQuestions['controls'][questionIndex].controls.questionGroup.controls.options.controls[itemIndex].controls.optionStatus.patchValue("0");
   }
 
+  // this one is for updating existing form
   addOption2(index, element) {
     const optionGroup = new FormGroup({
       'optionID': new FormControl(element.OptionID, [Validators.required]),
@@ -200,28 +275,35 @@ export class UpdatesingleformComponent implements OnInit {
     let formData = this.surveyForm.value;
     let FormID = this.FormID;
     let FormName = formData.FormName;
+    let FormOpenText = formData.FormOpenText;
+    let TableForm = formData.TableForm;
     let isCaseNumber = formData.isCaseNumber;
     let GeneralForm = formData.GeneralForm;
-    if(isCaseNumber == "" || isCaseNumber == false){
-      isCaseNumber = "0";
-    }else{
-      isCaseNumber = "1";
-    }
-    if(GeneralForm == "" || GeneralForm == false){
-      GeneralForm = "0";
-    }else{
-      GeneralForm = "1";
-    }
     let FormDepartment = formData.FormDepartment;
     let FormDepartmentID = formData.FormDepartmentID;
+    if (isCaseNumber == "" || isCaseNumber == false) {
+      isCaseNumber = "0";
+    } else {
+      isCaseNumber = "1";
+    }
+    if (GeneralForm == "" || GeneralForm == false) {
+      GeneralForm = "0";
+    } else {
+      GeneralForm = "1";
+    }
+    if (TableForm == "" || TableForm == false) {
+      TableForm = "0";
+    } else {
+      TableForm = "1";
+    }
+
     let Questions = [];
     let surveyQuestions = formData.surveyQuestions;
     let FormCreatorName = localStorage.getItem("loginUserName").toLowerCase();
     let UserDepart = localStorage.getItem("Depart").toLowerCase();
-    var survey = new Survey(FormID, FormName, FormDepartment,isCaseNumber,UserDepart,GeneralForm, FormDepartmentID,FormCreatorName, Questions);
+    var survey = new Survey(FormID, FormName, FormOpenText, TableForm, FormDepartment, isCaseNumber, UserDepart, GeneralForm, FormDepartmentID, FormCreatorName, Questions);
 
     surveyQuestions.forEach((question, index, array) => {
-
       let questionItem = {
         'QuestionID': question.questionID,
         "QuestionType": question.questionType,
@@ -230,7 +312,6 @@ export class UpdatesingleformComponent implements OnInit {
         "QuestionIsRequired": question.IsRequired,
         "QuestionStatus": question.questionStatus,
       }
-
 
       if (question.questionGroup.hasOwnProperty('options')) {
 
@@ -259,15 +340,15 @@ export class UpdatesingleformComponent implements OnInit {
     if (!this.surveyForm.invalid) {
       if (this.urlID === 0) {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx//Forms", {
+          .post("http://srv-apps/wsrfc/WebService.asmx/Forms", {
             _FormValues: survey,
           })
           .subscribe((Response) => {
           });
       } else {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx//UpdateForm", {
-            updateFormValues: survey, 
+          .post("http://srv-apps/wsrfc/WebService.asmx/UpdateForm", {
+            updateFormValues: survey,
           })
           .subscribe((Response) => {
           });
@@ -279,40 +360,43 @@ export class UpdatesingleformComponent implements OnInit {
     } else {
       this.openSnackBar("!שכחת למלא אחד השדות");
     }
-
-
-
   }
-
 
   getFormData(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetFormData", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormData", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
-
         this.filter_form_response = Response["d"];
 
         this.FormName = this.filter_form_response.FormName;
         this.FormID = this.filter_form_response.FormID;
-        if(this.FormID == null){
+        this.FormOpenText = this.filter_form_response.FormOpenText;
+        if (this.FormID == null) {
           this.FormID = "0";
+        }
+        if (this.filter_form_response.isCaseNumber == "0") {
+          this.isCaseNumber = false;
+        } else {
+          this.isCaseNumber = true;
+        }
+        if (this.filter_form_response.GeneralForm == "0") {
+          this.GeneralForm = false;
+        } else {
+          this.GeneralForm = true;
+        }
+        if (this.filter_form_response.TableForm == "0") {
+          this.TableForm = false;
+        } else {
+          this.TableForm = true;
         }
         this.FormDepartment = this.filter_form_response.FormDepartment;
         this.FormDepartmentID = this.filter_form_response.FormDepartmentID;
         this.surveyForm.controls['FormID'].patchValue(this.FormID);
         this.surveyForm.controls['FormName'].patchValue(this.FormName);
-        if(this.filter_form_response.isCaseNumber == "0"){
-          this.isCaseNumber = false;
-        }else{
-          this.isCaseNumber = true;
-        }
-        if(this.filter_form_response.GeneralForm == "0"){
-          this.GeneralForm = false;
-        }else{
-          this.GeneralForm = true;
-        }
+        this.surveyForm.controls['FormOpenText'].patchValue(this.FormOpenText);
+        this.surveyForm.controls['TableForm'].patchValue(this.TableForm);
         this.surveyForm.controls['isCaseNumber'].patchValue(this.isCaseNumber);
         this.surveyForm.controls['GeneralForm'].patchValue(this.GeneralForm);
         this.surveyForm.controls['FormDepartment'].patchValue(this.FormDepartment);
@@ -322,19 +406,19 @@ export class UpdatesingleformComponent implements OnInit {
 
         if (this._questionArr != null) {
           this._questionArr.forEach(element => {
-            if(element.PinQuestion == "0"){
+            if (element.PinQuestion == "0") {
               this.QuestionID = element.QuestionID;
-            this.onAddQuestion2(counter, element);
-            counter = counter + 1;
+              this.onAddQuestion2(counter, element);
+              counter = counter + 1;
             }
-            
+
           });
         }
 
       });
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetFormsDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
 
       })
       .subscribe((Response) => {
@@ -348,7 +432,10 @@ export class UpdatesingleformComponent implements OnInit {
   }
 
   onSubmit() {
-    this.postSurvey();
+    // this.postSurvey();
+    this.addColumnsControls(0);
+    this.addRowsControls(0);
+    console.log(this.tableFormGroup.value);
   }
 
 }

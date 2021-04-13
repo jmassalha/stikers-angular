@@ -168,7 +168,7 @@ export class EventsscheduleComponent implements OnInit {
                 $("#loader").removeClass("d-none");
                 this.http
                         .post(
-                                "http://srv-apps/wsrfc/WebService.asmx//GetDropDownsSelects",
+                                "http://srv-apps/wsrfc/WebService.asmx/GetDropDownsSelects",
                                 {
                                         mDropDownType: mType,
                                 }
@@ -221,7 +221,7 @@ export class EventsscheduleComponent implements OnInit {
                 ////debugger;
                 this.http
                         .post(
-                                "http://srv-apps/wsrfc/WebService.asmx//InsertOrUpdateEvent",
+                                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateEvent",
                                 {
                                         mEventsScheduleRow: this.EventsForm.value,
                                 }
@@ -402,7 +402,7 @@ export class EventsscheduleComponent implements OnInit {
                 //debugger
                 this.http
                         .post(
-                                "http://srv-apps/wsrfc/WebService.asmx//GetEventsSchedule",
+                                "http://srv-apps/wsrfc/WebService.asmx/GetEventsSchedule",
                                 {
                                         pageIndex: pageIndex,
                                         pageSize: pageSize,

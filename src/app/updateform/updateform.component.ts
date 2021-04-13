@@ -60,6 +60,7 @@ export class UpdateformComponent implements OnInit {
 
   openDialogToAnsweredForms(id) {
     let dialogRef = this.dialog.open(FormsansweredComponent);
+    dialogRef.updateSize('1000px','100%');
     dialogRef.componentInstance.urlID = id;
   }
 
@@ -73,13 +74,14 @@ searchForm(){
   let UserName = localStorage.getItem("loginUserName").toLowerCase();
   
   this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetAllUsersForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllUsersForms", {
         _userName: UserName,
         _searchWord: searchWord,
         _departmentControl: departmentControl
       })
       .subscribe((Response) => {
         this.all_forms_filter = Response["d"];
+
         this.TABLE_DATA = [];
         for (var i = 0; i < this.all_forms_filter.length; i++) {
           this.TABLE_DATA.push({
@@ -93,7 +95,7 @@ searchForm(){
         this.dataSource.paginator = this.paginator;
       });
       this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetFormsDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];

@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Input,AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Input, AfterViewInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
-import { Survey } from './data-models';
+import { Question, Survey } from './data-models';
 import { HttpClient } from "@angular/common/http";
 import { BehaviorSubject, fromEvent } from 'rxjs';
 import { Result } from '@zxing/library';
@@ -58,7 +58,6 @@ export class FillSurveyComponent implements OnInit {
   torchAvailable$ = new BehaviorSubject<boolean>(false);
   tryHarder = false;
 
-
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   mPersonalDetails: PersonalDetails;
@@ -73,6 +72,7 @@ export class FillSurveyComponent implements OnInit {
 
   _formID: string;
   _formName: string;
+  _formOpenText: string;
   isCaseNumber: string;
   withCaseNumber: boolean;
   _formDate: string;
@@ -96,19 +96,20 @@ export class FillSurveyComponent implements OnInit {
 
 
   // Digital Signature Section
-  @ViewChild('canvas') public canvas: ElementRef; 
+  @ViewChild('canvas') public canvas: ElementRef;
 
-  @Input() public width = 200;
-  @Input() public height = 100;
+  // @Input() public width = 400;
+  // @Input() public height = 150;
 
   private cx: CanvasRenderingContext2D;
+
+  resetSign() {
+    this.cx.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
+  }
 
   public ngAfterViewInit() {
     this.canvasEl = this.canvas.nativeElement;
     this.cx = this.canvasEl.getContext('2d');
-
-    this.canvasEl.width = this.width;
-    this.canvasEl.height = this.height;
 
     this.cx.lineWidth = 3;
     this.cx.lineCap = 'round';
@@ -116,7 +117,7 @@ export class FillSurveyComponent implements OnInit {
 
     this.captureEvents(this.canvasEl);
   }
-  
+
   private captureEvents(canvasEl: HTMLCanvasElement) {
     fromEvent(canvasEl, 'mousedown')
       .pipe(
@@ -141,31 +142,31 @@ export class FillSurveyComponent implements OnInit {
         };
         this.drawOnCanvas(prevPos, currentPos);
       });
-      fromEvent(canvasEl, 'touchstart').pipe(switchMap(() => {
-        return fromEvent(canvasEl, 'touchmove').pipe(
-          takeUntil(fromEvent(canvasEl, 'touchend')),
-          takeUntil(fromEvent(canvasEl, 'touchcancel')),
-          pairwise()
-        );
-      })).subscribe((res: [TouchEvent, TouchEvent]) => {
-        const rect = canvasEl.getBoundingClientRect();
+    fromEvent(canvasEl, 'touchstart').pipe(switchMap(() => {
+      return fromEvent(canvasEl, 'touchmove').pipe(
+        takeUntil(fromEvent(canvasEl, 'touchend')),
+        takeUntil(fromEvent(canvasEl, 'touchcancel')),
+        pairwise()
+      );
+    })).subscribe((res: [TouchEvent, TouchEvent]) => {
+      const rect = canvasEl.getBoundingClientRect();
 
-        const prevPos = {
-          x: res[0].touches[0].clientX - rect.left,
-          y: res[0].touches[0].clientY - rect.top
-        };
-        res[0].preventDefault();
-        res[0].stopImmediatePropagation();
+      const prevPos = {
+        x: res[0].touches[0].clientX - rect.left,
+        y: res[0].touches[0].clientY - rect.top
+      };
+      res[0].preventDefault();
+      res[0].stopImmediatePropagation();
 
-        const currentPos = {
-          x: res[1].touches[0].clientX - rect.left,
-          y: res[1].touches[0].clientY - rect.top
-        };
-        res[1].preventDefault();
-        res[1].stopImmediatePropagation();
+      const currentPos = {
+        x: res[1].touches[0].clientX - rect.left,
+        y: res[1].touches[0].clientY - rect.top
+      };
+      res[1].preventDefault();
+      res[1].stopImmediatePropagation();
 
-        this.drawOnCanvas(prevPos, currentPos);
-      });
+      this.drawOnCanvas(prevPos, currentPos);
+    });
   }
 
   private drawOnCanvas(prevPos: { x: number, y: number }, currentPos: { x: number, y: number }) {
@@ -180,7 +181,7 @@ export class FillSurveyComponent implements OnInit {
     }
   }
 
-//this comment is for the BarCode Scanner ** temporarly unavailable
+  //this comment is for the BarCode Scanner ** temporarly unavailable
 
   // clearResult(): void {
   //   this.qrResultString = null;
@@ -284,7 +285,7 @@ export class FillSurveyComponent implements OnInit {
     let Signature = this.canvasEl.toDataURL();
     let surveyAnswers = formData.Answers;
     let CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
-    var survey = new Survey(FormID, CaseNumber,nurseInCharge,Signature, Answers);
+    var survey = new Survey(FormID, CaseNumber, nurseInCharge, Signature, Answers);
 
     surveyAnswers.forEach((answer, index, array) => {
       this.ChekBoxQ.forEach(i => {
@@ -292,24 +293,28 @@ export class FillSurveyComponent implements OnInit {
           answer.answerContent = i.QAns.toString();
         }
       });
-      let AnswerItem = {
-        'AnswerID': index,
-        "AnswerValue": answer.answerContent,
-        "questionID": this._questionArr[index].QuestionID,
-        "formID": this._formID,
-        "AnswerType": this._questionArr[index].QuestionType,
-        "questionValue": this._questionArr[index].QuestionValue,
-        "PinQuestion": this._questionArr[index].PinQuestion,
+      if(this._questionArr[index].QuestionType != "TextArea"){
+        let AnswerItem = {
+          'AnswerID': index,
+          "AnswerValue": answer.answerContent,
+          "questionID": this._questionArr[index].QuestionID,
+          "formID": this._formID,
+          "AnswerType": this._questionArr[index].QuestionType,
+          "questionValue": this._questionArr[index].QuestionValue,
+          "PinQuestion": this._questionArr[index].PinQuestion,
+        }
+        survey.FormAnswers.push(AnswerItem);
+  
       }
-      survey.FormAnswers.push(AnswerItem);
-
+      
     });
-    if(Signature == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAAMgAAABkCAYAAADDhn8LAAACnklEQVR4Xu3VsRHAMAzEsHj/pTOBXbB9pFchyLycz0eAwFXgsCFA4C4gEK+DwENAIJ4HAYF4AwSagD9IczM1IiCQkUNbswkIpLmZGhEQyMihrdkEBNLcTI0ICGTk0NZsAgJpbqZGBAQycmhrNgGBNDdTIwICGTm0NZuAQJqbqREBgYwc2ppNQCDNzdSIgEBGDm3NJiCQ5mZqREAgI4e2ZhMQSHMzNSIgkJFDW7MJCKS5mRoREMjIoa3ZBATS3EyNCAhk5NDWbAICaW6mRgQEMnJoazYBgTQ3UyMCAhk5tDWbgECam6kRAYGMHNqaTUAgzc3UiIBARg5tzSYgkOZmakRAICOHtmYTEEhzMzUiIJCRQ1uzCQikuZkaERDIyKGt2QQE0txMjQgIZOTQ1mwCAmlupkYEBDJyaGs2AYE0N1MjAgIZObQ1m4BAmpupEQGBjBzamk1AIM3N1IiAQEYObc0mIJDmZmpEQCAjh7ZmExBIczM1IiCQkUNbswkIpLmZGhEQyMihrdkEBNLcTI0ICGTk0NZsAgJpbqZGBAQycmhrNgGBNDdTIwICGTm0NZuAQJqbqREBgYwc2ppNQCDNzdSIgEBGDm3NJiCQ5mZqREAgI4e2ZhMQSHMzNSIgkJFDW7MJCKS5mRoREMjIoa3ZBATS3EyNCAhk5NDWbAICaW6mRgQEMnJoazYBgTQ3UyMCAhk5tDWbgECam6kRAYGMHNqaTUAgzc3UiIBARg5tzSYgkOZmakRAICOHtmYTEEhzMzUiIJCRQ1uzCQikuZkaERDIyKGt2QQE0txMjQgIZOTQ1mwCAmlupkYEBDJyaGs2AYE0N1MjAgIZObQ1m4BAmpupEQGBjBzamk1AIM3N1IiAQEYObc0mIJDmZmpE4Af1gABlH0hlGgAAAABJRU5ErkJggg=="){
+    debugger
+    if (Signature == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAEYklEQVR4Xu3UAQkAAAwCwdm/9HI83BLIOdw5AgQIRAQWySkmAQIEzmB5AgIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlACBB1YxAJfjJb2jAAAAAElFTkSuQmCC") {
       this.openSnackBar("נא לחתום על הטופס");
-    }else{
+    } else {
       if (!this.surveyForm.invalid) {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx//answerForm", {
+          .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
             _answerValues: survey,
           })
           .subscribe((Response) => {
@@ -333,12 +338,12 @@ export class FillSurveyComponent implements OnInit {
   }
 
 
-// how to identify the specific form to update if there is no case number **maybe special number for the specefic form?
+  // how to identify the specific form to update if there is no case number **maybe special number for the specefic form?
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.withCaseNumber = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetPersonalDetails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
         CaseNumber: this.CaseNumber,
       })
       .subscribe((Response) => {
@@ -353,13 +358,14 @@ export class FillSurveyComponent implements OnInit {
 
   getForm(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetForm", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
         this.filter_form_response = Response["d"];
         this._formID = this.filter_form_response.FormID;
         this._formName = this.filter_form_response.FormName;
+        this._formOpenText = this.filter_form_response.FormOpenText;
         this._formDate = this.filter_form_response.FormDate;
         this.isCaseNumber = this.filter_form_response.isCaseNumber;
         if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
@@ -371,12 +377,12 @@ export class FillSurveyComponent implements OnInit {
           this.getOption(this.urlID);
         }
       });
-      this.ngAfterViewInit();
+    this.ngAfterViewInit();
   }
 
   getQuestion(urlID, personalDetails) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetQuestion", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
         isCaseNumber: this.isCaseNumber
       })
@@ -386,9 +392,8 @@ export class FillSurveyComponent implements OnInit {
         var that = this;
         this.ChekBoxQ = new Array<CheckBoxAnswers>();
         this.filter_question_response.forEach(element => {
-          if(element.QuestionValue != "חתימה"){
-            this._questionArr.push(element);
-          
+          // if(element.QuestionValue != "חתימה"){
+          this._questionArr.push(element);
 
           var surveyAnswersItem;
           if (element.QuestionIsRequired == "False") {
@@ -466,7 +471,7 @@ export class FillSurveyComponent implements OnInit {
 
           }
           this.surveyAnswers.push(surveyAnswersItem);
-        }
+          // }
         });
         this.updateView();
         this.surveyForm = this.formBuilder.group({
@@ -484,7 +489,7 @@ export class FillSurveyComponent implements OnInit {
 
   getOption(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx//GetOption", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
         optionsFormID: urlID,
       })
       .subscribe((Response) => {
