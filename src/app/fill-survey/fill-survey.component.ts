@@ -345,7 +345,7 @@ export class FillSurveyComponent implements OnInit {
     } else {
       if (!this.surveyForm.invalid) {
         this.http
-          .post("http://localhost:64964/WebService.asmx/answerForm", {
+          .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
             _answerValues: survey,
           })
           .subscribe((Response) => {
@@ -387,7 +387,7 @@ export class FillSurveyComponent implements OnInit {
 
   getForm(urlID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetForm", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -467,7 +467,7 @@ export class FillSurveyComponent implements OnInit {
 
   // getForm(urlID) {
   //   this.http
-  //     .post("http://localhost:64964/WebService.asmx/GetForm", {
+  //     .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
   //       formFormID: urlID,
   //     })
   //     .subscribe((Response) => {
