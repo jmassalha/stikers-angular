@@ -14,7 +14,7 @@
   </form>
 
 
-  <form dir="rtl" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" autocomplete="off" *ngIf="!withCaseNumber">
+  <form dir="rtl" [formGroup]="surveyForm" autocomplete="off" *ngIf="!withCaseNumber">
     <mat-card class="full-width text-center">
       <label>{{_formName}}</label>
     </mat-card>
@@ -76,7 +76,7 @@
                     <div class="d-block" *ngIf="questionCtrl.QuestionType == 'Date'">
                       <mat-form-field appearance="fill">
                         <mat-label>אפשרות תאריך</mat-label>
-                        <input matInput [max]="maxDate | date:'yyyy-MM-dd'" formControlName="answerContent"
+                        <input matInput formControlName="answerContent"
                           [matDatepicker]="picker">
 
                       </mat-form-field>
@@ -165,10 +165,16 @@
       <button mat-raised-button color="secondary" style="float: right;" type="button" (click)="resetSign()"><span>תיקון
           חתימה</span></button>
     </div>
-    <div class="button-row">
-      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
+    <div class="button-row" *ngIf="isCaseNumber == '0'">
+      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: black;" color="primary" (click)="fillForm(1)"
         type="submit" mat-raised-button>
-        <span>שליחת שאלון</span>
+        <span>להמשיך מאוחר יותר</span>
+      </button>
+    </div>
+    <div class="button-row">
+      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary" (click)="onSubmit()"
+        type="submit" mat-raised-button>
+        <span>סיום ושמירת טופס</span>
       </button>
     </div>
   </form>

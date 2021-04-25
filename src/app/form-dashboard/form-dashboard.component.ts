@@ -18,6 +18,7 @@ export class FormDashboardComponent implements OnInit {
   all_forms_filter = [];
   all_forms_filter_general = [];
   all_forms_filter_not_general = [];
+  all_forms_filter_Continues = [];
   formSearch: FormGroup;
   chooseForm: FormGroup;
 
@@ -37,9 +38,11 @@ export class FormDashboardComponent implements OnInit {
     this.getAllForms();
   }
 
-  openDialogToFill(id) {
+  openDialogToFill(id,ifcontinue,NurseID) {
     let dialogRef = this.dialog.open(FillSurveyComponent);
     dialogRef.componentInstance.urlID = id;
+    dialogRef.componentInstance.ifContinueForm = ifcontinue;
+    dialogRef.componentInstance.NurseID = NurseID;
   }
 
   getAllForms() {
@@ -54,6 +57,7 @@ export class FormDashboardComponent implements OnInit {
         this.all_forms_filter = [];
         this.all_forms_filter_general = [];
         this.all_forms_filter_not_general = [];
+        this.all_forms_filter_Continues = [];
         this.all_forms_filter = Response["d"];
         this.all_forms_filter.forEach(element => {
           if (element.GeneralForm == "0") {
@@ -61,6 +65,9 @@ export class FormDashboardComponent implements OnInit {
           } else {
             this.all_forms_filter_general.push(element);
           }
+          element.ContinuesForms.forEach(conForm => {
+            this.all_forms_filter_Continues.push(conForm);
+          });
         });
       });
 

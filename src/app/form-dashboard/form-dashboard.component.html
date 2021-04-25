@@ -42,8 +42,25 @@
         </div>
     </div><br><br>
 
-    
 
+
+    <div class="survey-options">
+        <div class="poll-options">
+            <div style="font-size: 20px; background-color: rgb(235, 231, 231);padding-right: 3px;text-align: right;">
+                <div>טפסים להמשך</div>
+            </div>
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-3" *ngFor="let item of all_forms_filter_Continues"
+                    (click)="openDialogToFill(item.formID,1,item.Row_ID)" style="margin-bottom: 10px;">
+                    <mat-card style="height: 100%;" class="card m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
+                        <img src="assets/images/mersham-logo.png">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormDepartment}}</div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
     <div class="survey-options"
         *ngIf="chooseForm.controls['SwitchForms'].value == '1' || chooseForm.controls['SwitchForms'].value == '2'">
         <div class="poll-options">
@@ -51,8 +68,8 @@
                 <div>טפסים מחלקתיים</div>
             </div>
             <div class="row" style="margin-bottom: 20px;">
-                <div class="col" *ngFor="let item of all_forms_filter_not_general"
-                    (click)="openDialogToFill(item.FormID)">
+                <div class="col-3" *ngFor="let item of all_forms_filter_not_general"
+                    (click)="openDialogToFill(item.FormID,0,item.Row_ID)" style="margin-bottom: 10px;">
                     <mat-card style="height: 100%;" class="card m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
                         <img src="assets/images/mersham-logo.png">
@@ -69,7 +86,8 @@
                 <div>טפסים כלליים</div>
             </div>
             <div class="row" style="margin-bottom: 20px;">
-                <div class="col" *ngFor="let item of all_forms_filter_general" (click)="openDialogToFill(item.FormID)">
+                <div class="col-3" *ngFor="let item of all_forms_filter_general" (click)="openDialogToFill(item.FormID,0,item.Row_ID)"
+                    style="margin-bottom: 10px;">
                     <mat-card style="height: 100%;" class="card m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
                         <img src="assets/images/mersham-logo.png">

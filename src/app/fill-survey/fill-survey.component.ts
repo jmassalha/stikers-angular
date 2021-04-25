@@ -92,6 +92,7 @@ export class FillSurveyComponent implements OnInit {
   isCaseNumber: string;
   withCaseNumber: boolean;
   _formDate: string;
+  TableForm: string;
   CaseNumber: string = '';
   _questionArr = [];
   _optionArr = [];
@@ -276,9 +277,13 @@ export class FillSurveyComponent implements OnInit {
   });
 
   urlID: number;
+  ifContinueForm: number;
+  NurseID: number;
 
   ngOnInit() {
     this.urlID;
+    this.ifContinueForm;
+    this.NurseID;
     this.searchCaseNumber();
   }
 
@@ -309,7 +314,7 @@ export class FillSurveyComponent implements OnInit {
     });
   }
 
-  fillForm() {
+  fillForm(continueForm) {
     let FormID = this._formID;
     let formData = this.surveyForm.getRawValue();
     let Answers = [];
@@ -347,6 +352,7 @@ export class FillSurveyComponent implements OnInit {
         this.http
           .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
             _answerValues: survey,
+            _ifContinue: continueForm,
           })
           .subscribe((Response) => {
             this.openSnackBar("!נשמר בהצלחה");
@@ -379,88 +385,166 @@ export class FillSurveyComponent implements OnInit {
         // ***** 30910740
         // ***** 0010739355
         this.mPersonalDetails = Response["d"];
-        this.getForm(this.urlID);
+        this.getForm(this.urlID, this.ifContinueForm,this.NurseID);
         this.selectedSubCheckbox = new Array<any>();
       });
   }
 
+  getForm(urlID, ifContinue,NurseID) {
+    let UserName = localStorage.getItem("loginUserName").toLowerCase();
+    if (ifContinue == 0) {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+          formFormID: urlID,
+        })
+        .subscribe((Response) => {
+          this.filter_form_response = Response["d"];
+          this._formID = this.filter_form_response.FormID;
+          this._formName = this.filter_form_response.FormName;
+          this._formOpenText = this.filter_form_response.FormOpenText;
+          this._formDate = this.filter_form_response.FormDate;
+          this.isCaseNumber = this.filter_form_response.isCaseNumber;
+          this.onlyColumns = this.formBuilder.array([]);
+          this.TablesColsRows = this.formBuilder.array([]);
+          this.surveyTables = this.formBuilder.array([]);
+          var surveyTablesItem;
+          var tableControl;
+          var columnControlItem;
 
-  getForm(urlID) {
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
-        formFormID: urlID,
-      })
-      .subscribe((Response) => {
-        this.filter_form_response = Response["d"];
-        this._formID = this.filter_form_response.FormID;
-        this._formName = this.filter_form_response.FormName;
-        this._formOpenText = this.filter_form_response.FormOpenText;
-        this._formDate = this.filter_form_response.FormDate;
-        this.isCaseNumber = this.filter_form_response.isCaseNumber;
-        this.onlyColumns = this.formBuilder.array([]);
-        this.TablesColsRows = this.formBuilder.array([]);
-        this.surveyTables = this.formBuilder.array([]);
-        var surveyTablesItem;
-        var tableControl;
-        var columnControlItem;
-
-        if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
-          this.openSnackBar("!מספר מקרה לא תקין");
-          this.withCaseNumber = true;
-        } else {
-          this.withCaseNumber = false;
-          // initialize the tables
-          this.filter_form_response.FormTable.forEach(element => {
-            this._tableArr.push(element);
-          });
-          // takes the data of each table
-          this.TABLE_DATA = [];
-          for (var i = 0; i < this._tableArr.length; i++) {
-            this.TablesColsRows = this.formBuilder.array([]);
-            this.TABLE_DATA.push({
-              Row_ID: this.filter_form_response.FormTable[i].Row_ID,
-              TableText: this.filter_form_response.FormTable[i].TableText,
-              ColsType: this.filter_form_response.FormTable[i].ColsType,
-              ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
-              TableStatus: this.filter_form_response.FormTable[i].TableStatus,
+          if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
+            this.openSnackBar("!מספר מקרה לא תקין");
+            this.withCaseNumber = true;
+          } else {
+            this.withCaseNumber = false;
+            // initialize the tables
+            this.filter_form_response.FormTable.forEach(element => {
+              this._tableArr.push(element);
             });
-            for (var r = 0; r < this._tableArr[i].rowsGroup.length; r++) {
-              this.onlyColumns = this.formBuilder.array([]);
-              for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
-                surveyTablesItem = this.formBuilder.group({
-                  tableAnswerContent: ["", null],
-                  ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
-                  checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
-                  ColType: [this._tableArr[i].colsGroup[k].ColType, null],
-                  ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
-                });
-                this.onlyColumns.push(surveyTablesItem);
-              }
-              columnControlItem = this.formBuilder.group({
-                Columns: this.onlyColumns,
-                RowValue: [this._tableArr[i].rowsGroup[r].rowsText, null],
-                RowIDFK: [this._tableArr[i].rowsGroup[r].Row_ID, null]
+            // takes the data of each table
+            this.TABLE_DATA = [];
+            for (var i = 0; i < this._tableArr.length; i++) {
+              this.TablesColsRows = this.formBuilder.array([]);
+              this.TABLE_DATA.push({
+                Row_ID: this.filter_form_response.FormTable[i].Row_ID,
+                TableText: this.filter_form_response.FormTable[i].TableText,
+                ColsType: this.filter_form_response.FormTable[i].ColsType,
+                ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
+                TableStatus: this.filter_form_response.FormTable[i].TableStatus,
               });
-              this.TablesColsRows.push(columnControlItem);
+              for (var r = 0; r < this._tableArr[i].rowsGroup.length; r++) {
+                this.onlyColumns = this.formBuilder.array([]);
+                for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
+                  surveyTablesItem = this.formBuilder.group({
+                    tableAnswerContent: ["", null],
+                    ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
+                    checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
+                    ColType: [this._tableArr[i].colsGroup[k].ColType, null],
+                    ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
+                  });
+                  this.onlyColumns.push(surveyTablesItem);
+                }
+                columnControlItem = this.formBuilder.group({
+                  Columns: this.onlyColumns,
+                  RowValue: [this._tableArr[i].rowsGroup[r].rowsText, null],
+                  RowIDFK: [this._tableArr[i].rowsGroup[r].Row_ID, null]
+                });
+                this.TablesColsRows.push(columnControlItem);
+              }
+              this.updateView2();
+              tableControl = this.formBuilder.group({
+                ColumnRows: this.TablesColsRows,
+                TableID: [this._tableArr[i].Row_ID, null],
+              });
+              this.surveyTables.push(tableControl);
             }
-            this.updateView2();
-            tableControl = this.formBuilder.group({
-              ColumnRows: this.TablesColsRows,
-              TableID: [this._tableArr[i].Row_ID, null],
-            });
-            this.surveyTables.push(tableControl);
+            this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+            this.dataSource.paginator = this.paginator;
+            this.getQuestion(this.urlID, this.mPersonalDetails);
+            this.getOption(this.urlID);
           }
-          this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-          this.dataSource.paginator = this.paginator;
-          this.getQuestion(this.urlID, this.mPersonalDetails);
-          this.getOption(this.urlID);
-        }
 
-        this.surveyForm = this.formBuilder.group({
-          Tables: this.surveyTables
+          this.surveyForm = this.formBuilder.group({
+            Tables: this.surveyTables
+          });
         });
-      });
+    } else {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetContinueousForm", {
+          _formID: urlID,
+          _userName: UserName,
+          _nurseid: NurseID,
+        })
+        .subscribe((Response) => {
+          this.filter_form_response = Response["d"];
+          this._formID = this.filter_form_response.FormID;
+          this._formName = this.filter_form_response.FormName;
+          this._formOpenText = this.filter_form_response.FormOpenText;
+          this._formDate = this.filter_form_response.FormDate;
+          this.isCaseNumber = this.filter_form_response.isCaseNumber;
+          this.onlyColumns = this.formBuilder.array([]);
+          this.TablesColsRows = this.formBuilder.array([]);
+          this.surveyTables = this.formBuilder.array([]);
+          var surveyTablesItem;
+          var tableControl;
+          var columnControlItem;
+          console.log(this.filter_form_response);
+          if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
+            this.openSnackBar("!מספר מקרה לא תקין");
+            this.withCaseNumber = true;
+          } else {
+            this.withCaseNumber = false;
+            // initialize the tables
+            this.filter_form_response.FormAnswerdTableList.forEach(element => {
+              this._tableArr.push(element);
+            });
+            // takes the data of each table
+            this.TABLE_DATA = [];
+            for (var i = 0; i < this._tableArr.length; i++) {
+              this.TablesColsRows = this.formBuilder.array([]);
+              this.TABLE_DATA.push({
+                Row_ID: this.filter_form_response.FormTable[i].Row_ID,
+                TableText: this.filter_form_response.FormTable[i].TableText,
+                ColsType: this.filter_form_response.FormTable[i].ColsType,
+                ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
+                TableStatus: this.filter_form_response.FormTable[i].TableStatus,
+              });
+              for (var r = 0; r < this._tableArr[i].rowsGroup.length; r++) {
+                this.onlyColumns = this.formBuilder.array([]);
+                for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
+                  surveyTablesItem = this.formBuilder.group({
+                    tableAnswerContent: ["", null],
+                    ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
+                    checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
+                    ColType: [this._tableArr[i].colsGroup[k].ColType, null],
+                    ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
+                  });
+                  this.onlyColumns.push(surveyTablesItem);
+                }
+                columnControlItem = this.formBuilder.group({
+                  Columns: this.onlyColumns,
+                  RowValue: [this._tableArr[i].rowsGroup[r].rowsText, null],
+                  RowIDFK: [this._tableArr[i].rowsGroup[r].Row_ID, null]
+                });
+                this.TablesColsRows.push(columnControlItem);
+              }
+              this.updateView2();
+              tableControl = this.formBuilder.group({
+                ColumnRows: this.TablesColsRows,
+                TableID: [this._tableArr[i].Row_ID, null],
+              });
+              this.surveyTables.push(tableControl);
+            }
+            this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+            this.dataSource.paginator = this.paginator;
+            this.getQuestion(this.urlID, this.mPersonalDetails);
+            this.getOption(this.urlID);
+          }
 
+          this.surveyForm = this.formBuilder.group({
+            Tables: this.surveyTables
+          });
+        });
+    }
     this.ngAfterViewInit();
   }
 
@@ -669,7 +753,7 @@ export class FillSurveyComponent implements OnInit {
   }
 
   onSubmit() {
-    this.fillForm();
+    this.fillForm("0");
     // var link = document.createElement('a');
     // link.download = 'download.png';
     // link.href = this.canvasEl.toDataURL();

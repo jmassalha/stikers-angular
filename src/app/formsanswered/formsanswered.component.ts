@@ -23,7 +23,6 @@ export interface Patient {
   PatientAddress: string;
   FormName: string;
   DateOfFillForm: string;
-  isCaseNumber: string;
   Signature: any;
   Questions: string[];
 }
@@ -115,10 +114,10 @@ export class FormsansweredComponent implements OnInit {
     // this.nurseSearchForm();
   }
 
-  openDialogToUpdate(id) {
-    let dialogRef = this.dialog.open(UpdatesingleformComponent);
-    dialogRef.componentInstance.urlID = id;
-  }
+  // openDialogToUpdate(id) {
+  //   let dialogRef = this.dialog.open(UpdatesingleformComponent);
+  //   dialogRef.componentInstance.urlID = id;
+  // }
 
   public printRowForm(row): void {
     this.rowFormData = row;
@@ -167,7 +166,7 @@ export class FormsansweredComponent implements OnInit {
         }
         this.TABLE_DATA = [];
         for (var i = 0; i < this.all_forms_filter.length; i++) {
-          if(this.all_forms_filter[i].isCaseNumber == '1'){
+          if(this.all_forms_filter[i].CaseNumber != '1'){
             this.TABLE_DATA.push({
             FormID: this.all_forms_filter[i].formID,
             PatientID: this.all_forms_filter[i].CaseNumber,
@@ -179,9 +178,8 @@ export class FormsansweredComponent implements OnInit {
             PatientEmail: this.all_forms_filter[i].PersonalEmail,
             PatientGender: this.all_forms_filter[i].PersonalGender,
             PatientAddress: this.all_forms_filter[i].PersonalAddress,
-            NurseInCharge: this.all_forms_filter[i].NurseInCharge,
+            NurseInCharge: this.all_forms_filter[i].NurseFullName,
             FormName: this.all_forms_filter[i].FormName,
-            isCaseNumber: this.all_forms_filter[i].isCaseNumber,
             Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature),
             Questions: this.all_forms_filter[i].PersonAnswers,
           });
@@ -197,9 +195,8 @@ export class FormsansweredComponent implements OnInit {
               PatientEmail: "",
               PatientGender: "",
               PatientAddress: "",
-              NurseInCharge: this.all_forms_filter[i].UserName,
+              NurseInCharge: this.all_forms_filter[i].FirstName+' '+this.all_forms_filter[i].LastName,
               FormName: this.all_forms_filter[i].FormName,
-              isCaseNumber: "",
               Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].PersonalSignature),
               Questions: this.all_forms_filter[i].NurseAnswers,
             });
@@ -211,43 +208,6 @@ export class FormsansweredComponent implements OnInit {
       });
   }
 
-  // nurseSearchForm() {
-
-  //   let NurseUserName = this.formSearchEmployee.controls['EmployeeUserName'].value;
-  //   let NurseFullName = this.formSearchEmployee.controls['EmployeeName'].value;
-  //   let FormID = this.urlID;
-   
-  //   this.http
-  //     .post("http://srv-apps/wsrfc/WebService.asmx/GetNurseInChargeForForms", {
-  //       _formID: FormID,
-  //       _NurseUserName: NurseUserName,
-  //       _NurseFullName: NurseFullName,
-  //     })
-  //     .subscribe((Response) => {
-  //       this.all_forms_filter = Response["d"];
-  //       this.isCaseNumber2 = '3';
-  //       if(this.all_forms_filter[0]){
-  //         this.isCaseNumber2 = this.all_forms_filter[0].isCaseNumber;
-  //       }
-  //       this.TABLE_DATA2 = [];
-  //       for (var i = 0; i < this.all_forms_filter.length; i++) {
-  //         this.TABLE_DATA2.push({
-  //           FormID: this.all_forms_filter[i].formID,
-  //           UserName: this.all_forms_filter[i].UserName,
-  //           FormName: this.all_forms_filter[i].FormName,
-  //           Department: this.all_forms_filter[i].Department,
-  //           FirstName: this.all_forms_filter[i].FirstName+' '+this.all_forms_filter[i].LastName,
-  //           LastName: this.all_forms_filter[i].LastName,
-  //           isCaseNumber2: this.all_forms_filter[i].isCaseNumber,
-  //           fillDate: this.all_forms_filter[i].NurseAnswers[0].FillFormDate.split(' ')[0],
-  //           Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].PersonalSignature),
-  //           Questions: this.all_forms_filter[i].NurseAnswers,
-  //         });
-  //       }
-  //       this.dataSource2 = new MatTableDataSource<any>(this.TABLE_DATA2);
-  //       this.dataSource2.paginator = this.paginator;
-  //     });
-  // }
 //this.imagePath = this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature 
 //+ toReturnImage.base64string);
 }
