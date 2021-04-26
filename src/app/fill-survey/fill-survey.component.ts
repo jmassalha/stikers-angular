@@ -283,7 +283,6 @@ export class FillSurveyComponent implements OnInit {
   ngOnInit() {
     this.urlID;
     this.ifContinueForm;
-    this.NurseID;
     this.searchCaseNumber();
   }
 
@@ -317,6 +316,7 @@ export class FillSurveyComponent implements OnInit {
   fillForm(continueForm) {
     let FormID = this._formID;
     let formData = this.surveyForm.getRawValue();
+    let NurseInChargeID = String(this.NurseID);
     let Answers = [];
     let nurseInCharge = localStorage.getItem("loginUserName").toLowerCase();
     let Signature = this.canvasEl.toDataURL();
@@ -324,7 +324,7 @@ export class FillSurveyComponent implements OnInit {
     let Tables = [];
     let surveyTables = formData.Tables;
     let CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
-    var survey = new Survey(FormID, CaseNumber, nurseInCharge, Signature, Answers, surveyTables, Tables);
+    var survey = new Survey(FormID, CaseNumber, nurseInCharge, NurseInChargeID, Signature, Answers, surveyTables, Tables);
     surveyAnswers.forEach((answer, index, array) => {
       this.ChekBoxQ.forEach(i => {
         if (i.QId == this._questionArr[index].QuestionID) {
@@ -344,7 +344,7 @@ export class FillSurveyComponent implements OnInit {
         survey.FormAnswers.push(AnswerItem);
       }
     });
-
+    console.log(survey);
     if (Signature == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAEYklEQVR4Xu3UAQkAAAwCwdm/9HI83BLIOdw5AgQIRAQWySkmAQIEzmB5AgIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlACBB1YxAJfjJb2jAAAAAElFTkSuQmCC") {
       this.openSnackBar("נא לחתום על הטופס");
     } else {
@@ -358,7 +358,9 @@ export class FillSurveyComponent implements OnInit {
             this.openSnackBar("!נשמר בהצלחה");
           });
         this.dialog.closeAll();
-        this.router.navigate(['formdashboard']);
+        this.router.navigate(['formdashboard']).then(() => {
+          window.location.reload();
+        });
       } else {
         const invalid = [];
         const controls = this.surveyForm.controls['Answers']['controls'];
@@ -385,249 +387,114 @@ export class FillSurveyComponent implements OnInit {
         // ***** 30910740
         // ***** 0010739355
         this.mPersonalDetails = Response["d"];
-        this.getForm(this.urlID, this.ifContinueForm,this.NurseID);
+        this.getForm(this.urlID, this.ifContinueForm, this.NurseID);
         this.selectedSubCheckbox = new Array<any>();
       });
   }
 
-  getForm(urlID, ifContinue,NurseID) {
-    let UserName = localStorage.getItem("loginUserName").toLowerCase();
-    if (ifContinue == 0) {
-      this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
-          formFormID: urlID,
-        })
-        .subscribe((Response) => {
-          this.filter_form_response = Response["d"];
-          this._formID = this.filter_form_response.FormID;
-          this._formName = this.filter_form_response.FormName;
-          this._formOpenText = this.filter_form_response.FormOpenText;
-          this._formDate = this.filter_form_response.FormDate;
-          this.isCaseNumber = this.filter_form_response.isCaseNumber;
-          this.onlyColumns = this.formBuilder.array([]);
-          this.TablesColsRows = this.formBuilder.array([]);
-          this.surveyTables = this.formBuilder.array([]);
-          var surveyTablesItem;
-          var tableControl;
-          var columnControlItem;
-
-          if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
-            this.openSnackBar("!מספר מקרה לא תקין");
-            this.withCaseNumber = true;
-          } else {
-            this.withCaseNumber = false;
-            // initialize the tables
-            this.filter_form_response.FormTable.forEach(element => {
-              this._tableArr.push(element);
-            });
-            // takes the data of each table
-            this.TABLE_DATA = [];
-            for (var i = 0; i < this._tableArr.length; i++) {
-              this.TablesColsRows = this.formBuilder.array([]);
-              this.TABLE_DATA.push({
-                Row_ID: this.filter_form_response.FormTable[i].Row_ID,
-                TableText: this.filter_form_response.FormTable[i].TableText,
-                ColsType: this.filter_form_response.FormTable[i].ColsType,
-                ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
-                TableStatus: this.filter_form_response.FormTable[i].TableStatus,
-              });
-              for (var r = 0; r < this._tableArr[i].rowsGroup.length; r++) {
-                this.onlyColumns = this.formBuilder.array([]);
-                for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
-                  surveyTablesItem = this.formBuilder.group({
-                    tableAnswerContent: ["", null],
-                    ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
-                    checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
-                    ColType: [this._tableArr[i].colsGroup[k].ColType, null],
-                    ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
-                  });
-                  this.onlyColumns.push(surveyTablesItem);
-                }
-                columnControlItem = this.formBuilder.group({
-                  Columns: this.onlyColumns,
-                  RowValue: [this._tableArr[i].rowsGroup[r].rowsText, null],
-                  RowIDFK: [this._tableArr[i].rowsGroup[r].Row_ID, null]
-                });
-                this.TablesColsRows.push(columnControlItem);
-              }
-              this.updateView2();
-              tableControl = this.formBuilder.group({
-                ColumnRows: this.TablesColsRows,
-                TableID: [this._tableArr[i].Row_ID, null],
-              });
-              this.surveyTables.push(tableControl);
-            }
-            this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-            this.dataSource.paginator = this.paginator;
-            this.getQuestion(this.urlID, this.mPersonalDetails);
-            this.getOption(this.urlID);
-          }
-
-          this.surveyForm = this.formBuilder.group({
-            Tables: this.surveyTables
-          });
-        });
-    } else {
-      this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/GetContinueousForm", {
-          _formID: urlID,
-          _userName: UserName,
-          _nurseid: NurseID,
-        })
-        .subscribe((Response) => {
-          this.filter_form_response = Response["d"];
-          this._formID = this.filter_form_response.FormID;
-          this._formName = this.filter_form_response.FormName;
-          this._formOpenText = this.filter_form_response.FormOpenText;
-          this._formDate = this.filter_form_response.FormDate;
-          this.isCaseNumber = this.filter_form_response.isCaseNumber;
-          this.onlyColumns = this.formBuilder.array([]);
-          this.TablesColsRows = this.formBuilder.array([]);
-          this.surveyTables = this.formBuilder.array([]);
-          var surveyTablesItem;
-          var tableControl;
-          var columnControlItem;
-          console.log(this.filter_form_response);
-          if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
-            this.openSnackBar("!מספר מקרה לא תקין");
-            this.withCaseNumber = true;
-          } else {
-            this.withCaseNumber = false;
-            // initialize the tables
-            this.filter_form_response.FormAnswerdTableList.forEach(element => {
-              this._tableArr.push(element);
-            });
-            // takes the data of each table
-            this.TABLE_DATA = [];
-            for (var i = 0; i < this._tableArr.length; i++) {
-              this.TablesColsRows = this.formBuilder.array([]);
-              this.TABLE_DATA.push({
-                Row_ID: this.filter_form_response.FormTable[i].Row_ID,
-                TableText: this.filter_form_response.FormTable[i].TableText,
-                ColsType: this.filter_form_response.FormTable[i].ColsType,
-                ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
-                TableStatus: this.filter_form_response.FormTable[i].TableStatus,
-              });
-              for (var r = 0; r < this._tableArr[i].rowsGroup.length; r++) {
-                this.onlyColumns = this.formBuilder.array([]);
-                for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
-                  surveyTablesItem = this.formBuilder.group({
-                    tableAnswerContent: ["", null],
-                    ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
-                    checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
-                    ColType: [this._tableArr[i].colsGroup[k].ColType, null],
-                    ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
-                  });
-                  this.onlyColumns.push(surveyTablesItem);
-                }
-                columnControlItem = this.formBuilder.group({
-                  Columns: this.onlyColumns,
-                  RowValue: [this._tableArr[i].rowsGroup[r].rowsText, null],
-                  RowIDFK: [this._tableArr[i].rowsGroup[r].Row_ID, null]
-                });
-                this.TablesColsRows.push(columnControlItem);
-              }
-              this.updateView2();
-              tableControl = this.formBuilder.group({
-                ColumnRows: this.TablesColsRows,
-                TableID: [this._tableArr[i].Row_ID, null],
-              });
-              this.surveyTables.push(tableControl);
-            }
-            this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-            this.dataSource.paginator = this.paginator;
-            this.getQuestion(this.urlID, this.mPersonalDetails);
-            this.getOption(this.urlID);
-          }
-
-          this.surveyForm = this.formBuilder.group({
-            Tables: this.surveyTables
-          });
-        });
+  getForm(urlID, ifContinue, NurseID) {
+    if (NurseID == undefined || NurseID == "" || NurseID == null) {
+      NurseID = 0;
     }
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+        formFormID: urlID,
+        _nurseid: NurseID,
+      })
+      .subscribe((Response) => {
+        this.filter_form_response = Response["d"];
+        console.log(this.filter_form_response);
+        this._formID = this.filter_form_response.FormID;
+        this._formName = this.filter_form_response.FormName;
+        this._formOpenText = this.filter_form_response.FormOpenText;
+        this._formDate = this.filter_form_response.FormDate;
+        this.isCaseNumber = this.filter_form_response.isCaseNumber;
+        this.NurseID = this.filter_form_response.NurseInChargeID;
+        this.onlyColumns = this.formBuilder.array([]);
+        this.TablesColsRows = this.formBuilder.array([]);
+        this.surveyTables = this.formBuilder.array([]);
+        var surveyTablesItem;
+        var tableControl;
+        var columnControlItem;
+
+        if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
+          this.openSnackBar("!מספר מקרה לא תקין");
+          this.withCaseNumber = true;
+        } else {
+          this.withCaseNumber = false;
+          // initialize the tables
+          this.filter_form_response.FormTable.forEach(element => {
+            this._tableArr.push(element);
+          });
+          // takes the data of each table
+          this.TABLE_DATA = [];
+          for (var i = 0; i < this._tableArr.length; i++) {
+            this.TablesColsRows = this.formBuilder.array([]);
+            this.TABLE_DATA.push({
+              Row_ID: this.filter_form_response.FormTable[i].Row_ID,
+              TableText: this.filter_form_response.FormTable[i].TableText,
+              ColsType: this.filter_form_response.FormTable[i].ColsType,
+              ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
+              TableStatus: this.filter_form_response.FormTable[i].TableStatus,
+            });
+            let index = 0;
+            for (var r = 0; r < this._tableArr[i].rowsGroup.length; r++) {
+              this.onlyColumns = this.formBuilder.array([]);
+              for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
+                if (this.filter_form_response.NurseInChargeID == "0") {
+                  surveyTablesItem = this.formBuilder.group({
+                    tableAnswerContent: ['', null],
+                    ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
+                    checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
+                    ColType: [this._tableArr[i].colsGroup[k].ColType, null],
+                    ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
+                  });
+                } else {
+                  surveyTablesItem = this.formBuilder.group({
+                    Row_ID: [this._tableArr[i].TableAnsweredGroup[index].Row_ID, null],
+                    tableAnswerContent: [this._tableArr[i].TableAnsweredGroup[index].AnswerValue, null],
+                    ColumnsValue: [this._tableArr[i].TableAnsweredGroup[index].ColValue, null],
+                    checkBoxV: [this._tableArr[i].TableAnsweredGroup[index].checkBoxV, null],
+                    ColType: [this._tableArr[i].TableAnsweredGroup[index].AnswerType, null],
+                    ColIDFK: [this._tableArr[i].TableAnsweredGroup[index].ColIDFK, null]
+                  });
+                }
+                index++;
+                this.onlyColumns.push(surveyTablesItem);
+              }
+              columnControlItem = this.formBuilder.group({
+                Columns: this.onlyColumns,
+                RowValue: [this._tableArr[i].rowsGroup[r].rowsText, null],
+                RowIDFK: [this._tableArr[i].rowsGroup[r].Row_ID, null]
+              });
+              this.TablesColsRows.push(columnControlItem);
+            }
+            this.updateView2();
+            tableControl = this.formBuilder.group({
+              ColumnRows: this.TablesColsRows,
+              TableID: [this._tableArr[i].Row_ID, null],
+            });
+            this.surveyTables.push(tableControl);
+          }
+          this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+          this.dataSource.paginator = this.paginator;
+          this.getQuestion(this.urlID, this.mPersonalDetails, ifContinue, NurseID);
+          this.getOption(this.urlID);
+        }
+        this.surveyForm = this.formBuilder.group({
+          Tables: this.surveyTables
+        });
+      });
     this.ngAfterViewInit();
   }
 
 
-  // getForm(urlID) {
-  //   this.http
-  //     .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
-  //       formFormID: urlID,
-  //     })
-  //     .subscribe((Response) => {
-  //       this.filter_form_response = Response["d"];
-  //       this._formID = this.filter_form_response.FormID;
-  //       this._formName = this.filter_form_response.FormName;
-  //       this._formOpenText = this.filter_form_response.FormOpenText;
-  //       this._formDate = this.filter_form_response.FormDate;
-  //       this.isCaseNumber = this.filter_form_response.isCaseNumber;
-  //       this.TablesColsRows = this.formBuilder.array([]);
-  //       this.surveyTables = this.formBuilder.array([]);
-  //       var surveyTablesItem;
-  //       var tableControl;
-
-  //       if (this.isCaseNumber == '1' && this.mPersonalDetails.PersonID == null) {
-  //         this.openSnackBar("!מספר מקרה לא תקין");
-  //         this.withCaseNumber = true;
-  //       } else {
-  //         this.withCaseNumber = false;
-  //         // initialize the tables
-  //         this.filter_form_response.FormTable.forEach(element => {
-  //           this._tableArr.push(element);
-  //         });
-  //         // takes the data of each table
-  //         this.TABLE_DATA = [];
-  //         for (var i = 0; i < this._tableArr.length; i++) {
-  //           this.TablesColsRows = this.formBuilder.array([]);;
-  //           this.TABLE_DATA.push({
-  //             Row_ID: this.filter_form_response.FormTable[i].Row_ID,
-  //             TableText: this.filter_form_response.FormTable[i].TableText,
-  //             ColsType: this.filter_form_response.FormTable[i].ColsType,
-  //             ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
-  //             TableStatus: this.filter_form_response.FormTable[i].TableStatus,
-  //           });
-  //           var inputsConter = 0;
-  //           if(this._tableArr[i].rowsGroup[0].rowsText != ""){
-  //             inputsConter = this._tableArr[i].rowsGroup.length * (this._tableArr[i].colsGroup.length  - 1)
-  //           }else{
-  //             inputsConter = this._tableArr[i].rowsGroup.length * (this._tableArr[i].colsGroup.length  )
-  //           }
-  //           for (var r = 0; r < inputsConter ; r++) {
-  //             surveyTablesItem = this.formBuilder.group({
-  //               tableAnswerContent: ["", Validators.required],
-  //             });
-  //             this.TablesColsRows.push(surveyTablesItem);
-  //           }
-  //           this._tableArr[i].colsGroup.forEach(element => {
-
-  //           })
-  //           this.updateView2();
-  //           tableControl = this.formBuilder.group({
-  //             ColumnRows: this.TablesColsRows,
-  //             TableID: ['', null],
-  //           });
-  //           this.surveyTables.push(tableControl);
-
-  //         }
-  //         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-  //         this.dataSource.paginator = this.paginator;
-  //         this.getQuestion(this.urlID, this.mPersonalDetails);
-  //         this.getOption(this.urlID);
-  //       }
-
-  //       this.surveyForm = this.formBuilder.group({
-  //         Tables: this.surveyTables
-  //       });
-  //     });
-
-  //   this.ngAfterViewInit();
-  // }
-
-  getQuestion(urlID, personalDetails) {
+  getQuestion(urlID, personalDetails, ifContinue, NurseID) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
-        isCaseNumber: this.isCaseNumber
+        isCaseNumber: this.isCaseNumber,
+        nurseid: NurseID
       })
       .subscribe((Response) => {
         this.filter_question_response = Response["d"];
@@ -642,12 +509,13 @@ export class FillSurveyComponent implements OnInit {
 
 
           var surveyAnswersItem;
-
-          if (element.QuestionIsRequired == "False") {
-            surveyAnswersItem = this.formBuilder.group({
-              answerContent: ['', null],
+          if (ifContinue == "1") {
+            element.Answers.forEach(ans => {
+              surveyAnswersItem = this.formBuilder.group({
+                answerContent: [ans.AnswerValue, null],
+              });
             });
-          } else {
+          }else {
             surveyAnswersItem = this.formBuilder.group({
               answerContent: ['', Validators.required],
             });
@@ -753,7 +621,7 @@ export class FillSurveyComponent implements OnInit {
   }
 
   onSubmit() {
-    this.fillForm("0");
+    this.fillForm(0);
     // var link = document.createElement('a');
     // link.download = 'download.png';
     // link.href = this.canvasEl.toDataURL();

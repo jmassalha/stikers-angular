@@ -3,6 +3,7 @@ export class Survey{
         public FormID: string,
         public CaseNumber: string,
         public nurseInCharge: string,
+        public NurseInChargeID: string,
         public Signature: string,
         public FormAnswers: Answer[],
         public FormAnsweredTable: Table[],
