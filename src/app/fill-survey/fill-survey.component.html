@@ -9,36 +9,45 @@
     <button mat-raised-button type="submit" (click)="searchCaseNumber()" class="btn btn-primary btn-raised mb-2">
       <span class="material-icons">
         done
-        </span>
+      </span>
     </button>
   </form>
 
-  <form dir="rtl" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" autocomplete="off" *ngIf="!withCaseNumber">
 
+  <form dir="rtl" [formGroup]="surveyForm" autocomplete="off" *ngIf="!withCaseNumber">
     <mat-card class="full-width text-center">
       <label>{{_formName}}</label>
     </mat-card>
-
     <div class="survey-options w-100100 float-right">
       <div class="poll-options">
         <div class="row">
-          <h3 class="list-title m-5 text-center">תחילת מילוי שאלות</h3>
-          <hr>
+          <div class="d-block">
+            <div class="full-width mt-3 mb-3" style="white-space: pre-wrap;text-align-last: right;text-align: right;">
+              {{_formOpenText}}
+            </div>
+          </div>
         </div>
-        <ol formArrayName="Answers" class="list-style">
+        <ol formArrayName="Answers" class="list-style fix-jmal">
           <div class="row">
-            <li class="col-lg-6 col-sm-12 col-xs-12" *ngFor="let questionCtrl of _questionArr; let i=index">
-              <mat-card [formGroupName]="i" class="mb-3 rel">
-                <span class="pos-me-number-li">{{ i + 1}}. </span>
+            <li
+              [ngClass]="{'col-md-12 col-xs-12 col-sm-12': questionCtrl.QuestionType == 'TextArea', ' col-md-6 col-xs-12 col-sm-6' : questionCtrl.QuestionType != 'TextArea' }"
+              *ngFor="let questionCtrl of _questionArr; let i=index">
+              <div class="d-block" *ngIf="questionCtrl.QuestionType == 'TextArea'">
+                <div class="full-width mt-3 mb-3"
+                  style="white-space: pre-wrap;text-align-last: right;text-align: right;">
+                  {{questionCtrl.QuestionValue}}
+                </div>
+              </div>
+              <mat-card [formGroupName]="i" class="d-block" *ngIf="questionCtrl.QuestionType != 'TextArea'">
+                <span class="pos-me-number-li">{{ i + 1}} . </span>
                 <div class="row">
                   <div class="col-12 text-right">
-                    <label>{{questionCtrl.QuestionValue}}</label>
+                    <label
+                      style="white-space: pre-wrap;text-align-last: right;text-align: right;">{{questionCtrl.QuestionValue}}</label>
                   </div>
-
                   <div class="col-12 text-right">
                     <div class="d-block" *ngIf="questionCtrl.QuestionType == 'RadioButton'">
                       <mat-radio-group class="example-radio-group" formControlName="answerContent">
-
                         <div class="d-block" *ngFor="let optionCtrl of _optionArr let j = index">
                           <div class="d-block" *ngIf="optionCtrl.QuestionIDFK == questionCtrl.QuestionID">
                             <mat-radio-button style="float: right;" value="{{optionCtrl.OptionValue}}">
@@ -63,16 +72,11 @@
                         <input matInput formControlName="answerContent" type="text">
                       </mat-form-field>
                     </div>
-                    <div class="d-block" *ngIf="questionCtrl.QuestionType == 'TextArea'">
-                      <mat-form-field class="full-width">
-                        <input matInput formControlName="answerContent" type="text" max="300">
-                      </mat-form-field>
-                    </div>
+
                     <div class="d-block" *ngIf="questionCtrl.QuestionType == 'Date'">
                       <mat-form-field appearance="fill">
                         <mat-label>אפשרות תאריך</mat-label>
-                        <input matInput [max]="maxDate | date:'yyyy-MM-dd'" formControlName="answerContent"
-                          [matDatepicker]="picker">
+                        <input matInput formControlName="answerContent" [matDatepicker]="picker">
 
                       </mat-form-field>
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -99,23 +103,83 @@
                         <input formControlName="answerContent" matInput>
                       </mat-form-field>
                     </div>
+                    <div class="d-block" *ngIf="questionCtrl.QuestionType == 'Signature'">
+                      <!-- <mat-form-field class="full-width">
+                        <input formControlName="answerContent" matInput [value]="sign">
+                      </mat-form-field> -->
+                      <img width="215" height="120" [src]="sign">
+                      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
+                        color="warn" (click)="openSignatureDialog(questionCtrl.QuestionID)" type="submit" mat-raised-button>
+                        <span>לחתום</span>
+                      </button>
+                    </div>
                   </div>
                 </div>
               </mat-card>
             </li>
           </div>
         </ol>
+
+        <div formArrayName="Tables" *ngIf="_tableForm == '1'">
+          <div class="d-block">
+            <h3 style="text-align: right;"><strong>חלק טבלאות</strong></h3>
+          </div>
+          <div *ngFor="let table of _tableArr; let tableIndex = index" [formGroupName]="tableIndex"
+            style="margin-top: 20px;">
+            <mat-divider></mat-divider>
+            <div class="row" style="display: block;">
+              <h4 style="text-align: center;">{{table.TableText}}</h4>
+            </div>
+            <div formArrayName="ColumnRows" class="row" id="table-overflow">
+              <div class="col">
+                <table class="table responsive-table">
+                  <tr>
+                    <th *ngFor="let column of table.colsGroup" style="text-align: center;">
+                      {{column.colsText}}
+                    </th>
+                  </tr>
+                  <tr *ngFor="let row of table.rowsGroup; let output = index" [formGroupName]="output">
+                    <td *ngFor="let column of table.colsGroup; let output2 = index" formArrayName="Columns">
+                      <span *ngIf="row.rowsText != '' && output2 == 0;else input_other"
+                        style="text-align: right;float: right;">{{row.rowsText}}</span>
+                      <ng-template #input_other>
+                        <mat-form-field class="fix-my-width" [formGroupName]="output2" *ngIf="column.ColType == 'Text'">
+                          <input matInput formControlName="tableAnswerContent" class="table-form-input">
+                        </mat-form-field>
+                        <section class="example-section" [formGroupName]="output2" *ngIf="column.ColType == 'CheckBox'">
+                          <mat-radio-group>
+                            <mat-checkbox class="list-title m-3 text-center" formControlName="tableAnswerContent">
+                            </mat-checkbox>
+                          </mat-radio-group>
+                        </section>
+                      </ng-template>
+                    </td>
+                  </tr>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
+
+
     <div class="full-width mb-2">
-      <div class="row">חתימה</div>
-      <canvas class="row" #canvas></canvas>
+      <div class="row" style="text-align: right;">חתימה</div>
+      <canvas class="row" #canvas id="canvas"></canvas>
+      <button mat-raised-button color="secondary" style="float: right;" type="button" (click)="resetSign()"><span>תיקון
+          חתימה</span></button>
     </div>
-   
+    <div class="button-row" *ngIf="isCaseNumber == '0'">
+      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: black;" color="primary"
+        (click)="fillForm(1)" type="submit" mat-raised-button>
+        <span>להמשיך מאוחר יותר</span>
+      </button>
+    </div>
     <div class="button-row">
       <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
-        type="submit" mat-raised-button>
-        <span>שליחת שאלון</span>
+        (click)="onSubmit()" type="submit" mat-raised-button>
+        <span>סיום ושמירת טופס</span>
       </button>
     </div>
   </form>

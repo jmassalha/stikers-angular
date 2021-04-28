@@ -7,7 +7,7 @@
             <div class="col">
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body" style="margin: auto;">
-                        <form class="form" [formGroup]="formSearchPatient" *ngIf="isCaseNumber == '1'">
+                        <form class="form" [formGroup]="formSearchPatient">
                             <div class="row">
                                 <div class="col-6">
                                     <div class="form-group">
@@ -26,6 +26,28 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput formControlName="EmployeeUserName" autocomplete="off"
+                                                placeholder="חפש לפי שם אחראי" name="fliterVal" />
+                                        </mat-form-field>
+
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <mat-form-field appearance="fill">
+                                            <input matInput [max]="todaysDate" formControlName="FillDate"
+                                                [matDatepicker]="pickerDate" placeholder="תאריך מילוי טופס">
+                                            <mat-datepicker-toggle matSuffix [for]="pickerDate">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickerDate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
                             <button mat-raised-button type="submit" (click)="searchForm()"
                                 class="btn btn-primary btn-raised">
                                 <span class="material-icons">
@@ -33,33 +55,6 @@
                                 </span>
                             </button>
                         </form>
-                        <form class="form" [formGroup]="formSearchEmployee" *ngIf="isCaseNumber2 == '0'">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <input matInput formControlName="EmployeeName" autocomplete="off"
-                                                placeholder="חפש לפי שם עובד" name="fliterVal" />
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <input matInput formControlName="EmployeeUserName" autocomplete="off"
-                                                placeholder="חפש לפי שם משתמש" name="fliterVal" />
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </div>
-                            <button mat-raised-button type="submit" (click)="nurseSearchForm()"
-                                class="btn btn-primary btn-raised">
-                                <span class="material-icons">
-                                    search
-                                </span>
-                            </button>
-                        </form>
-                        <p *ngIf="isCaseNumber == '3' && isCaseNumber2 == '3'">לא נמצאו רשומות עבור טופס זה</p>
                     </div>
                 </div>
             </div>
@@ -67,8 +62,7 @@
     </div><br><br>
 
     <div dir="rtl">
-        <h2 class="text-center" *ngIf="isCaseNumber == '1'">טבלת נבדקים</h2>
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" *ngIf="isCaseNumber == '1'">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="PatientID">
                 <mat-header-cell *matHeaderCellDef
                     style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מספר מקרה
@@ -92,11 +86,19 @@
                 </mat-cell>
             </ng-container>
 
+            <ng-container matColumnDef="NurseInCharge">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם האחראי
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.NurseInCharge}}
+                </mat-cell>
+            </ng-container>
+
             <ng-container matColumnDef="PatientDate">
                 <mat-header-cell *matHeaderCellDef
                     style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך מילוי
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.PatientBirthday}}
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.DateOfFillForm}}
                 </mat-cell>
             </ng-container>
 
@@ -116,137 +118,6 @@
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
-
-        <h2 class="text-center" *ngIf="isCaseNumber2 == '0'">טבלת עובדים</h2>
-        <mat-table [dataSource]="dataSource2" class="mat-elevation-z8" *ngIf="isCaseNumber2 == '0'">
-            <ng-container matColumnDef="PatientID">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם עובד
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element2" style="justify-content: center;"> {{element2.FirstName}} </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="PatientName">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם משתמש
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element2" style="justify-content: center;"> {{element2.UserName}}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="PersonalID">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מחלקה
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element2" style="justify-content: center;"> {{element2.Department}}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="PatientDate">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך מילוי
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element2" style="justify-content: center;"> {{element2.fillDate}}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="Print">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הדפסת טופס
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element2" style="justify-content: center;"> <button mat-raised-button
-                        color="primary" (click)="printRowForm(element2)">
-                        <span class="material-icons">
-                            zoom_out_map
-                        </span>
-                    </button> </mat-cell>
-            </ng-container>
-
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
         <mat-paginator [pageSizeOptions]="[5, 10, 20]" showFirstLastButtons></mat-paginator>
-    </div>
-</div>
-
-<div id="form-html-templet" class="d-none-desktop">
-    <div dir="rtl" class="card min-h-100 text-right">
-        <div class="card-header border-bottomIn rel">
-            <img class="full-width" src="assets/images/covid_2_header.png" />
-            <h2 class="text-center pos-abs-center">{{rowFormData.FormName}}</h2>
-
-        </div>
-        <div class="card-body pd-10">
-            <div class="row-1">
-                <div class="colr-12">
-                    <h4>פרטים אישיים</h4>
-                </div>
-            </div>
-            <br />
-            <div class="row-1 text-up box text-right pad-30 justify-content-md-center">
-                <div class="colr-4">
-                    <label><b>מספר מקרה</b></label>
-                    <span class="b-bottom">{{ rowFormData.PatientID }}</span>
-                </div>
-                <div class="colr-4">
-                    <label><b>תעודת זהות</b></label>
-                    <span class="b-bottom">{{ rowFormData.PatientPassport }}</span>
-                </div>
-                <div class="colr-4">
-                    <label><b>שם נבדק</b></label>
-                    <span class="b-bottom">{{
-                        rowFormData.PatientName
-                        }}</span>
-                </div>
-
-                <div class="colr-4">
-                    <label><b>טלפון נייד</b></label>
-                    <span class="b-bottom">{{
-                        rowFormData.PatientPhone
-                        }}</span>
-                </div>
-
-                <div class="colr-4">
-                    <label><b>מין</b></label><span class="b-bottom">{{
-                        rowFormData.PatientGender
-                        }}</span>
-                </div>
-                <div class="colr-4">
-                    <label><b>תאריך לידה</b></label><span class="b-bottom">{{
-                        rowFormData.PatientBirthday
-                        }}</span>
-                </div>
-                <div class="colr-6">
-                    <label><b>מייל</b></label><span class="b-bottom">{{ rowFormData.PatientEmail }}</span>
-                </div>
-                <div class="colr-6">
-                    <label><b>כתובת</b></label><span class="b-bottom">{{
-                        rowFormData.PatientAddress
-                        }}</span>
-                </div>
-            </div>
-            <form class="worker-form-in" [formGroup]="formPrint">
-                <h3>חלק שאלות :</h3>
-                <div class="row-1" *ngFor="let item of rowFormData.Questions">
-                    <div class="colr-12 brs-1">
-                        <p class="fix-mb-5">
-                            <span>
-                                <span><b>{{item.questionValue}}</b>:&nbsp;&nbsp;</span>{{item.AnswerValue}}
-                            </span>
-                        </p>
-                    </div>
-                </div>
-                <div class="full-width mb-2">
-                    <div class="row">חתימה</div>
-                    <img [src]="rowFormData.Signature">
-                </div>
-            </form>
-        </div>
-
-        <div class="card-footer"></div>
-        <div class="pos-botom-fixed">
-            <img class="full-width" src="assets/images/covid_footer.png" />
-        </div>
     </div>
 </div>

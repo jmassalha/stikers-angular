@@ -45,6 +45,7 @@
     "angular-datatables": "^8.1.0",
     "angular-google-charts": "^1.1.6",
     "angular-popper": "^2.0.1",
+    "angular2-signaturepad": "^3.0.4",
     "angularx-qrcode": "^11.0.0",
     "bootstrap": "^4.5.0",
     "canvasjs": "^1.8.3",

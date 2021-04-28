@@ -1,11 +1,10 @@
 <mat-card class="form-amen">
-  <form dir="rtl" [formGroup]="surveyForm" (ngSubmit)="onSubmit()" autocomplete="off">
-
+  <form dir="rtl" [formGroup]="surveyForm" autocomplete="off">
     <div class="border-me card-body">
       <div class="row">
         <div class="col-8">
           <mat-form-field class="full-width mt-3">
-            <input formControlName="FormName" matInput placeholder="שם שאלון" maxlength="50" [required]="true">
+            <input formControlName="FormName" matInput placeholder="שם שאלון" [required]="true">
           </mat-form-field>
         </div>
         <div class="col-4" *ngIf="surveyForm.controls['GeneralForm'].value == '0'">
@@ -40,6 +39,20 @@
           </mat-radio-group>
         </section>
       </div>
+      <div class="col">
+        <section class="example-section">
+          <mat-radio-group>
+            <mat-checkbox class="list-title m-3 text-center" formControlName="TableForm"> טבלה?
+            </mat-checkbox>
+          </mat-radio-group>
+        </section>
+      </div>
+    </div>
+    <div class="row">
+      <mat-form-field class="full-width">
+        <textarea matInput formControlName="FormOpenText" type="textarea" cols="15" rows="5"
+          placeholder="קטע הנחיות או טקסט פתוח"></textarea>
+      </mat-form-field>
     </div>
     <div class="survey-options">
       <div formArrayName="surveyQuestions" class="poll-options">
@@ -49,10 +62,14 @@
               *ngFor="let questionCtrl of surveyForm.get('surveyQuestions')['controls']; let i = index">
               <div [formGroupName]="i" class="border-me" *ngIf="questionCtrl.controls['questionStatus'].value == '1'">
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-9">
                     <mat-form-field class="full-width">
-                      <input formControlName="questionTitle" maxlength="200" matInput placeholder="הכנס שאלה"
-                        [required]="true">
+                      <input formControlName="questionTitle" matInput placeholder="הכנס שאלה" [required]="true">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-3">
+                    <mat-form-field class="full-width">
+                      <input formControlName="priority" matInput placeholder="מספר שאלה" value="{{i}}" [required]="true">
                     </mat-form-field>
                     <mat-slide-toggle class="example-margin" color="warn" formControlName="IsRequired">שדה חובה*
                     </mat-slide-toggle>
@@ -79,7 +96,7 @@
                               <div *ngIf="optionCtrl.controls['optionStatus'].value == '1'">
                                 <mat-radio-button [disabled]="true" value="1"></mat-radio-button>
                                 <mat-form-field>
-                                  <input formControlName="optionText" matInput placeholder="הכנס אפשרות" maxlength="100"
+                                  <input formControlName="optionText" matInput placeholder="הכנס אפשרות"
                                     [required]="true">
                                 </mat-form-field>
                                 <button mat-raised-button class="mb-2" *ngIf="j>=2"
@@ -106,7 +123,7 @@
                               <div *ngIf="optionCtrl.controls['optionStatus'].value == '1'">
                                 <mat-checkbox class="example-margin" [disabled]="true"></mat-checkbox>
                                 <mat-form-field>
-                                  <input formControlName="optionText" matInput placeholder="טקסט אפשרות" maxlength="100"
+                                  <input formControlName="optionText" matInput placeholder="טקסט אפשרות"
                                     [required]="true">
                                 </mat-form-field>
                                 <button mat-raised-button class="mb-2" *ngIf="j>=2"
@@ -130,7 +147,8 @@
                     </div>
                     <div *ngIf="questionCtrl.controls['questionType'].value == 'TextArea'">
                       <mat-form-field class="full-width">
-                        <textarea style="resize: none;" disabled matInput placeholder="טקסט חופשי"></textarea>
+                        <textarea style="resize: none;" cols="3" rows="2" matInput
+                          placeholder="טקסט חופשי קבוע"></textarea>
                       </mat-form-field>
                     </div>
                     <div *ngIf="questionCtrl.controls['questionType'].value == 'Date'">
@@ -163,6 +181,11 @@
                         <textarea style="resize: none;" disabled matInput placeholder="תעודת זהות"></textarea>
                       </mat-form-field>
                     </div>
+                    <div *ngIf="questionCtrl.controls['questionType'].value == 'Signature'">
+                      <mat-form-field class="full-width">
+                        <textarea style="resize: none;" disabled matInput placeholder="חתימה"></textarea>
+                      </mat-form-field>
+                    </div>
                   </div>
                 </div>
                 <button mat-mini-fab color="warn" type="button" (click)="onRemoveQuestion(i)" class="poll-remove-btn">
@@ -182,13 +205,125 @@
         </div>
       </div>
     </div>
-    <div class="button-row">
-      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
-        type="submit" mat-raised-button>
-        <span>שמירת שאלון</span>
-      </button>
+  </form>
+
+  <mat-divider></mat-divider>
+  <mat-divider></mat-divider>
+  <br><br>
+
+
+  <form dir="rtl" [formGroup]="tableFormGroup" autocomplete="off">
+    <div formArrayName="tableArray" class="table-form" *ngIf="surveyForm.controls['TableForm'].value == '1'">
+      <h3 class="text-right">יצירת טופס מסוג טבלה</h3>
+
+      <ol class="list-style">
+        <div class="row">
+          <li class="col-lg-12 col-sm-12"
+            *ngFor="let tableCtrl of tableFormGroup.get('tableArray')['controls']; let f = index">
+            <div [formGroupName]="f" class="border-me" *ngIf="tableCtrl.controls['TableStatus'].value == '1'">
+              <h4 class="text-right">טבלה מספר {{tableCtrl.controls['TablePriority'].value}}</h4>
+              <div class="row">
+                <div class="form-group col-9">
+                  <mat-form-field appearance="fill">
+                    <mat-label>כותרת לטבלה</mat-label>
+                    <textarea matInput formControlName="TableText" type="textArea" rows="2"></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>מספר טבלה</mat-label>
+                    <input matInput formControlName="TablePriority" type="text">
+                  </mat-form-field>
+                </div>
+              </div>
+              <!-- <div class="row"> -->
+              <div class="form-group col-3"
+                *ngFor="let tablecol of tableCtrl.controls.colsGroup.controls.column.controls; let j = index">
+                <div *ngIf="tablecol.controls['colStatus'].value == '1'">
+                  <div formArrayName="colsGroup">
+                    <div formArrayName="column">
+                      <div [formGroupName]="j">
+                        <mat-form-field appearance="fill">
+                          <mat-label>כותרת עמודה</mat-label>
+                          <input matInput type="text" formControlName="colsText">
+                        </mat-form-field>
+                        <section class="example-section">
+                          <mat-radio-group>
+                            <mat-checkbox class="list-title m-3 text-center" formControlName="checkBoxV">סימון V
+                            </mat-checkbox>
+                          </mat-radio-group>
+                        </section>
+                        <button mat-raised-button class="mb-2" (click)="removeColumn(f,j)" color="warn">
+                          X
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-3">
+                <button mat-raised-button type="button" (click)="addCols(f)" class="mat-sm-button add-option-btn"
+                  color="accent"> <span class="material-icons">
+                    playlist_add
+                  </span></button>
+              </div>
+              <!-- </div> -->
+
+              <mat-divider></mat-divider>
+
+              <!-- <div class="row"> -->
+              <div class="form-group col-3"
+                *ngFor="let tablerow of tableCtrl.controls.rowsGroup.controls.row.controls; let k = index">
+                <div *ngIf="tablerow.controls['rowStatus'].value == '1'">
+                  <div formArrayName="rowsGroup">
+                    <div formArrayName="row">
+                      <div [formGroupName]="k">
+                        <mat-form-field appearance="fill">
+                          <mat-label>כותרת שורה</mat-label>
+                          <input matInput type="text" formControlName="rowsText">
+                        </mat-form-field>
+                        <button mat-raised-button class="mb-2" (click)="removeRow(f,k)" color="warn">
+                          X
+                        </button>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div class="form-group col-3">
+                <button mat-raised-button type="button" (click)="addRows(f)" class="mat-sm-button add-option-btn"
+                  color="accent"> <span class="material-icons">
+                    playlist_add
+                  </span></button>
+              </div>
+              <!-- </div> -->
+              <button mat-mini-fab color="warn" type="button" (click)="onRemoveTable(f)" class="poll-remove-btn">
+                X
+              </button>
+            </div>
+          </li>
+        </div>
+      </ol>
+      <div fxLayout="row" fxLayoutAlign="end" style="margin-bottom: 10px;">
+        <button type="button" mat-raised-button style="font-weight: bold;font-size: 20px;background-color: yellow;"
+          (click)="onAddTable()">
+          <span class="material-icons">
+            add_box
+          </span>
+        </button>
+      </div>
     </div>
   </form>
+
+
+
+  <div class="button-row">
+    <button class="full-width mb-5" (click)="onSubmit()" style="font-weight: bold;font-size: 20px;color: white;"
+      color="primary" type="submit" mat-raised-button>
+      <span>שמירת שאלון</span>
+    </button>
+  </div>
+
   <!-- <div class="button-row">
     <button class="full-width mb-5" style="background-color: red;font-size: 20px;font-weight: bold;color: white;" (click)="cancelReturn()" type="submit" mat-raised-button>
       <span>ביטול וחזרה לרשימה</span>

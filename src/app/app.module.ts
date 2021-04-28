@@ -196,7 +196,6 @@ const maskConfig: Partial<IConfig> = {
     MatSlideToggleModule,
     MatFormFieldModule,
     MatSortModule,
-    
     MatTableModule,
     CustomMaterialModule,
     MatButtonModule,     
