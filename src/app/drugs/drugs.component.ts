@@ -1,67 +1,61 @@
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  Input,
+    Component,
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    Input,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatRadioChange } from "@angular/material/radio";
 import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 
 import {
-  NgbModal,
-  ModalDismissReasons,
-  NgbModalOptions,
+    NgbModal,
+    ModalDismissReasons,
+    NgbModalOptions,
 } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import * as Fun from "../public.functions";
 import { Time } from "@angular/common";
 import {
-  FormControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
+    FormControl,
+    FormBuilder,
+    FormGroup,
+    Validators,
 } from "@angular/forms";
 
 export interface Drug {
-  MedID: number;
-  MedName: string;
-  MedGroup: string;
-  MedGroupID: number;
-  MedStatus: string;
+    MedID: number;
+    MedName: string;
+    MedGroup: string;
+    MedGroupID: number;
+    MedStatus: string;
 }
 export interface MedGroup {
-  id: string;
-  name: string;
+    id: string;
+    name: string;
 }
 
 @Component({
-  selector: 'app-drugs',
-  templateUrl: './drugs.component.html',
-  styleUrls: ['./drugs.component.css']
+    selector: "app-drugs",
+    templateUrl: "./drugs.component.html",
+    styleUrls: ["./drugs.component.css"],
 })
 export class DrugsComponent implements OnInit {
-
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+    @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
-    displayedColumns: string[] = [
-        "MedID",
-        "MedName",
-        "MedGroup",
-        "D_CLICK",
-    ];
+    displayedColumns: string[] = ["MedID", "MedName", "MedGroup", "D_CLICK"];
 
     MedID: string;
     MedName: string;
@@ -101,11 +95,11 @@ export class DrugsComponent implements OnInit {
     DS_drug_ROW_ID: string;
     rowIdVal: string;
     rowElement: Drug = {
-      MedID: 0,
-      MedName: "",
-      MedGroup: "",
-      MedGroupID: 0,
-      MedStatus: "1",
+        MedID: 0,
+        MedName: "",
+        MedGroup: "",
+        MedGroupID: 0,
+        MedStatus: "1",
     };
     ngOnInit(): void {
         this.MedID = "";
@@ -127,7 +121,7 @@ export class DrugsComponent implements OnInit {
             MedGroup: ["", false],
             MedGroupID: ["", Validators.required],
             MedStatus: ["1", false],
-            NewRow: ["false", false]
+            NewRow: ["false", false],
         });
 
         if (
@@ -138,10 +132,10 @@ export class DrugsComponent implements OnInit {
         } else if (
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "eonn" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim" ||
+            localStorage.getItem("loginUserName").toLowerCase() ==
+                "owertheim" ||
             localStorage.getItem("loginUserName").toLowerCase() == "jubartal"
         ) {
         } else {
@@ -150,17 +144,16 @@ export class DrugsComponent implements OnInit {
         }
         this.getMedGroups();
         var that = this;
-        setTimeout(function(){
+        setTimeout(function () {
             that.getReport(that);
-        }, 500)
-        
+        }, 500);
     }
 
     getMedGroups() {
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/GetTbl_MedGroups", {})
             .subscribe((Response) => {
-                 ////debugger
+                ////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = $.parseJSON(Response["d"]);
                 json = $.parseJSON(json);
@@ -168,39 +161,40 @@ export class DrugsComponent implements OnInit {
                 var _d = $.parseJSON(json["GroupOptions"]);
                 var i = 0;
                 for (var s = 0; s < _d.length; s++) {
-                   //  //debugger
-                    var _sD: MedGroup = { id: _d[s].GroupID, name:  _d[s].GroupName };
-
-                    
+                    //  //debugger
+                    var _sD: MedGroup = {
+                        id: _d[s].GroupID,
+                        name: _d[s].GroupName,
+                    };
 
                     if (i == 0) {
                         var _sDSub: MedGroup = { id: "99", name: "ללא קבוצה" };
                         this.groups_submit.push(_sDSub);
-                        
+
                         var _sDSub: MedGroup = { id: "-1", name: "הכל" };
                         this.groups.push(_sDSub);
-                        
+
                         var _sDSub: MedGroup = { id: "99", name: "ללא קבוצה" };
                         this.groups.push(_sDSub);
-                        
+
                         this.groups.push(_sD);
                         this.groups_submit.push(_sD);
-                    } else { 
-                         this.groups.push(_sD);
+                    } else {
+                        this.groups.push(_sD);
                         this.groups_submit.push(_sD);
                     }
                     i++;
                 }
             });
     }
-    search(nameKey, myArray){
-        for (var i=0; i < myArray.length; i++) {
+    search(nameKey, myArray) {
+        for (var i = 0; i < myArray.length; i++) {
             if (myArray[i].id === nameKey) {
                 return myArray[i];
             }
         }
-    }    
-    
+    }
+
     openSnackBar() {
         this._snackBar.open("נשמר בהצלחה", "", {
             duration: 2500,
@@ -212,8 +206,11 @@ export class DrugsComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        var  resultDeparts= this.search(this.drugForm.value.MedGroupID, this.groups_submit);
-        this.drugForm.value.MedGroup = resultDeparts['name'];
+        var resultDeparts = this.search(
+            this.drugForm.value.MedGroupID,
+            this.groups_submit
+        );
+        this.drugForm.value.MedGroup = resultDeparts["name"];
         //debugger
         //return
         // stop here if form is invalid
@@ -223,32 +220,40 @@ export class DrugsComponent implements OnInit {
         // //debugger
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateDrug", {
-              drugRow: this.drugForm.value,
+                drugRow: this.drugForm.value,
             })
             .subscribe((Response) => {
-              //debugger
-              this.getReport(null)
+                //debugger
+                this.getReport(null);
                 this.openSnackBar();
-
             });
         // display form values on success
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.drugForm.value, null, 4));
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
-      var  resultDeparts= this.search(_element.MedGroupID, this.groups_submit);
-      
-      if(_element.MedGroupID == "" || _element.MedGroupID  == "0"){
-        _element.MedGroupID = "99";
-        resultDeparts= this.search(_element.MedGroupID, this.groups_submit);
-      }
+        var resultDeparts = this.search(
+            _element.MedGroupID,
+            this.groups_submit
+        );
+
+        if (_element.MedGroupID == "" || _element.MedGroupID == "0") {
+            _element.MedGroupID = "99";
+            resultDeparts = this.search(
+                _element.MedGroupID,
+                this.groups_submit
+            );
+        }
         this.drugForm = this.formBuilder.group({
-            MedName: [_element.MedName, [Validators.required, Validators.pattern("[A-Za-z0-9 .()]*")]],
-            MedGroup: [resultDeparts['name'], false],
+            MedName: [
+                _element.MedName,
+                [Validators.required, Validators.pattern("[A-Za-z0-9 .()]*")],
+            ],
+            MedGroup: [resultDeparts["name"], false],
             MedGroupID: [_element.MedGroupID, Validators.required],
             MedStatus: ["1", false],
             MedID: [_element.MedID, false],
-            NewRow: ["false", false]
+            NewRow: ["false", false],
         });
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
@@ -270,12 +275,12 @@ export class DrugsComponent implements OnInit {
             this.paginator.pageIndex,
             10,
             this.fliterVal,
-            this.GroupID,
+            this.GroupID
         );
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
-       // //debugger
+        // //debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -287,14 +292,16 @@ export class DrugsComponent implements OnInit {
     }
 
     open(content, _type, _element) {
-
         this.drugForm = this.formBuilder.group({
-          MedName: ["",  [Validators.required, Validators.pattern("[A-Za-z0-9 .()]*")]],
-          MedGroup: ["", false],
-          MedGroupID: ["", Validators.required],
-          MedStatus: ["1", false],
-          MedID: ["0", false],
-          NewRow: ["true", false]
+            MedName: [
+                "",
+                [Validators.required, Validators.pattern("[A-Za-z0-9 .()]*")],
+            ],
+            MedGroup: ["", false],
+            MedGroupID: ["", Validators.required],
+            MedStatus: ["1", false],
+            MedID: ["0", false],
+            NewRow: ["true", false],
         });
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
@@ -328,7 +335,7 @@ export class DrugsComponent implements OnInit {
             this.paginator.pageIndex,
             this.paginator.pageSize,
             this.fliterVal,
-            this.GroupID,
+            this.GroupID
         );
     }
 
@@ -336,9 +343,9 @@ export class DrugsComponent implements OnInit {
         _pageIndex: number,
         _pageSize: number,
         _FreeText: string,
-        _GroupID: string,
+        _GroupID: string
     ) {
-       // //debugger
+        // //debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
             // //debugger
@@ -361,19 +368,21 @@ export class DrugsComponent implements OnInit {
                 for (var i = 0; i < drugData.length; i++) {
                     ////debugger
                     /*var  resultDeparts= this.search(drugData[i].DS_DEPART_ID, this.departs);*/
-                 
+
                     this.TABLE_DATA.push({
-                      MedID: drugData[i].MedID,
-                      MedName: drugData[i].MedName,
-                      MedGroup: drugData[i].MedGroup,
-                      MedGroupID: drugData[i].MedGroupID,
-                      MedStatus: drugData[i].MedStatus,
+                        MedID: drugData[i].MedID,
+                        MedName: drugData[i].MedName,
+                        MedGroup: drugData[i].MedGroup,
+                        MedGroupID: drugData[i].MedGroupID,
+                        MedStatus: drugData[i].MedStatus,
                     });
                 }
 
                 // //debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-                this.resultsLength = parseInt($.parseJSON(json["iTotalRecords"]));
+                this.resultsLength = parseInt(
+                    $.parseJSON(json["iTotalRecords"])
+                );
                 setTimeout(function () {
                     ////debugger
                     if (tableLoader) {
@@ -382,5 +391,4 @@ export class DrugsComponent implements OnInit {
                 });
             });
     }
-
 }

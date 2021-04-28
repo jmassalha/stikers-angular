@@ -1,0 +1,216 @@
+<h1 class="page-title text-center d-none-on-print">חושבוניות</h1>
+<div class="container d-none-on-print">
+    <form
+        [formGroup]="invoicesForm"
+        class="text-right"
+        dir="rtl"
+        (ngSubmit)="getInvoicesByCases()"
+    >
+        <div class="form-group">
+            <mat-form-field>
+                <label for="numbers">מספרי מקרים</label>
+                <textarea
+                    rows="15"
+                    matInput
+                    formControlName="caseNumbers"
+                    class="form-control"
+                    required
+                ></textarea>
+            </mat-form-field>
+        </div>
+        <div class="form-group">
+            <label class="label-year">עם הפנית רופא</label>&nbsp;&nbsp;
+            <mat-radio-group formControlName="hfnia">
+                <mat-radio-button value="3">הכל</mat-radio-button>&nbsp;&nbsp;
+                <mat-radio-button value="1">כן</mat-radio-button>&nbsp;&nbsp;
+                <mat-radio-button value="2">לא</mat-radio-button>&nbsp;&nbsp;
+            </mat-radio-group>
+        </div>
+        <button type="submit" class="btn btn-raised btn-primary float-left">
+            שלח
+        </button>
+    </form>
+</div>
+
+<div id="printme">
+    <table class="table borderless">
+        <thead></thead>
+        <tbody>
+            <tr class="cut-all" *ngFor="let Invoice of InvoiceDetailsArray">
+                <td>
+                    <div dir="rtl" class="container-fluid page-invoice">
+                        <div class="top-header-1 d-block">
+                            <span class="float-left mt--10">
+                                <img alt="" src="assets/images/logo_in.png" />
+                            </span>
+                            <span class="float-right">
+                                <img alt="" src="assets/images/top-right-text.png" />
+                            </span>
+                        </div>
+            
+                        <div class="mid-section d-block">
+                            <h6 class="d-block">
+                                <span class="float-left">תאריך הדפסה: {{Invoice.PrintDate}}</span>
+                                <span class="float-right">{{Invoice.CaseType}}</span>
+                            </h6>
+                            <h3 class="text-center d-block">
+                                <div class="row">
+                                    <p class="col-12">
+                                        חשבונית מספר:&nbsp;&nbsp;&nbsp;{{Invoice.InvoiceNumber}}&nbsp;&nbsp;&nbsp;העתק
+                                    </p>
+                                    <p class="col-12">
+                                        תאריך הפקת החשבון:&nbsp;&nbsp;&nbsp;{{Invoice.InvoiceDate}}
+                                    </p>
+                                    <p class="col-12">
+                                        מטבע:&nbsp;&nbsp;&nbsp;{{Invoice.Currency}}
+                                    </p>
+                                </div>
+                            </h3>
+                        </div>           
+                        <div class="patient-details d-block">
+                            <h5 class="d-none">פרטי המטופל:</h5>
+                            <div class="w-70P">
+                                <div class="row">
+                                    <p class="col-12">
+                                        <span class="float-right"
+                                            >לכבוד:&nbsp;&nbsp;&nbsp;</span
+                                        >
+                                        <span class="float-right"
+                                            >{{Invoice.PatientName}}</span
+                                        >
+                                    </p>
+                                    <p class="col-12">
+                                        <span class="float-right"
+                                            >רחוב / מס:&nbsp;&nbsp;&nbsp;</span
+                                        >
+                                        <span class="float-right"
+                                            >{{Invoice.PatientRoadNumber}}</span
+                                        >
+                                    </p>
+                                    <p class="col-12">
+                                        <span class="float-right"
+                                            >עיר / מיקוד:&nbsp;&nbsp;&nbsp;</span
+                                        >
+                                        <span class="float-right"
+                                            >{{Invoice.PatientCityMekod}}</span
+                                        >
+                                    </p>
+                                    <p class="col-12">
+                                        <span class="float-right"
+                                            >טלפון:&nbsp;&nbsp;&nbsp;</span
+                                        >
+                                        <span class="float-right"
+                                            >{{Invoice.PatientTel}}</span
+                                        >
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="details d-block">
+                            <h5>
+                                <span
+                                    >מספר ביקור:
+                                    {{Invoice.CaseNumber}}</span
+                                >&nbsp;&nbsp;
+                                <span
+                                    >תאריך קבלה:
+                                    {{Invoice.HosDate}}</span
+                                >&nbsp;&nbsp;
+                                <span
+                                    >יח'
+                                    {{Invoice.Depart}}:
+                                    {{Invoice.SeodeDepart}}</span
+                                >
+                                <br />
+                                <span
+                                    >הפניה מרופא:
+                                    {{Invoice.Hafnia}}</span
+                                >
+                            </h5>
+                        </div>
+                        <div class="invoice d-block">
+                            <table class="table table-borderless">
+                                <thead >
+                                    <tr>
+                                        <th class="w-90">תאריך</th>
+                                        <th class="w-90">קוד שירות</th>
+                                        <th>תאור</th>
+                                        <th class="w-30">כמ'</th>
+                                        <th class="w-170">מחיר</th>
+                                        <th class="w-90">כיסוי %</th>
+                                        <th class="w-170">הנחה</th>
+                                        <th class="w-170">סה"כ</th>
+                                        <th class="w-90">יחידה מבצעת</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    
+                                    <tr *ngFor="let InvoiceRow of Invoice.InvoiceRows">
+                                        <td>{{InvoiceRow.Date}}</td>
+                                        <td>{{InvoiceRow.ServiceCode}}</td>
+                                        <td>{{InvoiceRow.ServiceDes}}</td>
+                                        <td>{{InvoiceRow.Amount}}</td>
+                                        <td>
+                                            {{InvoiceRow.Price}}
+                                        </td>
+                                        <td>
+                                            {{InvoiceRow.Cover}}
+                                        </td>
+                                        <td>
+                                            {{InvoiceRow.Discount}}
+                                        </td>
+                                        <td>
+                                            {{InvoiceRow.Total}}
+                                        </td>
+                                        <td>
+                                            {{InvoiceRow.SeodeDepart}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                                <tfoot>
+                                    <tr>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td></td>
+                                        <td>סה"כ</td>
+                                        <td>{{Invoice.NetoTotal}}</td>
+                                        <td></td>
+                                    </tr>
+                                </tfoot>
+                            </table>
+                        </div>
+                        <div class="d-block mt-10">
+                            <div class="row">
+                                <div class="col">
+                                    <p class="d-block">
+                                        <span class="float-right">חשבון סופי</span>
+                                    </p>
+                                    <div class="d-block">
+                                        <p class="float-left w-200">
+                                            <span class="float-left d-block text-right"
+                                                >בכבוד רב</span
+                                            >
+                                            <span class="float-left d-block text-right"
+                                                >הנהלת:
+                                                {{Invoice.Depart}}</span
+                                            >
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+    <!-- <div class="d-block" *ngFor="let Invoice of InvoiceDetailsArray">
+        
+        <div class="cut-all"></div>
+    </div> -->
+    
+</div>

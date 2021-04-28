@@ -3,8 +3,9 @@ import { FormControl } from '@angular/forms';
 import * as Chart from 'chart.js';
 
 export class Functions{
+    dateNow = new Date();
     public startdateVal: string;
-    public _selectedYear = 2020;
+    public _selectedYear = this.dateNow.getFullYear();
     public enddateVal: string;
     public  Sdate: FormControl;
     public Edate: FormControl;

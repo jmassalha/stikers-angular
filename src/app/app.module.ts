@@ -89,6 +89,7 @@ import {DatePipe} from '@angular/common';
 import { StatusComplaintComponent } from './status-complaint/status-complaint.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
+import { CaseinvoisesComponent } from './caseinvoises/caseinvoises.component';
 
 
 
@@ -150,7 +151,8 @@ const maskConfig: Partial<IConfig> = {
     EmailsdashboardComponent,
     EmailmanagementComponent,
     StatusComplaintComponent,
-    ConfirmationDialogComponent
+    ConfirmationDialogComponent,
+    CaseinvoisesComponent
   ],
   imports: [
     GoogleChartsModule,

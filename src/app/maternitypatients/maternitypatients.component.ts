@@ -198,7 +198,7 @@ export class MaternitypatientsComponent implements OnInit {
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
-                [Validators.required, Validators.pattern("[0-9].{2,}")],
+                [Validators.nullValidator, Validators.pattern("[0-9].{2,}")],
             ],
             PatientId: [
                 _element.PatientId,
@@ -215,7 +215,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientDOB: [_element.PatientDOB, Validators.required],
             RowID: [_element.RowID, Validators.required],
             MaternityRowId: [this.MaternityRowId, Validators.required],
-            PatientNote: [_element.PatientNote, Validators.required],
+            PatientNote: [_element.PatientNote, Validators.nullValidator],
             PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.required],
             PatientAddress: [_element.PatientAddress, Validators.required],
             PatientMobile: [_element.PatientMobile, Validators.required],
@@ -252,7 +252,7 @@ export class MaternitypatientsComponent implements OnInit {
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 "",
-                [Validators.required, Validators.pattern("[0-9].{2,}")],
+                [Validators.nullValidator, Validators.pattern("[0-9].{2,}")],
             ],
             PatientId: [
                 "",
@@ -269,7 +269,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientDOB: ["", Validators.required],
             RowID: [0, Validators.required],
             MaternityRowId: [this.MaternityRowId, Validators.required],
-            PatientNote: ["", Validators.required],
+            PatientNote: ["", Validators.nullValidator],
             PatientPregnancyWeekAtInsert: ["", Validators.required],
             PatientAddress: ["", Validators.required],
             PatientMobile: ["", Validators.required],
