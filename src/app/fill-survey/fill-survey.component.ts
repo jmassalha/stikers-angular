@@ -1,9 +1,9 @@
-import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Input, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, ChangeDetectorRef, ElementRef, Input, AfterViewInit, Inject } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder, AbstractControl } from '@angular/forms';
 import { Router, ActivatedRoute } from "@angular/router";
 import { Question, Survey } from './data-models';
 import { HttpClient } from "@angular/common/http";
-import { BehaviorSubject, fromEvent } from 'rxjs';
+import { BehaviorSubject, fromEvent, Subscription } from 'rxjs';
 import { Result } from '@zxing/library';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -12,10 +12,13 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { BarcodeFormat } from '@zxing/library';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
+import { DomSanitizer } from '@angular/platform-browser';
+
+
 export class PersonalDetails {
   FirstName: string;
   LastName: string;
@@ -40,7 +43,130 @@ export class Table {
     public TableStatus: string,
   ) { }
 }
+export interface DialogData {
+  animal: string;
+  name: string;
+  date1: Date,
+  date2: Date
+}
+@Component({
+  selector: 'signature-dialog',
+  templateUrl: 'signature-dialog.html',
+})
 
+export class DialogContentExampleDialog {
+
+
+  // digital sign source : https://gist.github.com/anupkrbid/6447d97df6be6761d394f18895bc680d
+  canvasEl: HTMLCanvasElement
+  @Input() width = 512;
+  @Input() height = 418;
+  @ViewChild('canvasinside') canvasinside: ElementRef;
+  cx: CanvasRenderingContext2D;
+  drawingSubscription: Subscription;
+  constructor(
+    public dialog: MatDialogRef<DialogContentExampleDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+  ) { }
+
+  ngAfterViewInit() {
+    this.canvasEl = this.canvasinside.nativeElement;
+    this.cx = this.canvasEl.getContext('2d');
+
+    this.canvasEl.width = this.width;
+    this.canvasEl.height = this.height;
+
+    this.cx.lineWidth = 3;
+    this.cx.lineCap = 'round';
+    this.cx.strokeStyle = '#000';
+    this.captureEvents(this.canvasEl);
+  }
+
+  captureEvents(canvasEl: HTMLCanvasElement) {
+    this.drawingSubscription = fromEvent(canvasEl, 'mousedown')
+      .pipe(
+        switchMap(e => {
+          return fromEvent(canvasEl, 'mousemove').pipe(
+            takeUntil(fromEvent(canvasEl, 'mouseup')),
+            takeUntil(fromEvent(canvasEl, 'mouseleave')),
+
+            pairwise()
+          );
+        })
+      )
+      .subscribe((res: [MouseEvent, MouseEvent]) => {
+        const rect = canvasEl.getBoundingClientRect();
+
+        const prevPos = {
+          x: res[0].clientX - rect.left,
+          y: res[0].clientY - rect.top
+        };
+
+        const currentPos = {
+          x: res[1].clientX - rect.left,
+          y: res[1].clientY - rect.top
+        };
+
+        this.drawOnCanvas(prevPos, currentPos);
+      });
+    fromEvent(canvasEl, 'touchstart').pipe(switchMap(() => {
+      return fromEvent(canvasEl, 'touchmove').pipe(
+        takeUntil(fromEvent(canvasEl, 'touchend')),
+        takeUntil(fromEvent(canvasEl, 'touchcancel')),
+        pairwise()
+      );
+    })).subscribe((res: [TouchEvent, TouchEvent]) => {
+      const rect = canvasEl.getBoundingClientRect();
+
+      const prevPos = {
+        x: res[0].touches[0].clientX - rect.left,
+        y: res[0].touches[0].clientY - rect.top
+      };
+      res[0].preventDefault();
+      res[0].stopImmediatePropagation();
+
+      const currentPos = {
+        x: res[1].touches[0].clientX - rect.left,
+        y: res[1].touches[0].clientY - rect.top
+      };
+      res[1].preventDefault();
+      res[1].stopImmediatePropagation();
+
+      this.drawOnCanvas(prevPos, currentPos);
+    });
+  }
+
+  drawOnCanvas(
+    prevPos: { x: number; y: number },
+    currentPos: { x: number; y: number }
+  ) {
+    if (!this.cx) {
+      return;
+    }
+
+    this.cx.beginPath();
+
+    if (prevPos) {
+      this.cx.moveTo(prevPos.x, prevPos.y);
+      this.cx.lineTo(currentPos.x, currentPos.y);
+
+      this.cx.stroke();
+    }
+  }
+
+  ngOnDestroy() {
+    this.data.sign = this.canvasEl.toDataURL();
+    this.drawingSubscription.unsubscribe();
+    this.dialog.close(this.data);
+  }
+
+  sendToForm() {
+    this.data.sign = this.canvasEl.toDataURL();
+    this.dialog.close(this.data);
+    // console.log(this.canvasEl);
+  }
+
+}
 @Component({
   selector: 'app-fill-survey',
   templateUrl: './fill-survey.component.html',
@@ -92,7 +218,7 @@ export class FillSurveyComponent implements OnInit {
   isCaseNumber: string;
   withCaseNumber: boolean;
   _formDate: string;
-  TableForm: string;
+  _tableForm: string;
   CaseNumber: string = '';
   _questionArr = [];
   _optionArr = [];
@@ -100,6 +226,9 @@ export class FillSurveyComponent implements OnInit {
   surveyAnswersItem = [];
   maxDate = Date.now();
   canvasEl: HTMLCanvasElement;
+  canvasT: HTMLCanvasElement;
+  sign: any;
+  sign2: any;
 
   userTable: FormGroup;
   control: FormArray;
@@ -114,11 +243,13 @@ export class FillSurveyComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private readonly _dialog: MatDialog,
     private fb: FormBuilder,
-    private router: Router
+    private router: Router,
+    private _sanitizer: DomSanitizer
   ) { }
 
 
   // Digital Signature Section
+
   @ViewChild('canvas') public canvas: ElementRef;
 
   // @Input() public width = 400;
@@ -204,6 +335,7 @@ export class FillSurveyComponent implements OnInit {
     }
   }
 
+
   //this comment is for the BarCode Scanner ** temporarly unavailable
 
   // clearResult(): void {
@@ -255,6 +387,7 @@ export class FillSurveyComponent implements OnInit {
   // }
 
   ChekBoxQ: CheckBoxAnswers[];
+  signaturesArray: FormArray = this.formBuilder.array([]);
   surveyAnswers: FormArray = this.formBuilder.array([]);
   // TablesColsRows: FormArray = this.formBuilder.array([]);
   onlyColumns: FormArray = this.formBuilder.array([]);
@@ -312,6 +445,16 @@ export class FillSurveyComponent implements OnInit {
       verticalPosition: this.verticalPosition,
     });
   }
+
+  openSignatureDialog(questID) {
+    const dialogRef = this.dialog.open(DialogContentExampleDialog, {
+      data: { sign: '', FormID: this.urlID, QuestionID: questID }
+    }).afterClosed().subscribe(data => {
+      this.sign = this._sanitizer.bypassSecurityTrustResourceUrl(data.sign);
+    });
+  }
+
+
 
   fillForm(continueForm) {
     let FormID = this._formID;
@@ -403,9 +546,9 @@ export class FillSurveyComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.filter_form_response = Response["d"];
-        console.log(this.filter_form_response);
         this._formID = this.filter_form_response.FormID;
         this._formName = this.filter_form_response.FormName;
+        this._tableForm = this.filter_form_response.TableForm;
         this._formOpenText = this.filter_form_response.FormOpenText;
         this._formDate = this.filter_form_response.FormDate;
         this.isCaseNumber = this.filter_form_response.isCaseNumber;
@@ -442,14 +585,29 @@ export class FillSurveyComponent implements OnInit {
               this.onlyColumns = this.formBuilder.array([]);
               for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
                 if (this.filter_form_response.NurseInChargeID == "0") {
-                  surveyTablesItem = this.formBuilder.group({
-                    tableAnswerContent: ['', null],
-                    ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
-                    checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
-                    ColType: [this._tableArr[i].colsGroup[k].ColType, null],
-                    ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
-                  });
+                  if (this._tableArr[i].colsGroup[k].checkBoxV == '1') {
+                    surveyTablesItem = this.formBuilder.group({
+                      tableAnswerContent: [false, null],
+                      ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
+                      checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
+                      ColType: [this._tableArr[i].colsGroup[k].ColType, null],
+                      ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
+                    });
+                  } else {
+                    surveyTablesItem = this.formBuilder.group({
+                      tableAnswerContent: ['', null],
+                      ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
+                      checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
+                      ColType: [this._tableArr[i].colsGroup[k].ColType, null],
+                      ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
+                    });
+                  }
                 } else {
+                  if (this._tableArr[i].TableAnsweredGroup[index].AnswerValue == "False") {
+                    this._tableArr[i].TableAnsweredGroup[index].AnswerValue = false;
+                  } else if (this._tableArr[i].TableAnsweredGroup[index].AnswerValue == "True") {
+                    this._tableArr[i].TableAnsweredGroup[index].AnswerValue = true;
+                  }
                   surveyTablesItem = this.formBuilder.group({
                     Row_ID: [this._tableArr[i].TableAnsweredGroup[index].Row_ID, null],
                     tableAnswerContent: [this._tableArr[i].TableAnsweredGroup[index].AnswerValue, null],
@@ -490,6 +648,7 @@ export class FillSurveyComponent implements OnInit {
 
 
   getQuestion(urlID, personalDetails, ifContinue, NurseID) {
+    let userName = localStorage.getItem("loginUserName").toLowerCase();
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
@@ -511,14 +670,35 @@ export class FillSurveyComponent implements OnInit {
           var surveyAnswersItem;
           if (ifContinue == "1") {
             element.Answers.forEach(ans => {
+              if (element.QuestionType == "Signature") {
+                surveyAnswersItem = this.formBuilder.group({
+                  answerContent: [{ value: userName, disabled: true }, null],
+                });
+              } else {
+                surveyAnswersItem = this.formBuilder.group({
+                  answerContent: [ans.AnswerValue, null],
+                });
+              }
+            });
+            if (element.QuestionType == "TextArea") {
               surveyAnswersItem = this.formBuilder.group({
-                answerContent: [ans.AnswerValue, null],
+                answerContent: [element.QuestionValue, null],
               });
-            });
-          }else {
-            surveyAnswersItem = this.formBuilder.group({
-              answerContent: ['', Validators.required],
-            });
+            }
+          } else {
+            if (element.QuestionType == "Signature") {
+              surveyAnswersItem = this.formBuilder.group({
+                answerContent: [{ value: userName, disabled: true }, Validators.required],
+              });
+            } else if (element.QuestionIsRequired == "1") {
+              surveyAnswersItem = this.formBuilder.group({
+                answerContent: ['', Validators.required],
+              });
+            } else {
+              surveyAnswersItem = this.formBuilder.group({
+                answerContent: ['', null],
+              });
+            }
           }
           if (personalDetails.PersonID != null) {
             if (element.PinQuestion == "1") {

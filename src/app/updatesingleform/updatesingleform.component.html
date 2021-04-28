@@ -62,9 +62,14 @@
               *ngFor="let questionCtrl of surveyForm.get('surveyQuestions')['controls']; let i = index">
               <div [formGroupName]="i" class="border-me" *ngIf="questionCtrl.controls['questionStatus'].value == '1'">
                 <div class="row">
-                  <div class="col-12">
+                  <div class="col-9">
                     <mat-form-field class="full-width">
                       <input formControlName="questionTitle" matInput placeholder="הכנס שאלה" [required]="true">
+                    </mat-form-field>
+                  </div>
+                  <div class="col-3">
+                    <mat-form-field class="full-width">
+                      <input formControlName="priority" matInput placeholder="מספר שאלה" value="{{i}}" [required]="true">
                     </mat-form-field>
                     <mat-slide-toggle class="example-margin" color="warn" formControlName="IsRequired">שדה חובה*
                     </mat-slide-toggle>
@@ -216,12 +221,18 @@
           <li class="col-lg-12 col-sm-12"
             *ngFor="let tableCtrl of tableFormGroup.get('tableArray')['controls']; let f = index">
             <div [formGroupName]="f" class="border-me" *ngIf="tableCtrl.controls['TableStatus'].value == '1'">
-              <h4 class="text-right">טבלה מספר {{f+1}}</h4>
+              <h4 class="text-right">טבלה מספר {{tableCtrl.controls['TablePriority'].value}}</h4>
               <div class="row">
-                <div class="form-group col-12">
+                <div class="form-group col-9">
                   <mat-form-field appearance="fill">
                     <mat-label>כותרת לטבלה</mat-label>
                     <textarea matInput formControlName="TableText" type="textArea" rows="2"></textarea>
+                  </mat-form-field>
+                </div>
+                <div class="form-group col-3">
+                  <mat-form-field appearance="fill">
+                    <mat-label>מספר טבלה</mat-label>
+                    <input matInput formControlName="TablePriority" type="text">
                   </mat-form-field>
                 </div>
               </div>

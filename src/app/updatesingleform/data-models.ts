@@ -20,6 +20,7 @@ export class Question{
         public QuestionID: string,
         public QuestionType: string,
         public QuestionValue: string,
+        public priority: string,
         public QuestionIsRequired: boolean,
         ){}
 }
@@ -27,6 +28,7 @@ export class Table{
     constructor( 
         public Row_ID: string,
         public TableText: string,
+        public TablePriority: string,
         public ColsType: string,
         public ColsSplitNumber: string,
         public TableStatus: string,

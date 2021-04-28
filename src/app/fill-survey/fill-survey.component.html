@@ -76,8 +76,7 @@
                     <div class="d-block" *ngIf="questionCtrl.QuestionType == 'Date'">
                       <mat-form-field appearance="fill">
                         <mat-label>אפשרות תאריך</mat-label>
-                        <input matInput formControlName="answerContent"
-                          [matDatepicker]="picker">
+                        <input matInput formControlName="answerContent" [matDatepicker]="picker">
 
                       </mat-form-field>
                       <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
@@ -105,9 +104,14 @@
                       </mat-form-field>
                     </div>
                     <div class="d-block" *ngIf="questionCtrl.QuestionType == 'Signature'">
-                      <mat-form-field class="full-width">
-                        <input formControlName="answerContent" matInput>
-                      </mat-form-field>
+                      <!-- <mat-form-field class="full-width">
+                        <input formControlName="answerContent" matInput [value]="sign">
+                      </mat-form-field> -->
+                      <img width="215" height="120" [src]="sign">
+                      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
+                        color="warn" (click)="openSignatureDialog(questionCtrl.QuestionID)" type="submit" mat-raised-button>
+                        <span>לחתום</span>
+                      </button>
                     </div>
                   </div>
                 </div>
@@ -115,10 +119,11 @@
             </li>
           </div>
         </ol>
-        <div class="d-block">
-          <h3 style="text-align: right;"><strong>חלק טבלאות</strong></h3>
-        </div>
-        <div formArrayName="Tables">
+
+        <div formArrayName="Tables" *ngIf="_tableForm == '1'">
+          <div class="d-block">
+            <h3 style="text-align: right;"><strong>חלק טבלאות</strong></h3>
+          </div>
           <div *ngFor="let table of _tableArr; let tableIndex = index" [formGroupName]="tableIndex"
             style="margin-top: 20px;">
             <mat-divider></mat-divider>
@@ -166,14 +171,14 @@
           חתימה</span></button>
     </div>
     <div class="button-row" *ngIf="isCaseNumber == '0'">
-      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: black;" color="primary" (click)="fillForm(1)"
-        type="submit" mat-raised-button>
+      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: black;" color="primary"
+        (click)="fillForm(1)" type="submit" mat-raised-button>
         <span>להמשיך מאוחר יותר</span>
       </button>
     </div>
     <div class="button-row">
-      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary" (click)="onSubmit()"
-        type="submit" mat-raised-button>
+      <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
+        (click)="onSubmit()" type="submit" mat-raised-button>
         <span>סיום ושמירת טופס</span>
       </button>
     </div>

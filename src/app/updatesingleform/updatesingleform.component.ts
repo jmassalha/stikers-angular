@@ -84,21 +84,6 @@ export class UpdatesingleformComponent implements OnInit {
     this.getFormData(this.urlID);
   }
 
-  // counterCols(index) {
-  //   console.log(index);
-  //   let numberOfCols = this.tableFormGroup.controls.tableArray.value[index].colsnumber;
-  //   if (numberOfCols > 0) {
-  //     return new Array(numberOfCols);
-  //   }
-  // }
-  // counterRows(index) {
-  //   console.log(index);
-  //   let numberOFRows = this.tableFormGroup.controls.tableArray.value[index].rowsnumber;
-  //   if (numberOFRows > 0) {
-  //     return new Array(numberOFRows);
-  //   }
-  // }
-
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
       duration: 5000,
@@ -132,6 +117,7 @@ export class UpdatesingleformComponent implements OnInit {
       'questionTitle': new FormControl(' ', [Validators.required]),
       'questionType': new FormControl(' ', [Validators.required]),
       'IsRequired': new FormControl(false, [Validators.required]),
+      'priority': new FormControl('', [Validators.required]),
       'questionStatus': new FormControl('1', [Validators.required]),
       'questionGroup': new FormGroup({})
     });
@@ -142,6 +128,7 @@ export class UpdatesingleformComponent implements OnInit {
     const tableColItem = new FormGroup({
       'Row_ID': new FormControl('0', null),
       'TableText': new FormControl('', null),
+      'TablePriority': new FormControl('', null),
       'ColsType': new FormControl('Text', null),
       'TableStatus': new FormControl('1', null),
       'ColsSplitNumber': new FormControl('', null),
@@ -166,6 +153,7 @@ export class UpdatesingleformComponent implements OnInit {
       'questionID': new FormControl(element.QuestionID, [Validators.required]),
       'questionTitle': new FormControl(element.QuestionValue, [Validators.required]),
       'questionType': new FormControl(element.QuestionType, [Validators.required]),
+      'priority': new FormControl(element.priority, [Validators.required]),
       'IsRequired': new FormControl(element.QuestionIsRequired, [Validators.required]),
       'questionStatus': new FormControl(element.QuestionStatus, [Validators.required]),
       'questionGroup': new FormGroup({})
@@ -182,6 +170,7 @@ export class UpdatesingleformComponent implements OnInit {
     const surveyTableItem = new FormGroup({
       'Row_ID': new FormControl(element.Row_ID, null),
       'TableText': new FormControl(element.TableText, null),
+      'TablePriority': new FormControl(element.TablePriority, null),
       'ColsType': new FormControl(element.ColsType, null),
       'TableStatus': new FormControl(element.TableStatus, null),
       'ColsSplitNumber': new FormControl(element.ColsSplitNumber, null),
@@ -277,7 +266,7 @@ export class UpdatesingleformComponent implements OnInit {
     const colsNewGroup = new FormGroup({
       'Row_ID': new FormControl('0', null),
       'colsText': new FormControl('', null),
-      'checkBoxV': new FormControl('0', null),
+      'checkBoxV': new FormControl(false, null),
       'colStatus': new FormControl('1', null),
     });
     (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column).push(colsNewGroup);
@@ -386,6 +375,7 @@ export class UpdatesingleformComponent implements OnInit {
       let tableItem = {
         'Row_ID': table.Row_ID,
         'TableText': table.TableText,
+        'TablePriority': table.TablePriority,
         'ColsType': table.ColsType,
         'TableStatus': table.TableStatus,
         'ColsSplitNumber': table.ColsSplitNumber,
@@ -437,6 +427,7 @@ export class UpdatesingleformComponent implements OnInit {
         'QuestionID': question.questionID,
         "QuestionType": question.questionType,
         "QuestionValue": question.questionTitle,
+        "priority": question.priority,
         "QuestionOptions": [],
         "QuestionIsRequired": question.IsRequired,
         "QuestionStatus": question.questionStatus,
