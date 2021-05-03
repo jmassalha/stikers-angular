@@ -60,10 +60,7 @@ export interface CompSektor {
   value: string;
   viewValue: string;
 }
-export interface CompEshpoz {
-  value: string;
-  viewValue: string;
-}
+
 export interface CompAmbolatory {
   value: string;
   viewValue: string;
@@ -99,13 +96,11 @@ export class EmailmanagementComponent implements OnInit {
     { value: '1', viewValue: 'פתוח' },
     { value: '0', viewValue: 'סגור' },
   ];
-  compEshpoz: CompEshpoz[] = [
-    { value: '1', viewValue: 'כן' },
-    { value: '0', viewValue: 'לא' },
-  ];
+
   compAmbolatory: CompAmbolatory[] = [
-    { value: '1', viewValue: 'כן' },
-    { value: '0', viewValue: 'לא' },
+    { value: '0', viewValue: 'אמבולטורי' },
+    { value: '1', viewValue: 'אשפוז' },
+    { value: '3', viewValue: 'אחר' },
   ];
 
   compSektor: CompSektor[] = [
@@ -175,9 +170,8 @@ export class EmailmanagementComponent implements OnInit {
       RelevantEmployee1: ['', null],
       Ambolatory: ['', null],
       Comp_Note: ['', null],
-      Eshpoz: ['', null],
       Comp_Answer: ['', null],
-      Comp_Closing_Date: [Date.now, null],
+      Comp_Closing_Date: ['', null],
       Comp_Status: ['', Validators.compose([Validators.required])],
       Related_User: ['', null,]
     });
@@ -186,7 +180,7 @@ export class EmailmanagementComponent implements OnInit {
     if(this.fakeID == 0 && this.urlID != 0){
       this._ifUpdate = false;
       this.chooseComp = false;
-      this.getEmailManagement(this.urlID);
+      this.getEmailManagement(this.urlID,1);
       //for genrating new complaint 
     }else if(this.urlID == 0 && this.fakeID == 0){
       this._ifUpdate = false;
@@ -235,6 +229,9 @@ export class EmailmanagementComponent implements OnInit {
   }
 
   submitComplaint(_ifUpdate) {
+    if(this.manageComplaintForm.controls['Comp_Closing_Date'].value == null){
+      this.manageComplaintForm.controls['Comp_Closing_Date'].setValue("");
+    }
     if(!this.manageComplaintForm.invalid){
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
@@ -252,25 +249,26 @@ export class EmailmanagementComponent implements OnInit {
   }
 
   getRelevantComplaints(urlID){
+    let userName = localStorage.getItem("loginUserName").toLowerCase();
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
-        _urlID: urlID
+        _urlID: urlID,
+        _userName: userName
       })
       .subscribe((Response) => {
         this.all_complaints_filter = Response["d"];
       });
   }
 
-  getEmailManagement(urlID) {
+  getEmailManagement(urlID,ifSplit) {
     this.chooseComp = false;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
-        _compID: urlID
+        _compID: urlID,
+        _ifSplit: ifSplit
       })
       .subscribe((Response) => {
         this.all_email_management = Response["d"];
-
-
         this.complaintName = this.all_email_management[0].ComplaintName;
         this.complainID = this.all_email_management[0].Row_ID;
 
@@ -285,7 +283,6 @@ export class EmailmanagementComponent implements OnInit {
           Comp_Note: new FormControl(this.all_email_management[0].Comp_Note, null),
           RelevantEmployee1: new FormControl(this.all_email_management[0].RelevantEmployee1, null),
           Ambolatory: new FormControl(this.all_email_management[0].Ambolatory, null),
-          Eshpoz: new FormControl(this.all_email_management[0].Eshpoz, null),
           ImprovementNote: new FormControl(this.all_email_management[0].ImprovementNote, null),
           Comp_Answer: new FormControl(this.all_email_management[0].Comp_Answer, null),
           PersonID: new FormControl(this.all_email_management[0].PersonID, null),

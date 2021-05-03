@@ -99,6 +99,9 @@ export class UpdateformComponent implements OnInit {
     dialogRef.componentInstance.urlID = id;
     dialogRef.afterClosed()
       .subscribe((data) => {
+        if(!data){
+          return;
+        }
         this.rowFormData = data;
         this.onlyColumns = this.formBuilder.array([]);
         this.TablesColsRows = this.formBuilder.array([]);

@@ -28,6 +28,7 @@ export class Table{
     constructor( 
         public Row_ID: string,
         public TableText: string,
+        public SubTitle: string,
         public TablePriority: string,
         public ColsType: string,
         public ColsSplitNumber: string,
@@ -41,7 +42,7 @@ export class colsGroup{
     constructor( 
         public Row_ID: string,
         public colsText: string,
-        public checkBoxV: string,
+        public colsType: string,
         public colStatus: string,
         ){}
 }

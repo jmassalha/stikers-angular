@@ -4,7 +4,7 @@
       <div class="row">
         <div class="col-8">
           <mat-form-field class="full-width mt-3">
-            <input formControlName="FormName" matInput placeholder="שם שאלון" [required]="true">
+            <input formControlName="FormName" matInput placeholder="שם טופס" [required]="true">
           </mat-form-field>
         </div>
         <div class="col-4" *ngIf="surveyForm.controls['GeneralForm'].value == '0'">
@@ -34,7 +34,7 @@
       <div class="col">
         <section class="example-section">
           <mat-radio-group>
-            <mat-checkbox class="list-title m-3 text-center" formControlName="GeneralForm">טופס כללי?
+            <mat-checkbox class="list-title m-3 text-center" formControlName="GeneralForm">טופס ארגוני?
             </mat-checkbox>
           </mat-radio-group>
         </section>
@@ -236,23 +236,39 @@
                   </mat-form-field>
                 </div>
               </div>
+              <div class="row">
+                <div class="form-group col-12">
+                  <mat-form-field appearance="fill">
+                    <mat-label>תת כותרת לטבלה</mat-label>
+                    <textarea matInput formControlName="SubTitle" type="textArea" rows="2"></textarea>
+                  </mat-form-field>
+                </div>
+              </div>
               <!-- <div class="row"> -->
-              <div class="form-group col-3"
+              <div class="form-group col-12"
                 *ngFor="let tablecol of tableCtrl.controls.colsGroup.controls.column.controls; let j = index">
                 <div *ngIf="tablecol.controls['colStatus'].value == '1'">
                   <div formArrayName="colsGroup">
                     <div formArrayName="column">
                       <div [formGroupName]="j">
-                        <mat-form-field appearance="fill">
-                          <mat-label>כותרת עמודה</mat-label>
-                          <input matInput type="text" formControlName="colsText">
-                        </mat-form-field>
-                        <section class="example-section">
-                          <mat-radio-group>
-                            <mat-checkbox class="list-title m-3 text-center" formControlName="checkBoxV">סימון V
-                            </mat-checkbox>
-                          </mat-radio-group>
-                        </section>
+                        <div class="row">
+                          <div class="col-6">
+                            <mat-form-field appearance="fill">
+                              <mat-label>כותרת עמודה</mat-label>
+                              <input matInput type="text" formControlName="colsText">
+                            </mat-form-field>
+                          </div>
+                          <div class="col-6">
+                            <mat-form-field class="full-width">
+                              <mat-select formControlName="ColType" placeholder="סוג עמודה"
+                                [required]="true">
+                                <mat-option *ngFor="let type of columnType" [value]="type.value">
+                                  {{type.viewValue}}
+                                </mat-option>
+                              </mat-select>
+                            </mat-form-field>
+                          </div>
+                        </div>
                         <button mat-raised-button class="mb-2" (click)="removeColumn(f,j)" color="warn">
                           X
                         </button>
@@ -320,7 +336,7 @@
   <div class="button-row">
     <button class="full-width mb-5" (click)="onSubmit()" style="font-weight: bold;font-size: 20px;color: white;"
       color="primary" type="submit" mat-raised-button>
-      <span>שמירת שאלון</span>
+      <span>שמירת טופס</span>
     </button>
   </div>
 

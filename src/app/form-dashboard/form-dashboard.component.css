@@ -15,7 +15,7 @@
   }
 
   #creator{
-    float: right;
+    float: left;
     color: white;
   }
   #creator :hover{
