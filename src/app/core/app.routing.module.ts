@@ -48,6 +48,7 @@ import { FormsansweredComponent } from '../formsanswered/formsanswered.component
 import { EventsscheduleComponent } from '../eventsschedule/eventsschedule.component';
 import { EmailmanagementComponent } from '../emailmanagement/emailmanagement.component';
 import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.component';
+import { CaseinvoisesComponent } from '../caseinvoises/caseinvoises.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -78,7 +79,7 @@ const routes: Routes = [
   { path: "researchesusers", component: ResearchesusersComponent },
   { path: "researchespatients", component: ResearchespatientsComponent },
   { path: "researches", component: ResearchesComponent },
-
+  { path: "caseinvoises", component: CaseinvoisesComponent },
   { path: "sarscov2", component: Sarscov2Component },
   { path: "addpatientcoronaform", component: AddpatientcoronaformComponent },
   { path: "sarsresults", component: SarsresultsComponent },
