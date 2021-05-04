@@ -45,12 +45,6 @@ export class Table {
     public TableStatus: string,
   ) { }
 }
-export interface DialogData {
-  animal: string;
-  name: string;
-  date1: Date,
-  date2: Date
-}
 @Component({
   selector: 'signature-dialog',
   templateUrl: 'signature-dialog.html',
@@ -391,6 +385,7 @@ export class FillSurveyComponent implements OnInit {
   // }
 
   ChekBoxQ: CheckBoxAnswers[];
+  signatureArr: any[];
   signaturesArray: FormArray = this.formBuilder.array([]);
   // surveyAnswers: FormArray = this.formBuilder.array([]);
   checkBoxArray: FormArray = this.formBuilder.array([]);
@@ -428,6 +423,7 @@ export class FillSurveyComponent implements OnInit {
     let now = new Date();
     this.date = this.datePipe.transform(now, 'yyyy-MM-dd');
     this.time = this.datePipe.transform(now, 'HH:mm:ss');
+    this.signatureArr = [];
   }
 
   myModel(e: any, id: string, questionIndex: number) {
@@ -472,7 +468,9 @@ export class FillSurveyComponent implements OnInit {
     const dialogRef = this.dialog.open(DialogContentExampleDialog, {
       data: { sign: '', FormID: this.urlID, QuestionID: questID }
     }).afterClosed().subscribe(data => {
+      //to show the sign in the template
       this.sign = this._sanitizer.bypassSecurityTrustResourceUrl(data.sign);
+      this.signatureArr.push(data);
     });
   }
 
@@ -512,6 +510,10 @@ export class FillSurveyComponent implements OnInit {
         if(this._questionArr[index].QuestionType == "CheckBox"){
           answer.answerContent = this.ChekBoxQ[c].QAns.toString();
           c++;
+        }
+
+        if(this._questionArr[index].QuestionType == "Signature"){
+          answer.answerContent = nurseInCharge;
         }
 
         // if (this._questionArr.length > index) {
@@ -693,7 +695,7 @@ export class FillSurveyComponent implements OnInit {
           this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
           this.dataSource.paginator = this.paginator;
 
-          this.getOption(this.urlID);
+          // this.getOption(this.urlID);
           this.getQuestion(this.urlID, this.mPersonalDetails, ifContinue, NurseID);
         }
         this.surveyForm = this.formBuilder.group({
@@ -894,7 +896,7 @@ export class FillSurveyComponent implements OnInit {
   }
 
 
-  getOption(urlID) {
+  // getOption(urlID) {
     // this.http
     //   .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
     //     optionsFormID: urlID,
@@ -907,7 +909,7 @@ export class FillSurveyComponent implements OnInit {
     //       this._optionArr.push(element);
     //     });
     //   });
-  }
+  // }
 
   onSubmit() {
     this.fillForm(0);

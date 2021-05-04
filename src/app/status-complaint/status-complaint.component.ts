@@ -31,6 +31,7 @@ export class StatusComplaintComponent implements OnInit {
 
 
   urlID: number;
+  complaintID: number;
   messanger: FormGroup;
   FirstName: string = "";
   LastName: string = "";
@@ -85,13 +86,13 @@ export class StatusComplaintComponent implements OnInit {
       });
   }
 
-  getAndSendMessages(urlID) {
+  getAndSendMessages(formid) {
     this._choosed = true;
     let UserName = localStorage.getItem("loginUserName").toLowerCase();
     let myDate = new Date();
     let messageDate = this.datePipe.transform(myDate, 'yyyy/MM/dd');
     let messageTime = myDate.getHours()+':'+myDate.getMinutes()+':'+myDate.getSeconds(); 
-    this.messanger.controls['Complaint'].setValue(urlID);
+    this.messanger.controls['Complaint'].setValue(formid);
     this.messanger.controls['MessageDate'].setValue(messageDate);
     this.messanger.controls['MessageTime'].setValue(messageTime);
     this.messanger.controls['UserName'].setValue(UserName);
@@ -101,6 +102,7 @@ export class StatusComplaintComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.messagesArray = Response["d"];
+        this.complaintID = this.messagesArray[0].Complaint;
         // this.CompID = this.messagesArray[0].Complaint;
         this.messanger.controls['MessageValue'].setValue("");
       });

@@ -70,7 +70,7 @@ export class EmailsdashboardComponent implements OnInit {
     UserName = localStorage.getItem("loginUserName").toLowerCase();
 
 
-  ngOnInit(): void {
+  async ngOnInit(): Promise<void> {
 
     this.formSearch = new FormGroup({
       'compName': new FormControl('', null),
@@ -81,6 +81,8 @@ export class EmailsdashboardComponent implements OnInit {
     this.tableEmails = new FormGroup({
       'slideT': new FormControl('', null),
     });
+
+    await this.loadInquiries();
 
     this.searchForm();
 
@@ -103,6 +105,15 @@ export class EmailsdashboardComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  loadInquiries(){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/SavingEmailsToDB", {
+      })
+      .subscribe((Response) => {
+        this.openSnackBar("פניות נטענו בהצלחה");
+      });
   }
 
   changeStatus(e: any,emailID: string){

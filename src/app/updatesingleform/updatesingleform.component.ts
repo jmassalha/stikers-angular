@@ -50,7 +50,7 @@ export class UpdatesingleformComponent implements OnInit {
     { value: 'RadioButton', viewValue: 'בחירה יחידה' },
     { value: 'CheckBox', viewValue: 'בחירה מרובה' },
     { value: 'Text', viewValue: 'טקסט' },
-    { value: 'TextArea', viewValue: 'טקסט חופשי' },
+    { value: 'TextArea', viewValue: 'פסקה קבועה' },
     { value: 'ID', viewValue: 'תעודת זהות' },
     { value: 'Email', viewValue: 'אימייל' },
     { value: 'Phone', viewValue: 'מספר טלפון' },

@@ -4,7 +4,6 @@ export class Survey{
         public CaseNumber: string,
         public nurseInCharge: string,
         public NurseInChargeID: string,
-        // public Signature: string,
         public FormAnswers: Answer[],
         public FormAnsweredTable: Table[],
         public FormTable: Table[]

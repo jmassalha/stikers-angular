@@ -25,7 +25,7 @@
         <mat-card class="message-card2 full-width" *ngIf="message.UserName == UserName">
             <span class="material-icons" (click)="deleteMessage(message.Row_ID,message.Complaint)">
                 delete
-                </span>
+            </span>
             <p style="float: right;">{{message.FirstName}} {{message.LastName}}</p>
             <p>תאריך: {{message.MessageDate}} שעה: {{message.MessageTime}}</p>
             <p style="margin-bottom: 1rem;float: right;">{{message.MessageValue}}</p>
@@ -37,7 +37,7 @@
     </mat-form-field>
     <div class="button-row">
         <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
-            (click)="getAndSendMessages(CompID)" type="submit" mat-raised-button>
+            (click)="getAndSendMessages(complaintID)" type="submit" mat-raised-button>
             <span>שלח תגובה</span>
         </button>
     </div>
