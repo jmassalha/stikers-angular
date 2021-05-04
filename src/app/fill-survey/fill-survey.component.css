@@ -41,15 +41,15 @@ form{
 }
 
 #canvas { 
-    height: 200px;
-    width: 400px;
+    /*height: 200px;
+    width: 400px;*/
     border: 1px solid #000; 
 }
 /* for adjusting the signature canvas */
 @media only screen and (max-width: 630px) {
     #canvas { 
-        height: 150px;
-        width: 250px;
+        /*height: 150px;
+        width: 250px;*/
         border: 1px solid #000; 
     }
     

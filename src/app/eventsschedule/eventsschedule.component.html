@@ -1,6 +1,6 @@
-<div id="page-toshow">
+<div id="page-toshow" class="padding-top-0">
     <h1 class="page-title text-center">יומן אירועים</h1>
-    <div class="container-fluid">
+    <div class="container-fluid trans-80">
         <div class="row">
             <div class="col">
                 <div dir="rtl" class="card w-85-p">
@@ -27,17 +27,16 @@
                                             <mat-select
                                                 name="DeskID"
                                                 [(value)]="DeskID"
-                                                
                                             >
-                                                <mat-option
-                                                    
-                                                    [value]="-1"
+                                                <mat-option [value]="-1"
                                                     >הכל</mat-option
                                                 >
                                                 <mat-option
                                                     *ngFor="let desk of desks"
                                                     [value]="desk.RowID"
-                                                    >{{ desk.DropDownValue }}</mat-option
+                                                    >{{
+                                                        desk.DropDownValue
+                                                    }}</mat-option
                                                 >
                                             </mat-select>
                                         </mat-form-field>
@@ -51,15 +50,15 @@
                                                 name="CatID"
                                                 [(value)]="CatID"
                                             >
-                                            <mat-option
-                                                    
-                                                    [value]="-1"
+                                                <mat-option [value]="-1"
                                                     >הכל</mat-option
                                                 >
                                                 <mat-option
                                                     *ngFor="let cat of catss"
                                                     [value]="cat.RowID"
-                                                    >{{ cat.DropDownValue }}</mat-option
+                                                    >{{
+                                                        cat.DropDownValue
+                                                    }}</mat-option
                                                 >
                                             </mat-select>
                                         </mat-form-field>
@@ -73,15 +72,19 @@
                                                 name="EventPriorityID"
                                                 [(value)]="EventPriorityID"
                                             >
-                                            <mat-option
-                                                    
-                                                    [value]="-1"
+                                                <mat-option [value]="-1"
                                                     >הכל</mat-option
                                                 >
                                                 <mat-option
-                                                    *ngFor="let eventpriority of eventprioritys"
-                                                    [value]="eventpriority.RowID"
-                                                    >{{ eventpriority.DropDownValue }}</mat-option
+                                                    *ngFor="
+                                                        let eventpriority of eventprioritys
+                                                    "
+                                                    [value]="
+                                                        eventpriority.RowID
+                                                    "
+                                                    >{{
+                                                        eventpriority.DropDownValue
+                                                    }}</mat-option
                                                 >
                                             </mat-select>
                                         </mat-form-field>
@@ -90,22 +93,24 @@
                                 <div class="col">
                                     <div class="form-group lh-37">
                                         <mat-form-field>
-                                            <mat-label>מצב</mat-label>
+                                            <mat-label>סטטוס</mat-label>
                                             <mat-select
-                                            name="EventStatusID"
-                                            [(value)]="EventStatusID"
-                                        >
-                                        <mat-option
-                                                    
-                                                    [value]="-1"
+                                                name="EventStatusID"
+                                                [(value)]="EventStatusID"
+                                            >
+                                                <mat-option [value]="-1"
                                                     >הכל</mat-option
                                                 >
-                                            <mat-option
-                                                *ngFor="let eventStatus of eventStatuss"
-                                                [value]="eventStatus.RowID"
-                                                >{{ eventStatus.DropDownValue }}</mat-option
-                                            >
-                                        </mat-select>
+                                                <mat-option
+                                                    *ngFor="
+                                                        let eventStatus of eventStatuss
+                                                    "
+                                                    [value]="eventStatus.RowID"
+                                                    >{{
+                                                        eventStatus.DropDownValue
+                                                    }}</mat-option
+                                                >
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -166,6 +171,17 @@
                             >
                                 חפש
                             </button>
+                            &nbsp;&nbsp;
+                            <button
+                                mat-raised-button
+                                type="button"
+                                class="btn btn-primary btn-raised"
+                                (click)="print()"
+                            >
+                                <span class="material-icons">
+                                    local_printshop
+                                </span>
+                            </button>
                         </form>
                     </div>
                 </div>
@@ -187,89 +203,68 @@
                             mat-table
                             [dataSource]="dataSource"
                         >
-                            <ng-container matColumnDef="EventDateTime">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                >
-                                    תאריך שעה
-                                </th>
+                            <ng-container matColumnDef="Details">
+                                <th mat-header-cell *matHeaderCellDef>פרטים</th>
                                 <td
                                     mat-cell
                                     *matCellDef="let element"
                                     class="text-right"
                                 >
-                                &nbsp;&nbsp;&nbsp; {{ element.EventDateTime }}
+                                    <div class="card bg-n-mtb-10">
+                                        <div class="row">
+                                            <div class="col-3 bord-l">
+                                                <div class="row">
+                                                    <div class="col-md-6">
+                                                        <b>תאריך שעה</b>:
+                                                        {{
+                                                            element.EventDateTime
+                                                        }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>מכלולים</b>:
+                                                        {{ element.EventDesk }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>קטיגוריה</b>:
+                                                        {{ element.EventCat }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>עדיפות</b>:
+                                                        {{
+                                                            element.EventPriority
+                                                        }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>סטטוס</b>:
+                                                        {{
+                                                            element.EventStatus
+                                                        }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>נוצר ע"י</b>:
+                                                        {{
+                                                            element.EventInsertUser
+                                                        }}
+                                                    </div>
+                                                    <div class="col-md-6">
+                                                        <b>שונה ע"י</b>:
+                                                        {{
+                                                            element.EventUpdateUser
+                                                        }}
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <div class="col-9 bord-l">
+                                                <h3>{{ element.EventName }}</h3>
+                                                <p class="fix-h">
+                                                    {{ element.EventNote }}
+                                                </p>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </td>
                             </ng-container>
-                            <ng-container matColumnDef="EventDesk">
-                                <th mat-header-cell *matHeaderCellDef>
-                                    מכלולים
-                                </th>
-                                <td mat-cell *matCellDef="let element">
-                                    {{ element.EventDesk }}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="EventCat">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                >
-                                    קטיגוריה
-                                </th>
-                                <td
-                                    mat-cell
-                                    *matCellDef="let element"
-                                    class="text-right"
-                                >
-                                &nbsp;&nbsp;&nbsp; {{ element.EventCat }}
-                                </td>
-                            </ng-container>       
-                            <ng-container matColumnDef="EventName">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                >
-                                    כותרת
-                                </th>
-                                <td
-                                    mat-cell
-                                    *matCellDef="let element"
-                                    class="text-right"
-                                >
-                                &nbsp;&nbsp;&nbsp; {{ element.EventName }}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="EventPriority">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                >
-                                    עדיפות
-                                </th>
-                                <td
-                                    mat-cell
-                                    *matCellDef="let element"
-                                    class="text-right"
-                                >
-                                &nbsp;&nbsp;&nbsp; {{ element.EventPriority }}
-                                </td>
-                            </ng-container>
-                            <ng-container matColumnDef="EventStatus">
-                                <th
-                                    mat-header-cell
-                                    *matHeaderCellDef
-                                >
-                                    מצב
-                                </th>
-                                <td
-                                    mat-cell
-                                    *matCellDef="let element"
-                                    class="text-right"
-                                >
-                                &nbsp;&nbsp;&nbsp; {{ element.EventStatus }}
-                                </td>
-                            </ng-container>
+
                             <ng-container matColumnDef="CLICK">
                                 <th
                                     mat-header-cell
@@ -302,6 +297,11 @@
                                 *matHeaderRowDef="displayedColumns"
                             ></tr>
                             <tr
+                                [ngClass]="{
+                                    redBG: row.EventStatus === 'לא טופל',
+                                    yellowBG: row.EventStatus === 'בטיפול',
+                                    greenBG: row.EventStatus === 'טופל'
+                                }"
                                 mat-row
                                 *matRowDef="let row; columns: displayedColumns"
                             ></tr>
@@ -310,7 +310,7 @@
                     <!-- PAGINATION -->
                     <mat-paginator
                         [length]="resultsLength"
-                        [pageSizeOptions]="[ 20, 50, 100]"
+                        [pageSizeOptions]="[20, 50, 100]"
                         [pageSize]="50"
                         showFirstLastButtons
                         (page)="getPaginatorData($event)"
@@ -319,6 +319,107 @@
             </div>
         </div>
     </div>
+</div>
+<div id="print-me" class="d-none-desktop padding-15">
+    <table dir="rtl">
+        <thead>
+            <tr>
+                <th><br></th>
+            </tr>
+            <tr>
+                <th>
+                    <div class="row">
+                        <div class="col text-right" *ngIf="fliterVal != '' && fliterVal != undefined">
+                            <p><b>טקסט לחיפוש: </b>{{ fliterVal }}</p>
+                        </div>
+                        <div class="col-3 text-center" *ngIf="DeskVal != '' && DeskVal != undefined">
+                            <p><b>מכלול: </b>{{ DeskVal }}</p>
+                        </div>
+                        <div class="col-3 text-center" *ngIf="CatVal != '' && CatVal != undefined">
+                            <p><b>קטיגוריה: </b>{{ CatVal }}</p>
+                        </div>
+                        <div class="col-3 text-center" *ngIf="EventPriorityVal != '' && EventPriorityVal != undefined">
+                            <p><b>עדיפות: </b>{{ EventPriorityVal }}</p>
+                        </div>
+                        <div class="col-3 text-center" *ngIf="EventStatusVal != '' && EventStatusVal != undefined">
+                            <p><b>סטטוס: </b>{{ EventStatusVal }}</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p><b>מ תאריך: </b>{{ this.datepipe.transform(startdateVal, 'yyyy-MM-dd') }}</p>
+                        </div>
+                        <div class="col-6 text-center">
+                            <p><b>עד תאריך: </b>{{ this.datepipe.transform(enddateVal, 'yyyy-MM-dd') }}</p>
+                        </div>
+                    </div>
+                </th>
+            </tr>
+
+            <tr>
+                <th  class="text-right">
+                    פרטים
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tblRow of TABLE_DATA" class="text-right">
+                <td>
+                    <div class="text-right">
+                        <div class="row">
+                            <div class="col-3 bord-l">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <b>תאריך שעה</b>:
+                                        {{
+                                            tblRow.EventDateTime
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>מכלולים</b>:
+                                        {{ tblRow.EventDesk }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>קטיגוריה</b>:
+                                        {{ tblRow.EventCat }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>עדיפות</b>:
+                                        {{
+                                            tblRow.EventPriority
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>סטטוס</b>:
+                                        {{
+                                            tblRow.EventStatus
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>נוצר ע"י</b>:
+                                        {{
+                                            tblRow.EventInsertUser
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>שונה ע"י</b>:
+                                        {{
+                                            tblRow.EventUpdateUser
+                                        }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-9 bord-l">
+                                <h3>{{ tblRow.EventName }}</h3>
+                                <p class="">
+                                    {{ tblRow.EventNote }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
 </div>
 <button
     type="button"
@@ -338,10 +439,7 @@
         (ngSubmit)="onSubmit()"
     >
         <div class="modal-header text-right">
-            <h4 class="modal-title text-center">
-                קבוצה 
-                
-            </h4>
+            <h4 class="modal-title text-center">קבוצה</h4>
             <button
                 type="button"
                 class="close"
@@ -353,34 +451,21 @@
         </div>
         <div class="modal-body">
             <div class="row">
-                <div class="col-7">
+                <div class="col-12">
                     <div class="form-group">
                         <mat-form-field>
                             <input
                                 matInput
-                                autocomplete="off" 
+                                autocomplete="off"
                                 class="form-control"
                                 placeholder="כותרת"
-                                formControlName="EventName"                                
+                                formControlName="EventName"
                                 type="text"
                             />
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-5">
-                    <div class="form-group">
-                        <mat-form-field>
-                            <input matInput [ngxMatDatetimePicker]="picker" placeholder="תאריך ושעת" (focus)="picker.open()" formControlName="EventDateTime"
-                                  >
-                            <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            <ngx-mat-datetime-picker #picker [showSpinners]="true" [showSeconds]="false"
-                               [stepHour]="true" [stepMinute]="true" [stepSecond]="false"
-                               [touchUi]="ifMobile"   [enableMeridian]="false" 
-                               [disableMinute]="false" [hideTime]="false">
-                            </ngx-mat-datetime-picker>
-                         </mat-form-field>
-                    </div>
-                </div>                
+
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field>
@@ -397,7 +482,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                </div>     
+                </div>
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field>
@@ -414,7 +499,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                </div>     
+                </div>
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field>
@@ -426,16 +511,18 @@
                                 <mat-option
                                     *ngFor="let eventpriority of eventprioritys"
                                     [value]="eventpriority.RowID"
-                                    >{{ eventpriority.DropDownValue }}</mat-option
+                                    >{{
+                                        eventpriority.DropDownValue
+                                    }}</mat-option
                                 >
                             </mat-select>
                         </mat-form-field>
                     </div>
-                </div>     
+                </div>
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field>
-                            <mat-label>מצב</mat-label>
+                            <mat-label>סטטוס</mat-label>
                             <mat-select
                                 name="EventStatusID"
                                 formControlName="EventStatusID"
@@ -448,20 +535,48 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                </div>     
-                           
+                </div>
             </div>
             <div class="row">
-               
+                <div class="col-5 d-none">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                [ngxMatDatetimePicker]="picker"
+                                placeholder="תאריך ושעת"
+                                (focus)="picker.open()"
+                                formControlName="EventDateTime"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="picker"
+                            ></mat-datepicker-toggle>
+                            <ngx-mat-datetime-picker
+                                #picker
+                                [showSpinners]="true"
+                                [showSeconds]="false"
+                                [stepHour]="true"
+                                [stepMinute]="true"
+                                [stepSecond]="false"
+                                [touchUi]="ifMobile"
+                                [enableMeridian]="false"
+                                [disableMinute]="false"
+                                [hideTime]="false"
+                            >
+                            </ngx-mat-datetime-picker>
+                        </mat-form-field>
+                    </div>
+                </div>
                 <div class="col-12">
                     <div class="form-group">
                         <mat-form-field>
-                            <mat-label>הערות</mat-label>
+                            <mat-label>תוכן ההודעה</mat-label>
                             <textarea
                                 matInput
                                 rows="20"
-                                class="form-control"
-                                formControlName="EventNote"                                
+                                class="form-control border-1"
+                                formControlName="EventNote"
                             ></textarea>
                         </mat-form-field>
                     </div>
@@ -470,6 +585,14 @@
         </div>
         <div class="modal-footer text-left">
             <button type="submit" class="btn btn-outline-dark">שמור</button>
+            <button
+                type="button"
+                class="btn btn-outline-dark redBG"
+                *ngIf="this.EventsForm.value.RowID != 0"
+                (click)="deleteFunction()"
+            >
+                מחק
+            </button>
         </div>
     </form>
 </ng-template>

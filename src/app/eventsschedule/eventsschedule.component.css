@@ -9,3 +9,12 @@
     border-top: 3px solid #341d5c;
     padding-top: 20px;;
 }
+.redBG{
+    background: #ff8484;
+}
+.yellowBG{
+    background: #f8ff84;
+}
+.greenBG{
+    background: #5eda73;
+}

@@ -15,6 +15,7 @@ export interface Message {
     ID: number;
     Title: string;
     MessageVal: string;
+    BgColor: string;
 }
 @Component({
     selector: "app-sendsmsadmin",
@@ -139,45 +140,45 @@ export class SendsmsadminComponent implements OnInit {
         });
     //console.log(lines);
     //return;
-    this.confirmationDialogService.confirm('נא לאשר..', 'האם אתה בטוח ...? ')
-    .then((confirmed) =>{
-        console.log('User confirmed:', confirmed);
-        if(confirmed){
-            if ($("#loader").hasClass("d-none")) {
-                // //debugger
-                tableLoader = true;
-                $("#loader").removeClass("d-none");
-            }
-            this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
-                smsText: this.sendSmsForm.value.smsText,
-                smsNumbers: this.sendSmsForm.value.smsNumbers,
-                surveyNumber: 0,
-                smsType: this.smsType
-            })
-            .subscribe((Response) => {
-                this.openSnackBar();
-                this.sendSmsForm = this.formBuilder.group({
-                    smsText: ["", Validators.required],
-                    smsNumbers: ["", Validators.required],
-                    surveyNumber: ["0", Validators.required],
+        this.confirmationDialogService.confirm('נא לאשר..', 'האם אתה בטוח ...? ')
+        .then((confirmed) =>{
+            console.log('User confirmed:', confirmed);
+            if(confirmed){
+                if ($("#loader").hasClass("d-none")) {
+                    // //debugger
+                    tableLoader = true;
+                    $("#loader").removeClass("d-none");
+                }
+                this.http
+                .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
+                    smsText: this.sendSmsForm.value.smsText,
+                    smsNumbers: this.sendSmsForm.value.smsNumbers,
+                    surveyNumber: 0,
+                    smsType: this.smsType
+                })
+                .subscribe((Response) => {
+                    this.openSnackBar();
+                    this.sendSmsForm = this.formBuilder.group({
+                        smsText: ["", Validators.required],
+                        smsNumbers: ["", Validators.required],
+                        surveyNumber: ["0", Validators.required],
+                    });
+                    localStorage.setItem("textAreaVal", "");
+                    
+                    this.parentFun.emit();
+                    setTimeout(function () {
+                        ////debugger
+                        if (tableLoader) {
+                            $("#loader").addClass("d-none");
+                        }
+                    });
                 });
-                localStorage.setItem("textAreaVal", "");
-                
-                this.parentFun.emit();
-                setTimeout(function () {
-                    ////debugger
-                    if (tableLoader) {
-                        $("#loader").addClass("d-none");
-                    }
-                });
-            });
-        }else{
+            }else{
 
-        }
-        
-    } )
-    .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+            }
+            
+        } )
+        .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
        
     }
 }

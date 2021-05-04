@@ -5,8 +5,8 @@
             <div class="col-2"></div>
             <div  class="col-8">
                 <div class="row text-center"> 
-                    <div *ngFor="let messageTemp of MessagesTemp" class="col-3">
-                        <button  (click)="SetMessageVal(messageTemp.MessageVal)" mat-raised-button color="primary">{{messageTemp.Title}}</button>         
+                    <div *ngFor="let messageTemp of MessagesTemp" class="col-3 mb-25 " >
+                        <button  (click)="SetMessageVal(messageTemp.MessageVal)" class="no-word" [ngClass]="messageTemp.BgColor" mat-raised-button color="primary">{{messageTemp.Title}}</button>         
                     </div>
                 </div>
                 
