@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { Survey } from './data-models';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -10,6 +10,10 @@ import {
 } from '@angular/material/snack-bar';
 import { MatDialog } from '@angular/material/dialog';
 export interface QuestionType {
+  value: string;
+  viewValue: string;
+}
+export interface ColumnType {
   value: string;
   viewValue: string;
 }
@@ -54,6 +58,13 @@ export class UpdatesingleformComponent implements OnInit {
     { value: 'Time', viewValue: 'זמן' },
     { value: 'Signature', viewValue: 'חתימה' },
   ];
+  columnType: ColumnType[] = [
+    { value: 'CheckBox', viewValue: 'בחירה מרובה' },
+    { value: 'Text', viewValue: 'טקסט' },
+    { value: 'Date', viewValue: 'תאריך' },
+    { value: 'Time', viewValue: 'זמן' },
+    { value: 'Signature', viewValue: 'חתימה' },
+  ];
 
   constructor(
     public dialog: MatDialog,
@@ -61,7 +72,8 @@ export class UpdatesingleformComponent implements OnInit {
     private route: ActivatedRoute,
     private router: Router,
     private http: HttpClient,
-    private formBuilder: FormBuilder
+    private formBuilder: FormBuilder,
+    private readonly changeDetectorRef: ChangeDetectorRef
   ) { }
 
   FormDepartment: string = "";
@@ -72,7 +84,6 @@ export class UpdatesingleformComponent implements OnInit {
   FormOpenText: string = "";
   isCaseNumber: any;
   TableForm: any;
-  checkBoxV: any;
   GeneralForm: any;
   QuestionID: string = "";
   urlID: number;
@@ -82,6 +93,10 @@ export class UpdatesingleformComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.getFormData(this.urlID);
+  }
+
+  ngAfterViewChecked(): void {
+    this.changeDetectorRef.detectChanges();
   }
 
   openSnackBar(message) {
@@ -128,6 +143,7 @@ export class UpdatesingleformComponent implements OnInit {
     const tableColItem = new FormGroup({
       'Row_ID': new FormControl('0', null),
       'TableText': new FormControl('', null),
+      'SubTitle': new FormControl('', null),
       'TablePriority': new FormControl('', null),
       'ColsType': new FormControl('Text', null),
       'TableStatus': new FormControl('1', null),
@@ -170,6 +186,7 @@ export class UpdatesingleformComponent implements OnInit {
     const surveyTableItem = new FormGroup({
       'Row_ID': new FormControl(element.Row_ID, null),
       'TableText': new FormControl(element.TableText, null),
+      'SubTitle': new FormControl(element.SubTitle, null),
       'TablePriority': new FormControl(element.TablePriority, null),
       'ColsType': new FormControl(element.ColsType, null),
       'TableStatus': new FormControl(element.TableStatus, null),
@@ -266,22 +283,17 @@ export class UpdatesingleformComponent implements OnInit {
     const colsNewGroup = new FormGroup({
       'Row_ID': new FormControl('0', null),
       'colsText': new FormControl('', null),
-      'checkBoxV': new FormControl(false, null),
+      'ColType': new FormControl('', null),
       'colStatus': new FormControl('1', null),
     });
     (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column).push(colsNewGroup);
   }
   // for updating the form
   addCols2(index, element) {
-    if(element.checkBoxV == "0"){
-      element.checkBoxV = false;
-    }else{
-      element.checkBoxV = true;
-    }
     const colsNewGroup = new FormGroup({
       'Row_ID': new FormControl(element.Row_ID, null),
       'colsText': new FormControl(element.ColText, null),
-      'checkBoxV': new FormControl(element.checkBoxV, null),
+      'ColType': new FormControl(element.ColType, null),
       'colStatus': new FormControl(element.ColStatus, null),
     });
     (<FormArray>this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.controls.column).push(colsNewGroup);
@@ -375,6 +387,7 @@ export class UpdatesingleformComponent implements OnInit {
       let tableItem = {
         'Row_ID': table.Row_ID,
         'TableText': table.TableText,
+        'SubTitle': table.SubTitle,
         'TablePriority': table.TablePriority,
         'ColsType': table.ColsType,
         'TableStatus': table.TableStatus,
@@ -385,15 +398,10 @@ export class UpdatesingleformComponent implements OnInit {
       if (table.colsGroup.hasOwnProperty('column')) {
 
         table.colsGroup.column.forEach(column => {
-          if(column.checkBoxV == true){
-            column.checkBoxV = '1';
-          }else{
-            column.checkBoxV = '0';
-          }
           let colItem = {
             "Row_ID": column.Row_ID,
             "colsText": column.colsText,
-            "checkBoxV": column.checkBoxV,
+            "ColType": column.ColType,
             "colStatus": column.colStatus,
           }
           if (colItem.colStatus === '0' && colItem.Row_ID === '0') {

@@ -17,6 +17,7 @@ import { ZXingScannerComponent } from '@zxing/ngx-scanner';
 import { BarcodeFormat } from '@zxing/library';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
+import { DatePipe } from '@angular/common';
 
 
 export class PersonalDetails {
@@ -38,6 +39,7 @@ export class Table {
   constructor(
     public Row_ID: string,
     public TableText: string,
+    public SubTitle: string,
     public ColsType: string,
     public ColsSplitNumber: string,
     public TableStatus: string,
@@ -222,13 +224,14 @@ export class FillSurveyComponent implements OnInit {
   CaseNumber: string = '';
   _questionArr = [];
   _optionArr = [];
+  _checkBoxesOptionArr = [];
   _tableArr = [];
-  surveyAnswersItem = [];
   maxDate = Date.now();
   canvasEl: HTMLCanvasElement;
   canvasT: HTMLCanvasElement;
   sign: any;
-  sign2: any;
+  date: string;
+  time: string;
 
   userTable: FormGroup;
   control: FormArray;
@@ -243,6 +246,7 @@ export class FillSurveyComponent implements OnInit {
     private cd: ChangeDetectorRef,
     private readonly _dialog: MatDialog,
     private fb: FormBuilder,
+    private datePipe: DatePipe,
     private router: Router,
     private _sanitizer: DomSanitizer
   ) { }
@@ -250,90 +254,90 @@ export class FillSurveyComponent implements OnInit {
 
   // Digital Signature Section
 
-  @ViewChild('canvas') public canvas: ElementRef;
+  // @ViewChild('canvas') public canvas: ElementRef;
 
   // @Input() public width = 400;
   // @Input() public height = 150;
 
-  private cx: CanvasRenderingContext2D;
+  // private cx: CanvasRenderingContext2D;
 
-  resetSign() {
-    this.cx.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
-  }
+  // resetSign() {
+  //   this.cx.clearRect(0, 0, this.canvasEl.width, this.canvasEl.height);
+  // }
 
-  public ngAfterViewInit() {
-    this.canvasEl = this.canvas.nativeElement;
-    this.cx = this.canvasEl.getContext('2d');
+  // public ngAfterViewInit() {
+  //   this.canvasEl = this.canvas.nativeElement;
+  //   this.cx = this.canvasEl.getContext('2d');
 
-    this.cx.lineWidth = 3;
-    this.cx.lineCap = 'round';
-    this.cx.strokeStyle = '#000';
+  //   this.cx.lineWidth = 3;
+  //   this.cx.lineCap = 'round';
+  //   this.cx.strokeStyle = '#000';
 
-    this.captureEvents(this.canvasEl);
-  }
+  //   this.captureEvents(this.canvasEl);
+  // }
 
-  private captureEvents(canvasEl: HTMLCanvasElement) {
-    fromEvent(canvasEl, 'mousedown')
-      .pipe(
-        switchMap((e) => {
-          return fromEvent(canvasEl, 'mousemove')
-            .pipe(
-              takeUntil(fromEvent(canvasEl, 'mouseup')),
-              takeUntil(fromEvent(canvasEl, 'mouseleave')),
-              pairwise()
-            )
-        })
-      )
-      .subscribe((res: [MouseEvent, MouseEvent]) => {
-        const rect = canvasEl.getBoundingClientRect();
-        const prevPos = {
-          x: res[0].clientX - rect.left,
-          y: res[0].clientY - rect.top
-        };
-        const currentPos = {
-          x: res[1].clientX - rect.left,
-          y: res[1].clientY - rect.top
-        };
-        this.drawOnCanvas(prevPos, currentPos);
-      });
-    fromEvent(canvasEl, 'touchstart').pipe(switchMap(() => {
-      return fromEvent(canvasEl, 'touchmove').pipe(
-        takeUntil(fromEvent(canvasEl, 'touchend')),
-        takeUntil(fromEvent(canvasEl, 'touchcancel')),
-        pairwise()
-      );
-    })).subscribe((res: [TouchEvent, TouchEvent]) => {
-      const rect = canvasEl.getBoundingClientRect();
+  // private captureEvents(canvasEl: HTMLCanvasElement) {
+  //   fromEvent(canvasEl, 'mousedown')
+  //     .pipe(
+  //       switchMap((e) => {
+  //         return fromEvent(canvasEl, 'mousemove')
+  //           .pipe(
+  //             takeUntil(fromEvent(canvasEl, 'mouseup')),
+  //             takeUntil(fromEvent(canvasEl, 'mouseleave')),
+  //             pairwise()
+  //           )
+  //       })
+  //     )
+  //     .subscribe((res: [MouseEvent, MouseEvent]) => {
+  //       const rect = canvasEl.getBoundingClientRect();
+  //       const prevPos = {
+  //         x: res[0].clientX - rect.left,
+  //         y: res[0].clientY - rect.top
+  //       };
+  //       const currentPos = {
+  //         x: res[1].clientX - rect.left,
+  //         y: res[1].clientY - rect.top
+  //       };
+  //       this.drawOnCanvas(prevPos, currentPos);
+  //     });
+  //   fromEvent(canvasEl, 'touchstart').pipe(switchMap(() => {
+  //     return fromEvent(canvasEl, 'touchmove').pipe(
+  //       takeUntil(fromEvent(canvasEl, 'touchend')),
+  //       takeUntil(fromEvent(canvasEl, 'touchcancel')),
+  //       pairwise()
+  //     );
+  //   })).subscribe((res: [TouchEvent, TouchEvent]) => {
+  //     const rect = canvasEl.getBoundingClientRect();
 
-      const prevPos = {
-        x: res[0].touches[0].clientX - rect.left,
-        y: res[0].touches[0].clientY - rect.top
-      };
-      res[0].preventDefault();
-      res[0].stopImmediatePropagation();
+  //     const prevPos = {
+  //       x: res[0].touches[0].clientX - rect.left,
+  //       y: res[0].touches[0].clientY - rect.top
+  //     };
+  //     res[0].preventDefault();
+  //     res[0].stopImmediatePropagation();
 
-      const currentPos = {
-        x: res[1].touches[0].clientX - rect.left,
-        y: res[1].touches[0].clientY - rect.top
-      };
-      res[1].preventDefault();
-      res[1].stopImmediatePropagation();
+  //     const currentPos = {
+  //       x: res[1].touches[0].clientX - rect.left,
+  //       y: res[1].touches[0].clientY - rect.top
+  //     };
+  //     res[1].preventDefault();
+  //     res[1].stopImmediatePropagation();
 
-      this.drawOnCanvas(prevPos, currentPos);
-    });
-  }
+  //     this.drawOnCanvas(prevPos, currentPos);
+  //   });
+  // }
 
-  private drawOnCanvas(prevPos: { x: number, y: number }, currentPos: { x: number, y: number }) {
-    if (!this.cx) { return; }
+  // private drawOnCanvas(prevPos: { x: number, y: number }, currentPos: { x: number, y: number }) {
+  //   if (!this.cx) { return; }
 
-    this.cx.beginPath();
+  //   this.cx.beginPath();
 
-    if (prevPos) {
-      this.cx.moveTo(prevPos.x, prevPos.y);
-      this.cx.lineTo(currentPos.x, currentPos.y);
-      this.cx.stroke();
-    }
-  }
+  //   if (prevPos) {
+  //     this.cx.moveTo(prevPos.x, prevPos.y);
+  //     this.cx.lineTo(currentPos.x, currentPos.y);
+  //     this.cx.stroke();
+  //   }
+  // }
 
 
   //this comment is for the BarCode Scanner ** temporarly unavailable
@@ -388,7 +392,8 @@ export class FillSurveyComponent implements OnInit {
 
   ChekBoxQ: CheckBoxAnswers[];
   signaturesArray: FormArray = this.formBuilder.array([]);
-  surveyAnswers: FormArray = this.formBuilder.array([]);
+  // surveyAnswers: FormArray = this.formBuilder.array([]);
+  checkBoxArray: FormArray = this.formBuilder.array([]);
   // TablesColsRows: FormArray = this.formBuilder.array([]);
   onlyColumns: FormArray = this.formBuilder.array([]);
   TablesColsRows: FormArray = this.formBuilder.array([{
@@ -399,6 +404,9 @@ export class FillSurveyComponent implements OnInit {
   surveyTables: FormArray = this.formBuilder.array([{
     ColumnRows: this.TablesColsRows,
     TableID: new FormControl('', null)
+  }]);
+  surveyAnswers: FormArray = this.formBuilder.array([{
+    CheckBoxes: this.checkBoxArray,
   }]);
   surveyForm: FormGroup = this.formBuilder.group({
     Answers: this.surveyAnswers,
@@ -417,26 +425,40 @@ export class FillSurveyComponent implements OnInit {
     this.urlID;
     this.ifContinueForm;
     this.searchCaseNumber();
+    let now = new Date();
+    this.date = this.datePipe.transform(now, 'yyyy-MM-dd');
+    this.time = this.datePipe.transform(now, 'HH:mm:ss');
   }
 
   myModel(e: any, id: string, questionIndex: number) {
+    //return;\
 
     if (e.checked) {
+
       var result = this.ChekBoxQ.find(obj => {
         return obj.QId === questionIndex
       })
+      result.QAns = result.QAns.filter(obj => obj !== id);
+
       this.ChekBoxQ = this.ChekBoxQ.filter(obj => obj.QId != questionIndex);
       result.QAns.push(id);
       this.ChekBoxQ.push(result);
+
     } else {
+
       var result = this.ChekBoxQ.find(obj => {
         return obj.QId === questionIndex
       });
-      result.QAns = result.QAns.filter(obj => obj !== id);
-      this.ChekBoxQ = this.ChekBoxQ.filter(obj => obj.QId != questionIndex);
-      this.ChekBoxQ.push(result);
+
+      if(result.QAns[0]){
+        result.QAns = (result.QAns[0]).split(',')
+        result.QAns = result.QAns.filter(obj => obj !== id);
+      }
+      //this.ChekBoxQ = this.ChekBoxQ.filter(obj => obj.QId != questionIndex);
+      //this.ChekBoxQ.push(result);
     }
   }
+
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
@@ -457,66 +479,101 @@ export class FillSurveyComponent implements OnInit {
 
 
   fillForm(continueForm) {
+    this.surveyForm;
     let FormID = this._formID;
     let formData = this.surveyForm.getRawValue();
     let NurseInChargeID = String(this.NurseID);
     let Answers = [];
     let nurseInCharge = localStorage.getItem("loginUserName").toLowerCase();
-    let Signature = this.canvasEl.toDataURL();
+    // let Signature = this.canvasEl.toDataURL();
     let surveyAnswers = formData.Answers;
     let Tables = [];
     let surveyTables = formData.Tables;
     let CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
-    var survey = new Survey(FormID, CaseNumber, nurseInCharge, NurseInChargeID, Signature, Answers, surveyTables, Tables);
+    var survey = new Survey(FormID, CaseNumber, nurseInCharge, NurseInChargeID, Answers, surveyTables, Tables);
+    var c = 0;
     surveyAnswers.forEach((answer, index, array) => {
-      this.ChekBoxQ.forEach(i => {
-        if (i.QId == this._questionArr[index].QuestionID) {
-          answer.answerContent = i.QAns.toString();
+      
+
+      // if (this._questionArr[index].QuestionType == "CheckBox") {
+      //   if (this.ChekBoxQ[checkboxplace].QId == this._questionArr[index].QuestionID) {
+      //     answer.answerContent = this.ChekBoxQ[checkboxplace].QAns.toString();
+      //     checkboxplace++;
+      //   }
+      // }
+      // else if (this._questionArr[index].QuestionType != "CheckBox") {
+      //   if (this.ChekBoxQ[checkboxplace].QId == this._questionArr[index].QuestionID) {
+      //     answer.answerContent = this.ChekBoxQ[checkboxplace].QAns.toString();
+      //   }
+      // }
+
+      // this.ChekBoxQ.forEach(i => {
+
+        if(this._questionArr[index].QuestionType == "CheckBox"){
+          answer.answerContent = this.ChekBoxQ[c].QAns.toString();
+          c++;
         }
-      });
-      if (this._questionArr[index].QuestionType != "TextArea") {
-        let AnswerItem = {
-          'AnswerID': index,
-          "AnswerValue": answer.answerContent,
-          "questionID": this._questionArr[index].QuestionID,
-          "formID": this._formID,
-          "AnswerType": this._questionArr[index].QuestionType,
-          "questionValue": this._questionArr[index].QuestionValue,
-          "PinQuestion": this._questionArr[index].PinQuestion,
+
+        // if (this._questionArr.length > index) {
+        //   if (this._questionArr[index].QuestionType == "CheckBox" && c == 0) {
+        //     if (i.QId == this._questionArr[index].QuestionID) {
+        //       answer.answerContent = i.QAns.toString();
+        //     }
+        //   } else if (this._questionArr[index].QuestionType != "CheckBox") {
+        //     if (i.QId == this._questionArr[index].QuestionID) {
+        //       answer.answerContent = i.QAns.toString();
+        //     }
+        //   }
+        //   c++;
+        // }
+
+      // });
+      if (this._questionArr.length > index) {
+        if (this._questionArr[index].QuestionType != "TextArea") {
+          let AnswerItem = {
+            'AnswerID': index,
+            "AnswerValue": answer.answerContent,
+            "questionID": this._questionArr[index].QuestionID,
+            "formID": this._formID,
+            "AnswerType": this._questionArr[index].QuestionType,
+            "questionValue": this._questionArr[index].QuestionValue,
+            "PinQuestion": this._questionArr[index].PinQuestion,
+          }
+          survey.FormAnswers.push(AnswerItem);
         }
-        survey.FormAnswers.push(AnswerItem);
       }
     });
-    console.log(survey);
-    if (Signature == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAEYklEQVR4Xu3UAQkAAAwCwdm/9HI83BLIOdw5AgQIRAQWySkmAQIEzmB5AgIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlACBB1YxAJfjJb2jAAAAAElFTkSuQmCC") {
-      this.openSnackBar("נא לחתום על הטופס");
-    } else {
-      if (!this.surveyForm.invalid) {
-        this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
-            _answerValues: survey,
-            _ifContinue: continueForm,
-          })
-          .subscribe((Response) => {
-            this.openSnackBar("!נשמר בהצלחה");
-          });
-        this.dialog.closeAll();
-        this.router.navigate(['formdashboard']).then(() => {
-          window.location.reload();
+
+    // if (Signature == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAEYklEQVR4Xu3UAQkAAAwCwdm/9HI83BLIOdw5AgQIRAQWySkmAQIEzmB5AgIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlACBB1YxAJfjJb2jAAAAAElFTkSuQmCC") {
+    //   this.openSnackBar("נא לחתום על הטופס");
+    // } else {
+
+    if (!this.surveyForm.invalid) {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+          _answerValues: survey,
+          _ifContinue: continueForm,
+        })
+        .subscribe((Response) => {
+          this.openSnackBar("!נשמר בהצלחה");
         });
-      } else {
-        const invalid = [];
-        const controls = this.surveyForm.controls['Answers']['controls'];
-        let counter = 1;
-        for (const name in controls) {
-          if (controls[name].invalid) {
-            invalid.push(counter);
-          }
-          counter = counter + 1;
+      this.dialog.closeAll();
+      this.router.navigate(['formdashboard']).then(() => {
+        window.location.reload();
+      });
+    } else {
+      const invalid = [];
+      const controls = this.surveyForm.controls['Answers']['controls'];
+      let counter = 1;
+      for (const name in controls) {
+        if (controls[name].invalid) {
+          invalid.push(counter);
         }
-        this.openSnackBar("!שאלה מספר" + invalid[0] + " לא תקינה ");
+        counter = counter + 1;
       }
+      this.openSnackBar("!שאלה מספר" + invalid[0] + " לא תקינה ");
     }
+    // }
   }
 
   searchCaseNumber() {
@@ -576,6 +633,7 @@ export class FillSurveyComponent implements OnInit {
             this.TABLE_DATA.push({
               Row_ID: this.filter_form_response.FormTable[i].Row_ID,
               TableText: this.filter_form_response.FormTable[i].TableText,
+              SubTitle: this.filter_form_response.FormTable[i].SubTitle,
               ColsType: this.filter_form_response.FormTable[i].ColsType,
               ColsSplitNumber: this.filter_form_response.FormTable[i].ColsSplitNumber,
               TableStatus: this.filter_form_response.FormTable[i].TableStatus,
@@ -585,11 +643,10 @@ export class FillSurveyComponent implements OnInit {
               this.onlyColumns = this.formBuilder.array([]);
               for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
                 if (this.filter_form_response.NurseInChargeID == "0") {
-                  if (this._tableArr[i].colsGroup[k].checkBoxV == '1') {
+                  if (this._tableArr[i].colsGroup[k].ColType == 'CheckBox') {
                     surveyTablesItem = this.formBuilder.group({
                       tableAnswerContent: [false, null],
                       ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
-                      checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
                       ColType: [this._tableArr[i].colsGroup[k].ColType, null],
                       ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
                     });
@@ -597,7 +654,6 @@ export class FillSurveyComponent implements OnInit {
                     surveyTablesItem = this.formBuilder.group({
                       tableAnswerContent: ['', null],
                       ColumnsValue: [this._tableArr[i].colsGroup[k].colsText, null],
-                      checkBoxV: [this._tableArr[i].colsGroup[k].checkBoxV, null],
                       ColType: [this._tableArr[i].colsGroup[k].ColType, null],
                       ColIDFK: [this._tableArr[i].colsGroup[k].Row_ID, null]
                     });
@@ -636,14 +692,15 @@ export class FillSurveyComponent implements OnInit {
           }
           this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
           this.dataSource.paginator = this.paginator;
-          this.getQuestion(this.urlID, this.mPersonalDetails, ifContinue, NurseID);
+
           this.getOption(this.urlID);
+          this.getQuestion(this.urlID, this.mPersonalDetails, ifContinue, NurseID);
         }
         this.surveyForm = this.formBuilder.group({
           Tables: this.surveyTables
         });
       });
-    this.ngAfterViewInit();
+    // this.ngAfterViewInit();
   }
 
 
@@ -661,12 +718,12 @@ export class FillSurveyComponent implements OnInit {
 
         var that = this;
 
+
         this.ChekBoxQ = new Array<CheckBoxAnswers>();
         this.filter_question_response.forEach(element => {
-          // if(element.QuestionValue != "חתימה"){
+          this.checkBoxArray = this.formBuilder.array([]);
           this._questionArr.push(element);
-
-
+          this._optionArr.push(element.Options);
           var surveyAnswersItem;
           if (ifContinue == "1") {
             element.Answers.forEach(ans => {
@@ -675,9 +732,30 @@ export class FillSurveyComponent implements OnInit {
                   answerContent: [{ value: userName, disabled: true }, null],
                 });
               } else {
-                surveyAnswersItem = this.formBuilder.group({
-                  answerContent: [ans.AnswerValue, null],
-                });
+                if (element.QuestionType == "CheckBox") {
+                  for (var i = 0; i < element.Options.length; i++) {
+                    if (element.Options[i].QuestionIDFK == element.QuestionID) {
+                      var qOption = element.Options[i].OptionValue;
+
+                      if (ans.AnswerValue.indexOf(qOption) >= 0) {
+                        surveyAnswersItem = this.formBuilder.group({
+                          answerContent: [qOption, null],
+                        });
+                      } else {
+                        surveyAnswersItem = this.formBuilder.group({
+                          answerContent: [false, null],
+                        });
+                      }
+                      this.checkBoxArray.push(surveyAnswersItem);
+                    }
+                  }
+                  this.surveyAnswers.push(this.checkBoxArray);
+                  // let splitted = ans.AnswerValue.split(",");
+                } else {
+                  surveyAnswersItem = this.formBuilder.group({
+                    answerContent: [ans.AnswerValue, null],
+                  });
+                }
               }
             });
             if (element.QuestionType == "TextArea") {
@@ -686,11 +764,29 @@ export class FillSurveyComponent implements OnInit {
               });
             }
           } else {
+            if (element.QuestionType == "CheckBox") {
+              for (var i = 0; i < element.Options.length; i++) {
+                if (element.Options[i].QuestionIDFK == element.QuestionID) {
+                  surveyAnswersItem = this.formBuilder.group({
+                    answerContent: new FormControl('',null),
+                  });
+                  this.checkBoxArray.push(surveyAnswersItem);
+                }
+              }
+              this.surveyAnswers.push(this.checkBoxArray);
+              // let splitted = ans.AnswerValue.split(",");
+            }
+            if (element.QuestionType == "TextArea") {
+              surveyAnswersItem = this.formBuilder.group({
+                answerContent: [element.QuestionValue, null],
+              });
+            }
             if (element.QuestionType == "Signature") {
               surveyAnswersItem = this.formBuilder.group({
                 answerContent: [{ value: userName, disabled: true }, Validators.required],
               });
-            } else if (element.QuestionIsRequired == "1") {
+            }
+            if (element.QuestionIsRequired == "1" && element.QuestionType != "Signature" && element.QuestionType != "TextArea") {
               surveyAnswersItem = this.formBuilder.group({
                 answerContent: ['', Validators.required],
               });
@@ -756,18 +852,30 @@ export class FillSurveyComponent implements OnInit {
           }
 
           if (element.QuestionType == "CheckBox") {
-            var nQ = new CheckBoxAnswers();
-            nQ.QRequired = element.QuestionIsRequired;
-            nQ.QId = element.QuestionID
-            nQ.QAns = [];
-            that.ChekBoxQ.push(nQ);
+            if (ifContinue == "1") {
+              var nQ = new CheckBoxAnswers();
+              nQ.QRequired = element.QuestionIsRequired;
+              nQ.QId = element.QuestionID;
+              nQ.QAns = [element.Answers[0].AnswerValue];
+              that.ChekBoxQ.push(nQ);
+            } else {
+              var nQ = new CheckBoxAnswers();
+              nQ.QRequired = element.QuestionIsRequired;
+              nQ.QId = element.QuestionID;
+              nQ.QAns = [];
+              that.ChekBoxQ.push(nQ);
+            }
           }
-          this.surveyAnswers.push(surveyAnswersItem);
+          if (element.QuestionType != "CheckBox" && ifContinue == 1) {
+            this.surveyAnswers.push(surveyAnswersItem);
+          }
+          if (ifContinue == 0 && element.QuestionType != "CheckBox") {
+            this.surveyAnswers.push(surveyAnswersItem);
+          }
 
-          // }
         });
-
         this.updateView();
+        
         this.surveyForm = this.formBuilder.group({
           Answers: this.surveyAnswers,
           Tables: this.surveyTables
@@ -787,17 +895,18 @@ export class FillSurveyComponent implements OnInit {
 
 
   getOption(urlID) {
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
-        optionsFormID: urlID,
-      })
-      .subscribe((Response) => {
-        this.filter_option_response = Response["d"];
-        this._optionArr = [];
-        this.filter_option_response.forEach(element => {
-          this._optionArr.push(element);
-        });
-      });
+    // this.http
+    //   .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
+    //     optionsFormID: urlID,
+    //   })
+    //   .subscribe((Response) => {
+    //     this.filter_option_response = Response["d"];
+    //     this._optionArr = [];
+    //     this._checkBoxesOptionArr = [];
+    //     this.filter_option_response.forEach(element => {
+    //       this._optionArr.push(element);
+    //     });
+    //   });
   }
 
   onSubmit() {

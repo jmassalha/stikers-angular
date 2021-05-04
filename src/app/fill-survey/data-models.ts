@@ -4,7 +4,7 @@ export class Survey{
         public CaseNumber: string,
         public nurseInCharge: string,
         public NurseInChargeID: string,
-        public Signature: string,
+        // public Signature: string,
         public FormAnswers: Answer[],
         public FormAnsweredTable: Table[],
         public FormTable: Table[]
@@ -15,6 +15,7 @@ export class Table{
     constructor( 
         public Row_ID: string,
         public TableText: string,
+        public SubTitle: string,
         public ColsType: string,
         public ColsSplitNumber: string,
         public TableStatus: string,

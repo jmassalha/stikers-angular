@@ -77,7 +77,8 @@ export class StatusComplaintComponent implements OnInit {
   getRelevantComplaints(urlID){
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
-        _urlID: urlID
+        _urlID: urlID,
+        _userName: this.UserName
       })
       .subscribe((Response) => {
         this.all_complaints_filter = Response["d"];
@@ -100,7 +101,7 @@ export class StatusComplaintComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.messagesArray = Response["d"];
-        this.CompID = this.messagesArray[0].Complaint;
+        // this.CompID = this.messagesArray[0].Complaint;
         this.messanger.controls['MessageValue'].setValue("");
       });
   }

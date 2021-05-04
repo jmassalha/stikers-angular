@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -8,6 +8,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { StatusComplaintComponent } from '../status-complaint/status-complaint.component';
 import { EmailmanagementComponent } from '../emailmanagement/emailmanagement.component';
 import { DatePipe } from '@angular/common';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 export interface Email {
   EmailID: string;
@@ -20,6 +21,7 @@ export interface Email {
   CompEmail: string;
   ContentToShow: string;
   EmailDateTime: string;
+  Status: string;
 }
 
 export interface CompStatus {
@@ -35,17 +37,22 @@ export interface CompStatus {
 })
 export class EmailsdashboardComponent implements OnInit {
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  // @ViewChild("toggle") ref: ElementRef;
   all_forms_filter = [];
   all_departs_filter = [];
   department = [];
 
   formSearch: FormGroup;
+  tableEmails: FormGroup;
   todaysDate = Date.now;
 
   TABLE_DATA: Email[] = [];
   displayedColumns: string[] = [
-    'FormID', 'FormName', 'formDepartment', 'FormDate', 'update','add', 'showAll'
+    'FormID', 'FormName', 'formDepartment', 'FormDate', 'update','add', 'showAll','status'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -55,9 +62,12 @@ export class EmailsdashboardComponent implements OnInit {
   ];
 
   constructor(
+    private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
     private http: HttpClient) { }
+
+    UserName = localStorage.getItem("loginUserName").toLowerCase();
 
 
   ngOnInit(): void {
@@ -67,6 +77,9 @@ export class EmailsdashboardComponent implements OnInit {
       'departmentControl': new FormControl('', null),
       'compStatusControl': new FormControl('', null),
       'compDateControl': new FormControl('', null),
+    });
+    this.tableEmails = new FormGroup({
+      'slideT': new FormControl('', null),
     });
 
     this.searchForm();
@@ -84,6 +97,30 @@ export class EmailsdashboardComponent implements OnInit {
     dialogRef.componentInstance.urlID = id;
   }
 
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  changeStatus(e: any,emailID: string){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/ChangeStatus", {
+        _status: e.checked,
+        _emailID: emailID,
+      })
+      .subscribe((Response) => {
+        let snackbar = Response["d"];
+        if(snackbar == "opened"){
+          this.openSnackBar("סטטוס פניה: פתוח");
+        }else{
+          this.openSnackBar("סטטוס פניה: סגור");
+        }
+        
+      });
+  }
 
   searchForm() {
     let compName = this.formSearch.controls['compName'].value;
@@ -99,17 +136,18 @@ export class EmailsdashboardComponent implements OnInit {
       departmentControl = "";
     }
 
-    let pipe = new DatePipe('en-US');
-    if(!(compDateControl == undefined || compDateControl == "" || compDateControl == null)){
-      compDateControl = pipe.transform(compDateControl, 'yyyy/MM/dd');
-    }else{
-      compDateControl = "";
-    }
+    
+
+    // let pipe = new DatePipe('en-US');
+    // if(!(compDateControl == undefined || compDateControl == "" || compDateControl == null)){
+    //   compDateControl = pipe.transform(compDateControl, 'yyyy/MM/dd');
+    // }else{
+    //   compDateControl = "";
+    // }
 
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
         _compName: compName,
-        _compDepartment: departmentControl,
         _compDate: compDateControl,
         _compStatus: compStatusControl,
       })
@@ -118,6 +156,12 @@ export class EmailsdashboardComponent implements OnInit {
         this.all_forms_filter = Response["d"];
         this.TABLE_DATA = [];
         for (var i = 0; i < this.all_forms_filter.length; i++) {
+          if(this.all_forms_filter[i].Status == "1"){
+            this.tableEmails.controls['slideT'].setValue(true);
+          }else{
+            this.tableEmails.controls['slideT'].setValue(false);
+          }
+          
           this.TABLE_DATA.push({
             EmailID: this.all_forms_filter[i].Row_ID,
             EmailSender: this.all_forms_filter[i].EmailSender,
@@ -129,6 +173,7 @@ export class EmailsdashboardComponent implements OnInit {
             CompEmail: this.all_forms_filter[i].CompEmail,
             ContentToShow: this.all_forms_filter[i].ContentToShow,
             EmailDateTime: this.all_forms_filter[i].EmailDateTime,
+            Status: this.all_forms_filter[i].Status,
           });
         }
         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);

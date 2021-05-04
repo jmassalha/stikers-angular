@@ -1,7 +1,7 @@
 <div class="survey-options" *ngIf="chooseComp">
     <div class="poll-options">
         <div class="row">
-            <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getEmailManagement(urlID)">
+            <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getEmailManagement(comp.Row_ID,0)">
                 <mat-card class="card m-2 text-center">
                     <div class="list-style text-center" style="font-size: 10px;">:מחלקה רלוונטית</div>
                     <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">{{comp.Comp_Department}}</div>
@@ -93,7 +93,7 @@
                 </li>
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
-                        <label>אמבולטורי</label>
+                        <label>סוג חולה</label>
                     </div>
                     <mat-radio-group class="example-radio-group mt-3" formControlName="Ambolatory">
                         <div class="d-block" *ngFor="let ambolatory of compAmbolatory">
@@ -104,7 +104,7 @@
                 </li>
             </div>
             <div class="row">
-                <li class="border-me col-6">
+                <!-- <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>אשפוז</label>
                     </div>
@@ -114,7 +114,7 @@
                                 {{eshpoz.viewValue}}</mat-radio-button>
                         </div>
                     </mat-radio-group>
-                </li>
+                </li> -->
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>סיווג פונה</label>
