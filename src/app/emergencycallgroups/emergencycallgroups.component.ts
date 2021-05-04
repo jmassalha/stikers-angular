@@ -31,6 +31,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
 export interface Poria_Group {
     RowID: number;
     GroupNumber: string;
@@ -82,6 +83,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         "CLICK",
         "CLICK_emergencymembers",
         "SEND_SMS_emergencymembers",
+        "DELETE_emergencymembers",
     ];
     pemAdmin = 2;
     private activeModal: NgbActiveModal;
@@ -108,6 +110,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
+        private confirmationDialogService: ConfirmationDialogService,
         activeModal: NgbActiveModal
     ) {
         // //debugger
@@ -170,21 +173,27 @@ export class EmergencycallgroupsComponent implements OnInit {
         if ($event.source.value === '' ) {
             this.GroupSmsToForm = this.formBuilder.group({
                 GroupSmsTo: ["", Validators.required],
-                GroupSms: ["-1", null],
+                GroupSms: [[], null],
             });
             this.NotAllOrNull = false;
             // Do whatever you want here
         }else if($event.source.value === '1' ){
             this.GroupSmsToForm = this.formBuilder.group({
                 GroupSmsTo: ["1", Validators.required],
-                GroupSms: ["-1", null],
+                GroupSms: [[], null],
+            });
+            this.NotAllOrNull = false;
+        }else if( $event.source.value === '4' ){
+            this.GroupSmsToForm = this.formBuilder.group({
+                GroupSmsTo: ["4", Validators.required],
+                GroupSms: [[], null],
             });
             this.NotAllOrNull = false;
         }else{
            // debugger
             this.GroupSmsToForm = this.formBuilder.group({
                 GroupSmsTo: [$event.source.value, Validators.required],
-                GroupSms: ["", Validators.required],
+                GroupSms: [[], Validators.required],
             });
             this.GetMessagesGroupType($event.source.value)
             this.NotAllOrNull = true;
@@ -201,6 +210,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         });
     }
     onSubmitSmsTo() {
+        debugger
         if (this.GroupSmsToForm.invalid) {
             return;
         }
@@ -302,6 +312,29 @@ export class EmergencycallgroupsComponent implements OnInit {
     CloseModalSendSms(){
         this.modalService.dismissAll();
     }
+    deleteRow(_element){
+        this.GroupForm = this.formBuilder.group({
+            GroupName: [_element.GroupName, Validators.required],
+            GroupStatus: [ "99", Validators.required],
+            GroupUpdateUser: [
+                localStorage.getItem("loginUserName"),
+                Validators.required,
+            ],
+            RowID: [_element.RowID, false],
+        });
+        this.confirmationDialogService.confirm('נא לאשר..', 'האם אתה בטוח ...? ')
+        .then((confirmed) =>{
+            console.log('User confirmed:', confirmed);
+            if(confirmed){
+                this.onSubmit();
+            }else{
+
+            }
+            
+        } )
+        .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+       
+    }
     editRow(content, _type, _element) {
         this.GroupName = _element.GroupName;
         //debugger;
@@ -318,7 +351,7 @@ export class EmergencycallgroupsComponent implements OnInit {
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
                 //////debugger
-                if ("Save" == result) {
+                if ("Save" == result) { 
                     // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }

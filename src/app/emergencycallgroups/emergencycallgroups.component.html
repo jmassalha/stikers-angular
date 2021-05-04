@@ -168,6 +168,31 @@
                                     </div>
                                 </td>
                             </ng-container>
+                            <ng-container matColumnDef="DELETE_emergencymembers">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    מחיקה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                        
+                                        
+                                            (click)="
+                                                deleteRow(element)
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="warn"
+                                        >
+                                            <mat-icon>delete</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
                             <tr
                                 mat-header-row
                                 *matHeaderRowDef="displayedColumns"
@@ -242,7 +267,8 @@ color="primary"
                             <mat-radio-button value="">לא נבחר</mat-radio-button>&nbsp;
                             <mat-radio-button value="1">כלל בית חולים</mat-radio-button>&nbsp;
                             <mat-radio-button value="2">סקטור</mat-radio-button>&nbsp;
-                            <mat-radio-button value="3">מחלקות</mat-radio-button>
+                            <mat-radio-button value="3">מחלקות</mat-radio-button>&nbsp;
+                            <mat-radio-button value="4">אחות כללית</mat-radio-button>
                         </mat-radio-group>                       
                     </div>
                 </div>
@@ -251,8 +277,8 @@ color="primary"
                     <div class="form-group"> 
                         <mat-form-field appearance="fill">     
                             <mat-label>בחר סקטור או מחלקה: </mat-label>
-                            <mat-select formControlName="GroupSms">
-                                <mat-option [value]="-1">לא נבחר סקטור או מחלקה</mat-option>
+                            <mat-select formControlName="GroupSms" multiple>
+                                <!-- <mat-option [value]="-1">לא נבחר סקטור או מחלקה</mat-option> -->
                                 <mat-option *ngFor="let Group of Groups" [value]="Group.value">
                                     {{Group.value}}
                                 </mat-option>

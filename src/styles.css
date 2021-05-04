@@ -1307,6 +1307,27 @@ ngx-material-timepicker-container,
     margin: auto;
     width: 80%;
 }
+.border-1{
+    border: 1px solid !important;
+    padding: 15px !important;
+}
+.padding-top-0{
+    padding-top: 0  !important;
+}
+.no-word{
+    white-space: normal !important; 
+    line-height: 25px !important;
+}
+.greyBg{
+    background: #343738 !important;
+}
+.redBg{
+    background: #d6414b !important;
+    min-height: 49px;
+}
+.padding-15{
+    padding: 15px;
+}
 .text-up label {
     position: absolute;
     width: 80%;
@@ -1316,12 +1337,34 @@ ngx-material-timepicker-container,
     padding-top: 3px;
     bottom: 0;
 }
+
+.trans-80{
+    transform: scale(0.78);
+    margin-top: -25px;
+    margin-bottom: -50px;
+}
+.mb-25{
+    margin-bottom: 25px;;
+}
+.fix-h{
+    white-space: pre-line;
+    height: 86px;
+    overflow: auto;
+}
 .modal-open .modal {
     z-index: 9999;
     padding-bottom: 55px;
 }
 .mat-card.mat-focus-indicator{
     padding-bottom: 90px;;
+}
+.bg-n-mtb-10{
+    background: none;
+    margin: 10px 10px 10px 0 ;
+    padding: 15px 15px;
+}
+.bord-l{
+    border-left: 1px solid #d3d3d3;;
 }
 footer {
     z-index: 999;
