@@ -9,6 +9,9 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { EmployeesComponent } from '../employees/employees.component';
+import { isEmpty } from 'rxjs/operators';
 
 @Component({
   selector: 'app-status-complaint',
@@ -26,7 +29,8 @@ export class StatusComplaintComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe
+    private datePipe: DatePipe,
+    private confirmationDialogService: ConfirmationDialogService,
   ) { }
 
 
@@ -64,18 +68,26 @@ export class StatusComplaintComponent implements OnInit {
     });
   }
 
-  deleteMessage(messageID,ComplaintID){
-      this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/DeleteMessage", {
-          _messageID: messageID
-        })
-        .subscribe((Response) => {
-          this.getAndSendMessages(ComplaintID);
-          this.openSnackBar("!הודעה נמחקה");
-        });
+  deleteMessage(messageID, ComplaintID) {
+    // this.confirmationDialogService
+    //   .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+    //   .then((confirmed) => {
+    //     console.log("User confirmed:", confirmed);
+    //     if (confirmed) {
+    //       console.log("deleted");
+    //     }
+    //   });
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteMessage", {
+        _messageID: messageID
+      })
+      .subscribe((Response) => {
+        this.getAndSendMessages(ComplaintID);
+        this.openSnackBar("!הודעה נמחקה");
+      });
   }
 
-  getRelevantComplaints(urlID){
+  getRelevantComplaints(urlID) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
         _urlID: urlID,
@@ -91,7 +103,7 @@ export class StatusComplaintComponent implements OnInit {
     let UserName = localStorage.getItem("loginUserName").toLowerCase();
     let myDate = new Date();
     let messageDate = this.datePipe.transform(myDate, 'yyyy/MM/dd');
-    let messageTime = myDate.getHours()+':'+myDate.getMinutes()+':'+myDate.getSeconds(); 
+    let messageTime = myDate.getHours() + ':' + myDate.getMinutes() + ':' + myDate.getSeconds();
     this.messanger.controls['Complaint'].setValue(formid);
     this.messanger.controls['MessageDate'].setValue(messageDate);
     this.messanger.controls['MessageTime'].setValue(messageTime);
@@ -102,7 +114,7 @@ export class StatusComplaintComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.messagesArray = Response["d"];
-        this.complaintID = this.messagesArray[0].Complaint;
+        this.complaintID = formid;
         // this.CompID = this.messagesArray[0].Complaint;
         this.messanger.controls['MessageValue'].setValue("");
       });

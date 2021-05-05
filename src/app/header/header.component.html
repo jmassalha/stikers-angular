@@ -1,7 +1,9 @@
 <nav dir="rtl" class="navbar navbar-expand-lg navbar-light bg-primary">
     <button class="btn bmd-btn-icon" type="button" id="menu-btn">
         <i class="material-icons closeMe"> close </i>
-        <i class="material-icons open"> menu </i>
+        <i class="material-icons open" *ngIf="!personReadInquiry"> menu </i>
+        <i class="material-icons open" matBadgeColor="warn" [matBadge]="numberOfUnread" *ngIf="personReadInquiry"> menu
+        </i>
     </button>
     <div dir="rtl" class="text-right" id="app-menu">
         <ul class="navbar-nav mr-auto">
@@ -20,14 +22,10 @@
                                 <a class="nav-link" routerLink="chads">Chads</a>
                             </li>
                             <li>
-                                <a class="nav-link" routerLink="colonoscopy"
-                                    >Colonoscopy</a
-                                >
+                                <a class="nav-link" routerLink="colonoscopy">Colonoscopy</a>
                             </li>
                             <li>
-                                <a class="nav-link" routerLink="hearing"
-                                    >סקר שמיעה</a
-                                >
+                                <a class="nav-link" routerLink="hearing">סקר שמיעה</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -42,24 +40,16 @@
                         </mat-expansion-panel-header>
                         <ul>
                             <li>
-                                <a class="nav-link" routerLink="surgery"
-                                    >חדר ניתוח</a
-                                >
+                                <a class="nav-link" routerLink="surgery">חדר ניתוח</a>
                             </li>
                             <li>
-                                <a class="nav-link" routerLink="mrbaot"
-                                    >ביקורים במרפאות</a
-                                >
+                                <a class="nav-link" routerLink="mrbaot">ביקורים במרפאות</a>
                             </li>
                             <li>
-                                <a class="nav-link" routerLink="eshboz"
-                                    >תפוקת אשפוז</a
-                                >
+                                <a class="nav-link" routerLink="eshboz">תפוקת אשפוז</a>
                             </li>
                             <li>
-                                <a class="nav-link" routerLink="consultations"
-                                    >יעוצים</a
-                                >
+                                <a class="nav-link" routerLink="consultations">יעוצים</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -78,20 +68,16 @@
                         </mat-expansion-panel-header>
                         <ul>
                             <li class="nav-item" *ngIf="_shoMersham">
-                                <a class="nav-link" routerLink="mersham"
-                                    >מרשמים</a
-                                >
+                                <a class="nav-link" routerLink="mersham">מרשמים</a>
                             </li>
                             <li class="nav-item" *ngIf="_shoDrugs">
-                                <a class="nav-link" routerLink="drugs"
-                                    >תרופות</a
-                                >
+                                <a class="nav-link" routerLink="drugs">תרופות</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
-            
+
             <li class="nav-item" *ngIf="_shoEventsschedule">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -100,16 +86,12 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
-                            
-                           <li class="nav-item" *ngIf="_shoEmergincyCall">
-                                <a class="nav-link" routerLink="eventsschedule"
-                                    >יומן אירועים</a
-                                >
+
+                            <li class="nav-item" *ngIf="_shoEmergincyCall">
+                                <a class="nav-link" routerLink="eventsschedule">יומן אירועים</a>
                             </li>
                             <li class="nav-item" *ngIf="_shoEmergincyCall">
-                                <a class="nav-link" routerLink="emergencycallgroups"
-                                    >אזעקת חירום</a
-                                >
+                                <a class="nav-link" routerLink="emergencycallgroups">אזעקת חירום</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -123,11 +105,9 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
-                            
+
                             <li class="nav-item" *ngIf="_shomaternity">
-                                <a class="nav-link" routerLink="maternity"
-                                    >פרויקטים</a
-                                >
+                                <a class="nav-link" routerLink="maternity">פרויקטים</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -141,11 +121,9 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
-                            
+
                             <li class="nav-item">
-                                <a class="nav-link" routerLink="caseinvoises"
-                                    >חשבוניות הוצאה לפועל</a
-                                >
+                                <a class="nav-link" routerLink="caseinvoises">חשבוניות הוצאה לפועל</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -159,23 +137,15 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
-                            
+
                             <li class="nav-item" *ngIf="_shoResearches || _permResearch">
-                                <a class="nav-link" routerLink="researches"
-                                    >מחקרים</a
-                                >
+                                <a class="nav-link" routerLink="researches">מחקרים</a>
                             </li>
                             <li class="nav-item" *ngIf="_shoResearches">
-                                <a class="nav-link" routerLink="researchesusers"
-                                    >חוקרים</a
-                                >
+                                <a class="nav-link" routerLink="researchesusers">חוקרים</a>
                             </li>
                             <li class="nav-item" *ngIf="false">
-                                <a
-                                    class="nav-link"
-                                    routerLink="researchespatients"
-                                    >משתתפים</a
-                                >
+                                <a class="nav-link" routerLink="researchespatients">משתתפים</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -192,23 +162,11 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
-                            <li
-                                class="nav-item"
-                                *ngIf="_shoCortinas || _shoSofiMenu"
-                            >
-                                <a
-                                    class="nav-link"
-                                    routerLink="cortinasnotification"
-                                    >התראות</a
-                                >
+                            <li class="nav-item" *ngIf="_shoCortinas || _shoSofiMenu">
+                                <a class="nav-link" routerLink="cortinasnotification">התראות</a>
                             </li>
-                            <li
-                                class="nav-item"
-                                *ngIf="_shoCortinasSettings || _shoSofiMenu"
-                            >
-                                <a class="nav-link" routerLink="cortinasdeparts"
-                                    >מחלקות</a
-                                >
+                            <li class="nav-item" *ngIf="_shoCortinasSettings || _shoSofiMenu">
+                                <a class="nav-link" routerLink="cortinasdeparts">מחלקות</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -223,56 +181,35 @@
                         </mat-expansion-panel-header>
                         <ul>
                             <li class="nav-item" *ngIf="_shoCoronavaccine">
-                                <a class="nav-link" routerLink="sarscov2"
-                                    >נוגדנים לקורונה</a
-                                >
+                                <a class="nav-link" routerLink="sarscov2">נוגדנים לקורונה</a>
                             </li>
-                        
+
                             <li class="nav-item" *ngIf="_shoCoronavaccine">
-                                <a class="nav-link" routerLink="coronavaccine"
-                                    >חיסון לקורונה</a
-                                >
+                                <a class="nav-link" routerLink="coronavaccine">חיסון לקורונה</a>
                             </li>
 
                             <li class="nav-item" *ngIf="_shocovid19report">
-                                <a class="nav-link" routerLink="covid19report"
-                                    >דיווח מלאי בלאי חיסוני קורונה</a
-                                >
+                                <a class="nav-link" routerLink="covid19report">דיווח מלאי בלאי חיסוני קורונה</a>
                             </li>
                             <li class="nav-item" *ngIf="_shoCorona">
-                                <a class="nav-link" routerLink="labor"
-                                    >דאשבורד קורונה</a
-                                >
+                                <a class="nav-link" routerLink="labor">דאשבורד קורונה</a>
                             </li>
 
                             <li class="nav-item" *ngIf="_shoCoronaform">
-                                <a class="nav-link" routerLink="coronaform"
-                                    >הצהרת קורונה</a
-                                >
+                                <a class="nav-link" routerLink="coronaform">הצהרת קורונה</a>
                             </li>
 
                             <li class="nav-item" *ngIf="_shoCoronaform">
-                                <a
-                                    class="nav-link"
-                                    routerLink="coronaresultform"
-                                    >תוצאת קורונה באנגלית</a
-                                >
+                                <a class="nav-link" routerLink="coronaresultform">תוצאת קורונה באנגלית</a>
                             </li>
 
                             <li class="nav-item" *ngIf="_shoCoronaform">
-                                <a
-                                    class="nav-link"
-                                    routerLink="sarsresults"
-                                    >תוצאת בדיקת נוגדנים</a
-                                >
+                                <a class="nav-link" routerLink="sarsresults">תוצאת בדיקת נוגדנים</a>
                             </li>
 
                             <li class="nav-item" *ngIf="_SHowToAdmins">
-                                <a
-                                    class="nav-link"
-                                    routerLink="addpatientcoronaform"
-                                    >הוספת מטופל לא עבר בממשק - בדיקות קורונה</a
-                                >
+                                <a class="nav-link" routerLink="addpatientcoronaform">הוספת מטופל לא עבר בממשק - בדיקות
+                                    קורונה</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -288,15 +225,11 @@
                         </mat-expansion-panel-header>
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" routerLink="formdashboard"
-                                    >דאשבורד טפסים</a
-                                >
+                                <a class="nav-link" routerLink="formdashboard">דאשבורד טפסים</a>
                             </li>
 
                             <li class="nav-item" *ngIf="_formsArea">
-                                <a class="nav-link" routerLink="digitalforms"
-                                    >בניית וניהול טפסים</a
-                                >
+                                <a class="nav-link" routerLink="digitalforms">בניית וניהול טפסים</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -305,15 +238,18 @@
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
-                        <mat-expansion-panel-header>
+                        <mat-expansion-panel-header *ngIf="!personReadInquiry">
                             <mat-panel-title> פניות ציבור </mat-panel-title>
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
+                        <mat-expansion-panel-header *ngIf="personReadInquiry">
+                            <mat-panel-title> פניות ציבור</mat-panel-title>
+                            <mat-panel-description style="align-items: center;"><i matBadgeColor="warn"
+                                [matBadge]="numberOfUnread"></i> </mat-panel-description>
+                        </mat-expansion-panel-header>
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" routerLink="emailsdashboard"
-                                    >דאשבורד פניות</a
-                                >
+                                <a class="nav-link" routerLink="emailsdashboard">דאשבורד פניות</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -332,21 +268,11 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
-                            <li
-                                class="nav-item"
-                                *ngIf="_sendSMS && !_shoSofiMenu"
-                            >
-                                <a class="nav-link" routerLink="sendsms"
-                                    >שליחת הודעות דלית</a
-                                >
+                            <li class="nav-item" *ngIf="_sendSMS && !_shoSofiMenu">
+                                <a class="nav-link" routerLink="sendsms">שליחת הודעות דלית</a>
                             </li>
-                            <li
-                                class="nav-item"
-                                *ngIf="_sendSMSADMIN && !_shoSofiMenu"
-                            >
-                                <a class="nav-link" routerLink="sendsmsadmin"
-                                    >שליחת הודעות הנהלה</a
-                                >
+                            <li class="nav-item" *ngIf="_sendSMSADMIN && !_shoSofiMenu">
+                                <a class="nav-link" routerLink="sendsmsadmin">שליחת הודעות הנהלה</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -362,14 +288,10 @@
                         </mat-expansion-panel-header>
                         <ul>
                             <li>
-                                <a class="nav-link" routerLink="roles"
-                                    >תפקידים</a
-                                >
+                                <a class="nav-link" routerLink="roles">תפקידים</a>
                             </li>
                             <li>
-                                <a class="nav-link" routerLink="poriadeparts"
-                                    >מחלקות</a
-                                >
+                                <a class="nav-link" routerLink="poriadeparts">מחלקות</a>
                             </li>
                             <li>
                                 <a class="nav-link" routerLink="staff">צוות</a>
@@ -379,11 +301,7 @@
                 </mat-accordion>
             </li>
             <li class="nav-item">
-                <button
-                    class="full-width clearCach"
-                    mat-raised-button
-                    (click)="logout($event)"
-                >
+                <button class="full-width clearCach" mat-raised-button (click)="logout($event)">
                     Logout
                 </button>
             </li>

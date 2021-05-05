@@ -96,6 +96,7 @@ import { CaseinvoisesComponent } from './caseinvoises/caseinvoises.component';
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
+
 @NgModule({
   declarations: [
     AppComponent,

@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -71,6 +71,7 @@ export interface CompAmbolatory {
   templateUrl: './emailmanagement.component.html',
   styleUrls: ['./emailmanagement.component.css']
 })
+
 export class EmailmanagementComponent implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -148,6 +149,7 @@ export class EmailmanagementComponent implements OnInit {
   urlID: number;
   fakeID: number;
   manageComplaintForm: FormGroup;
+  
 
   
   minDate = "";

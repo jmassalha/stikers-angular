@@ -89,12 +89,12 @@ export class UpdateformComponent implements OnInit {
   }
 
   openDialogToUpdate(id) {
-    let dialogRef = this.dialog.open(UpdatesingleformComponent);
+    let dialogRef = this.dialog.open(UpdatesingleformComponent, { disableClose: true });
     dialogRef.componentInstance.urlID = id;
   }
 
   openDialogToAnsweredForms(id) {
-    let dialogRef = this.dialog.open(FormsansweredComponent);
+    let dialogRef = this.dialog.open(FormsansweredComponent, { disableClose: true });
     dialogRef.updateSize('1000px', '100%');
     dialogRef.componentInstance.urlID = id;
     dialogRef.afterClosed()

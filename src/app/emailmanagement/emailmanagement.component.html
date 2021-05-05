@@ -35,7 +35,7 @@
 
     <div class="row float-right mt-3">
         <ol class="list-style">
-            <div class="row">
+            <div class="full-width row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>תאריך פניה</label>
@@ -60,7 +60,7 @@
                     </div>
                 </li>
             </div>
-            <div class="row">
+            <div class="full-width row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>מקור פניה</label>
@@ -82,7 +82,7 @@
                     </mat-form-field>
                 </li>
             </div>
-            <div class="row">
+            <div class="full-width row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>עובד מחלקה</label>
@@ -103,18 +103,7 @@
                     </mat-radio-group>
                 </li>
             </div>
-            <div class="row">
-                <!-- <li class="border-me col-6">
-                    <div class="col-12 text-right">
-                        <label>אשפוז</label>
-                    </div>
-                    <mat-radio-group class="example-radio-group mt-3" formControlName="Eshpoz">
-                        <div class="d-block" *ngFor="let eshpoz of compEshpoz">
-                            <mat-radio-button style="float: right;" [value]="eshpoz.value">
-                                {{eshpoz.viewValue}}</mat-radio-button>
-                        </div>
-                    </mat-radio-group>
-                </li> -->
+            <div class="full-width row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>סיווג פונה</label>
@@ -127,8 +116,6 @@
                         </mat-select>
                     </mat-form-field>
                 </li>
-            </div>
-            <div class="row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>מחלקה</label>
@@ -142,6 +129,8 @@
                         </mat-select>
                     </mat-form-field>
                 </li>
+            </div>
+            <div class="full-width row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>סקטור</label>
@@ -154,38 +143,6 @@
                         </mat-select>
                     </mat-form-field>
                 </li>
-            </div>
-            <div class="row">
-                <li class="border-me col-12">
-                    <div class="col-12 text-right">
-                        <label>הערה</label>
-                    </div>
-                    <mat-form-field class="example-full-width">
-                        <input type="text" matInput formControlName="Comp_Note">
-                    </mat-form-field>
-                </li>
-            </div>
-            <div class="row">
-                <li class="border-me col-12">
-                    <div class="col-12 text-right">
-                        <label>תשובה סופית</label>
-                    </div>
-                    <mat-form-field class="example-full-width">
-                        <input type="text" matInput formControlName="Comp_Answer">
-                    </mat-form-field>
-                </li>
-            </div>
-            <div class="row">
-                <li class="border-me col-12">
-                    <div class="col-12 text-right">
-                        <label>תגובה לשיפור</label>
-                    </div>
-                    <mat-form-field class="example-full-width">
-                        <input type="text" matInput formControlName="ImprovementNote">
-                    </mat-form-field>
-                </li>
-            </div>
-            <div class="row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
                         <label>תאריך סגירת הפניה</label>
@@ -197,16 +154,35 @@
                         <mat-datepicker #picker2></mat-datepicker>
                     </mat-form-field>
                 </li>
-                <li class="border-me col-6">
+            </div>
+            <div class="full-width row">
+                <li class="border-me col-12">
                     <div class="col-12 text-right">
-                        <label>סטטוס</label>
+                        <label>הערה</label>
                     </div>
-                    <mat-radio-group class="example-radio-group mt-3" formControlName="Comp_Status">
-                        <div class="d-block" *ngFor="let status of compStatus">
-                            <mat-radio-button style="float: right;" [value]="status.value">
-                                {{status.viewValue}}</mat-radio-button>
-                        </div>
-                    </mat-radio-group>
+                    <mat-form-field class="example-full-width">
+                        <textarea type="text" matInput cols="3" formControlName="Comp_Note"></textarea>
+                    </mat-form-field>
+                </li>
+            </div>
+            <div class="full-width row">
+                <li class="border-me col-12">
+                    <div class="col-12 text-right">
+                        <label>תשובה סופית</label>
+                    </div>
+                    <mat-form-field class="example-full-width">
+                        <textarea type="text" matInput cols="3" formControlName="Comp_Answer"></textarea>
+                    </mat-form-field>
+                </li>
+            </div>
+            <div class="full-width row">
+                <li class="border-me col-12">
+                    <div class="col-12 text-right">
+                        <label>תגובה לשיפור</label>
+                    </div>
+                    <mat-form-field class="example-full-width">
+                        <textarea type="text" matInput cols="3" formControlName="ImprovementNote"></textarea>
+                    </mat-form-field>
                 </li>
             </div>
         </ol>

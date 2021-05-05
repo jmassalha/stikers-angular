@@ -125,6 +125,10 @@ export class FormsansweredComponent implements OnInit {
     this.answersData.next(this.onlyColumns.controls);
   }
 
+  onClose(){
+    this.dialog.close();
+  }
+
   searchForm() {
     let caseNumber = this.formSearchPatient.controls['caseNumber'].value;
     let personalPassport = this.formSearchPatient.controls['personalPassport'].value;
