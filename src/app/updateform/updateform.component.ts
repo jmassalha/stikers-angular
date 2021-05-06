@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FormsansweredComponent } from '../formsanswered/formsanswered.component';
 import { UpdatesingleformComponent } from '../updatesingleform/updatesingleform.component';
+import { DatePipe } from '@angular/common';
 
 export interface Form {
   FormID: string;
@@ -59,7 +60,8 @@ export class UpdateformComponent implements OnInit {
     private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private router: Router,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    public datepipe: DatePipe) { }
 
   onlyColumns: FormArray = this.formBuilder.array([]);
   TablesColsRows: FormArray = this.formBuilder.array([{
@@ -126,11 +128,14 @@ export class UpdateformComponent implements OnInit {
               } else if (this._tableArr[i].TableAnsweredGroup[index].AnswerValue == "True") {
                 this._tableArr[i].TableAnsweredGroup[index].AnswerValue = true;
               }
+              if(this._tableArr[i].TableAnsweredGroup[index].AnswerType == "Date"){
+                // this.date=new Date();
+                this._tableArr[i].TableAnsweredGroup[index].AnswerValue =this.datepipe.transform(this._tableArr[i].TableAnsweredGroup[index].AnswerValue, 'yyyy-MM-dd');
+              }
               surveyTablesItem = this.formBuilder.group({
                 Row_ID: [this._tableArr[i].TableAnsweredGroup[index].Row_ID, null],
                 tableAnswerContent: [this._tableArr[i].TableAnsweredGroup[index].AnswerValue, null],
                 ColumnsValue: [this._tableArr[i].TableAnsweredGroup[index].ColValue, null],
-                checkBoxV: [this._tableArr[i].TableAnsweredGroup[index].checkBoxV, null],
                 ColType: [this._tableArr[i].TableAnsweredGroup[index].AnswerType, null],
                 ColIDFK: [this._tableArr[i].TableAnsweredGroup[index].ColIDFK, null]
               });

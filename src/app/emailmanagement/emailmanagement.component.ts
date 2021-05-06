@@ -26,11 +26,20 @@ export interface EmailManagement {
   Ambolatory: string;
   Eshpoz: string;
   ImprovementNote: string;
-  Comp_Status: string;
   Comp_Note: string;
   Comp_Answer: string;
   Comp_Closing_Date: string;
   Related_User: string;
+}
+export interface EmailSender {
+  Row_ID: string;
+  EmailSubject: string;
+  CompSubject: string;
+  CompName: string;
+  ContentToShow: string;
+  CompPhone: string;
+  CompEmail: string;
+  EmailDateTime: string;
 }
 
 export interface CompType {
@@ -39,11 +48,6 @@ export interface CompType {
 }
 
 export interface CompRelated {
-  value: string;
-  viewValue: string;
-}
-
-export interface CompStatus {
   value: string;
   viewValue: string;
 }
@@ -91,11 +95,6 @@ export class EmailmanagementComponent implements OnInit {
     { value: 'HealthMinistry', viewValue: 'משרד הבריאות' },
     { value: 'Lawyer', viewValue: 'עו"ד' },
     { value: 'Other', viewValue: 'אחר' },
-  ];
-
-  compStatus: CompStatus[] = [
-    { value: '1', viewValue: 'פתוח' },
-    { value: '0', viewValue: 'סגור' },
   ];
 
   compAmbolatory: CompAmbolatory[] = [
@@ -149,15 +148,15 @@ export class EmailmanagementComponent implements OnInit {
   urlID: number;
   fakeID: number;
   manageComplaintForm: FormGroup;
+  emailSenderGroup: FormGroup;
   
 
-  
-  minDate = "";
   myControl = new FormControl();
   filteredOptions: Observable<string[]>;
   toppings = new FormControl();
   chooseComp: boolean;
   _ifUpdate:boolean;
+  _stepper:boolean;
 
   ngOnInit(): void {
     this.manageComplaintForm = this.formBuilder.group({
@@ -174,23 +173,36 @@ export class EmailmanagementComponent implements OnInit {
       Comp_Note: ['', null],
       Comp_Answer: ['', null],
       Comp_Closing_Date: ['', null],
-      Comp_Status: ['', Validators.compose([Validators.required])],
       Related_User: ['', null,]
+    });
+
+    this.emailSenderGroup = this.formBuilder.group({
+      EmailSubject: ['', Validators.compose([Validators.required])],
+      CompSubject: ['', Validators.compose([Validators.required])],
+      CompName: ['', Validators.compose([Validators.required])],
+      ContentToShow: ['', null],
+      CompPhone: ['', null],
+      CompEmail: ['', null],
+      EmailDateTime: ['', Validators.compose([Validators.required])],
     });
 
     //to split the complaint
     if(this.fakeID == 0 && this.urlID != 0){
-      this._ifUpdate = false;
+      this._ifUpdate = true;
       this.chooseComp = false;
+      this._stepper = false;
       this.getEmailManagement(this.urlID,1);
       //for genrating new complaint 
     }else if(this.urlID == 0 && this.fakeID == 0){
       this._ifUpdate = false;
       this.chooseComp = false;
+      this._stepper = true;
+      this.getDepatments();
       //open the complaints cards
     }else{
       this._ifUpdate = true;
       this.chooseComp = true;
+      this._stepper = false;
     }
 
     this.getRelevantComplaints(this.urlID);
@@ -238,6 +250,7 @@ export class EmailmanagementComponent implements OnInit {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
         _compToUpdate: this.manageComplaintForm.value,
+        _emailToInsert: this.emailSenderGroup.value,
         ifUpdate: _ifUpdate
       })
       .subscribe((Response) => {
@@ -248,6 +261,20 @@ export class EmailmanagementComponent implements OnInit {
     }else{
       this.openSnackBar("!לא תקין");
     }
+  }
+
+  getDepatments(){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+
+      })
+      .subscribe((Response) => {
+        this.all_departs_filter = Response["d"];
+
+        this.all_departs_filter.forEach(element => {
+          this.department.push(element);
+        })
+      });
   }
 
   getRelevantComplaints(urlID){
@@ -264,6 +291,15 @@ export class EmailmanagementComponent implements OnInit {
 
   getEmailManagement(urlID,ifSplit) {
     this.chooseComp = false;
+    if(ifSplit == "1"){
+      this._stepper = false;
+    }else if(ifSplit == "3"){
+      this._stepper = false;
+    }
+    else{
+      this._stepper = true;
+    }
+     
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
         _compID: urlID,
@@ -289,13 +325,11 @@ export class EmailmanagementComponent implements OnInit {
           Comp_Answer: new FormControl(this.all_email_management[0].Comp_Answer, null),
           PersonID: new FormControl(this.all_email_management[0].PersonID, null),
           Comp_Closing_Date: new FormControl(this.all_email_management[0].Comp_Closing_Date, null),
-          Comp_Status: new FormControl(this.all_email_management[0].Comp_Status, null),
           Row_ID_FK: new FormControl(this.all_email_management[0].Row_ID_FK, null),
           Related_User: new FormControl(this.all_email_management[0].email, null),
         });
         
-      });
-    
+      });      
       
 
       this.http

@@ -15,6 +15,7 @@ import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
+import {MatStepperModule} from '@angular/material/stepper';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -191,6 +192,7 @@ const maskConfig: Partial<IConfig> = {
     HttpClientModule,
     MatTooltipModule,
     DataTablesModule,
+    MatStepperModule,
     ZXingScannerModule,
     BrowserAnimationsModule,
     MatPaginatorModule,

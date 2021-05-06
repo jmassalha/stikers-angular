@@ -70,8 +70,12 @@
 </div><br><br>
 
 <div class="row mb-3 mr-3" dir="rtl">
-    <button class="btn btn-primary" mat-raised-button (click)="loadInquiries()" *ngIf="UserName == 'matias'">טען מיילים חדשים</button>
-    <button class="btn btn-primary" mat-raised-button (click)="searchForm('1')" *ngIf="UserName != 'matias'">סמן פניות כנקראו</button>
+    <button class="btn btn-primary" mat-raised-button (click)="loadInquiries()" *ngIf="UserName == 'matias'"><span class="material-icons">
+        refresh
+        </span> טען מיילים חדשים</button>
+    <button class="btn btn-primary" mat-raised-button (click)="searchForm('1')"><span class="material-icons">
+        mark_as_unread
+        </span> סמן פניות כנקראו</button>
 </div>
 <div dir="rtl">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8" [formGroup]="tableEmails">
@@ -150,7 +154,7 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary" *ngIf="UserName == 'matias'"><i
+    <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary" *ngIf="UserName == 'matias'" matTooltip="הוספת פנייה חדשה"><i
         class="material-icons">add</i></button>
     <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
 </div>

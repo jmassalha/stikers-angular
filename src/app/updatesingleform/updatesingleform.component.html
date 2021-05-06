@@ -1,5 +1,9 @@
 <mat-card class="form-amen">
+    <button mat-mini-fab color="warn" type="button" (click)="onClose()" class="poll-remove-btn" matTooltip="סגירה ללא שמירה">
+      X
+    </button>
   <form dir="rtl" [formGroup]="surveyForm" autocomplete="off">
+    
     <div class="border-me card-body">
       <div class="row">
         <div class="col-8">
@@ -24,7 +28,7 @@
         <h3 class="list-title m-3 text-center">יצירת שאלות</h3>
       </div>
       <div class="col">
-        <section class="example-section">
+        <section class="example-section" matTooltip="אם הטופס הוא עבור חולה/נבדק עם מספר מקרה לסמן ב V">
           <mat-radio-group>
             <mat-checkbox class="list-title m-3 text-center" formControlName="isCaseNumber">עם מספר מקרה?
             </mat-checkbox>
@@ -33,7 +37,7 @@
       </div>
       <div class="col">
         <section class="example-section">
-          <mat-radio-group>
+          <mat-radio-group matTooltip="אם הטופס ישומש למילוי בכל מחלקות הבית חולים לסמן ב V">
             <mat-checkbox class="list-title m-3 text-center" formControlName="GeneralForm">טופס ארגוני?
             </mat-checkbox>
           </mat-radio-group>
@@ -41,7 +45,7 @@
       </div>
       <div class="col">
         <section class="example-section">
-          <mat-radio-group>
+          <mat-radio-group matTooltip="אם הטופס מכיל טבלאות צריך לסמן ב V">
             <mat-checkbox class="list-title m-3 text-center" formControlName="TableForm"> טבלה?
             </mat-checkbox>
           </mat-radio-group>
@@ -100,7 +104,7 @@
                                     [required]="true">
                                 </mat-form-field>
                                 <button mat-raised-button class="mb-2" *ngIf="j>=2"
-                                  (click)="removeOption(optionCtrl,i,j)" color="warn">
+                                  (click)="removeOption(optionCtrl,i,j)" color="warn" matTooltip="מחיקת אפשרות">
                                   X
                                 </button>
                               </div>
@@ -108,7 +112,7 @@
                           </li>
                         </ul>
                         <button mat-raised-button type="button" (click)="addOption(i)"
-                          class="mat-sm-button add-option-btn" color="accent"> <span class="material-icons">
+                          class="mat-sm-button add-option-btn" color="accent" matTooltip="הוספת אפשרות"> <span class="material-icons">
                             playlist_add
                           </span></button>
                       </div>
@@ -127,7 +131,7 @@
                                     [required]="true">
                                 </mat-form-field>
                                 <button mat-raised-button class="mb-2" *ngIf="j>=2"
-                                  (click)="removeOption(optionCtrl,i,j)" color="warn">
+                                  (click)="removeOption(optionCtrl,i,j)" color="warn" matTooltip="מחיקת אפשרות">
                                   X
                                 </button>
                               </div>
@@ -135,7 +139,7 @@
                           </li>
                         </ul>
                         <button mat-raised-button type="button" (click)="addOption(i)"
-                          class="mat-sm-button add-option-btn" color="accent"> <span class="material-icons">
+                          class="mat-sm-button add-option-btn" color="accent" matTooltip="הוספת אפשרות"> <span class="material-icons">
                             playlist_add
                           </span></button>
                       </div>
@@ -188,7 +192,7 @@
                     </div>
                   </div>
                 </div>
-                <button mat-mini-fab color="warn" type="button" (click)="onRemoveQuestion(i)" class="poll-remove-btn">
+                <button mat-mini-fab color="warn" type="button" (click)="onRemoveQuestion(i)" class="poll-remove-btn" matTooltip="מחיקת שאלה">
                   X
                 </button>
               </div>
@@ -197,7 +201,7 @@
         </ol>
         <div fxLayout="row" fxLayoutAlign="end" style="margin-bottom: 10px;">
           <button type="button" mat-raised-button style="font-weight: bold;font-size: 20px;background-color: yellow;"
-            (click)="onAddQuestion()">
+            (click)="onAddQuestion()" matTooltip="הוספת שאלה">
             <span class="material-icons">
               add_box
             </span>
@@ -269,7 +273,7 @@
                             </mat-form-field>
                           </div>
                         </div>
-                        <button mat-raised-button class="mb-2" (click)="removeColumn(f,j)" color="warn">
+                        <button mat-raised-button class="mb-2" (click)="removeColumn(f,j)" color="warn" matTooltip="מחיקת עמודה">
                           X
                         </button>
                       </div>
@@ -279,7 +283,7 @@
               </div>
               <div class="form-group col-3">
                 <button mat-raised-button type="button" (click)="addCols(f)" class="mat-sm-button add-option-btn"
-                  color="accent"> <span class="material-icons">
+                  color="accent" matTooltip="הוספת עמודה"> <span class="material-icons">
                     playlist_add
                   </span></button>
               </div>
@@ -298,7 +302,7 @@
                           <mat-label>כותרת שורה</mat-label>
                           <input matInput type="text" formControlName="rowsText">
                         </mat-form-field>
-                        <button mat-raised-button class="mb-2" (click)="removeRow(f,k)" color="warn">
+                        <button mat-raised-button class="mb-2" (click)="removeRow(f,k)" color="warn" matTooltip="מחיקת שורה">
                           X
                         </button>
                       </div>
@@ -308,12 +312,12 @@
               </div>
               <div class="form-group col-3">
                 <button mat-raised-button type="button" (click)="addRows(f)" class="mat-sm-button add-option-btn"
-                  color="accent"> <span class="material-icons">
+                  color="accent" matTooltip="הוספת שורה"> <span class="material-icons">
                     playlist_add
                   </span></button>
               </div>
               <!-- </div> -->
-              <button mat-mini-fab color="warn" type="button" (click)="onRemoveTable(f)" class="poll-remove-btn">
+              <button mat-mini-fab color="warn" type="button" (click)="onRemoveTable(f)" class="poll-remove-btn" matTooltip="מחיקת טבלה">
                 X
               </button>
             </div>
@@ -322,7 +326,7 @@
       </ol>
       <div fxLayout="row" fxLayoutAlign="end" style="margin-bottom: 10px;">
         <button type="button" mat-raised-button style="font-weight: bold;font-size: 20px;background-color: yellow;"
-          (click)="onAddTable()">
+          (click)="onAddTable()" matTooltip="הוספת טבלה">
           <span class="material-icons">
             add_box
           </span>

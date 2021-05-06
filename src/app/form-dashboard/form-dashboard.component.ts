@@ -39,7 +39,7 @@ export class FormDashboardComponent implements OnInit {
   }
 
   openDialogToFill(id,ifcontinue,NurseID) {
-    let dialogRef = this.dialog.open(FillSurveyComponent);
+    let dialogRef = this.dialog.open(FillSurveyComponent, { disableClose: true });
     dialogRef.componentInstance.urlID = id;
     dialogRef.componentInstance.ifContinueForm = ifcontinue;
     dialogRef.componentInstance.NurseID = NurseID;

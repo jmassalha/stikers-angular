@@ -102,7 +102,7 @@
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
         </mat-table>
         <button (click)="openDialogToUpdate(0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"><i
-                class="material-icons">add</i></button>
+                class="material-icons" matTooltip="טופס חדש">add</i></button>
         <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
     </div>
 </div>
@@ -200,10 +200,21 @@
                                             <span *ngIf="row.rowsText != '' && output2 == 0;else input_other"
                                                 style="text-align: right;float: right;">{{row.rowsText}}</span>
                                             <ng-template #input_other>
+                                                <mat-form-field [formGroupName]="output2"
+                                                    *ngIf="column.ColType == 'Time'">
+                                                    <input matInput [ngxTimepicker]="endTime" [format]="24"
+                                                        formControlName="tableAnswerContent" />
+                                                    <ngx-material-timepicker #endTime></ngx-material-timepicker>
+                                                </mat-form-field>
+                                                <mat-form-field appearance="fill" [formGroupName]="output2"
+                                                    *ngIf="column.ColType == 'Date'">
+                                                    <input matInput formControlName="tableAnswerContent"
+                                                        class="table-form-input">
+                                                </mat-form-field>
                                                 <mat-form-field class="fix-my-width" [formGroupName]="output2"
                                                     *ngIf="column.ColType == 'Text'">
-                                                    <input matInput style="text-align: center;"
-                                                        formControlName="tableAnswerContent" class="table-form-input">
+                                                    <input matInput formControlName="tableAnswerContent"
+                                                        class="table-form-input">
                                                 </mat-form-field>
                                                 <section class="example-section" [formGroupName]="output2"
                                                     *ngIf="column.ColType == 'CheckBox'">
@@ -213,6 +224,11 @@
                                                         </mat-checkbox>
                                                     </mat-radio-group>
                                                 </section>
+                                                <mat-form-field class="fix-my-width" [formGroupName]="output2"
+                                                    *ngIf="column.ColType == 'Signature'">
+                                                    <input matInput formControlName="tableAnswerContent"
+                                                        class="table-form-input">
+                                                </mat-form-field>
                                             </ng-template>
                                         </td>
                                     </tr>
