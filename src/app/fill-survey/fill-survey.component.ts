@@ -670,7 +670,6 @@ export class FillSurveyComponent implements OnInit {
                     Row_ID: [this._tableArr[i].TableAnsweredGroup[index].Row_ID, null],
                     tableAnswerContent: [this._tableArr[i].TableAnsweredGroup[index].AnswerValue, null],
                     ColumnsValue: [this._tableArr[i].TableAnsweredGroup[index].ColValue, null],
-                    checkBoxV: [this._tableArr[i].TableAnsweredGroup[index].checkBoxV, null],
                     ColType: [this._tableArr[i].TableAnsweredGroup[index].AnswerType, null],
                     ColIDFK: [this._tableArr[i].TableAnsweredGroup[index].ColIDFK, null]
                   });
@@ -910,6 +909,10 @@ export class FillSurveyComponent implements OnInit {
     //     });
     //   });
   // }
+
+  onClose(){
+    this.dialog.closeAll();
+  }
 
   onSubmit() {
     this.fillForm(0);

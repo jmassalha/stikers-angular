@@ -56,7 +56,7 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <button mat-raised-button type="submit" (click)="searchForm()"
+                        <button mat-raised-button type="submit" (click)="searchForm('0')"
                             class="btn btn-primary btn-raised">
                             <span class="material-icons">
                                 search
@@ -69,6 +69,14 @@
     </div>
 </div><br><br>
 
+<div class="row mb-3 mr-3" dir="rtl">
+    <button class="btn btn-primary" mat-raised-button (click)="loadInquiries()" *ngIf="UserName == 'matias'"><span class="material-icons">
+        refresh
+        </span> טען מיילים חדשים</button>
+    <button class="btn btn-primary" mat-raised-button (click)="searchForm('1')"><span class="material-icons">
+        mark_as_unread
+        </span> סמן פניות כנקראו</button>
+</div>
 <div dir="rtl">
     <mat-table [dataSource]="dataSource" class="mat-elevation-z8" [formGroup]="tableEmails">
         <!-- Position Column -->
@@ -129,7 +137,8 @@
                 style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> התכתבות עם מנהל
             </mat-header-cell>
             <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
-                    color="primary" (click)="openDialogToStatusComplaint(element.EmailID)"><span class="material-icons">
+                    color="primary" (click)="openDialogToStatusComplaint(element.EmailID)"><span class="material-icons"><i matBadgeColor="warn"
+                        [matBadge]="element.NumberOfUnread"></i>
                         question_answer
                     </span></button> </mat-cell>
         </ng-container>
@@ -145,7 +154,7 @@
         <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
         <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
     </mat-table>
-    <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"><i
+    <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary" *ngIf="UserName == 'matias'" matTooltip="הוספת פנייה חדשה"><i
         class="material-icons">add</i></button>
     <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
 </div>

@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { Survey } from './data-models';
 import { ActivatedRoute, Router } from "@angular/router";
@@ -8,7 +8,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 export interface QuestionType {
   value: string;
   viewValue: string;
@@ -20,6 +21,7 @@ export interface ColumnType {
 export interface FormDepartment {
   deptVal: string;
 }
+
 @Component({
   selector: 'app-updatesingleform',
   templateUrl: './updatesingleform.component.html',
@@ -59,7 +61,7 @@ export class UpdatesingleformComponent implements OnInit {
     { value: 'Signature', viewValue: 'חתימה' },
   ];
   columnType: ColumnType[] = [
-    { value: 'CheckBox', viewValue: 'בחירה מרובה' },
+    { value: 'CheckBox', viewValue: 'סימון V' },
     { value: 'Text', viewValue: 'טקסט' },
     { value: 'Date', viewValue: 'תאריך' },
     { value: 'Time', viewValue: 'זמן' },
@@ -73,7 +75,8 @@ export class UpdatesingleformComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private confirmationDialogService: ConfirmationDialogService,
   ) { }
 
   FormDepartment: string = "";
@@ -347,6 +350,7 @@ export class UpdatesingleformComponent implements OnInit {
     (<FormArray>this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionGroup.controls.options).push(optionGroup);
   }
 
+
   postSurvey() {
     let formData = this.surveyForm.value;
     let formTable = this.tableFormGroup.value;
@@ -569,6 +573,10 @@ export class UpdatesingleformComponent implements OnInit {
 
   onSubmit() {
     this.postSurvey();
+  }
+
+  onClose(){
+    this.dialog.closeAll();
   }
 
 }

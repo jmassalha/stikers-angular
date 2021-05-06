@@ -125,6 +125,10 @@ export class FormsansweredComponent implements OnInit {
     this.answersData.next(this.onlyColumns.controls);
   }
 
+  onClose(){
+    this.dialog.close();
+  }
+
   searchForm() {
     let caseNumber = this.formSearchPatient.controls['caseNumber'].value;
     let personalPassport = this.formSearchPatient.controls['personalPassport'].value;
@@ -163,18 +167,18 @@ export class FormsansweredComponent implements OnInit {
             this.TABLE_DATA.push({
               FormID: this.all_forms_filter[i].formID,
               PatientID: this.all_forms_filter[i].CaseNumber,
-              PatientName: this.all_forms_filter[i].PersonalFirstName + ' ' + this.all_forms_filter[i].PersonalLastName,
-              DateOfFillForm: this.all_forms_filter[i].DateOfFillForm.split(' ')[0],
-              PatientBirthday: this.all_forms_filter[i].PersonalBirthday.split(' ')[0],
-              PatientPassport: this.all_forms_filter[i].PersonalID,
-              PatientPhone: this.all_forms_filter[i].PersonalPhone,
-              PatientEmail: this.all_forms_filter[i].PersonalEmail,
-              PatientGender: this.all_forms_filter[i].PersonalGender,
-              PatientAddress: this.all_forms_filter[i].PersonalAddress,
-              NurseInCharge: this.all_forms_filter[i].NurseFullName,
+              PatientName: this.all_forms_filter[i].PatientsList[0].PersonalFirstName + ' ' + this.all_forms_filter[i].PatientsList[0].PersonalLastName,
+              DateOfFillForm: this.all_forms_filter[i].PatientsList[0].DateOfFillForm.split(' ')[0],
+              PatientBirthday: this.all_forms_filter[i].PatientsList[0].PersonalBirthday.split(' ')[0],
+              PatientPassport: this.all_forms_filter[i].PatientsList[0].PersonalID,
+              PatientPhone: this.all_forms_filter[i].PatientsList[0].PersonalPhone,
+              PatientEmail: this.all_forms_filter[i].PatientsList[0].PersonalEmail,
+              PatientGender: this.all_forms_filter[i].PatientsList[0].PersonalGender,
+              PatientAddress: this.all_forms_filter[i].PatientsList[0].PersonalAddress,
+              NurseInCharge: this.all_forms_filter[i].PatientsList[0].NurseFullName,
               FormName: this.all_forms_filter[i].FormName,
               Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature),
-              Questions: this.all_forms_filter[i].PersonAnswers,
+              Questions: this.all_forms_filter[i].NurseAnswers,
               NursesTable: this.all_forms_filter[i].NursesTable,
             });
           } else {

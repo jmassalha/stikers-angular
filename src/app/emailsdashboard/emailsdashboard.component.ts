@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
+import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatTableDataSource } from '@angular/material/table';
@@ -22,6 +22,7 @@ export interface Email {
   ContentToShow: string;
   EmailDateTime: string;
   Status: string;
+  NumberOfUnread: string;
 }
 
 export interface CompStatus {
@@ -45,6 +46,7 @@ export class EmailsdashboardComponent implements OnInit {
   all_forms_filter = [];
   all_departs_filter = [];
   department = [];
+  ifRead: string= "0";
 
   formSearch: FormGroup;
   tableEmails: FormGroup;
@@ -70,7 +72,7 @@ export class EmailsdashboardComponent implements OnInit {
     UserName = localStorage.getItem("loginUserName").toLowerCase();
 
 
-  async ngOnInit(): Promise<void> {
+  ngOnInit() {
 
     this.formSearch = new FormGroup({
       'compName': new FormControl('', null),
@@ -81,11 +83,8 @@ export class EmailsdashboardComponent implements OnInit {
     this.tableEmails = new FormGroup({
       'slideT': new FormControl('', null),
     });
-
-    await this.loadInquiries();
-
-    this.searchForm();
-
+    this.searchForm("0");
+    
   }
 
   openDialogToManageEmail(id,fakeID) {
@@ -113,6 +112,9 @@ export class EmailsdashboardComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.openSnackBar("פניות נטענו בהצלחה");
+        setTimeout(() => {
+          this.ngOnInit();
+        }, 1500);
       });
   }
 
@@ -133,7 +135,7 @@ export class EmailsdashboardComponent implements OnInit {
       });
   }
 
-  searchForm() {
+  searchForm(isRead) {
     let compName = this.formSearch.controls['compName'].value;
     let departmentControl = this.formSearch.controls['departmentControl'].value;
     let compDateControl = this.formSearch.controls['compDateControl'].value;
@@ -147,8 +149,6 @@ export class EmailsdashboardComponent implements OnInit {
       departmentControl = "";
     }
 
-    
-
     // let pipe = new DatePipe('en-US');
     // if(!(compDateControl == undefined || compDateControl == "" || compDateControl == null)){
     //   compDateControl = pipe.transform(compDateControl, 'yyyy/MM/dd');
@@ -161,9 +161,13 @@ export class EmailsdashboardComponent implements OnInit {
         _compName: compName,
         _compDate: compDateControl,
         _compStatus: compStatusControl,
+        _userName: this.UserName,
+        _isRead: isRead
       })
       .subscribe((Response) => {
-
+        if(isRead == "1"){
+          window.location.reload();
+        }
         this.all_forms_filter = Response["d"];
         this.TABLE_DATA = [];
         for (var i = 0; i < this.all_forms_filter.length; i++) {
@@ -185,6 +189,7 @@ export class EmailsdashboardComponent implements OnInit {
             ContentToShow: this.all_forms_filter[i].ContentToShow,
             EmailDateTime: this.all_forms_filter[i].EmailDateTime,
             Status: this.all_forms_filter[i].Status,
+            NumberOfUnread: this.all_forms_filter[i].NumberOfUnread,
           });
         }
         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);

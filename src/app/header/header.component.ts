@@ -9,11 +9,15 @@ import * as $ from "jquery";
 })
 export class HeaderComponent implements OnInit {
     panelOpenState = false;
+
     constructor(private router: Router,
         private http: HttpClient) {
-            this.getPermission();
-        }
+        this.getPermission();
+    }
+
+    personReadInquiry: boolean = false;
     loginUserName: string;
+    numberOfUnread: number;
     _shoDimot: Boolean;
     _shoCorona: Boolean;
     _shoCoronaform: Boolean;
@@ -63,6 +67,7 @@ export class HeaderComponent implements OnInit {
                 }, 500);
             });
     }
+
     ngOnInit() {
         this._shocovid19report = false;
         this._shoCaseinvoises = false;
@@ -84,7 +89,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._shoEventsschedule = true;
-        } 
+        }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
@@ -92,14 +97,14 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "ocohen"
         ) {
             this._shoCaseinvoises = true;
-        } 
+        }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._SHowToAdmins = true;
-        } 
+        }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
@@ -108,42 +113,42 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._publicInquiry = true;
-        } 
+        }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "adahabre" ||
-            this.loginUserName.toLowerCase() == "owertheim"||
-            this.loginUserName.toLowerCase() == "klibai"||
+            this.loginUserName.toLowerCase() == "owertheim" ||
+            this.loginUserName.toLowerCase() == "klibai" ||
             this.loginUserName.toLowerCase() == "smatta"
         ) {
             this._formsArea = true;
-        } 
-        
+        }
+
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
-            this.loginUserName.toLowerCase() == "raharon" 
+            this.loginUserName.toLowerCase() == "raharon"
         ) {
             this._shomaternity = true;
-        } 
+        }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
-            this.loginUserName.toLowerCase() == "okatz" 
+            this.loginUserName.toLowerCase() == "okatz"
         ) {
             this._shoResearches = true;
-        } 
+        }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim"
-             || this.loginUserName.toLowerCase() == "waraidy"
+            || this.loginUserName.toLowerCase() == "waraidy"
         ) {
             this._shoEmergincyCall = true;
-        } 
+        }
         if (
             this.loginUserName.toLowerCase() == "sharush" ||
             this.loginUserName.toLowerCase() == "lyizhak" ||
@@ -198,10 +203,10 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "emansour" ||
             this.loginUserName.toLowerCase() == "kmandel" ||
             this.loginUserName.toLowerCase() == "smatta" ||
-            this.loginUserName.toLowerCase()  == "rnakhle"||
-            this.loginUserName.toLowerCase()  == "aibrahim"||
-            this.loginUserName.toLowerCase()  == "mkheer"||
-            this.loginUserName.toLowerCase()  == "ssarusi"||
+            this.loginUserName.toLowerCase() == "rnakhle" ||
+            this.loginUserName.toLowerCase() == "aibrahim" ||
+            this.loginUserName.toLowerCase() == "mkheer" ||
+            this.loginUserName.toLowerCase() == "ssarusi" ||
             this.loginUserName.toLowerCase() == "sabuhanna" ||
             this.loginUserName.toLowerCase() == "tklinger"
             ||
@@ -228,20 +233,20 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "eliberty" ||
             this.loginUserName.toLowerCase() == "tnapso" ||
             this.loginUserName.toLowerCase() == "szidan" ||
-            this.loginUserName.toLowerCase() == "sabuhanna"||
-            this.loginUserName.toLowerCase()  == "rnakhle"||
-            this.loginUserName.toLowerCase()  == "aibrahim"||
-            this.loginUserName.toLowerCase()  == "mkheer"||
-            this.loginUserName.toLowerCase()  == "ssarusi"||
+            this.loginUserName.toLowerCase() == "sabuhanna" ||
+            this.loginUserName.toLowerCase() == "rnakhle" ||
+            this.loginUserName.toLowerCase() == "aibrahim" ||
+            this.loginUserName.toLowerCase() == "mkheer" ||
+            this.loginUserName.toLowerCase() == "ssarusi" ||
             this.loginUserName.toLowerCase() == "samos"
-            || 
-            
+            ||
+
             this.loginUserName.toLowerCase() == "thajouj" ||
             this.loginUserName.toLowerCase() == "ssarusi" ||
             this.loginUserName.toLowerCase() == "gmoldavsky" ||
             this.loginUserName.toLowerCase() == "ekellerman" ||
             this.loginUserName.toLowerCase() == "tklinger"
-            
+
         ) {
             this._shoCoronaform = true;
         } else {
@@ -254,7 +259,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "mjerdev" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "hmizrahi" ||
-            this.loginUserName.toLowerCase() == "mruach" || 
+            this.loginUserName.toLowerCase() == "mruach" ||
             this.loginUserName.toLowerCase() == "yarosenfel" ||
             this.loginUserName.toLowerCase() == "yarosenfel" ||
             this.loginUserName.toLowerCase() == "lbogun" ||
@@ -290,12 +295,12 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "iatlas"  ||
             this.loginUserName.toLowerCase() == "jbaram"  ||
             this.loginUserName.toLowerCase() == "sganem"   ||
-            this.loginUserName.toLowerCase() == "nmansour" 
+            this.loginUserName.toLowerCase() == "nmansour"  
         ) {
-           // //debugger
+            // //debugger
             this._shoMersham = true;
         } else {
-          //  //debugger
+            //  //debugger
             this._shoMersham = false;
         }
 
@@ -304,10 +309,10 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "eonn" ||
             this.loginUserName.toLowerCase() == "samer" ||
-            this.loginUserName.toLowerCase() == "owertheim"||
+            this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "tklinger" ||
             this.loginUserName.toLowerCase() == "lyizhak"
-        
+
         ) {
             this._shoCortinas = true;
             this._shoCortinasSettings = true;
@@ -321,7 +326,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "eonn" ||
             this.loginUserName.toLowerCase() == "samer" ||
-            this.loginUserName.toLowerCase() == "owertheim"||
+            this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "tklinger"
         ) {
             this._shoCoronavaccine = true;
@@ -336,10 +341,10 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "jubartal"
         ) {
-           // //debugger
+            // //debugger
             this._shoDrugs = true;
         } else {
-          //  //debugger
+            //  //debugger
             this._shoDrugs = false;
         }
         if (
@@ -349,26 +354,26 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "mbilya"
         ) {
-           // //debugger
+            // //debugger
             this._shoSettings = true;
         } else {
-          //  //debugger
+            //  //debugger
             this._shoSettings = false;
         }
-        
+
 
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
-            this.loginUserName.toLowerCase() == "owertheim" 
-            || this.loginUserName.toLowerCase() == "edinisman" 
-            || this.loginUserName.toLowerCase() == "whanout" 
-            || this.loginUserName.toLowerCase() == "dsalameh" 
+            this.loginUserName.toLowerCase() == "owertheim"
+            || this.loginUserName.toLowerCase() == "edinisman"
+            || this.loginUserName.toLowerCase() == "whanout"
+            || this.loginUserName.toLowerCase() == "dsalameh"
         ) {
-           // //debugger
+            // //debugger
             this._shocovid19report = true;
         } else {
-          //  //debugger
+            //  //debugger
             this._shocovid19report = false;
         }
         if (
@@ -379,14 +384,14 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "lshavit" ||
             this.loginUserName.toLowerCase() == "mbadarni" ||
             this.loginUserName.toLowerCase() ==
-                "mubadarne" ||
+            "mubadarne" ||
             this.loginUserName.toLowerCase() ==
-                "muhbadarne"
+            "muhbadarne"
         ) {
-           // //debugger
+            // //debugger
             this._shoGlucose = true;
         } else {
-          //  //debugger
+            //  //debugger
             this._shoGlucose = false;
         }
         if (
@@ -394,8 +399,8 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "eonn" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
-            this.loginUserName.toLowerCase() == "dporat"||
-            this.loginUserName.toLowerCase() == "sabuhanna" 
+            this.loginUserName.toLowerCase() == "dporat" ||
+            this.loginUserName.toLowerCase() == "sabuhanna"
         ) {
             this._sendSMS = true;
         } else {
@@ -405,7 +410,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
-            this.loginUserName.toLowerCase() == "sabuhanna" 
+            this.loginUserName.toLowerCase() == "sabuhanna"
         ) {
             this._sendSMSADMIN = true;
         } else {
@@ -416,10 +421,10 @@ export class HeaderComponent implements OnInit {
             localStorage.setItem("ReseachRowId", "0");
             $("#app-menu").removeClass("show");
             $("#menu-btn").removeClass("show");
-           // debugger
-            if($(this).attr('routerlink') == 'mersham'){
+            // debugger
+            if ($(this).attr('routerlink') == 'mersham') {
                 $('body').addClass('bg-blue-light');
-            }else{
+            } else {
                 $('body').removeClass('bg-blue-light');
             }
         });
@@ -428,6 +433,7 @@ export class HeaderComponent implements OnInit {
             $(this).toggleClass("show");
             $("#app-menu").toggleClass("show");
         });
+        this.ifPersonRead();
     }
     logout($event): void {
         ////debugger
@@ -435,5 +441,21 @@ export class HeaderComponent implements OnInit {
         $("#app-menu").removeClass("show");
         $("#menu-btn").removeClass("show");
         this.router.navigate(["login"]);
+    }
+
+    ifPersonRead() {
+        let userName = localStorage.getItem("loginUserName").toLowerCase();
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/IfUserRead", {
+                _userName: userName
+            })
+            .subscribe((Response) => {
+                this.numberOfUnread = Response["d"];
+                if (this.numberOfUnread > 0) {
+                    this.personReadInquiry = true;
+                } else {
+                    this.personReadInquiry = false;
+                }
+            });
     }
 }
