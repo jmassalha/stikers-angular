@@ -6,7 +6,11 @@ import { MatRadioChange } from "@angular/material/radio";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
-import { NgbModal, NgbModalOptions } from "@ng-bootstrap/ng-bootstrap";
+import {
+    NgbModal,
+    ModalDismissReasons,
+    NgbModalOptions,
+} from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import { Chart } from "chart.js";
 import { Time } from "@angular/common";
@@ -23,6 +27,7 @@ export interface Glucose {
     PGR_Taking_Date: Date;
     PGR_Taking_Time: Time;
     PGR_Rate_Value: string;
+    WorkerName: string;
 }
 @Component({
     selector: "app-glucose",
@@ -35,7 +40,7 @@ export class GlucoseComponent implements OnInit {
     // @ViewChild(MatSort, { static: true }) sort: MatSort;
     displayedColumns: string[] = [
         // 'ROW_ID',
-        "PGR_Sample_Number",
+        //"PGR_Sample_Number",
         "PGR_Case_Number",
         "PGR_Patient_Number",
         "PGR_Patient_Depart_Request",
@@ -45,21 +50,45 @@ export class GlucoseComponent implements OnInit {
         "PGR_Taking_Date",
         "PGR_Taking_Time",
         "PGR_Rate_Value",
+        "WorkerName",
+        "RowClick",
     ];
+    displayedColumnsByCase: string[] = [
+        // 'ROW_ID',
+        //"PGR_Sample_Number",
+        "PGR_Case_Number",
+        "PGR_Patient_Depart_Request",
+        "PGR_Patient_First_Name",
+        "PGR_Patient_Last_Name",
+        "PGR_Taking_Date",
+        "PGR_Taking_Time",
+        "PGR_Rate_Value",
+    ];
+    modalOptions: NgbModalOptions;
     TABLE_DATA: Glucose[] = [];
+    TABLE_DATA_REL_TO_CASENUMBER: Glucose[] = [];
     dataSource = new MatTableDataSource(this.TABLE_DATA);
+    dataSourceByCase = new MatTableDataSource(
+        this.TABLE_DATA_REL_TO_CASENUMBER
+    );
     resultsLength = 0;
     chart = null;
     isShow = false;
     startdateVal: string;
+    selectedCaseNumber: string = "";
     enddateVal: string;
     _fun = new Fun.Functions();
     Sdate: FormControl;
     Edate: FormControl;
     _yearToSearch = 0;
 
+    closeResult: string;
     fliterVal = "";
-    constructor(private router: Router, private http: HttpClient) {}
+    constructor(
+        private router: Router,
+        private modalService: NgbModal,
+        private http: HttpClient
+    ) {}
 
     ngOnInit(): void {
         this._fun.RunFunction();
@@ -77,8 +106,7 @@ export class GlucoseComponent implements OnInit {
         } else if (
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "eonn" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "owertheim" ||
@@ -105,6 +133,50 @@ export class GlucoseComponent implements OnInit {
         if (this.startdateVal && this.enddateVal)
             this.getDataFormServer(this.startdateVal, this.enddateVal);
     }
+    private getDismissReason(reason: any): string {
+        if (reason === ModalDismissReasons.ESC) {
+            return "by pressing ESC";
+        } else if (reason === ModalDismissReasons.BACKDROP_CLICK) {
+            return "by clicking on a backdrop";
+        } else {
+            return `with: ${reason}`;
+        }
+    }
+    open(content, _type, _element) {
+        //$('#free_text').text(_element.FreeText);
+        //debugger
+        $("#loader").removeClass("d-none");
+        this.modalService.open(content, this.modalOptions).result.then(
+            (result) => {
+                this.closeResult = `Closed with: ${result}`;
+                ////debugger
+                if ("Save" == result) {
+                    // //debugger;
+                    //this.saveChad(_element.ROW_ID);
+                }
+            },
+            (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            }
+        );
+        this.http
+            .post(
+                "http://srv-apps/wsrfc/WebService.asmx/GetGlucoseByCaseNumber",
+                {
+                    CaseNumber: _element.PGR_Case_Number,
+                }
+            )
+            .subscribe((Response) => {
+                //  debugger
+                this.selectedCaseNumber = _element.PGR_Case_Number;
+                this.TABLE_DATA_REL_TO_CASENUMBER = [];
+                this.TABLE_DATA_REL_TO_CASENUMBER = Response["d"];
+                this.dataSourceByCase = new MatTableDataSource<any>(
+                    this.TABLE_DATA_REL_TO_CASENUMBER
+                );
+                $("#loader").addClass("d-none");
+            });
+    }
     public getDataFormServer(_startDate: string, _endDate: string) {
         $("#loader").removeClass("d-none");
         this.http
@@ -126,12 +198,17 @@ export class GlucoseComponent implements OnInit {
                     );
                     this._fun.drawCharToDom(
                         "bar" /*'סה"כ בדיקות', 'סה"כ בדיקות בטווח',*/,
-                        ['סה"כ בדיקות מתחת ל-71', 'סה"כ בדיקות מעל ל-250'],
+                        [
+                            'סה"כ בדיקות מתחת ל- 60',
+                            'סה"כ בדיקות מעל ל- 180 ',
+                            'סה"כ בדיקות HbA1C מעל ל - 8',
+                        ],
                         [
                             /*parseInt(json["TotalCheckes"]),
                           parseInt(json["TotalCheckes_Normal"]),*/
-                            parseInt(json["TotalCheckes_71"]),
-                            parseInt(json["TotalCheckes_250"]),
+                            parseInt(json["TotalCheckes_60"]),
+                            parseInt(json["TotalCheckes_180"]),
+                            parseInt(json["TotalCheckes_A1C"]),
                         ],
                         "totalBarChart",
                         "canvsBarCount",
@@ -159,6 +236,7 @@ export class GlucoseComponent implements OnInit {
                             PGR_Case_Number: tableData.items[i].PGR_Case_Number,
                             PGR_Patient_Number:
                                 tableData.items[i].PGR_Patient_Number,
+                            WorkerName: tableData.items[i].WorkerName,
                         });
                     }
 
