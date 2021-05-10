@@ -91,6 +91,7 @@ import { StatusComplaintComponent } from './status-complaint/status-complaint.co
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 import { CaseinvoisesComponent } from './caseinvoises/caseinvoises.component';
+import { NursesDashboardComponent } from './nurses-dashboard/nurses-dashboard.component';
 
 
 
@@ -154,7 +155,8 @@ const maskConfig: Partial<IConfig> = {
     EmailmanagementComponent,
     StatusComplaintComponent,
     ConfirmationDialogComponent,
-    CaseinvoisesComponent
+    CaseinvoisesComponent,
+    NursesDashboardComponent
   ],
   imports: [
     GoogleChartsModule,

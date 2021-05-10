@@ -10,6 +10,8 @@ import { animate, state, style, transition, trigger } from '@angular/animations'
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
 import { BehaviorSubject } from 'rxjs';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
 export interface Patient {
   FormID: string;
@@ -20,6 +22,7 @@ export interface Patient {
   PatientEmail: string;
   NurseInCharge: string;
   PatientGender: string;
+  SavedToNamer: string;
   PatientBirthday: string;
   PatientAddress: string;
   FormName: string;
@@ -43,11 +46,15 @@ export interface Questions {
 })
 export class FormsansweredComponent implements OnInit {
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   FormID: string;
   PatientID: string;
   PatientName: string;
   PatientPassport: string;
   PatientPhone: string;
+  SavedToNamer: string;
   PatientEmail: string;
   PatientGender: string;
   PatientBirthday: string;
@@ -81,8 +88,9 @@ export class FormsansweredComponent implements OnInit {
     public dialog: MatDialogRef<FormsansweredComponent>,
     private router: Router,
     private http: HttpClient,
-    private fb: FormBuilder,
+    private confirmationDialogService: ConfirmationDialogService,
     private _sanitizer: DomSanitizer,
+    private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
   ) { }
 
@@ -117,6 +125,46 @@ export class FormsansweredComponent implements OnInit {
 
   public printRowForm(row): void {
     this.dialog.close(row);
+  }
+
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  saveFormToNamer(element){
+    this.confirmationDialogService
+            .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+            .then((confirmed) => {
+                console.log("User confirmed:", confirmed);
+                if (confirmed) {
+                  this.http
+                  .post("http://srv-apps/wsrfc/WebService.asmx/LinkPdfToPatientNamer", {
+                    CaseNumber: element.PatientID,
+                    FormID: element.FormID,
+                    Catigory: "ZPO_ONLINE",
+                  })
+                  .subscribe((Response) => {
+                    //need to check if saved completed
+                    if(true){
+                      this.openSnackBar("! נשמר בהצלחה לתיק מטופל בנמר");
+                      this.searchForm();
+                    }else{
+                      this.openSnackBar("! משהו לא תקין");
+                    }
+                  });
+                } else {
+                }
+            })
+            .catch(() =>
+                console.log(
+                    "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+                )
+            );
+    
   }
 
   updateView2() {
@@ -175,6 +223,7 @@ export class FormsansweredComponent implements OnInit {
               PatientEmail: this.all_forms_filter[i].PatientsList[0].PersonalEmail,
               PatientGender: this.all_forms_filter[i].PatientsList[0].PersonalGender,
               PatientAddress: this.all_forms_filter[i].PatientsList[0].PersonalAddress,
+              SavedToNamer: this.all_forms_filter[i].PatientsList[0].SavedToNamer,
               NurseInCharge: this.all_forms_filter[i].PatientsList[0].NurseFullName,
               FormName: this.all_forms_filter[i].FormName,
               Signature: this._sanitizer.bypassSecurityTrustResourceUrl(this.all_forms_filter[i].Signature),
@@ -192,6 +241,7 @@ export class FormsansweredComponent implements OnInit {
               PatientPhone: "",
               PatientEmail: "",
               PatientGender: "",
+              SavedToNamer: "1",
               PatientAddress: "",
               NurseInCharge: this.all_forms_filter[i].FirstName + ' ' + this.all_forms_filter[i].LastName,
               FormName: this.all_forms_filter[i].FormName,

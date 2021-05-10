@@ -2,8 +2,8 @@
 /* ::-webkit-scrollbar {
     width: 5px;
 } */
-footer {
-    z-index: 99999999999999999;
+footer, .modal-open .modal, .modal-backdrop.show {
+    z-index: 99999999999999999 !important;
 }
 .m-5 {
     margin: 1rem 0;

@@ -1,15 +1,21 @@
 <mat-card class="form-amen">
   <form dir="rtl" [formGroup]="caseNumberForm" autocomplete="off" *ngIf="withCaseNumber">
+
     <!-- <zxing-scanner [torch]="torchEnabled" [device]="deviceCurrent" (deviceChange)="onDeviceChange($event)" (scanSuccess)="onCodeResult($event)"
     [formats]="formatsEnabled" [tryHarder]="tryHarder" (permissionResponse)="onHasPermission($event)"
     (camerasFound)="onCamerasFound($event)" (torchCompatible)="onTorchCompatible($event)"></zxing-scanner> -->
     <mat-form-field class="full-width">
       <input formControlName="CaseNumber" matInput placeholder="מספר מקרה">
     </mat-form-field>
-    <button mat-raised-button type="submit" (click)="searchCaseNumber()" class="btn btn-primary btn-raised mb-2">
+    <button mat-raised-button type="submit" (click)="searchCaseNumber()" class="btn btn-primary btn-raised mb-2"
+      matTooltip="חפש">
       <span class="material-icons">
         done
       </span>
+    </button>
+    <button mat-mini-fab color="warn" type="button" (click)="onClose()" class="poll-remove-btn"
+      matTooltip="סגירה ללא שמירה">
+      X
     </button>
   </form>
 
@@ -58,8 +64,8 @@
                       <mat-radio-group class="example-radio-group" formControlName="answerContent">
                         <div class="d-block" *ngFor="let optionCtrl of questionCtrl.Options; let j = index">
                           <!-- <div class="d-block" *ngIf="optionCtrl.QuestionIDFK == questionCtrl.QuestionID"> -->
-                            <mat-radio-button style="float: right;" value="{{optionCtrl.OptionValue}}">
-                              {{optionCtrl.OptionValue}}</mat-radio-button>
+                          <mat-radio-button style="float: right;" value="{{optionCtrl.OptionValue}}">
+                            {{optionCtrl.OptionValue}}</mat-radio-button>
                           <!-- </div> -->
                         </div>
                       </mat-radio-group>
@@ -113,9 +119,6 @@
                       </mat-form-field>
                     </div>
                     <div class="d-block" *ngIf="questionCtrl.QuestionType == 'Signature'">
-                      <!-- <mat-form-field class="full-width">
-                        <input formControlName="answerContent" matInput [value]="sign">
-                      </mat-form-field> -->
                       <img width="215" height="120" [src]="sign">
                       <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
                         color="warn" (click)="openSignatureDialog(questionCtrl.QuestionID)" type="submit"

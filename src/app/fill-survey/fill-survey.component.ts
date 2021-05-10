@@ -18,6 +18,7 @@ import { BarcodeFormat } from '@zxing/library';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
 
 export class PersonalDetails {
@@ -237,9 +238,7 @@ export class FillSurveyComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private cd: ChangeDetectorRef,
-    private readonly _dialog: MatDialog,
-    private fb: FormBuilder,
+    private confirmationDialogService: ConfirmationDialogService,
     private datePipe: DatePipe,
     private router: Router,
     private _sanitizer: DomSanitizer
@@ -446,7 +445,7 @@ export class FillSurveyComponent implements OnInit {
         return obj.QId === questionIndex
       });
 
-      if(result.QAns[0]){
+      if (result.QAns[0]) {
         result.QAns = (result.QAns[0]).split(',')
         result.QAns = result.QAns.filter(obj => obj !== id);
       }
@@ -490,8 +489,9 @@ export class FillSurveyComponent implements OnInit {
     let CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     var survey = new Survey(FormID, CaseNumber, nurseInCharge, NurseInChargeID, Answers, surveyTables, Tables);
     var c = 0;
+    var d = 0;
     surveyAnswers.forEach((answer, index, array) => {
-      
+
 
       // if (this._questionArr[index].QuestionType == "CheckBox") {
       //   if (this.ChekBoxQ[checkboxplace].QId == this._questionArr[index].QuestionID) {
@@ -507,27 +507,33 @@ export class FillSurveyComponent implements OnInit {
 
       // this.ChekBoxQ.forEach(i => {
 
-        if(this._questionArr[index].QuestionType == "CheckBox"){
-          answer.answerContent = this.ChekBoxQ[c].QAns.toString();
-          c++;
-        }
+      if (this._questionArr[index].QuestionType == "CheckBox") {
+        answer.answerContent = this.ChekBoxQ[c].QAns.toString();
+        c++;
+      }
 
-        if(this._questionArr[index].QuestionType == "Signature"){
-          answer.answerContent = nurseInCharge;
+      if (this._questionArr[index].QuestionType == "Signature") {
+        if (this.signatureArr.length > 0) {
+          if (this.signatureArr[d].QuestionID == this._questionArr[index].QuestionID) {
+            answer.answerContent = this.signatureArr[d].sign;
+            d++;
+          }
         }
+      }
 
-        // if (this._questionArr.length > index) {
-        //   if (this._questionArr[index].QuestionType == "CheckBox" && c == 0) {
-        //     if (i.QId == this._questionArr[index].QuestionID) {
-        //       answer.answerContent = i.QAns.toString();
-        //     }
-        //   } else if (this._questionArr[index].QuestionType != "CheckBox") {
-        //     if (i.QId == this._questionArr[index].QuestionID) {
-        //       answer.answerContent = i.QAns.toString();
-        //     }
-        //   }
-        //   c++;
-        // }
+
+      // if (this._questionArr.length > index) {
+      //   if (this._questionArr[index].QuestionType == "CheckBox" && c == 0) {
+      //     if (i.QId == this._questionArr[index].QuestionID) {
+      //       answer.answerContent = i.QAns.toString();
+      //     }
+      //   } else if (this._questionArr[index].QuestionType != "CheckBox") {
+      //     if (i.QId == this._questionArr[index].QuestionID) {
+      //       answer.answerContent = i.QAns.toString();
+      //     }
+      //   }
+      //   c++;
+      // }
 
       // });
       if (this._questionArr.length > index) {
@@ -546,23 +552,37 @@ export class FillSurveyComponent implements OnInit {
       }
     });
 
-    // if (Signature == "data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAASwAAACWCAYAAABkW7XSAAAEYklEQVR4Xu3UAQkAAAwCwdm/9HI83BLIOdw5AgQIRAQWySkmAQIEzmB5AgIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlAABg+UHCBDICBisTFWCEiBgsPwAAQIZAYOVqUpQAgQMlh8gQCAjYLAyVQlKgIDB8gMECGQEDFamKkEJEDBYfoAAgYyAwcpUJSgBAgbLDxAgkBEwWJmqBCVAwGD5AQIEMgIGK1OVoAQIGCw/QIBARsBgZaoSlACBB1YxAJfjJb2jAAAAAElFTkSuQmCC") {
+    // if (Signature == "data:image//") {
     //   this.openSnackBar("נא לחתום על הטופס");
     // } else {
 
     if (!this.surveyForm.invalid) {
-      this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
-          _answerValues: survey,
-          _ifContinue: continueForm,
+      this.confirmationDialogService
+        .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+        .then((confirmed) => {
+          console.log("User confirmed:", confirmed);
+          if (confirmed) {
+            this.http
+              .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+                _answerValues: survey,
+                _ifContinue: continueForm,
+              })
+              .subscribe((Response) => {
+                this.openSnackBar("!נשמר בהצלחה");
+              });
+            this.dialog.closeAll();
+            this.router.navigate(['formdashboard']).then(() => {
+              window.location.reload();
+            });
+          } else {
+          }
         })
-        .subscribe((Response) => {
-          this.openSnackBar("!נשמר בהצלחה");
-        });
-      this.dialog.closeAll();
-      this.router.navigate(['formdashboard']).then(() => {
-        window.location.reload();
-      });
+        .catch(() =>
+          console.log(
+            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+          )
+        );
+
     } else {
       const invalid = [];
       const controls = this.surveyForm.controls['Answers']['controls'];
@@ -698,6 +718,7 @@ export class FillSurveyComponent implements OnInit {
           this.getQuestion(this.urlID, this.mPersonalDetails, ifContinue, NurseID);
         }
         this.surveyForm = this.formBuilder.group({
+          Answers: this.surveyAnswers,
           Tables: this.surveyTables
         });
       });
@@ -730,7 +751,7 @@ export class FillSurveyComponent implements OnInit {
             element.Answers.forEach(ans => {
               if (element.QuestionType == "Signature") {
                 surveyAnswersItem = this.formBuilder.group({
-                  answerContent: [{ value: userName, disabled: true }, null],
+                  answerContent: [ans.AnswerValue, null],
                 });
               } else {
                 if (element.QuestionType == "CheckBox") {
@@ -769,7 +790,7 @@ export class FillSurveyComponent implements OnInit {
               for (var i = 0; i < element.Options.length; i++) {
                 if (element.Options[i].QuestionIDFK == element.QuestionID) {
                   surveyAnswersItem = this.formBuilder.group({
-                    answerContent: new FormControl('',null),
+                    answerContent: new FormControl('', null),
                   });
                   this.checkBoxArray.push(surveyAnswersItem);
                 }
@@ -787,7 +808,7 @@ export class FillSurveyComponent implements OnInit {
                 answerContent: [{ value: userName, disabled: true }, Validators.required],
               });
             }
-            if (element.QuestionIsRequired == "1" && element.QuestionType != "Signature" && element.QuestionType != "TextArea") {
+            if (element.QuestionIsRequired == "True" && element.QuestionType != "Signature" && element.QuestionType != "TextArea") {
               surveyAnswersItem = this.formBuilder.group({
                 answerContent: ['', Validators.required],
               });
@@ -876,7 +897,7 @@ export class FillSurveyComponent implements OnInit {
 
         });
         this.updateView();
-        
+
         this.surveyForm = this.formBuilder.group({
           Answers: this.surveyAnswers,
           Tables: this.surveyTables
@@ -896,21 +917,21 @@ export class FillSurveyComponent implements OnInit {
 
 
   // getOption(urlID) {
-    // this.http
-    //   .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
-    //     optionsFormID: urlID,
-    //   })
-    //   .subscribe((Response) => {
-    //     this.filter_option_response = Response["d"];
-    //     this._optionArr = [];
-    //     this._checkBoxesOptionArr = [];
-    //     this.filter_option_response.forEach(element => {
-    //       this._optionArr.push(element);
-    //     });
-    //   });
+  // this.http
+  //   .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
+  //     optionsFormID: urlID,
+  //   })
+  //   .subscribe((Response) => {
+  //     this.filter_option_response = Response["d"];
+  //     this._optionArr = [];
+  //     this._checkBoxesOptionArr = [];
+  //     this.filter_option_response.forEach(element => {
+  //       this._optionArr.push(element);
+  //     });
+  //   });
   // }
 
-  onClose(){
+  onClose() {
     this.dialog.closeAll();
   }
 

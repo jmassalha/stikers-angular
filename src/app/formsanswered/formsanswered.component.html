@@ -3,7 +3,7 @@
 
 
     <div class="container-fluid">
-        <button mat-mini-fab color="warn" (click)="onClose()" type="button" class="poll-remove-btn">
+        <button mat-mini-fab color="warn" (click)="onClose()" type="button" class="poll-remove-btn" matTooltip="סגירת חלון">
             X
         </button>
         <div class="row">
@@ -107,16 +107,21 @@
 
             <ng-container matColumnDef="Print">
                 <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הדפסת טופס
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הדפסה/שמירה 
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button matTooltip="הדפסת הטופס" *ngIf="element.SavedToNamer == '1'" mat-raised-button
                         color="primary" (click)="printRowForm(element)">
                         <span class="material-icons">
                             zoom_out_map
                         </span>
-                    </button> </mat-cell>
+                    </button>
+                    <button matTooltip="שמירה לתיק מטופל בנמר" *ngIf="element.SavedToNamer == '0'" mat-raised-button
+                    color="primary" (click)="saveFormToNamer(element)">
+                    <span class="material-icons">
+                        save
+                    </span>
+                </button> </mat-cell>
             </ng-container>
-
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
             <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>

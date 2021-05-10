@@ -15,6 +15,7 @@ export interface Form {
   FormDate: number;
   FormDepartment: string;
 }
+
 export interface Patient {
   FormID: string;
   PatientID: string;
@@ -46,6 +47,8 @@ export class UpdateformComponent implements OnInit {
   department = [];
   _tableArr = [];
 
+
+
   formSearch: FormGroup;
 
   TABLE_DATA: Form[] = [];
@@ -75,7 +78,7 @@ export class UpdateformComponent implements OnInit {
   }]);
   formPrint: FormGroup = this.formBuilder.group({
     rowFormData: new FormControl('', null),
-    Tables: this.surveyTables,
+    Tables: this.surveyTables
   });
 
 
@@ -101,64 +104,13 @@ export class UpdateformComponent implements OnInit {
     dialogRef.componentInstance.urlID = id;
     dialogRef.afterClosed()
       .subscribe((data) => {
-        if(!data){
+        if (!data) {
           return;
         }
         this.rowFormData = data;
-        this.onlyColumns = this.formBuilder.array([]);
-        this.TablesColsRows = this.formBuilder.array([]);
-        this.surveyTables = this.formBuilder.array([]);
-        var surveyTablesItem;
-        var tableControl;
-        var columnControlItem;
         this._tableArr = [];
         this.rowFormData.NursesTable.forEach(element => {
           this._tableArr.push(element);
-        });
-        for (var i = 0; i < this._tableArr.length; i++) {
-          this.TablesColsRows = this.formBuilder.array([]);
-
-          let index = 0;
-          for (var r = 0; r < this._tableArr[i].rowsGroup.length; r++) {
-            this.onlyColumns = this.formBuilder.array([]);
-            for (var k = 0; k < this._tableArr[i].colsGroup.length; k++) {
-
-              if (this._tableArr[i].TableAnsweredGroup[index].AnswerValue == "False") {
-                this._tableArr[i].TableAnsweredGroup[index].AnswerValue = false;
-              } else if (this._tableArr[i].TableAnsweredGroup[index].AnswerValue == "True") {
-                this._tableArr[i].TableAnsweredGroup[index].AnswerValue = true;
-              }
-              if(this._tableArr[i].TableAnsweredGroup[index].AnswerType == "Date"){
-                // this.date=new Date();
-                this._tableArr[i].TableAnsweredGroup[index].AnswerValue =this.datepipe.transform(this._tableArr[i].TableAnsweredGroup[index].AnswerValue, 'yyyy-MM-dd');
-              }
-              surveyTablesItem = this.formBuilder.group({
-                Row_ID: [this._tableArr[i].TableAnsweredGroup[index].Row_ID, null],
-                tableAnswerContent: [this._tableArr[i].TableAnsweredGroup[index].AnswerValue, null],
-                ColumnsValue: [this._tableArr[i].TableAnsweredGroup[index].ColValue, null],
-                ColType: [this._tableArr[i].TableAnsweredGroup[index].AnswerType, null],
-                ColIDFK: [this._tableArr[i].TableAnsweredGroup[index].ColIDFK, null]
-              });
-
-              index++;
-              this.onlyColumns.push(surveyTablesItem);
-            }
-            columnControlItem = this.formBuilder.group({
-              Columns: this.onlyColumns,
-              RowValue: [this._tableArr[i].rowsGroup[r].rowsText, null],
-              RowIDFK: [this._tableArr[i].rowsGroup[r].Row_ID, null]
-            });
-            this.TablesColsRows.push(columnControlItem);
-          }
-          tableControl = this.formBuilder.group({
-            ColumnRows: this.TablesColsRows,
-            TableID: [this._tableArr[i].Row_ID, null],
-          });
-          this.surveyTables.push(tableControl);
-        }
-        this.formPrint = this.formBuilder.group({
-          rowFormData: this.rowFormData,
-          Tables: this.surveyTables
         });
 
         $("#loader").removeClass("d-none");
