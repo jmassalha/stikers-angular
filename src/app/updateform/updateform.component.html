@@ -164,28 +164,30 @@
                         }}</span>
                 </div>
             </div>
-            <form class="worker-form-in" [formGroup]="formPrint">
+            <form class="worker-form-in">
                 <h3>חלק שאלות :</h3>
                 <div class="row-1" *ngFor="let item of rowFormData.Questions">
                     <div class="colr-12 brs-1">
                         <p class="fix-mb-5">
                             <span>
-                                <span><b>{{item.questionValue}}</b>:&nbsp;&nbsp;</span>{{item.AnswerValue}}
+                                <span><b>{{item.questionValue}}</b>:&nbsp;&nbsp;</span><span
+                                    *ngIf="item.AnswerType != 'Signature'">{{item.AnswerValue}}</span><img
+                                    *ngIf="item.AnswerType == 'Signature'" width="100" height="100"
+                                    [src]="item.AnswerValue">
                             </span>
                         </p>
                     </div>
                 </div>
-                <div formArrayName="Tables">
+                <div>
                     <div class="d-block">
                         <h3 style="text-align: right;"><strong>חלק טבלאות</strong></h3>
                     </div>
-                    <div *ngFor="let table of _tableArr; let tableIndex = index" [formGroupName]="tableIndex"
-                        style="margin-top: 20px;">
+                    <div *ngFor="let table of _tableArr" style="margin-top: 20px;">
                         <mat-divider></mat-divider>
                         <div class="row" style="display: block;">
                             <h4 style="text-align: center;">{{table.TableText}}</h4>
                         </div>
-                        <div formArrayName="ColumnRows" class="row" id="table-overflow">
+                        <div class="row" id="table-overflow">
                             <div class="col">
                                 <table class="table responsive-table">
                                     <tr>
@@ -193,42 +195,30 @@
                                             {{column.colsText}}
                                         </th>
                                     </tr>
-                                    <tr *ngFor="let row of table.rowsGroup; let output = index"
-                                        [formGroupName]="output">
-                                        <td *ngFor="let column of table.colsGroup; let output2 = index"
-                                            formArrayName="Columns">
-                                            <span *ngIf="row.rowsText != '' && output2 == 0;else input_other"
-                                                style="text-align: right;float: right;">{{row.rowsText}}</span>
+                                    <tr *ngFor="let row of table.rowsGroup; let output = index">
+                                        <td *ngFor="let answer of row.Answers; let output2 = index">
+                                            <span style="text-align: right;float: right;"
+                                                *ngIf="output2 == '0' && row.rowsText != '';else input_other">{{row.rowsText}}</span>
                                             <ng-template #input_other>
-                                                <mat-form-field [formGroupName]="output2"
-                                                    *ngIf="column.ColType == 'Time'">
-                                                    <input matInput [ngxTimepicker]="endTime" [format]="24"
-                                                        formControlName="tableAnswerContent" />
-                                                    <ngx-material-timepicker #endTime></ngx-material-timepicker>
-                                                </mat-form-field>
-                                                <mat-form-field appearance="fill" [formGroupName]="output2"
-                                                    *ngIf="column.ColType == 'Date'">
-                                                    <input matInput formControlName="tableAnswerContent"
-                                                        class="table-form-input">
-                                                </mat-form-field>
-                                                <mat-form-field class="fix-my-width" [formGroupName]="output2"
-                                                    *ngIf="column.ColType == 'Text'">
-                                                    <input matInput formControlName="tableAnswerContent"
-                                                        class="table-form-input">
-                                                </mat-form-field>
-                                                <section class="example-section" [formGroupName]="output2"
-                                                    *ngIf="column.ColType == 'CheckBox'">
-                                                    <mat-radio-group>
-                                                        <mat-checkbox class="list-title m-3 text-center"
-                                                            formControlName="tableAnswerContent">
-                                                        </mat-checkbox>
-                                                    </mat-radio-group>
-                                                </section>
-                                                <mat-form-field class="fix-my-width" [formGroupName]="output2"
-                                                    *ngIf="column.ColType == 'Signature'">
-                                                    <input matInput formControlName="tableAnswerContent"
-                                                        class="table-form-input">
-                                                </mat-form-field>
+                                                <div *ngIf="answer.AnswerType == 'Text'">
+                                                    {{answer.AnswerValue}}
+                                                </div>
+                                                <div *ngIf="answer.AnswerType == 'Time'">
+                                                    {{answer.AnswerValue}}
+                                                </div>
+                                                <div *ngIf="answer.AnswerType == 'Date'">
+                                                    {{answer.AnswerValue}}
+                                                </div>
+                                                <section class="example-section" *ngIf="answer.AnswerType == 'CheckBox'">
+                                                        <mat-radio-group>
+                                                            <mat-checkbox class="list-title m-3 text-center"
+                                                                [value]="answer.AnswerValue">
+                                                            </mat-checkbox>
+                                                        </mat-radio-group>
+                                                    </section>
+                                                <div class="fix-my-width" *ngIf="answer.AnswerType == 'Signature' && answer.AnswerValue != ''">
+                                                    <img width="100" height="100" [src]="answer.AnswerValue">
+                                                </div>
                                             </ng-template>
                                         </td>
                                     </tr>
@@ -236,10 +226,6 @@
                             </div>
                         </div>
                     </div>
-                </div>
-                <div class="pos-botom-fixed" style="margin-bottom: 150px;margin-right: 700px;">
-                    <div class="row" style="float: right;">חתימה</div>
-                    <img [src]="rowFormData.Signature">
                 </div>
             </form>
 

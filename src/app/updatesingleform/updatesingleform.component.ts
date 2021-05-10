@@ -156,7 +156,7 @@ export class UpdatesingleformComponent implements OnInit {
     });
     (<FormArray>this.tableFormGroup.get('tableArray')).push(tableColItem);
     let loopCounter = this.tableFormGroup.controls.tableArray.value.length;
-    for (let i = loopCounter-1; i < loopCounter; i++) {
+    for (let i = loopCounter - 1; i < loopCounter; i++) {
       this.addColumnsControls(i);
       this.addRowsControls(i);
     }
@@ -207,7 +207,21 @@ export class UpdatesingleformComponent implements OnInit {
   }
 
   onRemoveTable(index) {
-    this.tableFormGroup.controls.tableArray['controls'][index].controls.TableStatus.patchValue("0");
+    this.confirmationDialogService
+      .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+      .then((confirmed) => {
+        console.log("User confirmed:", confirmed);
+        if (confirmed) {
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.TableStatus.patchValue("0");
+        } else {
+        }
+      })
+      .catch(() =>
+        console.log(
+          "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+        )
+      );
+
   }
 
   onSeletQuestionType(questionType, index) {
@@ -468,7 +482,7 @@ export class UpdatesingleformComponent implements OnInit {
         survey.FormQuestions.push(questionItem);
       }
     });
-    
+
     if (!this.surveyForm.invalid && !this.tableFormGroup.invalid) {
       if (this.urlID === 0) {
         this.http
@@ -522,7 +536,7 @@ export class UpdatesingleformComponent implements OnInit {
         } else {
           this.TableForm = true;
         }
-        
+
         this.FormDepartment = this.filter_form_response.FormDepartment;
         this.FormDepartmentID = this.filter_form_response.FormDepartmentID;
         this.surveyForm.controls['FormID'].patchValue(this.FormID);
@@ -575,7 +589,7 @@ export class UpdatesingleformComponent implements OnInit {
     this.postSurvey();
   }
 
-  onClose(){
+  onClose() {
     this.dialog.closeAll();
   }
 
