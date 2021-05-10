@@ -277,24 +277,25 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "jubartal" ||
-            this.loginUserName.toLowerCase() == "nsuheil" ||
-            this.loginUserName.toLowerCase() == "mcohen" ||
-            this.loginUserName.toLowerCase() == "rnave" ||
-            this.loginUserName.toLowerCase() == "lbernstein" ||
-            this.loginUserName.toLowerCase() == "lshavit" ||
-            this.loginUserName.toLowerCase() == "kyanai" ||
-            this.loginUserName.toLowerCase() == "edinisman" ||
-            this.loginUserName.toLowerCase() == "emassalha" ||
-            this.loginUserName.toLowerCase() == "dsalameh" ||
-            this.loginUserName.toLowerCase() == "whanout" ||
-            this.loginUserName.toLowerCase() == "zprassolov" ||
-            this.loginUserName.toLowerCase() == "kailabouni" ||
-            this.loginUserName.toLowerCase() == "rhakim" ||
-            this.loginUserName.toLowerCase() == "rzraik" ||
-            this.loginUserName.toLowerCase() == "syeganeh" ||
-            this.loginUserName.toLowerCase() == "iatlas" ||
-            this.loginUserName.toLowerCase() == "jbaram" ||
-            this.loginUserName.toLowerCase() == "sganem"
+            this.loginUserName.toLowerCase() == "nsuheil"  ||
+            this.loginUserName.toLowerCase() == "mcohen"  ||
+            this.loginUserName.toLowerCase() == "rnave"  ||
+            this.loginUserName.toLowerCase() == "lbernstein"  ||
+            this.loginUserName.toLowerCase() == "lshavit"  ||
+            this.loginUserName.toLowerCase() == "kyanai"  ||
+            this.loginUserName.toLowerCase() == "edinisman"  ||
+            this.loginUserName.toLowerCase() == "emassalha"  ||
+            this.loginUserName.toLowerCase() == "dsalameh"  ||
+            this.loginUserName.toLowerCase() == "whanout"  ||
+            this.loginUserName.toLowerCase() == "zprassolov"  ||
+            this.loginUserName.toLowerCase() == "kailabouni"  ||
+            this.loginUserName.toLowerCase() == "rhakim"  ||
+            this.loginUserName.toLowerCase() == "rzraik"  ||
+            this.loginUserName.toLowerCase() == "syeganeh"  ||
+            this.loginUserName.toLowerCase() == "iatlas"  ||
+            this.loginUserName.toLowerCase() == "jbaram"  ||
+            this.loginUserName.toLowerCase() == "sganem"   ||
+            this.loginUserName.toLowerCase() == "nmansour"  
         ) {
             // //debugger
             this._shoMersham = true;
