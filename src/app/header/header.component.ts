@@ -29,6 +29,7 @@ export class HeaderComponent implements OnInit {
     _shoDrugs: Boolean;
     _shoCortinas: Boolean;
     _formsArea: Boolean;
+    _nursesSystem: Boolean;
     _publicInquiry: Boolean;
     _shoCortinasSettings: Boolean;
     _shoSofiMenu: Boolean;
@@ -75,6 +76,7 @@ export class HeaderComponent implements OnInit {
         this._SHowToAdmins = false;
         this._shoResearches = false;
         this._shoSofiMenu = false;
+        this._nursesSystem = false;
         this._shoCoronavaccine = true;
         this._sendSMSADMIN = false;
         this._formsArea = false;
@@ -84,11 +86,18 @@ export class HeaderComponent implements OnInit {
         this.loginUserName = localStorage.getItem("loginUserName");
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "adahabre" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "waraidy" ||
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._shoEventsschedule = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "adahabre"||
+            this.loginUserName.toLowerCase() == "jubartal"
+        ) {
+            this._nursesSystem = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -144,6 +153,7 @@ export class HeaderComponent implements OnInit {
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "adahabre" ||
             this.loginUserName.toLowerCase() == "owertheim"
             || this.loginUserName.toLowerCase() == "waraidy"
         ) {

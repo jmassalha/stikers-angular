@@ -23,13 +23,14 @@ import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatCheckboxModule} from '@angular/material/checkbox';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { ChadsComponent } from './chads/chads.component';
+import { ChadsComponent } from './chads/chads.component'; 
+import {MatListModule} from '@angular/material/list';
 import { DataTablesModule } from 'angular-datatables';
 import { NgxPopper } from 'angular-popper';
 import { MatRadioModule } from '@angular/material/radio';
+import {MatChipsModule} from '@angular/material/chips';
 import { ChartsModule } from 'ng2-charts';
 import { MatDialogModule } from '@angular/material/dialog';
-import { MatListModule } from '@angular/material/list';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SurgeryComponent } from './surgery/surgery.component';
 import { MrbaotComponent } from './mrbaot/mrbaot.component';
@@ -92,6 +93,9 @@ import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
 import { CaseinvoisesComponent } from './caseinvoises/caseinvoises.component';
 import { NursesDashboardComponent } from './nurses-dashboard/nurses-dashboard.component';
+import { FillReportComponent } from './fill-report/fill-report.component';
+import { DialogElementsExampleDialog } from './nurses-dashboard/nurses-dashboard.component';
+import { ReportRepliesComponent } from './report-replies/report-replies.component';
 
 
 
@@ -134,7 +138,7 @@ const maskConfig: Partial<IConfig> = {
     ResearchesusersComponent,
     ResearchesComponent,
     ResearchespatientsComponent,
-
+    DialogElementsExampleDialog,
     Sarscov2Component,
     AddpatientcoronaformComponent,
     SarsresultsComponent,
@@ -156,7 +160,9 @@ const maskConfig: Partial<IConfig> = {
     StatusComplaintComponent,
     ConfirmationDialogComponent,
     CaseinvoisesComponent,
-    NursesDashboardComponent
+    NursesDashboardComponent,
+    FillReportComponent,
+    ReportRepliesComponent
   ],
   imports: [
     GoogleChartsModule,
@@ -195,6 +201,7 @@ const maskConfig: Partial<IConfig> = {
     MatTooltipModule,
     DataTablesModule,
     MatStepperModule,
+    MatChipsModule,
     ZXingScannerModule,
     BrowserAnimationsModule,
     MatPaginatorModule,

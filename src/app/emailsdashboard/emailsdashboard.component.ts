@@ -29,14 +29,40 @@ export interface CompStatus {
   value: string;
   viewValue: string;
 }
-
-
+export interface DeadLine {
+  value: string;
+  viewValue: string;
+}
 @Component({
-  selector: 'app-emailsdashboard',
+  selector: 'notification-dialog',
+  templateUrl: 'notification-dialog.html',
+})
+export class DialogContentExampleDialog {
+
+  constructor(public dialog: MatDialog){}
+  closeNotificationDialog(){
+    this.dialog.closeAll();
+  }
+}
+@Component({
+  selector: 'app-emailsdashboard', 
   templateUrl: './emailsdashboard.component.html',
   styleUrls: ['./emailsdashboard.component.css']
 })
 export class EmailsdashboardComponent implements OnInit {
+
+  public textArea: string = '';
+   public isEmojiPickerVisible: boolean;
+   public addEmoji(event) {
+      this.textArea = `${this.textArea}${event.emoji.native}`;
+      this.isEmojiPickerVisible = false;
+   }
+
+  deadline: DeadLine[] = [
+    { value: '1', viewValue: 'שבוע' },
+    { value: '2', viewValue: 'שבועיים' },
+    { value: '3', viewValue: '3 שבועות' },
+  ];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -79,12 +105,18 @@ export class EmailsdashboardComponent implements OnInit {
       'departmentControl': new FormControl('', null),
       'compStatusControl': new FormControl('', null),
       'compDateControl': new FormControl('', null),
+      'compDateControl2': new FormControl('', null),
+      'DeadLineSearch': new FormControl('', null),
     });
     this.tableEmails = new FormGroup({
       'slideT': new FormControl('', null),
     });
     this.searchForm("0");
     
+  }
+
+  openNotificationDialog() {
+    const dialogRef = this.dialog.open(DialogContentExampleDialog);
   }
 
   openDialogToManageEmail(id,fakeID) {
@@ -108,7 +140,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   loadInquiries(){
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/SavingEmailsToDB", {
+      .post("http://localhost:64964/WebService.asmx/SavingEmailsToDB", {
       })
       .subscribe((Response) => {
         this.openSnackBar("פניות נטענו בהצלחה");
@@ -120,7 +152,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   changeStatus(e: any,emailID: string){
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/ChangeStatus", {
+      .post("http://localhost:64964/WebService.asmx/ChangeStatus", {
         _status: e.checked,
         _emailID: emailID,
       })
@@ -135,11 +167,14 @@ export class EmailsdashboardComponent implements OnInit {
       });
   }
 
+
   searchForm(isRead) {
     let compName = this.formSearch.controls['compName'].value;
     let departmentControl = this.formSearch.controls['departmentControl'].value;
     let compDateControl = this.formSearch.controls['compDateControl'].value;
+    let compDateControl2 = this.formSearch.controls['compDateControl2'].value;
     let compStatusControl = this.formSearch.controls['compStatusControl'].value;
+    let deadLineSearch = this.formSearch.controls['DeadLineSearch'].value;
     if(compStatusControl == ""){
       compStatusControl = '1';
     }else if(compStatusControl == undefined){
@@ -148,19 +183,28 @@ export class EmailsdashboardComponent implements OnInit {
     if(departmentControl == undefined){
       departmentControl = "";
     }
-
-    // let pipe = new DatePipe('en-US');
-    // if(!(compDateControl == undefined || compDateControl == "" || compDateControl == null)){
-    //   compDateControl = pipe.transform(compDateControl, 'yyyy/MM/dd');
-    // }else{
-    //   compDateControl = "";
-    // }
-
+    if(deadLineSearch == undefined){
+      deadLineSearch = "";
+    }
+    let pipe = new DatePipe('en-US');
+    if(!(compDateControl == undefined || compDateControl == "" || compDateControl == null)){
+      // compDateControl.setDate( compDateControl.getDate() + 1 );
+      compDateControl = pipe.transform(compDateControl, 'yyyy/MM/dd');
+    }else{
+      compDateControl = "";
+    }
+    if(!(compDateControl2 == undefined || compDateControl2 == "" || compDateControl2 == null)){
+      compDateControl2 = pipe.transform(compDateControl2, 'yyyy/MM/dd');
+    }else{
+      compDateControl2 = "";
+    }
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
+      .post("http://localhost:64964/WebService.asmx/Comp_Emails", {
         _compName: compName,
         _compDate: compDateControl,
+        _compDate2: compDateControl2,
         _compStatus: compStatusControl,
+        _deadLine: deadLineSearch,
         _userName: this.UserName,
         _isRead: isRead
       })
@@ -170,11 +214,18 @@ export class EmailsdashboardComponent implements OnInit {
         }
         this.all_forms_filter = Response["d"];
         this.TABLE_DATA = [];
+        if(this.all_forms_filter.length > 0){
+          if(this.all_forms_filter[0].NumberOfUrgent != "0"){
+            this.openNotificationDialog();
+          }
+        }
+        
         for (var i = 0; i < this.all_forms_filter.length; i++) {
+          let status;
           if(this.all_forms_filter[i].Status == "1"){
-            this.tableEmails.controls['slideT'].setValue(true);
+            status = true;
           }else{
-            this.tableEmails.controls['slideT'].setValue(false);
+            status = false;
           }
           
           this.TABLE_DATA.push({
@@ -187,8 +238,8 @@ export class EmailsdashboardComponent implements OnInit {
             CompPhone: this.all_forms_filter[i].CompPhone,
             CompEmail: this.all_forms_filter[i].CompEmail,
             ContentToShow: this.all_forms_filter[i].ContentToShow,
-            EmailDateTime: this.all_forms_filter[i].EmailDateTime,
-            Status: this.all_forms_filter[i].Status,
+            EmailDateTime: this.all_forms_filter[i].EmailDateTime.split(' ')[0],
+            Status: status,
             NumberOfUnread: this.all_forms_filter[i].NumberOfUnread,
           });
         }
@@ -196,7 +247,7 @@ export class EmailsdashboardComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+      .post("http://localhost:64964/WebService.asmx/GetInquiryDeparts", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];

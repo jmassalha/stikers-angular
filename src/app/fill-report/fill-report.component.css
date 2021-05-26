@@ -1,0 +1,10 @@
+#EventBtn{
+    position: fixed;
+    bottom: 43px;
+    left: 43px;
+    z-index: 10;
+}
+
+.redBG{
+    background: #ff8484;
+}

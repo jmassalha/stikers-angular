@@ -1,0 +1,31 @@
+<!-- <h1 mat-dialog-title>היסטוריית שינויים</h1>
+<mat-list role="list">
+  <mat-list-item role="listitem" *ngFor="let user of all_history_filter; let i=index">{{i+1}} - &nbsp;&nbsp; {{user.UpdateDate}} &nbsp;-- {{user.FirstName}} , {{user.LastName}}</mat-list-item>
+</mat-list>
+
+
+<div mat-dialog-actions>
+  <button mat-button (click)="closeDialog()">Close</button>
+</div> -->
+
+<h1 mat-dialog-title style="text-align: center;">היסטוריית שינויים</h1>
+<table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+
+  <ng-container matColumnDef="Row_ID">
+    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מספר שורה </th>
+    <td mat-cell *matCellDef="let element"> {{element.Row_ID}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="UpdateDate">
+    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> תאריך עדכון </th>
+    <td mat-cell *matCellDef="let element"> {{element.UpdateDate}} </td>
+  </ng-container>
+
+  <ng-container matColumnDef="FullName">
+    <th mat-header-cell *matHeaderCellDef style="text-align: center;"> שם אחראי מעדכן </th>
+    <td mat-cell *matCellDef="let element"> {{element.FullName}} </td>
+  </ng-container>
+
+  <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+  <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+</table>

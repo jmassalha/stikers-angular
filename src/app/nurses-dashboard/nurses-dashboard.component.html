@@ -1,1 +1,197 @@
-<p>nurses-dashboard works!</p>
+<div id="page-toshow" class="padding-top-0">
+    <h1 class="page-title text-center">מערכת דיווח אחיות</h1>
+    <div class="container-fluid trans-80">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form" [formGroup]="searchReportsGroup">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput autocomplete="off" placeholder="נושא דווח"
+                                                formControlName="OpenText" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>משמרת</mat-label>
+                                            <mat-select formControlName="ReportShift">
+                                                <mat-option [value]="''">הכל</mat-option>
+                                                <mat-option *ngFor="let sh of shift" [value]="sh.value">
+                                                    {{sh.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>קטיגוריה</mat-label>
+                                            <mat-select formControlName="ReportCategory">
+                                                <mat-option [value]="''">הכל</mat-option>
+                                                <mat-option *ngFor="let cat of all_categories_filter"
+                                                    [value]="cat.Cat_Name">
+                                                    {{cat.Cat_Name}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>עדיפות</mat-label>
+                                            <mat-select formControlName="ReportPriority">
+                                                <mat-option [value]="''">הכל</mat-option>
+                                                <mat-option *ngFor="let pr of priority" [value]="pr.value"
+                                                    [style.color]="pr.value == 'דחוף' ? 'firebrick': pr.value == 'רגיל' ? '' : 'red'">
+                                                    {{pr.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>סטטוס</mat-label>
+                                            <mat-select formControlName="ReportStatus">
+                                                <mat-option [value]="''">הכל</mat-option>
+                                                <mat-option *ngFor="let st of status" [value]="st.value"
+                                                    [style.color]="st.value == 'טופל' ? 'darkseagreen': st.value == 'בטיפול' ? 'darkgrey': st.value == 'חדש' ? '' : 'firebrick'">
+                                                    {{st.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput formControlName="ReportStartDate" autocomplete="off"
+                                                placeholder="מ תאריך" required name="startdate"
+                                                [matDatepicker]="startdate" />
+                                            <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+                                            <mat-datepicker #startdate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput formControlName="ReportEndDate" autocomplete="off"
+                                                placeholder="עד תאריך " required name="enddate"
+                                                [matDatepicker]="enddate" />
+                                            <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+                                            <mat-datepicker #enddate></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <button matTooltip="חיפוש" mat-raised-button type="submit" class="btn btn-primary btn-raised"
+                                (click)="searchReports()">
+                                <span class="material-icons">
+                                    search
+                                </span>
+                            </button>
+                            &nbsp;&nbsp;
+                            <button matTooltip="הדפסה" mat-raised-button type="button" class="btn btn-primary btn-raised">
+                                <span class="material-icons">
+                                    local_printshop
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+
+    <div dir="rtl">
+        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
+            <!-- <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
+                <th mat-header-cell *matHeaderCellDef> {{column}} </th>
+                <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="date">
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> תאריך ושעה </th>
+                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="title">
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> נושא דווח </th>
+                <td mat-cell *matCellDef="let element"> {{element.title}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="status">
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> סטטוס דווח </th>
+                <td mat-cell *matCellDef="let element"
+                    [style.background]="element.status == 'טופל' ? 'darkseagreen': element.status == 'בטיפול' ? 'darkgrey': element.status == 'חדש' ? '' : 'firebrick'">
+                    {{element.status}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="edit">
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> עריכת דווח </th>
+                <td mat-cell *matCellDef="let element"> <button matTooltip="עריכה" mat-raised-button color="primary"
+                        (click)="fillReportDialog(element.reportID)"><span class="material-icons">
+                            edit
+                        </span></button>
+                    <button matTooltip="היסטוריית שינויים" mat-raised-button style="margin-right: 5px;" color="primary" *ngIf="UserName == 'adahabre'"
+                        (click)="displayHistoryDialog(element.reportID)"><span class="material-icons">
+                            history
+                        </span></button>
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="reply">
+                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> הוסף תגובה לדווח </th>
+                <td mat-cell *matCellDef="let element"> <button matTooltip="התכתבות" mat-raised-button color="primary" (click)="addReply(element.reportID)"><span class="material-icons">
+                        reply
+                    </span></button></td>
+            </ng-container>
+
+            <ng-container matColumnDef="expandedDetail">
+                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
+                    <div class="example-element-detail"
+                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
+                        <div class="example-element-diagram mr-5">
+                            <div class="example-element-position"> תאריך עדכון אחרון - {{element.updateDate}}</div>
+                            <div class="example-element-symbol"> משמרת - {{element.shift}} </div>
+                            <div class="example-element-weight"> עדיפות - <strong
+                                    style="font-weight: bold;">{{element.priority}}</strong> </div>
+                            <div class="example-element-name"> שם מדווח - {{element.userFullName}} </div>
+                        </div>
+                        <div class="example-element-description">
+                            <span class="example-element-description-attribution"> תוכן הדווח -- </span>
+                            {{element.description}}
+                        </div>
+                    </div>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+            <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
+                [class.example-expanded-row]="expandedElement === element"
+                (click)="expandedElement = expandedElement === element ? null : element">
+            </tr>
+            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
+        </table>
+        <button matTooltip="דווח חדש" type="button" id="EventBtn" mat-fab color="primary" (click)="fillReportDialog(0)">
+            <i class="material-icons">add</i>
+        </button>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+    </div>
+
+
+
+    

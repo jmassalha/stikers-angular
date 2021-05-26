@@ -42,6 +42,8 @@ import { UpdatesingleformComponent } from "./updatesingleform/updatesingleform.c
 import { FormsansweredComponent } from "./formsanswered/formsanswered.component";
 import { EmailsdashboardComponent } from "./emailsdashboard/emailsdashboard.component";
 import { EmailmanagementComponent } from "./emailmanagement/emailmanagement.component";
+import { NursesDashboardComponent } from "./nurses-dashboard/nurses-dashboard.component";
+import { FillReportComponent } from "./fill-report/fill-report.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -84,6 +86,8 @@ const routes: Routes = [
     { path: "formsanswered/:id", component: FormsansweredComponent },
     { path: "emailsdashboard", component: EmailsdashboardComponent },
     { path: "emailmanagement", component: EmailmanagementComponent },
+    { path: "nursereportsystem", component: NursesDashboardComponent },
+    { path: "fillreport", component: FillReportComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

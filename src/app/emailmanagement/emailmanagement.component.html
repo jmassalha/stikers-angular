@@ -2,10 +2,17 @@
     <div class="poll-options">
         <div class="row">
             <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getEmailManagement(comp.Row_ID,3)">
-                <mat-card class="card m-2 text-center">
+                <mat-card class="card m-2 text-center" style="background-color: slategrey;" *ngIf="comp.Comp_Status == '0'">
                     <div class="list-style text-center" style="font-size: 10px;">:מחלקה רלוונטית</div>
                     <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">
                         {{comp.Comp_Department}}</div>
+                    <div class="list-style text-center" style="font-size: 10px;">פנייה סגורה</div>
+                </mat-card>
+                <mat-card class="card m-2 text-center" style="background-color: darkseagreen;" *ngIf="comp.Comp_Status == '1'">
+                    <div class="list-style text-center" style="font-size: 10px;">:מחלקה רלוונטית</div>
+                    <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">
+                        {{comp.Comp_Department}}</div>
+                    <div class="list-style text-center" style="font-size: 10px;">פנייה פתוחה</div>
                 </mat-card>
             </div>
         </div>
@@ -22,8 +29,7 @@
                         <div class="col-12 text-right">
                             <label>תאריך פנייה</label>
                             <mat-form-field appearance="fill">
-                                <input matInput formControlName="EmailDateTime"
-                                    [matDatepicker]="picker3">
+                                <input matInput formControlName="EmailDateTime" [matDatepicker]="picker3">
                                 <mat-datepicker-toggle matSuffix [for]="picker3">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #picker3></mat-datepicker>
@@ -62,10 +68,14 @@
                 <div class="full-width row">
                     <li class="border-me col-6">
                         <div class="col-12 text-right">
-                            <label>מקור הפנייה</label>
+                            <label>מקור פניה</label>
                         </div>
-                        <mat-form-field class="example-full-width">
-                            <input type="text" matInput formControlName="EmailSubject">
+                        <mat-form-field class="full-width">
+                            <mat-select formControlName="EmailSubject" ng-model="myVar">
+                                <mat-option *ngFor="let related of compSource" [value]="related.value">
+                                    {{related.viewValue}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </li>
                     <li class="border-me col-6">
@@ -80,10 +90,23 @@
                 <div class="full-width row">
                     <li class="border-me col-6">
                         <div class="col-12 text-right">
-                            <label>תוכן הפנייה</label>
+                            <label>תאור האירוע</label>
                         </div>
                         <mat-form-field class="example-full-width">
                             <input type="text" matInput formControlName="ContentToShow">
+                        </mat-form-field>
+                    </li>
+                    <li class="border-me col-6">
+                        <div class="col-12 text-right">
+                            <label>מחלקה</label>
+                        </div>
+                        <mat-form-field appearance="fill">
+                            <mat-label>בחר מחלקה</mat-label>
+                            <mat-select formControlName="EmailDepartment">
+                                <mat-option *ngFor="let dept of department" [value]="dept.Depart_Name">
+                                    {{dept.Depart_Name}}
+                                </mat-option>
+                            </mat-select>
                         </mat-form-field>
                     </li>
                 </div>
@@ -93,7 +116,7 @@
             </div>
         </form>
     </mat-step>
-    <mat-step [stepControl]="manageComplaintForm">
+    <!-- <mat-step [stepControl]="manageComplaintForm">
         <form dir="rtl" [formGroup]="manageComplaintForm" autocomplete="off">
             <ng-template matStepLabel>חלק פנייה ממוקד</ng-template>
             <mat-card class="full-width text-center">
@@ -278,14 +301,14 @@
                 <button mat-button matStepperNext>הבא</button>
             </div>
         </form>
-    </mat-step>
+    </mat-step> -->
     <mat-step>
         <ng-template matStepLabel>סיום</ng-template>
         <p>שמירה וסיום</p>
         <div>
             <button mat-button matStepperPrevious>חזרה</button>
             <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
-                (click)="submitComplaint(_ifUpdate)" type="submit" mat-raised-button>
+                (click)="submitComplaint(_ifUpdate,_ifSplit)" type="submit" mat-raised-button>
                 <span>הוספת פנייה</span>
             </button>
         </div>
@@ -294,26 +317,49 @@
 
 <form dir="rtl" [formGroup]="manageComplaintForm" autocomplete="off" *ngIf="!chooseComp && _ifUpdate && !_stepper">
     <mat-card class="full-width text-center">
-        <label style="font-size: 20px;">{{complaintName}}</label>
-        <button mat-raised-button class="btn btn-primary btn-raised float-left" (click)="shareComplaintWithOthers()"
-            matTooltip="קישור מנהל לפנייה">
-            <span class="material-icons">
-                reply
-            </span>
-        </button>
-        <form class="example-form">
-            <mat-form-field class="example-full-width">
-                <mat-label>מנהל רלוונטי</mat-label>
-                <input type="text" placeholder="בחר שם מנהל" aria-label="manager" matInput [formControl]="myControl"
-                    [matAutocomplete]="auto">
-                <mat-autocomplete #auto="matAutocomplete">
-                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
-                        {{option.firstname}} {{option.lastname}}
-                    </mat-option>
-                </mat-autocomplete>
-            </mat-form-field>
-        </form>
+        <div class="row">
+            <div class="col-4">
+                <label style="font-size: 20px;">{{complaintName}}</label>
+            </div>
+            <div class="col-4">
+                <div class="text-center">
+                    <label>התראה לטיפול בפנייה בעוד:</label>
+                </div>
+                <mat-form-field class="full-width">
+                    <mat-select formControlName="DeadLine">
+                        <mat-option *ngFor="let dl of deadline" [value]="dl.value" [style.background]="dl.value == '1' ? 'yellow' : dl.value == '2' ? 'orange' : 'red'">
+                            {{dl.viewValue}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-4">
+                <button mat-raised-button class="btn btn-primary btn-raised float-left" (click)="shareComplaintWithOthers()"
+                matTooltip="קישור מנהל לפנייה">
+                <span class="material-icons">
+                    reply
+                </span>
+            </button>
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                    <mat-label>קישור אחראי לפנייה</mat-label>
+                    <input type="text" placeholder="התחל הקלדה .." aria-label="manager" matInput [formControl]="myControl"
+                        [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
+                            {{option.firstname}} {{option.lastname}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+            </div>
+        </div>
+        
+        
+        
     </mat-card>
+    
+   
 
     <div class="row float-right mt-3">
         <ol class="list-style">
@@ -323,7 +369,7 @@
                         <label>תאריך פניה</label>
                         <mat-form-field appearance="fill">
                             <input matInput [max]="maxDate" formControlName="Comp_Date" [matDatepicker]="picker">
-                            <mat-datepicker-toggle matSuffix [for]="picker" disabled>
+                            <mat-datepicker-toggle matSuffix [for]="picker">
                             </mat-datepicker-toggle>
                             <mat-datepicker #picker></mat-datepicker>
                         </mat-form-field>
@@ -367,7 +413,7 @@
             <div class="full-width row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
-                        <label>עובד מחלקה</label>
+                        <label>שם עובד מחלקה</label>
                     </div>
                     <mat-form-field class="example-full-width">
                         <input type="text" matInput formControlName="RelevantEmployee1">
@@ -388,7 +434,7 @@
             <div class="full-width row">
                 <li class="border-me col-6">
                     <div class="col-12 text-right">
-                        <label>סיווג פונה</label>
+                        <label>סיווג הפונה</label>
                     </div>
                     <mat-form-field class="full-width">
                         <mat-select formControlName="Comp_Pesron_Relat" ng-model="myVar">
@@ -399,7 +445,7 @@
                     </mat-form-field>
                 </li>
                 <li class="border-me col-6">
-                    <div class="col-12 text-right">
+                    <!-- <div class="col-12 text-right">
                         <label>מחלקה</label>
                     </div>
                     <mat-form-field appearance="fill">
@@ -409,6 +455,16 @@
                                 {{dept.Depart_Name}}
                             </mat-option>
                         </mat-select>
+                    </mat-form-field> -->
+                    <mat-form-field appearance="fill">
+                        <mat-label>מחלקה</mat-label>
+                        <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
+                            [matAutocomplete]="auto2">
+                        <mat-autocomplete #auto2="matAutocomplete">
+                            <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Depart_Name">
+                                {{dept.Depart_Name}}
+                            </mat-option>
+                        </mat-autocomplete>
                     </mat-form-field>
                 </li>
             </div>
@@ -450,7 +506,7 @@
             <div class="full-width row">
                 <li class="border-me col-12">
                     <div class="col-12 text-right">
-                        <label>תשובה סופית</label>
+                        <label>תגובה</label>
                     </div>
                     <mat-form-field class="example-full-width">
                         <textarea type="text" matInput cols="3" formControlName="Comp_Answer"></textarea>
@@ -460,7 +516,7 @@
             <div class="full-width row">
                 <li class="border-me col-12">
                     <div class="col-12 text-right">
-                        <label>תגובה לשיפור</label>
+                        <label>פעולה מתקנת</label>
                     </div>
                     <mat-form-field class="example-full-width">
                         <textarea type="text" matInput cols="3" formControlName="ImprovementNote"></textarea>
@@ -471,7 +527,7 @@
     </div>
     <div class="button-row">
         <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
-            (click)="submitComplaint(_ifUpdate)" type="submit" mat-raised-button>
+            (click)="submitComplaint(_ifUpdate,_ifSplit)" type="submit" mat-raised-button>
             <span>שמירת פנייה</span>
         </button>
     </div>
