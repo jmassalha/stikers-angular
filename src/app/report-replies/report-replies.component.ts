@@ -60,7 +60,7 @@ export class ReportRepliesComponent implements OnInit {
 
   deleteMessage(messageID,ReportID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/DeleteReportMessage", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReportMessage", {
         _messageID: messageID
       })
       .subscribe((Response) => {
@@ -83,7 +83,7 @@ export class ReportRepliesComponent implements OnInit {
     this.messanger.controls['MessageTime'].setValue(messageTime);
     this.messanger.controls['UserName'].setValue(UserName);
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetSendReportResponse", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetSendReportResponse", {
         _messageClass: this.messanger.value,
       })
       .subscribe((Response) => {

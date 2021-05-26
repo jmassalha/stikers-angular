@@ -88,7 +88,7 @@ export class DialogElementsExampleDialog implements OnInit {
 
   getHistories() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetReportsChangesHistory", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReportsChangesHistory", {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
@@ -193,7 +193,7 @@ export class NursesDashboardComponent implements OnInit {
 
   getCategories() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetCategories", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {
       })
       .subscribe((Response) => {
         this.all_categories_filter = Response["d"];
@@ -237,7 +237,7 @@ export class NursesDashboardComponent implements OnInit {
       _reportEndDate = "";
     }
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetReports", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
         _reportShift: _reportShift,
         _reportCategory: _reportCategory,
         _reportStatus: _reportStatus,

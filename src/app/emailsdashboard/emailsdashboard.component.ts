@@ -140,7 +140,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   loadInquiries(){
     this.http
-      .post("http://localhost:64964/WebService.asmx/SavingEmailsToDB", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/SavingEmailsToDB", {
       })
       .subscribe((Response) => {
         this.openSnackBar("פניות נטענו בהצלחה");
@@ -152,7 +152,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   changeStatus(e: any,emailID: string){
     this.http
-      .post("http://localhost:64964/WebService.asmx/ChangeStatus", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/ChangeStatus", {
         _status: e.checked,
         _emailID: emailID,
       })
@@ -199,7 +199,7 @@ export class EmailsdashboardComponent implements OnInit {
       compDateControl2 = "";
     }
     this.http
-      .post("http://localhost:64964/WebService.asmx/Comp_Emails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
         _compName: compName,
         _compDate: compDateControl,
         _compDate2: compDateControl2,
@@ -247,7 +247,7 @@ export class EmailsdashboardComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetInquiryDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];

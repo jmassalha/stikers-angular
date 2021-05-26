@@ -144,7 +144,7 @@ export class FormsansweredComponent implements OnInit {
                 console.log("User confirmed:", confirmed);
                 if (confirmed) {
                   this.http
-                  .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
+                  .post("http://srv-apps/wsrfc/WebService.asmx/LinkPdfToPatientNamer", {
                     CaseNumber: element.PatientID,
                     FormID: element.FormID,
                     Catigory: "ZPO_ONLINE",
@@ -200,7 +200,7 @@ export class FormsansweredComponent implements OnInit {
     }
 
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetPersonalDetailsForForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
         _formID: FormID,
         _caseNumber: caseNumber,
         _personalPassport: personalPassport,
