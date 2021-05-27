@@ -59,9 +59,9 @@ export class EmailsdashboardComponent implements OnInit {
    }
 
   deadline: DeadLine[] = [
-    { value: '1', viewValue: 'שבוע' },
-    { value: '2', viewValue: 'שבועיים' },
-    { value: '3', viewValue: '3 שבועות' },
+    { value: '8', viewValue: 'שבוע' },
+    { value: '16', viewValue: 'שבועיים' },
+    { value: '22', viewValue: '3 שבועות' },
   ];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -215,7 +215,7 @@ export class EmailsdashboardComponent implements OnInit {
         this.all_forms_filter = Response["d"];
         this.TABLE_DATA = [];
         if(this.all_forms_filter.length > 0){
-          if(this.all_forms_filter[0].NumberOfUrgent != "0"){
+          if(this.all_forms_filter[0].NumberOfUrgent != "0" && this.UserName.toLowerCase() == "matias"){
             this.openNotificationDialog();
           }
         }

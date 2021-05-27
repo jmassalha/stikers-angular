@@ -152,7 +152,7 @@ export class FormsansweredComponent implements OnInit {
                   })
                   .subscribe((Response) => {
                     //need to check if saved completed
-                    if(true){
+                    if(Response["d"] == "success"){
                       this.openSnackBar("! נשמר בהצלחה לתיק מטופל בנמר");
                       this.searchForm();
                     }else{
