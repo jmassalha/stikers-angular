@@ -9,8 +9,8 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import {Observable} from 'rxjs';
-import {map, startWith} from 'rxjs/operators';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 
 export interface EmailManagement {
@@ -30,6 +30,13 @@ export interface EmailManagement {
   Comp_Answer: string;
   Comp_Closing_Date: string;
   Related_User: string;
+  DeadLine: string;
+  CompName2: string;
+  CompPhone2: string;
+  CompEmail2: string;
+  EmailSubject2: string;
+  CompSubject2: string;
+  ContentToShow2: string;
 }
 export interface EmailSender {
   Row_ID: string;
@@ -64,6 +71,10 @@ export interface CompSektor {
   value: string;
   viewValue: string;
 }
+export interface DeadLine {
+  value: string;
+  viewValue: string;
+}
 
 export interface CompAmbolatory {
   value: string;
@@ -82,6 +93,7 @@ export class EmailmanagementComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   compTypeList: CompType[] = [
+    { value: 'Job', viewValue: 'חיפוש משרה' },
     { value: 'Thank', viewValue: 'תודה' },
     { value: 'Complaint', viewValue: 'תלונה' },
     { value: 'Inquiry', viewValue: 'פנייה' },
@@ -102,6 +114,11 @@ export class EmailmanagementComponent implements OnInit {
     { value: '1', viewValue: 'אשפוז' },
     { value: '3', viewValue: 'אחר' },
   ];
+  deadline: DeadLine[] = [
+    { value: '1', viewValue: 'שבוע' },
+    { value: '2', viewValue: 'שבועיים' },
+    { value: '3', viewValue: '3 שבועות' },
+  ];
 
   compSektor: CompSektor[] = [
     { value: 'Nursing', viewValue: 'סיעוד' },
@@ -113,7 +130,9 @@ export class EmailmanagementComponent implements OnInit {
 
   compSource: CompSource[] = [
     { value: 'MedicalCenterWebsite', viewValue: 'אתר המרכז הרפואי' },
-    { value: 'EMail', viewValue: 'אימייל' },
+    { value: 'Fax', viewValue: 'פקס' },
+    { value: 'Survey', viewValue: 'סקר' },
+    { value: 'Email', viewValue: 'אימייל' },
     { value: 'Phone', viewValue: 'טלפון' },
     { value: 'Facebook', viewValue: 'פייסבוק' },
     { value: 'Frontal', viewValue: 'פנייה פרונטלית' },
@@ -123,8 +142,8 @@ export class EmailmanagementComponent implements OnInit {
   currentYear = new Date().getFullYear();
   currentMonth = new Date().getMonth();
   currentDay = new Date().getDay();
-  maxDate =  new Date(this.currentYear, this.currentMonth+2, this.currentDay - 6);
-  
+  maxDate = new Date(this.currentYear, this.currentMonth + 2, this.currentDay - 6);
+
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -136,12 +155,13 @@ export class EmailmanagementComponent implements OnInit {
 
   all_email_management = [];
   all_complaints_filter = [];
+  emailSubjectsArr = [];
   FormDepartment: string = "";
   all_departs_filter = [];
   all_users_filter = [];
   department = [];
   users = [];
-  usersNames = [];
+  // usersNames = [];
   email: EmailManagement;
   complaintName: string = "";
   complainID: string = "";
@@ -149,16 +169,21 @@ export class EmailmanagementComponent implements OnInit {
   fakeID: number;
   manageComplaintForm: FormGroup;
   emailSenderGroup: FormGroup;
-  
+  firstManagementGroup: FormGroup;
+
 
   myControl = new FormControl();
+  departmentfilter = new FormControl();
   filteredOptions: Observable<string[]>;
+  filteredOptions2: Observable<string[]>;
   toppings = new FormControl();
   chooseComp: boolean;
-  _ifUpdate:boolean;
-  _stepper:boolean;
+  _ifUpdate: boolean;
+  _ifSplit: string;
+  _stepper: boolean;
 
   ngOnInit(): void {
+
     this.manageComplaintForm = this.formBuilder.group({
       Comp_Date: ['', Validators.compose([Validators.required])],
       Comp_Type: ['', null],
@@ -173,10 +198,12 @@ export class EmailmanagementComponent implements OnInit {
       Comp_Note: ['', null],
       Comp_Answer: ['', null],
       Comp_Closing_Date: ['', null],
-      Related_User: ['', null,]
+      Related_User: ['', null,],
+      DeadLine: ['', null,],
     });
 
     this.emailSenderGroup = this.formBuilder.group({
+      Row_ID: ['0', null],
       EmailSubject: ['', Validators.compose([Validators.required])],
       CompSubject: ['', Validators.compose([Validators.required])],
       CompName: ['', Validators.compose([Validators.required])],
@@ -184,25 +211,30 @@ export class EmailmanagementComponent implements OnInit {
       CompPhone: ['', null],
       CompEmail: ['', null],
       EmailDateTime: ['', Validators.compose([Validators.required])],
+      EmailDepartment: ['', Validators.compose([Validators.required])],
     });
 
     //to split the complaint
-    if(this.fakeID == 0 && this.urlID != 0){
+    if (this.fakeID == 0 && this.urlID != 0) {
       this._ifUpdate = true;
       this.chooseComp = false;
       this._stepper = false;
-      this.getEmailManagement(this.urlID,1);
+      this._ifSplit = "1";
+      this.getEmailManagement(this.urlID, this._ifSplit);
       //for genrating new complaint 
-    }else if(this.urlID == 0 && this.fakeID == 0){
+    } else if (this.urlID == 0 && this.fakeID == 0) {
       this._ifUpdate = false;
       this.chooseComp = false;
       this._stepper = true;
+      this._ifSplit = "0";
       this.getDepatments();
+      this.getEmailManagement(this.urlID, this._ifSplit);
       //open the complaints cards
-    }else{
+    } else {
       this._ifUpdate = true;
       this.chooseComp = true;
       this._stepper = false;
+      this._ifSplit = "0";
     }
 
     this.getRelevantComplaints(this.urlID);
@@ -211,11 +243,20 @@ export class EmailmanagementComponent implements OnInit {
         startWith(''),
         map(value => this._filter(value))
       );
+    this.filteredOptions2 = this.departmentfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter2(value))
+      );
   }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.users.filter(option => option.firstname.toLowerCase().includes(filterValue));
+  }
+  private _filter2(value: string): string[] {
+    const filterValue2 = value;
+    return this.department.filter(option => option.Depart_Name.includes(filterValue2));
   }
 
   openSnackBar(message) {
@@ -226,46 +267,71 @@ export class EmailmanagementComponent implements OnInit {
     });
   }
 
-  shareComplaintWithOthers(){
+  shareComplaintWithOthers() {
 
-      this.http
+    this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
         userId: this.myControl.value,
         compId: this.complainID,
       })
       .subscribe((Response) => {
-        if(Response["d"] == true){
+        if (Response["d"] == true) {
           this.openSnackBar("! נשלח בהצלחה לנמען");
-        }else{
+        } else {
           this.openSnackBar("! נמען לא קיים");
         }
       });
   }
 
-  submitComplaint(_ifUpdate) {
-    if(this.manageComplaintForm.controls['Comp_Closing_Date'].value == null){
+  submitComplaint(_ifUpdate, _ifSplit) {
+    this.manageComplaintForm.controls['Comp_Department'].setValue(this.departmentfilter.value);
+    let pipe = new DatePipe('en-US');
+    if (this.manageComplaintForm.controls['Comp_Closing_Date'].value == null || this.manageComplaintForm.controls['Comp_Closing_Date'].value == "") {
       this.manageComplaintForm.controls['Comp_Closing_Date'].setValue("");
+    } else {
+      this.manageComplaintForm.controls['Comp_Closing_Date'].setValue(pipe.transform(this.manageComplaintForm.controls['Comp_Closing_Date'].value, 'yyyy-MM-dd'));
+      this.manageComplaintForm.controls['Comp_Closing_Date'].setValidators(null);
     }
-    if(!this.manageComplaintForm.invalid){
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
-        _compToUpdate: this.manageComplaintForm.value,
-        _emailToInsert: this.emailSenderGroup.value,
-        ifUpdate: _ifUpdate
-      })
-      .subscribe((Response) => {
-        this.openSnackBar("!נשמר בהצלחה");
-      });
-    this.dialog.closeAll();
-    this.router.navigate(['emailsdashboard']);
-    }else{
+    if (!_ifUpdate) {
+      if (this.emailSenderGroup.controls['EmailDateTime'].value == null || this.emailSenderGroup.controls['EmailDateTime'].value == "") {
+        this.emailSenderGroup.controls['EmailDateTime'].setValue("");
+      } else {
+        this.emailSenderGroup.controls['EmailDateTime'].setValue(pipe.transform(this.emailSenderGroup.controls['EmailDateTime'].value, 'yyyy-MM-dd'));
+        this.emailSenderGroup.controls['EmailDateTime'].setValidators(null);
+      }
+    }
+    if (this.manageComplaintForm.controls['DeadLine'].value == null || this.manageComplaintForm.controls['DeadLine'].value == "") {
+      this.manageComplaintForm.controls['DeadLine'].setValue("");
+    } else {
+      this.manageComplaintForm.controls['DeadLine'].setValue(pipe.transform(this.manageComplaintForm.controls['DeadLine'].value, 'yyyy-MM-dd'));
+      this.manageComplaintForm.controls['DeadLine'].setValidators(null);
+    }
+    if (_ifSplit == "0") {
+      this.manageComplaintForm.setValidators(null);
+    }
+    if (!this.manageComplaintForm.invalid || !this.emailSenderGroup.invalid) {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
+          _compToUpdate: this.manageComplaintForm.value,
+          _emailToInsert: this.emailSenderGroup.value,
+          ifUpdate: _ifUpdate,
+          ifSplit: _ifSplit,
+          urlID: this.urlID
+        })
+        .subscribe((Response) => {
+          this.openSnackBar("!נשמר בהצלחה");
+        });
+      this.dialog.closeAll();
+      this.router.navigate(['emailsdashboard']);
+      window.location.reload();
+    } else {
       this.openSnackBar("!לא תקין");
     }
   }
 
-  getDepatments(){
+  getDepatments() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
 
       })
       .subscribe((Response) => {
@@ -277,7 +343,7 @@ export class EmailmanagementComponent implements OnInit {
       });
   }
 
-  getRelevantComplaints(urlID){
+  getRelevantComplaints(urlID) {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
@@ -289,17 +355,25 @@ export class EmailmanagementComponent implements OnInit {
       });
   }
 
-  getEmailManagement(urlID,ifSplit) {
+  calculateDepartCapacity(inUse, current) {
+    let result: any = Math.round((Number(inUse) / Number(current)) * 100);
+    if (isNaN(result)) {
+      result = "אין נתונים";
+    }
+    return result;
+  }
+
+  getEmailManagement(urlID, ifSplit) {
     this.chooseComp = false;
-    if(ifSplit == "1"){
+    if (ifSplit == "1") {
       this._stepper = false;
-    }else if(ifSplit == "3"){
+    } else if (ifSplit == "3") {
       this._stepper = false;
     }
-    else{
+    else {
       this._stepper = true;
     }
-     
+
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
         _compID: urlID,
@@ -307,33 +381,47 @@ export class EmailmanagementComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.all_email_management = Response["d"];
-        this.complaintName = this.all_email_management[0].ComplaintName;
-        this.complainID = this.all_email_management[0].Row_ID;
+        if (this.all_email_management.length > 1) {
+          this.complaintName = this.all_email_management[0].ComplaintName;
+          this.complainID = this.all_email_management[0].Row_ID;
+          this.emailSenderGroup = this.formBuilder.group({
+            Row_ID: new FormControl(this.all_email_management[1].Row_ID, null),
+            CompName: new FormControl(this.all_email_management[1].CompName, null),
+            CompPhone: new FormControl(this.all_email_management[1].CompPhone, null),
+            CompEmail: new FormControl(this.all_email_management[1].CompEmail, null),
+            EmailSubject: new FormControl(this.all_email_management[1].EmailSubject, null),
+            CompSubject: new FormControl(this.all_email_management[1].CompSubject, null),
+            ContentToShow: new FormControl(this.all_email_management[1].ContentToShow, null)
+          });
+          this.manageComplaintForm = this.formBuilder.group({
+            Row_ID: new FormControl(this.all_email_management[0].Row_ID, null),
+            Comp_Date: new FormControl(this.all_email_management[0].Comp_Date, null),
+            Comp_Type: new FormControl(this.all_email_management[0].Comp_Type, null),
+            Comp_Source: new FormControl(this.all_email_management[0].Comp_Source, null),
+            Comp_Pesron_Relat: new FormControl(this.all_email_management[0].Comp_Pesron_Relat, null),
+            Comp_Department: new FormControl(this.all_email_management[0].Comp_Department, null),
+            Comp_Sektor: new FormControl(this.all_email_management[0].Comp_Sektor, null),
+            Comp_Status: new FormControl(this.all_email_management[0].Comp_Status, null),
+            Comp_Note: new FormControl(this.all_email_management[0].Comp_Note, null),
+            RelevantEmployee1: new FormControl(this.all_email_management[0].RelevantEmployee1, null),
+            Ambolatory: new FormControl(this.all_email_management[0].Ambolatory, null),
+            ImprovementNote: new FormControl(this.all_email_management[0].ImprovementNote, null),
+            Comp_Answer: new FormControl(this.all_email_management[0].Comp_Answer, null),
+            PersonID: new FormControl(this.all_email_management[0].PersonID, null),
+            Comp_Closing_Date: new FormControl(this.all_email_management[0].Comp_Closing_Date, null),
+            Row_ID_FK: new FormControl(this.all_email_management[0].Row_ID_FK, null),
+            Related_User: new FormControl(this.all_email_management[0].email, null),
+            DeadLine: new FormControl(this.all_email_management[0].DeadLine, null),
+          });
+          this.departmentfilter.setValue(this.all_email_management[0].Comp_Department);
+        }
 
-        this.manageComplaintForm = this.formBuilder.group({
-          Row_ID: new FormControl(this.all_email_management[0].Row_ID, null),
-          Comp_Date: new FormControl(this.all_email_management[0].Comp_Date, null),
-          Comp_Type: new FormControl(this.all_email_management[0].Comp_Type, null),
-          Comp_Source: new FormControl(this.all_email_management[0].Comp_Source, null),
-          Comp_Pesron_Relat: new FormControl(this.all_email_management[0].Comp_Pesron_Relat , null),
-          Comp_Department: new FormControl(this.all_email_management[0].Comp_Department, null),
-          Comp_Sektor: new FormControl(this.all_email_management[0].Comp_Sektor, null),
-          Comp_Note: new FormControl(this.all_email_management[0].Comp_Note, null),
-          RelevantEmployee1: new FormControl(this.all_email_management[0].RelevantEmployee1, null),
-          Ambolatory: new FormControl(this.all_email_management[0].Ambolatory, null),
-          ImprovementNote: new FormControl(this.all_email_management[0].ImprovementNote, null),
-          Comp_Answer: new FormControl(this.all_email_management[0].Comp_Answer, null),
-          PersonID: new FormControl(this.all_email_management[0].PersonID, null),
-          Comp_Closing_Date: new FormControl(this.all_email_management[0].Comp_Closing_Date, null),
-          Row_ID_FK: new FormControl(this.all_email_management[0].Row_ID_FK, null),
-          Related_User: new FormControl(this.all_email_management[0].email, null),
-        });
-        
-      });      
-      
+        this.emailSubjectsArr = this.all_email_management[this.all_email_management.length - 1];
+      });
 
-      this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
 
       })
       .subscribe((Response) => {
@@ -344,7 +432,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
 
-      this.http
+    this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
 
       })
@@ -353,7 +441,6 @@ export class EmailmanagementComponent implements OnInit {
 
         this.all_users_filter.forEach(element => {
           this.users.push(element);
-          this.usersNames.push(element.firstname +" "+ element.lastname);
         })
       });
 

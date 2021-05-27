@@ -144,6 +144,7 @@ export class EventsscheduleComponent implements OnInit {
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "jmassalha" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "adahabre" ||
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "owertheim" ||
             localStorage.getItem("loginUserName").toLowerCase() == "waraidy"

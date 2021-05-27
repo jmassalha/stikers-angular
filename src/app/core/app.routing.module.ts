@@ -49,6 +49,9 @@ import { EventsscheduleComponent } from '../eventsschedule/eventsschedule.compon
 import { EmailmanagementComponent } from '../emailmanagement/emailmanagement.component';
 import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.component';
 import { CaseinvoisesComponent } from '../caseinvoises/caseinvoises.component';
+import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
+import { FillReportComponent } from '../fill-report/fill-report.component';
+import { DialogElementsExampleDialog } from '../nurses-dashboard/nurses-dashboard.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -88,7 +91,7 @@ const routes: Routes = [
   { path: "emergencycallgroups", component: EmergencycallgroupsComponent },
   { path: "emergencymembers", component: EmergencymembersComponent },
   { path: "employees", component: EmployeesComponent },
-
+  { path: "historydialog", component: DialogElementsExampleDialog },
   { path: "fillsurvey/:id", component: FillSurveyComponent },
   { path: "formdashboard", component: FormDashboardComponent },
   { path: "digitalforms", component: UpdateformComponent },
@@ -98,6 +101,8 @@ const routes: Routes = [
 
   { path: "emailsdashboard", component: EmailsdashboardComponent },
   { path: "emailmanagement", component: EmailmanagementComponent },
+  { path: "nursereportsystem", component: NursesDashboardComponent },
+  { path: "fillreport", component: FillReportComponent },
   { path: '', component : LoginComponent}
 ];
 @NgModule({

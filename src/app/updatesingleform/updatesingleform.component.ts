@@ -203,6 +203,20 @@ export class UpdatesingleformComponent implements OnInit {
   }
 
   onRemoveQuestion(index) {
+    this.surveyForm.controls.surveyQuestions['controls'][index].setValidators(null);
+    this.surveyForm.controls.surveyQuestions['controls'][index].updateValueAndValidity();
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionStatus.setValidators(null);
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionTitle.setValidators(null);
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionType.setValidators(null);
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionID.setValidators(null);
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.priority.setValidators(null);
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.IsRequired.setValidators(null);
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionTitle.updateValueAndValidity();
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionType.updateValueAndValidity();
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionID.updateValueAndValidity();
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.priority.updateValueAndValidity();
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.IsRequired.updateValueAndValidity();
+    this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionStatus.updateValueAndValidity();
     this.surveyForm.controls.surveyQuestions['controls'][index].controls.questionStatus.patchValue("0");
   }
 

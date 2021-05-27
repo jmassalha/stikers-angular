@@ -97,6 +97,25 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
+            <li class="nav-item" *ngIf="_nursesSystem">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>מערכת אחיות </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+
+                            <li class="nav-item" *ngIf="_nursesSystem">
+                                <a class="nav-link" routerLink="nursereportsystem">כניסה</a>
+                            </li>
+                            <!-- <li class="nav-item" *ngIf="_shoEmergincyCall">
+                                <a class="nav-link" routerLink="emergencycallgroups">אזעקת חירום</a>
+                            </li> -->
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
