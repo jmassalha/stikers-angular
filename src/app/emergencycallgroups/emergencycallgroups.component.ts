@@ -148,7 +148,25 @@ export class EmergencycallgroupsComponent implements OnInit {
                 "jmassalha" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
             localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-            || localStorage.getItem("loginUserName").toLowerCase() == "waraidy"
+            || localStorage.getItem("loginUserName").toLowerCase() == "waraidy"||
+            localStorage.getItem("loginUserName").toLowerCase() == "mmadmon" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "jubartal" ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("kmandel").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("NCaspi").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("BMonastirsky").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("NAli").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("EMansour").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("IAharon").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("KLibai").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("TLivnat").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("OHaccoun").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("AAsheri").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("KMassalha").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("ANujedat").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("NSela").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase() ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("LCerem").toLowerCase()
         ) {
         } else {
             this.router.navigate(["login"]);
@@ -234,15 +252,20 @@ export class EmergencycallgroupsComponent implements OnInit {
                     textAreaVal += Poria_Group[i]["FirstName"] + " ";
                     textAreaVal += Poria_Group[i]["LastName"] + "\r\n";
                 }
-                setTimeout(function () {
-                    $("#loader").addClass("d-none");
-                });
+                
 
                  //debugger
 
                 localStorage.setItem("smsType", "SMSEmergencyCall");
                 localStorage.setItem("textAreaVal", textAreaVal);
-                this.modalService.open(this.SendSmsToemergencymembersModal, this.modalOptions);
+                debugger
+                let that = this;
+                setTimeout(function () {
+                    $("#loader").addClass("d-none");
+                    that.modalService.open(that.SendSmsToemergencymembersModal, that.modalOptions);
+                }, 2500);
+                
+                
             });
     }
     onSubmit() {

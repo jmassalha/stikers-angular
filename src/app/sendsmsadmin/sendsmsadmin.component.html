@@ -1,25 +1,36 @@
 <div id="page-toshow">
-    <h1 *ngIf="toShow=='true'" class="page-title text-center">שליחת הודעות הנהלה</h1>
+    <h1 *ngIf="toShow == 'true'" class="page-title text-center">
+        שליחת הודעות הנהלה
+    </h1>
     <div class="container-fluid">
         <div *ngIf="emergencyCall" class="row" dir="rtl">
             <div class="col-2"></div>
-            <div  class="col-8">
-                <div class="row text-center"> 
-                    <div *ngFor="let messageTemp of MessagesTemp" class="col-3 mb-25 " >
-                        <button  (click)="SetMessageVal(messageTemp.MessageVal)" class="no-word" [ngClass]="messageTemp.BgColor" mat-raised-button color="primary">{{messageTemp.Title}}</button>         
+            <div class="col-8">
+                <div class="row text-center">
+                    <div
+                        *ngFor="let messageTemp of MessagesTemp"
+                        class="col-3 mb-25"
+                    >
+                        <button
+                            (click)="SetMessageVal(messageTemp.MessageVal)"
+                            class="no-word"
+                            [ngClass]="messageTemp.BgColor"
+                            mat-raised-button
+                            color="primary"
+                        >
+                            {{ messageTemp.Title }}
+                        </button>
                     </div>
                 </div>
-                
             </div>
             <div class="col-2"></div>
-            
         </div>
-        <br>
+        <br />
         <div class="row">
             <div class="col">
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body">
-                        <form class="form" [formGroup]="sendSmsForm" >
+                        <form class="form" [formGroup]="sendSmsForm">
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
@@ -30,9 +41,9 @@
                                                 placeholder="תוכן הודעה"
                                                 name="smsText"
                                                 rows="17"
-                                                formControlName="smsText" [value]="smsText"
-                                                ></textarea
-                                            >
+                                                formControlName="smsText"
+                                                [value]="smsText"
+                                            ></textarea>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -47,9 +58,9 @@
                                                 placeholder="מס' טלפון"
                                                 name="smsNumbers"
                                                 rows="17"
-                                                formControlName="smsNumbers" [value]="smsNumbers"
-                                                ></textarea
-                                            >
+                                                formControlName="smsNumbers"
+                                                [value]="smsNumbers"
+                                            ></textarea>
                                         </mat-form-field>
                                     </div>
                                 </div>

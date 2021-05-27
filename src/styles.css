@@ -2,9 +2,13 @@
 /* ::-webkit-scrollbar {
     width: 5px;
 } */
-footer, .modal-open .modal, .modal-backdrop.show {
-    z-index: 99999999999999999 !important;
+footer {
+    z-index: 9000000000 !important;
 }
+.top-zindex {
+    z-index: 9999999999999999 !important;
+  }
+ 
 .m-5 {
     margin: 1rem 0;
 }
@@ -792,7 +796,7 @@ tr.mat-footer-row {
 }
 .cdk-overlay-container {
     position: fixed;
-    z-index: 999999;
+    z-index: 9999999999  !important;
 }
 .mat-form-field-appearance-fill .mat-form-field-flex {
     border-radius: 4px 4px 0 0;
@@ -1306,6 +1310,9 @@ ngx-material-timepicker-container,
 
     margin: auto;
     width: 80%;
+}
+.cdk-global-overlay-wrapper, .cdk-overlay-pane{
+    z-index: 999999999999999999999999999999999999999999999999 !important;
 }
 .border-1{
     border: 1px solid !important;

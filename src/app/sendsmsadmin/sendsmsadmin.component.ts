@@ -49,7 +49,9 @@ export class SendsmsadminComponent implements OnInit {
         activeModal: NgbActiveModal
     ) {
         this.activeModal = activeModal;
+        debugger
         if(localStorage.getItem("textAreaVal") && localStorage.getItem("textAreaVal") != ""){
+            debugger
             this.smsType = localStorage.getItem("smsType") ;//"SMSMaternity"
             this.emergencyCall = true;
             this.GetMessagesTemp();
@@ -87,7 +89,26 @@ export class SendsmsadminComponent implements OnInit {
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "sabuhanna" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
+            localStorage.getItem("loginUserName").toLowerCase() == "owertheim" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "waraidy" ||
+             localStorage.getItem("loginUserName").toLowerCase() == "mmadmon" ||
+             localStorage.getItem("loginUserName").toLowerCase() == "jubartal" ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("kmandel").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("NCaspi").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("BMonastirsky").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("NAli").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("EMansour").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("IAharon").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("KLibai").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("TLivnat").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("OHaccoun").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("AAsheri").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("KMassalha").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("ANujedat").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("NSela").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase() ||
+             localStorage.getItem("loginUserName").toLowerCase() == ("LCerem").toLowerCase()  
         ) {
         } else {
             this.router.navigate(["login"]);
@@ -150,7 +171,7 @@ export class SendsmsadminComponent implements OnInit {
                     $("#loader").removeClass("d-none");
                 }
                 this.http
-                .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
+                .post("http://localhost:64964/WebService.asmx/SendSMSOnLineAdmin", {
                     smsText: this.sendSmsForm.value.smsText,
                     smsNumbers: this.sendSmsForm.value.smsNumbers,
                     surveyNumber: 0,

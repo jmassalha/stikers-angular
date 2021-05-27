@@ -41,6 +41,7 @@ export class HeaderComponent implements OnInit {
     _shoEmergincyCall: Boolean;
     _shoEventsschedule: Boolean;
     _shoCaseinvoises: Boolean;
+    _shoToWesam: Boolean;
     getPermission() {
         this.http
             .post(
@@ -69,6 +70,7 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
+        this._shoToWesam = false;
         this._shocovid19report = false;
         this._shoCaseinvoises = false;
         this._shomaternity = false;
@@ -86,9 +88,28 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "waraidy" ||
+            this.loginUserName.toLowerCase() == "mmadmon" ||
+            this.loginUserName.toLowerCase() == "jubartal" ||
+            this.loginUserName.toLowerCase() == ("kmandel").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("NCaspi").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("BMonastirsky").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("NAli").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("EMansour").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("IAharon").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("KLibai").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("TLivnat").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("OHaccoun").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("AAsheri").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("KMassalha").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ANujedat").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("NSela").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("GJidovetsk").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("LCerem").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("MTsaban").toLowerCase() ||
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._shoEventsschedule = true;
+            this._shoToWesam = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -129,7 +150,8 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
-            this.loginUserName.toLowerCase() == "raharon"
+            this.loginUserName.toLowerCase() == "raharon"||
+            this.loginUserName.toLowerCase() == ("MTsaban").toLowerCase()
         ) {
             this._shomaternity = true;
         }

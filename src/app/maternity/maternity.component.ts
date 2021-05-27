@@ -142,6 +142,7 @@ export class MaternityComponent implements OnInit {
             localStorage.getItem("loginUserName").toLowerCase() == "jmassalha" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
             localStorage.getItem("loginUserName").toLowerCase() == "owertheim" ||
+            localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase() ||
             localStorage.getItem("loginUserName").toLowerCase() == "raharon"
             
         ) {

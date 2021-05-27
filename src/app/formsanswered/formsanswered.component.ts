@@ -24,6 +24,7 @@ export interface Patient {
   PatientGender: string;
   SavedToNamer: string;
   PatientBirthday: string;
+  Row_ID: string;
   PatientAddress: string;
   FormName: string;
   DateOfFillForm: string;
@@ -55,6 +56,7 @@ export class FormsansweredComponent implements OnInit {
   PatientPassport: string;
   PatientPhone: string;
   SavedToNamer: string;
+  Row_ID: string;
   PatientEmail: string;
   PatientGender: string;
   PatientBirthday: string;
@@ -146,10 +148,11 @@ export class FormsansweredComponent implements OnInit {
                     CaseNumber: element.PatientID,
                     FormID: element.FormID,
                     Catigory: "ZPO_ONLINE",
+                    Row_ID: element.Row_ID,
                   })
                   .subscribe((Response) => {
                     //need to check if saved completed
-                    if(true){
+                    if(Response["d"] == "success"){
                       this.openSnackBar("! נשמר בהצלחה לתיק מטופל בנמר");
                       this.searchForm();
                     }else{
@@ -220,6 +223,7 @@ export class FormsansweredComponent implements OnInit {
               PatientBirthday: this.all_forms_filter[i].PatientsList[0].PersonalBirthday.split(' ')[0],
               PatientPassport: this.all_forms_filter[i].PatientsList[0].PersonalID,
               PatientPhone: this.all_forms_filter[i].PatientsList[0].PersonalPhone,
+              Row_ID: this.all_forms_filter[i].PatientsList[0].Row_ID,
               PatientEmail: this.all_forms_filter[i].PatientsList[0].PersonalEmail,
               PatientGender: this.all_forms_filter[i].PatientsList[0].PersonalGender,
               PatientAddress: this.all_forms_filter[i].PatientsList[0].PersonalAddress,
@@ -239,6 +243,7 @@ export class FormsansweredComponent implements OnInit {
               PatientBirthday: "",
               PatientPassport: "",
               PatientPhone: "",
+              Row_ID: "",
               PatientEmail: "",
               PatientGender: "",
               SavedToNamer: "1",

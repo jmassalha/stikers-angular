@@ -496,7 +496,7 @@ export class MershamComponent implements OnInit {
         this.calcPres();
     }
     calcPres() {
-        //////////debugger
+        debugger
         for (var i = 0; i < this.rows.value.length; i++) {
             ////////////////debugger
             var arr = this.rows.value[i].MedListVal.split("___");
@@ -539,16 +539,13 @@ export class MershamComponent implements OnInit {
                             default:
                                 this.calcByGender = 0.75
                         }
+                        var AgeX = parseFloat(this.PrespictionForm.value.weightVal)*parseFloat(this.PrespictionForm.value.levelVal)*(140-parseFloat(this.AGE))/72;
                         this.rows.controls[i]['controls'].MenonCalcVal.setValue(
                             (
                                 parseFloat(this.PrespictionForm.value.targetAUCVal) * 
-                                (this.calcByGender * 
-                                    (
-                                        (140-parseFloat(this.AGE))/parseFloat(this.PrespictionForm.value.levelVal)
-                                    ) *
-                                    (parseFloat(this.PrespictionForm.value.weightVal)/72) +
-                                    25
-                                    )
+                                (AgeX +
+                                    25)
+                                    
                             ).toFixed(1)
                         );
                         break;

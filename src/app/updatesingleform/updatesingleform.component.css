@@ -15,6 +15,13 @@ ul{
 .mat-dialog-container{
     padding: 0px;
 }
+.modal-backdrop.show {
+  z-index: 9999999999999999 !important;
+}
+.modal-open .modal {
+  z-index: 99999999999999999 !important;
+  padding-bottom: 55px;
+}
 .mat-form-field {
     margin-right: 8px;
   }

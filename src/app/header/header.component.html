@@ -82,7 +82,7 @@
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
-                            <mat-panel-title>ניהול יומן אירועים </mat-panel-title>
+                            <mat-panel-title>שעת חירום </mat-panel-title>
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
@@ -90,8 +90,8 @@
                             <li class="nav-item" *ngIf="_shoEmergincyCall">
                                 <a class="nav-link" routerLink="eventsschedule">יומן אירועים</a>
                             </li>
-                            <li class="nav-item" *ngIf="_shoEmergincyCall">
-                                <a class="nav-link" routerLink="emergencycallgroups">אזעקת חירום</a>
+                            <li class="nav-item" *ngIf="_shoToWesam">
+                                <a class="nav-link" routerLink="emergencycallgroups">אזעקת עובדים בחירום</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>

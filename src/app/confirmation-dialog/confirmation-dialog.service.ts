@@ -17,7 +17,7 @@ export class ConfirmationDialogService {
     btnOkText: string = 'כן',
     btnCancelText: string = 'לא',
     dialogSize: 'sm'|'lg' = 'sm'): Promise<boolean> {
-    const modalRef = this.modalService.open(ConfirmationDialogComponent, { size: 'sm' });
+    const modalRef = this.modalService.open(ConfirmationDialogComponent, { size: 'sm', windowClass: 'top-zindex' });
     modalRef.componentInstance.title = title;
     modalRef.componentInstance.message = message;
     modalRef.componentInstance.btnOkText = btnOkText;
