@@ -109,6 +109,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("GJidovetsk").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("LCerem").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("MTsaban").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("MRuach").toLowerCase() ||
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._shoEventsschedule = true;
@@ -296,7 +297,9 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "yarosenfel" ||
             this.loginUserName.toLowerCase() == "lbogun" ||
             this.loginUserName.toLowerCase() == ("MLehrer").toLowerCase() ||
-            this.loginUserName.toLowerCase() == ("mshugan").toLowerCase()
+            this.loginUserName.toLowerCase() == ("mshugan").toLowerCase()||
+            this.loginUserName.toLowerCase() == ("SZidan").toLowerCase()||
+            this.loginUserName.toLowerCase() == ("YBitton").toLowerCase()
         ) {
             this._shoDimot = true;
         } else {

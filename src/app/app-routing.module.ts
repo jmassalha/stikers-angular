@@ -44,6 +44,7 @@ import { EmailsdashboardComponent } from "./emailsdashboard/emailsdashboard.comp
 import { EmailmanagementComponent } from "./emailmanagement/emailmanagement.component";
 import { NursesDashboardComponent } from "./nurses-dashboard/nurses-dashboard.component";
 import { FillReportComponent } from "./fill-report/fill-report.component";
+import { CheckpatientinsmartclosetComponent } from "./checkpatientinsmartcloset/checkpatientinsmartcloset.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -88,6 +89,7 @@ const routes: Routes = [
     { path: "emailmanagement", component: EmailmanagementComponent },
     { path: "nursereportsystem", component: NursesDashboardComponent },
     { path: "fillreport", component: FillReportComponent },
+    { path: "checkpatientinsmartcloset", component: CheckpatientinsmartclosetComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

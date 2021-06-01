@@ -74,3 +74,8 @@ ol{
 .col-6{
   max-width: 48%;
 }
+.cdk-overlay-connected-position-bounding-box .cdk-overlay-pane,
+.cdk-overlay-connected-position-bounding-box{
+  position: relative;
+  z-index: 9999999999999999999;
+}
