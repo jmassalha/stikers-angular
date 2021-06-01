@@ -16,6 +16,11 @@ footer {
 .m-5 {
     margin: 1rem 0;
 }
+.cdk-overlay-connected-position-bounding-box, 
+.cdk-overlay-pane{
+    /* position: relative; */
+    z-index: 999999999999999999999999;
+}
 .pos-me-right-li{
     position: absolute;
     right: -35px;

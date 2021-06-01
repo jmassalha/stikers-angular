@@ -101,7 +101,7 @@
                             <label>תאור האירוע</label>
                         </div>
                         <mat-form-field class="example-full-width">
-                            <input type="text" matInput formControlName="ContentToShow">
+                            <textarea type="text" matInput cols="2" formControlName="ContentToShow"></textarea>
                         </mat-form-field>
                     </li>
                     <li class="border-me col-6">
@@ -168,7 +168,7 @@
                         <input type="text" placeholder="התחל הקלדה .." aria-label="manager" matInput
                             [formControl]="myControl" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" [value]="option.id">
+                            <mat-option *ngFor="let option of filteredOptions | async" value="{{option.firstname}} {{option.lastname}}">
                                 {{option.firstname}} {{option.lastname}}
                             </mat-option>
                         </mat-autocomplete>
@@ -251,7 +251,7 @@
                                     <label>תאור האירוע</label>
                                 </div>
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" matInput formControlName="ContentToShow">
+                                    <textarea type="text" matInput formControlName="ContentToShow"></textarea>
                                 </mat-form-field>
                             </li>
                         </div>

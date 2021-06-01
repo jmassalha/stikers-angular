@@ -95,14 +95,15 @@
                                     </div>
                                 </div>
                             </div>
-                            <button matTooltip="חיפוש" mat-raised-button type="submit" class="btn btn-primary btn-raised"
-                                (click)="searchReports()">
+                            <button matTooltip="חיפוש" mat-raised-button type="submit"
+                                class="btn btn-primary btn-raised" (click)="searchReports()">
                                 <span class="material-icons">
                                     search
                                 </span>
                             </button>
                             &nbsp;&nbsp;
-                            <button matTooltip="הדפסה" mat-raised-button type="button" class="btn btn-primary btn-raised">
+                            <button matTooltip="הדפסה" mat-raised-button type="button"
+                                class="btn btn-primary btn-raised" (click)="print()">
                                 <span class="material-icons">
                                     local_printshop
                                 </span>
@@ -116,12 +117,8 @@
     <br />
     <hr />
 
-    <div dir="rtl">
+    <div dir="rtl" class="container-fluid pb-60">
         <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
-            <!-- <ng-container matColumnDef="{{column}}" *ngFor="let column of columnsToDisplay">
-                <th mat-header-cell *matHeaderCellDef> {{column}} </th>
-                <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
-            </ng-container> -->
 
             <ng-container matColumnDef="date">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> תאריך ושעה </th>
@@ -146,8 +143,9 @@
                         (click)="fillReportDialog(element.reportID)"><span class="material-icons">
                             edit
                         </span></button>
-                    <button matTooltip="היסטוריית שינויים" mat-raised-button style="margin-right: 5px;" color="primary" *ngIf="UserName == 'adahabre'"
-                        (click)="displayHistoryDialog(element.reportID)"><span class="material-icons">
+                    <button matTooltip="היסטוריית שינויים" mat-raised-button style="margin-right: 5px;" color="primary"
+                        *ngIf="UserName == 'adahabre'" (click)="displayHistoryDialog(element.reportID)"><span
+                            class="material-icons">
                             history
                         </span></button>
                 </td>
@@ -155,9 +153,10 @@
 
             <ng-container matColumnDef="reply">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> הוסף תגובה לדווח </th>
-                <td mat-cell *matCellDef="let element"> <button matTooltip="התכתבות" mat-raised-button color="primary" (click)="addReply(element.reportID)"><span class="material-icons">
-                        reply
-                    </span></button></td>
+                <td mat-cell *matCellDef="let element"> <button matTooltip="התכתבות" mat-raised-button color="primary"
+                        (click)="addReply(element.reportID)"><span class="material-icons">
+                            reply
+                        </span></button></td>
             </ng-container>
 
             <ng-container matColumnDef="expandedDetail">
@@ -191,7 +190,79 @@
         </button>
         <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
     </div>
+</div>
+<div class="d-none-desktop">
+    <table dir="rtl">
+        <thead>
+            <tr>
+                <th><br></th>
+            </tr>
+            <tr>
+                <th>
+                    <div class="row">
 
+                    </div>
+                </th>
+            </tr>
 
-
-    
+            <tr>
+                <th class="text-right">
+                    פרטים
+                </th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let tblRow of ELEMENT_DATA" class="text-right">
+                <td>
+                    <div class="text-right">
+                        <div class="row">
+                            <div class="col-3 bord-l">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <b>תאריך שעה</b>:
+                                        {{
+                                        tblRow.date
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>מכלולים</b>:
+                                        {{ tblRow.machlol }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>קטיגוריה</b>:
+                                        {{ tblRow.category }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>עדיפות</b>:
+                                        {{
+                                        tblRow.priority
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>סטטוס</b>:
+                                        {{
+                                        tblRow.status
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>נוצר ע"י</b>:
+                                        {{
+                                        tblRow.userFullName
+                                        }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-9 bord-l">
+                                <h3>{{ tblRow.title }}</h3>
+                                <p class="">
+                                    {{ tblRow.description }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+</div>

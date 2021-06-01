@@ -238,11 +238,13 @@ export class EmailmanagementComponent implements OnInit {
     }
 
     this.getRelevantComplaints(this.urlID);
+
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
       );
+
     this.filteredOptions2 = this.departmentfilter.valueChanges
       .pipe(
         startWith(''),
@@ -252,7 +254,7 @@ export class EmailmanagementComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.users.filter(option => option.firstname.toLowerCase().includes(filterValue));
+    return this.users.filter(option => option.firstname.includes(filterValue));
   }
   private _filter2(value: string): string[] {
     const filterValue2 = value;

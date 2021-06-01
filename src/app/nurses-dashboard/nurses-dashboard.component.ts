@@ -1,5 +1,6 @@
 import {
   Component,
+  ElementRef,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -12,7 +13,6 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
-
 import {
   NgbModal,
   NgbActiveModal,
@@ -27,13 +27,12 @@ import { FillReportComponent } from '../fill-report/fill-report.component';
 import { ReportRepliesComponent } from '../report-replies/report-replies.component';
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
-
+import { MatTableDataSource } from "@angular/material/table";
 export interface PeriodicElement2 {
   Row_ID: string;
   UpdateDate: string;
   FullName: string;
 }
-
 export interface PeriodicElement {
   date: string;
   title: string;
@@ -53,17 +52,15 @@ export interface Status {
   value: string;
   viewValue: string;
 }
-
-
 @Component({
   selector: 'dialog-elements-example-dialog',
   templateUrl: 'changesHistory.html',
 })
+
 export class DialogElementsExampleDialog implements OnInit {
 
   displayedColumns: string[] = ['Row_ID', 'UpdateDate', 'FullName'];
-  dataSource2 ;
-
+  dataSource2;
 
   constructor(private _snackBar: MatSnackBar,
     private router: Router,
@@ -82,7 +79,7 @@ export class DialogElementsExampleDialog implements OnInit {
     this.getHistories();
   }
 
-  closeDialog(){
+  closeDialog() {
     this.dialog.closeAll();
   }
 
@@ -96,21 +93,18 @@ export class DialogElementsExampleDialog implements OnInit {
         this.all_history_filter = Response["d"];
         if (this.all_history_filter.length > 0) {
           for (var i = 0; i < this.all_history_filter.length; i++) {
-            let runingNum = i+1;
+            let runingNum = i + 1;
             ELEMENT_DATA2.push({
               Row_ID: runingNum.toString(),
               UpdateDate: this.all_history_filter[i].UpdateDate,
-              FullName: this.all_history_filter[i].FirstName+' '+this.all_history_filter[i].LastName,
+              FullName: this.all_history_filter[i].FirstName + ' ' + this.all_history_filter[i].LastName,
             });
           }
-
         }
         this.dataSource2 = ELEMENT_DATA2;
       });
   }
 }
-
-
 @Component({
   selector: 'app-nurses-dashboard',
   templateUrl: './nurses-dashboard.component.html',
@@ -123,6 +117,7 @@ export class DialogElementsExampleDialog implements OnInit {
     ]),
   ],
 })
+
 export class NursesDashboardComponent implements OnInit {
   shift: Shift[] = [
     { value: 'בוקר', viewValue: 'בוקר' },
@@ -135,6 +130,7 @@ export class NursesDashboardComponent implements OnInit {
     { value: 'דחוף', viewValue: 'דחוף' },
     { value: 'בהול', viewValue: 'בהול' },
   ];
+
   status: Status[] = [
     { value: 'חדש', viewValue: 'חדש' },
     { value: 'לא טופל', viewValue: 'לא טופל' },
@@ -142,15 +138,14 @@ export class NursesDashboardComponent implements OnInit {
     { value: 'טופל', viewValue: 'טופל' },
   ];
 
-
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  dataSource;
-  columnsToDisplay = ['date', 'title', 'status', 'edit','reply'];
+  columnsToDisplay = ['date', 'title', 'status', 'edit', 'reply'];
   expandedElement: PeriodicElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
-
+  ELEMENT_DATA = [];
+  dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
   constructor(private _snackBar: MatSnackBar,
     private router: Router,
@@ -168,7 +163,6 @@ export class NursesDashboardComponent implements OnInit {
   UserName = localStorage.getItem('loginUserName').toLowerCase();
 
   ngOnInit(): void {
-
     this.searchReportsGroup = new FormGroup({
       'ReportShift': new FormControl('', null),
       'ReportStatus': new FormControl('', null),
@@ -181,7 +175,6 @@ export class NursesDashboardComponent implements OnInit {
     this.searchReports();
     this.getCategories();
   }
-
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
@@ -200,7 +193,6 @@ export class NursesDashboardComponent implements OnInit {
       });
   }
 
-
   fillReportDialog(reportid) {
     let dialogRef = this.dialog.open(FillReportComponent);
     dialogRef.componentInstance.reportID = reportid;
@@ -210,14 +202,17 @@ export class NursesDashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(DialogElementsExampleDialog);
     dialogRef.componentInstance.reportID = reportid;
   }
-  
+
   addReply(reportid) {
     let dialogRef = this.dialog.open(ReportRepliesComponent);
     dialogRef.componentInstance.reportID = reportid;
   }
 
-  searchReports() {
+  print() {
+    window.print();
+  }
 
+  searchReports() {
     let _reportShift = this.searchReportsGroup.controls['ReportShift'].value;
     let _reportCategory = this.searchReportsGroup.controls['ReportCategory'].value;
     let _reportStatus = this.searchReportsGroup.controls['ReportStatus'].value;
@@ -247,12 +242,11 @@ export class NursesDashboardComponent implements OnInit {
         _reportPriority: _reportPriority,
       })
       .subscribe((Response) => {
-        let ELEMENT_DATA = [];
-
+        this.ELEMENT_DATA = [];
         this.reportsArr = Response["d"];
         if (this.reportsArr.length > 0) {
           for (var i = 0; i < this.reportsArr.length; i++) {
-            ELEMENT_DATA.push({
+            this.ELEMENT_DATA.push({
               reportID: this.reportsArr[i].Row_ID,
               date: this.reportsArr[i].ReportDate,
               title: this.reportsArr[i].ReportTitle,
@@ -262,13 +256,13 @@ export class NursesDashboardComponent implements OnInit {
               updateDate: this.reportsArr[i].LastUpdatedDate,
               shift: this.reportsArr[i].ReportShift,
               priority: this.reportsArr[i].ReportPriority,
+              machlol: this.reportsArr[i].ReportMachlol,
+              category: this.reportsArr[i].ReportCategory,
             });
           }
-
         }
-        this.dataSource = ELEMENT_DATA;
+        this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;
       });
   }
-
 }

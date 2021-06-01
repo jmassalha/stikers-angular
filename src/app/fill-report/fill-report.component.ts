@@ -76,6 +76,7 @@ export class FillReportComponent implements OnInit {
   filteredOptions2: Observable<string[]>;
   department = [];
   reportID: string;
+  ifDisabled: boolean;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   all_report_management;
   date = this.pipe.transform(this.myDate, 'dd-MM-yyyy');
@@ -84,19 +85,23 @@ export class FillReportComponent implements OnInit {
     this.ReportGroup = this.formBuilder.group({
       Row_ID: ['0', Validators.compose([Validators.required])],
       ReportTitle: ['', Validators.compose([Validators.required])],
-      Reportmachlol: ['', Validators.compose([Validators.required])],
+      ReportMachlol: ['', Validators.compose([Validators.required])],
       ReportCategory: ['', Validators.compose([Validators.required])],
       ReportSubCategory: ['', Validators.compose([Validators.required])],
       ReportPriority: ['', Validators.compose([Validators.required])],
       ReportStatus: ['', Validators.compose([Validators.required])],
       ReportShift: ['', Validators.compose([Validators.required])],
-      ReportSchudledDate: ['', null],
+      ReportSchudledDate: ['', Validators.compose([Validators.required])],
       ReportText: ['', Validators.compose([Validators.required])],
       toContinue: [false, null],
     });
+    this.ifDisabled = false;
     if (this.reportID != "0") {
       this.getReportToUpdate();
+    } else {
+      this.autoDate(false);
     }
+    this.getCategories();
     this.getDeparts();
     this.filteredOptions2 = this.departmentfilter.valueChanges
       .pipe(
@@ -118,19 +123,19 @@ export class FillReportComponent implements OnInit {
     });
   }
 
-  deleteReport(reportID){
+  deleteReport(reportID) {
     this.http
-    .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReport", {
-      _reportID: reportID
-    })
-    .subscribe((Response) => {
-      if (Response["d"] == "success") {
-        this.openSnackBar("דווח נמחק בהצלחה");
-        this.dialog.closeAll();
-      } else {
-        this.openSnackBar("משהו השתבש, לא נמחק");
-      }
-    });
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReport", {
+        _reportID: reportID
+      })
+      .subscribe((Response) => {
+        if (Response["d"] == "success") {
+          this.openSnackBar("דווח נמחק בהצלחה");
+          this.dialog.closeAll();
+        } else {
+          this.openSnackBar("משהו השתבש, לא נמחק");
+        }
+      });
   }
 
   closeModal() {
@@ -138,21 +143,27 @@ export class FillReportComponent implements OnInit {
   }
 
   autoDate(amin) {
-    if (amin.checked) {
+    if (amin) {
       this.ReportGroup.controls['ReportSchudledDate'].setValue(null);
       this.ReportGroup.controls['ReportSchudledDate'].setValidators(Validators.required);
+      this.ReportGroup.controls['ReportSchudledDate'].enable();
+      this.ReportGroup.controls['ReportStatus'].setValue('לא טופל');
+    } else {
+      this.ReportGroup.controls['ReportSchudledDate'].disable();
+      this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
+      this.ReportGroup.controls['ReportStatus'].setValue('טופל');
     }
   }
 
   sendReport() {
-    if (this.ReportGroup.controls['toContinue'].value == false && this.ReportGroup.controls['ReportSchudledDate'].value == null) {
+    if (this.ReportGroup.controls['toContinue'].value == false) {
+      this.ReportGroup.controls['ReportSchudledDate'].enable();
       this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
-    } else {
-      if (this.ReportGroup.controls['Row_ID'].value == '0') {
-        this.ReportGroup.controls['ReportSchudledDate'].setValue(null);
-      }
-      this.ReportGroup.controls['ReportSchudledDate'].setValidators(Validators.required);
     }
+    this.ReportGroup.controls['ReportSchudledDate'].setValue(this.pipe.transform(this.ReportGroup.controls['ReportSchudledDate'].value, 'yyyy-MM-dd'));
+    this.ReportGroup.controls['ReportSchudledDate'].setValidators(null);
+    this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
+
     if (!this.ReportGroup.invalid) {
       this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
@@ -163,6 +174,7 @@ export class FillReportComponent implements OnInit {
           if (Response["d"] == "Success") {
             this.openSnackBar("נשמר בהצלחה");
             this.dialog.closeAll();
+            window.location.reload();
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");
           }
@@ -195,6 +207,18 @@ export class FillReportComponent implements OnInit {
         this.all_report_management = Response["d"];
         this.ReportGroup = this.formBuilder.group({
           Row_ID: new FormControl(this.all_report_management.Row_ID, null),
+          ReportDate: new FormControl({ value: this.all_report_management.ReportDate, disabled: true }, null),
+          ReportSchudledDate: new FormControl(this.all_report_management.ReportSchudledDate, null),
+          ReportSubCategory: new FormControl({ value: this.all_report_management.ReportSubCategory, disabled: true }, null),
+          ReportMachlol: new FormControl({ value: this.all_report_management.ReportMachlol, disabled: true }, null),
+          ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
+          ReportCategory: new FormControl({ value: this.all_report_management.ReportCategory, disabled: true }, null),
+          ReportShift: new FormControl({ value: this.all_report_management.ReportShift, disabled: true }, null),
+          ReportText: new FormControl({ value: this.all_report_management.ReportText, disabled: true }, null),
+          ReportTitle: new FormControl({ value: this.all_report_management.ReportTitle, disabled: true }, null),
+          ReportPriority: new FormControl({ value: this.all_report_management.ReportPriority, disabled: true }, null),
+          toContinue: new FormControl(this.all_report_management.toContinue, null),
+          /*
           ReportDate: new FormControl(this.all_report_management.ReportDate, null),
           ReportSchudledDate: new FormControl(this.all_report_management.ReportSchudledDate, null),
           ReportSubCategory: new FormControl(this.all_report_management.ReportSubCategory, null),
@@ -206,13 +230,16 @@ export class FillReportComponent implements OnInit {
           ReportTitle: new FormControl(this.all_report_management.ReportTitle, null),
           ReportPriority: new FormControl(this.all_report_management.ReportPriority, null),
           toContinue: new FormControl(this.all_report_management.toContinue, null),
+          */
         });
         if (this.ReportGroup.controls['toContinue'].value == 'False') {
           this.ReportGroup.controls['toContinue'].setValue(false);
+          this.ReportGroup.controls['ReportSchudledDate'].disable();
         } else {
           this.ReportGroup.controls['toContinue'].setValue(true);
         }
         this.departmentfilter.setValue(this.all_report_management.ReportMachlol);
+        this.ifDisabled = true;
       });
     this.getCategories();
   }

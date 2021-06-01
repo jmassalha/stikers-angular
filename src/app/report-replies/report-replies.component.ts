@@ -12,7 +12,7 @@ import { Router } from '@angular/router';
   styleUrls: ['./report-replies.component.css']
 })
 export class ReportRepliesComponent implements OnInit {
-  
+
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
@@ -25,8 +25,8 @@ export class ReportRepliesComponent implements OnInit {
     private formBuilder: FormBuilder,
     private datePipe: DatePipe,
   ) { }
-  
-  
+
+
   messanger: FormGroup;
   FirstName: string = "";
   LastName: string = "";
@@ -58,21 +58,21 @@ export class ReportRepliesComponent implements OnInit {
     });
   }
 
-  deleteMessage(messageID,ReportID) {
+  deleteMessage(messageID, ReportID) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReportMessage", {
         _messageID: messageID
       })
       .subscribe((Response) => {
-        if(Response["d"] == "success"){
+        if (Response["d"] == "success") {
           this.openSnackBar("!הודעה נמחקה");
-        }else{
+        } else {
           this.openSnackBar("משהו השתבש, הודעה לא נמחקה");
         }
         this.getAndSendMessages(ReportID);
       });
   }
-  
+
   getAndSendMessages(reportID) {
     let UserName = localStorage.getItem("loginUserName").toLowerCase();
     let myDate = new Date();
@@ -88,7 +88,9 @@ export class ReportRepliesComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.messagesArray = Response["d"];
-        this.reportTitle = this.messagesArray[0].ReportTitle
+        if (this.messagesArray.length > 0) {
+          this.reportTitle = this.messagesArray[0].ReportTitle;
+        }
         this.messanger.controls['ResponseText'].setValue("");
       });
   }
