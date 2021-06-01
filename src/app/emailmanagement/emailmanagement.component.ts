@@ -238,11 +238,13 @@ export class EmailmanagementComponent implements OnInit {
     }
 
     this.getRelevantComplaints(this.urlID);
+
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter(value))
       );
+
     this.filteredOptions2 = this.departmentfilter.valueChanges
       .pipe(
         startWith(''),
@@ -252,7 +254,7 @@ export class EmailmanagementComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.users.filter(option => option.firstname.toLowerCase().includes(filterValue));
+    return this.users.filter(option => option.firstname.includes(filterValue));
   }
   private _filter2(value: string): string[] {
     const filterValue2 = value;
@@ -270,7 +272,7 @@ export class EmailmanagementComponent implements OnInit {
   shareComplaintWithOthers() {
 
     this.http
-      .post("http://localhost:64964/WebService.asmx/AttachCompToUser", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
         userId: this.myControl.value,
         compId: this.complainID,
       })
@@ -311,7 +313,7 @@ export class EmailmanagementComponent implements OnInit {
     }
     if (!this.manageComplaintForm.invalid || !this.emailSenderGroup.invalid) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/UpdateComplaint", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
           _compToUpdate: this.manageComplaintForm.value,
           _emailToInsert: this.emailSenderGroup.value,
           ifUpdate: _ifUpdate,
@@ -331,7 +333,7 @@ export class EmailmanagementComponent implements OnInit {
 
   getDepatments() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetInquiryDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
 
       })
       .subscribe((Response) => {
@@ -346,7 +348,7 @@ export class EmailmanagementComponent implements OnInit {
   getRelevantComplaints(urlID) {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetRelevantComplaints", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
         _urlID: urlID,
         _userName: userName
       })
@@ -375,7 +377,7 @@ export class EmailmanagementComponent implements OnInit {
     }
 
     this.http
-      .post("http://localhost:64964/WebService.asmx/Manage_Emails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
         _compID: urlID,
         _ifSplit: ifSplit
       })
@@ -421,7 +423,7 @@ export class EmailmanagementComponent implements OnInit {
 
 
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetInquiryDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
 
       })
       .subscribe((Response) => {
@@ -433,7 +435,7 @@ export class EmailmanagementComponent implements OnInit {
       });
 
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetUsersForInquiries", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
 
       })
       .subscribe((Response) => {

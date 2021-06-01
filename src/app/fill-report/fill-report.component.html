@@ -11,13 +11,14 @@
                 <div class="form-group">
                     <mat-form-field>
                         <input matInput autocomplete="off" class="form-control" formControlName="ReportTitle"
-                            placeholder="נושא" type="text" />
+                            placeholder="נושא" type="text" [disabled]="ifDisabled" />
                     </mat-form-field>
                 </div>
             </div>
             <div class="col-3">
                 <section class="example-section">
-                    <mat-checkbox class="example-margin" formControlName="toContinue" (change)="autoDate($event)">דורש
+                    <mat-checkbox class="example-margin" formControlName="toContinue"
+                        (change)="autoDate($event.checked)">דורש
                         המשך טיפול</mat-checkbox>
                 </section>
             </div>
@@ -26,7 +27,7 @@
                     <mat-form-field appearance="fill">
                         <mat-label>מחלקה</mat-label>
                         <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
-                            [matAutocomplete]="auto2">
+                            [matAutocomplete]="auto2" [disabled]="ifDisabled">
                         <mat-autocomplete #auto2="matAutocomplete">
                             <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Depart_Name">
                                 {{dept.Depart_Name}}
@@ -39,7 +40,7 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>קטיגוריה</mat-label>
-                        <mat-select formControlName="ReportCategory">
+                        <mat-select formControlName="ReportCategory" [disabled]="ifDisabled">
                             <mat-option *ngFor="let cat of all_categories_filter" [value]="cat.Cat_Name">
                                 {{cat.Cat_Name}}
                             </mat-option>
@@ -51,7 +52,7 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>תת קטיגוריה</mat-label>
-                        <mat-select formControlName="ReportSubCategory">
+                        <mat-select formControlName="ReportSubCategory" [disabled]="ifDisabled">
                             <mat-option *ngFor="let tp of subCategory" [value]="tp.SubCat_Name">
                                 {{tp.SubCat_Name}}
                             </mat-option>
@@ -77,7 +78,7 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>עדיפות</mat-label>
-                        <mat-select formControlName="ReportPriority">
+                        <mat-select formControlName="ReportPriority" [disabled]="ifDisabled">
                             <mat-option *ngFor="let pr of priority" [value]="pr.value">
                                 {{pr.viewValue}}
                             </mat-option>
@@ -89,7 +90,7 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>משמרת</mat-label>
-                        <mat-select formControlName="ReportShift">
+                        <mat-select formControlName="ReportShift" [disabled]="ifDisabled">
                             <mat-option *ngFor="let sh of shift" [value]="sh.value"> {{sh.viewValue}} </mat-option>
                         </mat-select>
                     </mat-form-field>
@@ -118,12 +119,14 @@
         </div>
     </div>
     <div class="modal-footer text-left">
-        <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" color="primary" (click)="onSubmit()" type="submit" mat-raised-button>
+        <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" color="primary" (click)="onSubmit()" type="submit"
+            mat-raised-button>
             <span class="material-icons">
                 save
             </span>
         </button>
-        <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" mat-raised-button class="btn btn-outline-dark" color="warn" (click)="deleteReport(reportID)">
+        <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" mat-raised-button class="btn btn-outline-dark"
+            color="warn" (click)="deleteReport(reportID)">
             <span class="material-icons">
                 delete
             </span>
