@@ -93,6 +93,21 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
+            <li class="nav-item" *ngIf="_shoNIC">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>תרופות </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="drugsnic">שיוך תרופות לא בקטלוג</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
             <li class="nav-item" *ngIf="_shoEventsschedule">
                 <mat-accordion>
                     <mat-expansion-panel>

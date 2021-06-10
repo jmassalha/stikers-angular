@@ -90,7 +90,6 @@ export interface Prescription {
     Depart: string;
     Seode_Depart: string;
     hideOrShow: boolean;
-    
 }
 export interface PrescriptionRow {
     noteVal: string;
@@ -158,7 +157,7 @@ export class MershamComponent implements OnInit {
     tableDataPres: PrescriptionRow[] = [];
     tableDataPresPrint: PrescriptionRow[] = [];
     tableDataSrcPres = new BehaviorSubject<AbstractControl[]>([]); //new MatTableDataSource(this.tableDataPres);
-    tableDataSrcPresPrint =  new MatTableDataSource(this.tableDataPresPrint);;
+    tableDataSrcPresPrint = new MatTableDataSource(this.tableDataPresPrint);
     rows: FormArray = this.formBuilder.array([]);
     //form: FormGroup = this.formBuilder.group({ 'SrcPresRows': this.rows });
 
@@ -212,7 +211,7 @@ export class MershamComponent implements OnInit {
     Depart: string;
     Seode_Depart: string;
     KUPA: string;
-    
+
     FIRST_NAME_In: string;
     LAST_NAME_In: string;
     MID_NAME_In: string;
@@ -261,7 +260,7 @@ export class MershamComponent implements OnInit {
         Depart: "",
         Seode_Depart: "",
         hideOrShow: true,
-    };;
+    };
     constructor(
         private activeModal: NgbActiveModal,
         private _snackBar: MatSnackBar,
@@ -273,18 +272,23 @@ export class MershamComponent implements OnInit {
         private formBuilder: FormBuilder
     ) {
         let that = this;
-        window.onbeforeprint = function() {
-            console.log('This will be called before the user prints.');
-            that.editRow(null,null, that.rowElementPres, 'false');
-            var head = document.head || document.getElementsByTagName('head')[0];
-            var style = document.createElement('style');
-            style.type = 'text/css';
-            style.media = 'print';
+        window.onbeforeprint = function () {
+            console.log("This will be called before the user prints.");
+            that.editRow(null, null, that.rowElementPres, "false");
+            var head =
+                document.head || document.getElementsByTagName("head")[0];
+            var style = document.createElement("style");
+            style.type = "text/css";
+            style.media = "print";
             var landscape = true;
-            style.appendChild(document.createTextNode(landscape ?
-              '@page { size: A4 landscape; margin: 0in;}' :
-              '@page { size: A4;  margin: 0in; }'));
-          
+            style.appendChild(
+                document.createTextNode(
+                    landscape
+                        ? "@page { size: A4 landscape; margin: 0in;}"
+                        : "@page { size: A4;  margin: 0in; }"
+                )
+            );
+
             head.appendChild(style);
         };
     }
@@ -349,30 +353,30 @@ export class MershamComponent implements OnInit {
     MedListConst: DropOption[];
     loadModalAfterClose: Boolean;
     printForm: {
-        MedicationSensitivityVal: string,
-        SensitivityVal: Boolean,
-        regesterdateIN: string,
-        weightVal: string,
-        heightVal: string,
-        areaVal: string,
-        targetAUCVal: string,
-        levelVal: string,
-        diagnosisVal: string,
-        protocolVal: string,
-        frequencyVal: string,
-        courseNumVal: string,
-        takedateIN: string,
-        statusRowVal: Boolean,
-        statusNotToDo: Boolean
-    }
+        MedicationSensitivityVal: string;
+        SensitivityVal: Boolean;
+        regesterdateIN: string;
+        weightVal: string;
+        heightVal: string;
+        areaVal: string;
+        targetAUCVal: string;
+        levelVal: string;
+        diagnosisVal: string;
+        protocolVal: string;
+        frequencyVal: string;
+        courseNumVal: string;
+        takedateIN: string;
+        statusRowVal: Boolean;
+        statusNotToDo: Boolean;
+    };
     ngOnInit(): void {
         this.ROW_ID_PRE = "";
-        //this.rowElementPres = 
-        $('body').addClass('bg-blue-light');
+        //this.rowElementPres =
+        $("body").addClass("bg-blue-light");
         this.prem = true;
         this.ShowPerm = true;
         this.getPermission();
-        this.printForm= {
+        this.printForm = {
             MedicationSensitivityVal: "",
             SensitivityVal: false,
             regesterdateIN: "",
@@ -387,8 +391,8 @@ export class MershamComponent implements OnInit {
             courseNumVal: "",
             takedateIN: "",
             statusRowVal: false,
-            statusNotToDo: false
-        }
+            statusNotToDo: false,
+        };
         this.Carboplatin = false;
         this.showDeleteBtn = false;
         this.DeleteRowId = "";
@@ -424,8 +428,8 @@ export class MershamComponent implements OnInit {
         this.getDropDownFromServer();
         //this.cdRef.detectChanges();
     }
-    ClearMershmData(){    
-        ////////debugger    
+    ClearMershmData() {
+        ////////debugger
         this.rows = this.formBuilder.array([]);
         this.PrespictionFormRow = this.formBuilder.group({
             SrcPresRows: this.rows,
@@ -456,10 +460,10 @@ export class MershamComponent implements OnInit {
         });
         //////debugger
         this.updateView();
-        //////debugger    
+        //////debugger
     }
     checkIfCarboplatin($event) {
-       // ////////debugger
+        // ////////debugger
 
         this.Carboplatin = false;
         var Boolean = false;
@@ -468,10 +472,10 @@ export class MershamComponent implements OnInit {
             var d = this.MedList.findIndex((obj) => {
                 return obj.value === arr[0];
             });
-            if(d >= 0){
+            if (d >= 0) {
                 this.rows.value[i].groupID = this.MedList[d].groupID;
             }
-            
+
             if (arr[0] === "I.CARBOPLATIN") {
                 Boolean = true;
             }
@@ -496,14 +500,14 @@ export class MershamComponent implements OnInit {
         this.calcPres();
     }
     calcPres() {
-        debugger
+        debugger;
         for (var i = 0; i < this.rows.value.length; i++) {
             ////////////////debugger
             var arr = this.rows.value[i].MedListVal.split("___");
             var d = this.MedList.findIndex((obj) => {
                 return obj.value === arr[0];
             });
-            if(d >= 0){
+            if (d >= 0) {
                 this.rows.value[i].groupID = this.MedList[d].groupID;
             }
             if (
@@ -511,12 +515,12 @@ export class MershamComponent implements OnInit {
                 this.rows.value[i].groupID != null
             ) {
                 ////////////////debugger
-                if(this.rows.value[i].MenonValVal == '')
-                    this.rows.value[i].MenonValVal= 0;
+                if (this.rows.value[i].MenonValVal == "")
+                    this.rows.value[i].MenonValVal = 0;
                 switch (this.rows.value[i].groupID) {
                     case "1":
                     case "2":
-                        this.rows.controls[i]['controls'].MenonCalcVal.setValue(
+                        this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
                                 parseFloat(this.PrespictionForm.value.areaVal) *
                                 parseFloat(this.rows.value[i].MenonValVal)
@@ -524,44 +528,70 @@ export class MershamComponent implements OnInit {
                         );
                         break;
                     case "3":
-                        this.rows.controls[i]['controls'].MenonCalcVal.setValue(
+                        this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
-                                parseFloat(this.PrespictionForm.value.weightVal) *
-                                parseFloat(this.rows.value[i].MenonValVal)
+                                parseFloat(
+                                    this.PrespictionForm.value.weightVal
+                                ) * parseFloat(this.rows.value[i].MenonValVal)
                             ).toFixed(1)
                         );
                         break;
                     case "4":
                         switch (this.GENDER) {
                             case "זכר":
-                                this.calcByGender = 1
+                                this.calcByGender = 1;
                                 break;
                             default:
-                                this.calcByGender = 0.75
+                                this.calcByGender = 0.85;
                         }
-                        var AgeX = parseFloat(this.PrespictionForm.value.weightVal)*parseFloat(this.PrespictionForm.value.levelVal)*(140-parseFloat(this.AGE))/72;
-                        this.rows.controls[i]['controls'].MenonCalcVal.setValue(
+                        var AgeX =
+                            (((140 - parseFloat(this.AGE)) *
+                                parseFloat(
+                                    this.PrespictionForm.value.weightVal
+                                )) /
+                            (72 *
+                                parseFloat(
+                                    this.PrespictionForm.value.levelVal
+                                ))) * this.calcByGender;
+                        //     this.PrespictionForm.value.weightVal
+                        // )
+                        //     ) ;
+                        // (((parseFloat(
+                        //     this.PrespictionForm.value.weightVal
+                        // )
+                        //     ) *
+                        //     (140 - parseFloat(this.AGE))) /
+                        //     72*parseFloat(
+                        //         this.PrespictionForm.value.levelVal
+                        //     )) *
+                        // this.calcByGender;
+                        
+                        debugger;
+                        this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
-                                parseFloat(this.PrespictionForm.value.targetAUCVal) * 
-                                (AgeX +
-                                    25)
-                                    
+                                parseFloat(
+                                    this.PrespictionForm.value.targetAUCVal
+                                ) *
+                                (AgeX + 25)
                             ).toFixed(1)
                         );
                         break;
                     default:
-                        this.rows.controls[i]['controls'].MenonCalcVal.setValue("")
-
+                        this.rows.controls[i]["controls"].MenonCalcVal.setValue(
+                            ""
+                        );
                 }
             }
         }
         this.updateView();
-        
+
         this.tableDataPresPrint = this.rows.value;
-        this.tableDataSrcPresPrint = new MatTableDataSource(this.tableDataPresPrint);
+        this.tableDataSrcPresPrint = new MatTableDataSource(
+            this.tableDataPresPrint
+        );
     }
     openSnackBar(AlertTxt, Type) {
-       // //////debugger
+        // //////debugger
         this._snackBar.open(AlertTxt, "", {
             duration: 2500,
             direction: "rtl",
@@ -577,30 +607,30 @@ export class MershamComponent implements OnInit {
                 return obj.rowIdPreVal === this.DeleteRowId;
             });
             //////////////debugger
-            if(this.rows.value[d].newRow == 'false'){
+            if (this.rows.value[d].newRow == "false") {
                 this.http
-                .post(
-                    "http://srv-apps/wsrfc/WebService.asmx/DeletePresRowInside",
-                    {
-                        _rowID: this.DeleteRowId,
-                    }
-                )
-                .subscribe((Response) => {  
-                    //this.getReport(""); 
-                    setTimeout(function(){
-                       // $("#loader").addClass("d-none");
-                        //this.DeleteRowId = "";
-                        //this.openSnackBar("נמחק בהצלחה", "success");
-                    }, 500)             
-                    
-                    
-                });
+                    .post(
+                        "http://srv-apps/wsrfc/WebService.asmx/DeletePresRowInside",
+                        {
+                            _rowID: this.DeleteRowId,
+                        }
+                    )
+                    .subscribe((Response) => {
+                        //this.getReport("");
+                        setTimeout(function () {
+                            // $("#loader").addClass("d-none");
+                            //this.DeleteRowId = "";
+                            //this.openSnackBar("נמחק בהצלחה", "success");
+                        }, 500);
+                    });
             }
-            
+
             this.rows.removeAt(d);
             this.updateView();
             this.tableDataPresPrint = this.rows.value;
-            this.tableDataSrcPresPrint = new MatTableDataSource(this.tableDataPresPrint);
+            this.tableDataSrcPresPrint = new MatTableDataSource(
+                this.tableDataPresPrint
+            );
             this.DeleteRowId = "";
         } else {
             this.DeleteRowId = "";
@@ -611,62 +641,57 @@ export class MershamComponent implements OnInit {
     }
     getPermission() {
         this.http
-                .post(
-                    "http://srv-apps/wsrfc/WebService.asmx/selectPermission",
-                    {
-                        _UserName: localStorage.getItem('loginUserName'),
-                    }
-                )
-                .subscribe((Response) => {  
-                   // //////////debugger
-                    var json = $.parseJSON(Response["d"]);
-                    switch(json){
-                        case 0:
-                        case "0":
-                            break;
-                        case 1:
-                        case "1":
-                            break;
-                        case "2":
-                        case 2:
-                            this.ShowPerm = false;
-                            this.prem = false;
-                            this.displayedColumns = [
-                                "PerscriptionID",
-                                "RegistrationDate",
-                                "DateAdministrationMed",
-                                "Prognosis",
-                                "ProtocolTreatment",
-                                "Status",
-                                "D_CLICK"
-                            ];
-                            break;
-                        case "3":
-                        case 3:
-                            this.prem = false;
-                            this.ShowPerm = false;
-                            this.displayedColumns = [
-                                "PerscriptionID",
-                                "RegistrationDate",
-                                "DateAdministrationMed",
-                                "Prognosis",
-                                "ProtocolTreatment",
-                                "Status",
-                                "D_CLICK"
-                            ];
-                            break;
-                        default:
-                            localStorage.clear();
-                            this.router.navigate(["login"]);
-                    }
-                    setTimeout(function(){
-                       // $("#loader").addClass("d-none");
-                        //this.DeleteRowId = "";
-                        //this.openSnackBar("נמחק בהצלחה", "success");
-                    }, 500)             
-                    
-                    
-                });
+            .post("http://srv-apps/wsrfc/WebService.asmx/selectPermission", {
+                _UserName: localStorage.getItem("loginUserName"),
+            })
+            .subscribe((Response) => {
+                // //////////debugger
+                var json = $.parseJSON(Response["d"]);
+                switch (json) {
+                    case 0:
+                    case "0":
+                        break;
+                    case 1:
+                    case "1":
+                        break;
+                    case "2":
+                    case 2:
+                        this.ShowPerm = false;
+                        this.prem = false;
+                        this.displayedColumns = [
+                            "PerscriptionID",
+                            "RegistrationDate",
+                            "DateAdministrationMed",
+                            "Prognosis",
+                            "ProtocolTreatment",
+                            "Status",
+                            "D_CLICK",
+                        ];
+                        break;
+                    case "3":
+                    case 3:
+                        this.prem = false;
+                        this.ShowPerm = false;
+                        this.displayedColumns = [
+                            "PerscriptionID",
+                            "RegistrationDate",
+                            "DateAdministrationMed",
+                            "Prognosis",
+                            "ProtocolTreatment",
+                            "Status",
+                            "D_CLICK",
+                        ];
+                        break;
+                    default:
+                        localStorage.clear();
+                        this.router.navigate(["login"]);
+                }
+                setTimeout(function () {
+                    // $("#loader").addClass("d-none");
+                    //this.DeleteRowId = "";
+                    //this.openSnackBar("נמחק בהצלחה", "success");
+                }, 500);
+            });
     }
     closrModal(c) {
         c("close modal");
@@ -716,99 +741,102 @@ export class MershamComponent implements OnInit {
         this.modalOptions = {};
     }
     deletePre(c, type) {
-        c('close modal')
+        c("close modal");
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post(
-                "http://srv-apps/wsrfc/WebService.asmx/DeletePresRow",
-                {
-                    _rowID: this.DeletePreRowId,
-                }
-            )
-            .subscribe((Response) => {  
-                this.getReport(""); 
-                setTimeout(function(){
+            .post("http://srv-apps/wsrfc/WebService.asmx/DeletePresRow", {
+                _rowID: this.DeletePreRowId,
+            })
+            .subscribe((Response) => {
+                this.getReport("");
+                setTimeout(function () {
                     $("#loader").addClass("d-none");
                     this.DeletePreRowId = null;
-                }, 500)   
-                
-                this.openSnackBar("נמחק בהצלחה", "success");          
-                
-                
+                }, 500);
+
+                this.openSnackBar("נמחק בהצלחה", "success");
             });
-        
     }
-   
-    printRowInside(){
+
+    printRowInside() {
         //////////debugger
-        this.editRow(null,null, this.rowElementPres, 'false');
-        setTimeout(function(){
-            var head = document.head || document.getElementsByTagName('head')[0];
-            var style = document.createElement('style');
-            style.type = 'text/css';
-            style.media = 'print';
+        this.editRow(null, null, this.rowElementPres, "false");
+        setTimeout(function () {
+            var head =
+                document.head || document.getElementsByTagName("head")[0];
+            var style = document.createElement("style");
+            style.type = "text/css";
+            style.media = "print";
             var landscape = true;
-            style.appendChild(document.createTextNode(landscape ?
-              '@page { size: A4 landscape; margin: 0in;}' :
-              '@page { size: A4;  margin: 0in; }'));
-          
+            style.appendChild(
+                document.createTextNode(
+                    landscape
+                        ? "@page { size: A4 landscape; margin: 0in;}"
+                        : "@page { size: A4;  margin: 0in; }"
+                )
+            );
+
             head.appendChild(style);
             window.print();
-            setTimeout(function(){
+            setTimeout(function () {
                 head.removeChild(style);
-            }, 500)
-        }, 1000)
-        
-    }    
-    printRow(element){
-        this.editRow(null,null, element, 'false');
-        setTimeout(function(){
+            }, 500);
+        }, 1000);
+    }
+    printRow(element) {
+        this.editRow(null, null, element, "false");
+        setTimeout(function () {
             window.print();
-        }, 1000)
-        
+        }, 1000);
     }
     formatDate(date) {
         var d = date,
-            month = '' + (d.getMonth() + 1),
-            day = '' + d.getDate(),
+            month = "" + (d.getMonth() + 1),
+            day = "" + d.getDate(),
             year = d.getFullYear();
-    
-        if (month.length < 2) 
-            month = '0' + month;
-        if (day.length < 2) 
-            day = '0' + day;
-    
-        return [day, month, year ].join('/');
+
+        if (month.length < 2) month = "0" + month;
+        if (day.length < 2) day = "0" + day;
+
+        return [day, month, year].join("/");
     }
-    saveAndClose(){
-        this.PrespictionForm.value.statusRowVal = true;        
+    saveAndClose() {
+        this.PrespictionForm.value.statusRowVal = true;
         this.loadModalAfterClose = true;
     }
-    checkMyValue(ele, rowIdx){
-       // //debugger
+    checkMyValue(ele, rowIdx) {
+        // //debugger
         var MenonCalcVal = this.rows.value[rowIdx].MenonCalcVal;
-        var _f5ivePre = parseFloat(this.rows.value[rowIdx].MenonCalcVal) * 5 / 100;
-        if((parseFloat(ele) - _f5ivePre) > parseFloat(MenonCalcVal)){
+        var _f5ivePre =
+            (parseFloat(this.rows.value[rowIdx].MenonCalcVal) * 5) / 100;
+        if (parseFloat(ele) - _f5ivePre > parseFloat(MenonCalcVal)) {
             this.rows.controls[rowIdx]["controls"]["noteVal"].setValidators([
                 Validators.required,
             ]);
-            this.rows.controls[rowIdx]["controls"]["noteVal"].updateValueAndValidity();
-        }else if((parseFloat(ele) + _f5ivePre) < parseFloat(MenonCalcVal)){
+            this.rows.controls[rowIdx]["controls"][
+                "noteVal"
+            ].updateValueAndValidity();
+        } else if (parseFloat(ele) + _f5ivePre < parseFloat(MenonCalcVal)) {
             this.rows.controls[rowIdx]["controls"]["noteVal"].setValidators([
                 Validators.required,
             ]);
-            this.rows.controls[rowIdx]["controls"]["noteVal"].updateValueAndValidity();
-        }else{
-
-            this.rows.controls[rowIdx]["controls"]["noteVal"].setValidators(null);
-            this.rows.controls[rowIdx]["controls"]["noteVal"].updateValueAndValidity();
+            this.rows.controls[rowIdx]["controls"][
+                "noteVal"
+            ].updateValueAndValidity();
+        } else {
+            this.rows.controls[rowIdx]["controls"]["noteVal"].setValidators(
+                null
+            );
+            this.rows.controls[rowIdx]["controls"][
+                "noteVal"
+            ].updateValueAndValidity();
         }
         ////debugger
     }
     editRow(content, _type, _element, openModal) {
-        debugger
+        debugger;
         this.FIRST_NAME_In = _element.PatientFirstName;
         this.LAST_NAME_In = _element.PatientLastName;
         this.MID_NAME_In = _element.FatherName;
@@ -820,7 +848,7 @@ export class MershamComponent implements OnInit {
         this.Depart_In = _element.Depart;
         this.Seode_Depart_In = _element.Seode_Depart;
 
-        this.ROW_ID_PRE = _element.PerscriptionID
+        this.ROW_ID_PRE = _element.PerscriptionID;
         this.rowElementPres = _element;
         //////////////////debugger;
         // this.PrespictionFormRow = this.formBuilder.group({
@@ -849,8 +877,8 @@ export class MershamComponent implements OnInit {
             this.isButtonVisible = true;
             this.showCopyBtn = true;
             this.isCanceldVisible = false;
-           // debugger
-            if(!_element.hideOrShow){
+            // debugger
+            if (!_element.hideOrShow) {
                 this.dis = _status = true;
             }
         } else if (_element.Status == "נעול") {
@@ -865,18 +893,18 @@ export class MershamComponent implements OnInit {
             this.isCanceldVisible = true;
             this.isButtonVisible = false;
         }
-        if(_element.statusNotToDo == "1"){
+        if (_element.statusNotToDo == "1") {
             _statusNotToDo = true;
         }
-        var _requerd_sen  = Validators.required;
-        var _requerd_drug  = Validators.required;
+        var _requerd_sen = Validators.required;
+        var _requerd_drug = Validators.required;
         if (_element.SensitivityUnknown.toLowerCase().trim() == "true") {
             this.SensitivityBool = true;
             _requerd_sen = Validators.required;
             _requerd_drug = null;
-        }else{
+        } else {
             _requerd_sen = null;
-            _requerd_drug = Validators.required ;
+            _requerd_drug = Validators.required;
         }
         ////////////////////debugger
         /*
@@ -915,9 +943,7 @@ export class MershamComponent implements OnInit {
         this.printForm.weightVal = _element.Weight;
         this.printForm.heightVal = _element.Hight;
         this.printForm.areaVal = Math.sqrt(
-            (parseFloat(_element.Weight) *
-                parseFloat(_element.Hight)) /
-                3600
+            (parseFloat(_element.Weight) * parseFloat(_element.Hight)) / 3600
         ).toFixed(1);
         this.printForm.targetAUCVal = _element.TargetAUC;
         this.printForm.levelVal = _element.CreatinineLevel;
@@ -925,17 +951,18 @@ export class MershamComponent implements OnInit {
         this.printForm.protocolVal = _element.ProtocolTreatment;
         this.printForm.frequencyVal = _element.Frequency;
         this.printForm.courseNumVal = _element.CourseNum;
-        if(dateT != null && dateT != ""){
+        if (dateT != null && dateT != "") {
             this.printForm.takedateIN = this.formatDate(dateT);
-        }else{
-            this.printForm.takedateIN = null
+        } else {
+            this.printForm.takedateIN = null;
         }
-        
+
         this.printForm.regesterdateIN = this.formatDate(dateIN);
         this.printForm.SensitivityVal = this.SensitivityBool;
-        this.printForm.MedicationSensitivityVal = _element.MedicationSensitivity;
+        this.printForm.MedicationSensitivityVal =
+            _element.MedicationSensitivity;
         this.printForm.statusRowVal = _status;
-       // //////////debugger
+        // //////////debugger
         this.PrespictionForm = this.formBuilder.group({
             weightVal: [
                 { value: _element.Weight, disabled: this.dis },
@@ -1007,55 +1034,59 @@ export class MershamComponent implements OnInit {
         ////////////////////debugger
 
         this.getPresFromServer(_element.PerscriptionID);
-        if(openModal == 'true'){
-            this.modalService.open(content, {windowClass: 'width-1010'}).result.then(
-                (result) => {
-                    this.closeResult = `Closed with: ${result}`;
-                    ////////////////////////////debugger
-                    if ("Save" == result) {
-                        // //////////////////////////debugger;
-                        //this.saveChad(_element.ROW_ID);
+        if (openModal == "true") {
+            this.modalService
+                .open(content, { windowClass: "width-1010" })
+                .result.then(
+                    (result) => {
+                        this.closeResult = `Closed with: ${result}`;
+                        ////////////////////////////debugger
+                        if ("Save" == result) {
+                            // //////////////////////////debugger;
+                            //this.saveChad(_element.ROW_ID);
+                        }
+                    },
+                    (reason) => {
+                        this.closeResult = `Dismissed ${this.getDismissReason(
+                            reason
+                        )}`;
                     }
-                },
-                (reason) => {
-                    this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-                }
-            );
+                );
         }
         /*
          */
         //if ($("#loader").hasClass("d-none")) {
-            $("#loader").addClass("d-none");
+        $("#loader").addClass("d-none");
         //}
     }
     copyRowPres(element) {
-
         //debugger
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
         this.PrespictionForm.enable();
         this.rows.enable();
-       // ////////debugger
-       // return
-        for(var i = 0; i < this.rows.value.length; i++){
-            this.rows.value[i]["Days_ProtocolVal"] = this.rows.value[i]["Days_ProtocolVal"].join(',')
+        // ////////debugger
+        // return
+        for (var i = 0; i < this.rows.value.length; i++) {
+            this.rows.value[i]["Days_ProtocolVal"] =
+                this.rows.value[i]["Days_ProtocolVal"].join(",");
         }
         //debugger
         var copyParent = this.PrespictionForm.value;
         var copyrows = this.rows.value;
-        
+
         copyParent.statusRowVal = "false";
         copyParent.rowIdVal = "-100";
         var dateNow = new FormControl(new Date()).value;
         //////debugger
-        copyParent.regesterdateIN = dateNow
+        copyParent.regesterdateIN = dateNow;
         copyParent.takedateIN = null;
         //////debugger
-        for(var i = 0; i < copyrows.length; i++){
+        for (var i = 0; i < copyrows.length; i++) {
             //////////debugger;
-            copyrows[i].newRow = "true"; 
-            copyrows[i].rowIdPreVal = (-1)*i;          
+            copyrows[i].newRow = "true";
+            copyrows[i].rowIdPreVal = -1 * i;
         }
         copyParent.takedateIN = formatDate(
             copyParent.takedateIN,
@@ -1067,26 +1098,25 @@ export class MershamComponent implements OnInit {
             "yyyy-MM-dd",
             "en-US"
         );
-        if(copyParent.statusNotToDo){
+        if (copyParent.statusNotToDo) {
             copyParent.statusNotToDo = "1";
-        }else{
+        } else {
             copyParent.statusNotToDo = "0";
         }
-        var ParentFrom =copyParent;
+        var ParentFrom = copyParent;
         var tableFrom = copyrows;
         ////debugger
         //return
         //debugger
         this.http
-            .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction",
-                {
-                    ParentFrom: ParentFrom,
-                    tableFrom: tableFrom,
-                    patientId: this.ID,
-                    loginUserName: localStorage.getItem("loginUserName").toLowerCase()
-                }
-            )
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
+                ParentFrom: ParentFrom,
+                tableFrom: tableFrom,
+                patientId: this.ID,
+                loginUserName: localStorage
+                    .getItem("loginUserName")
+                    .toLowerCase(),
+            })
             .subscribe((Response) => {
                 //////debugger;
                 this.openSnackBar("נשמר בהצלחה", "success");
@@ -1103,10 +1133,12 @@ export class MershamComponent implements OnInit {
         $(document).find("#demographData").addClass("d-none");
     }
     public applyFilterSearch(value, index, element) {
-        this.elementRef.nativeElement = document.getElementById('singleSelect'+index);
-       // ////debugger
+        this.elementRef.nativeElement = document.getElementById(
+            "singleSelect" + index
+        );
+        // ////debugger
         this.filterdDataArray = [];
-        this.search(value , index);
+        this.search(value, index);
     }
     search(value: string, index) {
         let filter = value.toLowerCase();
@@ -1121,7 +1153,7 @@ export class MershamComponent implements OnInit {
     }
 
     editRowPre(content, _type, _element) {
-        debugger
+        debugger;
         this.EDIT_ROW = true;
         ////////////////////debugger
         // this.PrespictionFormRow = this.formBuilder.group({
@@ -1178,29 +1210,30 @@ export class MershamComponent implements OnInit {
         }
     }
     changeActiveAndSave($event, _element) {
-       // //debugger
-        if($event.checked){
+        // //debugger
+        if ($event.checked) {
             $event = "1";
-
-        }else{
+        } else {
             $event = "0";
-        }////debugger
+        } ////debugger
         this.http
-        .post(
-            "http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpictionNotToServe",
-            {
-                status: $event,
-                patientId: _element.ROW_ID_PRE,
-                loginUserName: localStorage.getItem("loginUserName").toLowerCase()
-            }
-        )
-        .subscribe((Response) => {
-            this.openSnackBar("נשמר בהצלחה", "success");
-            this.getReport("");
-           // if ($("#loader").hasClass("d-none")) {
-               // $("#loader").addClass("d-none");
-           // }
-        });
+            .post(
+                "http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpictionNotToServe",
+                {
+                    status: $event,
+                    patientId: _element.ROW_ID_PRE,
+                    loginUserName: localStorage
+                        .getItem("loginUserName")
+                        .toLowerCase(),
+                }
+            )
+            .subscribe((Response) => {
+                this.openSnackBar("נשמר בהצלחה", "success");
+                this.getReport("");
+                // if ($("#loader").hasClass("d-none")) {
+                // $("#loader").addClass("d-none");
+                // }
+            });
     }
     onSubmit() {
         ////debugger
@@ -1208,28 +1241,31 @@ export class MershamComponent implements OnInit {
         this.submitted = true;
         ////////////////////////////debugger
         // stop here if form is invalid
-       ////debugger
+        ////debugger
         if (this.PrespictionForm.invalid || this.rows.invalid) {
-            this.openSnackBar("נא למלא את כל השדות המסומנים באדום", "error-font-gib");
+            this.openSnackBar(
+                "נא למלא את כל השדות המסומנים באדום",
+                "error-font-gib"
+            );
             return;
         }
-        
+
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
-        if(this.PrespictionForm.value.statusRowVal){
+        if (this.PrespictionForm.value.statusRowVal) {
             this.PrespictionForm.value.statusRowVal = "true";
-        }else{
+        } else {
             this.PrespictionForm.value.statusRowVal = "false";
         }
-        if(this.PrespictionForm.value.statusNotToDo){
+        if (this.PrespictionForm.value.statusNotToDo) {
             this.PrespictionForm.value.statusNotToDo = "1";
-        }else{
+        } else {
             this.PrespictionForm.value.statusNotToDo = "0";
         }
         //this.PrespictionForm.value.regesterdateIN.setDate(this.PrespictionForm.value.regesterdateIN.getDate() + 1)
         //this.PrespictionForm.value.takedateIN.setDate(this.PrespictionForm.value.takedateIN.getDate() + 1)
-        
+
         this.PrespictionForm.value.takedateIN = formatDate(
             this.PrespictionForm.value.takedateIN,
             "yyyy-MM-dd",
@@ -1242,29 +1278,29 @@ export class MershamComponent implements OnInit {
         );
         //this.PrespictionForm.value.statusRowVal = ;
         var ParentFrom = this.PrespictionForm.value;
-        for(var i = 0; i < this.rows.value.length; i++){
-            this.rows.value[i]["Days_ProtocolVal"] = this.rows.value[i]["Days_ProtocolVal"].join(',')
+        for (var i = 0; i < this.rows.value.length; i++) {
+            this.rows.value[i]["Days_ProtocolVal"] =
+                this.rows.value[i]["Days_ProtocolVal"].join(",");
         }
         var tableFrom = this.rows.value;
         ////debugger
         //return
-       // //////////debugger
+        // //////////debugger
         this.http
-            .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction",
-                {
-                    ParentFrom: ParentFrom,
-                    tableFrom: tableFrom,
-                    patientId: this.ID,
-                    loginUserName: localStorage.getItem("loginUserName").toLowerCase()
-                }
-            )
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
+                ParentFrom: ParentFrom,
+                tableFrom: tableFrom,
+                patientId: this.ID,
+                loginUserName: localStorage
+                    .getItem("loginUserName")
+                    .toLowerCase(),
+            })
             .subscribe((Response) => {
                 this.openSnackBar("נשמר בהצלחה", "success");
                 this.getReport("");
-               // if ($("#loader").hasClass("d-none")) {
-                   // $("#loader").addClass("d-none");
-               // }
+                // if ($("#loader").hasClass("d-none")) {
+                // $("#loader").addClass("d-none");
+                // }
             });
         // display form values on success
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.PrespictionForm.value, null, 4));
@@ -1295,13 +1331,16 @@ export class MershamComponent implements OnInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     calcArea(event) {
-        
-        this.heightVal = parseFloat(this.PrespictionForm.value.heightVal).toFixed(1);
-        this.weightVal = parseFloat(this.PrespictionForm.value.weightVal).toFixed(1);
-        if(this.heightVal == "NaN"){
+        this.heightVal = parseFloat(
+            this.PrespictionForm.value.heightVal
+        ).toFixed(1);
+        this.weightVal = parseFloat(
+            this.PrespictionForm.value.weightVal
+        ).toFixed(1);
+        if (this.heightVal == "NaN") {
             this.heightVal = "0";
         }
-        if(this.weightVal == "NaN"){
+        if (this.weightVal == "NaN") {
             this.weightVal = "0";
         }
         ////////////debugger
@@ -1317,16 +1356,15 @@ export class MershamComponent implements OnInit {
             "areaVal",
             new FormControl({ value: this.areaVal, disabled: false })
         );
-      //  //////debugger
-       // if(this.areaVal)
-            this.PrespictionForm.controls.areaVal.setValue(this.areaVal);
-       // else
-         //   this.PrespictionForm.controls.areaVal.setValue(0);
+        //  //////debugger
+        // if(this.areaVal)
+        this.PrespictionForm.controls.areaVal.setValue(this.areaVal);
+        // else
+        //   this.PrespictionForm.controls.areaVal.setValue(0);
         //////////debugger
         this.calcPres();
     }
     open(content, _type, _element) {
-        
         this.ArrayDrus = [];
         this.getDropDownFromServer();
         ////////////////////debugger
@@ -1337,9 +1375,11 @@ export class MershamComponent implements OnInit {
             SrcPresRows: this.rows,
         });
         this.updateView();
-        
+
         this.tableDataPresPrint = this.rows.value;
-        this.tableDataSrcPresPrint = new MatTableDataSource(this.tableDataPresPrint);
+        this.tableDataSrcPresPrint = new MatTableDataSource(
+            this.tableDataPresPrint
+        );
         this.dis = false;
         this.SensitivityBool = false;
         this.isCanceldVisible = false;
@@ -1352,9 +1392,9 @@ export class MershamComponent implements OnInit {
         } else if (_element.Status == "נעול") {
             _status = true;
         }
-        if(_element.statusNotToDo == '1'){
+        if (_element.statusNotToDo == "1") {
             _statusNotToDo = true;
-        }else{
+        } else {
             _statusNotToDo = false;
         }
         //debugger
@@ -1417,14 +1457,14 @@ export class MershamComponent implements OnInit {
             MenonCalcVal: [{ value: "", disabled: false }, false],
             MedListVal: ["", false],
             rowIdPreVal: [this.ROW_ID_IN_TABLE + 1, false],
-            groupID: ["", false],            
+            groupID: ["", false],
             newRow: ["true", false],
         });
         this.ArrayDrus.push(this.MedListConst);
         // this.DeleteRowId = (this.ROW_ID_IN_TABLE + 1).toString();
         this.rows.push(row);
         this.updateView();
-        
+
         // this.tableDataPresPrint = this.rows.value;
         // this.tableDataSrcPresPrint = new MatTableDataSource(this.tableDataPresPrint);
 
@@ -1478,13 +1518,13 @@ export class MershamComponent implements OnInit {
                 this.Solution = $.parseJSON(json["Solution"]);
                 this.Solution_Volume = $.parseJSON(json["Solution_Volume"]);
                 this.Way_Of_Providing = $.parseJSON(json["Way_Of_Providing"]);
-               this.MedList = this.MedListConst = $.parseJSON(json["MedList"]);
+                this.MedList = this.MedListConst = $.parseJSON(json["MedList"]);
                 this.Days_Protocol = $.parseJSON(json["Days_Protocol"]);
                 this.Notes = $.parseJSON(json["Notes"]);
                 ////////////////////////debugger
             });
     }
-    
+
     public getPresFromServer(_presID: string) {
         this.getDropDownFromServer();
         ////////////////////////debugger
@@ -1531,10 +1571,10 @@ export class MershamComponent implements OnInit {
                         return obj.value === Medicine_Prescriptions[i].DrugName;
                     });
                     var groupID = "";
-                    if(d > -1){
+                    if (d > -1) {
                         groupID = this.MedList[d].groupID;
                     }
-                    
+
                     //  //////////////////debugger
                     const row = this.formBuilder.group({
                         noteVal: [
@@ -1553,8 +1593,8 @@ export class MershamComponent implements OnInit {
                         ],
                         Dosage_UnitVal: [
                             {
-                                value:
-                                    Medicine_Prescriptions[i].DosingUnitFinal,
+                                value: Medicine_Prescriptions[i]
+                                    .DosingUnitFinal,
                                 disabled: this.dis,
                             },
                             false,
@@ -1597,16 +1637,17 @@ export class MershamComponent implements OnInit {
                         MenonCalcVal: [{ value: clc, disabled: false }, false],
                         Way_Of_ProvidingVal: [
                             {
-                                value:
-                                    Medicine_Prescriptions[i]
-                                        .MedAdministrationType,
+                                value: Medicine_Prescriptions[i]
+                                    .MedAdministrationType,
                                 disabled: this.dis,
                             },
                             false,
                         ],
                         Days_ProtocolVal: [
                             {
-                                value: Medicine_Prescriptions[i].ProtocolDay.split(','),
+                                value: Medicine_Prescriptions[
+                                    i
+                                ].ProtocolDay.split(","),
                                 disabled: this.dis,
                             },
                             false,
@@ -1625,43 +1666,59 @@ export class MershamComponent implements OnInit {
                             },
                             false,
                         ],
-                        groupID: [groupID, false],                               
+                        groupID: [groupID, false],
                         newRow: ["false", false],
                     });
-                    
+
                     this.ArrayDrus.push(this.MedListConst);
 
                     ////debugger
-                     this.tableDataPresPrint.push({
+                    this.tableDataPresPrint.push({
                         noteVal: Medicine_Prescriptions[i].ChangeNotes,
-                         Dosage_UnitVal:  Medicine_Prescriptions[i].DosingUnit,
-                         Dosage_Unit_2_Val: Medicine_Prescriptions[i].DosingUnitFinal,
-                         finalMenonVal:  Medicine_Prescriptions[i].DosageFinal,
-                         Duration_Of_DeliveryVal:  Medicine_Prescriptions[i].Duration,
-                         Solution_VolumeVal:  Medicine_Prescriptions[i].SolutionVol,
-                         SolutionVal:  Medicine_Prescriptions[i].Solution,
-                        MenonValVal:  Medicine_Prescriptions[i].Dosage,
-                        MenonCalcVal:  clc,
-                        Way_Of_ProvidingVal:  Medicine_Prescriptions[i].MedAdministrationType,
-                         Days_ProtocolVal:  Medicine_Prescriptions[i].ProtocolDay.split(','),
-                         MedListVal:  Medicine_Prescriptions[i].DrugName,
-                         rowIdPreVal:  Medicine_Prescriptions[i].MedicinID,
-                         newRow: false
-                     });
-                     //debugger
-                     if(clc != "" && clc != "0" && clc != "0.00" && Medicine_Prescriptions[i].DrugName != "" && (groupID == "1" || groupID == "4") ){
-                        this.drugs.indexOf(Medicine_Prescriptions[i].DrugName) === -1 ? this.drugs.push({
-                            DrugName: Medicine_Prescriptions[i].DrugName
-                        }) : console.log("This item already exists");
-                        
-                     }
+                        Dosage_UnitVal: Medicine_Prescriptions[i].DosingUnit,
+                        Dosage_Unit_2_Val:
+                            Medicine_Prescriptions[i].DosingUnitFinal,
+                        finalMenonVal: Medicine_Prescriptions[i].DosageFinal,
+                        Duration_Of_DeliveryVal:
+                            Medicine_Prescriptions[i].Duration,
+                        Solution_VolumeVal:
+                            Medicine_Prescriptions[i].SolutionVol,
+                        SolutionVal: Medicine_Prescriptions[i].Solution,
+                        MenonValVal: Medicine_Prescriptions[i].Dosage,
+                        MenonCalcVal: clc,
+                        Way_Of_ProvidingVal:
+                            Medicine_Prescriptions[i].MedAdministrationType,
+                        Days_ProtocolVal:
+                            Medicine_Prescriptions[i].ProtocolDay.split(","),
+                        MedListVal: Medicine_Prescriptions[i].DrugName,
+                        rowIdPreVal: Medicine_Prescriptions[i].MedicinID,
+                        newRow: false,
+                    });
+                    //debugger
+                    if (
+                        clc != "" &&
+                        clc != "0" &&
+                        clc != "0.00" &&
+                        Medicine_Prescriptions[i].DrugName != "" &&
+                        (groupID == "1" || groupID == "4")
+                    ) {
+                        this.drugs.indexOf(
+                            Medicine_Prescriptions[i].DrugName
+                        ) === -1
+                            ? this.drugs.push({
+                                  DrugName: Medicine_Prescriptions[i].DrugName,
+                              })
+                            : console.log("This item already exists");
+                    }
 
                     this.rows.push(row);
                 }
 
                 this.updateView();
-                
-                this.tableDataSrcPresPrint = new MatTableDataSource(this.tableDataPresPrint);
+
+                this.tableDataSrcPresPrint = new MatTableDataSource(
+                    this.tableDataPresPrint
+                );
                 // this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
                 //////////////////debugger;
                 setTimeout(function () {
@@ -1688,18 +1745,15 @@ export class MershamComponent implements OnInit {
             // ////////////////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
-        }else{
+        } else {
             tableLoader = true;
         }
         this.http
-            .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetDemographData",
-                {
-                    _id: _FreeText,
-                    _pageIndex: _pageIndex,
-                    _pageSize: _pageSize,
-                }
-            )
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetDemographData", {
+                _id: _FreeText,
+                _pageIndex: _pageIndex,
+                _pageSize: _pageSize,
+            })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = $.parseJSON($.parseJSON(Response["d"]));
@@ -1708,17 +1762,22 @@ export class MershamComponent implements OnInit {
                 ////////////////////////debugger
                 this.DemographData = Patient;
                 if (this.DemographData[0]) {
-                    this.FIRST_NAME_In = this.FIRST_NAME = this.DemographData[0].FIRST_NAME;
-                    this.LAST_NAME_In = this.LAST_NAME = this.DemographData[0].LAST_NAME;
-                    this.MID_NAME_In =  this.MID_NAME = this.DemographData[0].MID_NAME;
+                    this.FIRST_NAME_In = this.FIRST_NAME =
+                        this.DemographData[0].FIRST_NAME;
+                    this.LAST_NAME_In = this.LAST_NAME =
+                        this.DemographData[0].LAST_NAME;
+                    this.MID_NAME_In = this.MID_NAME =
+                        this.DemographData[0].MID_NAME;
                     this.ID_In = this.ID = this.DemographData[0].ID;
                     this.GENDER_In = this.GENDER = this.DemographData[0].GENDER;
                     this.AGE_In = this.AGE = this.DemographData[0].AGE;
                     this.KUPA_In = this.KUPA = this.DemographData[0].KUPA;
-                    this.Case_Number_In = this.Case_Number = this.DemographData[0].Case_Number;
+                    this.Case_Number_In = this.Case_Number =
+                        this.DemographData[0].Case_Number;
                     this.Depart_In = this.Depart = this.DemographData[0].Depart;
-                    this.Seode_Depart_In = this.Seode_Depart = this.DemographData[0].Seode_Depart;
-                    
+                    this.Seode_Depart_In = this.Seode_Depart =
+                        this.DemographData[0].Seode_Depart;
+
                     $(document).find("#demographData").removeClass("d-none");
                     $(document)
                         .find("#prespictionsDetailsBtn")
@@ -1734,12 +1793,12 @@ export class MershamComponent implements OnInit {
                 for (var i = 0; i < DataPrecpiction.length; i++) {
                     ////debugger;
                     var ShowRow = false;
-                    if(( DataPrecpiction[i].Status == 'נעול')){
+                    if (DataPrecpiction[i].Status == "נעול") {
                         ShowRow = true;
-                    }else if(this.prem){
-                       // //debugger
-                       ShowRow = true;
-                    }else{
+                    } else if (this.prem) {
+                        // //debugger
+                        ShowRow = true;
+                    } else {
                         ShowRow = false;
                     }
                     this.TABLE_DATA.push({
@@ -1779,7 +1838,7 @@ export class MershamComponent implements OnInit {
                         SolutionOfDilutionCheck:
                             DataPrecpiction[i].SolutionOfDilutionCheck,
                         UserCreate: DataPrecpiction[i].UserCreate,
-                        UserUpdate: DataPrecpiction[i].UserUpdate,                        
+                        UserUpdate: DataPrecpiction[i].UserUpdate,
                         Case_Number: DataPrecpiction[i].Case_Number,
                         Depart: DataPrecpiction[i].Depart,
                         Seode_Depart: DataPrecpiction[i].Seode_Depart,
@@ -1802,14 +1861,20 @@ export class MershamComponent implements OnInit {
                 this.loadModalAfterCopy = false;
                 setTimeout(function () {
                     //////////////////////////debugger
-                    if(that.loadModalAfterClose){
+                    if (that.loadModalAfterClose) {
                         //////debugger
-                        var rowToLoad = $(document).find('#formTable tbody>tr>td:contains('+that.ROW_ID_PRE+')')
-                        rowToLoad.parents('tr:first').find('button').click()
+                        var rowToLoad = $(document).find(
+                            "#formTable tbody>tr>td:contains(" +
+                                that.ROW_ID_PRE +
+                                ")"
+                        );
+                        rowToLoad.parents("tr:first").find("button").click();
                         that.loadModalAfterClose = false;
                     }
-                    if(loadModalAfterCopy){
-                        $(document).find('#formTable tbody>tr:first td:nth(6) button').click()
+                    if (loadModalAfterCopy) {
+                        $(document)
+                            .find("#formTable tbody>tr:first td:nth(6) button")
+                            .click();
                     }
                     if (tableLoader) {
                         $("#loader").addClass("d-none");

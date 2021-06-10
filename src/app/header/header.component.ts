@@ -43,6 +43,7 @@ export class HeaderComponent implements OnInit {
     _shoEventsschedule: Boolean;
     _shoCaseinvoises: Boolean;
     _shoToWesam: Boolean;
+    _shoNIC: Boolean;
     getPermission() {
         this.http
             .post(
@@ -71,6 +72,7 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
+        this._shoNIC = false;
         this._shoToWesam = false;
         this._shocovid19report = false;
         this._shoCaseinvoises = false;
@@ -164,6 +166,15 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("MTsaban").toLowerCase()
         ) {
             this._shomaternity = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "owertheim" ||
+            this.loginUserName.toLowerCase() == "jubartal" ||
+            this.loginUserName.toLowerCase() == "emassalha" 
+        ) {
+            this._shoNIC = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||

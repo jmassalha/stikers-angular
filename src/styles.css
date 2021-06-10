@@ -7,65 +7,69 @@ footer {
 }
 .top-zindex {
     z-index: 9999999999999999 !important;
-  }
-  .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane,
-  .cdk-overlay-connected-position-bounding-box{
+}
+.cdk-overlay-connected-position-bounding-box .cdk-overlay-pane,
+.cdk-overlay-connected-position-bounding-box {
     /* position: relative; */
     z-index: 9999999999999999999;
-  }
+}
+.pos-l-10 {
+    position: absolute  !important;
+    left: 5px;
+    top: -5px;
+}
 .m-5 {
     margin: 1rem 0;
 }
-.cdk-overlay-connected-position-bounding-box, 
-.cdk-overlay-pane{
+.cdk-overlay-connected-position-bounding-box,
+.cdk-overlay-pane {
     /* position: relative; */
     z-index: 999999999999999999999999;
 }
-.pos-me-right-li{
+.pos-me-right-li {
     position: absolute;
     right: -35px;
 }
-.fix-my-width .mat-form-field-infix{
+.fix-my-width .mat-form-field-infix {
     width: 100% !important;
     padding: 2px;
 }
-.modal-dialog.modal-sm{
+.modal-dialog.modal-sm {
     max-width: 300px;
 }
-.d-block.fade.modal.show:not(.d-block.fade.modal.show.width-1010){
+.d-block.fade.modal.show:not(.d-block.fade.modal.show.width-1010) {
     display: flex !important;
     width: 100%;
     float: right;
     background: rgba(0, 0, 0, 0.8);
 }
 .form-amen .mat-checkbox-layout,
-.form-amen .mat-checkbox{
+.form-amen .mat-checkbox {
     display: block;
     float: right;
-    width: 100%;;
+    width: 100%;
 }
-.form-amen ol>li{
-    
+.form-amen ol > li {
     float: right;
 }
-ol{
+ol {
     padding: 0;
 }
 .d-block {
-    display: block!important;
+    display: block !important;
     width: 100%;
     float: right;
 }
-.mat-checkbox-layout{
+.mat-checkbox-layout {
     white-space: break-spaces !important;
 }
-.mat-card{
+.mat-card {
     display: block;
     float: right;
     width: 100%;
 }
 ol > li {
-    width: calc( 50% - 30px);
+    width: calc(50% - 30px);
     margin: 0 15px;
     float: right;
 }
@@ -76,7 +80,7 @@ ol > li {
     overflow:hidden;
     width: 100%;
 }*/
-.mat-dialog-container{
+.mat-dialog-container {
     height: auto !important;
     display: block;
     padding: 0px;
@@ -404,7 +408,8 @@ th.mat-header-cell {
 #app-menu .mat-expansion-panel-header {
     padding-right: 10px !important;
 }
-.cdk-overlay-container, .cdk-global-overlay-wrapper{
+.cdk-overlay-container,
+.cdk-global-overlay-wrapper {
     overflow: auto;
 }
 #app-menu .mat-expansion-panel-header-title {
@@ -553,22 +558,26 @@ mark {
 #formTable .mat-form-field-appearance-fill .mat-form-field-underline::before {
     background: none !important;
 }
-#_departments  .row {
+#_departments .row {
     display: block;
     width: 100%;
     float: left;
 }
-#_departments .card-header h1{
+#_departments .card-header h1 {
     font-size: 14px;
 }
-#_departments .col-md-8,#_departments  .col-sm-8,#_departments  .col-xs-8{
+#_departments .col-md-8,
+#_departments .col-sm-8,
+#_departments .col-xs-8 {
     float: right;
     width: 60% !important;
     padding: 0 5px !important;
 }
-#_departments .col-md-2,#_departments  .col-sm-2,#_departments  .col-xs-2{
+#_departments .col-md-2,
+#_departments .col-sm-2,
+#_departments .col-xs-2 {
     float: left;
-    width: 20% !important; 
+    width: 20% !important;
     padding: 0 5px !important;
 }
 #formTable td.mat-cell:first-child {
@@ -578,11 +587,11 @@ mark {
 #formTable td.mat-cell:last-child {
     border-left: 2px solid #afafff !important;
 }
-.marg-t-60 .modal-dialog{
+.marg-t-60 .modal-dialog {
     width: 80%;
     box-shadow: 0px 0px 1035px 1px #000;
 }
-.marg-t-60{
+.marg-t-60 {
     padding-top: 60px;
 }
 #page-toshow {
@@ -647,43 +656,55 @@ mark {
 .card.no-bg .card-body {
     flex: 0 0 auto;
 }
-.w-100100{
-    width: 100%  !important;
+.w-100100 {
+    width: 100% !important;
 }
 .card.no-bg {
     position: relative;
     height: 1280px;
 }
-.sars-form-in p{
+.sars-form-in p {
     display: block;
     float: right;
     width: 100%;
     margin: 0;
 }
-.sars-form-in .mat-radio-button.mat-radio-disabled .mat-radio-inner-circle, .sars-form-in .mat-radio-button.mat-radio-disabled .mat-radio-ripple .mat-ripple-element {
-    background-color: rgba(0,0,0,1);
+.sars-form-in .mat-radio-button.mat-radio-disabled .mat-radio-inner-circle,
+.sars-form-in
+    .mat-radio-button.mat-radio-disabled
+    .mat-radio-ripple
+    .mat-ripple-element {
+    background-color: rgba(0, 0, 0, 1);
 }
-.sars-form-in .mat-radio-button.mat-radio-disabled.mat-radio-checked .mat-radio-outer-circle, .sars-form-in  .mat-radio-button.mat-radio-disabled .mat-radio-outer-circle {
-    border-color: rgba(0,0,0,1);
+.sars-form-in
+    .mat-radio-button.mat-radio-disabled.mat-radio-checked
+    .mat-radio-outer-circle,
+.sars-form-in .mat-radio-button.mat-radio-disabled .mat-radio-outer-circle {
+    border-color: rgba(0, 0, 0, 1);
 }
-.sars-form-in .mat-form-field-appearance-legacy.mat-form-field-disabled .mat-form-field-underline {
-    background-image: linear-gradient(to right, rgba(0, 0, 0, 0.42) 0%, rgba(0, 0, 0, 0.42) 100%, transparent 0%);
+.sars-form-in
+    .mat-form-field-appearance-legacy.mat-form-field-disabled
+    .mat-form-field-underline {
+    background-image: linear-gradient(
+        to right,
+        rgba(0, 0, 0, 0.42) 0%,
+        rgba(0, 0, 0, 0.42) 100%,
+        transparent 0%
+    );
     background-size: 100%;
     background-repeat: repeat-x;
 }
-.full-width-30{
+.full-width-30 {
     width: calc(25% - 20px);
     margin: 5px 10px 5px;
     float: right;
-
 }
-.full-width-50{
+.full-width-50 {
     width: calc(50% - 20px) !important;
     margin: 5px 10px 5px;
     float: right;
-
 }
-.sars-form-in .mat-radio-button{
+.sars-form-in .mat-radio-button {
     display: inline-block;
 }
 .sars-form-in .mat-form-field-appearance-legacy .mat-form-field-infix {
@@ -805,7 +826,7 @@ tr.mat-footer-row {
 }
 .cdk-overlay-container {
     position: fixed;
-    z-index: 9999999999  !important;
+    z-index: 9999999999 !important;
 }
 .mat-form-field-appearance-fill .mat-form-field-flex {
     border-radius: 4px 4px 0 0;
@@ -1227,20 +1248,20 @@ ngx-material-timepicker-container,
     margin-left: 9px;
     direction: ltr;
 }
-.col-3.text-right button{
-    margin-bottom: 10px;;
+.col-3.text-right button {
+    margin-bottom: 10px;
 }
-.modal-dialog:has(div.parent-modal-100100) { 
+.modal-dialog:has(div.parent-modal-100100) {
     width: 100% !important;
     max-width: 100% !important;
 }
-.width-1010 > .modal-dialog{
+.width-1010 > .modal-dialog {
     width: 100% !important;
     max-width: 100% !important;
 }
 /* On screens that are 600px or less, set the background color to olive */
 @media screen and (max-width: 1600px) {
-    #formTable{
+    #formTable {
         margin-bottom: 30px;
         transform: scale(0.89);
         position: relative;
@@ -1320,28 +1341,29 @@ ngx-material-timepicker-container,
     margin: auto;
     width: 80%;
 }
-.cdk-global-overlay-wrapper, .cdk-overlay-pane{
+.cdk-global-overlay-wrapper,
+.cdk-overlay-pane {
     z-index: 999999999999999999999999999999999999999999999999 !important;
 }
-.border-1{
+.border-1 {
     border: 1px solid !important;
     padding: 15px !important;
 }
-.padding-top-0{
-    padding-top: 0  !important;
+.padding-top-0 {
+    padding-top: 0 !important;
 }
-.no-word{
-    white-space: normal !important; 
+.no-word {
+    white-space: normal !important;
     line-height: 25px !important;
 }
-.greyBg{
+.greyBg {
     background: #343738 !important;
 }
-.redBg{
+.redBg {
     background: #d6414b !important;
     min-height: 49px;
 }
-.padding-15{
+.padding-15 {
     padding: 15px;
 }
 .text-up label {
@@ -1354,15 +1376,15 @@ ngx-material-timepicker-container,
     bottom: 0;
 }
 
-.trans-80{
+.trans-80 {
     transform: scale(0.78);
     margin-top: -25px;
     margin-bottom: -50px;
 }
-.mb-25{
-    margin-bottom: 25px;;
+.mb-25 {
+    margin-bottom: 25px;
 }
-.fix-h{
+.fix-h {
     white-space: pre-line;
     height: 86px;
     overflow: auto;
@@ -1371,22 +1393,22 @@ ngx-material-timepicker-container,
     z-index: 9999;
     padding-bottom: 55px;
 }
-.mat-card.mat-focus-indicator{
-    padding-bottom: 90px;;
+.mat-card.mat-focus-indicator {
+    padding-bottom: 90px;
 }
-.bg-n-mtb-10{
+.bg-n-mtb-10 {
     background: none;
-    margin: 10px 10px 10px 0 ;
+    margin: 10px 10px 10px 0;
     padding: 15px 15px;
 }
-.bord-l{
-    border-left: 1px solid #d3d3d3;;
+.bord-l {
+    border-left: 1px solid #d3d3d3;
 }
 footer {
     z-index: 999;
 }
 .bg-blue-light1 {
-    padding-bottom: 90px;;
+    padding-bottom: 90px;
 }
 input::-webkit-outer-spin-button,
 input::-webkit-inner-spin-button {
@@ -1394,9 +1416,9 @@ input::-webkit-inner-spin-button {
 }
 #PrespictionFormIDRow .mat-form-field .mat-select.has-error,
 #PrespictionFormIDRow .mat-form-field .mat-select.mat-select-invalid {
-    border: 1px solid red  !important;
+    border: 1px solid red !important;
 }
-.mat-select{
+.mat-select {
     overflow: hidden;
 }
 #addOrEditReportForm .mat-form-field .mat-select.has-error,
@@ -1458,7 +1480,7 @@ input::-webkit-inner-spin-button {
     width: 33.3%;
     float: right;
 }
-.colr-6{
+.colr-6 {
     width: 50%;
     float: right;
 }
@@ -1531,7 +1553,7 @@ input::-webkit-inner-spin-button {
     float: left;
     width: 100%;
 }
-g text{
+g text {
     font-size: 12px !important;
 }
 .mat-tab-body-content .container-fluid {
@@ -1541,14 +1563,14 @@ g text{
 .worker-form-in .mat-checkbox-checked.mat-accent .mat-checkbox-background {
     background-color: #000;
 }
-.fix-label .mat-form-field-label{
+.fix-label .mat-form-field-label {
     position: relative;
     top: 20px;
 }
 .min-h-100 {
     min-height: 100vh;
 }
-.lh-37 .mat-form-field-infix{
+.lh-37 .mat-form-field-infix {
     line-height: 37px;
 }
 .pos-abs-center {
