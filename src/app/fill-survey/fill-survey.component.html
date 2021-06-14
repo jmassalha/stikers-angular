@@ -181,10 +181,10 @@
                             </mat-checkbox>
                           </mat-radio-group>
                         </section>
-                        <div class="d-block" *ngIf="column.ColType == 'Signature'">
+                        <div class="d-block text-center" *ngIf="column.ColType == 'Signature'">
                           <img [src]="sign" style="width: 100px;height: 60px;float: right;">
                           <button class="full-width mb-5"
-                            style="font-weight: bold;font-size: 20px;color: white;width: 60%;" color="warn"
+                            style="font-weight: bold;font-size: 20px;color: white;width: 100%;" color="warn"
                             (click)="openSignatureDialog(column.Row_ID)" type="submit" mat-raised-button>
                             <span>לחתום</span>
                           </button>
@@ -207,7 +207,7 @@
       <button mat-raised-button color="secondary" style="float: right;" type="button" (click)="resetSign()"><span>תיקון
           חתימה</span></button>
     </div> -->
-    <div class="button-row" *ngIf="isCaseNumber == '0'">
+    <div class="button-row">
       <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: black;" color="primary"
         (click)="fillForm(1)" type="submit" mat-raised-button>
         <span>להמשיך מאוחר יותר</span>

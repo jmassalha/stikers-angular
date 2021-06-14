@@ -29,10 +29,10 @@ export class HeaderComponent implements OnInit {
     _shoDrugs: Boolean;
     _shoCortinas: Boolean;
     _formsArea: Boolean;
-    _nursesSystem: Boolean;
     _publicInquiry: Boolean;
     _shoCortinasSettings: Boolean;
     _shoSofiMenu: Boolean;
+    _clinicsPricing: Boolean;
     _shoCoronavaccine: Boolean;
     _shocovid19report: Boolean;
     _shoResearches: Boolean;
@@ -78,9 +78,9 @@ export class HeaderComponent implements OnInit {
         this._SHowToAdmins = false;
         this._shoResearches = false;
         this._shoSofiMenu = false;
-        this._nursesSystem = false;
         this._shoCoronavaccine = true;
         this._sendSMSADMIN = false;
+        this._clinicsPricing = false;
         this._formsArea = false;
         this._publicInquiry = false;
         this._shoEventsschedule = false;
@@ -115,10 +115,9 @@ export class HeaderComponent implements OnInit {
             this._shoToWesam = true;
         }
         if (
-            this.loginUserName.toLowerCase() == "adahabre"||
-            this.loginUserName.toLowerCase() == "jubartal"
+            this.loginUserName.toLowerCase() == "adahabre"
         ) {
-            this._nursesSystem = true;
+            this._clinicsPricing = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||

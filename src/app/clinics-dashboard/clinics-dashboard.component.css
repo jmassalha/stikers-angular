@@ -1,0 +1,14 @@
+
+
+@media only screen and (max-width: 400px) {
+    .example-radio-group{
+        display: grid;
+    }
+  }
+
+  .amin{
+    position: relative;
+    min-height: 200px;
+    max-height: 400px;
+    overflow: auto;
+  }

@@ -28,6 +28,8 @@ import { ReportRepliesComponent } from '../report-replies/report-replies.compone
 import { MatDialog } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from "@angular/material/table";
+import { Observable } from "rxjs";
+import { map, startWith } from "rxjs/operators";
 export interface PeriodicElement2 {
   Row_ID: string;
   UpdateDate: string;
@@ -74,10 +76,15 @@ export class DialogElementsExampleDialog implements OnInit {
 
   all_history_filter = [];
   reportID: string;
+  
 
   ngOnInit(): void {
     this.getHistories();
+    
   }
+
+
+  
 
   closeDialog() {
     this.dialog.closeAll();
@@ -161,12 +168,16 @@ export class NursesDashboardComponent implements OnInit {
   reportsArr = [];
   all_categories_filter = [];
   UserName = localStorage.getItem('loginUserName').toLowerCase();
+  departmentfilter = new FormControl();
+  filteredOptions2: Observable<string[]>;
+  department = [];
+  all_departs_filter = [];
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
       'ReportShift': new FormControl('', null),
       'ReportStatus': new FormControl('', null),
-      'ReportCategory': new FormControl('', null),
+      'ReportDepartment': new FormControl('', null),
       'OpenText': new FormControl('', null),
       'ReportStartDate': new FormControl('', null),
       'ReportEndDate': new FormControl('', null),
@@ -174,6 +185,12 @@ export class NursesDashboardComponent implements OnInit {
     });
     this.searchReports();
     this.getCategories();
+    this.getDeparts();
+    this.filteredOptions2 = this.departmentfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter2(value))
+      );
   }
 
   openSnackBar(message) {
@@ -193,6 +210,11 @@ export class NursesDashboardComponent implements OnInit {
       });
   }
 
+  private _filter2(value: string): string[] {
+    const filterValue2 = value;
+    return this.department.filter(option => option.Dept_Name.includes(filterValue2));
+  }
+
   fillReportDialog(reportid) {
     let dialogRef = this.dialog.open(FillReportComponent);
     dialogRef.componentInstance.reportID = reportid;
@@ -208,13 +230,30 @@ export class NursesDashboardComponent implements OnInit {
     dialogRef.componentInstance.reportID = reportid;
   }
 
+  getDeparts() {
+    this.http
+      .post("http://localhost:64964/WebService.asmx/GetNursesDeparts", {
+
+      })
+      .subscribe((Response) => {
+        this.all_departs_filter = Response["d"];
+
+        this.all_departs_filter.forEach(element => {
+          this.department.push(element);
+        })
+      });
+  }
+
   print() {
     window.print();
   }
 
   searchReports() {
+    if(this.departmentfilter.value == null){
+      this.departmentfilter.setValue('');
+    }
     let _reportShift = this.searchReportsGroup.controls['ReportShift'].value;
-    let _reportCategory = this.searchReportsGroup.controls['ReportCategory'].value;
+    let _reportDepartment = this.departmentfilter.value;
     let _reportStatus = this.searchReportsGroup.controls['ReportStatus'].value;
     let _openText = this.searchReportsGroup.controls['OpenText'].value;
     let _reportStartDate = this.searchReportsGroup.controls['ReportStartDate'].value;
@@ -232,14 +271,15 @@ export class NursesDashboardComponent implements OnInit {
       _reportEndDate = "";
     }
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
+      .post("http://localhost:64964/WebService.asmx/GetReports", {
         _reportShift: _reportShift,
-        _reportCategory: _reportCategory,
+        _reportDepartment: _reportDepartment,
         _reportStatus: _reportStatus,
         _openText: _openText,
         _reportStartDate: _reportStartDate,
         _reportEndDate: _reportEndDate,
         _reportPriority: _reportPriority,
+        _userName: this.UserName
       })
       .subscribe((Response) => {
         this.ELEMENT_DATA = [];

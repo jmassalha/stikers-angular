@@ -39,24 +39,17 @@ export interface DeadLine {
 })
 export class DialogContentExampleDialog {
 
-  constructor(public dialog: MatDialog){}
-  closeNotificationDialog(){
+  constructor(public dialog: MatDialog) { }
+  closeNotificationDialog() {
     this.dialog.closeAll();
   }
 }
 @Component({
-  selector: 'app-emailsdashboard', 
+  selector: 'app-emailsdashboard',
   templateUrl: './emailsdashboard.component.html',
   styleUrls: ['./emailsdashboard.component.css']
 })
 export class EmailsdashboardComponent implements OnInit {
-
-  public textArea: string = '';
-   public isEmojiPickerVisible: boolean;
-   public addEmoji(event) {
-      this.textArea = `${this.textArea}${event.emoji.native}`;
-      this.isEmojiPickerVisible = false;
-   }
 
   deadline: DeadLine[] = [
     { value: '8', viewValue: 'שבוע' },
@@ -72,7 +65,7 @@ export class EmailsdashboardComponent implements OnInit {
   all_forms_filter = [];
   all_departs_filter = [];
   department = [];
-  ifRead: string= "0";
+  ifRead: string = "0";
 
   formSearch: FormGroup;
   tableEmails: FormGroup;
@@ -80,7 +73,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   TABLE_DATA: Email[] = [];
   displayedColumns: string[] = [
-    'FormID', 'FormName', 'formDepartment', 'FormDate', 'update','add', 'showAll','status'
+    'FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'add', 'showAll', 'status'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -95,7 +88,7 @@ export class EmailsdashboardComponent implements OnInit {
     private router: Router,
     private http: HttpClient) { }
 
-    UserName = localStorage.getItem("loginUserName").toLowerCase();
+  UserName = localStorage.getItem("loginUserName").toLowerCase();
 
 
   ngOnInit() {
@@ -112,14 +105,14 @@ export class EmailsdashboardComponent implements OnInit {
       'slideT': new FormControl('', null),
     });
     this.searchForm("0");
-    
+
   }
 
   openNotificationDialog() {
     const dialogRef = this.dialog.open(DialogContentExampleDialog);
   }
 
-  openDialogToManageEmail(id,fakeID) {
+  openDialogToManageEmail(id, fakeID) {
     let dialogRef = this.dialog.open(EmailmanagementComponent);
     dialogRef.componentInstance.urlID = id;
     dialogRef.componentInstance.fakeID = fakeID;
@@ -138,7 +131,7 @@ export class EmailsdashboardComponent implements OnInit {
     });
   }
 
-  loadInquiries(){
+  loadInquiries() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/SavingEmailsToDB", {
       })
@@ -150,7 +143,7 @@ export class EmailsdashboardComponent implements OnInit {
       });
   }
 
-  changeStatus(e: any,emailID: string){
+  changeStatus(e: any, emailID: string) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/ChangeStatus", {
         _status: e.checked,
@@ -158,12 +151,12 @@ export class EmailsdashboardComponent implements OnInit {
       })
       .subscribe((Response) => {
         let snackbar = Response["d"];
-        if(snackbar == "opened"){
+        if (snackbar == "opened") {
           this.openSnackBar("סטטוס פניה: פתוח");
-        }else{
+        } else {
           this.openSnackBar("סטטוס פניה: סגור");
         }
-        
+
       });
   }
 
@@ -175,27 +168,27 @@ export class EmailsdashboardComponent implements OnInit {
     let compDateControl2 = this.formSearch.controls['compDateControl2'].value;
     let compStatusControl = this.formSearch.controls['compStatusControl'].value;
     let deadLineSearch = this.formSearch.controls['DeadLineSearch'].value;
-    if(compStatusControl == ""){
+    if (compStatusControl == "") {
       compStatusControl = '1';
-    }else if(compStatusControl == undefined){
+    } else if (compStatusControl == undefined) {
       compStatusControl = "";
     }
-    if(departmentControl == undefined){
+    if (departmentControl == undefined) {
       departmentControl = "";
     }
-    if(deadLineSearch == undefined){
+    if (deadLineSearch == undefined) {
       deadLineSearch = "";
     }
     let pipe = new DatePipe('en-US');
-    if(!(compDateControl == undefined || compDateControl == "" || compDateControl == null)){
+    if (!(compDateControl == undefined || compDateControl == "" || compDateControl == null)) {
       // compDateControl.setDate( compDateControl.getDate() + 1 );
       compDateControl = pipe.transform(compDateControl, 'yyyy/MM/dd');
-    }else{
+    } else {
       compDateControl = "";
     }
-    if(!(compDateControl2 == undefined || compDateControl2 == "" || compDateControl2 == null)){
+    if (!(compDateControl2 == undefined || compDateControl2 == "" || compDateControl2 == null)) {
       compDateControl2 = pipe.transform(compDateControl2, 'yyyy/MM/dd');
-    }else{
+    } else {
       compDateControl2 = "";
     }
     this.http
@@ -209,25 +202,25 @@ export class EmailsdashboardComponent implements OnInit {
         _isRead: isRead
       })
       .subscribe((Response) => {
-        if(isRead == "1"){
+        if (isRead == "1") {
           window.location.reload();
         }
         this.all_forms_filter = Response["d"];
         this.TABLE_DATA = [];
-        if(this.all_forms_filter.length > 0){
-          if(this.all_forms_filter[0].NumberOfUrgent != "0" && this.UserName.toLowerCase() == "matias"){
+        if (this.all_forms_filter.length > 0) {
+          if (this.all_forms_filter[0].NumberOfUrgent != "0" && this.UserName.toLowerCase() == "matias") {
             this.openNotificationDialog();
           }
         }
-        
+
         for (var i = 0; i < this.all_forms_filter.length; i++) {
           let status;
-          if(this.all_forms_filter[i].Status == "1"){
+          if (this.all_forms_filter[i].Status == "1") {
             status = true;
-          }else{
+          } else {
             status = false;
           }
-          
+
           this.TABLE_DATA.push({
             EmailID: this.all_forms_filter[i].Row_ID,
             EmailSender: this.all_forms_filter[i].EmailSender,
@@ -257,7 +250,7 @@ export class EmailsdashboardComponent implements OnInit {
       });
   }
 
-  onsubmit(){
+  onsubmit() {
     console.log(this.formSearch.value);
   }
 

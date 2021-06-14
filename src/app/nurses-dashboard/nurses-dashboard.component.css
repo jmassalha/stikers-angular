@@ -5,8 +5,15 @@
     z-index: 10;
 }
 
+html{
+  font-size: 50%;
+}
+
 table {
     width: 100%;
+  }
+  table td{
+    font-size: x-large;
   }
   
   tr.example-detail-row {
@@ -28,6 +35,7 @@ table {
   .example-element-detail {
     overflow: hidden;
     display: flex;
+    background-color: aliceblue;
   }
   
   .example-element-diagram {
@@ -47,6 +55,8 @@ table {
   
   .example-element-description {
     padding: 16px;
+    font-size: large;
+    color: brown;
   }
   
   .example-element-description-attribution {
@@ -84,4 +94,19 @@ table {
     td label {
         display: none;
     }
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border-radius: 30px;
+  border: 1px solid black;
+  color: royalblue;
+  padding: 8px;
+  font-weight: bolder;
+  margin: 8px 0;
+  height: 90%;
+}
+
+#page-toshow{
+  font-size: x-large;
 }

@@ -8,3 +8,7 @@ table {
     left: 100px;
     z-index: 10;
   }
+
+  .table-row:hover{
+    background-color: aliceblue;
+  }

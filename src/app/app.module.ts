@@ -47,6 +47,7 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CoronaformComponent } from './coronaform/coronaform.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { PoriadepartsComponent } from './poriadeparts/poriadeparts.component';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { RolesComponent } from './roles/roles.component';
 import { StaffComponent } from './staff/staff.component';
 import { SendsmsComponent } from './sendsms/sendsms.component';
@@ -96,6 +97,7 @@ import { NursesDashboardComponent } from './nurses-dashboard/nurses-dashboard.co
 import { FillReportComponent } from './fill-report/fill-report.component';
 import { DialogElementsExampleDialog } from './nurses-dashboard/nurses-dashboard.component';
 import { ReportRepliesComponent } from './report-replies/report-replies.component';
+import { ClinicsDashboardComponent } from './clinics-dashboard/clinics-dashboard.component';
 
 
 
@@ -162,7 +164,8 @@ const maskConfig: Partial<IConfig> = {
     CaseinvoisesComponent,
     NursesDashboardComponent,
     FillReportComponent,
-    ReportRepliesComponent
+    ReportRepliesComponent,
+    ClinicsDashboardComponent
   ],
   imports: [
     GoogleChartsModule,
@@ -212,6 +215,7 @@ const maskConfig: Partial<IConfig> = {
     CustomMaterialModule,
     MatButtonModule,     
     MatDatepickerModule,
+    MatProgressBarModule,
     MatAutocompleteModule,
     MatNativeDateModule,
     MatInputModule,

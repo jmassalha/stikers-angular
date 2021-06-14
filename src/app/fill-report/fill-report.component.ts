@@ -44,9 +44,7 @@ export class FillReportComponent implements OnInit {
     { value: 'בהול', viewValue: 'בהול' },
   ];
   status: Status[] = [
-    { value: 'חדש', viewValue: 'חדש' },
-    { value: 'לא טופל', viewValue: 'לא טופל' },
-    { value: 'בטיפול', viewValue: 'בטיפול' },
+    { value: 'בטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
   ];
 
@@ -76,10 +74,14 @@ export class FillReportComponent implements OnInit {
   filteredOptions2: Observable<string[]>;
   department = [];
   reportID: string;
-  ifDisabled: boolean;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   all_report_management;
   date = this.pipe.transform(this.myDate, 'dd-MM-yyyy');
+  date2: string;
+  time2: string;
+  automaticShift: string;
+  creator: boolean;
+  now = new Date();
 
   ngOnInit(): void {
     this.ReportGroup = this.formBuilder.group({
@@ -88,19 +90,29 @@ export class FillReportComponent implements OnInit {
       ReportMachlol: ['', Validators.compose([Validators.required])],
       ReportCategory: ['', Validators.compose([Validators.required])],
       ReportSubCategory: ['', Validators.compose([Validators.required])],
-      ReportPriority: ['', Validators.compose([Validators.required])],
+      // ReportPriority: ['', Validators.compose([Validators.required])],
       ReportStatus: ['', Validators.compose([Validators.required])],
-      ReportShift: ['', Validators.compose([Validators.required])],
-      ReportSchudledDate: ['', Validators.compose([Validators.required])],
+      ReportShift: [{value:'',disabled:true},null],
+      // ReportSchudledDate: ['', Validators.compose([Validators.required])],
       ReportText: ['', Validators.compose([Validators.required])],
       toContinue: [false, null],
     });
-    this.ifDisabled = false;
     if (this.reportID != "0") {
       this.getReportToUpdate();
     } else {
-      this.autoDate(false);
+      // this.autoDate(false);
     }
+
+    this.date2 = this.datePipe.transform(this.now, 'yyyy-MM-dd');
+    this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
+    if(this.now.getHours() >= 7 && this.now.getHours() < 15){
+      this.automaticShift = 'בוקר';
+    }else if(this.now.getHours() >= 15 && this.now.getHours() < 23){
+      this.automaticShift = 'ערב';
+    }else{
+      this.automaticShift = 'לילה';
+    }
+    this.ReportGroup.controls['ReportShift'].setValue(this.automaticShift);
     this.getCategories();
     this.getDeparts();
     this.filteredOptions2 = this.departmentfilter.valueChanges
@@ -112,7 +124,7 @@ export class FillReportComponent implements OnInit {
 
   private _filter2(value: string): string[] {
     const filterValue2 = value;
-    return this.department.filter(option => option.Depart_Name.includes(filterValue2));
+    return this.department.filter(option => option.Dept_Name.includes(filterValue2));
   }
 
   openSnackBar(message) {
@@ -144,30 +156,30 @@ export class FillReportComponent implements OnInit {
 
   autoDate(amin) {
     if (amin) {
-      this.ReportGroup.controls['ReportSchudledDate'].setValue(null);
-      this.ReportGroup.controls['ReportSchudledDate'].setValidators(Validators.required);
-      this.ReportGroup.controls['ReportSchudledDate'].enable();
+      // this.ReportGroup.controls['ReportSchudledDate'].setValue(null);
+      // this.ReportGroup.controls['ReportSchudledDate'].setValidators(Validators.required);
+      // this.ReportGroup.controls['ReportSchudledDate'].enable();
       this.ReportGroup.controls['ReportStatus'].setValue('לא טופל');
     } else {
-      this.ReportGroup.controls['ReportSchudledDate'].disable();
-      this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
+      // this.ReportGroup.controls['ReportSchudledDate'].disable();
+      // this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
     }
   }
 
   sendReport() {
-    if (this.ReportGroup.controls['toContinue'].value == false) {
-      this.ReportGroup.controls['ReportSchudledDate'].enable();
-      this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
-    }
-    this.ReportGroup.controls['ReportSchudledDate'].setValue(this.pipe.transform(this.ReportGroup.controls['ReportSchudledDate'].value, 'yyyy-MM-dd'));
-    this.ReportGroup.controls['ReportSchudledDate'].setValidators(null);
+    // if (this.ReportGroup.controls['toContinue'].value == false) {
+    //   this.ReportGroup.controls['ReportSchudledDate'].enable();
+    //   this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
+    // }
+    // this.ReportGroup.controls['ReportSchudledDate'].setValue(this.pipe.transform(this.ReportGroup.controls['ReportSchudledDate'].value, 'yyyy-MM-dd'));
+    // this.ReportGroup.controls['ReportSchudledDate'].setValidators(null);
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
 
     if (!this.ReportGroup.invalid) {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
-          _report: this.ReportGroup.value,
+        .post("http://localhost:64964/WebService.asmx/AddUpdateReport", {
+          _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName
         })
         .subscribe((Response) => {
@@ -186,7 +198,7 @@ export class FillReportComponent implements OnInit {
 
   getDeparts() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
+      .post("http://localhost:64964/WebService.asmx/GetNursesDeparts", {
 
       })
       .subscribe((Response) => {
@@ -200,46 +212,73 @@ export class FillReportComponent implements OnInit {
 
   getReportToUpdate() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetReportToUpdate", {
+      .post("http://localhost:64964/WebService.asmx/GetReportToUpdate", {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
         this.all_report_management = Response["d"];
-        this.ReportGroup = this.formBuilder.group({
-          Row_ID: new FormControl(this.all_report_management.Row_ID, null),
-          ReportDate: new FormControl({ value: this.all_report_management.ReportDate, disabled: true }, null),
-          ReportSchudledDate: new FormControl(this.all_report_management.ReportSchudledDate, null),
-          ReportSubCategory: new FormControl({ value: this.all_report_management.ReportSubCategory, disabled: true }, null),
-          ReportMachlol: new FormControl({ value: this.all_report_management.ReportMachlol, disabled: true }, null),
-          ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
-          ReportCategory: new FormControl({ value: this.all_report_management.ReportCategory, disabled: true }, null),
-          ReportShift: new FormControl({ value: this.all_report_management.ReportShift, disabled: true }, null),
-          ReportText: new FormControl({ value: this.all_report_management.ReportText, disabled: true }, null),
-          ReportTitle: new FormControl({ value: this.all_report_management.ReportTitle, disabled: true }, null),
-          ReportPriority: new FormControl({ value: this.all_report_management.ReportPriority, disabled: true }, null),
-          toContinue: new FormControl(this.all_report_management.toContinue, null),
-          /*
-          ReportDate: new FormControl(this.all_report_management.ReportDate, null),
-          ReportSchudledDate: new FormControl(this.all_report_management.ReportSchudledDate, null),
-          ReportSubCategory: new FormControl(this.all_report_management.ReportSubCategory, null),
-          ReportMachlol: new FormControl(this.all_report_management.ReportMachlol, null),
-          ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
-          ReportCategory: new FormControl(this.all_report_management.ReportCategory, null),
-          ReportShift: new FormControl(this.all_report_management.ReportShift, null),
-          ReportText: new FormControl(this.all_report_management.ReportText, null),
-          ReportTitle: new FormControl(this.all_report_management.ReportTitle, null),
-          ReportPriority: new FormControl(this.all_report_management.ReportPriority, null),
-          toContinue: new FormControl(this.all_report_management.toContinue, null),
-          */
-        });
+        // if(this.all_report_management.UserName == this.UserName){
+          this.ReportGroup = this.formBuilder.group({
+            Row_ID: new FormControl(this.all_report_management.Row_ID, null),
+            ReportDate: new FormControl(this.all_report_management.ReportDate, null),
+            // ReportSchudledDate: new FormControl(this.all_report_management.ReportSchudledDate, null),
+            ReportSubCategory: new FormControl(this.all_report_management.ReportSubCategory, null),
+            ReportMachlol: new FormControl(this.all_report_management.ReportMachlol, null),
+            ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
+            ReportCategory: new FormControl(this.all_report_management.ReportCategory, null),
+            ReportShift: new FormControl({value:this.all_report_management.ReportShift,disabled: true}, null),
+            ReportText: new FormControl(this.all_report_management.ReportText, null),
+            ReportTitle: new FormControl(this.all_report_management.ReportTitle, null),
+            // ReportPriority: new FormControl(this.all_report_management.ReportPriority, null),
+            toContinue: new FormControl(this.all_report_management.toContinue, null),
+          });
+        // }else{
+        //   this.ReportGroup = this.formBuilder.group({
+        //     Row_ID: new FormControl(this.all_report_management.Row_ID, null),
+        //     ReportDate: new FormControl({ value: this.all_report_management.ReportDate, disabled: true }, null),
+        //     // ReportSchudledDate: new FormControl(this.all_report_management.ReportSchudledDate, null),
+        //     ReportSubCategory: new FormControl({ value: this.all_report_management.ReportSubCategory, disabled: true }, null),
+        //     ReportMachlol: new FormControl({ value: this.all_report_management.ReportMachlol, disabled: true }, null),
+        //     ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
+        //     ReportCategory: new FormControl({ value: this.all_report_management.ReportCategory, disabled: true }, null),
+        //     ReportShift: new FormControl({ value: this.all_report_management.ReportShift, disabled: true }, null),
+        //     ReportText: new FormControl({ value: this.all_report_management.ReportText, disabled: true }, null),
+        //     ReportTitle: new FormControl({ value: this.all_report_management.ReportTitle, disabled: true }, null),
+        //     ReportPriority: new FormControl({ value: this.all_report_management.ReportPriority, disabled: true }, null),
+        //     toContinue: new FormControl(this.all_report_management.toContinue, null),
+        //   });
+        // }
+        let ifEditable = false;
+        let mishmeret = "";
+        let reportDate = this.pipe.transform(this.all_report_management.ReportDate, 'MM/dd/yyyy');
+        let thisDate = this.pipe.transform(this.now, 'dd/MM/yyyy');
+        let thisTime = this.pipe.transform(this.now, 'HH');
+
+        if(parseInt(thisTime) > 14 && parseInt(thisTime) < 23){
+          mishmeret = "ערב";
+        }else if((parseInt(thisTime) > 22 && parseInt(thisTime) < 24) || (parseInt(thisTime) > 0 && parseInt(thisTime) < 7)){
+          mishmeret = "לילה";
+        }
+        if(this.all_report_management.ReportShift == 'בוקר' && reportDate == thisDate && parseInt(thisTime) < 17 && parseInt(thisTime) > 6){
+          ifEditable = true;
+        }else if(this.all_report_management.ReportShift == 'ערב' && reportDate == thisDate && parseInt(thisTime) < 1 && mishmeret == 'ערב'){
+          ifEditable = true;
+        }else if(this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate.split('/')[0]) - parseInt(thisDate.split('/')[0]) == 1) && parseInt(thisTime) < 9 && mishmeret == 'לילה'){
+          ifEditable = true;
+        }
+
+        if(this.all_report_management.UserName == this.UserName && reportDate == thisDate && ifEditable){
+          this.creator = true;
+        }else{
+          this.creator = false;
+        }
         if (this.ReportGroup.controls['toContinue'].value == 'False') {
           this.ReportGroup.controls['toContinue'].setValue(false);
-          this.ReportGroup.controls['ReportSchudledDate'].disable();
+          // this.ReportGroup.controls['ReportSchudledDate'].disable();
         } else {
           this.ReportGroup.controls['toContinue'].setValue(true);
         }
         this.departmentfilter.setValue(this.all_report_management.ReportMachlol);
-        this.ifDisabled = true;
       });
     this.getCategories();
   }

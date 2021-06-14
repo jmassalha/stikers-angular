@@ -360,6 +360,16 @@ export class UpdatesingleformComponent implements OnInit {
   }
 
   removeColumn(TableIndex, columnIndex) {
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].setValidators(null);
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].updateValueAndValidity();
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.Row_ID.setValidators(null);
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.Row_ID.updateValueAndValidity();
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.colsText.setValidators(null);
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.colsText.updateValueAndValidity();
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.ColType.setValidators(null);
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.ColType.updateValueAndValidity();
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.colStatus.setValidators(null);
+    this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.colStatus.updateValueAndValidity();
     <FormArray>this.tableFormGroup.controls.tableArray['controls'][TableIndex].controls.colsGroup.controls.column.controls[columnIndex].controls.colStatus.patchValue("0");
   }
 

@@ -12,6 +12,7 @@ import { MatMenuModule } from '@angular/material/menu';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTableModule } from '@angular/material/table';
 import { MatToolbarModule } from '@angular/material/toolbar';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
@@ -42,6 +43,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatCardModule, 
     MatInputModule,
     MatAutocompleteModule,
+    MatProgressBarModule,
     MatDialogModule, 
     MatTableModule, 
     MatMenuModule,
