@@ -44,7 +44,12 @@ import { EmailsdashboardComponent } from "./emailsdashboard/emailsdashboard.comp
 import { EmailmanagementComponent } from "./emailmanagement/emailmanagement.component";
 import { NursesDashboardComponent } from "./nurses-dashboard/nurses-dashboard.component";
 import { FillReportComponent } from "./fill-report/fill-report.component";
+<<<<<<< HEAD
 import { ClinicsDashboardComponent } from "./clinics-dashboard/clinics-dashboard.component";
+=======
+import { CheckpatientinsmartclosetComponent } from "./checkpatientinsmartcloset/checkpatientinsmartcloset.component";
+import { DrugsnicComponent } from "./drugsnic/drugsnic.component";
+>>>>>>> 4cfdaf663df4002c8570fbb78a467fc4d5527cb7
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -89,7 +94,12 @@ const routes: Routes = [
     { path: "emailmanagement", component: EmailmanagementComponent },
     { path: "nursereportsystem", component: NursesDashboardComponent },
     { path: "fillreport", component: FillReportComponent },
+<<<<<<< HEAD
     { path: "clinicspricing", component: ClinicsDashboardComponent },
+=======
+    { path: "checkpatientinsmartcloset", component: CheckpatientinsmartclosetComponent },
+    { path: "drugsnic", component: DrugsnicComponent },
+>>>>>>> 4cfdaf663df4002c8570fbb78a467fc4d5527cb7
     { path: "", component: LoginComponent },
 ];
 @NgModule({

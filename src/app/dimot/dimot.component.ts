@@ -120,7 +120,9 @@ export class DimotComponent implements OnInit, AfterViewInit {
             localStorage.getItem("loginUserName").toLowerCase() == "yarosenfel"  ||
             localStorage.getItem("loginUserName").toLowerCase() == "mjerdev" ||            
             localStorage.getItem("loginUserName").toLowerCase() == ("MLehrer").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("mshugan").toLowerCase()
+            localStorage.getItem("loginUserName").toLowerCase() == ("mshugan").toLowerCase()||
+            localStorage.getItem("loginUserName").toLowerCase() == ("SZidan").toLowerCase()||
+            localStorage.getItem("loginUserName").toLowerCase() == ("YBitton").toLowerCase()
         ) {
         } else {
             this.router.navigate(["login"]);

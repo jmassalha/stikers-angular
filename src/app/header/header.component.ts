@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit {
     _shoEventsschedule: Boolean;
     _shoCaseinvoises: Boolean;
     _shoToWesam: Boolean;
+    _shoNIC: Boolean;
     getPermission() {
         this.http
             .post(
@@ -72,6 +73,7 @@ export class HeaderComponent implements OnInit {
     }
 
     ngOnInit() {
+        this._shoNIC = false;
         this._shoToWesam = false;
         this._shocovid19report = false;
         this._shoCaseinvoises = false;
@@ -110,6 +112,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("GJidovetsk").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("LCerem").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("MTsaban").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("MRuach").toLowerCase() ||
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._shoEventsschedule = true;
@@ -163,6 +166,15 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("MTsaban").toLowerCase()
         ) {
             this._shomaternity = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "owertheim" ||
+            this.loginUserName.toLowerCase() == "jubartal" ||
+            this.loginUserName.toLowerCase() == "emassalha" 
+        ) {
+            this._shoNIC = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -296,7 +308,9 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "yarosenfel" ||
             this.loginUserName.toLowerCase() == "lbogun" ||
             this.loginUserName.toLowerCase() == ("MLehrer").toLowerCase() ||
-            this.loginUserName.toLowerCase() == ("mshugan").toLowerCase()
+            this.loginUserName.toLowerCase() == ("mshugan").toLowerCase()||
+            this.loginUserName.toLowerCase() == ("SZidan").toLowerCase()||
+            this.loginUserName.toLowerCase() == ("YBitton").toLowerCase()
         ) {
             this._shoDimot = true;
         } else {

@@ -53,6 +53,8 @@ import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.c
 import { FillReportComponent } from '../fill-report/fill-report.component';
 import { DialogElementsExampleDialog } from '../nurses-dashboard/nurses-dashboard.component';
 import { ClinicsDashboardComponent } from '../clinics-dashboard/clinics-dashboard.component';
+import { CheckpatientinsmartclosetComponent } from '../checkpatientinsmartcloset/checkpatientinsmartcloset.component';
+import { DrugsnicComponent } from '../drugsnic/drugsnic.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -105,6 +107,8 @@ const routes: Routes = [
   { path: "nursereportsystem", component: NursesDashboardComponent },
   { path: "fillreport", component: FillReportComponent },
   { path: "clinicspricing", component: ClinicsDashboardComponent },
+  { path: "checkpatientinsmartcloset", component: CheckpatientinsmartclosetComponent },
+  { path: "drugsnic", component: DrugsnicComponent },
   { path: '', component : LoginComponent}
 ];
 @NgModule({

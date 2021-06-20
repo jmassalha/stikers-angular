@@ -98,6 +98,8 @@ import { FillReportComponent } from './fill-report/fill-report.component';
 import { DialogElementsExampleDialog } from './nurses-dashboard/nurses-dashboard.component';
 import { ReportRepliesComponent } from './report-replies/report-replies.component';
 import { ClinicsDashboardComponent } from './clinics-dashboard/clinics-dashboard.component';
+import { CheckpatientinsmartclosetComponent } from './checkpatientinsmartcloset/checkpatientinsmartcloset.component';
+import { DrugsnicComponent } from './drugsnic/drugsnic.component';
 
 
 
@@ -165,7 +167,9 @@ const maskConfig: Partial<IConfig> = {
     NursesDashboardComponent,
     FillReportComponent,
     ReportRepliesComponent,
-    ClinicsDashboardComponent
+    ClinicsDashboardComponent,
+    CheckpatientinsmartclosetComponent,
+    DrugsnicComponent
   ],
   imports: [
     GoogleChartsModule,
