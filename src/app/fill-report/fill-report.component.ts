@@ -44,7 +44,7 @@ export class FillReportComponent implements OnInit {
     { value: 'בהול', viewValue: 'בהול' },
   ];
   status: Status[] = [
-    { value: 'בטיפול', viewValue: 'לטיפול' },
+    { value: 'לטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
   ];
 
@@ -159,7 +159,7 @@ export class FillReportComponent implements OnInit {
       // this.ReportGroup.controls['ReportSchudledDate'].setValue(null);
       // this.ReportGroup.controls['ReportSchudledDate'].setValidators(Validators.required);
       // this.ReportGroup.controls['ReportSchudledDate'].enable();
-      this.ReportGroup.controls['ReportStatus'].setValue('לא טופל');
+      this.ReportGroup.controls['ReportStatus'].setValue('לטיפול');
     } else {
       // this.ReportGroup.controls['ReportSchudledDate'].disable();
       // this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
@@ -250,7 +250,7 @@ export class FillReportComponent implements OnInit {
         // }
         let ifEditable = false;
         let mishmeret = "";
-        let reportDate = this.pipe.transform(this.all_report_management.ReportDate, 'MM/dd/yyyy');
+        let reportDate = this.all_report_management.ReportDate.split(" ",1);//this.pipe.transform(this.all_report_management.ReportDate, 'dd/MM/yyyy');
         let thisDate = this.pipe.transform(this.now, 'dd/MM/yyyy');
         let thisTime = this.pipe.transform(this.now, 'HH');
 

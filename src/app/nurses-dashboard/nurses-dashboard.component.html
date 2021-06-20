@@ -190,7 +190,7 @@
             </tr>
             <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
         </table>
-        <button matTooltip="דווח חדש" type="button" id="EventBtn" mat-fab color="primary" (click)="fillReportDialog(0)">
+        <button matTooltip="דווח חדש" type="button" id="EventBtn" mat-fab color="primary" (click)="fillReportDialog(0)" *ngIf="permission">
             <i class="material-icons">add</i>
         </button>
         <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>

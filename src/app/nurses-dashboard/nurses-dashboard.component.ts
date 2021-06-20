@@ -172,6 +172,7 @@ export class NursesDashboardComponent implements OnInit {
   filteredOptions2: Observable<string[]>;
   department = [];
   all_departs_filter = [];
+  permission: boolean = false;
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
@@ -186,6 +187,7 @@ export class NursesDashboardComponent implements OnInit {
     this.searchReports();
     this.getCategories();
     this.getDeparts();
+    this.permission = false;
     this.filteredOptions2 = this.departmentfilter.valueChanges
       .pipe(
         startWith(''),
@@ -300,6 +302,7 @@ export class NursesDashboardComponent implements OnInit {
               category: this.reportsArr[i].ReportCategory,
             });
           }
+          this.permission = true;
         }
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;

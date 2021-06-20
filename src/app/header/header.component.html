@@ -261,7 +261,7 @@
                         <mat-expansion-panel-header *ngIf="personReadInquiry">
                             <mat-panel-title> פניות ציבור</mat-panel-title>
                             <mat-panel-description style="align-items: center;"><i matBadgeColor="warn"
-                                [matBadge]="numberOfUnread"></i> </mat-panel-description>
+                                    [matBadge]="numberOfUnread"></i> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
                             <li class="nav-item">
@@ -271,16 +271,16 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
-            <li class="nav-item">
+            <li class="nav-item" *ngIf="clinicsUserPermission">
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
-                            <mat-panel-title> תמחור מרפאות </mat-panel-title>
+                            <mat-panel-title> הצעת מחיר פה ולסת </mat-panel-title>
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" routerLink="clinicspricing">רופאים</a>
+                                <a class="nav-link" routerLink="clinicspricing">כניסה</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>

@@ -8,7 +8,9 @@
                     <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">
                         {{comp.Comp_Department}}</div>
                     <div class="list-style text-center" style="font-size: 10px;">פנייה סגורה</div>
-                    <div class="list-style text-center" style="font-size: 10px;" *ngFor="let cap of comp.PatientPDepart">תפוסה: {{calculateDepartCapacity(cap.DE_BEDS_IN_USED,cap.DE_IN_DEPART_BEDS)}}%</div>
+                    <div class="list-style text-center" style="font-size: 10px;"
+                        *ngFor="let cap of comp.PatientPDepart">תפוסה:
+                        {{calculateDepartCapacity(cap.DE_BEDS_IN_USED,cap.DE_IN_DEPART_BEDS)}}%</div>
                 </mat-card>
                 <mat-card class="card m-2 text-center" style="background-color: darkseagreen;"
                     *ngIf="comp.Comp_Status == '1'">
@@ -16,7 +18,9 @@
                     <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">
                         {{comp.Comp_Department}}</div>
                     <div class="list-style text-center" style="font-size: 10px;">פנייה פתוחה</div>
-                    <div class="list-style text-center" style="font-size: 10px;" *ngFor="let cap of comp.PatientPDepart">תפוסה: {{calculateDepartCapacity(cap.DE_BEDS_IN_USED,cap.DE_IN_DEPART_BEDS)}}%</div>
+                    <div class="list-style text-center" style="font-size: 10px;"
+                        *ngFor="let cap of comp.PatientPDepart">תפוסה:
+                        {{calculateDepartCapacity(cap.DE_BEDS_IN_USED,cap.DE_IN_DEPART_BEDS)}}%</div>
                 </mat-card>
             </div>
         </div>
@@ -173,14 +177,30 @@
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
+                    <!-- <mat-form-field class="example-full-width">
+                        <mat-label>קישור אחראי לפנייה</mat-label>
+                        <input type="text" placeholder="התחל הקלדה .." aria-label="manager" matInput
+                            [formControl]="myControl" [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete">
+                            <mat-option *ngFor="let option of filteredOptions | async">
+                                <input  [value]="option.firstname" hidden>
+                                {{option.firstname}} {{option.lastname}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field> -->
+                    <!-- <mat-form-field class="example-full-width">
+                                <mat-label>מחלקה</mat-label>
+                                <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
+                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
+                                        {{option.DepartName}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field> -->
                 </form>
             </div>
         </div>
-
-
-
     </mat-card>
-
 
 
     <div class="row float-right mt-3">

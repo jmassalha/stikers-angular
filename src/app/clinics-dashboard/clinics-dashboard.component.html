@@ -1,6 +1,6 @@
 <div class="row" id="page-toshow">
     <div class="col"></div>
-    <div class="col-5">
+    <div class="col-4">
         <div dir="rtl" class="card w-85-p">
             <div dir="rtl" class="card-body">
                 <form class="form" [formGroup]="searchPatient">
@@ -49,7 +49,7 @@
     <br>
 </div>
 
-<div class="row" *ngIf="patientFound && permission" id="page-toshow">
+<div class="row" *ngIf="patientFound && permission && !print" id="page-toshow">
     <div class="col" dir="rtl">
         <mat-vertical-stepper [linear]="isLinear" #stepper>
             <mat-step [stepControl]="detailsFormGroup">
@@ -125,7 +125,7 @@
                         <div class="col-8">
                             <mat-form-field appearance="fill">
                                 <mat-label>מחלקה</mat-label>
-                                <mat-select formControlName="Depart">
+                                <mat-select formControlName="DepartNumber">
                                     <mat-option *ngFor="let dept of departments" [value]="dept.DepartNumber">
                                         {{dept.DepartName}}
                                     </mat-option>
@@ -154,11 +154,11 @@
                         <div class="col text-right" style="height: 600px;">
                             <mat-form-field style="width: 47%;">
                                 <mat-label>סינון לפי תאור שירות</mat-label>
-                                <input matInput (keyup)="applyFilter($event)" placeholder="שיניים" #input>
+                                <input matInput (keyup)="applyFilter($event)" placeholder="התחל הקלדה ..." #input>
                             </mat-form-field>
                             <div class="amin">
                                 <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
-                                    formArrayName="ServiceArray">
+                                    formArrayName="PatientsServicesList">
                                     <ng-container matColumnDef="code">
                                         <th mat-header-cell *matHeaderCellDef style="text-align: center;"> קוד שירות
                                         </th>
@@ -200,7 +200,6 @@
                                     </tr>
                                 </table>
                             </div>
-
                         </div>
                     </div>
                     <div>
@@ -230,15 +229,24 @@
 
 
 
-<div id="form-html-templet" class="d-none-desktop" *ngIf="patientFound">
+<div id="form-html-templet" class="d-none-desktop" *ngIf="patientFound && print">
     <div dir="rtl" class="card min-h-100 text-right">
         <div class="card-header border-bottomIn rel">
             <img class="full-width" src="assets/images/covid_2_header.png" />
             <h2 class="text-center pos-abs-center">
-                הצעת מחיר לטיפול
+                הצעת מחיר לטיפול פה ולסת
             </h2>
             <!-- <h3 class="text-center pos-abs-center-2" dir="ltr">COVID19 (SARS-COV2IgG)</h3> -->
         </div>
+        <br>
+        <div class="row">
+            <div class="col-6 text-center"><u style="float: right;margin-right: 10px;">תאריך הצעה  : {{date2}}</u>
+            </div>
+            <div class="col-6 text-center">
+                <u style="float: left;margin-left: 120px;">שעת הצעה  : {{time2}}</u>
+            </div>
+        </div>
+        <br>
         <div class="card-body pd-10">
             <div class="row-1">
                 <div class="colr-12">
@@ -248,16 +256,16 @@
             <br />
             <div class="row-1 text-up box text-right pad-30 justify-content-md-center">
                 <div class="colr-3">
-                    <label><b>ת.ז</b></label><span class="b-bottom">{{ detailsFormGroup.get('PersonID').value }}</span>
+                    <label><b>ת.ז</b></label><span class="b-bottom">{{ detailsFormGroup2.PersonID }}</span>
                 </div>
                 <div class="colr-3">
                     <label><b>שם משפחה</b></label><span class="b-bottom">{{
-                        detailsFormGroup.get('LastName').value
+                        detailsFormGroup2.LastName
                         }}</span>
                 </div>
                 <div class="colr-3">
                     <label><b>שם פרטי</b></label><span class="b-bottom">{{
-                        detailsFormGroup.get('FirstName').value
+                        detailsFormGroup2.FirstName
                         }}</span>
                 </div>
                 <div class="colr-3">
@@ -266,25 +274,106 @@
                         }}</span>
                 </div>
                 <div class="colr-3">
-                    <label><b>תאריך לידה</b></label><span class="b-bottom">{{ detailsFormGroup.get('DOB').value
+                    <label><b>תאריך לידה</b></label><span class="b-bottom">{{ detailsFormGroup2.DOB
                         }}</span>
                 </div>
                 <div class="colr-3">
-                    <label><b>מיקום עבודה</b></label><span class="b-bottom">{{
-                        detailsFormGroup.get('PersonID').value
+                    <label><b>כתובת</b></label><span class="b-bottom">{{
+                        detailsFormGroup2.PatientAddress
                         }}</span>
                 </div>
                 <div class="colr-3">
                     <label><b>מייל</b></label><span class="b-bottom">{{
-                        detailsFormGroup.get('Email').value
+                        detailsFormGroup2.Email
                         }}</span>
                 </div>
                 <div class="colr-3">
                     <label><b>נייד</b></label><span class="b-bottom">{{
-                        detailsFormGroup.get('PhoneNumber').value
+                        detailsFormGroup2.PhoneNumber
                         }}</span>
                 </div>
             </div>
+            <div class="row-1 mt-4">
+                <div class="colr-12">
+                    <h4>רשימת שירותים</h4>
+                </div>
+            </div>
+            <form class="sars-form-in">
+                <div class="full-width">
+                    <div class="amin">
+                        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+                            <ng-container matColumnDef="code">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;">מס'</th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="b-bottom">{{
+                                        element.value.ServiceNumber
+                                        }}</span>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> תאור שירות
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="b-bottom">{{
+                                        element.value.ServiceName
+                                        }}</span>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="quantity">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> כמות </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="b-bottom">{{
+                                        element.value.ServiceQuantity
+                                        }}</span>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="price">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מחיר יחידה </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="b-bottom">{{
+                                        element.value.ServicePrice
+                                        }}</span>
+                                </td>
+                            </ng-container>
+                            
+                            <ng-container matColumnDef="total">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מחיר כולל </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="b-bottom">{{
+                                        element.value.Total
+                                        }}</span>
+                                </td>
+                            </ng-container>
+
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns2;">
+                            </tr>
+                        </table>
+                    </div><br>
+                    <div class="row">
+                        <div class="col">
+                            <h3>הצעת מחיר תקפה למשך 30 יום מיום הנפקת ההצעה</h3>
+                        </div>
+                    </div>
+                    <br>
+                    <div class="row">
+                        <div class="col">
+                            <h3>מחיר כולל :</h3>
+                        </div>
+                        <div class="col">
+                            <h2><b>{{
+                                    detailsFormGroup2.TotalPrice
+                                    }}</b></h2>
+                        </div>
+                    </div>
+                </div>
+                
+            </form>
+
+
             <!-- <div class="row-1">
                 <div class="stik"></div>
             </div> -->
@@ -500,6 +589,7 @@
                 </div>
             </form> -->
         </div>
+
 
         <div class="card-footer"></div>
         <div class="pos-botom-fixed">

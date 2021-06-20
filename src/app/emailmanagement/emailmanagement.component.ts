@@ -252,6 +252,10 @@ export class EmailmanagementComponent implements OnInit {
       );
   }
 
+  // displayFn(user: string): string {
+  //   return user && user.DepartName ? user.DepartName : '';
+  // }
+
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
     return this.users.filter(option => option.firstname.includes(filterValue));
@@ -272,13 +276,15 @@ export class EmailmanagementComponent implements OnInit {
   shareComplaintWithOthers() {
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
+      .post("http://localhost:64964/WebService.asmx/AttachCompToUser", {
         userId: this.myControl.value,
         compId: this.complainID,
       })
       .subscribe((Response) => {
-        if (Response["d"] == true) {
+        if (Response["d"] == "found") {
           this.openSnackBar("! נשלח בהצלחה לנמען");
+        } else if(Response["d"] == "Exists"){
+          this.openSnackBar("! כבר משוייך לפנייה");
         } else {
           this.openSnackBar("! נמען לא קיים");
         }
