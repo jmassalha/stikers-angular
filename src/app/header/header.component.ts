@@ -479,7 +479,7 @@ export class HeaderComponent implements OnInit {
     ClinicsPricingPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://localhost:64964/WebService.asmx/ClinicsUserPersmission", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/ClinicsUserPersmission", {
                 _userName: userName
             })
             .subscribe((Response) => {

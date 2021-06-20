@@ -151,7 +151,7 @@ export class ClinicsDashboardComponent implements OnInit {
       this.openSnackBar("עליך לבחור מחלקה");
     } else {
       this.http
-        .post("http://localhost:64964/WebService.asmx/GetClinicsServices", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsServices", {
           _departmentNumber: departNumber,
         })
         .subscribe((Response) => {
@@ -199,7 +199,7 @@ export class ClinicsDashboardComponent implements OnInit {
     } else {
       if (this.usersWithPermission(localStorage.getItem("loginUserName").toLowerCase())) {
         this.http
-          .post("http://localhost:64964/WebService.asmx/GetClinicsPatientDetails", {
+          .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPatientDetails", {
             _choose: "1",
             _passport: passport,
             _caseNumber: caseNumber
@@ -259,7 +259,7 @@ export class ClinicsDashboardComponent implements OnInit {
           });
       } else {
         this.http
-          .post("http://localhost:64964/WebService.asmx/PrintReciept", {
+          .post("http://srv-apps/wsrfc/WebService.asmx/PrintReciept", {
             _patientPassport: passport,
           })
           .subscribe((Response) => {
@@ -316,7 +316,7 @@ export class ClinicsDashboardComponent implements OnInit {
 
   getDepartments() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetClinicsPricingDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPricingDeparts", {
       })
       .subscribe((Response) => {
         let clinicsDeparts = [];
@@ -330,7 +330,7 @@ export class ClinicsDashboardComponent implements OnInit {
   onSubmit() {
     if (!this.servicesFormGroup.invalid) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/SendTreatmentToReception", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/SendTreatmentToReception", {
           _patientDetails: this.detailsFormGroup.getRawValue(),
           _serviceDetails: this.servicesFormGroup.getRawValue(),
         })
