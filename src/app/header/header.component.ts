@@ -17,6 +17,7 @@ export class HeaderComponent implements OnInit {
 
     personReadInquiry: boolean = false;
     clinicsUserPermission: boolean = false;
+    nursesUserPermission: boolean = false;
     loginUserName: string;
     numberOfUnread: number;
     _shoDimot: Boolean;
@@ -481,6 +482,7 @@ export class HeaderComponent implements OnInit {
         });
         this.ifPersonRead();
         this.ClinicsPricingPermission();
+        this.NursesSystemPermission();
     }
     logout($event): void {
         ////debugger
@@ -498,6 +500,17 @@ export class HeaderComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.clinicsUserPermission = Response["d"];
+            });
+    }
+    
+    NursesSystemPermission() {
+        let userName = localStorage.getItem("loginUserName").toLowerCase();
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
+                _userName: userName
+            })
+            .subscribe((Response) => {
+                this.nursesUserPermission = Response["d"];
             });
     }
 

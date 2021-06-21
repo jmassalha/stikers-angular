@@ -75,7 +75,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <mat-form-field>
-                                            <input matInput formControlName="ReportStartDate" autocomplete="off"
+                                            <input matInput formControlName="ReportStartDate" (focus)="startdate.open()" autocomplete="off"
                                                 placeholder="מ תאריך" required name="startdate"
                                                 [matDatepicker]="startdate" />
                                             <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
@@ -86,7 +86,7 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <mat-form-field>
-                                            <input matInput formControlName="ReportEndDate" autocomplete="off"
+                                            <input matInput formControlName="ReportEndDate" (focus)="enddate.open()" autocomplete="off"
                                                 placeholder="עד תאריך " required name="enddate"
                                                 [matDatepicker]="enddate" />
                                             <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>

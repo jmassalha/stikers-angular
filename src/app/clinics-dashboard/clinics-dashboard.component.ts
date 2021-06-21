@@ -28,6 +28,7 @@ export interface Patient {
   PhoneNumber: string;
   DOB: string;
   TotalPrice: string;
+  DepartName: string;
 }
 
 @Component({
@@ -151,7 +152,7 @@ export class ClinicsDashboardComponent implements OnInit {
       this.openSnackBar("עליך לבחור מחלקה");
     } else {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsServices", {
+        .post("http://localhost:64964/WebService.asmx/GetClinicsServices", {
           _departmentNumber: departNumber,
         })
         .subscribe((Response) => {
@@ -199,7 +200,7 @@ export class ClinicsDashboardComponent implements OnInit {
     } else {
       if (this.usersWithPermission(localStorage.getItem("loginUserName").toLowerCase())) {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPatientDetails", {
+          .post("http://localhost:64964/WebService.asmx/GetClinicsPatientDetails", {
             _choose: "1",
             _passport: passport,
             _caseNumber: caseNumber
@@ -259,7 +260,7 @@ export class ClinicsDashboardComponent implements OnInit {
           });
       } else {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/PrintReciept", {
+          .post("http://localhost:64964/WebService.asmx/PrintReciept", {
             _patientPassport: passport,
           })
           .subscribe((Response) => {
@@ -283,6 +284,7 @@ export class ClinicsDashboardComponent implements OnInit {
                 PhoneNumber: relevantServices[0].PhoneNumber,
                 DOB: relevantServices[0].DOB,
                 TotalPrice: relevantServices[0].TotalPrice,
+                DepartName: relevantServices[1].DepartName,
               });
               if (this.detailsFormGroup2.Gender == '1') {
                 this.genderText = "זכר";
@@ -316,7 +318,7 @@ export class ClinicsDashboardComponent implements OnInit {
 
   getDepartments() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPricingDeparts", {
+      .post("http://localhost:64964/WebService.asmx/GetClinicsPricingDeparts", {
       })
       .subscribe((Response) => {
         let clinicsDeparts = [];
@@ -330,7 +332,7 @@ export class ClinicsDashboardComponent implements OnInit {
   onSubmit() {
     if (!this.servicesFormGroup.invalid) {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/SendTreatmentToReception", {
+        .post("http://localhost:64964/WebService.asmx/SendTreatmentToReception", {
           _patientDetails: this.detailsFormGroup.getRawValue(),
           _serviceDetails: this.servicesFormGroup.getRawValue(),
         })

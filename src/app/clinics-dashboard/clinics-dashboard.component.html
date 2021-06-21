@@ -240,10 +240,10 @@
         </div>
         <br>
         <div class="row">
-            <div class="col-6 text-center"><u style="float: right;margin-right: 10px;">תאריך הצעה  : {{date2}}</u>
+            <div class="col-6 text-center"><u style="float: right;margin-right: 10px;">תאריך הצעה : {{date2}}</u>
             </div>
             <div class="col-6 text-center">
-                <u style="float: left;margin-left: 120px;">שעת הצעה  : {{time2}}</u>
+                <u style="float: left;margin-left: 120px;">שעת הצעה : {{time2}}</u>
             </div>
         </div>
         <br>
@@ -338,7 +338,7 @@
                                         }}</span>
                                 </td>
                             </ng-container>
-                            
+
                             <ng-container matColumnDef="total">
                                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מחיר כולל </th>
                                 <td mat-cell *matCellDef="let element">
@@ -353,12 +353,7 @@
                             </tr>
                         </table>
                     </div><br>
-                    <div class="row">
-                        <div class="col">
-                            <h3>הצעת מחיר תקפה למשך 30 יום מיום הנפקת ההצעה</h3>
-                        </div>
-                    </div>
-                    <br>
+                    <br><hr>
                     <div class="row">
                         <div class="col">
                             <h3>מחיר כולל :</h3>
@@ -368,9 +363,35 @@
                                     detailsFormGroup2.TotalPrice
                                     }}</b></h2>
                         </div>
+                    </div><hr><br>
+                    <div class="row">
+                        <div class="col">
+                            <h3>•	הצעת המחיר תקפה למשך 30 יום מתאריך הנפקת הצעה זו.</h3>
+                        </div>
                     </div>
+                    <div class="row">
+                        <div class="col">
+                            <h3>•	המחירים בהצעה זו צמודים לשינויים במחירון השירותים הרפואיים של המרכז הרפואי ע"ש ברוך פדה - פוריה.</h3>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col">
+                            <h3>•	המחיר הקובע הוא המחיר ביום התשלום .</h3>
+                        </div>
+                    </div>
+                    <br><hr>
+                    <div class="row">
+                        <div class="col">
+                            <h3>שם היחידה המטפלת: </h3>
+                        </div>
+                        <div class="col">
+                            <h2><b>{{
+                                    detailsFormGroup2.DepartName
+                                    }}</b></h2>
+                        </div>
+                    </div>
+                    <hr>
                 </div>
-                
             </form>
 
 

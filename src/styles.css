@@ -1352,14 +1352,8 @@ ngx-material-timepicker-container,
     margin: auto;
     width: 80%;
 }
-<<<<<<< HEAD
 .cdk-global-overlay-wrapper, .cdk-overlay-pane{
     /* z-index: 999999999999999999999999999999999999999999999999 !important; */
-=======
-.cdk-global-overlay-wrapper,
-.cdk-overlay-pane {
-    z-index: 999999999999999999999999999999999999999999999999 !important;
->>>>>>> 4cfdaf663df4002c8570fbb78a467fc4d5527cb7
 }
 .border-1 {
     border: 1px solid !important;
