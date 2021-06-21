@@ -205,7 +205,7 @@ export class NursesDashboardComponent implements OnInit {
 
   getCategories() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetCategories", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {
       })
       .subscribe((Response) => {
         this.all_categories_filter = Response["d"];
@@ -234,7 +234,7 @@ export class NursesDashboardComponent implements OnInit {
 
   getDeparts() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetNursesDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {
 
       })
       .subscribe((Response) => {
@@ -273,7 +273,7 @@ export class NursesDashboardComponent implements OnInit {
       _reportEndDate = "";
     }
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetReports", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
         _reportShift: _reportShift,
         _reportDepartment: _reportDepartment,
         _reportStatus: _reportStatus,
