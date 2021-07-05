@@ -1,0 +1,10 @@
+table {
+    width: 100%;
+  }
+
+  #EventBtn{
+    float: left;
+  }
+  #EventBtn2{
+    float: right;
+  }

@@ -16,6 +16,7 @@ import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
 import {MatStepperModule} from '@angular/material/stepper';
+import {MatTreeModule} from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
@@ -100,6 +101,9 @@ import { ReportRepliesComponent } from './report-replies/report-replies.componen
 import { ClinicsDashboardComponent } from './clinics-dashboard/clinics-dashboard.component';
 import { CheckpatientinsmartclosetComponent } from './checkpatientinsmartcloset/checkpatientinsmartcloset.component';
 import { DrugsnicComponent } from './drugsnic/drugsnic.component';
+import { ManageClinicPriceComponent } from './manage-clinic-price/manage-clinic-price.component';
+import { NursesManageDashboardComponent } from './nurses-manage-dashboard/nurses-manage-dashboard.component';
+import { NursesDepartmentManageComponent } from './nurses-department-manage/nurses-department-manage.component';
 
 
 
@@ -169,7 +173,10 @@ const maskConfig: Partial<IConfig> = {
     ReportRepliesComponent,
     ClinicsDashboardComponent,
     CheckpatientinsmartclosetComponent,
-    DrugsnicComponent
+    DrugsnicComponent,
+    ManageClinicPriceComponent,
+    NursesManageDashboardComponent,
+    NursesDepartmentManageComponent
   ],
   imports: [
     GoogleChartsModule,
@@ -206,6 +213,7 @@ const maskConfig: Partial<IConfig> = {
     BrowserModule,
     HttpClientModule,
     MatTooltipModule,
+    MatTreeModule,
     DataTablesModule,
     MatStepperModule,
     MatChipsModule,

@@ -47,6 +47,7 @@ import { FillReportComponent } from "./fill-report/fill-report.component";
 import { ClinicsDashboardComponent } from "./clinics-dashboard/clinics-dashboard.component";
 import { CheckpatientinsmartclosetComponent } from "./checkpatientinsmartcloset/checkpatientinsmartcloset.component";
 import { DrugsnicComponent } from "./drugsnic/drugsnic.component";
+import { ManageClinicPriceComponent } from "./manage-clinic-price/manage-clinic-price.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -94,6 +95,7 @@ const routes: Routes = [
     { path: "clinicspricing", component: ClinicsDashboardComponent },
     { path: "checkpatientinsmartcloset", component: CheckpatientinsmartclosetComponent },
     { path: "drugsnic", component: DrugsnicComponent },
+    { path: "manageclinicprice", component: ManageClinicPriceComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

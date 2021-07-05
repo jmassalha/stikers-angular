@@ -46,7 +46,7 @@
             <div class="col">
                 <div class="form-group">
                     <mat-form-field>
-                        <mat-label>קטיגוריה</mat-label>
+                        <mat-label>קטגוריה</mat-label>
                         <mat-select formControlName="ReportCategory">
                             <mat-option *ngFor="let cat of all_categories_filter" [value]="cat.Cat_Name">
                                 {{cat.Cat_Name}}
@@ -58,7 +58,7 @@
             <div class="col">
                 <div class="form-group">
                     <mat-form-field>
-                        <mat-label>תת קטיגוריה</mat-label>
+                        <mat-label>תת קטגוריה</mat-label>
                         <mat-select formControlName="ReportSubCategory">
                             <mat-option *ngFor="let tp of subCategory" [value]="tp.SubCat_Name">
                                 {{tp.SubCat_Name}}

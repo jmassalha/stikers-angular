@@ -55,6 +55,10 @@ import { DialogElementsExampleDialog } from '../nurses-dashboard/nurses-dashboar
 import { ClinicsDashboardComponent } from '../clinics-dashboard/clinics-dashboard.component';
 import { CheckpatientinsmartclosetComponent } from '../checkpatientinsmartcloset/checkpatientinsmartcloset.component';
 import { DrugsnicComponent } from '../drugsnic/drugsnic.component';
+import { ManageClinicPriceComponent } from '../manage-clinic-price/manage-clinic-price.component';
+import { NursesManageDashboardComponent } from '../nurses-manage-dashboard/nurses-manage-dashboard.component';
+import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
+
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -109,6 +113,9 @@ const routes: Routes = [
   { path: "clinicspricing", component: ClinicsDashboardComponent },
   { path: "checkpatientinsmartcloset", component: CheckpatientinsmartclosetComponent },
   { path: "drugsnic", component: DrugsnicComponent },
+  { path: "manageclinicprice", component: ManageClinicPriceComponent },
+  { path: "nursesmanagedashboard", component: NursesManageDashboardComponent },
+  { path: "nursesdepartmentmanage", component: NursesDepartmentManageComponent },
   { path: '', component : LoginComponent}
 ];
 @NgModule({

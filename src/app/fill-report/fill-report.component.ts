@@ -74,6 +74,7 @@ export class FillReportComponent implements OnInit {
   filteredOptions2: Observable<string[]>;
   department = [];
   reportID: string;
+  Dept_Name: string;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   all_report_management;
   date = this.pipe.transform(this.myDate, 'dd-MM-yyyy');
@@ -84,6 +85,9 @@ export class FillReportComponent implements OnInit {
   now = new Date();
 
   ngOnInit(): void {
+    if(this.Dept_Name != ""){
+      this.departmentfilter.setValue(this.Dept_Name);
+    }
     this.ReportGroup = this.formBuilder.group({
       Row_ID: ['0', Validators.compose([Validators.required])],
       ReportTitle: ['', Validators.compose([Validators.required])],
@@ -137,7 +141,7 @@ export class FillReportComponent implements OnInit {
 
   deleteReport(reportID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReport", {
+      .post("http://localhost:64964/WebService.asmx/DeleteReport", {
         _reportID: reportID
       })
       .subscribe((Response) => {
@@ -178,7 +182,7 @@ export class FillReportComponent implements OnInit {
 
     if (!this.ReportGroup.invalid) {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
+        .post("http://localhost:64964/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName
         })
@@ -198,7 +202,7 @@ export class FillReportComponent implements OnInit {
 
   getDeparts() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {
+      .post("http://localhost:64964/WebService.asmx/GetNursesDeparts", {
 
       })
       .subscribe((Response) => {
@@ -212,7 +216,7 @@ export class FillReportComponent implements OnInit {
 
   getReportToUpdate() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetReportToUpdate", {
+      .post("http://localhost:64964/WebService.asmx/GetReportToUpdate", {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
@@ -251,7 +255,11 @@ export class FillReportComponent implements OnInit {
         let ifEditable = false;
         let mishmeret = "";
         let reportDate = this.all_report_management.ReportDate.split(" ",1);//this.pipe.transform(this.all_report_management.ReportDate, 'dd/MM/yyyy');
-        let thisDate = this.pipe.transform(this.now, 'dd/MM/yyyy');
+        reportDate = reportDate[0];
+        if(reportDate.length < 10){
+          reportDate = "0"+reportDate;
+        }
+        let thisDate = this.pipe.transform(this.now, 'MM/dd/yyyy');
         let thisTime = this.pipe.transform(this.now, 'HH');
 
         if(parseInt(thisTime) > 14 && parseInt(thisTime) < 23){
@@ -261,9 +269,9 @@ export class FillReportComponent implements OnInit {
         }
         if(this.all_report_management.ReportShift == 'בוקר' && reportDate == thisDate && parseInt(thisTime) < 17 && parseInt(thisTime) > 6){
           ifEditable = true;
-        }else if(this.all_report_management.ReportShift == 'ערב' && reportDate == thisDate && parseInt(thisTime) < 1 && mishmeret == 'ערב'){
+        }else if(this.all_report_management.ReportShift == 'ערב' && reportDate == thisDate && ((parseInt(thisTime) > 14 && parseInt(thisTime) < 24) || parseInt(thisTime) < 1) && mishmeret == 'ערב'){
           ifEditable = true;
-        }else if(this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate.split('/')[0]) - parseInt(thisDate.split('/')[0]) == 1) && parseInt(thisTime) < 9 && mishmeret == 'לילה'){
+        }else if(this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate.split('/')[0]) - parseInt(thisDate.split('/')[0]) == 1) && (parseInt(thisTime) < 9 || parseInt(thisTime) > 22) && mishmeret == 'לילה'){
           ifEditable = true;
         }
 
@@ -285,7 +293,7 @@ export class FillReportComponent implements OnInit {
 
   getCategories() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {
+      .post("http://localhost:64964/WebService.asmx/GetCategories", {
       })
       .subscribe((Response) => {
         this.all_categories_filter = Response["d"];
