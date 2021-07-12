@@ -98,7 +98,7 @@ export class ManageClinicPriceComponent implements OnInit {
     if (this.ifEdit == 1) {
       passport = this.PatientElement.PersonID;
       this.http
-        .post("http://localhost:64964/WebService.asmx/GetPatientDetailsFromClinicsDB", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientDetailsFromClinicsDB", {
           _patientPassport: passport
         })
         .subscribe((Response) => {
@@ -158,7 +158,7 @@ export class ManageClinicPriceComponent implements OnInit {
       this.openSnackBar("עליך לבחור מחלקה");
     } else {
       this.http
-        .post("http://localhost:64964/WebService.asmx/GetClinicsServices", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsServices", {
           _departmentNumber: departNumber,
           _patientRowID: patientRowID,
           _recordVersion: recordVersion,
@@ -202,7 +202,7 @@ export class ManageClinicPriceComponent implements OnInit {
 
   getDepartments() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetClinicsPricingDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPricingDeparts", {
       })
       .subscribe((Response) => {
         let clinicsDeparts = [];
@@ -216,7 +216,7 @@ export class ManageClinicPriceComponent implements OnInit {
   onSubmit() {
     if (!this.servicesFormGroup.invalid) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/SendTreatmentToReception", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/SendTreatmentToReception", {
           _patientDetails: this.detailsFormGroup.getRawValue(),
           _serviceDetails: this.servicesFormGroup.getRawValue(),
           _ifEdit: this.ifEdit,

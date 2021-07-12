@@ -129,7 +129,7 @@ export class ClinicsDashboardComponent implements OnInit {
     } else {
       let passport = this.searchPatient.controls['Passport'].value;
       this.http
-        .post("http://localhost:64964/WebService.asmx/PrintReciept", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/PrintReciept", {
           _patientPassport: passport,
           _patientRecordID: element.Row_ID,
           _versionNum: this.selectV,
@@ -211,7 +211,7 @@ export class ClinicsDashboardComponent implements OnInit {
     let passport = this.searchPatient.controls['Passport'].value;
     this.searchPatientProgressBar = false;
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetRecordAndPatients", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetRecordAndPatients", {
         _patientPassport: passport
       })
       .subscribe((Response) => {

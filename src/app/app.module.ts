@@ -104,6 +104,7 @@ import { DrugsnicComponent } from './drugsnic/drugsnic.component';
 import { ManageClinicPriceComponent } from './manage-clinic-price/manage-clinic-price.component';
 import { NursesManageDashboardComponent } from './nurses-manage-dashboard/nurses-manage-dashboard.component';
 import { NursesDepartmentManageComponent } from './nurses-department-manage/nurses-department-manage.component';
+import { OtherDepartmentsComponent } from './nurses-manage-dashboard/other-departments/other-departments.component';
 
 
 
@@ -176,7 +177,8 @@ const maskConfig: Partial<IConfig> = {
     DrugsnicComponent,
     ManageClinicPriceComponent,
     NursesManageDashboardComponent,
-    NursesDepartmentManageComponent
+    NursesDepartmentManageComponent,
+    OtherDepartmentsComponent
   ],
   imports: [
     GoogleChartsModule,

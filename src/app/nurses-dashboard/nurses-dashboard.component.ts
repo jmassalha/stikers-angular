@@ -46,10 +46,10 @@ export interface Shift {
   value: string;
   viewValue: string;
 }
-export interface Priority {
-  value: string;
-  viewValue: string;
-}
+// export interface Priority {
+//   value: string;
+//   viewValue: string;
+// }
 export interface Status {
   value: string;
   viewValue: string;
@@ -64,15 +64,10 @@ export class DialogElementsExampleDialog implements OnInit {
   displayedColumns: string[] = ['Row_ID', 'UpdateDate', 'FullName'];
   dataSource2;
 
-  constructor(private _snackBar: MatSnackBar,
-    private router: Router,
+  constructor(
     private http: HttpClient,
-    private modalService: NgbModal,
-    private formBuilder: FormBuilder,
     public dialog: MatDialog,
-    public datepipe: DatePipe,
-    private confirmationDialogService: ConfirmationDialogService,
-    activeModal: NgbActiveModal) { }
+    public datepipe: DatePipe) { }
 
   all_history_filter = [];
   reportID: string;
@@ -83,16 +78,13 @@ export class DialogElementsExampleDialog implements OnInit {
     
   }
 
-
-  
-
   closeDialog() {
     this.dialog.closeAll();
   }
 
   getHistories() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetReportsChangesHistory", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReportsChangesHistory", {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
@@ -132,16 +124,14 @@ export class NursesDashboardComponent implements OnInit {
     { value: 'לילה', viewValue: 'לילה' },
   ];
 
-  priority: Priority[] = [
-    { value: 'רגיל', viewValue: 'רגיל' },
-    { value: 'דחוף', viewValue: 'דחוף' },
-    { value: 'בהול', viewValue: 'בהול' },
-  ];
+  // priority: Priority[] = [
+  //   { value: 'רגיל', viewValue: 'רגיל' },
+  //   { value: 'דחוף', viewValue: 'דחוף' },
+  //   { value: 'בהול', viewValue: 'בהול' },
+  // ];
 
   status: Status[] = [
-    { value: 'חדש', viewValue: 'חדש' },
-    { value: 'לא טופל', viewValue: 'לא טופל' },
-    { value: 'בטיפול', viewValue: 'בטיפול' },
+    { value: 'בטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
   ];
 
@@ -182,7 +172,7 @@ export class NursesDashboardComponent implements OnInit {
       'OpenText': new FormControl('', null),
       'ReportStartDate': new FormControl('', null),
       'ReportEndDate': new FormControl('', null),
-      'ReportPriority': new FormControl('', null),
+      'ReportCategory': new FormControl('', null),
     });
     this.searchReports();
     this.getCategories();
@@ -205,7 +195,7 @@ export class NursesDashboardComponent implements OnInit {
 
   getCategories() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetCategories", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {
       })
       .subscribe((Response) => {
         this.all_categories_filter = Response["d"];
@@ -234,7 +224,7 @@ export class NursesDashboardComponent implements OnInit {
 
   getDeparts() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetNursesDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {
 
       })
       .subscribe((Response) => {
@@ -260,7 +250,7 @@ export class NursesDashboardComponent implements OnInit {
     let _openText = this.searchReportsGroup.controls['OpenText'].value;
     let _reportStartDate = this.searchReportsGroup.controls['ReportStartDate'].value;
     let _reportEndDate = this.searchReportsGroup.controls['ReportEndDate'].value;
-    let _reportPriority = this.searchReportsGroup.controls['ReportPriority'].value;
+    let _reportCategory = this.searchReportsGroup.controls['ReportCategory'].value;
     let pipe = new DatePipe('en-US');
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
@@ -273,14 +263,14 @@ export class NursesDashboardComponent implements OnInit {
       _reportEndDate = "";
     }
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetReports", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
         _reportShift: _reportShift,
         _reportDepartment: _reportDepartment,
         _reportStatus: _reportStatus,
         _openText: _openText,
         _reportStartDate: _reportStartDate,
         _reportEndDate: _reportEndDate,
-        _reportPriority: _reportPriority,
+        _reportCategory: _reportCategory,
         _userName: this.UserName
       })
       .subscribe((Response) => {
@@ -297,7 +287,7 @@ export class NursesDashboardComponent implements OnInit {
               userFullName: this.reportsArr[i].UsersReportsList[0].UsersList[0].FirstName + " " + this.reportsArr[i].UsersReportsList[0].UsersList[0].LastName,
               updateDate: this.reportsArr[i].LastUpdatedDate,
               shift: this.reportsArr[i].ReportShift,
-              priority: this.reportsArr[i].ReportPriority,
+              // priority: this.reportsArr[i].ReportPriority,
               machlol: this.reportsArr[i].ReportMachlol,
               category: this.reportsArr[i].ReportCategory,
             });

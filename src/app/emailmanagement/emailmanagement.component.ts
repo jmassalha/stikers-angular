@@ -274,7 +274,6 @@ export class EmailmanagementComponent implements OnInit {
   }
 
   shareComplaintWithOthers() {
-
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
         userId: this.myControl.value,

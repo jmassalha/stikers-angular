@@ -23,4 +23,34 @@
   }
   .card{
     background-color: floralwhite;
+    box-shadow: 7px 9px 12px -3px;
   }
+
+  .pb-4{
+    box-shadow: 7px 9px 12px -3px;
+    cursor: pointer;
+    background-color: floralwhite;
+  }
+
+  .col-4{
+    border-right: 3px solid;
+    border-left: 3px solid;
+  }
+
+  .material-icons:hover{
+    background-color: gray;
+    border-radius: 30%;
+    width: 35px;
+    height: 30px;
+  }
+
+  .card.dash-cards:hover{
+    background-color: darkgrey;
+  }
+
+.other-cards:hover{
+  background-color: darkgrey;
+}
+
+
+

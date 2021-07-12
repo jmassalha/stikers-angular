@@ -45,12 +45,11 @@
                                 <div class="col">
                                     <div class="form-group lh-37">
                                         <mat-form-field>
-                                            <mat-label>עדיפות</mat-label>
-                                            <mat-select formControlName="ReportPriority">
+                                            <mat-label>קטגוריה</mat-label>
+                                            <mat-select formControlName="ReportCategory">
                                                 <mat-option [value]="''">הכל</mat-option>
-                                                <mat-option *ngFor="let pr of priority" [value]="pr.value"
-                                                    [style.color]="pr.value == 'דחוף' ? 'firebrick': pr.value == 'רגיל' ? '' : 'red'">
-                                                    {{pr.viewValue}}
+                                                <mat-option *ngFor="let cat of all_categories_filter" [value]="cat.Cat_Name">
+                                                    {{cat.Cat_Name}}
                                                 </mat-option>
                                             </mat-select>
                                         </mat-form-field>
@@ -63,7 +62,7 @@
                                             <mat-select formControlName="ReportStatus">
                                                 <mat-option [value]="''">הכל</mat-option>
                                                 <mat-option *ngFor="let st of status" [value]="st.value"
-                                                    [style.color]="st.value == 'טופל' ? 'darkseagreen': st.value == 'בטיפול' ? 'darkgrey': st.value == 'חדש' ? '' : 'firebrick'">
+                                                    [style.color]="st.value == 'טופל' ? 'darkseagreen':  'darkgrey'">
                                                     {{st.viewValue}}
                                                 </mat-option>
                                             </mat-select>

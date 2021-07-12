@@ -145,12 +145,12 @@
 
     <mat-card class="full-width text-center">
         <div class="row">
-            <div class="col-4">
-                <label style="font-size: 20px;">{{complaintName}}</label>
+            <div class="col-6">
+                <label style="font-size: 40px;">{{complaintName}}</label>
             </div>
-            <div class="col-4">
+            <div class="col-6" style="background-color: burlywood;">
                 <div class="text-center">
-                    <label>תאריך אחרון לטיפול בפנייה:</label>
+                    <label>קביעת SLA</label>
                 </div>
                 <mat-form-field appearance="fill">
                     <input matInput formControlName="DeadLine" [matDatepicker]="pickers">
@@ -159,7 +159,7 @@
                     <mat-datepicker #pickers></mat-datepicker>
                 </mat-form-field>
             </div>
-            <div class="col-4">
+            <!-- <div class="col-4">
                 <button mat-raised-button class="btn btn-primary btn-raised float-left"
                     (click)="shareComplaintWithOthers()" matTooltip="קישור מנהל לפנייה">
                     <span class="material-icons">
@@ -172,33 +172,14 @@
                         <input type="text" placeholder="התחל הקלדה .." aria-label="manager" matInput
                             [formControl]="myControl" [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async" value="{{option.firstname}} {{option.lastname}}">
+                            <mat-option *ngFor="let option of filteredOptions | async"
+                                value="{{option.firstname}} {{option.lastname}}">
                                 {{option.firstname}} {{option.lastname}}
                             </mat-option>
                         </mat-autocomplete>
                     </mat-form-field>
-                    <!-- <mat-form-field class="example-full-width">
-                        <mat-label>קישור אחראי לפנייה</mat-label>
-                        <input type="text" placeholder="התחל הקלדה .." aria-label="manager" matInput
-                            [formControl]="myControl" [matAutocomplete]="auto">
-                        <mat-autocomplete #auto="matAutocomplete">
-                            <mat-option *ngFor="let option of filteredOptions | async">
-                                <input  [value]="option.firstname" hidden>
-                                {{option.firstname}} {{option.lastname}}
-                            </mat-option>
-                        </mat-autocomplete>
-                    </mat-form-field> -->
-                    <!-- <mat-form-field class="example-full-width">
-                                <mat-label>מחלקה</mat-label>
-                                <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                        {{option.DepartName}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field> -->
                 </form>
-            </div>
+            </div> -->
         </div>
     </mat-card>
 

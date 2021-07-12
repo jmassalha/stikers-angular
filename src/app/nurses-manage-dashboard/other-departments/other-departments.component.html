@@ -1,0 +1,88 @@
+<form class="form" [formGroup]="deliveryRoomForm" *ngIf="delivery">
+    <table dir="rtl" [dataSource]="dataSource3" mat-table class="mat-elevation-z8">
+
+        <ng-container matColumnDef="regular">
+            <th mat-header-cell *matHeaderCellDef> לידה רגילה </th>
+            <td mat-cell *matCellDef="let element"> {{element.RegularBirth}} </td>
+        </ng-container>
+        <ng-container matColumnDef="imperial">
+            <th mat-header-cell *matHeaderCellDef> ניתוח קיסרי </th>
+            <td mat-cell *matCellDef="let element"> {{element.ImperialBirth}} </td>
+        </ng-container>
+        <ng-container matColumnDef="other">
+            <th mat-header-cell *matHeaderCellDef> אחר </th>
+            <td mat-cell *matCellDef="let element"> {{element.OtherBirth}} </td>
+        </ng-container>
+        <ng-container matColumnDef="beforebirth">
+            <th mat-header-cell *matHeaderCellDef> לפני לידה </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>מספר מטופלים</mat-label>
+                    <input matInput type="number" formControlName="beforeDelivery">
+                </mat-form-field>
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="beforesurgery">
+            <th mat-header-cell *matHeaderCellDef> לפני ניתוח </th>
+            <td mat-cell *matCellDef="let element">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>מספר מטופלים</mat-label>
+                    <input matInput type="number" formControlName="beforeSurgery">
+                </mat-form-field>
+            </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay1"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay1;"></tr>
+    </table>
+    <button type="button" class="mt-2" mat-fab color="primary" (click)="getSubmitChanges('1')">
+        <i class="material-icons">save</i>
+    </button>
+</form>
+
+
+<table dir="rtl" [dataSource]="dataSource4" mat-table class="mat-elevation-z8" *ngIf="surgery">
+
+    <ng-container matColumnDef="inprogress">
+        <th mat-header-cell *matHeaderCellDef> פעיל </th>
+        <td mat-cell *matCellDef="let element"> {{element.SurgeryCountInProgress}} </td>
+    </ng-container>
+    <ng-container matColumnDef="waiting">
+        <th mat-header-cell *matHeaderCellDef> בהמתנה </th>
+        <td mat-cell *matCellDef="let element"> {{element.SurgeryCountPlanned}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay2"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay2;"></tr>
+</table>
+
+<table dir="rtl" [dataSource]="dataSource5" mat-table class="mat-elevation-z8" *ngIf="ICU">
+
+    <ng-container matColumnDef="adult">
+        <th mat-header-cell *matHeaderCellDef> מבוגרים </th>
+        <td mat-cell *matCellDef="let element"> {{element}} </td>
+    </ng-container>
+    <ng-container matColumnDef="child">
+        <th mat-header-cell *matHeaderCellDef> ילדים </th>
+        <td mat-cell *matCellDef="let element"> {{element}} </td>
+    </ng-container>
+    <ng-container matColumnDef="women">
+        <th mat-header-cell *matHeaderCellDef> נשים </th>
+        <td mat-cell *matCellDef="let element"> {{element}} </td>
+    </ng-container>
+    <ng-container matColumnDef="lyingdown">
+        <th mat-header-cell *matHeaderCellDef> שוכבים </th>
+        <td mat-cell *matCellDef="let element"> {{element}} </td>
+    </ng-container>
+    <ng-container matColumnDef="standing">
+        <th mat-header-cell *matHeaderCellDef> מהלכים </th>
+        <td mat-cell *matCellDef="let element"> {{element}} </td>
+    </ng-container>
+    <ng-container matColumnDef="shockroom">
+        <th mat-header-cell *matHeaderCellDef> חדר הלם </th>
+        <td mat-cell *matCellDef="let element"> {{element}} </td>
+    </ng-container>
+
+    <tr mat-header-row *matHeaderRowDef="columnsToDisplay3"></tr>
+    <tr mat-row *matRowDef="let row; columns: columnsToDisplay3;"></tr>
+</table>

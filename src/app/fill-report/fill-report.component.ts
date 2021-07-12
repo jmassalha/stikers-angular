@@ -14,10 +14,10 @@ import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
 
-export interface Priority {
-  value: string;
-  viewValue: string;
-}
+// export interface Priority {
+//   value: string;
+//   viewValue: string;
+// }
 export interface Status {
   value: string;
   viewValue: string;
@@ -38,11 +38,11 @@ export class FillReportComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  priority: Priority[] = [
-    { value: 'רגיל', viewValue: 'רגיל' },
-    { value: 'דחוף', viewValue: 'דחוף' },
-    { value: 'בהול', viewValue: 'בהול' },
-  ];
+  // priority: Priority[] = [
+  //   { value: 'רגיל', viewValue: 'רגיל' },
+  //   { value: 'דחוף', viewValue: 'דחוף' },
+  //   { value: 'בהול', viewValue: 'בהול' },
+  // ];
   status: Status[] = [
     { value: 'לטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
@@ -141,7 +141,7 @@ export class FillReportComponent implements OnInit {
 
   deleteReport(reportID) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/DeleteReport", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReport", {
         _reportID: reportID
       })
       .subscribe((Response) => {
@@ -182,7 +182,7 @@ export class FillReportComponent implements OnInit {
 
     if (!this.ReportGroup.invalid) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/AddUpdateReport", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName
         })
@@ -202,7 +202,7 @@ export class FillReportComponent implements OnInit {
 
   getDeparts() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetNursesDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {
 
       })
       .subscribe((Response) => {
@@ -216,7 +216,7 @@ export class FillReportComponent implements OnInit {
 
   getReportToUpdate() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetReportToUpdate", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReportToUpdate", {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
@@ -293,7 +293,7 @@ export class FillReportComponent implements OnInit {
 
   getCategories() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetCategories", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {
       })
       .subscribe((Response) => {
         this.all_categories_filter = Response["d"];

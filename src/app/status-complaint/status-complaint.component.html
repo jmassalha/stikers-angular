@@ -14,7 +14,33 @@
 
 <form dir="rtl" [formGroup]="messanger" autocomplete="off" *ngIf="_choosed">
     <mat-card class="full-width text-center pb-0 mb-3">
-        <label style="font-size: 20px;">complaintName</label>
+        <div class="row">
+            <div class="col-6">
+            <label style="font-size: 20px;">{{ComplaintSubject}}</label>
+        </div>
+        <div class="col-6">
+            <button mat-raised-button class="btn btn-primary btn-raised float-left" (click)="shareComplaintWithOthers()"
+                matTooltip="קישור מנהל לפנייה">
+                <span class="material-icons">
+                    reply
+                </span>
+            </button>
+            <form class="example-form">
+                <mat-form-field class="example-full-width">
+                    <mat-label>קישור אחראי לפנייה</mat-label>
+                    <input type="text" placeholder="התחל הקלדה .." aria-label="manager" matInput
+                        [formControl]="myControl" [matAutocomplete]="auto">
+                    <mat-autocomplete #auto="matAutocomplete">
+                        <mat-option *ngFor="let option of filteredOptions | async"
+                            value="{{option.firstname}} {{option.lastname}}">
+                            {{option.firstname}} {{option.lastname}}
+                        </mat-option>
+                    </mat-autocomplete>
+                </mat-form-field>
+            </form>
+        </div>
+        </div>
+        
     </mat-card>
     <div class="full-width" *ngFor="let message of messagesArray">
         <mat-card class="message-card full-width" *ngIf="message.UserName != UserName">

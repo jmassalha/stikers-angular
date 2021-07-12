@@ -11,7 +11,8 @@ import {
 } from '@angular/material/snack-bar';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 import { EmployeesComponent } from '../employees/employees.component';
-import { isEmpty } from 'rxjs/operators';
+import { isEmpty, map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-status-complaint',
@@ -34,6 +35,8 @@ export class StatusComplaintComponent implements OnInit {
   ) { }
 
 
+  users = [];
+  all_users_filter = [];
   urlID: number;
   complaintID: number;
   messanger: FormGroup;
@@ -42,10 +45,13 @@ export class StatusComplaintComponent implements OnInit {
   MessageDate: string = "";
   MTime: string = "";
   CompID: string = "";
+  ComplaintSubject: string = "";
   _choosed: boolean;
   all_complaints_filter = [];
   messagesArray = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
+  filteredOptions: Observable<string[]>;
+  myControl = new FormControl();
 
 
   ngOnInit(): void {
@@ -58,6 +64,11 @@ export class StatusComplaintComponent implements OnInit {
       Complaint: ['', null]
     });
     this.getRelevantComplaints(this.urlID);
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter(value))
+      );
   }
 
   openSnackBar(message) {
@@ -98,6 +109,28 @@ export class StatusComplaintComponent implements OnInit {
       });
   }
 
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.users.filter(option => option.firstname.includes(filterValue));
+  }
+
+  shareComplaintWithOthers() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
+        userId: this.myControl.value,
+        compId: this.complaintID,
+      })
+      .subscribe((Response) => {
+        if (Response["d"] == "found") {
+          this.openSnackBar("! נשלח בהצלחה לנמען");
+        } else if(Response["d"] == "Exists"){
+          this.openSnackBar("! כבר משוייך לפנייה");
+        } else {
+          this.openSnackBar("! נמען לא קיים");
+        }
+      });
+  }
+
   getAndSendMessages(formid) {
     this._choosed = true;
     let UserName = localStorage.getItem("loginUserName").toLowerCase();
@@ -116,7 +149,20 @@ export class StatusComplaintComponent implements OnInit {
         this.messagesArray = Response["d"];
         this.complaintID = formid;
         // this.CompID = this.messagesArray[0].Complaint;
+        this.ComplaintSubject = Response["d"][Response["d"].length-1].ComplaintSubject;
+        this.messagesArray.splice(-1,1);
         this.messanger.controls['MessageValue'].setValue("");
+      });
+      this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
+
+      })
+      .subscribe((Response) => {
+        this.all_users_filter = Response["d"];
+
+        this.all_users_filter.forEach(element => {
+          this.users.push(element);
+        })
       });
   }
 }

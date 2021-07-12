@@ -1,10 +1,15 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FillReportComponent } from '../fill-report/fill-report.component';
 import { Router } from '@angular/router';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
 
 
 @Component({
@@ -14,16 +19,26 @@ import { Router } from '@angular/router';
 })
 export class NursesDepartmentManageComponent implements OnInit {
 
-  displayedColumns: string[] = ['nursing','medical','receipts','released','plannedtorelease','holiday','respirators','catheter','centralcatheter','isolation','phlimitation','death','kpc','complex','cva'];
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  displayedColumns: string[] = ['nursing', 'medical', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns2: string[] = ['tablenum','casenumber','departmentnursing','departmentmedical','passportid','firstname','lastname','dob','gender','city','enterdate','entertime'];
+  displayedColumns2: string[] = ['tablenum', 'casenumber', 'departmentnursing', 'departmentmedical', 'passportid', 'firstname', 'lastname', 'dob', 'gender', 'city', 'enterdate', 'entertime'];
   dataSource2 = new MatTableDataSource<any>();
+
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource2.filter = filterValue;
+  }
 
   constructor(public dialog: MatDialog,
     private router: Router,
     private http: HttpClient,
+    private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder) { }
+
 
   departCode: string;
   Dept_Name: string;
@@ -32,15 +47,43 @@ export class NursesDepartmentManageComponent implements OnInit {
   departmentArray = [];
   ELEMENT_DATA = [];
   ELEMENT_DATA2 = [];
+  departmentRelease: FormGroup;
 
   ngOnInit(): void {
     this.loading = true;
     this.patientsTable = false;
+    this.departmentRelease = new FormGroup({
+      plannedToRelease: new FormControl('', null),
+    });
     this.getDepartDetails();
+    this.getSubmitPlannedToRealse('0');
   }
 
+  getSubmitPlannedToRealse(ifsaved) {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetSubmitPlannedToRealse", {
+        _plannedToRelease: this.departmentRelease.controls['plannedToRelease'].value,
+        _departCode: this.departCode,
+        userName: localStorage.getItem('loginUserName').toLowerCase()
+      })
+      .subscribe((Response) => {
+        this.departmentRelease.controls['plannedToRelease'].setValue(Response["d"][0]);
+      });
+    if (ifsaved == '1') {
+      this.openSnackBar("נשמר בהצלחה");
+      this.ngOnInit();
+    }
+  }
 
-  fillReportDialog(reportid,Dept_Name) {
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  fillReportDialog(reportid, Dept_Name) {
     let dialogRef = this.dialog.open(FillReportComponent);
     dialogRef.componentInstance.reportID = reportid;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
@@ -48,7 +91,7 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   getDepartDetails() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetDepartDetails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetDepartDetails", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {
@@ -58,15 +101,16 @@ export class NursesDepartmentManageComponent implements OnInit {
       });
   }
 
-  getPatientsPerDepart(){
+  getPatientsPerDepart() {
     this.http
       .post("http://localhost:64964/WebService.asmx/GetPatientsPerDepart", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);
-        this.patientsTable = true;
+        this.patientsTable = !this.patientsTable;
       });
   }
+
 
 }
