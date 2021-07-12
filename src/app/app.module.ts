@@ -107,7 +107,7 @@ import { CasenumbersComponent } from './casenumbers/casenumbers.component';
 import { ClinicsDashboardComponent } from './clinics-dashboard/clinics-dashboard.component';
 import { CheckpatientinsmartclosetComponent } from './checkpatientinsmartcloset/checkpatientinsmartcloset.component';
 import { DrugsnicComponent } from './drugsnic/drugsnic.component';
-
+import { NgxBarCodePutModule } from 'ngx-barcodeput';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -116,6 +116,8 @@ const maskConfig: Partial<IConfig> = {
 
 @NgModule({
   declarations: [    
+    CasenumbersComponent,
+    ScannersComponent,
     DialogContentExampleDialog,
     AppComponent,
     LoginComponent,
@@ -184,6 +186,7 @@ const maskConfig: Partial<IConfig> = {
     OtherDepartmentsComponent
   ],
   imports: [
+    NgxBarCodePutModule,
     GoogleChartsModule,
     NgxMatNativeDateModule,    
     MatMomentDateModule,
@@ -250,6 +253,10 @@ const maskConfig: Partial<IConfig> = {
     
       ,ConfirmationDialogService
     , NgbActiveModal],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  exports: [
+    FormsModule,
+    ReactiveFormsModule
+  ]
 })
 export class AppModule { }

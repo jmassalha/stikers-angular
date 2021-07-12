@@ -6,6 +6,7 @@ import {
     Input,
     ElementRef,
 } from "@angular/core";
+
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
@@ -32,6 +33,7 @@ import {
     FormBuilder,
     FormGroup,
     Validators,
+    
 } from "@angular/forms";
 import { IDetect } from "ngx-barcodeput";
 
