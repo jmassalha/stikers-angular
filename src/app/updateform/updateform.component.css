@@ -1,0 +1,14 @@
+/* table {
+  width: 100%;
+} */
+
+#rolesDetailsBtn{
+  position: fixed;
+  bottom: 100px;
+  left: 100px;
+  z-index: 10;
+}
+
+mat-table { 
+  width: 100%; 
+}

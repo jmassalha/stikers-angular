@@ -1,0 +1,265 @@
+body, body *:not(.material-icons){
+    font-family: 'Miriam Libre', sans-serif !important;
+}
+body{
+    background: #fff;
+}
+.w-70P{
+    width: 100%;
+    display: block;
+    float: right;
+}
+.w-70{
+    width: 70px;
+}
+.mt--10{
+    margin-top: -10px; 
+}
+.w-90{
+    width: 110px;
+}
+.w-30{
+    width: 30px;
+}
+.d-block {
+    display: block!important;
+    width: 100%;
+    float: right;
+    direction: rtl;
+    text-align: right;
+}
+.top-header-1 h1{
+    border-bottom: 2px solid #000;
+    margin-bottom: 2px;
+    font-size: 25px;
+
+}
+.details h5{
+    font-size: 23px;
+    letter-spacing: 4px;
+}
+.mid-section .d-block{
+    margin-bottom: 5px;
+}
+.mid-section h6{
+    font-size: 23px;
+}
+.mid-section{
+    margin: 10px 0 5px;
+}
+table{
+    width: 100%;
+} 
+p{
+    margin-bottom: 1px;
+}
+.invoice{
+    margin-top: 20px;
+}
+thead{
+    border-bottom: 1px solid #000;
+    border-top: 1px solid #000;
+}
+tfoot{
+    border-top: 1px solid #000;
+}
+.w-200 {
+    width: 200px;
+}
+.details  {
+    margin: 10px 0 0;
+}
+#numbers{
+    height: 210px;
+    resize: none;
+   /* background: #fff;*/
+}
+
+#app-loader img {
+    width: 60px;
+    height: 60px;
+    margin: auto;
+}
+#login-page {
+    direction: ltr;
+    position: fixed;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+    background: #7986CB;
+    text-align: center;
+    display: flex;
+}
+#login-page .form-group, #login-page .bmd-form-group {
+    padding: 0;
+    margin-bottom: 2px;
+}
+#footer-login a {
+    color: #fff;
+}
+#app-body {
+    display: block;
+    float: right;
+    width: 100%;
+    height: 100%;
+    position: absolute;
+    overflow: auto;
+    padding-top: 0;
+    padding-left: 15px;
+    padding-right: 15px;
+}
+#mid-page {
+    width: 300px;
+    margin: auto;
+    display: block;
+}
+#footer-login {
+    padding-top: 10px;
+    padding-bottom: 10px;
+    border-top: 1px solid #fff;
+    color: #fff;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    text-align: center;
+    direction: ltr;
+    z-index: -1;
+}
+.logo {
+    border-radius: 50%;
+    background: #fff;
+    width: 107px;
+    display: block;
+    margin: auto;
+    height: 107px;
+    padding: 35px 0px 0px 1px;
+    margin-bottom: 10px;
+}
+.logo i {
+    font-size: 51px;
+    position: relative;
+    top: -10px;
+    left: 2px;
+}
+#mid-page input {
+    direction: rtl;
+    border-radius: 0;
+    border: 0;
+    background: #fff;
+    height: 50px;
+    line-height: 50px;
+    font-size: 18px;
+    padding-right: 5px;
+}
+#login-form .btn-div button {
+    color: #fff;
+    background: none;
+    border: 0;
+    font-size: 40px;
+    padding: 0;
+    line-height: 40px;
+}
+#app-loader{
+    opacity: 1;
+    transition: 0.3s opacity;
+    display: flex;
+    width: 100%;
+    position: fixed;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    top: 0;
+    background: #7986CB;
+    z-index: 9999999999999;
+}
+#app-loader.hide-me{
+    opacity: 0;
+    transition: 0.3s opacity;
+    z-index: -2;
+}
+.radio label, label.radio-inline {
+    position: relative;
+    padding-right: 1.5625rem;
+    padding-left: 0;
+}
+.radio label .bmd-radio, label.radio-inline .bmd-radio {
+    left: auto;
+    right: 0;
+}
+.bmd-form-group .bmd-label-static, .bmd-form-group.is-filled .bmd-label-floating, .bmd-form-group .is-filled .bmd-label-floating, .bmd-form-group.is-focused .bmd-label-floating, .bmd-form-group .is-focused .bmd-label-floating {
+    right: 0;
+}
+.mt-10{
+    margin-top: 10px;
+}
+.borderless td, .borderless th {
+    border: none;
+}
+.top-header-1 {
+    margin-bottom: 20px;
+}
+.top-header-1 img{
+    margin-top: -5px;
+    height: 165px
+}
+.patient-details {
+    margin-bottom: 20px;
+}
+.patient-details p{
+    font-size: 23px;
+    /*font-weight: bold;*/
+}
+#printme{
+    display: none;
+}
+.d-block{
+    width: 100%;
+    float: right;
+}
+.page-invoice,
+.cut-all{
+    float: none;
+}
+.cut-all{
+    display: block;
+    page-break-before: always;
+    position: relative;
+}
+.page-invoice {
+    /*padding:50px;*/
+    display: block;
+    page-break-after: always;
+    position: relative;
+}
+@media print {
+    
+    #printme{
+        display: block  !important;
+    }
+    .d-none-on-print{
+        display: none  !important;
+    }
+    @page{
+        margin: 5mm 10mm 30mm;
+    }
+    body{
+        background: #fff;
+    }
+    .cut-all{
+        display: block;
+        page-break-before: always;
+        position: relative;
+    }
+    .page-invoice {
+        /*padding:50px;*/
+        display: block;
+        page-break-after: always;
+        position: relative;
+    }
+    *{
+        margin-bottom: 0 !important;
+    }
+    table tfoot{display:table-row-group;}
+}

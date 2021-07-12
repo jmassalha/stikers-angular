@@ -1,0 +1,100 @@
+<div id="page-toshow">
+    <h1 class="page-title text-center">בדיקת מטופל בארון חכם</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="חפש"
+                                                [(ngModel)]="fliterVal"
+                                                name="fliterVal"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                mat-raised-button
+                                type="submit"
+                                class="btn btn-primary btn-raised"
+                                (click)="getReport($event)"
+                            >
+                                הצג
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+</div>
+<ng-template #patientModal let-modal>
+    <div dir="rtl" class="modal-header text-right">
+        <h4 class="modal-title text-center" id="modal-basic-title">
+            פרטי מטופל
+        </h4>
+        <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div dir="rtl" class="modal-body  text-right">
+        <div *ngIf="mPatientData.CaseNumber" class="row">
+            <div class="col-md-4">
+                <label><b>מס' מקרה</b></label>
+                <p>{{mPatientData.CaseNumber}}</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>מס' ממטופל</b></label>
+                <p>{{mPatientData.PatientNumber}}</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>ת.ז</b></label>
+                <p>{{mPatientData.PatientID}}</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>שם פרטי</b></label>
+                <p>{{mPatientData.PatientFirstName}}</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>שם משפחה</b></label>
+                <p>{{mPatientData.PatientLastName}}</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>תאריך הכנסה ל-DB</b></label>
+                <p>{{mPatientData.InsertDate}}</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>שעת הכנסה ל-DB</b></label>
+                <p>{{mPatientData.InsertTime}}</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>תאריך קבלה</b></label>
+                <p>{{mPatientData.HospitalDate}}</p>
+            </div>
+            <div class="col-md-4">
+                <label><b>שעת קבלה לבית חולים</b></label>
+                <p>{{mPatientData.HospitalTime}}</p>
+            </div>
+        </div>    
+        <div *ngIf="!mPatientData.CaseNumber" class="row">
+            <div class="col-md-12 text-center">
+                <h2><b>מטופל לא נמצא</b></h2>
+            </div>            
+        </div>       
+    </div>
+</ng-template>

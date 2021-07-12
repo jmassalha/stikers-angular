@@ -1,0 +1,884 @@
+<h1 class="page-title text-center">CHADS</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div dir="rtl" class="card w-85-p">
+                <div dir="rtl" class="card-body">
+                    <form class="form">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="מ תאריך"
+                                            required
+                                            (focus)="startdate.open()"
+                                            [(ngModel)]="startdateVal"
+                                            name="startdate"
+                                            [matDatepicker]="startdate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="startdate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #startdate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="עד תאריך "
+                                            (focus)="enddate.open()"
+                                            required
+                                            [(ngModel)]="enddateVal"
+                                            name="enddate"
+                                            [matDatepicker]="enddate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="enddate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #enddate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>תקין / לא תקין</mat-label>
+                                        <mat-select
+                                            [(value)]="goodOrNot"
+                                            required
+                                        >
+                                            <mat-option value="-1"
+                                                >הכל</mat-option
+                                            >
+                                            <mat-option value="1"
+                                                >תקין</mat-option
+                                            >
+                                            <mat-option value="0"
+                                                >לא תקין</mat-option
+                                            >
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>
+                                            טיפול אנטיקואגולנטי
+                                        </mat-label>
+                                        <mat-select
+                                            [(value)]="AntiCoagTreat"
+                                            required
+                                        >
+                                            <mat-option value="-1"
+                                                >הכל</mat-option
+                                            >
+                                            <mat-option value="1"
+                                                >כן</mat-option
+                                            >
+                                            <mat-option value="0"
+                                                >לא</mat-option
+                                            >
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>מחלקה</mat-label>
+                                        <mat-select
+                                            name="Department_ID"
+                                            [(value)]="DepartmentID"
+                                            required
+                                        >
+                                            <mat-option
+                                                *ngFor="let depart of departs"
+                                                [value]="depart.name"
+                                                >{{ depart.name }}</mat-option
+                                            >
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>
+                                            רלוונט
+                                        </mat-label>
+                                        <mat-select
+                                            [(value)]="Relevant"
+                                            required
+                                        >
+                                            <mat-option value="-1"
+                                                >הכל</mat-option
+                                            >
+                                            <mat-option value="1"
+                                                >כן</mat-option
+                                            >
+                                            <mat-option value="0"
+                                                >לא</mat-option
+                                            >
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div dir="rtl" class="col-md-12 text-right">
+                                <div class="form-group">
+                                    <label class="label-year">בחר שנה</label>
+                                    <mat-radio-group
+                                        name="years"
+                                        class="inline-radio-group"
+                                    >
+                                        <mat-radio-button
+                                            class="inline-radio-group-in"
+                                            *ngFor="
+                                                let year of yearsToSelect.list
+                                            "
+                                            name="year"
+                                            [checked]="year.checked"
+                                            [value]="year.ID"
+                                            (change)="radioChange($event)"
+                                        >
+                                            {{ year.ID }}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <mat-label>רבעון</mat-label>
+                            </div>
+                            <mat-list class="row-all">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                [checked]="true"
+                                                #all
+                                                value="all"
+                                                >הכל</mat-radio-button
+                                            >
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                #one
+                                                value="1"
+                                                >I</mat-radio-button
+                                            >
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                #two
+                                                value="2"
+                                                >II</mat-radio-button
+                                            >
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                #Three
+                                                value="3"
+                                                >III
+                                            </mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                #four
+                                                value="4"
+                                                >IV</mat-radio-button
+                                            >
+                                        </mat-list-item>
+                                    </div>
+                                </div>
+                            </mat-list>
+                        </div>
+
+                        <button
+                            mat-raised-button
+                            type="submit"
+                            class="btn btn-primary btn-raised"
+                            (click)="getReport($event)"
+                        >
+                            הצג
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-tab-group mat-align-tabs="end" (selectedTabChange)="onTabChanged($event)">
+    <mat-tab label="נתונים בטבלה">
+        <div class="container-fluid pb-60">
+            <div class="row">
+                <div dir="rtl" class="col">
+                    <div class="table-responsive">
+                        <div class="table-spinner-container">
+                            <mat-form-field>
+                                <input
+                                    matInput
+                                    (keyup)="applyFilter($event.target.value)"
+                                    placeholder="חפש"
+                                />
+                            </mat-form-field>
+                            <table
+                                class="table"
+                                matSort
+                                mat-table
+                                [dataSource]="dataSource"
+                            >
+                                <ng-container matColumnDef="ROW_ID">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        מס' שורה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.ROW_ID }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Measurment_ID">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        קוד מדד
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Measurment_ID }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Hospital_ID">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        קוד בית חולים
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Hospital_ID }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Patient_ID">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        ת.ז. מוצפנת
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Patient_ID }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Patientbikoret_ID">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        ת.ז.- ספרת ביקורת
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Patientbikoret_ID }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="ID_Types">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        סוג תעודה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.ID_Types }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Case_Number">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        מספר מקרה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Case_Number }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Depart_Name">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        מחלקה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Depart_Name }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Department_ID">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        קוד מחלקה מאשפזת
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Department_ID }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Hosp_Date">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        תאריך כניסה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Hosp_Date }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Discharge_Date">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        תאריך שחרור
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Discharge_Date }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Death_Date">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        תאריך פטירה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Death_Date }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Birth_Year">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        שנת לידה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Birth_Year }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Gender">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        מין
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Gender }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Adress_Street">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        כתובת- רחוב
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Adress_Street }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Adress_House">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        כתובת - מספר בית
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Adress_House }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Adress_CityName">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        כתובת - עיר
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Adress_CityName }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="CityCode">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        סמל יישוב
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.CityCode }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="SES">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        אשכול סוציוכלכלי
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.SES }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Insurance_Provider">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        גורם מבטח
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Insurance_Provider }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="CHADS2_Date">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        תאריך ביצוע הערכת סיכון
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.CHADS2_Date }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="CHADS2_Value">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        הערך שהתקבל
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.CHADS2_Value }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="CHADS2_Tool">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        כלי
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.CHADS2_Tool }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="AntiCoag_Treat">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        טיפול אנטיקואגולנטי
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.AntiCoag_Treat }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Diagnosis_ICD">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        קוד אבחנה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Diagnosis_ICD }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Remarks">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        הערות
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Remarks }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="PatiantNumber">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        מס' מטופל
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.PatiantNumber }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="KhroneOrNot">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        כרוני
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.KhroneOrNot }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="DoctorName">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        שם רופא
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.DoctorName }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Tkeen">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        תקין / לא תקין
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Tkeen }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Chad_Type">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        mat-sort-header
+                                    >
+                                        סוג CHAD
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Chad_Type }}
+                                    </td>
+                                </ng-container>
+                                <!-- Action Column -->
+                                <ng-container matColumnDef="action">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        עריכה
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        *matCellDef="let element"
+                                        class="action-link"
+                                    >
+                                        <a
+                                            [hidden]="element.Hide_Btn"
+                                            (click)="
+                                                open(
+                                                    updateModal,
+                                                    'Update',
+                                                    element
+                                                )
+                                            "
+                                        >
+                                            <i class="material-icons">edit</i>
+                                        </a>
+                                    </td>
+                                </ng-container>
+
+                                <!-- Action Column -->
+                                <ng-container matColumnDef="relevant">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        לא רלוונטי
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        *matCellDef="let element"
+                                        class="action-link"
+                                    >
+                                        <a
+                                            (click)="
+                                                openRelevant(
+                                                    RelevantDetailsModal,
+                                                    'Update',
+                                                    element
+                                                )
+                                            "
+                                            [ngClass]="{
+                                                redRow:
+                                                    element?.RelevantOrNotCheck ==
+                                                    '0'
+                                            }"
+                                        >
+                                            <i class="material-icons"
+                                                >not_interested</i
+                                            >
+                                        </a>
+                                    </td>
+                                </ng-container>
+
+                                <tr
+                                    mat-header-row
+                                    *matHeaderRowDef="displayedColumns"
+                                ></tr>
+                                <tr
+                                    mat-row
+                                    *matRowDef="
+                                        let row;
+                                        columns: displayedColumns
+                                    "
+                                ></tr>
+                            </table>
+                        </div>
+                        <!-- PAGINATION -->
+                        <mat-paginator
+                            [length]="resultsLength"
+                            [pageSizeOptions]="[20, 50, 100]"
+                            [pageSize]="20"
+                            showFirstLastButtons
+                            (page)="getPaginatorData($event)"
+                        ></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <mat-tab label="נתונים בגרף">
+        <div class="container-fluid text-right">
+            <div class="row">
+                <div class="col-2"></div>
+                <div class="col-8" id="DepartDoingWrapper"></div>
+            </div>
+            <div class="row">
+                <div class="1col1" id="chadNoValByDocWrapper"></div>
+                <div class="1col1" id="tkenLoTken"></div>
+            </div>
+        </div>
+    </mat-tab>
+</mat-tab-group>
+<br />
+<br />
+<br />
+<br />
+<hr />
+
+<ng-template #updateModal let-modal>
+    <div class="modal-header text-right">
+        <h4 class="modal-title text-center" id="modal-basic-title">
+            עריכה<span id="row_id"></span>
+        </h4>
+        <button
+            type="button"
+            class="close"
+            aria-label="Close"
+            (click)="modal.dismiss('Cross click')"
+        >
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div id="free_text" dir="rtl" class="col text-right"></div>
+        <form dir="rtl" id="chadForm" class="form col">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="ערך של CHAD"
+                                [(ngModel)]="chadVal"
+                                name="chadVal"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="תאריך CHAD"
+                                [(ngModel)]="chadDate"
+                                [matDatepicker]="chadDateIn"
+                                name="chadDate"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="chadDateIn"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #chadDateIn></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="כלי"
+                                [(ngModel)]="chadTool"
+                                name="chadTool"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
+    <div class="modal-footer text-left">
+        <button
+            type="button"
+            class="btn btn-outline-dark"
+            (click)="modal.close('Save')"
+        >
+            שמור
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #RelevantDetailsModal let-modal>
+    <form
+        dir="rtl"
+        id="RelevantForm"
+        class="form col"
+        [formGroup]="RelevantForm"
+        (ngSubmit)="onSubmitNote()"
+    >
+        <div class="modal-header text-right">
+            <h4 class="modal-title text-center" id="modal-basic-title">
+                מטופל מס'&nbsp;&nbsp;<span>{{ patientNumber }}</span> - מקרה
+                מס'&nbsp;&nbsp;<span>{{ caseNumber }}</span>
+            </h4>
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body text-right" dir="rtl">
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <mat-checkbox
+                            id="RelevantOrNotCheck"
+                            name="RelevantOrNotCheck"
+                            formControlName="RelevantOrNotCheck"
+                            class="example-margin"
+                            >לא רלוונטי</mat-checkbox
+                        >
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <textarea
+                                id="RelevantNote"
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="הערה"
+                                formControlName="RelevantNote"
+                                required
+                                type="text"
+                            ></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-left">
+            <input
+                type="hidden"
+                id="RelevantDate"
+                formControlName="RelevantDate"
+            />
+            <input
+                type="hidden"
+                id="RelevantDoc"
+                formControlName="RelevantDoc"
+            />
+            <input type="hidden" id="ROW_ID" formControlName="ROW_ID" />
+            <button type="submit" class="btn btn-outline-dark">שמור</button>
+        </div>
+    </form>
+</ng-template>

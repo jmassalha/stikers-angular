@@ -1,0 +1,144 @@
+<form dir="rtl" class="form col" [formGroup]="ReportGroup">
+    <div class="modal-header text-right">
+        <div class="row mt-3">
+            <div class="col-6 text-center"><u>תאריך נוכחי : {{date2}}</u>
+            </div>
+            <div class="col-4 text-center">
+                <u>שעה נוכחית : {{time2}}</u>
+            </div>
+        </div>
+        <!-- <h4 class="modal-title text-center">דווח</h4> -->
+        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col-9">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input matInput autocomplete="off" class="form-control" formControlName="ReportTitle"
+                            placeholder="נושא" type="text" />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col-3">
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" formControlName="toContinue"
+                        (change)="autoDate($event.checked)">דורש
+                        המשך טיפול</mat-checkbox>
+                </section>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field appearance="fill">
+                        <mat-label>מחלקה</mat-label>
+                        <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
+                            [matAutocomplete]="auto2">
+                        <mat-autocomplete #auto2="matAutocomplete">
+                            <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Dept_Name">
+                                {{dept.Dept_Name}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>קטיגוריה</mat-label>
+                        <mat-select formControlName="ReportCategory">
+                            <mat-option *ngFor="let cat of all_categories_filter" [value]="cat.Cat_Name">
+                                {{cat.Cat_Name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>תת קטיגוריה</mat-label>
+                        <mat-select formControlName="ReportSubCategory">
+                            <mat-option *ngFor="let tp of subCategory" [value]="tp.SubCat_Name">
+                                {{tp.SubCat_Name}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+            <!-- <div class="col">
+                <div class="form-group">
+                    <mat-form-field appearance="fill">
+                        <input matInput placeholder="תאריך לביצוע" formControlName="ReportSchudledDate"
+                            [matDatepicker]="picker">
+                        <mat-datepicker-toggle matSuffix [for]="picker">
+                        </mat-datepicker-toggle>
+                        <mat-datepicker #picker></mat-datepicker>
+                    </mat-form-field>
+                </div>
+
+            </div> -->
+        </div>
+        <div class="row">
+            <!-- <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>עדיפות</mat-label>
+                        <mat-select formControlName="ReportPriority">
+                            <mat-option *ngFor="let pr of priority" [value]="pr.value">
+                                {{pr.viewValue}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div> -->
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>משמרת</mat-label>
+                        <input matInput class="form-control" formControlName="ReportShift" type="text" />
+                        <!-- <mat-select formControlName="ReportShift">
+                            <mat-option *ngFor="let sh of shift" [value]="sh.value"> {{sh.viewValue}} </mat-option>
+                        </mat-select> -->
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>סטטוס</mat-label>
+                        <mat-select formControlName="ReportStatus">
+                            <mat-option *ngFor="let st of status" [value]="st.value"> {{st.viewValue}} </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <div class="form-group">
+                    <mat-form-field>
+                        <textarea matInput rows="15" placeholder="תוכן הדוח" class="form-control border-1"
+                            formControlName="ReportText"></textarea>
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-left" *ngIf="creator || reportID == '0';else note">
+        <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" color="primary" (click)="onSubmit()" type="submit"
+            mat-raised-button>
+            <span class="material-icons">
+                save
+            </span>
+        </button>
+        <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" mat-raised-button class="btn btn-outline-dark"
+            color="warn" (click)="deleteReport(reportID)">
+            <span class="material-icons">
+                delete
+            </span>
+        </button>
+    </div>
+    <ng-template #note>להוספת תגובה לדווח תחת העמודה "הוסף תגובה לדווח"</ng-template>
+</form>

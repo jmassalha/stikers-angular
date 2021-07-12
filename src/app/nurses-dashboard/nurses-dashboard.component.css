@@ -1,0 +1,115 @@
+#EventBtn{
+    position: fixed;
+    bottom: 43px;
+    left: 43px;
+    z-index: 10;
+}
+
+table {
+    width: 100%;
+  }
+html{
+  font-size: 50%;
+}
+
+table {
+    width: 100%;
+  }
+  table td{
+    font-size: x-large;
+  }
+  
+  tr.example-detail-row {
+    height: 0;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):hover {
+    background: whitesmoke;
+  }
+  
+  tr.example-element-row:not(.example-expanded-row):active {
+    background: #efefef;
+  }
+  
+  .example-element-row td {
+    border-bottom-width: 0;
+  }
+  
+  .example-element-detail {
+    overflow: hidden;
+    display: flex;
+    background-color: aliceblue;
+  }
+  
+  .example-element-diagram {
+    min-width: 80px;
+    border: 2px solid black;
+    padding: 8px;
+    font-weight: lighter;
+    margin: 8px 0;
+    height: 104px;
+  }
+  
+  .example-element-symbol {
+    font-weight: bold;
+    font-size: 25px;
+    line-height: normal;
+  }
+  
+  .example-element-description {
+    padding: 16px;
+    font-size: large;
+    color: brown;
+  }
+  
+  .example-element-description-attribution {
+    opacity: 0.8;
+  }
+  @media print {
+    #to-print {
+        display: block;
+    }
+    .pl-35 {
+        padding-left: 35px;
+    }
+    body {
+        padding: 0 !important;
+        background: none !important;
+    }
+    #sendSmsBtn,
+    footer,
+    #page-toshow,
+    
+    #form-html-templet .card-header * {
+        padding: 0 !important;
+    }
+    .card {
+        padding: 0 !important;
+        border: 0;
+    }
+    footer[_ngcontent-pxw-c3] {
+        display: none !important;
+    }
+
+    button {
+        display: none !important;
+    }
+    td label {
+        display: none;
+    }
+}
+
+.example-element-diagram {
+  min-width: 80px;
+  border-radius: 30px;
+  border: 1px solid black;
+  color: royalblue;
+  padding: 8px;
+  font-weight: bolder;
+  margin: 8px 0;
+  height: 90%;
+}
+
+#page-toshow{
+  font-size: x-large;
+}

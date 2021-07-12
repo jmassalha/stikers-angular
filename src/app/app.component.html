@@ -1,0 +1,6 @@
+<div id="loader" class="d-none">
+    <mat-spinner value="50" diameter="30"></mat-spinner>
+</div>
+<app-header *ngIf="showHeaderAndFooter"></app-header>
+<router-outlet></router-outlet>
+<app-footer *ngIf="showHeaderAndFooter"></app-footer>

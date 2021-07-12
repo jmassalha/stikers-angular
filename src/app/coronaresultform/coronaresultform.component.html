@@ -1,0 +1,191 @@
+<div id="page-toshow">
+    <h1 class="page-title text-center">תוצאת קורונה באנגלית</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="ת.ז"
+                                                [(ngModel)]="fliterVal"
+                                                name="fliterVal"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                mat-raised-button
+                                type="submit"
+                                class="btn btn-primary btn-raised"
+                                (click)="getReport($event)"
+                            >
+                                הצג
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+</div>
+<div id="form-html-templet" class="d-none-desktop">
+    <div dir="ltr" class="card no-bg text-left rel">
+        <div class="card-header">
+            <img class="full-width" src="assets/images/covid_header.png" />
+            <br>
+            <h1 class="text-center">Molecular Testing Report</h1>
+            <h2 class="text-center">CORONAVIRUS COVID19 RESULT</h2>
+            
+        </div>
+        <br>
+        <div class="card-body  text-left fix-p">
+            <div class="row  text-left" >
+                <div class="col-12">
+                    <h4>Pesronal Details:</h4>
+                </div>
+            </div>
+            <br />
+            <div class="row box pl-35 text-left">
+                <div class="col  text-left">
+                    <div class="row">
+                        <div class="col-12  text-left">
+                            <label><b>Case Number:&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.ICD_CASE_NUMBER
+                            }}</span>
+                        </div>
+                        <div class="col-12  text-left">
+                            <label><b>Patient Number:&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.ICD_PATIENT_NUMBER
+                            }}</span>
+                        </div>
+                        <div class="col-12  text-left">
+                            <label><b>Passport Number:&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.L_PASSPORT
+                            }}</span>
+                        </div>
+                        <div class="col-12  text-left">
+                            <label><b>Personal ID:&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.L_PATIENT_ID
+                            }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col  text-left">                    
+                    <div class="row">
+                        <div class="col-12  text-left">
+                            <label><b>First Name:&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.L_FIRST_NAME
+                            }}</span>
+                        </div>
+                        <div class="col-12  text-left">
+                            <label><b>Last Name:&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.L_LAST_NAME
+                            }}</span>
+                        </div>
+                        <div class="col-12  text-left">
+                            <label><b>First Name (Hebrew):&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.L_FIRST_NAME_H
+                            }}</span>
+                        </div>
+                        <div class="col-12">
+                            <label><b>Last Name (Hebrew):&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.L_LAST_NAME_H
+                            }}</span>
+                        </div>
+                    </div>
+                </div>
+                <div class="col  text-left">                    
+                    <div class="row">
+                        <div class="col-12  text-left">
+                            <label><b>DOB:&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.L_DOB
+                            }}</span>
+                        </div>
+                        <div class="col-12  text-left">
+                            <label><b>GENDER:&nbsp;&nbsp;</b></label
+                            ><span class="b-bottom">{{
+                                rowFormData.L_GENDER
+                            }}</span>
+                        </div>
+                    </div>
+                </div>
+               
+                
+                
+            </div>
+        </div>
+
+        <br />
+        <div class="card-footer fix-p">
+            <br />
+            <div class="row">
+                <div class="col-12">
+                    <h4> Test Report Result:</h4>
+                </div>
+            </div>
+            <br />
+            <div class="row">               
+                <div class="col text-center">
+                    <span class="b-bottom">{{
+                        rowFormData.L_LABEL
+                    }}</span>
+                    <p class="text-center"><b>Order Number</b></p>
+                </div>              
+                <div class="col text-center">
+                    <span class="b-bottom">{{
+                        rowFormData.L_REQUEST_DATE
+                    }}</span>
+                    <p class="text-center"><b>Request Date</b></p>
+                </div>
+                <div class="col text-center">
+                    <span class="b-bottom">{{ rowFormData.L_RESULT_DATE }}</span>
+                    <p class="text-center"><b>Result Date</b></p>
+                </div>
+                <div class="col text-center">
+                    <span class="b-bottom">{{ rowFormData.L_RESULT_TIME }}</span>
+                    <p class="text-center"><b>Result Time</b></p>
+                </div>
+                <div class="col text-center">
+                    <span class="b-bottom">{{ rowFormData.L_RESULTS }}</span>
+                    <p class="text-center"><b>PCR Result</b></p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <br><br>
+
+                    <h3> - *** - Fit for International Travel - *** -</h3>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col"></div>
+                <div class="col"></div>
+                <div class="col">
+                    <img class="full-width" src="assets/images/sign.png" />
+                </div>
+                <div class="col"></div>
+            </div>
+        </div>
+        <img id="pos-bottom" class="full-width" src="assets/images/covid_footer.png" />
+    </div>
+</div>
+

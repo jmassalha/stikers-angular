@@ -1,0 +1,88 @@
+<div dir="rtl" class="row">
+    <div class="col-md-4">
+        <div class="card">
+            <h3 class="text-center card-header"> נכון ל - {{today | date:'dd/MM/yyyy hh:mm a'}}</h3>    
+        </div>
+        
+        <a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-info">
+            <div class="tile-header">
+                <h2>תפוסה</h2>
+            </div>
+            <div class="tile-content-wrapper">
+                <div class="chart-alt-10 easyPieChart"  id="real-precent">
+                    <circle-progress
+                        [percent]="Departmints.total"
+                        [radius]="100"
+                        [space]="-12"
+                        [outerStrokeWidth]="12"
+                        [innerStrokeWidth]="12"
+                        [outerStrokeColor]="'#78C000'"
+                        [innerStrokeColor]="'#C7E596'"
+                        [animation]="true"
+                        [animationDuration]="300"
+                        [options]="ngCircleOptions"
+                  ></circle-progress>
+                </div>
+                <div class="chart-alt-10 easyPieChart d-none" id="extra-precent">
+                    <circle-progress
+                        [percent]="Departmints.total - 100"
+                        [radius]="100"
+                        [space]="-12"
+                        [outerStrokeWidth]="12"
+                        [innerStrokeWidth]="12"
+                        [outerStrokeColor]="'red'"
+                        [innerStrokeColor]="'#C7E596'"
+                        [animation]="true"
+                        [animationDuration]="300"
+                        [options]="ngCircleOptions"
+                  ></circle-progress>
+                </div>
+            </div>
+        </a>
+    </div>
+   
+</div>
+<div dir="rtl" class="row h-85">
+    <div class="col-md-4">
+        <table dir="rtl" class="table table-striped text-right _Departmints">
+            <thead>
+                <tr>
+                    <th>מחלקה</th>
+                    <th>מיטות</th>
+                    <th>תפוסה</th>
+                    <th>אחוז תפוסה</th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr *ngFor="let Depart of Departmints.departs">
+                    <td>{{ Depart.Name }}</td>
+                    <td>{{ Depart.BedsTeken }}</td>
+                    <td>{{ Depart.Used }}</td>
+                    <td>{{ Depart.BedsTeken!=0 && Depart.BedsTeken!=""?  (Depart.Used / Depart.BedsTeken * 100 | number:'1.0-0') + "%" : ""}} </td>
+                </tr>
+            </tbody>
+        </table>
+    </div>
+    <!-- <div class="jumbotron text-center width-50-auto">
+        <h1>מערכת להפקת דוחות ונתונים</h1>
+        <p>מערכות מידע - פוריה 2020 ©</p> 
+    </div> -->
+   
+</div>
+<ng-template #updateModal let-modal>
+    <div class="modal-header text-right">
+      <h4 class="modal-title text-center" id="modal-basic-title">נתונים שעתיים ל-  <span id="row_title"></span></h4>
+      <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
+        <span aria-hidden="true">&times;</span>
+      </button>
+    </div>
+    <div class="modal-body">
+      <div class="row">
+          
+      </div>
+     
+    </div>
+    <div class="modal-footer text-left">
+      <button type="button" class="btn btn-outline-dark" (click)="modal.dismiss('Cross click')">סגור</button>
+    </div>
+  </ng-template>

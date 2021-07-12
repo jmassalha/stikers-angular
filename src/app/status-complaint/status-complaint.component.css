@@ -1,0 +1,19 @@
+.col-12 :hover{
+    /* transform: scale(1.2,1.1); */
+    cursor: pointer;
+}
+
+.message-card{
+    padding-bottom: 0px;
+    background: floralwhite;
+    margin: 5px;
+}
+.message-card2{
+    padding-bottom: 0px;
+    background: lemonchiffon;
+    margin: 5px;
+}
+
+.material-icons:hover{
+    cursor: pointer;
+}

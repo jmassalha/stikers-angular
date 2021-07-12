@@ -1,0 +1,265 @@
+<h1 class="page-title text-center">סקר שמיעה</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div dir="rtl" class="card w-85-p">
+                <div dir="rtl" class="card-body">
+                    <form class="form">                                                
+                        <div class="row">
+                            
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input matInput autocomplete="off" placeholder="מ תאריך" required
+                                            (focus)="startdate.open()" [(ngModel)]="startdateVal" name="startdate"
+                                            [matDatepicker]="startdate" >
+                                        <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+                                        <mat-datepicker #startdate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input matInput autocomplete="off" placeholder="עד תאריך "
+                                            (focus)="enddate.open()" required [(ngModel)]="enddateVal" name="enddate"
+                                            [matDatepicker]="enddate" >
+                                        <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+                                        <mat-datepicker #enddate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            
+                            <div dir="rtl" class="col-md-12 text-right">
+                                <div class="form-group">
+                                    <label class="label-year">בחר שנה</label>
+                                    <mat-radio-group  name="years"
+                                    class="inline-radio-group"
+                                    >
+                                    <!-- >[(ngModel)]="_yearToSearch" -->
+                                        <mat-radio-button class="inline-radio-group-in"  *ngFor="let year of yearsToSelect.list" name="year" [checked]="year.checked" [value]="year.ID" (change)="radioChange($event)">
+                                            {{year.ID}}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <mat-label>רבעון</mat-label>
+                            </div>
+                            <mat-list class="row-all">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" [checked]="true" #all value="all">הכל</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" #one value="1">I</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" #two value="2">II</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" #Three value="3">III
+                                            </mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)"
+                                                name="Quart" #four value="4">IV</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                </div>
+
+                            </mat-list>
+                        </div>
+
+                        <button type="submit" class="btn d-none btn-link none-all btn-raised"
+                            (click)="getReportExcel($event)">
+                            <img src="assets/images/excel.png">
+                        </button>
+                        <button mat-raised-button type="submit" class="btn btn-primary btn-raised"
+                            (click)="getReport($event)">הצג</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr>
+<br>
+<div dir="rtl" id="table-section" class="container-fluid text-right d-none">
+    <div class="row">
+        <div class="col">
+            <div class="table-responsive">
+                <div class="table-spinner-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>#</th>
+                                <th class="w-250">הפריט לדווח</th>
+                                <th class="w-110">סה"כ</th>
+                                <th class="w-110">בדיקה תקינה</th>
+                                <th class="w-110">נכשלו באוזן אחת</th>
+                                <th class="w-110">נכשלו בשתי אוזניים</th>
+                                <th class="w-110">נכשל 
+                                    (אם לא ניתן לפרט כשלון חד או דו צדדי )
+                                    </th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>1</td>
+                                <td>מס' היילודים ששוחררו מבית החולים (אם לא ניתן לספק נתון זה אנא ציינו מספר לידות חי)</td>
+                                <td>{{dataTable.ONE_1}}</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>2</td>
+                                <td>מס' היילודים שהועברו לבית חולים אחר ללא בדיקה </td>
+                                <td>{{dataTable.TWO_1}}</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>3</td>
+                                <td>מס' היילודים ששוחררו ונבדקו בפרוטוקול סינון מלא </td>
+                                <td>{{dataTable.THREE_1}}</td>
+                                <td>{{dataTable.THREE_2}}</td>
+                                <td>{{dataTable.THREE_3}}</td>
+                                <td>{{dataTable.THREE_4}}</td>
+                                <td>{{dataTable.THREE_5}}</td>
+                            </tr>
+                            <tr>
+                                <td>4</td>
+                                <td>מס' היילודים שערכו בדיקה חלקית, שוחררו ולא הגיעו להשלמת הבדיקה </td>
+                                <td>{{dataTable.FOUR_1}}</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>5</td>
+                                <td>מס' היילודים ששוחררו, לא נבדקו כלל בבדיקת סינון ולא באו להשלמת הבדיקה</td>
+                                <td>{{dataTable.FIVE_1}}</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>6-א</td>
+                                <td>תוצאות בדיקות **OAE  יש לדווח תוצאת בדיקה שניה אם נדרשה. </td>
+                                <td>{{dataTable.SIX_1_1}}</td>
+                                <td>{{dataTable.SIX_1_2}}</td>
+                                <td>{{dataTable.SIX_1_3}}</td>
+                                <td>{{dataTable.SIX_1_4}}</td>
+                                <td>{{dataTable.SIX_1_5}}</td>
+                            </tr>
+                            <tr>
+                                <td>6-ב</td>
+                                <td>תוצאות בדיקות AABR  בכלל היילודים שנכשלו בשתי בדיקות   OAE </td>
+                                <td>{{dataTable.SIX_2_1}}</td>
+                                <td>{{dataTable.SIX_2_2}}</td>
+                                <td>{{dataTable.SIX_2_3}}</td>
+                                <td>{{dataTable.SIX_2_4}}</td>
+                                <td>{{dataTable.SIX_2_5}}</td>
+                            </tr>
+                            <tr>
+                                <td>7-א</td>
+                                <td>תוצאות בדיקות AABR של היילודים  עם גורמי סיכון שמחייביםAABR    שעברו את בדיקת ה- OAE בהצלחה </td>
+                                <td>{{dataTable.SEVEN_1_1}}</td>
+                                <td>{{dataTable.SEVEN_1_2}}</td>
+                                <td>{{dataTable.SEVEN_1_3}}</td>
+                                <td>{{dataTable.SEVEN_1_4}}</td>
+                                <td>{{dataTable.SEVEN_1_5}}</td>
+                            </tr>
+                            <tr>
+                                <td>7-ב</td>                        
+                                <td>מספר יילודים עם גורמי סיכון שמחייביםAABR    שנכשלו ב-OAE אבל  עברו AABR </td>
+                                <td>{{dataTable.SEVEN_2_1}}</td>
+                                <td>{{dataTable.SEVEN_2_2}}</td>
+                                <td>{{dataTable.SEVEN_2_3}}</td>
+                                <td>{{dataTable.SEVEN_2_4}}</td>
+                                <td>{{dataTable.SEVEN_2_5}}</td>
+                            </tr>
+                            <tr>
+                                <td>8</td>
+                                <td>מס' היילודים עם גורמי סיכון שמחייבים המשך מעקב שמיעתי</td>
+                                <td>{{dataTable.EIGHT_1}}</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                                <td>-</td>
+                            </tr>
+                            <tr>
+                                <td>9</td>
+                                <td>מס' ילדים ללא גורמי סיכון שהוזמנו לסיקור חוזר לאחר השחרור</td>
+                                <td>{{dataTable.NINE_1}}</td>
+                                <td>{{dataTable.NINE_2}}</td>
+                                <td>{{dataTable.NINE_3}}</td>
+                                <td>{{dataTable.NINE_4}}</td>
+                                <td>{{dataTable.NINE_5}} <small>לא הגיעו לסינון חוזר אחרי שנבדקו בפרוטוקול מלא (לאחר בדקתם OAE + AABR)</small></td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br>
+    <br>
+    <div class="row">
+        <div class="col-3">
+            <div class="table-responsive">
+                <div class="table-spinner-container">
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>הערות</th>
+                                <th>סה"כ</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td>נפטרים</td>
+                                <td>{{dataTable.DIED}}</td>
+                            </tr>
+                            <tr>
+                                <td>נפטרים ונבדקו</td>
+                                <td>{{dataTable.DIEDANDCHECKED}}</td>
+                            </tr>
+                            <tr>
+                                <td>סירוב בדיקה</td>
+                                <td>{{dataTable.SEROVE}}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<br>
+<br>
+<br>
+<br>

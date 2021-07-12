@@ -1,0 +1,392 @@
+<div id="page-toshow">
+    <h1 class="page-title text-center">מחקרים</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="חפש"
+                                                [(ngModel)]="fliterVal"
+                                                name="fliterVal"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <mat-label>מצב</mat-label>
+                                            <mat-select [(value)]="activeOrNot">
+                                                <mat-option value="-1"
+                                                    >הכל</mat-option
+                                                >
+                                                <mat-option value="1"
+                                                    >פעיל</mat-option
+                                                >
+                                                <mat-option value="0"
+                                                    >לא פעיל</mat-option
+                                                >
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button
+                                mat-raised-button
+                                type="submit"
+                                class="btn btn-primary btn-raised"
+                                (click)="getReport($event)"
+                            >
+                                חפש
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <div class="container-fluid pb-60">
+        <div class="row">
+            <div dir="rtl" class="col">
+                <div class="table-responsive">
+                    <div class="table-spinner-container">
+                        <!-- <mat-form-field>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="חפש">
+                            </mat-form-field> -->
+                        <table
+                            class="table"
+                            mat-table
+                            [dataSource]="dataSource"
+                        >
+                            <ng-container matColumnDef="RowID">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    מס' מחקר
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.RowID }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ResearchNumber">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    מזהה מחקר
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="let element"
+                                    class="text-center"
+                                >
+                                    {{ element.ResearchNumber }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ResearchName">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="160"
+                                >
+                                    שם מחקר
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="let element"
+                                    class="text-center"
+                                >
+                                    {{ element.ResearchName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ResearchStartDate">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="110"
+                                >
+                                    תאריך התחלה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="let element"
+                                    class="text-center"
+                                >
+                                    {{ element.ResearchStartDate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ResearchEndDate">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    תאריך סיום
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.ResearchEndDate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ResearchStatus">
+                                <th mat-header-cell *matHeaderCellDef>מצב</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.ResearchStatus == 1 ? "פעיל": "לא פעיל"}}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="CLICK">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    עריכה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                editRow(
+                                                    ResearchesModal,
+                                                    'Researches',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>create</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CLICK_USERS">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    חוקרים
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                showResearchesUsers(
+                                                    ResearchesUsersModal,
+                                                    'ResearchesUsersDetails',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>view_comfy</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CLICK_PATIENT">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    משתתפים
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                showPatient(
+                                                    PatientModal,
+                                                    'PatientDetails',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>night_shelter</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="displayedColumns"
+                            ></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
+                        </table>
+                    </div>
+                    <!-- PAGINATION -->
+                    <mat-paginator
+                        [length]="resultsLength"
+                        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+                        [pageSize]="10"
+                        showFirstLastButtons
+                        (page)="getPaginatorData($event)"
+                    ></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button
+    type="button"
+    id="ResearchesBtn"
+    (click)="open(ResearchesModal, 'Researches', '')"
+    mat-fab
+    color="primary"
+>
+    <i class="material-icons">add</i>
+</button>
+<ng-template #ResearchesModal let-modal>
+    <form
+        dir="rtl"
+        id="ResearchesFormID"
+        class="form col"
+        [formGroup]="ResearchesForm"
+        (ngSubmit)="onSubmit()"
+    >
+        <div class="modal-header text-right">
+            <h4 class="modal-title text-center">
+                מחקר <span class="d-none1">{{ ResearchNumber }}</span> -
+                <span>{{ ResearchName }}</span>
+            </h4>
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="מס' מחקר"
+                                formControlName="ResearchNumber"
+                                required
+                                type="text"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="שם מחקר"
+                                formControlName="ResearchName"
+                                required
+                                type="text"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field floatLabel="always">
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="תאריך התחלה"
+                                (focus)="ResearchStartDate.open()"
+                                [matDatepicker]="ResearchStartDate"
+                                formControlName="ResearchStartDate"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="ResearchStartDate"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #ResearchStartDate format='yyyy-MM-dd'></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field floatLabel="always">
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="תאריך סיום"
+                                (focus)="ResearchEndDate.open()"
+                                [matDatepicker]="ResearchEndDate"
+                                formControlName="ResearchEndDate"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="ResearchEndDate"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #ResearchEndDate format='yyyy-MM-dd'></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group lh-37">
+                        <mat-form-field floatLabel="always">
+                            
+                            <mat-label>מחלקה</mat-label>
+                            <mat-select
+                            formControlName="ResearchDepart"                               
+                                
+                            >
+                                <mat-option
+                                    *ngFor="let Unit of Departs"
+                                    [value]="Unit.value"
+                                >
+                                    {{ Unit.name }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>                    
+                </div>
+                <div class="col">
+                    <div class="form-group lh-37">
+                        <mat-form-field>
+                            <mat-label>מצב</mat-label>
+                            <mat-select 
+                            formControlName="ResearchStatus">
+                                <mat-option value="1">פעיל</mat-option>
+                                <mat-option value="0">לא פעיל</mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-left">
+            <button type="submit" class="btn btn-outline-dark">שמור</button>
+        </div>
+    </form>
+</ng-template>
+
+<ng-template #ResearchesUsersModal let-modal>
+    <app-researchesusers></app-researchesusers>
+</ng-template>
+
+<ng-template #PatientModal let-modal>
+    <app-researchespatients></app-researchespatients>
+</ng-template>

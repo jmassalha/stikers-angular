@@ -1,0 +1,269 @@
+<h1 class="page-title text-center">נתוני לסוכרת</h1>
+
+<div class="example-button-container" style="padding: 60px">
+    <button
+        (click)="getReport($event)"
+        mat-mini-fab
+        color="warn"
+        aria-label="Example icon button with a filter list icon"
+    >
+        <span class="material-icons"> refresh </span>
+    </button>
+</div>
+
+<div class="d-none container-fluid">
+    <div class="row">
+        <div class="col">
+            <div dir="rtl" class="card w-85-p">
+                <div dir="rtl" class="card-body">
+                    <form class="form">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="מ תאריך"
+                                            required
+                                            (focus)="startdate.open()"
+                                            [(ngModel)]="startdateVal"
+                                            name="startdate"
+                                            [matDatepicker]="startdate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="startdate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #startdate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="עד תאריך "
+                                            (focus)="enddate.open()"
+                                            required
+                                            [(ngModel)]="enddateVal"
+                                            name="enddate"
+                                            [matDatepicker]="enddate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="enddate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #enddate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            mat-raised-button
+                            type="submit"
+                            class="btn btn-primary btn-raised"
+                            (click)="getReport($event)"
+                        >
+                            הצג
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+<div class="container-fluid text-right">
+    <div class="row" style="flex-flow: column-reverse">
+        <div class="colde d-nonea" id="totalBarChart"></div>
+    </div>
+</div>
+<br />
+<hr />
+<div class="container-fluid">
+    <div class="row">
+        <div dir="rtl" class="col">
+            <div class="table-responsive">
+                <div class="table-spinner-container">
+                    <table
+                        class="table table-striped table-responsive-md"
+                        matSort
+                        mat-table
+                        [dataSource]="dataSource"
+                    >
+                        <ng-container matColumnDef="PGR_Sample_Number">
+                            <th mat-header-cell *matHeaderCellDef>מס' בדיקה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Sample_Number }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Case_Number">
+                            <th mat-header-cell *matHeaderCellDef>מס' מקרה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Case_Number }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Patient_Number">
+                            <th mat-header-cell *matHeaderCellDef>מס' מטופל</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Patient_Number }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Patient_Depart_Request">
+                            <th mat-header-cell *matHeaderCellDef>מחלקה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Patient_Depart_Request }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Patient_First_Name">
+                            <th mat-header-cell *matHeaderCellDef>שם פרטי</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Patient_First_Name }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Patient_Last_Name">
+                            <th mat-header-cell *matHeaderCellDef>שם משפחה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Patient_Last_Name }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Patient_Age">
+                            <th mat-header-cell *matHeaderCellDef>גיל</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Patient_Age }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Taking_Date">
+                            <th mat-header-cell *matHeaderCellDef>
+                                תאריך צותאה
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Taking_Date }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Taking_Time">
+                            <th mat-header-cell *matHeaderCellDef>שעת תוצאה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Taking_Time }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PGR_Rate_Value">
+                            <th mat-header-cell *matHeaderCellDef>ערך תוצאה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Rate_Value }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="WorkerName">
+                            <th mat-header-cell *matHeaderCellDef>מכתב ייעוץ</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.WorkerName }}
+                            </td>
+                        </ng-container>                        
+                        <ng-container matColumnDef="RowClick">
+                            <th mat-header-cell *matHeaderCellDef>היסטוריה</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button
+                                    (click)="
+                                        open(
+                                            HistoryDetailsModal,
+                                            'HistoryDetails',
+                                            element
+                                        )
+                                    "
+                                    mat-mini-fab
+                                    color="primary"
+                                >
+                                    <mat-icon>history</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        <tr
+                            mat-header-row
+                            *matHeaderRowDef="displayedColumns"
+                        ></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                        ></tr>
+                    </table>
+                </div>
+                <!-- PAGINATION -->
+                <mat-paginator
+                    [length]="resultsLength"
+                    [pageSizeOptions]="[5, 10, 20]"
+                    [pageSize]="10"
+                    showFirstLastButtons
+                    (page)="getPaginatorData($event)"
+                ></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #HistoryDetailsModal let-modal>
+    <div class="card">
+        <div class="card-header">
+            <h3 class="card-title text-center">היסטוריית בדיקות למקרה: <b>{{selectedCaseNumber}}</b></h3>
+        </div>
+        <div class="card-body"></div>
+    </div>
+    <table dir="rtl" mat-table [dataSource]="dataSourceByCase">
+        <ng-container matColumnDef="PGR_Case_Number">
+            <th mat-header-cell *matHeaderCellDef>מס' מקרה</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.PGR_Case_Number }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="PGR_Patient_Depart_Request">
+            <th mat-header-cell *matHeaderCellDef>מחלקה</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.PGR_Patient_Depart_Request }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="PGR_Patient_First_Name">
+            <th mat-header-cell *matHeaderCellDef>שם פרטי</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.PGR_Patient_First_Name }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="PGR_Patient_Last_Name">
+            <th mat-header-cell *matHeaderCellDef>שם משפחה</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.PGR_Patient_Last_Name }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="PGR_Taking_Date">
+            <th mat-header-cell *matHeaderCellDef>תאריך צותאה</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.PGR_Taking_Date }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="PGR_Taking_Time">
+            <th mat-header-cell *matHeaderCellDef>שעת תוצאה</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.PGR_Taking_Time }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="PGR_Rate_Value">
+            <th mat-header-cell *matHeaderCellDef>ערך תוצאה</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.PGR_Rate_Value }}
+            </td>
+        </ng-container>
+        <tr
+            mat-header-row
+            *matHeaderRowDef="displayedColumnsByCase"
+        ></tr>
+        <tr
+            mat-row
+            *matRowDef="let row; columns: displayedColumnsByCase"
+        ></tr>
+    </table>
+</ng-template>

@@ -1,0 +1,487 @@
+<h1 class="page-title text-center">תפוקת אשפוז</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div dir="rtl" class="card w-85-p">
+                <div dir="rtl" class="card-body">
+                    <form class="form">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="מ תאריך"
+                                            required
+                                            (focus)="startdate.open()"
+                                            [(ngModel)]="startdateVal"
+                                            name="startdate"
+                                            [matDatepicker]="startdate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="startdate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #startdate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="עד תאריך "
+                                            (focus)="enddate.open()"
+                                            required
+                                            [(ngModel)]="enddateVal"
+                                            name="enddate"
+                                            [matDatepicker]="enddate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="enddate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #enddate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+
+                            <div class="col d-none1">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>מחלקה</mat-label>
+                                        <mat-select
+                                            [(value)]="Depart"
+                                            required
+                                            multiple
+                                        >
+                                            <mat-option value="-1"
+                                                >הכל</mat-option
+                                            >
+                                            <mat-option value="מ-62"
+                                                >מיון 62</mat-option
+                                            >
+                                            <mat-option value="מ-אור"
+                                                >מיון אורטופדי</mat-option
+                                            >
+                                            <mat-option value="מ-א-א-ג"
+                                                >מיון אף אוזן וגרון</mat-option
+                                            >
+                                            <mat-option value="מ-טראו"
+                                                >מיון טראומה</mat-option
+                                            >
+                                            <mat-option value="מ-יולדות"
+                                                >מיון יולדות</mat-option
+                                            >
+                                            <mat-option value="מ-ילד"
+                                                >מיון ילדים</mat-option
+                                            >
+                                            <mat-option value="מ-כיר"
+                                                >מיון כירורגי</mat-option
+                                            >
+                                            <mat-option value="מ-כל"
+                                                >מיון כללי</mat-option
+                                            >
+                                            <mat-option value="מ-נפש"
+                                                >מיון נפש</mat-option
+                                            >
+                                            <mat-option value="מ-נש"
+                                                >מיון נשים</mat-option
+                                            >
+                                            <mat-option value="מ-עינ"
+                                                >מיון עיניים</mat-option
+                                            >
+                                            <mat-option value="מ-פ-ל"
+                                                >מיון פה ולסת</mat-option
+                                            >
+                                            <mat-option value="מ-פני"
+                                                >מיון פנימי</mat-option
+                                            >
+                                            <mat-option value="ראורל"
+                                                >אורולוגיה</mat-option
+                                            >
+                                            <mat-option value="ראול-יל"
+                                                >אורולוגית ילדים</mat-option
+                                            >
+                                            <mat-option value="ראור"
+                                                >אורתופדיה</mat-option
+                                            >
+                                            <mat-option value="רא-א-ג"
+                                                >אף אוזן וגרון</mat-option
+                                            >
+                                            <mat-option value="רא-א-ג-י"
+                                                >אף אוזן וגרון ילדים</mat-option
+                                            >
+                                            <mat-option value="רגרי-ש"
+                                                >גריאטריה שיקומית</mat-option
+                                            >
+                                            <mat-option value="רטנ-ילד"
+                                                >טיפול נמרץ ילדים</mat-option
+                                            >
+                                            <mat-option value="רטנ-כ"
+                                                >טיפול נמרץ כללי</mat-option
+                                            >
+                                            <mat-option value="רטנ-ל"
+                                                >טיפול נמרץ לב</mat-option
+                                            >
+                                            <mat-option value="רטנ-פ-י"
+                                                >טיפול מיוחד בפג ובילוד
+                                                החולה</mat-option
+                                            >
+                                            <mat-option value="ריול"
+                                                >יולדות</mat-option
+                                            >
+                                            <mat-option value="רילד"
+                                                >ילדים</mat-option
+                                            >
+                                            <mat-option value="רילו-ב"
+                                                >ילוד בריא</mat-option
+                                            >
+                                            <mat-option value="רכיר"
+                                                >כירורגיה</mat-option
+                                            >
+                                            <mat-option value="רכיר-חז"
+                                                >כירורגיה חזה</mat-option
+                                            >
+                                            <mat-option value="רכיר-יל"
+                                                >כירורגית ילדים</mat-option
+                                            >
+                                            <mat-option value="רנורול"
+                                                >נוירולוגיה</mat-option
+                                            >
+                                            <mat-option value="רנש"
+                                                >נשים</mat-option
+                                            >
+                                            <mat-option value="רעינ"
+                                                >עיניים</mat-option
+                                            >
+                                            <mat-option value="רעינ-יל"
+                                                >עיניים ילדים</mat-option
+                                            >
+                                            <mat-option value="רפ-ל"
+                                                >פה ולסת</mat-option
+                                            >
+                                            <mat-option value="רפ-ל-יל"
+                                                >פה ולסת ילדים</mat-option
+                                            >
+                                            <mat-option value="רפנ-א"
+                                                >פנימית א</mat-option
+                                            >
+                                            <mat-option value="רפנ-א-טמ"
+                                                >טיפול מוגבר מחלקת פנימית
+                                                א</mat-option
+                                            >
+                                            <mat-option value="רפנ-ב"
+                                                >פנימית ב</mat-option
+                                            >
+                                            <mat-option value="רפנ-ב-טמ"
+                                                >טיפול מוגבר מחלקת פנימית
+                                                ב</mat-option
+                                            >
+                                            <mat-option value="רצינת"
+                                                >צנתורים</mat-option
+                                            >
+                                            <mat-option value="רקרדיו"
+                                                >קרדיולוגיה</mat-option
+                                            >
+                                            <mat-option value="רשבצ-מ"
+                                                >שבץ מוחי</mat-option
+                                            >
+                                            <mat-option value="קורונה"
+                                                >קורונה</mat-option
+                                            >
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div dir="rtl" class="col-md-12 text-right">
+                                <div class="form-group">
+                                    <label class="label-year">בחר שנה</label>
+                                    <mat-radio-group
+                                        name="years"
+                                        class="inline-radio-group"
+                                    >
+                                        <!-- >[(ngModel)]="_yearToSearch" -->
+                                        <mat-radio-button
+                                            class="inline-radio-group-in"
+                                            *ngFor="
+                                                let year of yearsToSelect.list
+                                            "
+                                            name="year"
+                                            [checked]="year.checked"
+                                            [value]="year.ID"
+                                            (change)="radioChange($event)"
+                                        >
+                                            {{ year.ID }}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <mat-label>רבעון</mat-label>
+                            </div>
+                            <mat-list class="row-all">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                [checked]="true"
+                                                #all
+                                                value="all"
+                                                >הכל</mat-radio-button
+                                            >
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                #one
+                                                value="1"
+                                                >I</mat-radio-button
+                                            >
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                #two
+                                                value="2"
+                                                >II</mat-radio-button
+                                            >
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                #Three
+                                                value="3"
+                                                >III
+                                            </mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button
+                                                (change)="quart_change($event)"
+                                                name="Quart"
+                                                #four
+                                                value="4"
+                                                >IV</mat-radio-button
+                                            >
+                                        </mat-list-item>
+                                    </div>
+                                </div>
+                            </mat-list>
+                        </div>
+
+                        <button
+                            type="submit"
+                            class="btn d-none btn-link none-all btn-raised"
+                            (click)="getReportExcel($event)"
+                        >
+                            <img src="assets/images/excel.png" />
+                        </button>
+                        <button
+                            mat-raised-button
+                            type="submit"
+                            class="btn btn-primary btn-raised"
+                            (click)="getReport($event)"
+                        >
+                            הצג
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+<div class="container-fluid text-right">
+    <div class="row" style="flex-flow: column-reverse">
+        <div class="colde d-nonea" id="LineChart"></div>
+    </div>
+    <div class="row" style="flex-flow: column-reverse">
+        <div class="1col1" id="bekoremCount"></div>
+    </div>
+</div>
+<br />
+<hr />
+<div class="container-fluid text-right pb-60">
+    <div class="row">
+        <div dir="rtl" class="col d-none" id="_department1s1">
+            <h3>קבלות</h3>
+            <table class="table br-1px">
+                <tbody>
+                    <tr class=" bg-greay">
+                        <td></td>
+                        <td class="text-center border-left-1">{{ yearStart }}</td>
+                        <td *ngIf="pasttoshow" class="text-center">{{ yearEnd }}</td>
+                    </tr>
+                    <tr class=" bg-greay"> 
+                        <td>מחלקה</td>
+                        <td class="border-left-1">
+                            <table  class="table mb-0  bg-greay">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center w-87">דחופים</td>
+                                        <td class="text-center w-87">אלקטיבים</td>
+                                        <td class="text-center w-191">סה"כ</td>         
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td *ngIf="pasttoshow">
+                            
+                            <table  class="table mb-0 bg-greay">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center w-87">דחופים</td>
+                                        <td class="text-center w-87">אלקטיבים</td>
+                                        <td class="text-center w-191">סה"כ</td>         
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let item of FDepartKabalot; let i = index ">
+                        <td>
+                            {{item}}
+                        </td>
+                        <td class="border-left-1">
+                            <table  class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center w-87">{{FKabalotD7of[i]}}</td>
+                                        <td class="text-center w-87">{{FKabalotNotD7of[i]}}</td>
+                                        <td class="text-center w-191">{{((FKabalotD7of[i])) * 1 + ((FKabalotNotD7of[i])) * 1}}</td>                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </td>
+                        <td *ngIf="pasttoshow">
+                            <table  class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center w-87">{{FKabalotD7ofPast[i]}}</td>
+                                        <td class="text-center w-87">{{FKabalotNotD7ofPast[i]}}</td>
+                                        <td class="text-center w-191">{{(FKabalotD7ofPast[i]) * 1 + (FKabalotNotD7ofPast[i]) * 1  }}</td>                                        
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <h3>אשפוזים חוזרים בתוך שבוע</h3>
+            <table class="table br-1px">
+                <tbody>
+                    <tr class=" bg-greay">
+                        <td>מחלקה</td>
+                        <td class="border-left-1 text-center w-191">{{ yearStart }}</td>
+                        <td *ngIf="pasttoshow" class="text-center w-191">{{ yearEnd }}</td>
+                    </tr>
+                    <tr *ngFor="let item of depart7ozrem; let i = index ">
+                        <td>
+                            {{item}}
+                        </td>
+                        <td class="border-left-1 text-center w-591">
+                            {{depart7ozremTot[i]}}
+                            
+                        </td>
+                        <td *ngIf="pasttoshow" class="text-center w-591">
+                            {{depart7ozremPastTot[i]}}
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+            <br>
+            <h3>משך שהייה</h3>
+            <table class="table br-1px">
+                <tbody>
+                    <tr class=" bg-greay">
+                        <td></td>
+                        <td class="text-center border-left-1">{{ yearStart }}</td>
+                        <td *ngIf="pasttoshow" class="text-center">{{ yearEnd }}</td>
+                    </tr>
+                    <tr class=" bg-greay">
+                        <td>מחלקה</td>
+                        <td class="border-left-1">
+                            <table  class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center w-87">ימי אשפוז</td>
+                                        <td class="text-center w-87">מאושפזים</td>
+                                        <td class="text-center w-191">משך שהייה ממוצע</td>                                        
+                                        <td class="text-center w-191">אחוז תפוסה (מס" מיטות)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                        <td *ngIf="pasttoshow">
+                            <table    class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center w-87">ימי אשפוז</td>
+                                        <td class="text-center w-87">מאושפזים</td>
+                                        <td class="text-center w-191">משך שהייה ממוצע</td>
+                                        <td class="text-center w-191">אחוז תפוסה (מס" מיטות)</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                    <tr *ngFor="let item of depart; let i = index ">
+                        <td>
+                            {{item}}
+                        </td>
+                        <td class="border-left-1">
+                            <table  class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center w-87">{{eshpoz[i]}}</td>
+                                        <td class="text-center w-87">{{kabalot[i]}}</td>
+                                        <td class="text-center w-191">{{(eshpoz[i]) / (kabalot[i]) | number:'1.2-2'}}</td>                                        
+                                        <td class="text-center w-191">{{(eshpoz[i] / (TotalDaysInRange * departBedsIn[i]) ) * 100 | number:'1.2-2'}}% ({{departBedsIn[i]}})</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                            
+                        </td>
+                        <td *ngIf="pasttoshow">
+                            <table  class="table mb-0">
+                                <tbody>
+                                    <tr>
+                                        <td class="text-center w-87">{{eshpozPast[i]}}</td>
+                                        <td class="text-center w-87">{{kabalotPast[i]}}</td>
+                                        <td class="text-center w-191">{{(eshpozPast[i]) / (kabalotPast[i]) | number:'1.2-2'}}</td>                                        
+                                        <td class="text-center w-191">{{(eshpozPast[i] / (TotalDaysInRange * departBedsIn[i]) ) * 100 | number:'1.2-2'}}% ({{departBedsIn[i]}})</td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>

@@ -1,0 +1,100 @@
+<mat-card dir="rtl">
+
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form" [formGroup]="formSearch">
+                            <div class="row">
+                                <div class="col-12">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput formControlName="formNameControl" autocomplete="off"
+                                                placeholder="חפש לפי שם טופס" name="fliterVal" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <button mat-raised-button type="submit" (click)="getAllForms()"
+                                class="btn btn-primary btn-raised">
+                                <span class="material-icons">
+                                    search
+                                </span>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+                <div id="creator">
+                    <p>Amen<br>Dahabre</p>
+                </div>
+            </div>
+        </div>
+        <div class="row mt-3 mb-2">
+            <form class="form" style="text-align: right;" [formGroup]="chooseForm">
+                <mat-radio-group aria-label="Select an option" formControlName="SwitchForms">
+                    <mat-radio-button value="0">טפסים ארגוניים</mat-radio-button>
+                    <mat-radio-button value="1">טפסים מחלקתיים</mat-radio-button>
+                    <mat-radio-button value="2">הכל</mat-radio-button>
+                </mat-radio-group>
+            </form>
+        </div>
+    </div><br><br>
+
+
+
+    <div class="survey-options">
+        <div class="poll-options">
+            <div style="font-size: 20px; background-color: rgb(235, 231, 231);padding-right: 3px;text-align: right;">
+                <div>טפסים להמשך</div>
+            </div>
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-3" *ngFor="let item of all_forms_filter_Continues"
+                    (click)="openDialogToFill(item.formID,1,item.Row_ID)" style="margin-bottom: 10px;">
+                    <mat-card style="height: 100%;" class="card m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
+                        <img src="assets/images/mersham-logo.png">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormDepartment}}</div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="survey-options"
+        *ngIf="chooseForm.controls['SwitchForms'].value == '1' || chooseForm.controls['SwitchForms'].value == '2'">
+        <div class="poll-options">
+            <div style="font-size: 20px; background-color: rgb(235, 231, 231);padding-right: 3px;text-align: right;">
+                <div>טפסים מחלקתיים</div>
+            </div>
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-3" *ngFor="let item of all_forms_filter_not_general"
+                    (click)="openDialogToFill(item.FormID,0,item.Row_ID)" style="margin-bottom: 10px;">
+                    <mat-card style="height: 100%;" class="card m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
+                        <img src="assets/images/mersham-logo.png">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormDepartment}}</div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="survey-options"
+        *ngIf="chooseForm.controls['SwitchForms'].value == '0' || chooseForm.controls['SwitchForms'].value == '2'">
+        <div class="poll-options">
+            <div style="font-size: 20px; background-color: rgb(235, 231, 231);padding-right: 3px;text-align: right;">
+                <div>טפסים ארגוניים</div>
+            </div>
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-3" *ngFor="let item of all_forms_filter_general"
+                    (click)="openDialogToFill(item.FormID,0,item.Row_ID)" style="margin-bottom: 10px;">
+                    <mat-card style="height: 100%;" class="card m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormName}}</div>
+                        <img src="assets/images/mersham-logo.png">
+                        <div class="list-style text-center" style="font-size: 15px;">{{item.FormDepartment}}</div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-card>

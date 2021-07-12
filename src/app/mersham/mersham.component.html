@@ -1,0 +1,2959 @@
+<div id="page-toshow" class="bg-blue-light mersham">
+    <h1 class="page-title text-center">מרשמים</h1>
+    <div class="container-fluid rel">
+        <button
+            *ngIf="prem"
+            type="button"
+            id="prespictionsDetailsBtn"
+            (click)="open(addPrespictionModal, 'prespictionsDetails', '')"
+            mat-raised-button
+            disabled
+            color="yello"
+        >
+            צור מרשם חדש
+        </button>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col-5">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <label
+                                                ><b>חיפוש</b> - הקלד תעודת
+                                                זהות</label
+                                            >
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                [(ngModel)]="fliterVal"
+                                                name="fliterVal"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button
+                                type="submit"
+                                mat-raised-button
+                                color="yello"
+                                (click)="getReport($event)"
+                            >
+                                חפש
+                            </button>
+                            &nbsp;&nbsp;&nbsp;
+                            <button
+                                mat-raised-button
+                                color="yello"
+                                (click)="clearForm()"
+                                type="button"
+                            >
+                                נקה
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col"></div>
+        </div>
+    </div>
+    <br />
+    <div
+        dir="rtl"
+        class="container-fluid pos-relative d-none"
+        id="demographData"
+    >
+        <div class="row">
+            <div dir="rtl" class="col-2"></div>
+
+            <div dir="rtl" class="col-8">
+                <mat-card class="card text-right">
+                    <mat-card-header>
+                        <mat-card-title>
+                            שם המטופל:
+                            <b> {{ FIRST_NAME }} {{ LAST_NAME }}</b>
+                        </mat-card-title>
+                        <mat-card-subtitle> </mat-card-subtitle>
+                    </mat-card-header>
+                    <mat-card-content>
+                        <div class="row">
+                            <p class="col">
+                                שם האבא:&nbsp;&nbsp;&nbsp;<b>{{ MID_NAME }}</b>
+                            </p>
+                            <p class="col">
+                                ת.ז:&nbsp;&nbsp;&nbsp;<b>{{ ID }}</b>
+                            </p>
+                            <p class="col">
+                                מין:&nbsp;&nbsp;&nbsp;<b>{{ GENDER }}</b>
+                            </p>
+                            <p class="col">
+                                גיל:&nbsp;&nbsp;&nbsp;<b>{{ AGE }}</b>
+                            </p>
+                            <p class="col">
+                                קופה:&nbsp;&nbsp;&nbsp;<b>{{ KUPA }}</b>
+                            </p>
+                        </div>
+
+                        <div class="row">
+                            <p class="col">
+                                מס' מקרה:&nbsp;&nbsp;&nbsp;<b>{{
+                                    Case_Number
+                                }}</b>
+                            </p>
+                            <p class="col">
+                                מחלקה רפואית:&nbsp;&nbsp;&nbsp;<b>{{
+                                    Depart
+                                }}</b>
+                            </p>
+                            <p class="col">
+                                מחלקה סיעודית:&nbsp;&nbsp;&nbsp;<b>{{
+                                    Seode_Depart
+                                }}</b>
+                            </p>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div dir="rtl" class="col-2"></div>
+        </div>
+    </div>
+    <br />
+    <div class="container-fluid pb-60">
+        <div class="row">
+            <div dir="rtl" class="col">
+                <div class="table-responsive">
+                    <div class="table-spinner-container">
+                        <!-- <mat-form-field>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="חפש">
+                            </mat-form-field> -->
+                        <table
+                            class=""
+                            mat-table
+                            [dataSource]="dataSource"
+                            id="formTable"
+                        >
+                            <ng-container matColumnDef="PerscriptionID">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                    width="130"
+                                >
+                                    מס' סידורי
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.PerscriptionID }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ID">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    ת.ז
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.ID }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="PatientFirstName">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    שם פרטי
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.PatientFirstName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="PatientLastName">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    שם משפחה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.PatientLastName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="FatherName">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    שם האב
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.FatherName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Age">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    גיל
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.Age }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="sex">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    מין
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.sex }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Kupa">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    קופה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.Kupa }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Weight">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    משקל
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.Weight }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Hight">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    גובהה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.Hight }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="TargetAUC">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    AUC
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.TargetAUC }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="CreatinineLevel">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    Creatinine Level
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.CreatinineLevel }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Prognosis">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                    width="1000"
+                                >
+                                    אבחנה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.Prognosis }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ProtocolTreatment">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                    width="1000"
+                                >
+                                    פרוטוקול טיפול
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.ProtocolTreatment }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Frequency">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    תדירות
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.Frequency }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="DateAdministrationMed">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                    width="130"
+                                >
+                                    תאריך מתן
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.DateAdministrationMed }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="MedicationSensitivity">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    MedicationSensitivity
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.MedicationSensitivity }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="RegistrationDate">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                    width="130"
+                                >
+                                    תאריך רישום
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.RegistrationDate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SaveDate">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    SaveDate
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.SaveDate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="ModifyDate">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    ModifyDate
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-right"
+                                >
+                                    {{ element.ModifyDate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Status">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                    width="130"
+                                >
+                                    סטטס
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.Status }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SensitivityUnknown">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    SensitivityUnknown
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.SensitivityUnknown }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="CourseNum">
+                                <th
+                                    mat-header-cell
+                                    class="text-center"
+                                    *matHeaderCellDef
+                                >
+                                    CourseNum
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.CourseNum }}
+                                </td>
+                            </ng-container>
+                            <ng-container
+                                matColumnDef="CompletionOfDetailsCheck"
+                            >
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    CompletionOfDetailsCheck
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.CompletionOfDetailsCheck }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="DosageCalculationCheck">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    DosageCalculationCheck
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.DosageCalculationCheck }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="CalcOfBodyAreaCheck">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    CalcOfBodyAreaCheck
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.CalcOfBodyAreaCheck }}
+                                </td>
+                            </ng-container>
+                            <ng-container
+                                matColumnDef="SolutionOfDilutionCheck"
+                            >
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    SolutionOfDilutionCheck
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.SolutionOfDilutionCheck }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="UserCreate">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    UserCreate
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.UserCreate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="UserUpdate">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    UserUpdate
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.UserUpdate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="D_CLICK">
+                                <th
+                                    class="text-center"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="130"
+                                >
+                                    הצג
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                editRow(
+                                                    addPrespictionModal,
+                                                    'prespictionsDetails',
+                                                    element,
+                                                    'true'
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-raised-button
+                                            color="yello"
+                                        >
+                                            <mat-icon>visibility</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="D_DELETE">
+                                <th
+                                    class="text-center"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="130"
+                                >
+                                    בטל
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    <div class="example-button-container">
+                                        <button
+                                            *ngIf="element?.Status == 'שמור'"
+                                            (click)="
+                                                deletePerRow(
+                                                    deletePerRowModal,
+                                                    'delete',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-raised-button
+                                            color="yello"
+                                            type="button"
+                                        >
+                                            <mat-icon>delete_forever</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="PRINT">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    הדפס
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    <div class="example-button-container">
+                                        <button
+                                            *ngIf="element?.Status == 'נעול'"
+                                            (click)="printRow(element)"
+                                            class="row-data"
+                                            mat-raised-button
+                                            color="yello"
+                                            type="button"
+                                        >
+                                            <mat-icon>print</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="displayedColumns"
+                            ></tr>
+                            <tr
+                                [ngClass]="{
+                                    cancellRow: row?.Status == 'מבוטל'
+                                }"
+                                mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                                
+                            ></tr>
+                        </table>
+                    </div>
+                    <!-- PAGINATION [hidden]="
+                                    (!row.hideOrShow)   ? true : false
+                                " -->
+                    <mat-paginator
+                        [length]="resultsLength"
+                        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+                        [pageSize]="50"
+                        showFirstLastButtons
+                        (page)="getPaginatorData($event)"
+                    ></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<ng-template #addPrespictionModal let-modal let-c="close" let-d="dismiss">
+    <div class="page parent-modal-100100">
+        <form
+            dir="rtl"
+            id="PrespictionFormID"
+            class="form col"
+            [formGroup]="PrespictionForm"
+            (ngSubmit)="onSubmit()"
+        >
+            <div class="modal-header rel">
+                <h3 class="modal-title text-center">
+                    מרכז רפואי ע"ש ברוך פדה - פוריה
+                </h3>
+                <h2 class="modal-title text-center">
+                    מרשם רוקחי והוראות לטיפול תרופתי
+                </h2>
+                <span *ngIf="this.isCanceldVisible" class="badge badge-danger"
+                    >מבוטל</span
+                >
+                <div
+                    dir="rtl"
+                    class="container-fluid pos-relative"
+                    id="demographDataModal"
+                >
+                    <div class="row">
+                        <div dir="rtl" class="col-3 text-right">
+                            <p>
+                                מס' סידורי:&nbsp;&nbsp;&nbsp;<b>{{
+                                    ROW_ID_PRE
+                                }}</b>
+                            </p>
+                            <button
+                                class="mt-32"
+                                type="button"
+                                (click)="closrModal(c)"
+                                mat-raised-button
+                                color="yello"
+                            >
+                                חזרה למסך ראשי
+                            </button>
+                            &nbsp; &nbsp; &nbsp;
+                            <button
+                                class="mt-32"
+                                type="button"
+                                data-id="{{ this.PresRowIdVal }}"
+                                (click)="copyRowPres($event)"
+                                mat-raised-button
+                                color="yello"
+                                *ngIf="this.showCopyBtn && this.prem"
+                            >
+                                צור העתק חדש
+                            </button>
+                            &nbsp; &nbsp; &nbsp;
+                            <button
+                                *ngIf="this.isButtonVisible && this.prem"
+                                (click)="ClearMershmData()"
+                                class="mt-32"
+                                mat-raised-button
+                                color="yello"
+                                type="button"
+                                id="myPrnit1"
+                            >
+                                נקה
+                            </button>
+                        </div>
+
+                        <div dir="rtl" class="col-6">
+                            <mat-card class="card text-right">
+                                <mat-card-header>
+                                    <mat-card-title>
+                                        שם המטופל:
+                                        <b>
+                                            {{ FIRST_NAME_In }}
+                                            {{ LAST_NAME_In }}</b
+                                        >
+                                    </mat-card-title>
+                                    <mat-card-subtitle> </mat-card-subtitle>
+                                </mat-card-header>
+                                <mat-card-content>
+                                    <div class="row">
+                                        <p class="col">
+                                            שם האבא:&nbsp;&nbsp;&nbsp;<b>{{
+                                                MID_NAME_In
+                                            }}</b>
+                                        </p>
+                                        <p class="col">
+                                            ת.ז:&nbsp;&nbsp;&nbsp;<b>{{
+                                                ID_In
+                                            }}</b>
+                                        </p>
+                                        <p class="col">
+                                            מין:&nbsp;&nbsp;&nbsp;<b>{{
+                                                GENDER_In
+                                            }}</b>
+                                        </p>
+                                        <p class="col">
+                                            גיל:&nbsp;&nbsp;&nbsp;<b>{{
+                                                AGE_In
+                                            }}</b>
+                                        </p>
+                                        <p class="col">
+                                            קופה:&nbsp;&nbsp;&nbsp;<b>{{
+                                                KUPA_In
+                                            }}</b>
+                                        </p>
+                                    </div>
+                                    <div class="row">
+                                        <p class="col">
+                                            מס' מקרה:&nbsp;&nbsp;&nbsp;<b>{{
+                                                Case_Number_In
+                                            }}</b>
+                                        </p>
+                                        <p class="col">
+                                            מחלקה רפואית:&nbsp;&nbsp;&nbsp;<b>{{
+                                                Depart_In
+                                            }}</b>
+                                        </p>
+                                        <p class="col">
+                                            מחלקה סיעודית:&nbsp;&nbsp;&nbsp;<b
+                                                >{{ Seode_Depart_In }}</b
+                                            >
+                                        </p>
+                                    </div>
+                                </mat-card-content>
+                            </mat-card>
+                        </div>
+                        <div dir="rtl" class="col-3">
+                            <button
+                                *ngIf="
+                                    !this.isButtonVisible && this.showCopyBtn
+                                "
+                                (click)="printRowInside()"
+                                class="row-data"
+                                mat-raised-button
+                                color="yello"
+                                type="button"
+                                id="myPrnit"
+                            >
+                                <mat-icon>print</mat-icon>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row">
+                    <div class="col-7">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="רגישות לתרופות (אותיות לועזיות)"
+                                    formControlName="MedicationSensitivityVal"
+                                    type="text"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-2 text-right">
+                        <div class="form-group">
+                            <mat-checkbox
+                                id="Sensitivity"
+                                name="Sensitivity"
+                                (change)="changeActiveNo($event)"
+                                formControlName="SensitivityVal"
+                                class="example-margin"
+                                >לא יודע</mat-checkbox
+                            >
+                        </div>
+                    </div>
+                    <div class="col-3">
+                        <mat-form-field floatLabel="always">
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="תאריך רישום"
+                                name="regesterdate"
+                                (focus)="regesterdateIN.open()"
+                                [matDatepicker]="regesterdateIN"
+                                formControlName="regesterdateIN"
+                            />
+                            <mat-datepicker-toggle
+                                matSuffix
+                                [for]="regesterdateIN"
+                            ></mat-datepicker-toggle>
+                            <mat-datepicker #regesterdateIN></mat-datepicker>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    id="weight"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder='משקל (ק"ג)'
+                                    formControlName="weightVal"
+                                    (change)="calcArea($event)"
+                                    type="number"
+                                    step="any"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    id="height"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder='גובה (ס"מ)'
+                                    formControlName="heightVal"
+                                    (change)="calcArea($event)"
+                                    type="number"
+                                    step="any"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    id="area"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="שטח גוף (מ^2)"
+                                    formControlName="areaVal"
+                                    type="text"
+                                    readonly
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    id="targetAUC"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="יעד AUC"
+                                    formControlName="targetAUCVal"
+                                    type="text"
+                                    (change)="calcPres()"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    id="level"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="רמת קריאטינין"
+                                    formControlName="levelVal"
+                                    (change)="calcPres()"
+                                    type="text"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    id="diagnosis"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="אבחנה"
+                                    formControlName="diagnosisVal"
+                                    type="text"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    id="protocol"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="פרוטוקול טיפול"
+                                    formControlName="protocolVal"
+                                    type="text"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    id="frequency"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="תדירות"
+                                    formControlName="frequencyVal"
+                                    type="text"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    dir="ltr"
+                                    id="courseNum"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="קורס מס'"
+                                    formControlName="courseNumVal"
+                                    type="text"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <input
+                                    matInput
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="תאריך מתן"
+                                    name="takedate"
+                                    (focus)="takedateIN.open()"
+                                    [matDatepicker]="takedateIN"
+                                    formControlName="takedateIN"
+                                />
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="takedateIN"
+                                ></mat-datepicker-toggle>
+                                <mat-datepicker #takedateIN></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="modal-footer text-left">
+                <div class="row">
+                    <!-- <div class="col-3 text-right">
+                        <div class="form-group">
+                            <mat-checkbox
+                                id="CompletionOfDetailsCheck"
+                                name="CompletionOfDetailsCheck"
+                                (change)="changeActiveNo($event)"
+                                formControlName="CompletionOfDetailsCheck"
+                                class="example-margin"
+                                >שלמות הפרטים</mat-checkbox
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="col-3 text-right">
+                        <div class="form-group">
+                            <mat-checkbox
+                                id="CalcOfBodyAreaCheck"
+                                name="CalcOfBodyAreaCheck"
+                                (change)="changeActiveNo($event)"
+                                formControlName="CalcOfBodyAreaCheck"
+                                class="example-margin" 
+                                >חישוב שטח גוף</mat-checkbox
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="col-3 text-right">
+                        <div class="form-group">
+                            <mat-checkbox
+                                id="DosageCalculationCheck"
+                                name="DosageCalculationCheck"
+                                (change)="changeActiveNo($event)"
+                                formControlName="DosageCalculationCheck"
+                                class="example-margin"
+                                >חישוב מינון</mat-checkbox
+                            >
+                        </div>
+                    </div>
+                    
+                    <div class="col-3 text-right">
+                        <div class="form-group">
+                            <mat-checkbox
+                                id="SolutionOfDilutionCheck"
+                                name="SolutionOfDilutionCheck"
+                                (change)="changeActiveNo($event)"
+                                formControlName="SolutionOfDilutionCheck"
+                                class="example-margin"
+                                >תמיסת מיהול</mat-checkbox
+                            >
+                        </div>
+                    </div> -->
+                </div>
+                <div class="form-group">
+                    <div class="cover-me" *ngIf="this.prem">
+                        <mat-checkbox
+                            id="statusNotToDo"
+                            name="statusNotToDo"
+                            (change)="changeActiveAndSave($event, this)"
+                            formControlName="statusNotToDo"
+                            class="example-margin"
+                            >לא לביצוע</mat-checkbox
+                        >
+                    </div>
+                    &nbsp; &nbsp;
+                    <div class="cover-me">
+                        <div class="cover-in"></div>
+                        <mat-checkbox
+                            id="status"
+                            name="status"
+                            formControlName="statusRowVal"
+                            class="example-margin"
+                            readonly
+                            >נעול</mat-checkbox
+                        >
+                    </div>
+
+                    &nbsp;&nbsp;&nbsp;
+                    <input
+                        type="hidden"
+                        id="rowId"
+                        [hidden]="true"
+                        formControlName="rowIdVal"
+                    />
+                    <button
+                        type="submit"
+                        *ngIf="this.isButtonVisible && this.prem"
+                        id="submitAll_1"
+                        mat-raised-button
+                        color="yello"
+                    >
+                        שמור
+                    </button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button
+                        type="submit"
+                        *ngIf="this.isButtonVisible && this.prem"
+                        id="submitAll"
+                        mat-raised-button
+                        color="yello"
+                        (click)="saveAndClose()"
+                    >
+                        שמור ונעל לעריכה
+                    </button>
+                    &nbsp;&nbsp;&nbsp;
+                    <button
+                        *ngIf="this.isButtonVisible && this.prem"
+                        type="button"
+                        id="prespictionsDetailsBtn_2"
+                        (click)="
+                            openRow(
+                                addRowToPresModal,
+                                'prespictionsDetails',
+                                ''
+                            )
+                        "
+                        mat-raised-button
+                        color="yello"
+                    >
+                        הוספת הוראה
+                    </button>
+                </div>
+            </div>
+        </form>
+        <div class="row">
+            <div class="col">
+                <form
+                    dir="rtl"
+                    id="PrespictionFormIDRow"
+                    class="form col"
+                    [formGroup]="PrespictionFormRow"
+                    (ngSubmit)="onSubmitRow()"
+                >
+                    <div class="table-responsive">
+                        <div class="table-spinner-container">
+                            <table
+                                id="formTable"
+                                formArrayName="SrcPresRows"
+                                class=""
+                                mat-table
+                                [dataSource]="tableDataSrcPres"
+                            >
+                                <ng-container matColumnDef="ROW_ID_PRE">
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <input
+                                            id="ROW_ID_PRE"
+                                            type="hidden"
+                                            [hidden]="true"
+                                            formControlName="rowIdPreVal"
+                                            value="{{ element.rowIdPreVal }}"
+                                        />
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="note">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        הערות שינוי
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field floatLabel="always">
+                                            <mat-select
+                                                formControlName="noteVal"
+                                                value="element.noteVal"
+                                                [ngClass]="
+                                                    this.rows.controls[rowIdx]
+                                                        .status == 'INVALID'
+                                                        ? 'has-error'
+                                                        : 'no-error'
+                                                "
+                                            >
+                                                <mat-option
+                                                    *ngFor="let Unit of Notes"
+                                                    [value]="Unit.value"
+                                                >
+                                                    {{ Unit.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Dosage_Unit">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        יחידת מינון
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <mat-select
+                                                formControlName="Dosage_UnitVal"
+                                                value="element.Dosage_UnitVal"
+                                            >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let Unit of Dosage_Unit
+                                                    "
+                                                    [value]="Unit.value"
+                                                >
+                                                    {{ Unit.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="finalMenon">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        מינון סופי למתן
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field floatLabel="always">
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                class="form-control"
+                                                (keyup)="
+                                                    checkMyValue(
+                                                        $event.target.value,
+                                                        rowIdx
+                                                    )
+                                                "
+                                                formControlName="finalMenonVal"
+                                                type="number"
+                                                value="{{
+                                                    element.finalMenonVal
+                                                }}"
+                                            />
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container
+                                    matColumnDef="Duration_Of_Delivery"
+                                >
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        משך מתן (דקות)
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <mat-select
+                                                formControlName="Duration_Of_DeliveryVal"
+                                                value="{{
+                                                    element.Duration_Of_DeliveryVal
+                                                }}"
+                                            >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let Duration of Duration_Of_Delivery
+                                                    "
+                                                    [value]="Duration.value"
+                                                >
+                                                    {{ Duration.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Solution_Volume">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        נפח התמיסה
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            class="form-control"
+                                            formControlName="Solution_VolumeVal"
+                                            step="any"
+                                            type="number"
+                                        />
+                                            <!-- <mat-select
+                                                formControlName="Solution_VolumeVal"
+                                                value="{{
+                                                    element.Solution_VolumeVal
+                                                }}"
+                                            >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let Solution_V of Solution_Volume
+                                                    "
+                                                    [value]="Solution_V.value"
+                                                >
+                                                    {{ Solution_V.viewValue }}
+                                                </mat-option>
+                                            </mat-select> -->
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Solution">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        התמיסה
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <mat-select
+                                                formControlName="SolutionVal"
+                                                value="{{
+                                                    element.SolutionVal
+                                                }}"
+                                            >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let SolutionV of Solution
+                                                    "
+                                                    [value]="SolutionV.value"
+                                                >
+                                                    {{ SolutionV.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Dosage_Unit_2_Val">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        יחידת מינון
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <mat-select
+                                                formControlName="Dosage_Unit_2_Val"
+                                                value=" {{
+                                                    element.Dosage_Unit_2_Val
+                                                }}"
+                                            >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let Unit of Dosage_Unit
+                                                    "
+                                                    [value]="Unit.value"
+                                                >
+                                                    {{ Unit.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="MenonCalc">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        מינון מחושב
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        class="text-center"
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                class="form-control"
+                                                placeholder=""
+                                                formControlName="MenonCalcVal"
+                                                type="number"
+                                                value=" {{
+                                                    element.MenonCalcVal
+                                                }}"
+                                                step="any"
+                                                readonly
+                                            />
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Menon">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        מינון למ"ר/ק"ג/ AUC
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <input
+                                                matInput
+                                                (change)="calcPres()"
+                                                autocomplete="off"
+                                                class="form-control"
+                                                formControlName="MenonValVal"
+                                                type="number"
+                                                value="{{
+                                                    element.MenonValVal
+                                                }}"
+                                            />
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Way_Of_Providing">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        דרך מתן
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <mat-select
+                                                formControlName="Way_Of_ProvidingVal"
+                                                value=" {{
+                                                    element.Way_Of_ProvidingVal
+                                                }}"
+                                            >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let WayV of Way_Of_Providing
+                                                    "
+                                                    [value]="WayV.value"
+                                                >
+                                                    {{ WayV.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Days_Protocol">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        יום הטיפול בפרוטוקול
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <mat-select
+                                                formControlName="Days_ProtocolVal"
+                                                value="  {{
+                                                    element.Days_ProtocolVal
+                                                }}" multiple
+                                            >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let Days of Days_Protocol
+                                                    "
+                                                    [value]="Days.value"
+                                                >
+                                                    {{ Days.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="MedList">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        class="text-center"
+                                    >
+                                        שם התרופה
+                                    </th>
+                                    <td
+                                        class="text-left fix-select"
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                        [formGroupName]="rowIdx"
+                                    >
+                                        <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                            dir="ltr"
+                                        >
+                                            <mat-select
+                                                id="{{
+                                                    'singleSelect' + rowIdx
+                                                }}"
+                                                formControlName="MedListVal"
+                                                value="{{ element.MedListVal }}"
+                                                (selectionChange)="
+                                                    checkIfCarboplatin($event)
+                                                "
+                                            >
+                                                <input
+                                                    autocomplete="off"
+                                                    matInput
+                                                    (keyup)="
+                                                        applyFilterSearch(
+                                                            $event.target.value,
+                                                            rowIdx,
+                                                            element
+                                                        )
+                                                    "
+                                                    placeholder="חפש"
+                                                    class="search-input"
+                                                />
+                                                <mat-option
+                                                    [attr.data-groupid]="
+                                                        Med.groupID
+                                                    "
+                                                    *ngFor="
+                                                        let Med of ArrayDrus[
+                                                            rowIdx
+                                                        ]
+                                                    "
+                                                    [value]="Med.value"
+                                                >
+                                                    {{ Med.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="EDIT">
+                                    <th mat-header-cell *matHeaderCellDef></th>
+                                    <td
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                    >
+                                        <div class="example-button-container">
+                                            <button
+                                                (click)="
+                                                    editRowPre(
+                                                        addRowToPresModal,
+                                                        'prespictionsDetails',
+                                                        element
+                                                    )
+                                                "
+                                                class="row-data"
+                                                mat-mini-fab
+                                                color="yello"
+                                                type="button"
+                                            >
+                                                <mat-icon>visibility</mat-icon>
+                                            </button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="DELETE">
+                                    <th
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                        width="50"
+                                    >
+                                        מחק
+                                    </th>
+                                    <td
+                                        mat-cell
+                                        *matCellDef="
+                                            let element;
+                                            let rowIdx = index
+                                        "
+                                    >
+                                        <div class="example-button-container">
+                                            <button
+                                                *ngIf="
+                                                    this.isButtonVisible &&
+                                                    this.prem
+                                                "
+                                                (click)="
+                                                    deleteRow(
+                                                        deleteModal,
+                                                        'delete',
+                                                        element,
+                                                        rowIdx
+                                                    )
+                                                "
+                                                class="row-data"
+                                                mat-mini-fab
+                                                color="yello"
+                                                type="button"
+                                            >
+                                                <mat-icon
+                                                    >delete_forever</mat-icon
+                                                >
+                                            </button>
+                                        </div>
+                                    </td>
+                                </ng-container>
+                                <tr
+                                    mat-header-row
+                                    *matHeaderRowDef="tableColsPres"
+                                ></tr>
+                                <tr
+                                    mat-row
+                                    *matRowDef="
+                                        let row;
+                                        let i = index;
+                                        columns: tableColsPres
+                                    "
+                                ></tr>
+                            </table>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<div dir="rtl" id="to-print" class="text-right">
+    <style>
+        /* .page
+    {
+     -webkit-transform: rotate(-90deg); 
+     -moz-transform:rotate(-90deg);
+     filter:progid:DXImageTransform.Microsoft.BasicImage(rotation=3);
+    }*/
+    </style>
+    <div class="page">
+        <style>
+            /* #formTablePrint tr.mat-header-row th {
+                    padding-top: 5px !important;
+                    padding-bottom: 5px !important;
+                }
+                
+                #formTablePrint tr.mat-header-row{
+                    height: auto;
+                }
+[dir=rtl] #formTablePrint th.mat-header-cell {
+    padding: 0 1px;
+} */
+            [dir="rtl"] th.mat-header-cell {
+                text-align: right;
+                padding: 4px;
+                border: 1px solid #d3d3d3;
+            }
+
+            @media print {
+                .modal {
+                    display: none !important;
+                }
+                body #formTablePrint td {
+                    padding: 0 !important;
+                }
+                [dir="rtl"] th.mat-header-cell {
+                    padding: 4px !important;
+                    border: 1px solid #000;
+                }
+                .mat-card {
+                    padding: 0px 0;
+                }
+                .modal-body .form-control {
+                    display: block;
+                    width: 50%;
+                    margin-bottom: 5px;
+                    float: left;
+                }
+                .modal-body .form-control.w-80 {
+                    width: 80%;
+                }
+                .form-control {
+                    height: 28px;
+                }
+                [dir="rtl"] th.mat-header-cell {
+                    padding: 0 5px 0 0;
+                }
+                label {
+                    margin-bottom: 0;
+                }
+                /*@page {
+                    size: A4 landscape;
+                }*/
+                * {
+                    -webkit-print-color-adjust: exact;
+                }
+                @page {
+                    margin: 0 !important;
+                    size: A4 Landscape !important;
+                    -webkit-print-color-adjust: exact;
+                }
+                html,
+                body {
+                    margin: 0 !important;
+                    size: A4 Landscape !important;
+                    -webkit-print-color-adjust: exact;
+                }
+            }
+            #formTablePrint {
+                width: 100%;
+            }
+            .modal-header {
+                padding-bottom: 0;
+            }
+            .modal-body {
+                padding-top: 0;
+            }
+            #formTablePrint tr.mat-row,
+            #formTablePrint tr.mat-footer-row {
+                height: auto;
+                min-height: 23px;
+            }
+            .mt--10 {
+                margin-top: -10px;
+            }
+            .pl-15 {
+                padding-left: 15px;
+            }
+        </style>
+
+        <div class="modal-header rel">
+            <img class="right-img" src="assets/images/gci-logo.png" />
+            <h3 class="modal-title text-center">
+                מרכז רפואי ע"ש ברוך פדה - פוריה
+            </h3>
+            <h2 class="modal-title text-center">
+                מרשם רוקחי והוראות לטיפול תרופתי
+            </h2>
+            <span *ngIf="this.isCanceldVisible" class="badge badge-danger"
+                >מבוטל</span
+            >
+            <div
+                dir="rtl"
+                class="container-fluid pos-relative"
+                id="demographDataModal"
+            >
+                <div class="row">
+                    <div dir="rtl" class="col-2 text-right">
+                        <p style="font-size: 13px; margin-top: 50px">
+                            <br /><br />
+                            מס' סידורי:&nbsp;&nbsp;&nbsp;{{ ROW_ID_PRE }}
+                        </p>
+                    </div>
+
+                    <div dir="rtl" class="col-8">
+                        <mat-card class="card text-right">
+                            <mat-card-header>
+                                <mat-card-title>
+                                    שם המטופל:&nbsp;&nbsp;&nbsp;
+                                    <b>
+                                        {{ FIRST_NAME_In }}
+                                        {{ LAST_NAME_In }}</b
+                                    >
+                                </mat-card-title>
+                                <mat-card-subtitle> </mat-card-subtitle>
+                            </mat-card-header>
+                            <mat-card-content>
+                                <div class="row">
+                                    <p class="col">
+                                        שם האבא:&nbsp;&nbsp;&nbsp;<b>{{
+                                            MID_NAME_In
+                                        }}</b>
+                                    </p>
+                                    <p class="col">
+                                        ת.ז:&nbsp;&nbsp;&nbsp;<b>{{ ID_In }}</b>
+                                    </p>
+                                    <p class="col">
+                                        מין:&nbsp;&nbsp;&nbsp;<b>{{
+                                            GENDER_In
+                                        }}</b>
+                                    </p>
+                                    <p class="col">
+                                        גיל:&nbsp;&nbsp;&nbsp;<b>{{
+                                            AGE_In
+                                        }}</b>
+                                    </p>
+                                    <p class="col">
+                                        קופה:&nbsp;&nbsp;&nbsp;<b>{{
+                                            KUPA_In
+                                        }}</b>
+                                    </p>
+                                </div>
+
+                                <div class="row">
+                                    <p class="col">
+                                        מס' מקרה:&nbsp;&nbsp;&nbsp;<b>{{
+                                            Case_Number_In
+                                        }}</b>
+                                    </p>
+                                    <p class="col">
+                                        מחלקה רפואית:&nbsp;&nbsp;&nbsp;<b>{{
+                                            Depart_In
+                                        }}</b>
+                                    </p>
+                                    <p class="col">
+                                        מחלקה סיעודית:&nbsp;&nbsp;&nbsp;<b>{{
+                                            Seode_Depart_In
+                                        }}</b>
+                                    </p>
+                                </div>
+                            </mat-card-content>
+                        </mat-card>
+                    </div>
+                    <div dir="rtl" class="col-2"></div>
+                </div>
+            </div>
+            <img class="left-img" src="assets/images/mersham-logo.png" />
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col-7">
+                    <div class="form-group">
+                        <label>רגישות לתרופות</label>
+                        <span class="form-control w-80" type="text">{{
+                            printForm.MedicationSensitivityVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col-2 text-right">
+                    <div class="form-group">
+                        <mat-checkbox [checked]="printForm.SensitivityVal"
+                            >לא יודע</mat-checkbox
+                        >
+                    </div>
+                </div>
+                <div class="col-3">
+                    <label>תאריך רישום</label>
+                    <span class="form-control">{{
+                        printForm.regesterdateIN
+                    }}</span>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>משקל (ק"ג)</label>
+                        <span class="form-control">{{
+                            printForm.weightVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>גובה (ס"מ)</label>
+                        <span class="form-control">{{
+                            printForm.heightVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>שטח גוף (מ^2)</label>
+                        <span class="form-control">{{
+                            printForm.areaVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>יעד AUC</label>
+                        <span class="form-control">{{
+                            printForm.targetAUCVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>רמת קריאטינין</label>
+                        <span class="form-control">{{
+                            printForm.levelVal
+                        }}</span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <label>אבחנה</label>
+                        <span class="form-control">{{
+                            printForm.diagnosisVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>פרוטוקול טיפול</label>
+                        <span class="form-control">{{
+                            printForm.protocolVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>תדירות</label>
+                        <span class="form-control">{{
+                            printForm.frequencyVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>קורס מס'</label>
+                        <span dir="ltr" class="form-control">{{
+                            printForm.courseNumVal
+                        }}</span>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <label>תאריך מתן</label>
+                        <span class="form-control">{{
+                            printForm.takedateIN
+                        }}</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <div class="modal-footer text-left ">
+            <div class="row">
+                <div class="col-3 text-right">
+                    <div class="form-group">
+                        <mat-checkbox
+                        [checked]="printForm.CompletionOfDetailsCheck"
+                            class="example-margin"
+                            >שלמות הפרטים</mat-checkbox
+                        >
+                    </div>
+                </div>
+                
+                <div class="col-3 text-right">
+                    <div class="form-group">
+                        <mat-checkbox
+                            [checked]="printForm.CalcOfBodyAreaCheck"
+                            class="example-margin" 
+                            >חישוב שטח גוף</mat-checkbox
+                        >
+                    </div>
+                </div>
+                
+                <div class="col-3 text-right">
+                    <div class="form-group">
+                        <mat-checkbox
+                            [checked]="printForm.DosageCalculationCheck"
+                            class="example-margin"
+                            >חישוב מינון</mat-checkbox
+                        >
+                    </div>
+                </div>
+                
+                <div class="col-3 text-right">
+                    <div class="form-group">
+                        <mat-checkbox
+                            [checked]="printForm.SolutionOfDilutionCheck"
+                            class="example-margin"
+                            >תמיסת מיהול</mat-checkbox
+                        >
+                    </div>
+                </div>
+            </div> 
+            <div class="form-group d-none">
+                <mat-checkbox
+                    [checked]="printForm.statusRowVal"
+                    class="example-margin"
+                    >נעול</mat-checkbox
+                >
+            </div>
+        </div> -->
+        <div class="row mt--10">
+            <div class="col">
+                <div class="table-responsive">
+                    <div class="table-spinner-container pl-15">
+                        <table
+                            id="formTablePrint"
+                            class=""
+                            mat-table
+                            [dataSource]="tableDataSrcPresPrint"
+                        >
+                            <ng-container matColumnDef="ROW_ID_PRE">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    מס' שורה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                >
+                                    {{ element.rowIdPreVal }}
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="SIN">
+                                <th
+                                    width="100"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    חתימת האחות המבצעת
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                ></td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="TIME">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    שעת מתן
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    &nbsp;&nbsp;:&nbsp;&nbsp;
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="note">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    הערות שינוי
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.noteVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Dosage_Unit">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    יחידת מינון
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.Dosage_UnitVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="finalMenon">
+                                <th
+                                    width="70"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    מינון סופי למתן
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.finalMenonVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Duration_Of_Delivery">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    משך מתן (דקות)
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.Duration_Of_DeliveryVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Solution_Volume">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    נפח התמיסה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.Solution_VolumeVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Solution">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    התמיסה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.SolutionVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Dosage_Unit_2_Val">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    יחידת מינון
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.Dosage_Unit_2_Val }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="MenonCalc">
+                                <th
+                                    width="70"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    מינון מחושב
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.MenonCalcVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Menon">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    מינון למ"ר/ק"ג/ AUC
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.MenonValVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Way_Of_Providing">
+                                <th
+                                    width="50"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    דרך מתן
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.Way_Of_ProvidingVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Days_Protocol">
+                                <th
+                                    width="70"
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    יום הטיפול בפרוטוקול
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-center"
+                                >
+                                    {{ element.Days_ProtocolVal }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="MedList">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    class="text-center"
+                                >
+                                    שם התרופה
+                                </th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="
+                                        let element;
+                                        let rowIdx = index
+                                    "
+                                    class="text-left"
+                                    style="text-align: left !important"
+                                >
+                                    {{ element.MedListVal }}
+                                </td>
+                            </ng-container>
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="tableColsPresPrint"
+                            ></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="
+                                    let row;
+                                    let i = index;
+                                    columns: tableColsPresPrint
+                                "
+                            ></tr>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <br />
+            <p class="br-b-2">
+                <span><b>חתימה וחותמת רופא&nbsp;:&nbsp;</b></span>
+                <span></span>
+            </p>
+        </div>
+        <div class="col-4 text-left">
+            <br />
+            <b>בקרת רוקח על המרשם:</b>
+        </div>
+        <div class="col-4">
+            <br />
+            <p class="br-b-2">
+                <span><b>חתימה וחותמת רוקח&nbsp;:&nbsp;</b></span>
+                <span></span>
+            </p>
+        </div>
+    </div>
+    <div *ngIf="this.drugs?.length" class="row break-page"></div>
+    
+
+    <div *ngIf="this.drugs?.length" class="row rel">
+        <div
+            class="col-6 avoid-break rel"
+            *ngFor="let drug of drugs; let i = index"
+        >
+            <br />
+            <!-- <div *ngIf="i > 1" class="height-header"></div> -->
+            <div class="row br-1">
+                <div class="col-12 br-1 br-r-1">מס' הכנה(אצווה)</div>
+                <div class="col-3 br-rl-1">שם התרופה</div>
+                <div class="col-9 br-l-1 text-center">{{ drug.DrugName }}</div>
+            </div>
+
+            <div class="row br-1">
+                <div class="col-4 br-r-1 text-center">יצרן</div>
+                <div class="col-4 br-rl-1 text-center">תאריך תפוגה</div>
+                <div class="col-4 br-l-1 text-center">אצווה</div>
+            </div>
+            <div class="row br-1">
+                <div class="col-4 br-r-1">&nbsp;</div>
+                <div class="col-4 br-rl-1">&nbsp;</div>
+                <div class="col-4 br-l-1">&nbsp;</div>
+            </div>
+            <div class="row br-1">
+                <div class="col-4 br-r-1">&nbsp;</div>
+                <div class="col-4 br-rl-1">&nbsp;</div>
+                <div class="col-4 br-l-1">&nbsp;</div>
+            </div>
+            <div class="row br-1">
+                <div class="col-4 br-r-1">&nbsp;</div>
+                <div class="col-4 br-rl-1">&nbsp;</div>
+                <div class="col-4 br-l-1">&nbsp;</div>
+            </div>
+            <div class="row br-1">
+                <div class="col-12 br-1 bg-g">חישובים - רוקח מכין</div>
+                <div class="col-12 min-87">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-12 p-0">
+                    <p class="br-b-2">
+                        <span><b>חתימה &nbsp;:&nbsp;</b></span>
+                        <span></span>
+                    </p>
+                </div>
+            </div>
+
+            <div class="row br-1">
+                <div class="col-12 br-1 bg-g">
+                    חישובים - רוקח מבצע בדיקת הכנה
+                </div>
+                <div class="col-12 min-87">&nbsp;</div>
+            </div>
+            <div class="row">
+                <div class="col-12 p-0">
+                    <p class="br-b-2">
+                        <span><b>חתימה &nbsp;:&nbsp;</b></span>
+                        <span></span>
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #addRowToPresModal let-modal>
+    <form
+        dir="rtl"
+        id="PrespictionFormIDRow"
+        class="form col"
+        [formGroup]="PrespictionFormRow"
+        (ngSubmit)="onSubmitRow()"
+    >
+        <div class="modal-header text-right">
+            <h3 class="modal-title">תרופה</h3>
+        </div>
+        <div class="modal-body">
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field floatLabel="always">
+                            <mat-label>הערות שינוי</mat-label>
+                            <mat-select formControlName="noteVal">
+                                <mat-option
+                                    *ngFor="let Unit of Notes"
+                                    [value]="Unit.value"
+                                >
+                                    {{ Unit.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>יחידת מינון</mat-label>
+                            <mat-select formControlName="Dosage_UnitVal">
+                                <mat-option
+                                    *ngFor="let Unit of Dosage_Unit"
+                                    [value]="Unit.value"
+                                >
+                                    {{ Unit.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field floatLabel="always">
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder="מינון סופי למתן"
+                                formControlName="finalMenonVal"
+                                type="number"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>משך מתן (דקות)</mat-label>
+                            <mat-select
+                                formControlName="Duration_Of_DeliveryVal"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let Duration of Duration_Of_Delivery
+                                    "
+                                    [value]="Duration.value"
+                                >
+                                    {{ Duration.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>נפח התמיסה</mat-label>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                formControlName="Solution_VolumeVal"
+                                step="any"
+                                type="number"
+                            />
+                            <!-- <mat-select formControlName="Solution_VolumeVal">
+                                <mat-option
+                                    *ngFor="let Solution_V of Solution_Volume"
+                                    [value]="Solution_V.value"
+                                >
+                                    {{ Solution_V.viewValue }}
+                                </mat-option>
+                            </mat-select> -->
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>התמיסה</mat-label>
+                            <mat-select formControlName="SolutionVal">
+                                <mat-option
+                                    *ngFor="let SolutionV of Solution"
+                                    [value]="SolutionV.value"
+                                >
+                                    {{ SolutionV.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>מינון למ"ר/ק"ג/ AUC</mat-label>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                formControlName="MenonValVal"
+                                type="number"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>יחידת מינון</mat-label>
+                            <mat-select formControlName="Dosage_Unit_2_Val">
+                                <mat-option
+                                    *ngFor="let Unit of Dosage_Unit"
+                                    [value]="Unit.value"
+                                >
+                                    {{ Unit.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>מינון מחושב</mat-label>
+
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                placeholder=""
+                                formControlName="MenonCalcVal"
+                                type="number"
+                                disabled
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>דרך מתן</mat-label>
+                            <mat-select formControlName="Way_Of_ProvidingVal">
+                                <mat-option
+                                    *ngFor="let WayV of Way_Of_Providing"
+                                    [value]="WayV.value"
+                                >
+                                    {{ WayV.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>יום הטיפול בפרוטוקול</mat-label>
+                            <mat-select formControlName="Days_ProtocolVal">
+                                <mat-option
+                                    *ngFor="let Days of Days_Protocol"
+                                    [value]="Days.value"
+                                >
+                                    {{ Days.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field appearance="fill" floatLabel="always">
+                            <mat-label>שם התרופה</mat-label>
+                            <mat-select formControlName="MedListVal">
+                                <mat-option
+                                    *ngFor="let Med of MedList"
+                                    [value]="Med.value"
+                                >
+                                    {{ Med.viewValue }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-left">
+            <input
+                id="ROW_ID_PRE"
+                type="hidden"
+                [hidden]="true"
+                formControlName="rowIdPreVal"
+            />
+            <button
+                type="submit"
+                *ngIf="this.isButtonVisible && this.prem"
+                class="btn btn-outline-dark"
+            >
+                הוסף
+            </button>
+        </div>
+    </form>
+</ng-template>
+<ng-template #deleteModal let-modal let-c="close" let-d="dismiss">
+    <div class="modal-header text-right">
+        <h3 class="modal-title">מחיקת שורה</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col text-right">
+                <h3>האם אתה בטוח?</h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-left">
+        <button
+            type="button"
+            mat-raised-button
+            color="yello"
+            (click)="delete(c, 'true')"
+            data-toggle="modal"
+            data-target="#deleteModal"
+            data-dismiss="modal"
+        >
+            כן
+        </button>
+        &nbsp;&nbsp;&nbsp;
+        <button
+            type="button"
+            mat-raised-button
+            (click)="delete(c, 'false')"
+            data-toggle="modal"
+            data-target="#deleteModal"
+            data-dismiss="modal"
+        >
+            לא
+        </button>
+    </div>
+</ng-template>
+
+<ng-template #deletePerRowModal let-modal let-c="close" let-d="dismiss">
+    <div class="modal-header text-right">
+        <h3 class="modal-title">מחיקת שורה</h3>
+    </div>
+    <div class="modal-body">
+        <div class="row">
+            <div class="col text-right">
+                <h3>האם אתה בטוח?</h3>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-left">
+        <button
+            type="button"
+            mat-raised-button
+            color="yello"
+            (click)="deletePre(c, 'true')"
+            data-toggle="modal"
+            data-target="#deletePerRowModal"
+            data-dismiss="modal"
+        >
+            כן
+        </button>
+        &nbsp;&nbsp;&nbsp;
+        <button
+            type="button"
+            mat-raised-button
+            (click)="deletePre(c, 'false')"
+            data-toggle="modal"
+            data-target="#deletePerRowModal"
+            data-dismiss="modal"
+        >
+            לא
+        </button>
+    </div>
+</ng-template>

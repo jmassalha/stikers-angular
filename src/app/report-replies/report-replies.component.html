@@ -1,0 +1,30 @@
+<form dir="rtl" [formGroup]="messanger" autocomplete="off">
+    <mat-card class="full-width text-center pb-0 mb-3">
+        <label style="font-size: 20px;">{{reportTitle}}</label>
+    </mat-card>
+    <div class="full-width" *ngFor="let message of messagesArray">
+        <mat-card class="message-card full-width mb-3" *ngIf="message.UserName != UserName">
+            <p style="float: right;">{{message.FirstName}} {{message.LastName}}</p>
+            <p>תאריך: {{message.MessageDate}} שעה: {{message.MessageTime}}</p>
+            <p style="margin-bottom: 1rem;float: right;">{{message.ResponseText}}</p>
+        </mat-card>
+        <mat-card class="message-card2 full-width mb-3" *ngIf="message.UserName == UserName">
+            <span class="material-icons" (click)="deleteMessage(message.Row_ID,message.ReportIDFK)">
+                delete
+            </span>
+            <p style="float: right;">{{message.FirstName}} {{message.LastName}}</p>
+            <p>תאריך: {{message.MessageDate}} שעה: {{message.MessageTime}}</p>
+            <p style="margin-bottom: 1rem;float: right;">{{message.ResponseText}}</p>
+        </mat-card>
+    </div>
+
+    <mat-form-field>
+        <input matInput formControlName="ResponseText" autocomplete="off" placeholder="הקלד תגובה" name="fliterVal" />
+    </mat-form-field>
+    <div class="button-row">
+        <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
+            (click)="getAndSendMessages(reportID)" type="submit" mat-raised-button>
+            <span>שלח תגובה</span>
+        </button>
+    </div>
+</form>
