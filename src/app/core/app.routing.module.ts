@@ -59,6 +59,7 @@ import { ScannersComponent } from "../scanners/scanners.component";
 import { ClinicsDashboardComponent } from '../clinics-dashboard/clinics-dashboard.component';
 import { CheckpatientinsmartclosetComponent } from '../checkpatientinsmartcloset/checkpatientinsmartcloset.component';
 import { DrugsnicComponent } from '../drugsnic/drugsnic.component';
+import { CasenumbersComponent } from "../casenumbers/casenumbers.component";
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -120,6 +121,7 @@ const routes: Routes = [
   { path: "drugsnic", component: DrugsnicComponent },
   { path: "scanners", component: ScannersComponent },
   { path: "clinicspricing", component: ClinicsDashboardComponent },
+  { path: "casenumbers", component: CasenumbersComponent },
   { path: '', component : LoginComponent}
 ];
  
