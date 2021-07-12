@@ -267,8 +267,8 @@ export class CortinasdepartsComponent implements OnInit {
             .subscribe((Response) => {
                 //  //debugger
 
-                var json = $.parseJSON(Response["d"]);
-                let DepartsRoomsBedsData = $.parseJSON(json["Beds"]);
+                var json = JSON.parse(Response["d"]);
+                let DepartsRoomsBedsData = JSON.parse(json["Beds"]);
                 this.beds = DepartsRoomsBedsData;
                 /*
                 
@@ -354,8 +354,8 @@ export class CortinasdepartsComponent implements OnInit {
             .subscribe((Response) => {
                 //  //debugger
 
-                var json = $.parseJSON(Response["d"]);
-                let DepartsRoomsData = $.parseJSON(json["Rooms"]);
+                var json = JSON.parse(Response["d"]);
+                let DepartsRoomsData = JSON.parse(json["Rooms"]);
                 ////debugger
                 this.rooms = DepartsRoomsData;
                 this.roomsForm = this.formBuilder.group({
@@ -506,8 +506,8 @@ export class CortinasdepartsComponent implements OnInit {
             .subscribe((Response) => {
                 ////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let DepartsData = $.parseJSON(json["aaData"]);
+                var json = JSON.parse(Response["d"]);
+                let DepartsData = JSON.parse(json["aaData"]);
                 ////debugger
                 for (var i = 0; i < DepartsData.length; i++) {
                     this.TABLE_DATA.push({

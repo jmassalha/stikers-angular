@@ -343,8 +343,8 @@ export class MaternitypatientsComponent implements OnInit {
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 //debugger
-                var json = $.parseJSON(Response["d"]);
-                let patientData = $.parseJSON(json["Patients"]);
+                var json = JSON.parse(Response["d"]);
+                let patientData = JSON.parse(json["Patients"]);
                 for (var i = 0; i < patientData.length; i++) {
                     ////debugger
                     var date = patientData[i].PatientPregnancyDOB.split("-");

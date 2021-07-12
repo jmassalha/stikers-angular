@@ -1019,9 +1019,9 @@ DepartsDataRequestAvgAllNotPara
                 //// //////debugger
                 this.departsList = [];
 
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 // // //////debugger
-                var _d = $.parseJSON(json["departsList"]);
+                var _d = JSON.parse(json["departsList"]);
 
                 for (const [key, value] of Object.entries(_d)) {
                     ////debugger
@@ -1050,9 +1050,9 @@ DepartsDataRequestAvgAllNotPara
             .subscribe((Response) => {
                 //debugger;
                 this.workersList = [];
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 // // //////debugger
-                var _w = $.parseJSON(json["WorkersList"]);
+                var _w = JSON.parse(json["WorkersList"]);
 
                 for (const [key, value] of Object.entries(_w)) {
                     ////debugger
@@ -1079,10 +1079,10 @@ DepartsDataRequestAvgAllNotPara
                 //// //////debugger
                 this.requestdepartsList = [];
 
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 // // //////debugger
 
-                var _r = $.parseJSON(json["seodedepartsList"]);
+                var _r = JSON.parse(json["seodedepartsList"]);
 
                 for (const [key, value] of Object.entries(_r)) {
                     ////debugger
@@ -1129,74 +1129,74 @@ DepartsDataRequestAvgAllNotPara
             .subscribe(
                 (Response) => {
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = $.parseJSON(Response["d"]);
+                    var json = JSON.parse(Response["d"]);
                     //debugger;
-                    this.Departs = $.parseJSON(json["Departs"]);
-                    this.MulBarsRequestDepart = $.parseJSON(
+                    this.Departs = JSON.parse(json["Departs"]);
+                    this.MulBarsRequestDepart = JSON.parse(
                         json["MulBarsRequestDepart"]
                     );
-                    this.MulBarsRequestDepartTotalRows = $.parseJSON(
+                    this.MulBarsRequestDepartTotalRows = JSON.parse(
                         json["MulBarsRequestDepartTotalRows"]
                     );
-                    this.MulBarsRequestDepartAvgTime = $.parseJSON(
+                    this.MulBarsRequestDepartAvgTime = JSON.parse(
                         json["MulBarsRequestDepartAvgTime"]
                     );
-                    this.MulBarsRequestDepartAll = $.parseJSON(
+                    this.MulBarsRequestDepartAll = JSON.parse(
                         json["MulBarsRequestDepartAll"]
                     );
-                    this.MulBarsRequestDepartTotalRowsAll = $.parseJSON(
+                    this.MulBarsRequestDepartTotalRowsAll = JSON.parse(
                         json["MulBarsRequestDepartTotalRowsAll"]
                     );
-                    this.MulBarsRequestDepartAvgTimeAll = $.parseJSON(
+                    this.MulBarsRequestDepartAvgTimeAll = JSON.parse(
                         json["MulBarsRequestDepartAvgTimeAll"]
                     );
-                    this.MulBarsDoingDepart = $.parseJSON(
+                    this.MulBarsDoingDepart = JSON.parse(
                         json["MulBarsDoingDepart"]
                     );
-                    this.MulBarsDoingDepartAvgTime = $.parseJSON(
+                    this.MulBarsDoingDepartAvgTime = JSON.parse(
                         json["MulBarsDoingDepartAvgTime"]
                     );
-                    this.MulBarsRequestDepartNotPara = $.parseJSON(
+                    this.MulBarsRequestDepartNotPara = JSON.parse(
                         json["MulBarsRequestDepartNotPara"]
                     );
-                    this.MulBarsRequestDepartTotalRowsNotPara = $.parseJSON(
+                    this.MulBarsRequestDepartTotalRowsNotPara = JSON.parse(
                         json["MulBarsRequestDepartTotalRowsNotPara"]
                     );
-                    this.MulBarsRequestDepartAvgTimeNotPara = $.parseJSON(
+                    this.MulBarsRequestDepartAvgTimeNotPara = JSON.parse(
                         json["MulBarsRequestDepartAvgTimeNotPara"]
                     );
-                    this.MulBarsRequestDepartAvgTimeAllNotPara = $.parseJSON(
+                    this.MulBarsRequestDepartAvgTimeAllNotPara = JSON.parse(
                         json["MulBarsRequestDepartAvgTimeAllNotPara"]
                     );
-                    this.MulBarsRequestDepartTotalRowsAllNotPara = $.parseJSON(
+                    this.MulBarsRequestDepartTotalRowsAllNotPara = JSON.parse(
                         json["MulBarsRequestDepartTotalRowsAllNotPara"]
                     );
-                    this.MulBarsRequestDepartAllNotPara = $.parseJSON(
+                    this.MulBarsRequestDepartAllNotPara = JSON.parse(
                         json["MulBarsRequestDepartAllNotPara"]
                     );
-                    this.MulBarsDoingDepartTotalRows = $.parseJSON(
+                    this.MulBarsDoingDepartTotalRows = JSON.parse(
                         json["MulBarsDoingDepartTotalRows"]
                     );
-                    this.MulBarsDoingDepartAll = $.parseJSON(
+                    this.MulBarsDoingDepartAll = JSON.parse(
                         json["MulBarsDoingDepartAll"]
                     );
-                    this.MulBarsDoingDepartAvgTimeAll = $.parseJSON(
+                    this.MulBarsDoingDepartAvgTimeAll = JSON.parse(
                         json["MulBarsDoingDepartAvgTimeAll"]
                     );
-                    this.MulBarsDoingDepartTotalRowsAll = $.parseJSON(
+                    this.MulBarsDoingDepartTotalRowsAll = JSON.parse(
                         json["MulBarsDoingDepartTotalRowsAll"]
                     );
 
-                    this.DepartsDoingTotal = $.parseJSON(
+                    this.DepartsDoingTotal = JSON.parse(
                         json["DepartsDoingTotal"]
                     );
-                    this.WorkersDoingTotal = $.parseJSON(
+                    this.WorkersDoingTotal = JSON.parse(
                         json["WorkersDoingTotal"]
                     );
-                    this.Workers = $.parseJSON(json["Workers"]);
+                    this.Workers = JSON.parse(json["Workers"]);
                     //debugger;
                     ////debugger
-                    let Consultations = $.parseJSON(json["aaData"]);
+                    let Consultations = JSON.parse(json["aaData"]);
                     for (var i = 0; i < Consultations.length; i++) {
                         if (Consultations[i].MeasurementStatus != "1") {
                             this.isShow = false;

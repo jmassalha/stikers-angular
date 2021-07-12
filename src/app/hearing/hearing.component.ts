@@ -196,7 +196,7 @@ export class HearingComponent implements OnInit {
             .subscribe(
                 Response => {
                     ////debugger
-                    var json = $.parseJSON(Response["d"]);
+                    var json = JSON.parse(Response["d"]);
                     this.dataTable = json;
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator

@@ -283,7 +283,7 @@ export class EshbozComponent implements OnInit {
                 $("#_departments").empty();
                 ////////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 //debugger
                 this.depart = JSON.parse(json["DepartName"]);
                 this.eshpoz = JSON.parse(json["DepartEshpozim"]);
@@ -349,7 +349,7 @@ export class EshbozComponent implements OnInit {
                     
                     ////////debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = $.parseJSON(Response["d"]);
+                    var json = JSON.parse(Response["d"]);
                     //debugger
                     this.depart = JSON.parse(json["DepartName"]);
                     this.eshpoz = JSON.parse(json["DepartEshpozim"]);
@@ -414,10 +414,10 @@ export class EshbozComponent implements OnInit {
             })
             .subscribe(
                 Response => {
-                    var json = $.parseJSON(Response["d"]);
-                    var LineName = $.parseJSON(json["LineName"]);
-                    var LineCounter = $.parseJSON(json["LineCounter"]);
-                    var LineCounterPast = $.parseJSON(json["LineCounterPast"]);
+                    var json = JSON.parse(Response["d"]);
+                    var LineName = JSON.parse(json["LineName"]);
+                    var LineCounter = JSON.parse(json["LineCounter"]);
+                    var LineCounterPast = JSON.parse(json["LineCounterPast"]);
                     this._fun.drawCharToDom(
                         "line",
                         LineName,
@@ -429,8 +429,8 @@ export class EshbozComponent implements OnInit {
                     );
                     this._fun.drawCharToDom(
                         "bar",
-                        $.parseJSON(json["DepartName"]),
-                        $.parseJSON(json["DepartCounter"]),
+                        JSON.parse(json["DepartName"]),
+                        JSON.parse(json["DepartCounter"]),
                         "bekoremCount",
                         "canvbekoremCount",
                         'סה"כ',

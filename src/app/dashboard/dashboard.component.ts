@@ -69,14 +69,14 @@ export class DashboardComponent implements OnInit {
             .subscribe(
                 (Response) => {
                     ////debugger
-                    //var json = $.parseJSON(Response["d"]);
+                    //var json = JSON.parse(Response["d"]);
                     var obj = JSON.parse(Response["d"]);
                     var aobjTotal = JSON.parse(obj["total"]);
                     var aobj = JSON.parse(obj["DepartObjects"]);
                     var totalReal = JSON.parse(obj["totalReal"]);
                     var aaobj = JSON.parse("[" + aobj[0] + "]");
                     ////debugger
-                    aobjTotal = $.parseJSON(aobjTotal);
+                    aobjTotal = JSON.parse(aobjTotal);
 //debugger
                     aaobj.forEach((element, index) => {
                         ////debugger

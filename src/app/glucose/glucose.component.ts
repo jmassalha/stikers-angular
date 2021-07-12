@@ -189,8 +189,8 @@ export class GlucoseComponent implements OnInit {
                     $("#_departments").empty();
                     //  //debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = $.parseJSON(Response["d"]);
-                    let tableData = $.parseJSON(json["tableData"]);
+                    var json = JSON.parse(Response["d"]);
+                    let tableData = JSON.parse(json["tableData"]);
                     ////debugger;
 
                     this.dataSource = new MatTableDataSource<any>(

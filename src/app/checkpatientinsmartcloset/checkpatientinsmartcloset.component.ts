@@ -43,7 +43,7 @@ export interface PatientData {
     styleUrls: ["./checkpatientinsmartcloset.component.css"],
 })
 export class CheckpatientinsmartclosetComponent implements OnInit {
-    @ViewChild("patientModal", { static: false }) private patientModal;
+    @ViewChild("patientModal") private patientModal;
     fliterVal = "";
     mPatientData: PatientData;
     constructor(

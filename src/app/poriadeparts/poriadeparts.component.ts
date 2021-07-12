@@ -352,8 +352,8 @@ export class PoriadepartsComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let DepartsData = $.parseJSON(json["aaData"]);
+                var json = JSON.parse(Response["d"]);
+                let DepartsData = JSON.parse(json["aaData"]);
                 ////debugger
                 for (var i = 0; i < DepartsData.length; i++) {
                     ////debugger

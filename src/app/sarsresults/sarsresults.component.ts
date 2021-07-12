@@ -304,9 +304,9 @@ export class SarsresultsComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 // //debugger
-                let SarsData = $.parseJSON(json["aaData"]);
+                let SarsData = JSON.parse(json["aaData"]);
                  //debugger;
                 for (var i = 0; i < SarsData.length; i++) {
                     ////debugger
@@ -340,7 +340,7 @@ export class SarsresultsComponent implements OnInit {
                 // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
-                    $.parseJSON(json["iTotalRecords"])
+                    JSON.parse(json["iTotalRecords"])
                 );
                 setTimeout(function () {
                     //////debugger

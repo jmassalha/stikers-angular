@@ -209,8 +209,8 @@ export class MaternityComponent implements OnInit {
             .subscribe((Response) => {
                 //localStorage.setItem("MaternityRowId", _element.RowID);
                 
-                var json = $.parseJSON(Response["d"]);
-                let Poria_Maternity = $.parseJSON(json["MaternityPatients"]);
+                var json = JSON.parse(Response["d"]);
+                let Poria_Maternity = JSON.parse(json["MaternityPatients"]);
                 var textAreaVal = "";
                 for(var i = 0;i < Poria_Maternity.length; i++){
                     textAreaVal += Poria_Maternity[i]["PatientMobile"] + " - ";
@@ -357,8 +357,8 @@ export class MaternityComponent implements OnInit {
             .subscribe((Response) => {
                 //////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let Poria_Maternity = $.parseJSON(json["Maternity"]);
+                var json = JSON.parse(Response["d"]);
+                let Poria_Maternity = JSON.parse(json["Maternity"]);
                 //  //debugger
                 for (var i = 0; i < Poria_Maternity.length; i++) {
                     this.TABLE_DATA.push({

@@ -111,10 +111,10 @@ export class CortinasnotificationComponent implements OnInit {
             )
             .subscribe((Response) => {
                 ////debugger
-                var json = $.parseJSON(Response["d"]);
-                this.AlertWarn = $.parseJSON(json["AlertWarn"]);
-                this.AlertYellow = $.parseJSON(json["AlertYellow"]);
-                this.AlertGreen = $.parseJSON(json["AlertGreen"]);
+                var json = JSON.parse(Response["d"]);
+                this.AlertWarn = JSON.parse(json["AlertWarn"]);
+                this.AlertYellow = JSON.parse(json["AlertYellow"]);
+                this.AlertGreen = JSON.parse(json["AlertGreen"]);
                 setTimeout(function () {
                     ////debugger
                     if (tableLoader) {

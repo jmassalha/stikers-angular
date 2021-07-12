@@ -485,8 +485,8 @@ export class Covid19reportComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON($.parseJSON(Response["d"]));
-                let CoronaData = $.parseJSON(json["aaData"]);
+                var json = JSON.parse(JSON.parse(Response["d"]));
+                let CoronaData = JSON.parse(json["aaData"]);
                 ////debugger
                 for (var i = 0; i < CoronaData.length; i++) {
                     ////debugger

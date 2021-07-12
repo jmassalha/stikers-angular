@@ -155,10 +155,10 @@ export class DrugsComponent implements OnInit {
             .subscribe((Response) => {
                 ////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                json = $.parseJSON(json);
+                var json = JSON.parse(Response["d"]);
+                json = JSON.parse(json);
                 // // //debugger
-                var _d = $.parseJSON(json["GroupOptions"]);
+                var _d = JSON.parse(json["GroupOptions"]);
                 var i = 0;
                 for (var s = 0; s < _d.length; s++) {
                     //  //debugger
@@ -361,9 +361,9 @@ export class DrugsComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                json = $.parseJSON(json);
-                let drugData = $.parseJSON(json["aaData"]);
+                var json = JSON.parse(Response["d"]);
+                json = JSON.parse(json);
+                let drugData = JSON.parse(json["aaData"]);
                 ////debugger
                 for (var i = 0; i < drugData.length; i++) {
                     ////debugger
@@ -381,7 +381,7 @@ export class DrugsComponent implements OnInit {
                 // //debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
-                    $.parseJSON(json["iTotalRecords"])
+                    JSON.parse(json["iTotalRecords"])
                 );
                 setTimeout(function () {
                     ////debugger

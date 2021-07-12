@@ -60,7 +60,7 @@ export class FormsansweredComponent implements OnInit {
   PatientEmail: string;
   PatientGender: string;
   PatientBirthday: string;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
   all_forms_filter = [];
   form_patients: Patient;
   // form_nurse: Nurse;

@@ -235,8 +235,8 @@ export class DimotComponent implements OnInit, AfterViewInit {
             )
             .subscribe(Response => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let DimotData = $.parseJSON(json["aaData"]);
+                var json = JSON.parse(Response["d"]);
+                let DimotData = JSON.parse(json["aaData"]);
                 for (var i = 0; i < DimotData.length; i++) {
                     this.TABLE_DATA.push({
                         D_ROW_ID: DimotData[i].D_ROW_ID,
@@ -312,33 +312,33 @@ export class DimotComponent implements OnInit, AfterViewInit {
             .subscribe(
                 Response => {
                     ////debugger
-                    var json = $.parseJSON(Response["d"]);
-                    var _monthsDoingLabels = $.parseJSON(
+                    var json = JSON.parse(Response["d"]);
+                    var _monthsDoingLabels = JSON.parse(
                         json["_monthsDoingLabels"]
                     );
-                    var _doingTechRang = $.parseJSON(json["_doingTechRang"]);
-                    var _doingTechVal = $.parseJSON(json["_doingTechVal"]);
-                    var _doingDocRang = $.parseJSON(json["_doingDocRang"]);
-                    var _doingDocVal = $.parseJSON(json["_doingDocVal"]);
-                    var _monthsDoingVal = $.parseJSON(json["_monthsDoingVal"]);
-                    var _monthsTechVal = $.parseJSON(json["_monthsTechVal"]);
+                    var _doingTechRang = JSON.parse(json["_doingTechRang"]);
+                    var _doingTechVal = JSON.parse(json["_doingTechVal"]);
+                    var _doingDocRang = JSON.parse(json["_doingDocRang"]);
+                    var _doingDocVal = JSON.parse(json["_doingDocVal"]);
+                    var _monthsDoingVal = JSON.parse(json["_monthsDoingVal"]);
+                    var _monthsTechVal = JSON.parse(json["_monthsTechVal"]);
 
-                    var _serviceDocRang = $.parseJSON(json["_serviceDocRang"]);
-                    var _serviceDocVal = $.parseJSON(json["_serviceDocVal"]);
+                    var _serviceDocRang = JSON.parse(json["_serviceDocRang"]);
+                    var _serviceDocVal = JSON.parse(json["_serviceDocVal"]);
 
-                    var _checkTypeRang = $.parseJSON(json["_checkTypeRang"]);
-                    var _checkTypeVal = $.parseJSON(json["_checkTypeVal"]);
+                    var _checkTypeRang = JSON.parse(json["_checkTypeRang"]);
+                    var _checkTypeVal = JSON.parse(json["_checkTypeVal"]);
 
-                    var _docRang = $.parseJSON(json["_docRang"]);
-                    var _docVal = $.parseJSON(json["_docVal"]);
+                    var _docRang = JSON.parse(json["_docRang"]);
+                    var _docVal = JSON.parse(json["_docVal"]);
 
-                    var _serviceTechRang = $.parseJSON(
+                    var _serviceTechRang = JSON.parse(
                         json["_serviceTechRang"]
                     );
-                    var _serviceTechVal = $.parseJSON(json["_serviceTechVal"]);
+                    var _serviceTechVal = JSON.parse(json["_serviceTechVal"]);
 
-                    var _totalRang = $.parseJSON(json["_totalRang"]);
-                    var _totalVal = $.parseJSON(json["_totalVal"]);
+                    var _totalRang = JSON.parse(json["_totalRang"]);
+                    var _totalVal = JSON.parse(json["_totalVal"]);
 
                     this._fun.drawCharToDom(
                         "bar",

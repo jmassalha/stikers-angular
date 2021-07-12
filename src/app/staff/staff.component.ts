@@ -173,9 +173,9 @@ export class StaffComponent implements OnInit {
             .subscribe((Response) => {
                 //// //debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 // // //debugger
-                var _d = $.parseJSON(json["Roles"]);
+                var _d = JSON.parse(json["Roles"]);
                 var i = 0;
                 for (var role in _d) {
                     //// //debugger
@@ -207,9 +207,9 @@ export class StaffComponent implements OnInit {
             .subscribe((Response) => {
                 //// //debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 // // //debugger
-                var _d = $.parseJSON(json["Departs"]);
+                var _d = JSON.parse(json["Departs"]);
                 var i = 0;
                 for (var depart in _d) {
                     //// //debugger
@@ -442,8 +442,8 @@ export class StaffComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let StaffData = $.parseJSON(json["aaData"]);
+                var json = JSON.parse(Response["d"]);
+                let StaffData = JSON.parse(json["aaData"]);
                 ////debugger
                 for (var i = 0; i < StaffData.length; i++) {
                     ////debugger

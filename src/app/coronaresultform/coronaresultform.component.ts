@@ -207,8 +207,8 @@ export class CoronaresultformComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                var json = $.parseJSON(Response["d"]);
-                let CoronaData = $.parseJSON(json["ITEMSMAP"]);
+                var json = JSON.parse(Response["d"]);
+                let CoronaData = JSON.parse(json["ITEMSMAP"]);
               //  //debugger;
                 CoronaData.L_DOB = this.toShortFormat(
                     new Date(CoronaData.L_DOB)

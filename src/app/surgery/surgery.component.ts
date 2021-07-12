@@ -169,9 +169,9 @@ export class SurgeryComponent implements OnInit {
                 //// ////debugger
                 this.SurgensList = [];
 
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 // // ////debugger
-                var _d = $.parseJSON(json["surgensList"]);
+                var _d = JSON.parse(json["surgensList"]);
 
                 for (const [key, value] of Object.entries(_d)) {
                   //  debugger
@@ -360,8 +360,8 @@ export class SurgeryComponent implements OnInit {
                 {}
             )
             .subscribe((Response) => {
-                var json = $.parseJSON(Response["d"]);
-                json = $.parseJSON(json["SurgeryDeparts"]);
+                var json = JSON.parse(Response["d"]);
+                json = JSON.parse(json["SurgeryDeparts"]);
                 debugger
                 this.Departs = json;
             });
@@ -419,8 +419,8 @@ export class SurgeryComponent implements OnInit {
                     $("#_departments").empty();
                     debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = $.parseJSON(Response["d"]);
-                    //let surgeries = $.parseJSON(json["aaData"]);
+                    var json = JSON.parse(Response["d"]);
+                    //let surgeries = JSON.parse(json["aaData"]);
                     //debugger
                     //  for(var i = 0; i < surgeries.length; i++) {
                     //    ////debugger;
@@ -454,9 +454,9 @@ export class SurgeryComponent implements OnInit {
                         this.TABLE_DATA
                     );
                     this.resultsLength = parseInt(json["iTotalRecords"]);
-                    let _CharMonthLable = $.parseJSON(json["_CharMonthLable"]);
-                    let _CharMonthVal = $.parseJSON(json["_CharMonthVal"]);
-                    let _CharPastMonthVal = $.parseJSON(
+                    let _CharMonthLable = JSON.parse(json["_CharMonthLable"]);
+                    let _CharMonthVal = JSON.parse(json["_CharMonthVal"]);
+                    let _CharPastMonthVal = JSON.parse(
                         json["_CharPastMonthVal"]
                     );
                     ////debugger;
@@ -472,8 +472,8 @@ export class SurgeryComponent implements OnInit {
                     );
                     this._fun.drawCharToDom(
                         "bar",
-                        $.parseJSON(json["DepartName"]),
-                        $.parseJSON(json["DepartCounterSurgery"]),
+                        JSON.parse(json["DepartName"]),
+                        JSON.parse(json["DepartCounterSurgery"]),
                         "surgeryCount",
                         "canvsurgeryCount",
                         'סה"כ',
@@ -482,7 +482,7 @@ export class SurgeryComponent implements OnInit {
                     let _div = $(
                         '<div class="card text-right" dir="rtl"></div>'
                     );
-                    let _departToCheck = $.parseJSON(json["SurgeryDepart"])[0];
+                    let _departToCheck = JSON.parse(json["SurgeryDepart"])[0];
                     let counts = {};
                     let rowIn = 0;
                     let totalNow = 0;
@@ -492,28 +492,28 @@ export class SurgeryComponent implements OnInit {
                     //let allNow = 0;
                     for (
                         let s = 0;
-                        s < $.parseJSON(json["SurgeryDepart"]).length;
+                        s < JSON.parse(json["SurgeryDepart"]).length;
                         s++
                     ) {
                         //_footer.empty().append('<p class="row"><span class="col-md-8 col-sm-8 col-xs-8">סה"כ</span><span class="col-md-2 col-sm-2 col-xs-2">'+totalPast+'</span><span  class="col-md-2 col-sm-2 col-xs-2">'+totalNow+'</span><p>');
 
                         if (
                             _departToCheck !=
-                                $.parseJSON(json["SurgeryDepart"])[s] ||
+                                JSON.parse(json["SurgeryDepart"])[s] ||
                             s == 0
                         ) {
                             for (
                                 var k = 0;
                                 k <
-                                $.parseJSON(json["SurgeryDepartPast"]).length;
+                                JSON.parse(json["SurgeryDepartPast"]).length;
                                 k++
                             ) {
                                 if (
-                                    $.parseJSON(json["SurgeryDepartPast"])[k] ==
+                                    JSON.parse(json["SurgeryDepartPast"])[k] ==
                                     _departToCheck
                                 ) {
                                     totalPast += parseInt(
-                                        $.parseJSON(json["SurgeryCounterPast"])[
+                                        JSON.parse(json["SurgeryCounterPast"])[
                                             k
                                         ]
                                     );
@@ -528,7 +528,7 @@ export class SurgeryComponent implements OnInit {
                                         totalPast +
                                         "</span><p>"
                                 );
-                            _departToCheck = $.parseJSON(json["SurgeryDepart"])[
+                            _departToCheck = JSON.parse(json["SurgeryDepart"])[
                                 s
                             ];
                             if (s > 0) {
@@ -555,23 +555,23 @@ export class SurgeryComponent implements OnInit {
                             totalPast = 0;
                         }
                         let _val = 0;
-                        let _index = $.parseJSON(
+                        let _index = JSON.parse(
                             json["SurgeryDepartPastCom"]
                         ).indexOf(
-                            $.parseJSON(json["SurgeryDepart"])[s] +
+                            JSON.parse(json["SurgeryDepart"])[s] +
                                 "_" +
-                                $.parseJSON(json["SurgeryName"])[s]
+                                JSON.parse(json["SurgeryName"])[s]
                         );
                         if (_index >= 0) {
-                            _val = $.parseJSON(json["SurgeryCounterPast"])[
+                            _val = JSON.parse(json["SurgeryCounterPast"])[
                                 _index
                             ];
                         }
                         let _p = $(
                             '<p class="row"><span class="col-md-8 col-sm-8 col-xs-8">' +
-                                $.parseJSON(json["SurgeryName"])[s] +
+                                JSON.parse(json["SurgeryName"])[s] +
                                 '</span><span class="col-md-2 col-sm-2 col-xs-2">' +
-                                $.parseJSON(json["SurgeryCounter"])[s] +
+                                JSON.parse(json["SurgeryCounter"])[s] +
                                 '</span><span class="col-md-2 col-sm-2 col-xs-2">' +
                                 _val +
                                 "</span></p>"
@@ -582,30 +582,30 @@ export class SurgeryComponent implements OnInit {
                                 .append(_p);
                         }
                         totalNow += parseInt(
-                            $.parseJSON(json["SurgeryCounter"])[s]
+                            JSON.parse(json["SurgeryCounter"])[s]
                         );
-                        //allNow += parseInt($.parseJSON(json["SurgeryCounter"])[s]);
+                        //allNow += parseInt(JSON.parse(json["SurgeryCounter"])[s]);
                         rowIn++;
                     }
                     //let allPast = 0;
                     for (
                         var k = 0;
-                        k < $.parseJSON(json["SurgeryDepartPast"]).length;
+                        k < JSON.parse(json["SurgeryDepartPast"]).length;
                         k++
                     ) {
                         if (
-                            $.parseJSON(json["SurgeryDepartPast"])[k] ==
+                            JSON.parse(json["SurgeryDepartPast"])[k] ==
                             _departToCheck
                         ) {
                             totalPast += parseInt(
-                                $.parseJSON(json["SurgeryCounterPast"])[k]
+                                JSON.parse(json["SurgeryCounterPast"])[k]
                             );
                         }
-                        //allPast += parseInt($.parseJSON(json["SurgeryCounterPast"])[k]);
+                        //allPast += parseInt(JSON.parse(json["SurgeryCounterPast"])[k]);
                     }
 
-                    let allNow = $.parseJSON(json["TotalNowSurgery"]);
-                    let allPast = $.parseJSON(json["TotalSurgeryPast"]);
+                    let allNow = JSON.parse(json["TotalNowSurgery"]);
+                    let allPast = JSON.parse(json["TotalSurgeryPast"]);
                     ////debugger
                     this._fun.drawCharToDom(
                         "bar",
@@ -628,7 +628,7 @@ export class SurgeryComponent implements OnInit {
                         );
                     _div.append(_footer);
                     $("#_departments").append(_div.clone());
-                    //this.drawCharToDom('bar', $.parseJSON(json["SurgeryName"]), $.parseJSON(json["SurgeryCounter"]), 'departSurgery', 'canvdepartSurgery');
+                    //this.drawCharToDom('bar', JSON.parse(json["SurgeryName"]), JSON.parse(json["SurgeryCounter"]), 'departSurgery', 'canvdepartSurgery');
                     //this.paginator. = parseInt(json["iTotalRecords"]);
                     //this.dataSource.sort = this.sort;
                     // //debugger

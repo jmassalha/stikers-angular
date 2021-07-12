@@ -248,9 +248,9 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                 Response => {
                     //// ////debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = $.parseJSON(Response["d"]);
+                    var json = JSON.parse(Response["d"]);
                    // // ////debugger
-                    var _d = $.parseJSON(json["Departs"]);
+                    var _d = JSON.parse(json["Departs"]);
                     for (var depart in _d) {
                         //// ////debugger
                         var _sD: Depart = {id: depart, name: _d[depart]};
@@ -620,8 +620,8 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                 Response => {
                     //// ////debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = $.parseJSON(Response["d"]);
-                    let chads = $.parseJSON(json["aaData"]);
+                    var json = JSON.parse(Response["d"]);
+                    let chads = JSON.parse(json["aaData"]);
                     // ////debugger
                     for (var i = 0; i < chads.length; i++) {
                         if (
@@ -701,21 +701,21 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                         this.TABLE_DATA
                     );
                     this.resultsLength = parseInt(json["iTotalRecords"]);
-                    this.ChadWithOutValByDocNameDoctorsNames = $.parseJSON(
+                    this.ChadWithOutValByDocNameDoctorsNames = JSON.parse(
                         json["ChadWithOutValByDocNameDoctorsNames"]
                     );
-                    this.ChadWithOutValByDocName = $.parseJSON(
+                    this.ChadWithOutValByDocName = JSON.parse(
                         json["ChadWithOutValByDocName"]
                     );
                     this.totalRowsChadWithVal = json["totalRowsChadWithVal"];
                     this.totalRowsChadWithOutVal = json["totalRowsChadWithOutVal"];
 
-                    this.ChadDeparts = $.parseJSON(
+                    this.ChadDeparts = JSON.parse(
                         json["ChadDeparts"]
                     );
                      ////debugger
-                    this.ChadDepartsGoods = $.parseJSON(json["ChadDepartsGoods"]);
-                    this.ChadDepartsNotGoods = $.parseJSON(json["ChadDepartsNotGoods"]);
+                    this.ChadDepartsGoods = JSON.parse(json["ChadDepartsGoods"]);
+                    this.ChadDepartsNotGoods = JSON.parse(json["ChadDepartsNotGoods"]);
                     if(this.selectedIndexTab == 1){
                         
                         this.drawCharToDom(
@@ -727,10 +727,10 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                         );
                         this.drawCharToDom(
                             "bar",
-                            $.parseJSON(
+                            JSON.parse(
                                 json["ChadWithOutValByDocNameDoctorsNames"]
                             ),
-                            $.parseJSON(json["ChadWithOutValByDocName"]),
+                            JSON.parse(json["ChadWithOutValByDocName"]),
                             "chadNoValByDocWrapper",
                             "canvchadNoValByDocWrapper"
                         );

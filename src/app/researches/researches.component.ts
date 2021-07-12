@@ -262,7 +262,7 @@ export class ResearchesComponent implements OnInit {
             .subscribe((Response) => {
                 // //////////debugger
                 ////debugger
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 switch (json) {
                     case 1:
                     case "1":
@@ -285,7 +285,7 @@ export class ResearchesComponent implements OnInit {
                 {}
             )
             .subscribe((Response) => {
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 debugger
                 this.Departs = json;
             });
@@ -431,8 +431,8 @@ export class ResearchesComponent implements OnInit {
             .subscribe((Response) => {
                 //////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let Poria_Researches = $.parseJSON(json["Researches"]);
+                var json = JSON.parse(Response["d"]);
+                let Poria_Researches = JSON.parse(json["Researches"]);
                 //  //debugger
                 for (var i = 0; i < Poria_Researches.length; i++) {
                     this.TABLE_DATA.push({

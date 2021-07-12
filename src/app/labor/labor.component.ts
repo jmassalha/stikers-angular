@@ -220,8 +220,8 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.Depart = "-1";
         this.CheckResult = "-1";
         this.RequestType = "-1";
-        this.CheckType = "1";
-        this.CheckTypeStatus = "1";
+        this.CheckType = "-1";
+        this.CheckTypeStatus = "0";
         /* if (this.yearsToSelect.list[0]["checked"]) {
             this._selectedYear = parseInt(this.yearsToSelect.list[0]["ID"]);
             this.Sdate = new FormControl(
@@ -657,18 +657,18 @@ export class LaborComponent implements OnInit, AfterViewInit {
             .subscribe(
                 (Response) => {
                     // ////debugger;
-                    var json = $.parseJSON(Response["d"]);
-                    var itemsIn = $.parseJSON(json.ITEMS);
-                    var itemsInMap = $.parseJSON(json.ITEMSMAP);
-                    var itemsInPatient = $.parseJSON(json.ITEMSPATIENT);
+                    var json = JSON.parse(Response["d"]);
+                    var itemsIn = JSON.parse(json.ITEMS);
+                    var itemsInMap = JSON.parse(json.ITEMSMAP);
+                    var itemsInPatient = JSON.parse(json.ITEMSPATIENT);
                     ////debugger;
-                    var counterM = $.parseJSON(json.counterM);
-                    var counterB = $.parseJSON(json.counterB);
-                    var counterW = $.parseJSON(json.counterW);
-                    var MonthDayM = $.parseJSON(json.MonthDayM);
-                    var MonthDayValM = $.parseJSON(json.MonthDayValM);
-                    var MonthDayB = $.parseJSON(json.MonthDayB);
-                    var MonthDayValB = $.parseJSON(json.MonthDayValB);
+                    var counterM = JSON.parse(json.counterM);
+                    var counterB = JSON.parse(json.counterB);
+                    var counterW = JSON.parse(json.counterW);
+                    var MonthDayM = JSON.parse(json.MonthDayM);
+                    var MonthDayValM = JSON.parse(json.MonthDayValM);
+                    var MonthDayB = JSON.parse(json.MonthDayB);
+                    var MonthDayValB = JSON.parse(json.MonthDayValB);
                     var k = 0;
                     this.markers = itemsInMap.items;
                     this._fun.drawCharToDom(

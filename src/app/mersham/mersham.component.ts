@@ -646,7 +646,7 @@ export class MershamComponent implements OnInit {
             })
             .subscribe((Response) => {
                 // //////////debugger
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 switch (json) {
                     case 0:
                     case "0":
@@ -1509,18 +1509,18 @@ export class MershamComponent implements OnInit {
                 {}
             )
             .subscribe((Response) => {
-                var json = $.parseJSON($.parseJSON(Response["d"]));
-                this.Calc_Type = $.parseJSON(json["Calc_Type"]);
-                this.Dosage_Unit = $.parseJSON(json["Dosage_Unit"]);
-                this.Duration_Of_Delivery = $.parseJSON(
+                var json = JSON.parse(JSON.parse(Response["d"]));
+                this.Calc_Type = JSON.parse(json["Calc_Type"]);
+                this.Dosage_Unit = JSON.parse(json["Dosage_Unit"]);
+                this.Duration_Of_Delivery = JSON.parse(
                     json["Duration_Of_Delivery"]
                 );
-                this.Solution = $.parseJSON(json["Solution"]);
-                this.Solution_Volume = $.parseJSON(json["Solution_Volume"]);
-                this.Way_Of_Providing = $.parseJSON(json["Way_Of_Providing"]);
-                this.MedList = this.MedListConst = $.parseJSON(json["MedList"]);
-                this.Days_Protocol = $.parseJSON(json["Days_Protocol"]);
-                this.Notes = $.parseJSON(json["Notes"]);
+                this.Solution = JSON.parse(json["Solution"]);
+                this.Solution_Volume = JSON.parse(json["Solution_Volume"]);
+                this.Way_Of_Providing = JSON.parse(json["Way_Of_Providing"]);
+                this.MedList = this.MedListConst = JSON.parse(json["MedList"]);
+                this.Days_Protocol = JSON.parse(json["Days_Protocol"]);
+                this.Notes = JSON.parse(json["Notes"]);
                 ////////////////////////debugger
             });
     }
@@ -1546,8 +1546,8 @@ export class MershamComponent implements OnInit {
                 });
                 this.updateView();
                 this.tableDataPres.splice(0, this.tableDataPres.length);
-                var json = $.parseJSON($.parseJSON(Response["d"]));
-                var Medicine_Prescriptions = $.parseJSON(
+                var json = JSON.parse(JSON.parse(Response["d"]));
+                var Medicine_Prescriptions = JSON.parse(
                     json["Medicine_Prescriptions"]
                 );
                 this.ArrayDrus = [];
@@ -1756,9 +1756,9 @@ export class MershamComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON($.parseJSON(Response["d"]));
-                let DataPrecpiction = $.parseJSON(json["Prescriptions"]);
-                let Patient = $.parseJSON(json["Patient"]);
+                var json = JSON.parse(JSON.parse(Response["d"]));
+                let DataPrecpiction = JSON.parse(json["Prescriptions"]);
+                let Patient = JSON.parse(json["Patient"]);
                 ////////////////////////debugger
                 this.DemographData = Patient;
                 if (this.DemographData[0]) {

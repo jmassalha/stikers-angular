@@ -375,8 +375,8 @@ export class ResearchesusersComponent implements OnInit {
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 //debugger
-                var json = $.parseJSON(Response["d"]);
-                let userssData = $.parseJSON(json["Users"]);
+                var json = JSON.parse(Response["d"]);
+                let userssData = JSON.parse(json["Users"]);
                 for (var i = 0; i < userssData.length; i++) {
                     ////debugger
                     this.TABLE_DATA.push({

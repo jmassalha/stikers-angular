@@ -314,8 +314,8 @@ Cecum_Time
         this.selectedIndexTab = clickedIndex;
         if (clickedIndex == 1 && this.doctors != null) {
             //debugger
-            let totalDataLength = 2;
-            let bgArray = this.getBackgroundArray(totalDataLength);
+            //let totalDataLength = 2;
+            //let bgArray = this.getBackgroundArray(totalDataLength);
             this.titleC = "איתור פוליפים";
             this.typeC = "PieChart";
             this.dataC = [
@@ -417,6 +417,7 @@ options6min
                 // colors: ["#e0440e", "#e6693e"],
                 //is3D: true,
             };
+            debugger
             /*
             this.drawCharToDom(
                 "multiBar",
@@ -801,9 +802,9 @@ options6min
             .subscribe((Response) => {
                 //// ////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
+                var json = JSON.parse(Response["d"]);
                 // // ////debugger
-                var _d = $.parseJSON(json["DoctorsList"]);
+                var _d = JSON.parse(json["DoctorsList"]);
                 for (var doctor in _d) {
                     //// ////debugger
                     var _sD: Doctor = { id: doctor, name: doctor };
@@ -854,47 +855,47 @@ options6min
             .subscribe(
                 (Response) => {
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = $.parseJSON(Response["d"]);
+                    var json = JSON.parse(Response["d"]);
 
-                    this.doctors = $.parseJSON(json["Doctors"]);
-                    this.DoctorsDoingTotal = $.parseJSON(
+                    this.doctors = JSON.parse(json["Doctors"]);
+                    this.DoctorsDoingTotal = JSON.parse(
                         json["DoctorsDoingTotal"]
                     );
-                    this.DoingTotalGoods = $.parseJSON(json["DoingTotalGoods"]);
-                    this.DoingTotalNotGoods = $.parseJSON(
+                    this.DoingTotalGoods = JSON.parse(json["DoingTotalGoods"]);
+                    this.DoingTotalNotGoods = JSON.parse(
                         json["DoingTotalNotGoods"]
                     );
-                    this.allGoods = $.parseJSON(json["totalGoods"]);
-                    this.allNotGoods = $.parseJSON(json["totalNotGoods"]);
+                    this.allGoods = JSON.parse(json["totalGoods"]);
+                    this.allNotGoods = JSON.parse(json["totalNotGoods"]);
 
-                    this.totalWithStartTime = $.parseJSON(
+                    this.totalWithStartTime = JSON.parse(
                         json["totalWithStartTime"]
                     );
-                    this.totalWithoutStartTime = $.parseJSON(
+                    this.totalWithoutStartTime = JSON.parse(
                         json["totalWithoutStartTime"]
                     );
-                    this.totalWithCecomTime = $.parseJSON(
+                    this.totalWithCecomTime = JSON.parse(
                         json["totalWithCecomTime"]
                     );
-                    this.totalWithoutCecomTime = $.parseJSON(
+                    this.totalWithoutCecomTime = JSON.parse(
                         json["totalWithoutCecomTime"]
                     );
-                    this.totalWithEndTime = $.parseJSON(
+                    this.totalWithEndTime = JSON.parse(
                         json["totalWithEndTime"]
                     );
-                    this.totalWithoutEndTime = $.parseJSON(
+                    this.totalWithoutEndTime = JSON.parse(
                         json["totalWithoutEndTime"]
                     );
                     
-                    this.totalWith6min = $.parseJSON(
+                    this.totalWith6min = JSON.parse(
                         json["totalWith6min"]
                     );
-                    this.totalWithout6min = $.parseJSON(
+                    this.totalWithout6min = JSON.parse(
                         json["totalWithout6min"]
                     );
 
                     //debugger
-                    let COLONOSCOPY = $.parseJSON(json["aaData"]);
+                    let COLONOSCOPY = JSON.parse(json["aaData"]);
                     for (var i = 0; i < COLONOSCOPY.length; i++) {
                         if (COLONOSCOPY[i].MeasurementStatus != "1") {
                             this.isShow = false;

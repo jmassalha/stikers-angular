@@ -435,9 +435,9 @@ export class Sarscov2Component implements OnInit {
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let json_2 = $.parseJSON(json);
-                let SarsData = $.parseJSON(json_2["aaData"]);
+                var json = JSON.parse(Response["d"]);
+                let json_2 = JSON.parse(json);
+                let SarsData = JSON.parse(json_2["aaData"]);
                 // debugger;
                 for (var i = 0; i < SarsData.length; i++) {
                     debugger
@@ -481,7 +481,7 @@ export class Sarscov2Component implements OnInit {
                 // //debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
-                    $.parseJSON(json_2["iTotalRecords"])
+                    JSON.parse(json_2["iTotalRecords"])
                 );
                 setTimeout(function () {
                     ////debugger

@@ -217,102 +217,102 @@ export class MrbaotComponent implements OnInit {
                     $("#_departments").empty();
                     // //////debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = $.parseJSON(Response["d"]);
+                    var json = JSON.parse(Response["d"]);
                     this._fun.drawCharToDom(
                         "bar",
-                        $.parseJSON(json["DepartSeodeName"]),
-                        $.parseJSON(json["DepartCounterBekorem"]),
+                        JSON.parse(json["DepartSeodeName"]),
+                        JSON.parse(json["DepartCounterBekorem"]),
                         "bekoremCount",
                         "canvbekoremCount",
                         'סה"כ',
                         ""
                     );
-                    var SeodeRoomNameNow = $.parseJSON(
+                    var SeodeRoomNameNow = JSON.parse(
                         json["SeodeRoomNameNow"]
                     );
-                    var SeodeRoomCounterNow = $.parseJSON(
+                    var SeodeRoomCounterNow = JSON.parse(
                         json["SeodeRoomCounterNow"]
                     );
-                    var SeodeRoomDepartNow = $.parseJSON(
+                    var SeodeRoomDepartNow = JSON.parse(
                         json["SeodeRoomDepartNow"]
                     );
-                    var SeodeRoomNamePast = $.parseJSON(
+                    var SeodeRoomNamePast = JSON.parse(
                         json["SeodeRoomNamePast"]
                     );
-                    var SeodeRoomCounterPast = $.parseJSON(
+                    var SeodeRoomCounterPast = JSON.parse(
                         json["SeodeRoomCounterPast"]
                     );
-                    var SeodeRoomDepartPast = $.parseJSON(
+                    var SeodeRoomDepartPast = JSON.parse(
                         json["SeodeRoomDepartPast"]
                     );
-                    var _monthsLabels = $.parseJSON(json["_monthsLabels"]);
-                    var _monthsNowVal = $.parseJSON(json["_monthsNowVal"]);
-                    var _monthsPastVal = $.parseJSON(json["_monthsPastVal"]);
+                    var _monthsLabels = JSON.parse(json["_monthsLabels"]);
+                    var _monthsNowVal = JSON.parse(json["_monthsNowVal"]);
+                    var _monthsPastVal = JSON.parse(json["_monthsPastVal"]);
                     ////////debugger
-                    var DepartName = $.parseJSON(json["DepartName"]);
+                    var DepartName = JSON.parse(json["DepartName"]);
 
-                    var DepartSeodeName = $.parseJSON(json["DepartSeodeName"]);
-                    var DepartNameSeodeRoomNew = $.parseJSON(
+                    var DepartSeodeName = JSON.parse(json["DepartSeodeName"]);
+                    var DepartNameSeodeRoomNew = JSON.parse(
                         json["DepartNameSeodeRoomNew"]
                     );
-                    var DepartNameRoomNew = $.parseJSON(
+                    var DepartNameRoomNew = JSON.parse(
                         json["DepartNameRoomNew"]
                     );
-                    var DepartCounterBekoremRoomNew = $.parseJSON(
+                    var DepartCounterBekoremRoomNew = JSON.parse(
                         json["DepartCounterBekoremRoomNew"]
                     );
-                    var DepartNameSeodeRoomNotNew = $.parseJSON(
+                    var DepartNameSeodeRoomNotNew = JSON.parse(
                         json["DepartNameSeodeRoomNotNew"]
                     );
-                    var DepartNameRoomNotNew = $.parseJSON(
+                    var DepartNameRoomNotNew = JSON.parse(
                         json["DepartNameRoomNotNew"]
                     );
-                    var DepartCounterBekoremRoomNotNew = $.parseJSON(
+                    var DepartCounterBekoremRoomNotNew = JSON.parse(
                         json["DepartCounterBekoremRoomNotNew"]
                     );
-                    var DepartSeodeNameNew = $.parseJSON(
+                    var DepartSeodeNameNew = JSON.parse(
                         json["DepartSeodeNameNew"]
                     );
-                    var DepartNameSeodeNotNew = $.parseJSON(
+                    var DepartNameSeodeNotNew = JSON.parse(
                         json["DepartNameSeodeNotNew"]
                     );
-                    var DepartNameSeodePast = $.parseJSON(
+                    var DepartNameSeodePast = JSON.parse(
                         json["DepartNameSeodePast"]
                     );
-                    var DepartSeodeNameNewPast = $.parseJSON(
+                    var DepartSeodeNameNewPast = JSON.parse(
                         json["DepartSeodeNameNewPast"]
                     );
-                    var DepartSeodeNameNotNewPast = $.parseJSON(
+                    var DepartSeodeNameNotNewPast = JSON.parse(
                         json["DepartSeodeNameNotNewPast"]
                     );
 
-                    var DepartCounterBekorem = $.parseJSON(
+                    var DepartCounterBekorem = JSON.parse(
                         json["DepartCounterBekorem"]
                     );
-                    var DepartNameNew = $.parseJSON(json["DepartNameNew"]);
-                    var DepartCounterBekoremNew = $.parseJSON(
+                    var DepartNameNew = JSON.parse(json["DepartNameNew"]);
+                    var DepartCounterBekoremNew = JSON.parse(
                         json["DepartCounterBekoremNew"]
                     );
-                    var DepartNameNotNew = $.parseJSON(
+                    var DepartNameNotNew = JSON.parse(
                         json["DepartNameNotNew"]
                     );
-                    var DepartCounterBekoremNotNew = $.parseJSON(
+                    var DepartCounterBekoremNotNew = JSON.parse(
                         json["DepartCounterBekoremNotNew"]
                     );
-                    var DepartNamePast = $.parseJSON(json["DepartNamePast"]);
-                    var DepartCounterBekoremPast = $.parseJSON(
+                    var DepartNamePast = JSON.parse(json["DepartNamePast"]);
+                    var DepartCounterBekoremPast = JSON.parse(
                         json["DepartCounterBekoremPast"]
                     );
-                    var DepartNameNewPast = $.parseJSON(
+                    var DepartNameNewPast = JSON.parse(
                         json["DepartNameNewPast"]
                     );
-                    var DepartCounterBekoremNewPast = $.parseJSON(
+                    var DepartCounterBekoremNewPast = JSON.parse(
                         json["DepartCounterBekoremNewPast"]
                     );
-                    var DepartNameNotNewPast = $.parseJSON(
+                    var DepartNameNotNewPast = JSON.parse(
                         json["DepartNameNotNewPast"]
                     );
-                    var DepartCounterBekoremNotNewPast = $.parseJSON(
+                    var DepartCounterBekoremNotNewPast = JSON.parse(
                         json["DepartCounterBekoremNotNewPast"]
                     );
                     debugger;

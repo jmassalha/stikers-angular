@@ -80,7 +80,7 @@ import { EmergencycallgroupsComponent } from './emergencycallgroups/emergencycal
 import { EmergencymembersComponent } from './emergencymembers/emergencymembers.component';
 import { EmployeesComponent } from './employees/employees.component';
 import {MatSlideToggleModule} from '@angular/material/slide-toggle';
-import { FillSurveyComponent } from './fill-survey/fill-survey.component';
+import { FillSurveyComponent, DialogContentExampleDialog } from './fill-survey/fill-survey.component';
 import { FormDashboardComponent } from './form-dashboard/form-dashboard.component';
 import { UpdateformComponent } from './updateform/updateform.component';
 import { UpdatesingleformComponent } from './updatesingleform/updatesingleform.component';
@@ -98,13 +98,15 @@ import { NursesDashboardComponent } from './nurses-dashboard/nurses-dashboard.co
 import { FillReportComponent } from './fill-report/fill-report.component';
 import { DialogElementsExampleDialog } from './nurses-dashboard/nurses-dashboard.component';
 import { ReportRepliesComponent } from './report-replies/report-replies.component';
-import { ClinicsDashboardComponent } from './clinics-dashboard/clinics-dashboard.component';
-import { CheckpatientinsmartclosetComponent } from './checkpatientinsmartcloset/checkpatientinsmartcloset.component';
-import { DrugsnicComponent } from './drugsnic/drugsnic.component';
 import { ManageClinicPriceComponent } from './manage-clinic-price/manage-clinic-price.component';
 import { NursesManageDashboardComponent } from './nurses-manage-dashboard/nurses-manage-dashboard.component';
 import { NursesDepartmentManageComponent } from './nurses-department-manage/nurses-department-manage.component';
 import { OtherDepartmentsComponent } from './nurses-manage-dashboard/other-departments/other-departments.component';
+import { ScannersComponent } from './scanners/scanners.component';
+import { CasenumbersComponent } from './casenumbers/casenumbers.component';
+import { ClinicsDashboardComponent } from './clinics-dashboard/clinics-dashboard.component';
+import { CheckpatientinsmartclosetComponent } from './checkpatientinsmartcloset/checkpatientinsmartcloset.component';
+import { DrugsnicComponent } from './drugsnic/drugsnic.component';
 
 
 
@@ -113,7 +115,8 @@ const maskConfig: Partial<IConfig> = {
 };
 
 @NgModule({
-  declarations: [
+  declarations: [    
+    DialogContentExampleDialog,
     AppComponent,
     LoginComponent,
     DashboardComponent,

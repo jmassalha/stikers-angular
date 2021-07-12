@@ -842,6 +842,10 @@ tr.mat-footer-row {
     position: fixed;
     z-index: 9999999999 !important;
 }
+.mat-form-field-appearance-fill .mat-form-field-flex {
+    border-radius: 4px 4px 0 0;
+    padding: 0.1em 0.1em 0 0.1em;
+}
 
 .mt-10 {
     margin-bottom: 10px;
@@ -1603,3 +1607,6 @@ g text {
     left: 0;
     right: 0;
 }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

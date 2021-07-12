@@ -11,6 +11,7 @@
     min-height: 200px;
     max-height: 520px;
     overflow: auto;
+<<<<<<< HEAD
   }
 
   .example-tree-invisible {
@@ -50,4 +51,6 @@
   }
   .searchingPatient{
     float: right;
+=======
+>>>>>>> bb3bf51b888e879d0a307d92b8f751da93455712
   }

@@ -274,8 +274,8 @@ export class RolesComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let RolesData = $.parseJSON(json["aaData"]);
+                var json = JSON.parse(Response["d"]);
+                let RolesData = JSON.parse(json["aaData"]);
                 ////debugger
                 for (var i = 0; i < RolesData.length; i++) {
                     ////debugger

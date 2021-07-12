@@ -52,13 +52,13 @@ import { CaseinvoisesComponent } from '../caseinvoises/caseinvoises.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
 import { FillReportComponent } from '../fill-report/fill-report.component';
 import { DialogElementsExampleDialog } from '../nurses-dashboard/nurses-dashboard.component';
-import { ClinicsDashboardComponent } from '../clinics-dashboard/clinics-dashboard.component';
-import { CheckpatientinsmartclosetComponent } from '../checkpatientinsmartcloset/checkpatientinsmartcloset.component';
-import { DrugsnicComponent } from '../drugsnic/drugsnic.component';
 import { ManageClinicPriceComponent } from '../manage-clinic-price/manage-clinic-price.component';
 import { NursesManageDashboardComponent } from '../nurses-manage-dashboard/nurses-manage-dashboard.component';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
-
+import { ScannersComponent } from "../scanners/scanners.component";
+import { ClinicsDashboardComponent } from '../clinics-dashboard/clinics-dashboard.component';
+import { CheckpatientinsmartclosetComponent } from '../checkpatientinsmartcloset/checkpatientinsmartcloset.component';
+import { DrugsnicComponent } from '../drugsnic/drugsnic.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -116,16 +116,24 @@ const routes: Routes = [
   { path: "manageclinicprice", component: ManageClinicPriceComponent },
   { path: "nursesmanagedashboard", component: NursesManageDashboardComponent },
   { path: "nursesdepartmentmanage", component: NursesDepartmentManageComponent },
+  { path: "checkpatientinsmartcloset", component: CheckpatientinsmartclosetComponent },
+  { path: "drugsnic", component: DrugsnicComponent },
+  { path: "scanners", component: ScannersComponent },
+  { path: "clinicspricing", component: ClinicsDashboardComponent },
   { path: '', component : LoginComponent}
 ];
+ 
 @NgModule({
   imports: [
-    RouterModule.forRoot(routes)
+    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' })
   ],
   exports: [
+    //ConfirmationDialogComponent,
     RouterModule
   ],
   providers: [{provide: LocationStrategy, useClass: HashLocationStrategy}],
-  declarations: []
+  declarations: [
+    //ConfirmationDialogComponent
+  ]
 })
 export class AppRoutingModule { }

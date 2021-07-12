@@ -451,8 +451,8 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                var json = $.parseJSON(Response["d"]);
-                let CoronaData = $.parseJSON(json["aaData"]);
+                var json = JSON.parse(Response["d"]);
+                let CoronaData = JSON.parse(json["aaData"]);
                 ////debugger
                 for (var i = 0; i < CoronaData.length; i++) {
                     var t = CoronaData[i].CS_SURVEY_DATE.split("T");

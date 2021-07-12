@@ -134,17 +134,17 @@
         </ol>
 
         <div formArrayName="Tables" *ngIf="_tableForm == '1'">
-          <div class="d-amin">
+          <div class="d-block">
             <h3 style="text-align: right;"><strong>חלק טבלאות</strong></h3>
           </div>
-          <div *ngFor="let table of _tableArr; let tableIndex = index" [formGroupName]="tableIndex"
+          <div class="d-block" *ngFor="let table of _tableArr; let tableIndex = index" [formGroupName]="tableIndex"
             style="margin-top: 20px;">
             <mat-divider></mat-divider>
-            <div class="row" style="display: block;">
+            <div class="row" >
               <h4 style="text-align: center;font-size: xx-large;font-weight: bold;">{{table.TableText}}</h4>
             </div>
             <mat-divider></mat-divider>
-            <div class="row" style="display: block;">
+            <div class="row" >
               <h4 style="text-align: center;font-size: 22px;">{{table.SubTitle}}</h4>
             </div>
             <div formArrayName="ColumnRows" class="row" id="table-overflow">
