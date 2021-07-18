@@ -1036,7 +1036,8 @@ export class MershamComponent implements OnInit {
         this.getPresFromServer(_element.PerscriptionID);
         if (openModal == "true") {
             this.modalService
-                .open(content, { windowClass: "width-1010" })
+                .open(content, { windowClass: "width-1010",  backdrop : 'static',
+                keyboard : false })
                 .result.then(
                     (result) => {
                         this.closeResult = `Closed with: ${result}`;
@@ -1423,8 +1424,12 @@ export class MershamComponent implements OnInit {
             statusRowVal: [_status, false],
             statusNotToDo: [_statusNotToDo, false],
         });
+        let ngbModalOptions: NgbModalOptions = {
+                backdrop : 'static',
+                keyboard : false
+        };
         ////////////////////debugger
-        this.modalService.open(content, this.modalOptions).result.then(
+        this.modalService.open(content, ngbModalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
                 //////////////////////////debugger
