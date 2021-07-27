@@ -14,6 +14,11 @@ import { EmployeesComponent } from '../employees/employees.component';
 import { isEmpty, map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
+export interface User {
+  name: string;
+  id: string;
+}
+
 @Component({
   selector: 'app-status-complaint',
   templateUrl: './status-complaint.component.html',
@@ -64,11 +69,17 @@ export class StatusComplaintComponent implements OnInit {
       Complaint: ['', null]
     });
     this.getRelevantComplaints(this.urlID);
+    this.getUsers();
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
-        map(value => this._filter(value))
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.users.slice())
       );
+  }
+
+  displayFn(user: User): string {
+    return user && user.name ? user.name : '';
   }
 
   openSnackBar(message) {
@@ -111,13 +122,13 @@ export class StatusComplaintComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.users.filter(option => option.firstname.includes(filterValue));
+    return this.users.filter(option => option.name.includes(filterValue));
   }
 
   shareComplaintWithOthers() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
-        userId: this.myControl.value,
+      .post("http://srv-apps/wsrfc/WebService.asmx/attachCompToUser", {
+        userId: this.myControl.value.id,
         compId: this.complaintID,
       })
       .subscribe((Response) => {
@@ -128,6 +139,23 @@ export class StatusComplaintComponent implements OnInit {
         } else {
           this.openSnackBar("! נמען לא קיים");
         }
+      });
+  }
+
+  getUsers(){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
+
+      })
+      .subscribe((Response) => {
+        this.all_users_filter = Response["d"];
+
+        this.all_users_filter.forEach(element => {
+          this.users.push({
+            name: element.firstname+" "+element.lastname,
+            id: element.id
+          });
+        })
       });
   }
 
@@ -152,17 +180,6 @@ export class StatusComplaintComponent implements OnInit {
         this.ComplaintSubject = Response["d"][Response["d"].length-1].ComplaintSubject;
         this.messagesArray.splice(-1,1);
         this.messanger.controls['MessageValue'].setValue("");
-      });
-      this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
-
-      })
-      .subscribe((Response) => {
-        this.all_users_filter = Response["d"];
-
-        this.all_users_filter.forEach(element => {
-          this.users.push(element);
-        })
       });
   }
 }

@@ -8,3 +8,14 @@ table {
   #EventBtn2{
     float: right;
   }
+
+  th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    padding: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    font-size: 20px;
+}
+[dir=rtl] th.mat-header-cell {
+    text-align: center;
+    padding: 10px 5px 10px 30px;
+}

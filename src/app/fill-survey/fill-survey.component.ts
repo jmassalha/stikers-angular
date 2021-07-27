@@ -607,8 +607,6 @@ export class FillSurveyComponent implements OnInit {
         CaseNumber: this.CaseNumber,
       })
       .subscribe((Response) => {
-        // ***** 30910740
-        // ***** 0010739355
         this.mPersonalDetails = Response["d"];
         this.getForm(this.urlID, this.ifContinueForm, this.NurseID);
         this.selectedSubCheckbox = new Array<any>();
@@ -867,12 +865,13 @@ export class FillSurveyComponent implements OnInit {
                   });
                 } else {
                   surveyAnswersItem = this.formBuilder.group({
-                    answerContent: ['', Validators.compose([Validators.required])],
+                    answerContent: ['אחר', Validators.compose([Validators.required])],
                   });
                 }
               }
             }
           }
+          //10725425
 
           if (element.QuestionType == "CheckBox") {
             if (ifContinue == "1") {
@@ -915,22 +914,6 @@ export class FillSurveyComponent implements OnInit {
     this.answersData.next(this.TablesColsRows.controls);
     this.answersData.next(this.onlyColumns.controls);
   }
-
-
-  // getOption(urlID) {
-  // this.http
-  //   .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
-  //     optionsFormID: urlID,
-  //   })
-  //   .subscribe((Response) => {
-  //     this.filter_option_response = Response["d"];
-  //     this._optionArr = [];
-  //     this._checkBoxesOptionArr = [];
-  //     this.filter_option_response.forEach(element => {
-  //       this._optionArr.push(element);
-  //     });
-  //   });
-  // }
 
   onClose() {
     this.dialog.closeAll();

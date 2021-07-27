@@ -179,7 +179,7 @@ export class ManageClinicPriceComponent implements OnInit {
               ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
               ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
               ServicePrice: [{ value: relevantServices[i].ServicePrice, disabled: true }, null],
-              ServiceQuantity: [relevantServices[i].ServiceQuantity, Validators.required],
+              ServiceQuantity: [relevantServices[i].ServiceQuantity, null],
             });
             let serialNumber = {
               value: i,

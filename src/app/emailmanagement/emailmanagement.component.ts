@@ -80,6 +80,10 @@ export interface CompAmbolatory {
   value: string;
   viewValue: string;
 }
+export interface CompDepts {
+  value: string;
+  viewValue: string;
+}
 
 @Component({
   selector: 'app-emailmanagement',
@@ -111,8 +115,58 @@ export class EmailmanagementComponent implements OnInit {
 
   compAmbolatory: CompAmbolatory[] = [
     { value: '0', viewValue: 'אמבולטורי' },
-    { value: '1', viewValue: 'אשפוז' },
-    { value: '3', viewValue: 'אחר' },
+    { value: '1', viewValue: 'בזמן אשפוז' },
+    { value: '3', viewValue: 'לאחר שחרור מאשפוז' },
+  ];
+  compDepts: any[] = [
+    { value: 'MRI', viewValue: 'MRI' },
+    { value: 'מיילדותי us', viewValue: 'מיילדותי us' },
+    { value: 'אונקולוגיה', viewValue: 'אונקולוגיה' },
+    { value: 'אורולוגיה', viewValue: 'אורולוגיה' },
+    { value: 'אורטופידיה', viewValue: 'אורטופידיה' },
+    { value: 'אף אוזן גרון', viewValue: 'אף אוזן גרון' },
+    { value: 'בטחון', viewValue: 'בטחון' },
+    { value: 'גזברות', viewValue: 'גזברות' },
+    { value: 'גסטרואנטרולוגיה', viewValue: 'גסטרואנטרולוגיה' },
+    { value: 'דיאליזה', viewValue: 'דיאליזה' },
+    { value: 'IVF - הפרייה חוץ גופית', viewValue: 'IVF - הפרייה חוץ גופית' },
+    { value: 'זימון תורים', viewValue: 'זימון תורים' },
+    { value: 'חדר ניתוח', viewValue: 'חדר ניתוח' },
+    { value: 'חדרי לידה', viewValue: 'חדרי לידה' },
+    { value: 'טיפול נמרץ כללי', viewValue: 'טיפול נמרץ כללי' },
+    { value: 'טיפול נמרץ לב', viewValue: 'טיפול נמרץ לב' },
+    { value: 'יולדות', viewValue: 'יולדות' },
+    { value: 'ילדים', viewValue: 'ילדים' },
+    { value: 'ילודים', viewValue: 'ילודים' },
+    { value: 'כירורגיה כללית', viewValue: 'כירורגיה כללית' },
+    { value: 'כירורגיה פלסטית', viewValue: 'כירורגיה פלסטית' },
+    { value: 'כירורגיה לב חזה', viewValue: 'כירורגיה לב חזה' },
+    { value: 'מלר"ד', viewValue: 'מלר"ד' },
+    { value: 'מלר"ד ילדים', viewValue: 'מלר"ד ילדים' },
+    { value: 'מעברים', viewValue: 'מעברים' },
+    { value: 'מרפאה אורולוגיה', viewValue: 'מרפאה אורולוגיה' },
+    { value: 'מרפאה אורטופידית', viewValue: 'מרפאה אורטופידית' },
+    { value: 'מרפאה נשים', viewValue: 'מרפאה נשים' },
+    { value: 'מרפאה עיניים', viewValue: 'מרפאה עיניים' },
+    { value: 'מרפאה ראומטולוגיה', viewValue: 'מרפאה ראומטולוגיה' },
+    { value: 'מרפאת חוץ', viewValue: 'מרפאת חוץ' },
+    { value: 'משרד קבלת חולים', viewValue: 'משרד קבלת חולים' },
+    { value: 'נוירולוגיה', viewValue: 'נוירולוגיה' },
+    { value: 'נשים', viewValue: 'נשים' },
+    { value: 'עיניים', viewValue: 'עיניים' },
+    { value: 'פגייה', viewValue: 'פגייה' },
+    { value: 'פה ולסת', viewValue: 'פה ולסת' },
+    { value: 'פנימית א', viewValue: 'פנימית א' },
+    { value: 'פנימית ב', viewValue: 'פנימית ב' },
+    { value: 'קורונה', viewValue: 'קורונה' },
+    { value: 'פגייה', viewValue: 'פגייה' },
+    { value: 'קרדיולוגיה', viewValue: 'קרדיולוגיה' },
+    { value: 'רנטגן', viewValue: 'רנטגן' },
+    { value: 'רשומות ומידע רפואי', viewValue: 'רשומות ומידע רפואי' },
+    { value: 'שבץ מוחי', viewValue: 'שבץ מוחי' },
+    { value: 'שונות', viewValue: 'שונות' },
+    { value: 'שינוע', viewValue: 'שינוע' },
+    { value: 'שיקומית', viewValue: 'שיקומית' },
   ];
   deadline: DeadLine[] = [
     { value: '1', viewValue: 'שבוע' },
@@ -186,7 +240,7 @@ export class EmailmanagementComponent implements OnInit {
 
     this.manageComplaintForm = this.formBuilder.group({
       Comp_Date: ['', Validators.compose([Validators.required])],
-      Comp_Type: ['', null],
+      Comp_Type: ['', Validators.compose([Validators.required])],
       Comp_Source: ['', null],
       Comp_Pesron_Relat: ['', null],
       Comp_Department: ['', null],
@@ -204,14 +258,14 @@ export class EmailmanagementComponent implements OnInit {
 
     this.emailSenderGroup = this.formBuilder.group({
       Row_ID: ['0', null],
-      EmailSubject: ['', Validators.compose([Validators.required])],
-      CompSubject: ['', Validators.compose([Validators.required])],
+      EmailSubject: ['', null],
+      CompSubject: ['', null],
       CompName: ['', Validators.compose([Validators.required])],
       ContentToShow: ['', null],
-      CompPhone: ['', null],
+      CompPhone: ['', Validators.compose([Validators.required])],
       CompEmail: ['', null],
       EmailDateTime: ['', Validators.compose([Validators.required])],
-      EmailDepartment: ['', Validators.compose([Validators.required])],
+      EmailDepartment: ['', null],
     });
 
     //to split the complaint
@@ -227,7 +281,7 @@ export class EmailmanagementComponent implements OnInit {
       this.chooseComp = false;
       this._stepper = true;
       this._ifSplit = "0";
-      this.getDepatments();
+      // this.getDepatments();
       this.getEmailManagement(this.urlID, this._ifSplit);
       //open the complaints cards
     } else {
@@ -262,7 +316,7 @@ export class EmailmanagementComponent implements OnInit {
   }
   private _filter2(value: string): string[] {
     const filterValue2 = value;
-    return this.department.filter(option => option.Depart_Name.includes(filterValue2));
+    return this.compDepts.filter(option => option.value.includes(filterValue2));
   }
 
   openSnackBar(message) {
@@ -313,10 +367,16 @@ export class EmailmanagementComponent implements OnInit {
       this.manageComplaintForm.controls['DeadLine'].setValue(pipe.transform(this.manageComplaintForm.controls['DeadLine'].value, 'yyyy-MM-dd'));
       this.manageComplaintForm.controls['DeadLine'].setValidators(null);
     }
+    if (this.manageComplaintForm.controls['Comp_Date'].value == null || this.manageComplaintForm.controls['Comp_Date'].value == "") {
+      this.manageComplaintForm.controls['Comp_Date'].setValue("");
+    } else {
+      this.manageComplaintForm.controls['Comp_Date'].setValue(pipe.transform(this.manageComplaintForm.controls['Comp_Date'].value, 'yyyy-MM-dd'));
+      this.manageComplaintForm.controls['Comp_Date'].setValidators(null);
+    }
     if (_ifSplit == "0") {
       this.manageComplaintForm.setValidators(null);
     }
-    if (!this.manageComplaintForm.invalid || !this.emailSenderGroup.invalid) {
+    if (!this.manageComplaintForm.invalid && !this.emailSenderGroup.invalid) {
       this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
           _compToUpdate: this.manageComplaintForm.value,
@@ -332,7 +392,11 @@ export class EmailmanagementComponent implements OnInit {
       this.router.navigate(['emailsdashboard']);
       window.location.reload();
     } else {
-      this.openSnackBar("!לא תקין");
+      if(this.manageComplaintForm.controls['Comp_Department'].value === null){
+        this.openSnackBar("נא לבחור מחלקה");
+      }else{
+        this.openSnackBar("שדה חובה לא תקין");
+      }
     }
   }
 

@@ -34,7 +34,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <mat-form-field appearance="fill">
-                                        <input matInput [max]="todaysDate" formControlName="compDateControl"
+                                        <input matInput [max]="todaysDate" formControlName="compDateControl" (focus)="pickersearch1.open()"
                                             [matDatepicker]="pickersearch1" placeholder="מתאריך:">
                                         <mat-datepicker-toggle matSuffix [for]="pickersearch1">
                                         </mat-datepicker-toggle>
@@ -45,7 +45,7 @@
                             <div class="col-6">
                                 <div class="form-group">
                                     <mat-form-field appearance="fill">
-                                        <input matInput formControlName="compDateControl2"
+                                        <input matInput formControlName="compDateControl2" (focus)="pickersearch2.open()"
                                             [matDatepicker]="pickersearch2" placeholder="עד תאריך:">
                                         <mat-datepicker-toggle matSuffix [for]="pickersearch2">
                                         </mat-datepicker-toggle>

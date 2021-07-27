@@ -32,10 +32,11 @@
                                     <div class="form-group lh-37">
                                         <mat-form-field appearance="fill">
                                             <mat-label>מחלקה</mat-label>
-                                            <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
-                                                [matAutocomplete]="auto2">
+                                            <input type="text" aria-label="department" matInput
+                                                [formControl]="departmentfilter" [matAutocomplete]="auto2">
                                             <mat-autocomplete #auto2="matAutocomplete">
-                                                <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Dept_Name">
+                                                <mat-option *ngFor="let dept of filteredOptions2 | async"
+                                                    [value]="dept.Dept_Name">
                                                     {{dept.Dept_Name}}
                                                 </mat-option>
                                             </mat-autocomplete>
@@ -48,7 +49,8 @@
                                             <mat-label>קטגוריה</mat-label>
                                             <mat-select formControlName="ReportCategory">
                                                 <mat-option [value]="''">הכל</mat-option>
-                                                <mat-option *ngFor="let cat of all_categories_filter" [value]="cat.Cat_Name">
+                                                <mat-option *ngFor="let cat of all_categories_filter"
+                                                    [value]="cat.Cat_Name">
                                                     {{cat.Cat_Name}}
                                                 </mat-option>
                                             </mat-select>
@@ -74,8 +76,8 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <mat-form-field>
-                                            <input matInput formControlName="ReportStartDate" (focus)="startdate.open()" autocomplete="off"
-                                                placeholder="מ תאריך" required name="startdate"
+                                            <input matInput formControlName="ReportStartDate" (focus)="startdate.open()"
+                                                autocomplete="off" placeholder="מ תאריך" required name="startdate"
                                                 [matDatepicker]="startdate" />
                                             <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
                                             <mat-datepicker #startdate></mat-datepicker>
@@ -85,8 +87,8 @@
                                 <div class="col">
                                     <div class="form-group">
                                         <mat-form-field>
-                                            <input matInput formControlName="ReportEndDate" (focus)="enddate.open()" autocomplete="off"
-                                                placeholder="עד תאריך " required name="enddate"
+                                            <input matInput formControlName="ReportEndDate" (focus)="enddate.open()"
+                                                autocomplete="off" placeholder="עד תאריך " required name="enddate"
                                                 [matDatepicker]="enddate" />
                                             <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
                                             <mat-datepicker #enddate></mat-datepicker>
@@ -137,11 +139,13 @@
 
             <ng-container matColumnDef="edit">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> עריכת דווח </th>
-                <td mat-cell *matCellDef="let element"> <button matTooltip="עריכה" style="border-radius: 18px 0px 18px 0px;" mat-raised-button color="primary"
-                        (click)="fillReportDialog(element.reportID)"><span class="material-icons">
+                <td mat-cell *matCellDef="let element"> <button matTooltip="עריכה"
+                        style="border-radius: 18px 0px 18px 0px;" mat-raised-button color="primary"
+                        (click)="fillReportDialog(element.reportID,'','','')"><span class="material-icons">
                             edit
                         </span></button>
-                    <button matTooltip="היסטוריית שינויים" mat-raised-button style="margin-right: 5px;border-radius: 0px 18px 0px 18px;" color="primary"
+                    <button matTooltip="היסטוריית שינויים" mat-raised-button
+                        style="margin-right: 5px;border-radius: 0px 18px 0px 18px;" color="primary"
                         *ngIf="UserName == 'adahabre'" (click)="displayHistoryDialog(element.reportID)"><span
                             class="material-icons">
                             history
@@ -151,10 +155,18 @@
 
             <ng-container matColumnDef="reply">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> הוסף תגובה לדווח </th>
-                <td mat-cell *matCellDef="let element"> <button matTooltip="התכתבות" style="border-radius: 0px 10px 10px 10px;" mat-raised-button color="primary"
+                <td mat-cell *matCellDef="let element"> <button matTooltip="התכתבות"
+                        style="border-radius: 18px 0px 18px 0px;" mat-raised-button color="primary"
                         (click)="addReply(element.reportID)"><span class="material-icons">
                             reply
-                        </span></button></td>
+                        </span></button>
+                    <button matTooltip="טופל"
+                        style="background: darkseagreen;margin-right: 5px;border-radius: 0px 18px 0px 18px;"
+                        mat-raised-button color="primary" [disabled]="element.status == 'טופל'" *ngIf="element.UserName == UserName" (click)="changeReportToHandled(element.reportID)">
+                        <span class="material-icons" *ngIf="element.status == 'לטיפול'">
+                            done
+                        </span></button>
+                </td>
             </ng-container>
 
             <ng-container matColumnDef="expandedDetail">
@@ -170,14 +182,14 @@
                                 <div class="example-element-name"> שם מדווח - {{element.userFullName}} </div>
                             </div>
                         </div>
-                        
+
                         <div class="col-9">
                             <div class="example-element-description">
                                 <span class="example-element-description-attribution"> תוכן הדווח -- </span>
                                 {{element.description}}
                             </div>
                         </div>
-                        
+
                     </div>
                 </td>
             </ng-container>
@@ -185,11 +197,13 @@
             <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
             <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
                 [class.example-expanded-row]="expandedElement === element"
-                (click)="expandedElement = expandedElement === element ? null : element" [style.background]="element.status == 'טופל' ? 'darkseagreen': 'gainsboro'">
+                (click)="expandedElement = expandedElement === element ? null : element"
+                [style.background]="element.status == 'טופל' ? 'darkseagreen': 'gainsboro'">
             </tr>
             <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
         </table>
-        <button matTooltip="דווח חדש" type="button" id="EventBtn" mat-fab color="primary" (click)="fillReportDialog(0)" *ngIf="permission">
+        <button matTooltip="דווח חדש" type="button" id="EventBtn" mat-fab color="primary"
+            (click)="fillReportDialog(0,'','','')" *ngIf="permission">
             <i class="material-icons">add</i>
         </button>
         <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>

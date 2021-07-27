@@ -72,10 +72,17 @@ ol{
 }
 
 .col-6{
-  max-width: 48%;
+  max-width: 49%;
 }
 .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane,
 .cdk-overlay-connected-position-bounding-box{
   position: relative;
   z-index: 9999999999999999999;
+}
+
+.nextBtn{
+  background-color: darkgrey;
+  font-size: 35px;
+  padding: 10px;
+  font-weight: bold;
 }
