@@ -221,7 +221,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.CheckResult = "-1";
         this.RequestType = "-1";
         this.CheckType = "-1";
-        this.CheckTypeStatus = "0";
+        this.CheckTypeStatus = "1";
         /* if (this.yearsToSelect.list[0]["checked"]) {
             this._selectedYear = parseInt(this.yearsToSelect.list[0]["ID"]);
             this.Sdate = new FormControl(
