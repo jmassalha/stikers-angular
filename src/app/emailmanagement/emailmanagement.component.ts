@@ -115,8 +115,8 @@ export class EmailmanagementComponent implements OnInit {
 
   compAmbolatory: CompAmbolatory[] = [
     { value: '0', viewValue: 'אמבולטורי' },
-    { value: '1', viewValue: 'אשפוז' },
-    { value: '3', viewValue: 'אחר' },
+    { value: '1', viewValue: 'בזמן אשפוז' },
+    { value: '3', viewValue: 'לאחר שחרור מאשפוז' },
   ];
   compDepts: any[] = [
     { value: 'MRI', viewValue: 'MRI' },
@@ -240,7 +240,7 @@ export class EmailmanagementComponent implements OnInit {
 
     this.manageComplaintForm = this.formBuilder.group({
       Comp_Date: ['', Validators.compose([Validators.required])],
-      Comp_Type: ['', null],
+      Comp_Type: ['', Validators.compose([Validators.required])],
       Comp_Source: ['', null],
       Comp_Pesron_Relat: ['', null],
       Comp_Department: ['', null],
@@ -258,14 +258,14 @@ export class EmailmanagementComponent implements OnInit {
 
     this.emailSenderGroup = this.formBuilder.group({
       Row_ID: ['0', null],
-      EmailSubject: ['', Validators.compose([Validators.required])],
-      CompSubject: ['', Validators.compose([Validators.required])],
+      EmailSubject: ['', null],
+      CompSubject: ['', null],
       CompName: ['', Validators.compose([Validators.required])],
       ContentToShow: ['', null],
-      CompPhone: ['', null],
+      CompPhone: ['', Validators.compose([Validators.required])],
       CompEmail: ['', null],
       EmailDateTime: ['', Validators.compose([Validators.required])],
-      EmailDepartment: ['', Validators.compose([Validators.required])],
+      EmailDepartment: ['', null],
     });
 
     //to split the complaint
@@ -376,7 +376,7 @@ export class EmailmanagementComponent implements OnInit {
     if (_ifSplit == "0") {
       this.manageComplaintForm.setValidators(null);
     }
-    if (!this.manageComplaintForm.invalid || !this.emailSenderGroup.invalid) {
+    if (!this.manageComplaintForm.invalid && !this.emailSenderGroup.invalid) {
       this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
           _compToUpdate: this.manageComplaintForm.value,
@@ -392,7 +392,11 @@ export class EmailmanagementComponent implements OnInit {
       this.router.navigate(['emailsdashboard']);
       window.location.reload();
     } else {
-      this.openSnackBar("!לא תקין");
+      if(this.manageComplaintForm.controls['Comp_Department'].value === null){
+        this.openSnackBar("נא לבחור מחלקה");
+      }else{
+        this.openSnackBar("שדה חובה לא תקין");
+      }
     }
   }
 
