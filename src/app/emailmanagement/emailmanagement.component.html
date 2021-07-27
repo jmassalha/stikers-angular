@@ -4,21 +4,21 @@
             <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getEmailManagement(comp.Row_ID,3)">
                 <mat-card class="card m-2 text-center" style="background-color: slategrey;"
                     *ngIf="comp.Comp_Status == '0'">
-                    <div class="list-style text-center" style="font-size: 10px;">:מחלקה רלוונטית</div>
-                    <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">
+                    <div class="list-style text-center" style="font-size: 15px;">:מחלקה רלוונטית</div>
+                    <div class="list-style text-center" style="font-size: 20px; font-weight: bold;">
                         {{comp.Comp_Department}}</div>
-                    <div class="list-style text-center" style="font-size: 10px;">פנייה סגורה</div>
-                    <div class="list-style text-center" style="font-size: 10px;"
+                    <div class="list-style text-center" style="font-size: 15px;">פנייה סגורה</div>
+                    <div class="list-style text-center" style="font-size: 15px;"
                         *ngFor="let cap of comp.PatientPDepart">תפוסה:
                         {{calculateDepartCapacity(cap.DE_BEDS_IN_USED,cap.DE_IN_DEPART_BEDS)}}%</div>
                 </mat-card>
                 <mat-card class="card m-2 text-center" style="background-color: darkseagreen;"
                     *ngIf="comp.Comp_Status == '1'">
-                    <div class="list-style text-center" style="font-size: 10px;">:מחלקה רלוונטית</div>
-                    <div class="list-style text-center" style="font-size: 15px; font-weight: bold;">
+                    <div class="list-style text-center" style="font-size: 15px;">:מחלקה רלוונטית</div>
+                    <div class="list-style text-center" style="font-size: 20px; font-weight: bold;">
                         {{comp.Comp_Department}}</div>
-                    <div class="list-style text-center" style="font-size: 10px;">פנייה פתוחה</div>
-                    <div class="list-style text-center" style="font-size: 10px;"
+                    <div class="list-style text-center" style="font-size: 15px;">פנייה פתוחה</div>
+                    <div class="list-style text-center" style="font-size: 15px;"
                         *ngFor="let cap of comp.PatientPDepart">תפוסה:
                         {{calculateDepartCapacity(cap.DE_BEDS_IN_USED,cap.DE_IN_DEPART_BEDS)}}%</div>
                 </mat-card>
@@ -148,7 +148,7 @@
             <div class="col-6">
                 <label style="font-size: 40px;">{{complaintName}}</label>
             </div>
-            <div class="col-6" style="background-color: burlywood;">
+            <div class="col-6 highlightBox">
                 <div class="text-center">
                     <label>קביעת SLA</label>
                 </div>
@@ -260,7 +260,7 @@
 
                     </ol>
                     <div>
-                        <button mat-button class="nextBtn" matStepperNext>הבא</button>
+                        <button mat-raised-button class="btn btn-primary btn-raised" matStepperNext>הבא</button>
                     </div>
                 </form>
             </mat-step>
@@ -419,7 +419,7 @@
                     </div>
                 </ol>
                 <div>
-                    <button mat-button class="nextBtn" matStepperNext>הבא</button>
+                    <button mat-raised-button class="btn btn-primary btn-raised" matStepperNext>הבא</button>
                 </div>
             </mat-step>
             <mat-step>

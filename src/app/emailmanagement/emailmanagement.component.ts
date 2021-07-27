@@ -264,7 +264,7 @@ export class EmailmanagementComponent implements OnInit {
       ContentToShow: ['', null],
       CompPhone: ['', Validators.compose([Validators.required])],
       CompEmail: ['', null],
-      EmailDateTime: ['', Validators.compose([Validators.required])],
+      EmailDateTime: ['', null],
       EmailDepartment: ['', null],
     });
 
@@ -376,6 +376,7 @@ export class EmailmanagementComponent implements OnInit {
     if (_ifSplit == "0") {
       this.manageComplaintForm.setValidators(null);
     }
+    this.emailSenderGroup.controls['EmailDateTime'].setValue(this.manageComplaintForm.controls['Comp_Date'].value);
     if (!this.manageComplaintForm.invalid && !this.emailSenderGroup.invalid) {
       this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {

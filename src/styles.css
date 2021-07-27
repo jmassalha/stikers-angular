@@ -5,6 +5,15 @@
 footer {
     z-index: 9000000000 !important;
 }
+.pd-60{
+    padding-bottom: 60px;
+}
+
+.highlightBox{
+    background: rgba(0,0,0,0.1);
+    border-radius: 18px;
+    box-shadow: 1px 1px 4px 1px #000;
+}
 .top-zindex {
     z-index: 9999999999999999 !important;
   }
