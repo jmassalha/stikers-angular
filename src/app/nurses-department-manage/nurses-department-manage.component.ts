@@ -10,6 +10,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { DatePipe } from '@angular/common';
 
 
 @Component({
@@ -25,7 +26,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   displayedColumns: string[] = ['nursing', 'medical', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns2: string[] = ['tablenum', 'casenumber', 'departmentnursing', 'departmentmedical', 'passportid', 'firstname', 'lastname', 'dob', 'gender', 'city', 'enterdate', 'entertime'];
+  displayedColumns2: string[] = ['tablenum', 'casenumber', 'departmentnursing', 'departmentmedical', 'passportid', 'firstname', 'lastname', 'dob', 'gender', 'city', 'enterdate', 'entertime','reportpatint'];
   dataSource2 = new MatTableDataSource<any>();
 
   applyFilter(event: Event) {
@@ -37,7 +38,8 @@ export class NursesDepartmentManageComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe) { }
 
 
   departCode: string;
@@ -48,6 +50,8 @@ export class NursesDepartmentManageComponent implements OnInit {
   ELEMENT_DATA = [];
   ELEMENT_DATA2 = [];
   departmentRelease: FormGroup;
+  date = new Date();
+  myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
 
   ngOnInit(): void {
     this.loading = true;
@@ -83,10 +87,12 @@ export class NursesDepartmentManageComponent implements OnInit {
     });
   }
 
-  fillReportDialog(reportid, Dept_Name) {
+  fillReportDialog(reportid, Dept_Name,firstName,lastName) {
     let dialogRef = this.dialog.open(FillReportComponent);
     dialogRef.componentInstance.reportID = reportid;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
+    dialogRef.componentInstance.firstName = firstName;
+    dialogRef.componentInstance.lastName = lastName;
   }
 
   getDepartDetails() {
@@ -103,7 +109,7 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   getPatientsPerDepart() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetPatientsPerDepart", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsPerDepart", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {

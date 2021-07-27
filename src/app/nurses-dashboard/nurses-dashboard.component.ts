@@ -71,11 +71,11 @@ export class DialogElementsExampleDialog implements OnInit {
 
   all_history_filter = [];
   reportID: string;
-  
+
 
   ngOnInit(): void {
     this.getHistories();
-    
+
   }
 
   closeDialog() {
@@ -131,7 +131,7 @@ export class NursesDashboardComponent implements OnInit {
   // ];
 
   status: Status[] = [
-    { value: 'בטיפול', viewValue: 'לטיפול' },
+    { value: 'לטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
   ];
 
@@ -207,9 +207,12 @@ export class NursesDashboardComponent implements OnInit {
     return this.department.filter(option => option.Dept_Name.includes(filterValue2));
   }
 
-  fillReportDialog(reportid) {
+  fillReportDialog(reportid, Dept_Name, firstName, lastName) {
     let dialogRef = this.dialog.open(FillReportComponent);
     dialogRef.componentInstance.reportID = reportid;
+    dialogRef.componentInstance.Dept_Name = Dept_Name;
+    dialogRef.componentInstance.firstName = firstName;
+    dialogRef.componentInstance.lastName = lastName;
   }
 
   displayHistoryDialog(reportid) {
@@ -241,7 +244,7 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   searchReports() {
-    if(this.departmentfilter.value == null){
+    if (this.departmentfilter.value == null) {
       this.departmentfilter.setValue('');
     }
     let _reportShift = this.searchReportsGroup.controls['ReportShift'].value;
@@ -285,6 +288,7 @@ export class NursesDashboardComponent implements OnInit {
               status: this.reportsArr[i].ReportStatus,
               description: this.reportsArr[i].ReportText,
               userFullName: this.reportsArr[i].UsersReportsList[0].UsersList[0].FirstName + " " + this.reportsArr[i].UsersReportsList[0].UsersList[0].LastName,
+              UserName: this.reportsArr[i].UsersReportsList[0].UsersList[0].UserName,
               updateDate: this.reportsArr[i].LastUpdatedDate,
               shift: this.reportsArr[i].ReportShift,
               // priority: this.reportsArr[i].ReportPriority,
@@ -296,6 +300,21 @@ export class NursesDashboardComponent implements OnInit {
         }
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;
+      });
+  }
+
+  changeReportToHandled(reportID) {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/ReportHandled", {
+        _reportID: reportID
+      })
+      .subscribe((Response) => {
+        if(Response["d"]){
+          this.openSnackBar("הדווח נסגר בהצלחה");
+          this.searchReports();
+        }else{
+          this.openSnackBar("משהו השתבש, פעולה לא התקיימה");
+        }
       });
   }
 }

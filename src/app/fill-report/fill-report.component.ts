@@ -75,6 +75,8 @@ export class FillReportComponent implements OnInit {
   department = [];
   reportID: string;
   Dept_Name: string;
+  firstName: string;
+  lastName: string;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   all_report_management;
   date = this.pipe.transform(this.myDate, 'dd-MM-yyyy');
@@ -105,6 +107,9 @@ export class FillReportComponent implements OnInit {
       this.getReportToUpdate();
     } else {
       // this.autoDate(false);
+    }
+    if((this.firstName != "" || this.lastName != "")&&(this.firstName != undefined || this.lastName != undefined)){
+      this.ReportGroup.controls['ReportText'].setValue("דווח עבור מטופל ("+this.firstName+" "+this.lastName+"): ");
     }
 
     this.date2 = this.datePipe.transform(this.now, 'yyyy-MM-dd');

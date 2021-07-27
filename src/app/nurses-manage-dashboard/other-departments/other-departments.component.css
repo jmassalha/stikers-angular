@@ -1,0 +1,27 @@
+th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    padding: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    font-size: 20px;
+}
+[dir=rtl] th.mat-header-cell {
+    text-align: center;
+    padding: 10px 25px 10px 63px;
+}
+
+h4{
+    text-align: center;
+}
+
+
+#EventBtn2{
+    float: right;
+  }
+
+  /* th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+    padding: 0;
+    border-bottom-width: 1px;
+    border-bottom-style: solid;
+    font-size: 30px;
+    padding: 0px 5px 0px 5px;
+} */

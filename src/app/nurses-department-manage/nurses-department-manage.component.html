@@ -1,6 +1,6 @@
 <form class="form" [formGroup]="departmentRelease">
   <div class="card text-center">
-    <h4>כמות מטופלים לכל קטגוריה במחלקת: <b>{{Dept_Name}}</b></h4>
+    <h4>כמות מטופלים לכל קטגוריה במחלקת: <b>{{Dept_Name}}</b> נכון לתאריך {{myDate}}</h4>
     <table dir="rtl" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <ng-container matColumnDef="nursing">
@@ -32,10 +32,10 @@
             <div class="col-3">
               <button type="button" class="mt-2" mat-mini-fab color="primary" (click)="getSubmitPlannedToRealse('1')">
                 <i class="material-icons">save</i>
-            </button>
+              </button>
             </div>
           </div>
-          
+
         </td>
       </ng-container>
       <ng-container matColumnDef="holiday">
@@ -80,9 +80,9 @@
     </table>
     <div class="row p-3">
       <div class="col">
-        <button matTooltip="דווח למחלקת {{Dept_Name}}" type="button" id="EventBtn" mat-fab color="primary"
-          (click)="fillReportDialog(0,Dept_Name)">
-          <i class="material-icons">add</i>
+        <button matTooltip="דווח עבור מחלקת {{Dept_Name}}" type="button" id="EventBtn" mat-fab color="primary"
+          (click)="fillReportDialog(0,Dept_Name,'','')">
+          <i class="material-icons">assignment</i>
         </button>
       </div>
 
@@ -160,6 +160,16 @@
       <ng-container matColumnDef="entertime">
         <th mat-header-cell *matHeaderCellDef> שעת כניסה </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_TIME}} </td>
+      </ng-container>
+
+      <ng-container matColumnDef="reportpatint">
+        <th mat-header-cell *matHeaderCellDef> דיווח</th>
+        <td mat-cell *matCellDef="let element"> <button matTooltip="דווח עבוד מטופל" type="button" id="EventBtn2"
+            mat-mini-fab color="primary" (click)="fillReportDialog(0,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME)">
+            <span class="material-icons">
+              assignment
+            </span>
+          </button> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>

@@ -79,3 +79,10 @@ ol{
   position: relative;
   z-index: 9999999999999999999;
 }
+
+.nextBtn{
+  background-color: darkgrey;
+  font-size: 35px;
+  padding: 10px;
+  font-weight: bold;
+}
