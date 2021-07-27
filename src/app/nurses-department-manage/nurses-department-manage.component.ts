@@ -103,7 +103,7 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   getPatientsPerDepart() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetPatientsPerDepart", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsPerDepart", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {
