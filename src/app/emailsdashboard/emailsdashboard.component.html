@@ -1,195 +1,196 @@
 <h2 class="page-title text-center">ניהול פניות ציבור</h2>
 
-
-<div class="container-fluid">
-    <div class="row">
-        <div class="col">
-            <div dir="rtl" class="card w-85-p">
-                <div dir="rtl" class="card-body">
-                    <form class="form" [formGroup]="formSearch">
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group mt-3">
-                                    <mat-form-field>
-                                        <input matInput formControlName="compName" autocomplete="off"
-                                            placeholder="חפש לפי שם פונה" name="fliterVal" />
+<div class="d-block pd-60">
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form" [formGroup]="formSearch">
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group mt-3">
+                                        <mat-form-field>
+                                            <input matInput formControlName="compName" autocomplete="off"
+                                                placeholder="חפש לפי שם פונה" name="fliterVal" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill" class="form-group">
+                                        <mat-label>מחלקה</mat-label>
+                                        <mat-select formControlName="departmentControl">
+                                            <mat-option [value]="">
+                                                הכל
+                                            </mat-option>
+                                            <mat-option *ngFor="let dept of department" [value]="dept">
+                                                {{dept}}
+                                            </mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <mat-form-field appearance="fill" class="form-group">
-                                    <mat-label>מחלקה</mat-label>
-                                    <mat-select formControlName="departmentControl">
-                                        <mat-option [value]="">
-                                            הכל
-                                        </mat-option>
-                                        <mat-option *ngFor="let dept of department" [value]="dept">
-                                            {{dept}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
+                            <div class="row">
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <mat-form-field appearance="fill">
+                                            <input matInput [max]="todaysDate" formControlName="compDateControl" (focus)="pickersearch1.open()"
+                                                [matDatepicker]="pickersearch1" placeholder="מתאריך:">
+                                            <mat-datepicker-toggle matSuffix [for]="pickersearch1">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickersearch1></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="form-group">
+                                        <mat-form-field appearance="fill">
+                                            <input matInput formControlName="compDateControl2" (focus)="pickersearch2.open()"
+                                                [matDatepicker]="pickersearch2" placeholder="עד תאריך:">
+                                            <mat-datepicker-toggle matSuffix [for]="pickersearch2">
+                                            </mat-datepicker-toggle>
+                                            <mat-datepicker #pickersearch2></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
                             </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <mat-form-field appearance="fill">
-                                        <input matInput [max]="todaysDate" formControlName="compDateControl" (focus)="pickersearch1.open()"
-                                            [matDatepicker]="pickersearch1" placeholder="מתאריך:">
-                                        <mat-datepicker-toggle matSuffix [for]="pickersearch1">
-                                        </mat-datepicker-toggle>
-                                        <mat-datepicker #pickersearch1></mat-datepicker>
+                            <div class="row">
+                                <div class="col-6">
+                                    <mat-form-field class="full-width">
+                                        <mat-label>SLA</mat-label>
+                                        <mat-select formControlName="DeadLineSearch">
+                                            <mat-option [value]="">
+                                                הכל
+                                            </mat-option>
+                                            <mat-option *ngFor="let dl of deadline" [value]="dl.value"
+                                                [style.background]="dl.value == '8' ? 'red' : dl.value == '16' ? 'orange' : 'yellow'">
+                                                {{dl.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-6">
+                                    <mat-form-field appearance="fill" class="form-group">
+                                        <mat-label>סטטוס</mat-label>
+                                        <mat-select formControlName="compStatusControl">
+                                            <mat-option [value]="">
+                                                הכל
+                                            </mat-option>
+                                            <mat-option *ngFor="let dept of compStatus" [value]="dept.value"
+                                                [style.background]="dept.value == '1' ? 'darkseagreen' : 'firebrick'">
+                                                {{dept.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="col-6">
-                                <div class="form-group">
-                                    <mat-form-field appearance="fill">
-                                        <input matInput formControlName="compDateControl2" (focus)="pickersearch2.open()"
-                                            [matDatepicker]="pickersearch2" placeholder="עד תאריך:">
-                                        <mat-datepicker-toggle matSuffix [for]="pickersearch2">
-                                        </mat-datepicker-toggle>
-                                        <mat-datepicker #pickersearch2></mat-datepicker>
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="row">
-                            <div class="col-6">
-                                <mat-form-field class="full-width">
-                                    <mat-label>SLA</mat-label>
-                                    <mat-select formControlName="DeadLineSearch">
-                                        <mat-option [value]="">
-                                            הכל
-                                        </mat-option>
-                                        <mat-option *ngFor="let dl of deadline" [value]="dl.value"
-                                            [style.background]="dl.value == '8' ? 'red' : dl.value == '16' ? 'orange' : 'yellow'">
-                                            {{dl.viewValue}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                            <div class="col-6">
-                                <mat-form-field appearance="fill" class="form-group">
-                                    <mat-label>סטטוס</mat-label>
-                                    <mat-select formControlName="compStatusControl">
-                                        <mat-option [value]="">
-                                            הכל
-                                        </mat-option>
-                                        <mat-option *ngFor="let dept of compStatus" [value]="dept.value"
-                                            [style.background]="dept.value == '1' ? 'darkseagreen' : 'firebrick'">
-                                            {{dept.viewValue}}
-                                        </mat-option>
-                                    </mat-select>
-                                </mat-form-field>
-                            </div>
-                        </div>
-                        <button mat-raised-button type="submit" (click)="searchForm('0')"
-                            class="btn btn-primary btn-raised">
-                            <span class="material-icons">
-                                search
-                            </span>
-                        </button>
-                    </form>
+                            <button mat-raised-button type="submit" (click)="searchForm('0')"
+                                class="btn btn-primary btn-raised">
+                                <span class="material-icons">
+                                    search
+                                </span>
+                            </button>
+                        </form>
+                    </div>
                 </div>
             </div>
         </div>
+    </div><br><br>
+
+    <div class="row mb-3 mr-3" dir="rtl">
+        <button class="btn btn-primary" mat-raised-button style="margin-left: 5px;" (click)="loadInquiries()"
+            *ngIf="UserName == 'matias'"><span class="material-icons">
+                refresh
+            </span> טען מיילים חדשים</button>
+        <button class="btn btn-primary" mat-raised-button style="margin-right: 5px;" (click)="searchForm('1')"><span
+                class="material-icons">
+                mark_as_unread
+            </span> סמן פניות כנקראו</button>
     </div>
-</div><br><br>
+    <div dir="rtl">
+        <mat-table [dataSource]="dataSource" class="mat-elevation-z8" [formGroup]="tableEmails">
+            <!-- Position Column -->
+            <ng-container matColumnDef="FormID">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מס' פניה
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.EmailID}} </mat-cell>
+            </ng-container>
 
-<div class="row mb-3 mr-3" dir="rtl">
-    <button class="btn btn-primary" mat-raised-button style="margin-left: 5px;" (click)="loadInquiries()"
-        *ngIf="UserName == 'matias'"><span class="material-icons">
-            refresh
-        </span> טען מיילים חדשים</button>
-    <button class="btn btn-primary" mat-raised-button style="margin-right: 5px;" (click)="searchForm('1')"><span
-            class="material-icons">
-            mark_as_unread
-        </span> סמן פניות כנקראו</button>
-</div>
-<div dir="rtl">
-    <mat-table [dataSource]="dataSource" class="mat-elevation-z8" [formGroup]="tableEmails">
-        <!-- Position Column -->
-        <ng-container matColumnDef="FormID">
-            <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מס' פניה
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.EmailID}} </mat-cell>
-        </ng-container>
+            <!-- Name Column -->
+            <ng-container matColumnDef="FormName">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם פונה
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CompName}} </mat-cell>
+            </ng-container>
 
-        <!-- Name Column -->
-        <ng-container matColumnDef="FormName">
-            <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם פונה
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CompName}} </mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="formDepartment">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> נושא פניה
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CompSubject}} </mat-cell>
+            </ng-container>
 
-        <ng-container matColumnDef="formDepartment">
-            <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> נושא פניה
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CompSubject}} </mat-cell>
-        </ng-container>
+            <!-- Weight Column -->
+            <ng-container matColumnDef="FormDate">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך קבלת
+                    פניה </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.EmailDateTime}} </mat-cell>
+            </ng-container>
 
-        <!-- Weight Column -->
-        <ng-container matColumnDef="FormDate">
-            <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך קבלת
-                פניה </mat-header-cell>
-            <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.EmailDateTime}} </mat-cell>
-        </ng-container>
+            <!-- Update Column -->
+            <ng-container matColumnDef="update">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> ניהול פניה
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
+                        color="accent" (click)="openDialogToManageEmail(element.EmailID,1)"
+                        *ngIf="UserName == 'matias'"><span class="material-icons">
+                            event_note
+                        </span></button> </mat-cell>
+            </ng-container>
 
-        <!-- Update Column -->
-        <ng-container matColumnDef="update">
-            <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> ניהול פניה
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
-                    color="accent" (click)="openDialogToManageEmail(element.EmailID,1)"
-                    *ngIf="UserName == 'matias'"><span class="material-icons">
-                        event_note
-                    </span></button> </mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="add">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> פיצול פניה
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
+                        color="accent" (click)="openDialogToManageEmail(element.EmailID,0)"
+                        *ngIf="UserName == 'matias'"><span class="material-icons">
+                            add
+                        </span></button> </mat-cell>
+            </ng-container>
 
-        <ng-container matColumnDef="add">
-            <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> פיצול פניה
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
-                    color="accent" (click)="openDialogToManageEmail(element.EmailID,0)"
-                    *ngIf="UserName == 'matias'"><span class="material-icons">
-                        add
-                    </span></button> </mat-cell>
-        </ng-container>
+            <!-- Update Column -->
+            <ng-container matColumnDef="showAll">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> התכתבות עם מנהל
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
+                        color="primary" (click)="openDialogToStatusComplaint(element.EmailID)"><span
+                            class="material-icons"><i matBadgeColor="warn" [matBadge]="element.NumberOfUnread"></i>
+                            question_answer
+                        </span></button> </mat-cell>
+            </ng-container>
 
-        <!-- Update Column -->
-        <ng-container matColumnDef="showAll">
-            <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> התכתבות עם מנהל
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
-                    color="primary" (click)="openDialogToStatusComplaint(element.EmailID)"><span
-                        class="material-icons"><i matBadgeColor="warn" [matBadge]="element.NumberOfUnread"></i>
-                        question_answer
-                    </span></button> </mat-cell>
-        </ng-container>
-
-        <ng-container matColumnDef="status">
-            <mat-header-cell *matHeaderCellDef
-                style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> סטטוס פניה
-            </mat-header-cell>
-            <mat-cell *matCellDef="let element" style="justify-content: center;">
-                <mat-slide-toggle [checked]="element.Status" (change)="changeStatus($event,element.EmailID)"
-                    *ngIf="UserName == 'matias'"></mat-slide-toggle>
-            </mat-cell>
-        </ng-container>
+            <ng-container matColumnDef="status">
+                <mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> סטטוס פניה
+                </mat-header-cell>
+                <mat-cell *matCellDef="let element" style="justify-content: center;">
+                    <mat-slide-toggle [checked]="element.Status" (change)="changeStatus($event,element.EmailID)"
+                        *ngIf="UserName == 'matias'"></mat-slide-toggle>
+                </mat-cell>
+            </ng-container>
 
 
-        <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-        <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row" id="toolTipStyle" matTooltip="{{row.ContentToShow}}" ></mat-row>
-    </mat-table>
-    <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"
-        *ngIf="UserName == 'matias'" matTooltip="הוספת פנייה חדשה"><i class="material-icons">add</i></button>
-    <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
+            <mat-row *matRowDef="let row; columns: displayedColumns;" class="table-row" id="toolTipStyle" matTooltip="{{row.ContentToShow}}" ></mat-row>
+        </mat-table>
+        <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"
+            *ngIf="UserName == 'matias'" matTooltip="הוספת פנייה חדשה"><i class="material-icons">add</i></button>
+        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+    </div>
 </div>
