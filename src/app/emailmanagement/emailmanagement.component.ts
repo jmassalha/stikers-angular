@@ -353,14 +353,14 @@ export class EmailmanagementComponent implements OnInit {
       this.manageComplaintForm.controls['Comp_Closing_Date'].setValue(pipe.transform(this.manageComplaintForm.controls['Comp_Closing_Date'].value, 'yyyy-MM-dd'));
       this.manageComplaintForm.controls['Comp_Closing_Date'].setValidators(null);
     }
-    if (!_ifUpdate) {
-      if (this.emailSenderGroup.controls['EmailDateTime'].value == null || this.emailSenderGroup.controls['EmailDateTime'].value == "") {
-        this.emailSenderGroup.controls['EmailDateTime'].setValue("");
-      } else {
-        this.emailSenderGroup.controls['EmailDateTime'].setValue(pipe.transform(this.emailSenderGroup.controls['EmailDateTime'].value, 'yyyy-MM-dd'));
-        this.emailSenderGroup.controls['EmailDateTime'].setValidators(null);
-      }
-    }
+    // if (!_ifUpdate) {
+    //   if (this.emailSenderGroup.controls['EmailDateTime'].value == null || this.emailSenderGroup.controls['EmailDateTime'].value == "") {
+    //     this.emailSenderGroup.controls['EmailDateTime'].setValue("");
+    //   } else {
+    //     this.emailSenderGroup.controls['EmailDateTime'].setValue(pipe.transform(this.emailSenderGroup.controls['EmailDateTime'].value, 'yyyy-MM-dd'));
+    //     this.emailSenderGroup.controls['EmailDateTime'].setValidators(null);
+    //   }
+    // }
     if (this.manageComplaintForm.controls['DeadLine'].value == null || this.manageComplaintForm.controls['DeadLine'].value == "") {
       this.manageComplaintForm.controls['DeadLine'].setValue("");
     } else {
@@ -376,7 +376,7 @@ export class EmailmanagementComponent implements OnInit {
     if (_ifSplit == "0") {
       this.manageComplaintForm.setValidators(null);
     }
-    this.emailSenderGroup.controls['EmailDateTime'].setValue(this.manageComplaintForm.controls['Comp_Date'].value);
+    // this.emailSenderGroup.controls['EmailDateTime'].setValue(this.manageComplaintForm.controls['Comp_Date'].value);
     if (!this.manageComplaintForm.invalid && !this.emailSenderGroup.invalid) {
       this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {

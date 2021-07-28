@@ -9,6 +9,8 @@ import { StatusComplaintComponent } from '../status-complaint/status-complaint.c
 import { EmailmanagementComponent } from '../emailmanagement/emailmanagement.component';
 import { DatePipe } from '@angular/common';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 
 export interface Email {
   EmailID: string;
@@ -56,6 +58,56 @@ export class EmailsdashboardComponent implements OnInit {
     { value: '16', viewValue: 'שבועיים' },
     { value: '22', viewValue: '3 שבועות' },
   ];
+  compDepts: any[] = [
+    { value: 'MRI', viewValue: 'MRI' },
+    { value: 'מיילדותי us', viewValue: 'מיילדותי us' },
+    { value: 'אונקולוגיה', viewValue: 'אונקולוגיה' },
+    { value: 'אורולוגיה', viewValue: 'אורולוגיה' },
+    { value: 'אורטופידיה', viewValue: 'אורטופידיה' },
+    { value: 'אף אוזן גרון', viewValue: 'אף אוזן גרון' },
+    { value: 'בטחון', viewValue: 'בטחון' },
+    { value: 'גזברות', viewValue: 'גזברות' },
+    { value: 'גסטרואנטרולוגיה', viewValue: 'גסטרואנטרולוגיה' },
+    { value: 'דיאליזה', viewValue: 'דיאליזה' },
+    { value: 'IVF - הפרייה חוץ גופית', viewValue: 'IVF - הפרייה חוץ גופית' },
+    { value: 'זימון תורים', viewValue: 'זימון תורים' },
+    { value: 'חדר ניתוח', viewValue: 'חדר ניתוח' },
+    { value: 'חדרי לידה', viewValue: 'חדרי לידה' },
+    { value: 'טיפול נמרץ כללי', viewValue: 'טיפול נמרץ כללי' },
+    { value: 'טיפול נמרץ לב', viewValue: 'טיפול נמרץ לב' },
+    { value: 'יולדות', viewValue: 'יולדות' },
+    { value: 'ילדים', viewValue: 'ילדים' },
+    { value: 'ילודים', viewValue: 'ילודים' },
+    { value: 'כירורגיה כללית', viewValue: 'כירורגיה כללית' },
+    { value: 'כירורגיה פלסטית', viewValue: 'כירורגיה פלסטית' },
+    { value: 'כירורגיה לב חזה', viewValue: 'כירורגיה לב חזה' },
+    { value: 'מלר"ד', viewValue: 'מלר"ד' },
+    { value: 'מלר"ד ילדים', viewValue: 'מלר"ד ילדים' },
+    { value: 'מעברים', viewValue: 'מעברים' },
+    { value: 'מרפאה אורולוגיה', viewValue: 'מרפאה אורולוגיה' },
+    { value: 'מרפאה אורטופידית', viewValue: 'מרפאה אורטופידית' },
+    { value: 'מרפאה נשים', viewValue: 'מרפאה נשים' },
+    { value: 'מרפאה עיניים', viewValue: 'מרפאה עיניים' },
+    { value: 'מרפאה ראומטולוגיה', viewValue: 'מרפאה ראומטולוגיה' },
+    { value: 'מרפאת חוץ', viewValue: 'מרפאת חוץ' },
+    { value: 'משרד קבלת חולים', viewValue: 'משרד קבלת חולים' },
+    { value: 'נוירולוגיה', viewValue: 'נוירולוגיה' },
+    { value: 'נשים', viewValue: 'נשים' },
+    { value: 'עיניים', viewValue: 'עיניים' },
+    { value: 'פגייה', viewValue: 'פגייה' },
+    { value: 'פה ולסת', viewValue: 'פה ולסת' },
+    { value: 'פנימית א', viewValue: 'פנימית א' },
+    { value: 'פנימית ב', viewValue: 'פנימית ב' },
+    { value: 'קורונה', viewValue: 'קורונה' },
+    { value: 'פגייה', viewValue: 'פגייה' },
+    { value: 'קרדיולוגיה', viewValue: 'קרדיולוגיה' },
+    { value: 'רנטגן', viewValue: 'רנטגן' },
+    { value: 'רשומות ומידע רפואי', viewValue: 'רשומות ומידע רפואי' },
+    { value: 'שבץ מוחי', viewValue: 'שבץ מוחי' },
+    { value: 'שונות', viewValue: 'שונות' },
+    { value: 'שינוע', viewValue: 'שינוע' },
+    { value: 'שיקומית', viewValue: 'שיקומית' },
+  ];
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -89,6 +141,9 @@ export class EmailsdashboardComponent implements OnInit {
     private http: HttpClient) { }
 
   UserName = localStorage.getItem("loginUserName").toLowerCase();
+  loaded: boolean;
+  filteredOptions2: Observable<string[]>;
+  departmentfilter = new FormControl();
 
 
   ngOnInit() {
@@ -105,7 +160,16 @@ export class EmailsdashboardComponent implements OnInit {
       'slideT': new FormControl('', null),
     });
     this.searchForm("0");
+    this.filteredOptions2 = this.departmentfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter2(value))
+      );
+  }
 
+  private _filter2(value: string): string[] {
+    const filterValue2 = value;
+    return this.compDepts.filter(option => option.value.includes(filterValue2));
   }
 
   openNotificationDialog() {
@@ -160,10 +224,20 @@ export class EmailsdashboardComponent implements OnInit {
       });
   }
 
+  clearFields(){
+    this.formSearch.controls['compName'].setValue("");
+    this.departmentfilter.setValue("");
+    this.formSearch.controls['compDateControl'].setValue("");
+    this.formSearch.controls['compDateControl2'].setValue("");
+    this.formSearch.controls['DeadLineSearch'].setValue("");
+    this.formSearch.controls['compStatusControl'].setValue("");
+    this.searchForm("0");
+  }
+
 
   searchForm(isRead) {
     let compName = this.formSearch.controls['compName'].value;
-    let departmentControl = this.formSearch.controls['departmentControl'].value;
+    let departmentControl = this.departmentfilter.value;
     let compDateControl = this.formSearch.controls['compDateControl'].value;
     let compDateControl2 = this.formSearch.controls['compDateControl2'].value;
     let compStatusControl = this.formSearch.controls['compStatusControl'].value;
@@ -191,17 +265,20 @@ export class EmailsdashboardComponent implements OnInit {
     } else {
       compDateControl2 = "";
     }
+    this.loaded = false;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
         _compName: compName,
         _compDate: compDateControl,
         _compDate2: compDateControl2,
         _compStatus: compStatusControl,
+        _departmentControl: departmentControl,
         _deadLine: deadLineSearch,
         _userName: this.UserName,
         _isRead: isRead
       })
       .subscribe((Response) => {
+        this.loaded = true;
         if (isRead == "1") {
           window.location.reload();
         }
@@ -248,6 +325,7 @@ export class EmailsdashboardComponent implements OnInit {
           this.department.push(element.Depart_Name);
         })
       });
+      
   }
 
   onsubmit() {

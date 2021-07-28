@@ -17,16 +17,16 @@
                                     </div>
                                 </div>
                                 <div class="col-6">
-                                    <mat-form-field appearance="fill" class="form-group">
+                                    <mat-form-field appearance="fill">
                                         <mat-label>מחלקה</mat-label>
-                                        <mat-select formControlName="departmentControl">
-                                            <mat-option [value]="">
-                                                הכל
+                                        <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
+                                            [matAutocomplete]="auto2">
+                                        <mat-autocomplete #auto2="matAutocomplete">
+                                            <mat-option *ngFor="let dept of filteredOptions2 | async"
+                                                [value]="dept.value">
+                                                {{dept.viewValue}}
                                             </mat-option>
-                                            <mat-option *ngFor="let dept of department" [value]="dept">
-                                                {{dept}}
-                                            </mat-option>
-                                        </mat-select>
+                                        </mat-autocomplete>
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -84,12 +84,22 @@
                                     </mat-form-field>
                                 </div>
                             </div>
+                            <div class="row float-left">
+                                <button mat-raised-button type="button" (click)="clearFields()"
+                                class="btn btn-primary btn-raised">
+                                <span class="material-icons">
+                                    clear
+                                </span>
+                            </button>
+                            &nbsp;&nbsp;&nbsp;
                             <button mat-raised-button type="submit" (click)="searchForm('0')"
                                 class="btn btn-primary btn-raised">
                                 <span class="material-icons">
                                     search
                                 </span>
                             </button>
+                            </div>
+                            
                         </form>
                     </div>
                 </div>
@@ -107,6 +117,7 @@
                 mark_as_unread
             </span> סמן פניות כנקראו</button>
     </div>
+    <mat-progress-bar mode="indeterminate" *ngIf="!loaded"></mat-progress-bar>
     <div dir="rtl">
         <mat-table [dataSource]="dataSource" class="mat-elevation-z8" [formGroup]="tableEmails">
             <!-- Position Column -->
