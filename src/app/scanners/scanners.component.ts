@@ -56,9 +56,14 @@ export class ScannersComponent implements OnInit {
         "TotalCases",
         "CLICK",
         "CLICK_casenumbers",
+        "CLICK_print",
+        "CLICK_sendtosafe",
     ];
     private activeModal: NgbActiveModal;
     modalOptions: NgbModalOptions;
+    modalOptionsPrint: NgbModalOptions = {
+        windowClass: "modalOptionsPrint",
+    };;
     closeResult: string;
     TABLE_DATA: Boxes[] = [];
     rowFormData = {} as Boxes;
@@ -132,7 +137,15 @@ export class ScannersComponent implements OnInit {
             verticalPosition: this.verticalPosition,
         });
     }
-    
+    openSendSnackBar() {
+        this._snackBar.open("נשלח בהצלחה", "", {
+            duration: 2500,
+            direction: "rtl",
+            panelClass: "success",
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+        });
+    }
     onSubmit() {
         this.submitted = true;
         //debugger
@@ -164,10 +177,47 @@ export class ScannersComponent implements OnInit {
         this.modalService.dismissAll();
     }
 
+    sendcasenumberstosafe(_element) {
+       
+       this.confirmationDialogService.confirm('נא לאשר..', 'האם אתה בטוח ...? ')
+        .then((confirmed) =>{
+            console.log('User confirmed:', confirmed);
+            if(confirmed){
+                this.sendToSafe(_element.RowID);
+            }else{
+
+            }
+            
+        } )
+        .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+    }
+
+    sendToSafe(RowId) {
+        this.http
+            .post("http://srv-ipracticom:8080/WebService.asmx/SendBoxCasesToSafe", {
+                RowId: RowId,
+            })
+            .subscribe((Response) => {
+                this.openSendSnackBar();
+            })
+    }
     showcasenumbers(content, _type, _element) {
         // //debugger;
+        
+        localStorage.setItem("Print", "false");
         localStorage.setItem("CartoonID", _element.RowID);
+        localStorage.setItem("CartoonUNID", _element.BoxID);
+        localStorage.setItem("TotalCases", _element.TotalCases);
         this.modalService.open(content, this.modalOptions);
+    }
+
+    printcasenumbers(content, _type, _element) {
+        // //debugger;
+        localStorage.setItem("Print", "true");
+        localStorage.setItem("CartoonID", _element.RowID);
+        localStorage.setItem("CartoonUNID", _element.BoxID);
+        localStorage.setItem("TotalCases", _element.TotalCases);
+        this.activeModal = this.modalService.open(content, this.modalOptionsPrint);
     }
 
     CloseModalSendSms() {

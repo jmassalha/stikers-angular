@@ -28,9 +28,9 @@ footer {
     border-radius: 4px 4px 0 0;
     padding: 0.1em 0.1em 0 0.1em;
 }
-.cdk-overlay-connected-position-bounding-box, 
-.cdk-overlay-pane{
-}
+
+
+
 .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane,
 .cdk-overlay-connected-position-bounding-box {
     /* position: relative; */
@@ -780,6 +780,29 @@ mark {
     margin-bottom: 0;
 }
 @media print {
+    .modalOptionsPrint .modal-content .show-on-print{
+        display: block !important;
+        
+    }
+    .modalOptionsPrint .modal-content{
+        display: block !important;
+        width: 100%  !important;
+        height: 100%  !important;
+
+    }
+    .modalOptionsPrint .modal-dialog{
+        display: block !important;
+        width: 100%  !important;
+        height: 95%  !important;
+
+    }
+    .modalOptionsPrint{
+        background: none !important;
+        display: block !important;
+    }
+    .hide-on-print{
+        display: none !important;
+    }
     #to-print {
         display: block;
     }
@@ -1365,9 +1388,8 @@ ngx-material-timepicker-container,
     margin: auto;
     width: 80%;
 }
-.cdk-global-overlay-wrapper, .cdk-overlay-pane{
-    /* z-index: 999999999999999999999999999999999999999999999999 !important; */
-}
+
+
 .border-1 {
     border: 1px solid !important;
     padding: 15px !important;
