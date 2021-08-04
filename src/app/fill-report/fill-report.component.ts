@@ -67,6 +67,7 @@ export class FillReportComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,) { }
 
   ReportGroup: FormGroup;
+  caseNumber: string;
   all_departs_filter = [];
   subCategory = [];
   all_categories_filter = [];
@@ -91,16 +92,16 @@ export class FillReportComponent implements OnInit {
       this.departmentfilter.setValue(this.Dept_Name);
     }
     this.ReportGroup = this.formBuilder.group({
-      Row_ID: ['0', Validators.compose([Validators.required])],
-      ReportTitle: ['', Validators.compose([Validators.required])],
-      ReportMachlol: ['', Validators.compose([Validators.required])],
-      ReportCategory: ['', Validators.compose([Validators.required])],
-      ReportSubCategory: ['', Validators.compose([Validators.required])],
+      Row_ID: ['0', null],
+      ReportTitle: ['', null],
+      ReportMachlol: ['', null],
+      ReportCategory: ['', null],
+      ReportSubCategory: ['', null],
       // ReportPriority: ['', Validators.compose([Validators.required])],
-      ReportStatus: ['', Validators.compose([Validators.required])],
+      ReportStatus: ['', null],
       ReportShift: [{value:'',disabled:true},null],
       // ReportSchudledDate: ['', Validators.compose([Validators.required])],
-      ReportText: ['', Validators.compose([Validators.required])],
+      ReportText: ['', null],
       toContinue: [false, null],
     });
     if (this.reportID != "0") {
@@ -184,12 +185,15 @@ export class FillReportComponent implements OnInit {
     // this.ReportGroup.controls['ReportSchudledDate'].setValue(this.pipe.transform(this.ReportGroup.controls['ReportSchudledDate'].value, 'yyyy-MM-dd'));
     // this.ReportGroup.controls['ReportSchudledDate'].setValidators(null);
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
-
+    if(this.caseNumber == undefined){
+      this.caseNumber = "";
+    }
     if (!this.ReportGroup.invalid) {
       this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
-          _userName: this.UserName
+          _userName: this.UserName,
+          _caseNumber: this.caseNumber
         })
         .subscribe((Response) => {
           if (Response["d"] == "Success") {
@@ -258,13 +262,17 @@ export class FillReportComponent implements OnInit {
         //   });
         // }
         let ifEditable = false;
-        let mishmeret = "";
-        let reportDate = this.all_report_management.ReportDate.split(" ",1);//this.pipe.transform(this.all_report_management.ReportDate, 'dd/MM/yyyy');
-        reportDate = reportDate[0];
-        if(reportDate.length < 10){
-          reportDate = "0"+reportDate;
-        }
+        let mishmeret = "בוקר";
+        let reportDate = this.all_report_management.ReportDate.split(" ",1)[0];
+        let Rday = parseInt(reportDate.split("/",1)[0]);
+        let Rmonth = parseInt(reportDate.split("/",2)[1]);
+        let Ryear = parseInt(reportDate.split("/",3)[2]);
+        reportDate = Rday+""+Rmonth+""+Ryear;
         let thisDate = this.pipe.transform(this.now, 'MM/dd/yyyy');
+        let Tday = parseInt(thisDate.split("/",1)[0]);
+        let Tmonth = parseInt(thisDate.split("/",2)[1]);
+        let Tyear = parseInt(thisDate.split("/",3)[2]);
+        thisDate = Tday+""+Tmonth+""+Tyear;
         let thisTime = this.pipe.transform(this.now, 'HH');
 
         if(parseInt(thisTime) > 14 && parseInt(thisTime) < 23){

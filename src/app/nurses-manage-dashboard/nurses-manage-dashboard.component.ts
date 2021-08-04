@@ -35,8 +35,10 @@ export class NursesManageDashboardComponent implements OnInit {
   numberOfDays = 0;
   newDate: string;
   dateToDisplayString: string;
+  loaded: boolean;
 
   ngOnInit(): void {
+    this.loaded = false;
     this.searchWord = "";
     this.getAllDeparts();
     this.getDataFormServer("");
@@ -50,11 +52,13 @@ export class NursesManageDashboardComponent implements OnInit {
   }
 
   getAllDeparts() {
+    this.loaded = false;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
+        this.loaded = true;
       });
   }
 

@@ -126,23 +126,27 @@ export class StatusComplaintComponent implements OnInit {
   }
 
   shareComplaintWithOthers() {
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/attachCompToUser", {
-        userId: this.myControl.value.id,
-        compId: this.complaintID,
-      })
-      .subscribe((Response) => {
-        if (Response["d"] == "found") {
-          this.openSnackBar("! נשלח בהצלחה לנמען");
-        } else if(Response["d"] == "Exists"){
-          this.openSnackBar("! כבר משוייך לפנייה");
-        } else {
-          this.openSnackBar("! נמען לא קיים");
-        }
-      });
+    if (this.myControl.value == null) {
+      this.openSnackBar("נא לבחור אחראי לשליחה");
+    } else {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/attachCompToUser", {
+          userId: this.myControl.value.id,
+          compId: this.complaintID,
+        })
+        .subscribe((Response) => {
+          if (Response["d"] == "found") {
+            this.openSnackBar("! נשלח בהצלחה לנמען");
+          } else if (Response["d"] == "Exists") {
+            this.openSnackBar("! כבר משוייך לפנייה");
+          } else {
+            this.openSnackBar("! נמען לא קיים");
+          }
+        });
+    }
   }
 
-  getUsers(){
+  getUsers() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
 
@@ -152,7 +156,7 @@ export class StatusComplaintComponent implements OnInit {
 
         this.all_users_filter.forEach(element => {
           this.users.push({
-            name: element.firstname+" "+element.lastname,
+            name: element.firstname + " " + element.lastname,
             id: element.id
           });
         })
@@ -177,8 +181,8 @@ export class StatusComplaintComponent implements OnInit {
         this.messagesArray = Response["d"];
         this.complaintID = formid;
         // this.CompID = this.messagesArray[0].Complaint;
-        this.ComplaintSubject = Response["d"][Response["d"].length-1].ComplaintSubject;
-        this.messagesArray.splice(-1,1);
+        this.ComplaintSubject = Response["d"][Response["d"].length - 1].ComplaintSubject;
+        this.messagesArray.splice(-1, 1);
         this.messanger.controls['MessageValue'].setValue("");
       });
   }

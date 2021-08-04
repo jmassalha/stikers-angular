@@ -144,7 +144,7 @@ export class FormsansweredComponent implements OnInit {
                 console.log("User confirmed:", confirmed);
                 if (confirmed) {
                   this.http
-                  .post("http://srv-apps/wsrfc/WebService.asmx/LinkPdfToPatientNamer", {
+                  .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
                     CaseNumber: element.PatientID,
                     FormID: element.FormID,
                     Catigory: "ZPO_ONLINE",

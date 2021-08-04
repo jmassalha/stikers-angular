@@ -3,46 +3,12 @@
 
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col-12">
+
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body">
                         <form class="form">
                             <div class="row">
-                                <div class="col-4 text-center">
-                                    <div class="row">
-                                        <div class="col-3 text-center">
-                                            <span class="material-icons" (click)="getEROccupancy('next','er')" matTooltip="יום אחרי">
-                                                navigate_next
-                                            </span>
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <h3><b>קבלות מיון</b></h3>
-                                            <h3 style="font-size: 20px;">{{newDate}}</h3>
-                                        </div>
-                                        <div class="col-3 text-center">
-                                            <span class="material-icons" (click)="getEROccupancy('before','er')" matTooltip="יום לפני">
-                                                navigate_before
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <h5>בוקר</h5>
-                                        </div>
-                                        <div class="col-4">
-                                            <h5>ערב</h5>
-                                        </div>
-                                        <div class="col-4">
-                                            <h5>לילה</h5>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4" *ngFor="let occ of ER_Occupancy">
-                                            <h5>{{occ}}</h5>
-                                        </div>
-                                    </div>
-                                </div>
                                 <div class="col-4 text-center">
                                     <div class="row text-center">
                                         <div class="col-3 text-center">
@@ -51,8 +17,9 @@
                                             </span> -->
                                         </div>
                                         <div class="col-6 text-center">
-                                            <h3><b>תפוסת בית חולים</b></h3>
-                                            <h3 style="font-size: 20px;">{{ dateToDisplayString}}</h3>
+                                            <h3><b>תפוסת בית החולים</b></h3>
+                                            <h3 style="font-size: 20px;">{{ dateToDisplayString | date: "dd.MM.yyyy"}}
+                                            </h3>
                                             <hr>
                                         </div>
                                         <div class="col-3 text-center">
@@ -86,40 +53,74 @@
                                     </div>
                                 </div>
                                 <div class="col-4 text-center">
+                                    <div class="row">
+                                        <div class="col-3 text-center">
+                                            <span class="material-icons" (click)="getEROccupancy('next','er')"
+                                                matTooltip="יום אחרי">
+                                                navigate_next
+                                            </span>
+                                        </div>
+                                        <div class="col-6 text-center">
+                                            <h3><b>קבלות מחלקה לרפואה דחופה</b></h3>
+                                            <h3 style="font-size: 20px;">{{newDate | date: "dd.MM.yyyy"}}</h3>
+                                        </div>
+                                        <div class="col-3 text-center">
+                                            <span class="material-icons" (click)="getEROccupancy('before','er')"
+                                                matTooltip="יום לפני">
+                                                navigate_before
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h5>בוקר</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5>ערב</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5>לילה</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4" *ngFor="let occ of ER_Occupancy">
+                                            <h5>{{occ}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-4 text-center">
                                     <div class="row text-center">
                                         <div class="col-12 text-center">
-                                            <h3><b>סטטוס מחלקות שונות</b></h3>
+                                            <h3><b>סטטוס מחלקות מיוחדות</b></h3>
                                             <hr>
                                         </div>
 
                                     </div>
                                     <div class="row mb-1">
                                         <div class="col-6">
-                                            <mat-card class="other-cards pb-4" (click)="getOtherDepartmentDetails('DeliveryRoom')">
+                                            <mat-card class="other-cards pb-4"
+                                                (click)="getOtherDepartmentDetails('DeliveryRoom')">
                                                 <h5 style="margin: -12px;">חדר לידה</h5>
                                             </mat-card>
                                         </div>
                                         <div class="col-6">
-                                            <mat-card class="other-cards pb-4" (click)="getOtherDepartmentDetails('SurgeryRoom')">
+                                            <mat-card class="other-cards pb-4"
+                                                (click)="getOtherDepartmentDetails('SurgeryRoom')">
                                                 <h5 style="margin: -12px;">חדר ניתוח</h5>
                                             </mat-card>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <mat-card class="other-cards pb-4" (click)="getOtherDepartmentDetails('ICUDepart')">
+                                            <mat-card class="other-cards pb-4"
+                                                (click)="getOtherDepartmentDetails('ICUDepart')">
                                                 <h5 style="margin: -12px;">מחלקה לרפואה דחופה</h5>
                                             </mat-card>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- <button mat-raised-button type="submit" (click)="getAllDeparts()"
-                                class="btn btn-primary btn-raised">
-                                <span class="material-icons">
-                                    search
-                                </span>
-                            </button> -->
                         </form>
                     </div>
                 </div>
@@ -129,6 +130,7 @@
 
 
 
+    <mat-spinner class="loader" *ngIf="!loaded"></mat-spinner>
     <div class="survey-options">
         <div class="poll-options">
             <div class="row" style="margin-bottom: 20px;">
@@ -137,8 +139,8 @@
                     <mat-card style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 30px;color: darkblue;">{{item.Dept_Name}}
                         </div>
-                        <!-- <img class="poria-icon" src="assets/images/mersham-logo.png"> -->
-                        <div class="list-style text-center" style="font-size: 24px;">תפוסה: {{item.OccupancyPerDepart}} </div>
+                        <div class="list-style text-center" style="font-size: 24px;">תפוסה: {{item.OccupancyPerDepart}}
+                        </div>
                     </mat-card>
                 </div>
             </div>

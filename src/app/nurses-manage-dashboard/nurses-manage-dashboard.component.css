@@ -53,4 +53,7 @@
 }
 
 
-
+.loader {
+  right: 50%;
+  margin-right: -4em;
+}

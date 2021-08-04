@@ -1,5 +1,9 @@
+<mat-progress-bar mode="indeterminate" *ngIf="!progressBarNumbers"></mat-progress-bar>
+<button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
 <form class="form" [formGroup]="deliveryRoomForm" *ngIf="delivery">
-    <h4> נכון לתאריך {{myDate}}</h4>
+    <h4><b>חדר לידה </b> נכון לתאריך {{myDate | date: "dd.MM.yyyy"}}</h4>
     <table dir="rtl" [dataSource]="dataSource3" mat-table class="mat-elevation-z8" style="width: 100%;">
 
         <ng-container matColumnDef="regular">
@@ -36,7 +40,7 @@
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay1"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay1;"></tr>
     </table>
-    <button type="button" class="mt-2" mat-fab color="primary" (click)="getSubmitChanges('1')">
+    <button type="button" class="mt-2" mat-fab color="primary" matTooltip="שמירה" (click)="getSubmitChanges('1')">
         <i class="material-icons">save</i>
     </button>
     <!-- <div class="row p-3">
@@ -47,7 +51,7 @@
         </div>
     </div> -->
     <hr>
-    <h4>רשימת מטופלים במחלקה  <b>
+    <h4>רשימת מטופלים במחלקה <b>
         </b></h4>
     <mat-form-field class="float-right text-right" appearance="standard">
         <mat-label>מסנן</mat-label>
@@ -97,7 +101,7 @@
 </form>
 
 <form class="form" *ngIf="surgery">
-    <h4> נכון לתאריך {{myDate}}</h4>
+    <h4><b>חדר ניתוח </b> נכון לתאריך {{myDate}}</h4>
     <table dir="rtl" [dataSource]="dataSource4" mat-table class="mat-elevation-z8" style="width: 100%;">
 
         <ng-container matColumnDef="inprogress">
@@ -121,7 +125,7 @@
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay2;"></tr>
     </table>
     <hr>
-    <h4>רשימת מטופלים בחדר ניתוח  <b>
+    <h4>רשימת מטופלים בחדר ניתוח <b>
         </b></h4>
     <mat-form-field class="float-right text-right" appearance="standard">
         <mat-label>מסנן</mat-label>
@@ -148,7 +152,7 @@
             <th mat-header-cell *matHeaderCellDef> תאריך ניתוח </th>
             <td mat-cell *matCellDef="let element"> {{element.SurgeryDate}} </td>
         </ng-container>
-        
+
         <ng-container matColumnDef="room">
             <th mat-header-cell *matHeaderCellDef> חדר ניתוח </th>
             <td mat-cell *matCellDef="let element"> {{element.SurgeryRoom}} </td>
@@ -165,41 +169,119 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay2_2"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnsToDisplay2_2;"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay2_2;" [style.background]="row.SurgeryStatus == 'בהמתנה' ? 'antiquewhite' : row.SurgeryStatus == 'פעיל' ? 'aquamarine' : 'darkgray'"></tr>
 
     </table>
 </form>
 
 <form class="form" *ngIf="ICU">
-    <h4> נכון לתאריך {{myDate}}</h4>
+    <h4><b>מחלקה לרפואה דחופה </b> נכון לתאריך {{myDate}}</h4>
     <table dir="rtl" [dataSource]="dataSource5" mat-table class="mat-elevation-z8" style="width: 100%;">
 
         <ng-container matColumnDef="adult">
             <th mat-header-cell *matHeaderCellDef> מבוגרים </th>
-            <td mat-cell *matCellDef="let element"> {{element}} </td>
+            <td mat-cell *matCellDef="let element"><button type="button" id="details-btn"
+                    (click)="getOtherDepartmentPatients('ADULTS')" mat-raised-button color="primary">
+                    {{element.ADULTS}}
+                </button></td>
         </ng-container>
         <ng-container matColumnDef="child">
             <th mat-header-cell *matHeaderCellDef> ילדים </th>
-            <td mat-cell *matCellDef="let element"> {{element}} </td>
+            <td mat-cell *matCellDef="let element"><button type="button" id="details-btn"
+                    (click)="getOtherDepartmentPatients('CHILDREN')" mat-raised-button color="primary">
+                    {{element.CHILDREN}}
+                </button> </td>
         </ng-container>
         <ng-container matColumnDef="women">
             <th mat-header-cell *matHeaderCellDef> נשים </th>
-            <td mat-cell *matCellDef="let element"> {{element}} </td>
+            <td mat-cell *matCellDef="let element"><button type="button" id="details-btn"
+                    (click)="getOtherDepartmentPatients('WOMEN')" mat-raised-button color="primary">
+                    {{element.WOMEN}}
+                </button> </td>
         </ng-container>
         <ng-container matColumnDef="lyingdown">
             <th mat-header-cell *matHeaderCellDef> שוכבים </th>
-            <td mat-cell *matCellDef="let element"> {{element}} </td>
+            <td mat-cell *matCellDef="let element"><button type="button" id="details-btn"
+                    (click)="getOtherDepartmentPatients('SHOKHVVEM')" mat-raised-button color="primary">
+                    {{element.SHOKHVVEM}}
+                </button> </td>
         </ng-container>
         <ng-container matColumnDef="standing">
             <th mat-header-cell *matHeaderCellDef> מהלכים </th>
-            <td mat-cell *matCellDef="let element"> {{element}} </td>
+            <td mat-cell *matCellDef="let element"><button type="button" id="details-btn"
+                    (click)="getOtherDepartmentPatients('MEHALKHEM')" mat-raised-button color="primary">
+                    {{element.MEHALKHEM}}
+                </button> </td>
         </ng-container>
         <ng-container matColumnDef="shockroom">
             <th mat-header-cell *matHeaderCellDef> חדר הלם </th>
-            <td mat-cell *matCellDef="let element"> {{element}} </td>
+            <td mat-cell *matCellDef="let element"><button type="button" id="details-btn"
+                    (click)="getOtherDepartmentPatients('HELEM')" mat-raised-button color="primary">
+                    {{element.HELEM}}
+                </button> </td>
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay3"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay3;"></tr>
+    </table>
+    
+    <hr>
+    <h4 *ngIf="ICUDetails">רשימת מטופלים<b>
+        </b></h4>
+    <mat-form-field *ngIf="ICUDetails" class="float-right text-right" appearance="standard">
+        <mat-label>מסנן</mat-label>
+        <input matInput (keyup)="applyFilter3($event)" #input>
+    </mat-form-field>
+    <table dir="rtl" *ngIf="ICUDetails" mat-table [dataSource]="dataSource5_2" class="mat-elevation-z8"
+        style="width: 100%;">
+
+        <ng-container matColumnDef="casenumber">
+            <th mat-header-cell *matHeaderCellDef> מספר מקרה </th>
+            <td mat-cell *matCellDef="let element"> {{element.CaseNumber}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="patientfirstname">
+            <th mat-header-cell *matHeaderCellDef> שם פרטי </th>
+            <td mat-cell *matCellDef="let element"> {{element.PatientFirstName}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="patientlastname">
+            <th mat-header-cell *matHeaderCellDef> שם משפחה </th>
+            <td mat-cell *matCellDef="let element"> {{element.PatientLastName}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="departnur">
+            <th mat-header-cell *matHeaderCellDef> מחלקה סיעודית</th>
+            <td mat-cell *matCellDef="let element"> {{element.departNur}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="departmed">
+            <th mat-header-cell *matHeaderCellDef> מחלקה רפואית </th>
+            <td mat-cell *matCellDef="let element"> {{element.departMed}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="patientid">
+            <th mat-header-cell *matHeaderCellDef> תעודת זהות </th>
+            <td mat-cell *matCellDef="let element"> {{element.PatientId}} </td>
+        </ng-container>
+
+        <!-- <ng-container matColumnDef="datein">
+            <th mat-header-cell *matHeaderCellDef> תאריך הגעה </th>
+            <td mat-cell *matCellDef="let element"> {{element.DateIn}} </td>
+        </ng-container>
+
+        <ng-container matColumnDef="timein">
+            <th mat-header-cell *matHeaderCellDef> זמן הגעה </th>
+            <td mat-cell *matCellDef="let element"> {{element.TimeIn}} </td>
+        </ng-container> -->
+
+        <ng-container matColumnDef="active">
+            <th mat-header-cell *matHeaderCellDef> סטטוס </th>
+            <td mat-cell *matCellDef="let element"> {{element.Active}} </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay3_2"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay3_2;" [style.background]="row.Active == '1' ? 'aquamarine': 'darkgray'"></tr>
+
     </table>
 </form>
