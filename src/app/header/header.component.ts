@@ -136,6 +136,8 @@ export class HeaderComponent implements OnInit {
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase()  == "lfisher" ||
+            this.loginUserName.toLowerCase()  == "malkobi" ||
             this.loginUserName.toLowerCase() == "owertheim" 
         ) {
             this._shoScanners = true;

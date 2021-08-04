@@ -118,6 +118,8 @@ export class ScannersComponent implements OnInit {
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "jmassalha" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "lfisher" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "malkobi" ||
             localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
         ) {
         } else {
@@ -208,7 +210,20 @@ export class ScannersComponent implements OnInit {
         localStorage.setItem("CartoonID", _element.RowID);
         localStorage.setItem("CartoonUNID", _element.BoxID);
         localStorage.setItem("TotalCases", _element.TotalCases);
-        this.modalService.open(content, this.modalOptions);
+        this.modalService.open(content, this.modalOptions).result.then(
+            (result) => {
+                this.closeResult = `Closed with: ${result}`;
+               // debugger
+                if ("Save" == result) {
+                    // //////debugger;
+                    //this.saveChad(_element.ROW_ID);
+                }
+            },
+            (reason) => {
+                this.getReport(this);
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            }
+        );
     }
 
     printcasenumbers(content, _type, _element) {
@@ -218,6 +233,7 @@ export class ScannersComponent implements OnInit {
         localStorage.setItem("CartoonUNID", _element.BoxID);
         localStorage.setItem("TotalCases", _element.TotalCases);
         this.activeModal = this.modalService.open(content, this.modalOptionsPrint);
+        
     }
 
     CloseModalSendSms() {
