@@ -43,13 +43,16 @@ export interface CaseNumbers {
     PatientID: string;
     FirstName: string;
     LastName: string;
+    DOB: string;
+    HospitalDate: string;
+    PatientNumber: string;
 }
 @Component({
     selector: "app-casenumbers",
     templateUrl: "./casenumbers.component.html",
     styleUrls: ["./casenumbers.component.css"],
 })
-export class CasenumbersComponent implements OnInit {
+export class CasenumbersComponent implements OnInit, AfterViewInit  {
     @ViewChild("scannerInput")
     Element;
     set scannerInput(element: ElementRef<HTMLInputElement>) {
@@ -60,16 +63,20 @@ export class CasenumbersComponent implements OnInit {
             }
         }, 100);
     }
+    @Input() activeModal: NgbActiveModal;;
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
     displayedColumns: string[] = [
+        "HospitalDate",
         "CaseNumber",
+        "PatientNumber",
         "PatientID",
         "FirstName",
         "LastName",
+        "DOB",
         "Click",
     ];
 
@@ -90,8 +97,10 @@ export class CasenumbersComponent implements OnInit {
     removeCaseForm: FormGroup;
 
     CartoonID = localStorage.getItem("CartoonID");
+    CartoonUNID = localStorage.getItem("CartoonUNID");
+    TotalCases = localStorage.getItem("TotalCases");
     submitted = false;
-    activeModal: NgbActiveModal;
+    
     constructor(
         private _snackBar: MatSnackBar,
         private router: Router,
@@ -102,6 +111,10 @@ export class CasenumbersComponent implements OnInit {
     ) {
         this.activeModal = activeModal;
     }
+    myModal;
+    ngAfterViewInit(): void {
+        this.myModal = this.activeModal;
+    }
     @Input()
     foo: string = "bar";
     startdateVal: string;
@@ -110,8 +123,15 @@ export class CasenumbersComponent implements OnInit {
     Edate: FormControl;
     fullnameVal: string;
     rowIdVal: string;
+    hide: boolean = true;
     ngOnInit(): void {
         //debugger
+        this.hide = true;
+        let that = this;
+        window.onafterprint = function(){
+            that.myModal.dismiss();
+            console.log("Printing completed...");
+         }
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -130,7 +150,25 @@ export class CasenumbersComponent implements OnInit {
             ///$("#chadTable").DataTable();
         }
         this.getTableFromServer("");
+        if(localStorage.getItem("Print") == "true"){
+            this.displayedColumns = [
+                "HospitalDate",
+                "CaseNumber",
+                "PatientNumber",
+                "PatientID",
+                "FirstName",
+                "LastName",
+                "DOB",
+            ];
+            this.hide = true;
+            this.myModal = this.activeModal;
+            setTimeout(function(){
+                window.print();
+            }, 500)
+            
+        }
     }
+    
     editRow(content, _type, _element) {
         // debugger
         this.removeCaseForm = this.formBuilder.group({

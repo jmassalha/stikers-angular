@@ -130,6 +130,58 @@
                                     </div>
                                 </td>
                             </ng-container>
+
+                            <ng-container matColumnDef="CLICK_print">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                   הדפסה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                printcasenumbers(
+                                                    casenumbersModal,
+                                                    'casenumbersDetails',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>print</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CLICK_sendtosafe">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    שליחה לכספת
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                sendcasenumberstosafe(element)
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>exit_to_app</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
                             <tr
                                 mat-header-row
                                 *matHeaderRowDef="displayedColumns"
@@ -207,7 +259,6 @@
         </div>
     </form>
 </ng-template>
-
 <ng-template #casenumbersModal let-modal>
     <app-casenumbers></app-casenumbers>
 </ng-template>
