@@ -4,6 +4,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FillReportComponent } from '../fill-report/fill-report.component';
+import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
 import { Router } from '@angular/router';
 import {
   MatSnackBar,
@@ -23,10 +24,10 @@ export class NursesDepartmentManageComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  displayedColumns: string[] = ['nursing', 'medical', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
+  displayedColumns: string[] = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns2: string[] = ['tablenum', 'casenumber', 'departmentnursing', 'departmentmedical', 'passportid', 'firstname', 'lastname', 'dob', 'gender', 'city', 'enterdate', 'entertime','reportpatint'];
+  displayedColumns2: string[] = ['casenumber', 'departmentnursing', 'departmentmedical', 'passportid', 'firstname', 'lastname', 'enterdate', 'entertime','reportpatint','displayreports'];
   dataSource2 = new MatTableDataSource<any>();
 
   applyFilter(event: Event) {
@@ -79,6 +80,10 @@ export class NursesDepartmentManageComponent implements OnInit {
     }
   }
 
+  closeModal() {
+    this.dialog.closeAll();
+  }
+
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
       duration: 5000,
@@ -87,12 +92,17 @@ export class NursesDepartmentManageComponent implements OnInit {
     });
   }
 
-  fillReportDialog(reportid, Dept_Name,firstName,lastName) {
+  fillReportDialog(reportid, Dept_Name,firstName,lastName,caseNumber) {
     let dialogRef = this.dialog.open(FillReportComponent);
     dialogRef.componentInstance.reportID = reportid;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
     dialogRef.componentInstance.firstName = firstName;
     dialogRef.componentInstance.lastName = lastName;
+    dialogRef.componentInstance.caseNumber = caseNumber;
+  }
+  displayReports(caseNumber) {
+    let dialogRef = this.dialog.open(NursesDashboardComponent);
+    dialogRef.componentInstance.caseNumber = caseNumber;
   }
 
   getDepartDetails() {

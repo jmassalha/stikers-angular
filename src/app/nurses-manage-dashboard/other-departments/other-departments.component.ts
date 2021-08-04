@@ -14,14 +14,16 @@ export class OtherDepartmentsComponent implements OnInit {
 
   columnsToDisplay1: string[] = ['regular', 'imperial', 'other', 'beforebirth', 'beforesurgery'];
   columnsToDisplay1_2: string[] = ['casenumber', 'firstname', 'lastname', 'birthtype', 'date', 'time', 'birthweek'];
-  columnsToDisplay2: string[] = ['inprogress', 'waiting','completed','canceled'];
-  columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'date', 'room','surgeryname', 'status'];
+  columnsToDisplay2: string[] = ['inprogress', 'waiting', 'completed', 'canceled'];
+  columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'date', 'room', 'surgeryname', 'status'];
   columnsToDisplay3: string[] = ['adult', 'child', 'women', 'lyingdown', 'standing', 'shockroom'];
+  columnsToDisplay3_2: string[] = ['casenumber', 'patientfirstname', 'patientlastname', 'departmed', 'patientid', 'active'];
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
   dataSource5 = new MatTableDataSource<any>();
   dataSource3_2 = new MatTableDataSource<any>();
   dataSource4_2 = new MatTableDataSource<any>();
+  dataSource5_2 = new MatTableDataSource<any>();
 
   applyFilter(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;
@@ -31,15 +33,21 @@ export class OtherDepartmentsComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource4_2.filter = filterValue;
   }
+  applyFilter3(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource5_2.filter = filterValue;
+  }
 
   constructor(public dialog: MatDialog,
     private http: HttpClient,
     private datePipe: DatePipe) { }
 
   otherDepartName: string;
+  progressBarNumbers: boolean;
   delivery: boolean;
   surgery: boolean;
   ICU: boolean;
+  ICUDetails: boolean;
   deliveryRoomForm: FormGroup;
   date = new Date();
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
@@ -48,6 +56,8 @@ export class OtherDepartmentsComponent implements OnInit {
     this.delivery = false;
     this.surgery = false;
     this.ICU = false;
+    this.ICUDetails = false;
+    this.progressBarNumbers = false;
     this.getOtherDepartmentsDetails();
 
     this.deliveryRoomForm = new FormGroup({
@@ -55,6 +65,10 @@ export class OtherDepartmentsComponent implements OnInit {
       beforeSurgery: new FormControl('', null)
     });
     this.getSubmitChanges('0');
+  }
+
+  closeModal() {
+    this.dialog.closeAll();
   }
 
   getSubmitChanges(ifsaved) {
@@ -74,6 +88,7 @@ export class OtherDepartmentsComponent implements OnInit {
   }
 
   getOtherDepartmentsDetails() {
+    this.progressBarNumbers = false;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentDetails", {
         _otherDepartName: this.otherDepartName
@@ -102,11 +117,20 @@ export class OtherDepartmentsComponent implements OnInit {
           this.surgery = false;
           this.dataSource5 = new MatTableDataSource<any>(Response["d"]);
         }
+        this.progressBarNumbers = true;
       });
   }
 
-  getOtherDepartmentPatients() {
-
+  getOtherDepartmentPatients(ICUType) {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentPatients", {
+        _otherDepartName: ICUType
+      })
+      .subscribe((Response) => {
+        // this.dataSource5_2 = new MatTableDataSource<any>();
+        this.ICUDetails = true;
+        this.dataSource5_2 = new MatTableDataSource<any>(Response["d"]);
+      });
   }
 
 }

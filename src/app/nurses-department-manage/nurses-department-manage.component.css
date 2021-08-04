@@ -19,3 +19,18 @@ table {
     text-align: center;
     padding: 10px 5px 10px 30px;
 }
+
+.close {
+  float: right;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+  padding-left: 15px;
+}
+
+/* #table-overflow{
+  overflow: auto;
+} */

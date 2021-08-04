@@ -18,6 +18,21 @@ h4{
     float: right;
   }
 
+#details-btn{
+    font-size: 25px;
+}
+
+.close {
+    float: right;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+    padding-left: 15px;
+  }
+
   /* th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     padding: 0;
     border-bottom-width: 1px;

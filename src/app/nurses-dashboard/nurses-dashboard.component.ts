@@ -138,7 +138,7 @@ export class NursesDashboardComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  columnsToDisplay = ['date', 'title', 'status', 'edit', 'reply'];
+  columnsToDisplay = ['date', 'status', 'edit', 'reply'];
   expandedElement: PeriodicElement | null;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   ELEMENT_DATA = [];
@@ -163,13 +163,14 @@ export class NursesDashboardComponent implements OnInit {
   department = [];
   all_departs_filter = [];
   permission: boolean = false;
+  caseNumber: string;
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
       'ReportShift': new FormControl('', null),
       'ReportStatus': new FormControl('', null),
       'ReportDepartment': new FormControl('', null),
-      'OpenText': new FormControl('', null),
+      'CaseNumber': new FormControl('', null),
       'ReportStartDate': new FormControl('', null),
       'ReportEndDate': new FormControl('', null),
       'ReportCategory': new FormControl('', null),
@@ -250,7 +251,12 @@ export class NursesDashboardComponent implements OnInit {
     let _reportShift = this.searchReportsGroup.controls['ReportShift'].value;
     let _reportDepartment = this.departmentfilter.value;
     let _reportStatus = this.searchReportsGroup.controls['ReportStatus'].value;
-    let _openText = this.searchReportsGroup.controls['OpenText'].value;
+    let _caseNumber;
+    if(this.caseNumber != undefined){
+      _caseNumber = this.caseNumber;
+    }else{
+      _caseNumber = this.searchReportsGroup.controls['CaseNumber'].value;
+    }    
     let _reportStartDate = this.searchReportsGroup.controls['ReportStartDate'].value;
     let _reportEndDate = this.searchReportsGroup.controls['ReportEndDate'].value;
     let _reportCategory = this.searchReportsGroup.controls['ReportCategory'].value;
@@ -270,7 +276,7 @@ export class NursesDashboardComponent implements OnInit {
         _reportShift: _reportShift,
         _reportDepartment: _reportDepartment,
         _reportStatus: _reportStatus,
-        _openText: _openText,
+        _caseNumber: _caseNumber,
         _reportStartDate: _reportStartDate,
         _reportEndDate: _reportEndDate,
         _reportCategory: _reportCategory,
@@ -284,7 +290,6 @@ export class NursesDashboardComponent implements OnInit {
             this.ELEMENT_DATA.push({
               reportID: this.reportsArr[i].Row_ID,
               date: this.reportsArr[i].ReportDate,
-              title: this.reportsArr[i].ReportTitle,
               status: this.reportsArr[i].ReportStatus,
               description: this.reportsArr[i].ReportText,
               userFullName: this.reportsArr[i].UsersReportsList[0].UsersList[0].FirstName + " " + this.reportsArr[i].UsersReportsList[0].UsersList[0].LastName,

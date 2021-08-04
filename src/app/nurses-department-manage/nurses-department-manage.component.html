@@ -1,16 +1,21 @@
+<button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+  <span aria-hidden="true">&times;</span>
+</button>
 <form class="form" [formGroup]="departmentRelease">
-  <div class="card text-center">
-    <h4>כמות מטופלים לכל קטגוריה במחלקת: <b>{{Dept_Name}}</b> נכון לתאריך {{myDate}}</h4>
+ 
+  <div class="card text-center" id="table-overflow">
+    <h4><b>{{Dept_Name}}</b> נכון לתאריך {{myDate | date: "dd.MM.yyyy"}}</h4>
+    
     <table dir="rtl" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <ng-container matColumnDef="nursing">
         <th mat-header-cell *matHeaderCellDef> תפוסה סיעודית </th>
         <td mat-cell *matCellDef="let element"> {{element.NursingCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="medical">
+      <!-- <ng-container matColumnDef="medical">
         <th mat-header-cell *matHeaderCellDef> תפוסה רפואית </th>
         <td mat-cell *matCellDef="let element"> {{element.MedicCount}} </td>
-      </ng-container>
+      </ng-container> -->
       <ng-container matColumnDef="receipts">
         <th mat-header-cell *matHeaderCellDef> קבלות </th>
         <td mat-cell *matCellDef="let element"> {{element.RecieptCount}} </td>
@@ -30,7 +35,7 @@
               </mat-form-field>
             </div>
             <div class="col-3">
-              <button type="button" class="mt-2" mat-mini-fab color="primary" (click)="getSubmitPlannedToRealse('1')">
+              <button type="button" class="mt-2" mat-mini-fab color="primary" matTooltip="שמירה" (click)="getSubmitPlannedToRealse('1')">
                 <i class="material-icons">save</i>
               </button>
             </div>
@@ -81,7 +86,7 @@
     <div class="row p-3">
       <div class="col">
         <button matTooltip="דווח עבור מחלקת {{Dept_Name}}" type="button" id="EventBtn" mat-fab color="primary"
-          (click)="fillReportDialog(0,Dept_Name,'','')">
+          (click)="fillReportDialog(0,Dept_Name,'','','')">
           <i class="material-icons">assignment</i>
         </button>
       </div>
@@ -96,17 +101,14 @@
     </div>
 
     <h4 *ngIf="patientsTable">רשימת מטופלים במחלקת: <b>{{Dept_Name}}</b></h4>
-    <mat-form-field appearance="standard" *ngIf="patientsTable">
-      <mat-label>Filter</mat-label>
-      <input matInput (keyup)="applyFilter($event)" placeholder="Ex. ium" #input>
-    </mat-form-field>
+    <div dir="rtl">
+      <mat-form-field appearance="standard" *ngIf="patientsTable">
+        <mat-label>סינון</mat-label>
+        <input matInput (keyup)="applyFilter($event)" placeholder="הקלד..." #input>
+      </mat-form-field>
+    </div>
     <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" *ngIf="patientsTable">
-
-      <ng-container matColumnDef="tablenum">
-        <th mat-header-cell *matHeaderCellDef> מס' שורה </th>
-        <td mat-cell *matCellDef="let element"> {{element.TABLE_NUM}} </td>
-      </ng-container>
-
+      
       <ng-container matColumnDef="casenumber">
         <th mat-header-cell *matHeaderCellDef> מספר מקרה </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_CASE_NUMBER}} </td>
@@ -137,20 +139,20 @@
         <td mat-cell *matCellDef="let element"> {{element.PM_LAST_NAME}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="dob">
+      <!-- <ng-container matColumnDef="dob">
         <th mat-header-cell *matHeaderCellDef> תאריך לידה </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_DOB}} </td>
-      </ng-container>
+      </ng-container> -->
 
-      <ng-container matColumnDef="gender">
+      <!-- <ng-container matColumnDef="gender">
         <th mat-header-cell *matHeaderCellDef> מין </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_GENDER}} </td>
-      </ng-container>
+      </ng-container> -->
 
-      <ng-container matColumnDef="city">
+      <!-- <ng-container matColumnDef="city">
         <th mat-header-cell *matHeaderCellDef> כתובת מגורים </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_CITY}} </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="enterdate">
         <th mat-header-cell *matHeaderCellDef> תאריך כניסה </th>
@@ -165,9 +167,23 @@
       <ng-container matColumnDef="reportpatint">
         <th mat-header-cell *matHeaderCellDef> דיווח</th>
         <td mat-cell *matCellDef="let element"> <button matTooltip="דווח עבוד מטופל" type="button" id="EventBtn2"
-            mat-mini-fab color="primary" (click)="fillReportDialog(0,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME)">
+            mat-mini-fab color="primary"
+            (click)="fillReportDialog(0,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_CASE_NUMBER)">
             <span class="material-icons">
               assignment
+            </span>
+          </button> </td>
+      </ng-container>
+      
+      <ng-container matColumnDef="displayreports">
+        <th mat-header-cell *matHeaderCellDef> הצג דוחות</th>
+        <td mat-cell *matCellDef="let element"> <button matTooltip="הצג את הדווחים" type="button" id="EventBtn2"
+            mat-mini-fab color="primary"
+            (click)="displayReports(element.PM_CASE_NUMBER)">
+            <span class="material-icons">
+              <span class="material-icons">
+                menu_open
+                </span>
             </span>
           </button> </td>
       </ng-container>
