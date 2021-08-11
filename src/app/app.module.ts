@@ -63,7 +63,6 @@ import { ColonoscopyComponent } from './colonoscopy/colonoscopy.component';
 import {  NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
 import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
 import { MatMomentDateModule} from "@angular/material-moment-adapter";
-import { GoogleChartsModule } from 'angular-google-charts';
 import { SendsmsadminComponent } from './sendsmsadmin/sendsmsadmin.component';
 import { CoronavaccineComponent } from './coronavaccine/coronavaccine.component';
 import { Covid19reportComponent } from './covid19report/covid19report.component';
@@ -108,6 +107,8 @@ import { ClinicsDashboardComponent } from './clinics-dashboard/clinics-dashboard
 import { CheckpatientinsmartclosetComponent } from './checkpatientinsmartcloset/checkpatientinsmartcloset.component';
 import { DrugsnicComponent } from './drugsnic/drugsnic.component';
 import { NgxBarCodePutModule } from 'ngx-barcodeput';
+import { GoogleChartsModule } from 'angular-google-charts';
+import { PublicInquiriesChartsComponent } from './emailsdashboard/public-inquiries-charts/public-inquiries-charts.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -183,7 +184,8 @@ const maskConfig: Partial<IConfig> = {
     ManageClinicPriceComponent,
     NursesManageDashboardComponent,
     NursesDepartmentManageComponent,
-    OtherDepartmentsComponent
+    OtherDepartmentsComponent,
+    PublicInquiriesChartsComponent
   ],
   imports: [
     NgxBarCodePutModule,
@@ -233,7 +235,8 @@ const maskConfig: Partial<IConfig> = {
     MatSortModule,
     MatTableModule,
     CustomMaterialModule,
-    MatButtonModule,     
+    MatButtonModule,
+    GoogleChartsModule,     
     MatDatepickerModule,
     MatProgressBarModule,
     MatAutocompleteModule,

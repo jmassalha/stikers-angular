@@ -164,6 +164,10 @@ export class NursesDashboardComponent implements OnInit {
   all_departs_filter = [];
   permission: boolean = false;
   caseNumber: string;
+  asDialog: boolean;
+  Dept_Name: string;
+  firstname: string;
+  lastname: string;
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
@@ -192,6 +196,10 @@ export class NursesDashboardComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  closeModal() {
+    this.dialog.closeAll();
   }
 
   getCategories() {

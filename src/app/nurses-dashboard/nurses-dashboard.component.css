@@ -20,6 +20,10 @@ table {
     height: 0;
   }
   
+.reportHeader{
+  justify-content: center;
+}
+
   tr.example-element-row:not(.example-expanded-row):hover {
     background: whitesmoke;
   }
@@ -109,4 +113,15 @@ table {
 
 #page-toshow{
   font-size: x-large;
+}
+
+.close {
+  float: right;
+  font-size: 3.5rem;
+  font-weight: 700;
+  line-height: 1;
+  color: #000;
+  text-shadow: 0 1px 0 #fff;
+  opacity: .5;
+  padding-left: 15px;
 }

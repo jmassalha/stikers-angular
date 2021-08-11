@@ -2,10 +2,10 @@
   <span aria-hidden="true">&times;</span>
 </button>
 <form class="form" [formGroup]="departmentRelease">
- 
+
   <div class="card text-center" id="table-overflow">
-    <h4><b>{{Dept_Name}}</b> נכון לתאריך {{myDate | date: "dd.MM.yyyy"}}</h4>
-    
+    <h4><b>{{Dept_Name}}</b> {{myDate | date: "dd.MM.yyyy"}}</h4>
+
     <table dir="rtl" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
       <ng-container matColumnDef="nursing">
@@ -35,7 +35,8 @@
               </mat-form-field>
             </div>
             <div class="col-3">
-              <button type="button" class="mt-2" mat-mini-fab color="primary" matTooltip="שמירה" (click)="getSubmitPlannedToRealse('1')">
+              <button type="button" class="mt-2" mat-mini-fab color="primary" matTooltip="שמירה"
+                (click)="getSubmitPlannedToRealse('1')">
                 <i class="material-icons">save</i>
               </button>
             </div>
@@ -72,7 +73,7 @@
         <td mat-cell *matCellDef="let element"> {{element.DeathCount}} </td>
       </ng-container>
       <ng-container matColumnDef="kpc">
-        <th mat-header-cell *matHeaderCellDef> KPC </th>
+        <th mat-header-cell *matHeaderCellDef> CPE </th>
         <td mat-cell *matCellDef="let element"> {{element.KpcCount}} </td>
       </ng-container>
       <ng-container matColumnDef="complex">
@@ -90,43 +91,82 @@
           <i class="material-icons">assignment</i>
         </button>
       </div>
-
+      <div class="col">
+        <button type="button" id="details-btn" *ngIf="Dept_Name == 'פנימית א'"
+          (click)="getPatientsPerDepart($event,'רנורול')" mat-raised-button color="primary">
+          נוירולוגיה
+      </button>
+      </div>
+      <div class="col">
+        <button type="button" id="details-btn" *ngIf="Dept_Name == 'פנימית א'"
+          (click)="getPatientsPerDepart($event,'רשבצ-מ')" mat-raised-button color="primary">
+          שבץ מוחי
+      </button>
+      </div>
       <div class="col">
         <button matTooltip="מטופלים במחלקת {{Dept_Name}}" type="button" id="EventBtn2" mat-fab color="primary"
-          (click)="getPatientsPerDepart()">
+          (click)="getPatientsPerDepart($event,'')">
           <i class="material-icons">arrow_circle_down</i>
         </button>
       </div>
 
     </div>
-
+    <mat-progress-bar mode="buffer" *ngIf="Patientsloading"></mat-progress-bar>
     <h4 *ngIf="patientsTable">רשימת מטופלים במחלקת: <b>{{Dept_Name}}</b></h4>
     <div dir="rtl">
       <mat-form-field appearance="standard" *ngIf="patientsTable">
         <mat-label>סינון</mat-label>
-        <input matInput (keyup)="applyFilter($event)" placeholder="הקלד..." #input>
+        <input matInput (keyup)="applyFilter($event,'')" placeholder="הקלד..." #input>
       </mat-form-field>
     </div>
+    <div dir="rtl" class="mb-3" *ngIf="patientsTable">
+      <mat-list  role="list" id="list_of_types">
+        <mat-list-item role="listitem"><button type="button" id="details-btn"
+          (click)="applyFilter($event,'')" mat-raised-button color="primary">
+          הכל
+      </button></mat-list-item>
+        <mat-list-item role="listitem"><button type="button" id="details-btn"
+          (click)="applyFilter($event,'מונשם')" mat-raised-button color="primary">
+          מונשמים
+      </button></mat-list-item>
+        <mat-list-item role="listitem"><button type="button" id="details-btn"
+          (click)="applyFilter($event,'צנתר שתן')" mat-raised-button color="primary">
+          צנתר שתן
+      </button></mat-list-item>
+        <mat-list-item role="listitem"><button type="button" id="details-btn"
+          (click)="applyFilter($event,'צנתר מרכזי')" mat-raised-button color="primary">
+          צנתר מרכזי
+      </button></mat-list-item>
+        <mat-list-item role="listitem"><button type="button" id="details-btn"
+          (click)="applyFilter($event,'בידוד')" mat-raised-button color="primary">
+          בידוד
+      </button></mat-list-item>
+        <mat-list-item role="listitem"><button type="button" id="details-btn"
+          (click)="applyFilter($event,'הגבלה פיזית')" mat-raised-button color="primary">
+          הגבלה פיזית
+      </button></mat-list-item>
+        <mat-list-item role="listitem"><button type="button" id="details-btn"
+          (click)="applyFilter($event,'קורונה')" mat-raised-button color="primary">
+          סטטוס קורונה
+      </button></mat-list-item>
+      </mat-list>
+    </div>
+
     <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" *ngIf="patientsTable">
-      
+
       <ng-container matColumnDef="casenumber">
         <th mat-header-cell *matHeaderCellDef> מספר מקרה </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_CASE_NUMBER}} </td>
       </ng-container>
 
-      <ng-container matColumnDef="departmentnursing">
+      <!-- <ng-container matColumnDef="departmentnursing">
         <th mat-header-cell *matHeaderCellDef> מחלקה סיעודית </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART_SEODE}} </td>
-      </ng-container>
+      </ng-container> -->
 
       <ng-container matColumnDef="departmentmedical">
         <th mat-header-cell *matHeaderCellDef> מחלקה רפואית </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART}} </td>
-      </ng-container>
-
-      <ng-container matColumnDef="passportid">
-        <th mat-header-cell *matHeaderCellDef> תעודת זהות </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_ID}} </td>
       </ng-container>
 
       <ng-container matColumnDef="firstname">
@@ -134,20 +174,25 @@
         <td mat-cell *matCellDef="let element"> {{element.PM_FIRST_NAME}} </td>
       </ng-container>
 
+      <ng-container matColumnDef="dadname">
+        <th mat-header-cell *matHeaderCellDef> שם אבא </th>
+        <td mat-cell *matCellDef="let element"> {{element.PM_FATHER_NAME}} </td>
+      </ng-container>
+
       <ng-container matColumnDef="lastname">
         <th mat-header-cell *matHeaderCellDef> שם משפחה </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_LAST_NAME}} </td>
       </ng-container>
 
-      <!-- <ng-container matColumnDef="dob">
-        <th mat-header-cell *matHeaderCellDef> תאריך לידה </th>
+      <ng-container matColumnDef="age">
+        <th mat-header-cell *matHeaderCellDef> גיל </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_DOB}} </td>
-      </ng-container> -->
+      </ng-container>
 
-      <!-- <ng-container matColumnDef="gender">
+      <ng-container matColumnDef="gender">
         <th mat-header-cell *matHeaderCellDef> מין </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_GENDER}} </td>
-      </ng-container> -->
+      </ng-container>
 
       <!-- <ng-container matColumnDef="city">
         <th mat-header-cell *matHeaderCellDef> כתובת מגורים </th>
@@ -155,13 +200,13 @@
       </ng-container> -->
 
       <ng-container matColumnDef="enterdate">
-        <th mat-header-cell *matHeaderCellDef> תאריך כניסה </th>
+        <th mat-header-cell *matHeaderCellDef> תאריך קבלה </th>
         <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DATE}} </td>
       </ng-container>
 
       <ng-container matColumnDef="entertime">
-        <th mat-header-cell *matHeaderCellDef> שעת כניסה </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_TIME}} </td>
+        <th mat-header-cell *matHeaderCellDef> שעת קבלה </th>
+        <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_TIME }} </td>
       </ng-container>
 
       <ng-container matColumnDef="reportpatint">
@@ -174,22 +219,22 @@
             </span>
           </button> </td>
       </ng-container>
-      
+
       <ng-container matColumnDef="displayreports">
         <th mat-header-cell *matHeaderCellDef> הצג דוחות</th>
         <td mat-cell *matCellDef="let element"> <button matTooltip="הצג את הדווחים" type="button" id="EventBtn2"
             mat-mini-fab color="primary"
-            (click)="displayReports(element.PM_CASE_NUMBER)">
+            (click)="displayReports(element.PM_CASE_NUMBER,true,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME)">
             <span class="material-icons">
               <span class="material-icons">
                 menu_open
-                </span>
+              </span>
             </span>
           </button> </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns2;"></tr>
+      <tr mat-row *matRowDef="let row; columns: displayedColumns2;" matTooltip="{{row.SSP_DESCRIPTION}}"></tr>
 
     </table>
 
