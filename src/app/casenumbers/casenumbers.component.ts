@@ -265,7 +265,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
                     );
                     this.resultsLength = this.TABLE_DATA.length;
                 }
-
+                this.TotalCases  = this.resultsLength.toString();
                 setTimeout(function () {
                     //////debugger
                     if (tableLoader) {
