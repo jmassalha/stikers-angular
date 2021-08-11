@@ -1106,7 +1106,10 @@ export class MershamComponent implements OnInit {
         }
         var ParentFrom = copyParent;
         var tableFrom = copyrows;
-        ////debugger
+        if(this.ID == ""){
+            this.ID = this.ID_In;
+        }
+        debugger
         //return
         //debugger
         this.http
@@ -1284,7 +1287,9 @@ export class MershamComponent implements OnInit {
                 this.rows.value[i]["Days_ProtocolVal"].join(",");
         }
         var tableFrom = this.rows.value;
-        ////debugger
+        if(this.ID == ""){
+            this.ID = this.ID_In;
+        }
         //return
         // //////////debugger
         this.http
