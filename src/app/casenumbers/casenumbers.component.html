@@ -54,6 +54,14 @@
                             [dataSource]="dataSource"
                             id="formTable1"
                         >
+                            <ng-container matColumnDef="Dose">
+                                <th mat-header-cell *matHeaderCellDef>
+                                מנה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.Dose }}
+                                </td>
+                            </ng-container>
                             <ng-container matColumnDef="HospitalDate">
                                 <th mat-header-cell *matHeaderCellDef>
                                    תאריך מקרה
