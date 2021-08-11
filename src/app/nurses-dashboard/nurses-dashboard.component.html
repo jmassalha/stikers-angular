@@ -1,3 +1,10 @@
+<button type="button" class="close" matTooltip="סגירה" *ngIf="asDialog" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+</button>
+<div dir="rtl" class="row reportHeader" *ngIf="asDialog">
+    <h2>{{Dept_Name}}</h2> &nbsp;&nbsp;&nbsp;&nbsp;<h2><b>{{firstname}} {{lastname}}</b></h2>
+</div>
+
 <div id="page-toshow" class="padding-top-0">
     <h1 class="page-title text-center">מערכת דיווח אחיות</h1>
     <div class="container-fluid trans-80">
@@ -162,7 +169,8 @@
                         </span></button>
                     <button matTooltip="טופל"
                         style="background: darkseagreen;margin-right: 5px;border-radius: 0px 18px 0px 18px;"
-                        mat-raised-button color="primary" [disabled]="element.status == 'טופל'" *ngIf="element.UserName == UserName" (click)="changeReportToHandled(element.reportID)">
+                        mat-raised-button color="primary" [disabled]="element.status == 'טופל'"
+                        (click)="changeReportToHandled(element.reportID)">
                         <span class="material-icons" *ngIf="element.status == 'לטיפול'">
                             done
                         </span></button>

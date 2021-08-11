@@ -113,7 +113,7 @@ export class FillReportComponent implements OnInit {
       this.ReportGroup.controls['ReportText'].setValue("דווח עבור מטופל ("+this.firstName+" "+this.lastName+"): ");
     }
 
-    this.date2 = this.datePipe.transform(this.now, 'yyyy-MM-dd');
+    this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
     if(this.now.getHours() >= 7 && this.now.getHours() < 15){
       this.automaticShift = 'בוקר';

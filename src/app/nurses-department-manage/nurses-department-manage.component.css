@@ -30,7 +30,9 @@ table {
   opacity: .5;
   padding-left: 15px;
 }
-
+#list_of_types{
+  display: inline-flex;
+}
 /* #table-overflow{
   overflow: auto;
 } */
