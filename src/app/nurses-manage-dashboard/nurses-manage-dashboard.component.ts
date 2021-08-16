@@ -7,6 +7,8 @@ import { NursesDepartmentManageComponent } from '../nurses-department-manage/nur
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
 import { DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
+import { interval, Subscription } from 'rxjs';
+import { int } from '@zxing/library/esm/customTypings';
 
 @Component({
   selector: 'app-nurses-manage-dashboard',
@@ -20,6 +22,7 @@ export class NursesManageDashboardComponent implements OnInit {
   searchWord: string;
   hospitalBedsInUse: string;
   resparotriesCount: string;
+  private updateSubscription: Subscription;
 
   constructor(
     public dialog: MatDialog,
@@ -36,6 +39,7 @@ export class NursesManageDashboardComponent implements OnInit {
   newDate: string;
   dateToDisplayString: string;
   loaded: boolean;
+  allErOccupancy: int
 
   ngOnInit(): void {
     this.loaded = false;
@@ -43,6 +47,9 @@ export class NursesManageDashboardComponent implements OnInit {
     this.getAllDeparts();
     this.getDataFormServer("");
     this.getEROccupancy('', '');
+    this.updateSubscription = interval(60000).subscribe(
+      (val) => { this.getAllDeparts(); this.getEROccupancy("", "er"); }
+    );
   }
 
   openDialogToFill(departCode, Dept_Name) {
@@ -50,6 +57,8 @@ export class NursesManageDashboardComponent implements OnInit {
     dialogRef.componentInstance.departCode = departCode;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
   }
+
+
 
   getAllDeparts() {
     this.loaded = false;
@@ -88,6 +97,7 @@ export class NursesManageDashboardComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.ER_Occupancy = Response["d"];
+        this.allErOccupancy = parseInt(this.ER_Occupancy[0])+parseInt(this.ER_Occupancy[1])+parseInt(this.ER_Occupancy[2]);
       });
   }
 

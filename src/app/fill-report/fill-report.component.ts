@@ -109,9 +109,9 @@ export class FillReportComponent implements OnInit {
     } else {
       // this.autoDate(false);
     }
-    if((this.firstName != "" || this.lastName != "")&&(this.firstName != undefined || this.lastName != undefined)){
-      this.ReportGroup.controls['ReportText'].setValue("דווח עבור מטופל ("+this.firstName+" "+this.lastName+"): ");
-    }
+    // if((this.firstName != "" || this.lastName != "")&&(this.firstName != undefined || this.lastName != undefined)){
+    //   this.ReportGroup.controls['ReportText'].setValue(this.firstName+" "+this.lastName);
+    // }
 
     this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');

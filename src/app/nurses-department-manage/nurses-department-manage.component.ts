@@ -27,7 +27,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   displayedColumns: string[] = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'firstname', 'dadname', 'lastname', 'age', 'gender', 'enterdate', 'entertime', 'reportpatint', 'displayreports'];
+  displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'lastname','firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'reportpatint', 'displayreports'];
   dataSource2 = new MatTableDataSource<any>();
 
   applyFilter(event: Event, filval: string) {

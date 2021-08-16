@@ -20,7 +20,9 @@ footer {
 .m-5 {
     margin: 1rem 0;
 }
+
 .mat-tooltip{
+    white-space: pre;
     text-align: right;
     font-size: larger !important;
 }

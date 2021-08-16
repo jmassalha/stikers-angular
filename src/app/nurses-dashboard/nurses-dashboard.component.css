@@ -24,6 +24,13 @@ table {
   justify-content: center;
 }
 
+/* .search-cont{
+  height: 317px;
+} */
+
+h2{
+  text-align: center;
+}
   tr.example-element-row:not(.example-expanded-row):hover {
     background: whitesmoke;
   }
@@ -43,7 +50,7 @@ table {
   }
   
   .example-element-diagram {
-    min-width: 80px;
+    min-width: 130px;
     border: 2px solid black;
     padding: 8px;
     font-weight: lighter;
@@ -53,14 +60,13 @@ table {
   
   .example-element-symbol {
     font-weight: bold;
-    font-size: 25px;
+    font-size: 16px;
     line-height: normal;
   }
   
   .example-element-description {
     padding: 16px;
     font-size: large;
-    color: brown;
   }
   
   .example-element-description-attribution {
@@ -101,12 +107,11 @@ table {
 }
 
 .example-element-diagram {
-  min-width: 80px;
+  min-width: 130px;
   border-radius: 30px;
   border: 1px solid black;
-  color: royalblue;
   padding: 8px;
-  font-weight: bolder;
+  font-size: 13px;
   margin: 8px 0;
   height: 90%;
 }
@@ -124,4 +129,17 @@ table {
   text-shadow: 0 1px 0 #fff;
   opacity: .5;
   padding-left: 15px;
+}
+
+#administrativeBtn , #clinicalBtn{
+  height: 50px;
+  width: 120px;
+  margin-left: 20px;
+  font-size: xx-large;
+}
+
+.adminClinicBtns{
+  margin-top: 20px;
+  justify-content: center;
+  text-align-last: center;
 }

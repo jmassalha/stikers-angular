@@ -370,6 +370,21 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
+            <li class="nav-item" *ngIf="visitorsUserPermission">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> רישום מבקרים </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="visitorsmonitoring">דאשבורד מחלקות</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
             <li class="nav-item">
                 <button class="full-width clearCach" mat-raised-button (click)="logout($event)">
                     Logout
