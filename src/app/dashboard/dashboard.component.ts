@@ -79,11 +79,12 @@ export class DashboardComponent implements OnInit {
                     aobjTotal = JSON.parse(aobjTotal);
 //debugger
                     aaobj.forEach((element, index) => {
-                        ////debugger
+                        //debugger
                         if (element.BedsReal != "0") {
-                            //  //debugger
+                            //  //debuggr
+                            
                             for (var i = index + 1; i < aaobj.length; i++) {
-                                if (aaobj[i].BedsReal == "0") {
+                                if (aaobj[i].BedsReal == "0"  && aaobj[i].Name != 'ילוד בריא' ) {
                                     element.Used =
                                         parseInt(element.Used) +
                                         parseInt(aaobj[i].Used);

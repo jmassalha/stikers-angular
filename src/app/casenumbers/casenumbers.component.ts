@@ -46,6 +46,7 @@ export interface CaseNumbers {
     DOB: string;
     HospitalDate: string;
     PatientNumber: string;
+    Dose: string;
 }
 @Component({
     selector: "app-casenumbers",
@@ -70,6 +71,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
     displayedColumns: string[] = [
+        "Dose",
         "HospitalDate",
         "CaseNumber",
         "PatientNumber",
@@ -152,6 +154,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
         this.getTableFromServer("");
         if(localStorage.getItem("Print") == "true"){
             this.displayedColumns = [
+                "Dose",
                 "HospitalDate",
                 "CaseNumber",
                 "PatientNumber",
@@ -164,7 +167,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
             this.myModal = this.activeModal;
             setTimeout(function(){
                 window.print();
-            }, 500)
+            }, 2500)
             
         }
     }
@@ -187,6 +190,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
         //debugger
         this.http
             .post(
+                //"http://srv-apps/wsrfc/WebService.asmx/InsertCaseNumberToBox",
                 "http://srv-apps/wsrfc/WebService.asmx/InsertCaseNumberToBox",
                 {
                     CaseNumber: event.value,
@@ -194,8 +198,13 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
                 }
             )
             .subscribe((Response) => {
-                this.getTableFromServer("");
-                this.openSnackBar("נשמר בהצלחה", "success");
+                if(!Response["d"]){
+                    this.getTableFromServer("");
+                    this.openSnackBar("נשמר בהצלחה", "success");
+                }else{
+                    this.openSnackBar("מס' מקרה נמצא בקרטון", "error");    
+                }
+                
             });
         this.Element.nativeElement.value = "";
     }

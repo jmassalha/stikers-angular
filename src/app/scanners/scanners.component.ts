@@ -3,6 +3,7 @@ import {
     OnInit,
     ViewChild,
     AfterViewInit,
+    ChangeDetectorRef,
     Input,
 } from "@angular/core";
 import { Router } from "@angular/router";
@@ -32,6 +33,7 @@ import {
     Validators,
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { SelectionModel } from "@angular/cdk/collections";
 export interface Boxes {
     RowID: number;
     BoxID: number;
@@ -51,25 +53,28 @@ export class ScannersComponent implements OnInit {
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
     displayedColumns: string[] = [
-        "RowID",
+        "select",
+       // "RowID",
         "BoxID",
         "TotalCases",
         "CLICK",
         "CLICK_casenumbers",
         "CLICK_print",
-        "CLICK_sendtosafe",
+       // "CLICK_sendtosafe",
     ];
     private activeModal: NgbActiveModal;
     modalOptions: NgbModalOptions;
     modalOptionsPrint: NgbModalOptions = {
         windowClass: "modalOptionsPrint",
-    };;
+    };
     closeResult: string;
     TABLE_DATA: Boxes[] = [];
     rowFormData = {} as Boxes;
-    dataSource = new MatTableDataSource(this.TABLE_DATA);
+    dataSource = new MatTableDataSource<Boxes>(this.TABLE_DATA);
+    selection = new SelectionModel<Boxes>(true, []);
     loader: Boolean;
     tableLoader: Boolean;
+    selectedOn: Boolean = false;
     resultsLength = 0;
     departStatus = 0;
     fliterVal = "";
@@ -86,7 +91,8 @@ export class ScannersComponent implements OnInit {
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
         private confirmationDialogService: ConfirmationDialogService,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private cdr: ChangeDetectorRef
     ) {
         // ////debugger
         this.activeModal = activeModal;
@@ -94,8 +100,31 @@ export class ScannersComponent implements OnInit {
     @Input()
     GroupName: string;
     GroupNumber: string;
-
+    numSelected: number;
+    numRows: number;
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+    }
+    masterToggle() {
+        //debugger
+        // this.isAllSelected()
+        //     ? this.selection.clear()
+        //     : this.dataSource.data.forEach((row) => this.selection.select(row));
+    }
+    
+    ngAfterViewInit(): void {
+    }
+    CheckNumberOfSelection(){
+        if(this.selection.selected.length){
+            this.selectedOn = true;
+        }else{
+            this.selectedOn = false;
+        }
+    }
     ngOnInit(): void {
+        this.selectedOn = false;
         this.SendSmsToemergencymembersModal;
         //debugger;
         $("#loader").removeClass("d-none");
@@ -107,10 +136,7 @@ export class ScannersComponent implements OnInit {
 
         this.BoxForm = this.formBuilder.group({
             BoxID: ["", Validators.required],
-            User: [
-                localStorage.getItem("loginUserName"),
-                Validators.required,
-            ],
+            User: [localStorage.getItem("loginUserName"), Validators.required],
             RowID: ["0", false],
         });
         console.log("sleep");
@@ -128,13 +154,21 @@ export class ScannersComponent implements OnInit {
         }
         this.getReport(this);
     }
-    
-   
+
     openSnackBar() {
         this._snackBar.open("נשמר בהצלחה", "", {
             duration: 2500,
             direction: "rtl",
             panelClass: "success",
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+        });
+    }
+    openSnackBarBoxIsFound() {
+        this._snackBar.open("מזהה קרטון נמצא", "", {
+            duration: 2500,
+            direction: "rtl",
+            panelClass: "error",
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
         });
@@ -161,51 +195,85 @@ export class ScannersComponent implements OnInit {
         });
         ////debugger;
         this.http
-            .post(
-                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateBox",
-                {
-                    boxes: this.BoxForm.value,
-                }
-            )
+            //.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateBox", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateBox", {
+                boxes: this.BoxForm.value,
+            })
             .subscribe((Response) => {
-                this.getReport(null);
-                this.openSnackBar();
-                setTimeout(function () {
+                //debugger
+                if(!Response["d"]){
+                    this.getReport(null);
+                    this.openSnackBar();
+                    setTimeout(function () {
+                        $("#loader").addClass("d-none");
+                    });
+                    this.modalService.dismissAll();
+                }else{
                     $("#loader").addClass("d-none");
-                });
+                   this.openSnackBarBoxIsFound();
+                }
+                
             });
         // display form values on success
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.BoxForm.value, null, 4));
-        this.modalService.dismissAll();
+        
+    }
+
+    sendcasenumberstosafeNew() {
+        this.confirmationDialogService
+            .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+            .then((confirmed) => {
+                console.log("User confirmed:", confirmed);
+                if (confirmed) {
+                    debugger
+                    var BoxIds = "";
+                    for(var i = 0; i < this.selection["_selected"].length; i ++){
+                        BoxIds += this.selection["_selected"][i].RowID+ ",";
+                    }
+                    this.sendToSafe(BoxIds);
+                    //this.sendToSafe();
+                } else {
+                }
+            })
+            .catch(() =>
+                console.log(
+                    "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+                )
+            );
     }
 
     sendcasenumberstosafe(_element) {
-       
-       this.confirmationDialogService.confirm('נא לאשר..', 'האם אתה בטוח ...? ')
-        .then((confirmed) =>{
-            console.log('User confirmed:', confirmed);
-            if(confirmed){
-                this.sendToSafe(_element.RowID);
-            }else{
-
-            }
-            
-        } )
-        .catch(() => console.log('User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)'));
+        this.confirmationDialogService
+            .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+            .then((confirmed) => {
+                console.log("User confirmed:", confirmed);
+                if (confirmed) {
+                    this.sendToSafe(_element.RowID);
+                } else {
+                }
+            })
+            .catch(() =>
+                console.log(
+                    "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+                )
+            );
     }
 
     sendToSafe(RowId) {
         this.http
-            .post("http://srv-ipracticom:8080/WebService.asmx/SendBoxCasesToSafe", {
-                RowId: RowId,
-            })
+            //.post("http://srv-ipracticom:8080/WebService.asmx/SendBoxCasesToSafe",
+            .post("http://srv-ipracticom:8080/WebService.asmx/SendBoxCasesToSafe",
+                {
+                    RowId: RowId,
+                }
+            )
             .subscribe((Response) => {
                 this.openSendSnackBar();
-            })
+            });
     }
     showcasenumbers(content, _type, _element) {
         // //debugger;
-        
+
         localStorage.setItem("Print", "false");
         localStorage.setItem("CartoonID", _element.RowID);
         localStorage.setItem("CartoonUNID", _element.BoxID);
@@ -213,7 +281,7 @@ export class ScannersComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-               // debugger
+                // debugger
                 if ("Save" == result) {
                     // //////debugger;
                     //this.saveChad(_element.ROW_ID);
@@ -232,8 +300,10 @@ export class ScannersComponent implements OnInit {
         localStorage.setItem("CartoonID", _element.RowID);
         localStorage.setItem("CartoonUNID", _element.BoxID);
         localStorage.setItem("TotalCases", _element.TotalCases);
-        this.activeModal = this.modalService.open(content, this.modalOptionsPrint);
-        
+        this.activeModal = this.modalService.open(
+            content,
+            this.modalOptionsPrint
+        );
     }
 
     CloseModalSendSms() {
@@ -244,10 +314,7 @@ export class ScannersComponent implements OnInit {
         ////debugger;
         this.BoxForm = this.formBuilder.group({
             BoxID: [_element.BoxID, Validators.required],
-            User: [
-                localStorage.getItem("loginUserName"),
-                Validators.required,
-            ],
+            User: [localStorage.getItem("loginUserName"), Validators.required],
             RowID: [_element.RowID, false],
         });
         this.modalService.open(content, this.modalOptions).result.then(
@@ -266,7 +333,7 @@ export class ScannersComponent implements OnInit {
     }
     getReport($event: any): void {
         ////////debugger
-        this.getTableFromServer(this.fliterVal, 0, 10);
+        this.getTableFromServer(this.fliterVal, 0, 100);
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
@@ -282,10 +349,7 @@ export class ScannersComponent implements OnInit {
         //////debugger;
         this.BoxForm = this.formBuilder.group({
             BoxID: ["", Validators.required],
-            User: [
-                localStorage.getItem("loginUserName"),
-                Validators.required,
-            ],
+            User: [localStorage.getItem("loginUserName"), Validators.required],
             RowID: ["0", false],
         });
         this.modalService.open(content, this.modalOptions).result.then(
@@ -312,7 +376,6 @@ export class ScannersComponent implements OnInit {
         }
     }
 
-    ngAfterViewInit(): void {}
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
 
@@ -344,20 +407,20 @@ export class ScannersComponent implements OnInit {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 this.TABLE_DATA = Response["d"];
                 //debugger
-                if(this.TABLE_DATA[0]["BoxID"] == null){
-                    
+                if (this.TABLE_DATA[0]["BoxID"] == null) {
                     this.TABLE_DATA = [];
 
-                    
-                    this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+                    this.dataSource = new MatTableDataSource<any>(
+                        this.TABLE_DATA
+                    );
                     this.resultsLength = 0;
-                    
-                    
-                }else{
-                    this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-                    this.resultsLength = this.TABLE_DATA[0]["Total"];    
+                } else {
+                    this.dataSource = new MatTableDataSource<any>(
+                        this.TABLE_DATA
+                    );
+                    this.resultsLength = this.TABLE_DATA[0]["Total"];
                 }
-                
+
                 setTimeout(function () {
                     ////////debugger
                     //if (tableLoader) {
