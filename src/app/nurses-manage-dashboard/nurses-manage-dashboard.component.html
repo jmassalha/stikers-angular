@@ -62,7 +62,8 @@
                                         </div>
                                         <div class="col-6 text-center">
                                             <h3><b>קבלות מחלקה לרפואה דחופה</b></h3>
-                                            <h3 style="font-size: 20px;">{{newDate | date: "dd.MM.yyyy"}}</h3>
+                                            <h3 style="font-size: 20px;">  סה"כ {{allErOccupancy}} &nbsp;&nbsp; {{newDate | date: "dd.MM.yyyy"}}</h3>
+                                            <h3 style="font-size: 20px;"></h3>
                                         </div>
                                         <div class="col-3 text-center">
                                             <span class="material-icons" (click)="getEROccupancy('before','er')"
@@ -74,13 +75,13 @@
                                     <hr>
                                     <div class="row">
                                         <div class="col-4">
+                                            <h5>לילה</h5>
+                                        </div>
+                                        <div class="col-4">
                                             <h5>בוקר</h5>
                                         </div>
                                         <div class="col-4">
                                             <h5>ערב</h5>
-                                        </div>
-                                        <div class="col-4">
-                                            <h5>לילה</h5>
                                         </div>
                                     </div>
                                     <div class="row">
@@ -134,14 +135,14 @@
     <div class="survey-options">
         <div class="poll-options">
             <div class="row" style="margin-bottom: 20px;">
-                <div class="col-3" *ngFor="let item of all_departments_array"
+                <div class="col-4" *ngFor="let item of all_departments_array"
                     (click)="openDialogToFill(item.Dept_Number,item.Dept_Name)" style="margin-bottom: 10px;">
                     <mat-card style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 30px;color: darkblue;">{{item.Dept_Name}}
                         </div>
                         <div class="list-style text-center" style="font-size: 24px;">תפוסה: {{item.OccupancyPerDepart}}
                         </div>
-                        <div class="list-style text-center" style="font-size: 24px;">תפוסה: {{item.PercentOccupancy}} %
+                        <div class="list-style text-center" style="font-size: 24px;">תפוסה: %{{item.PercentOccupancy}} 
                         </div>
                     </mat-card>
                 </div>

@@ -109,6 +109,9 @@ import { DrugsnicComponent } from './drugsnic/drugsnic.component';
 import { NgxBarCodePutModule } from 'ngx-barcodeput';
 import { GoogleChartsModule } from 'angular-google-charts';
 import { PublicInquiriesChartsComponent } from './emailsdashboard/public-inquiries-charts/public-inquiries-charts.component';
+import { VisitorsMonitoringComponent } from './visitors-monitoring/visitors-monitoring.component';
+import { VisitorsRegistrationComponent } from './visitors-monitoring/visitors-registration/visitors-registration.component';
+import { VisitorNameDialog } from './visitors-monitoring/visitors-registration/visitors-registration.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -152,6 +155,7 @@ const maskConfig: Partial<IConfig> = {
     ConsultationsComponent,
     ResearchesusersComponent,
     ResearchesComponent,
+    VisitorNameDialog,
     ResearchespatientsComponent,
     DialogElementsExampleDialog,
     Sarscov2Component,
@@ -185,7 +189,9 @@ const maskConfig: Partial<IConfig> = {
     NursesManageDashboardComponent,
     NursesDepartmentManageComponent,
     OtherDepartmentsComponent,
-    PublicInquiriesChartsComponent
+    PublicInquiriesChartsComponent,
+    VisitorsMonitoringComponent,
+    VisitorsRegistrationComponent
   ],
   imports: [
     NgxBarCodePutModule,

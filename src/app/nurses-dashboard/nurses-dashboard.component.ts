@@ -7,7 +7,6 @@ import {
 import { DatePipe } from "@angular/common";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import { MatPaginator } from "@angular/material/paginator";
 import {
   MatSnackBar,
   MatSnackBarHorizontalPosition,
@@ -138,9 +137,7 @@ export class NursesDashboardComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  columnsToDisplay = ['date', 'status', 'edit', 'reply'];
-  expandedElement: PeriodicElement | null;
-  @ViewChild(MatPaginator) paginator: MatPaginator;
+  columnsToDisplay = ['date', 'status', 'edit', 'continue' , 'reply'];
   ELEMENT_DATA = [];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
 
@@ -312,7 +309,6 @@ export class NursesDashboardComponent implements OnInit {
           this.permission = true;
         }
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
-        this.dataSource.paginator = this.paginator;
       });
   }
 

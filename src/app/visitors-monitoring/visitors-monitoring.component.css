@@ -1,0 +1,59 @@
+.col-3 :hover{
+    /* transform: scale(1.2,1.1); */
+    cursor: pointer;
+}
+
+.mat-radio-button {
+    margin-left: 16px;
+  }
+
+  @media only screen and (max-width: 480px) {
+    .mat-radio-button {
+        inline-size: auto;
+        float: right;
+      }
+  }
+
+  table {
+    width: 100%;
+  }
+
+  .poria-icon{
+    border-radius: 50%;
+  }
+  .card{
+    background-color: floralwhite;
+    box-shadow: 7px 9px 12px -3px;
+  }
+
+  .pb-4{
+    box-shadow: 7px 9px 12px -3px;
+    cursor: pointer;
+    background-color: floralwhite;
+  }
+
+  .col-4{
+    border-right: 3px solid;
+    border-left: 3px solid;
+  }
+
+  .material-icons:hover{
+    background-color: gray;
+    border-radius: 30%;
+    width: 35px;
+    height: 30px;
+  }
+
+  .card.dash-cards:hover{
+    background-color: darkgrey;
+  }
+
+.other-cards:hover{
+  background-color: darkgrey;
+}
+
+
+.loader {
+  right: 50%;
+  margin-right: -4em;
+}

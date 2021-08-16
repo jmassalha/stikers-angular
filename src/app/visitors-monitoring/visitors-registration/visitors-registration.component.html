@@ -1,0 +1,62 @@
+<button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+</button>
+<form class="form">
+
+    <div class="card text-center" id="table-overflow">
+        <h4><b>{{Dept_Name}}</b> {{myDate | date: "dd.MM.yyyy"}}</h4>
+
+        <mat-progress-bar mode="buffer" *ngIf="Patientsloading"></mat-progress-bar>
+        <h4 *ngIf="patientsTable">רשימת מטופלים במחלקה</h4>
+        <div dir="rtl">
+            <mat-form-field appearance="standard">
+                <mat-label>סינון</mat-label>
+                <input matInput (keyup)="applyFilter($event,'')" placeholder="הקלד..." #input>
+            </mat-form-field>
+        </div>
+        <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="firstname">
+                <th mat-header-cell *matHeaderCellDef> שם פרטי </th>
+                <td mat-cell *matCellDef="let element"> {{element.PM_FIRST_NAME}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="dadname">
+                <th mat-header-cell *matHeaderCellDef> שם אבא </th>
+                <td mat-cell *matCellDef="let element"> {{element.PM_FATHER_NAME}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="lastname">
+                <th mat-header-cell *matHeaderCellDef> שם משפחה </th>
+                <td mat-cell *matCellDef="let element"> {{element.PM_LAST_NAME}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef> שם מבקר </th>
+                <td mat-cell *matCellDef="let element"><span *ngIf="element.VisitorStatus == '1'">{{element.VisitorName}}</span> </td>
+            </ng-container>
+
+            <ng-container matColumnDef="enterdate">
+                <th mat-header-cell *matHeaderCellDef> תאריך קבלה </th>
+                <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DATE}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="entertime">
+                <th mat-header-cell *matHeaderCellDef> שעת קבלה </th>
+                <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_TIME }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="visitorstatus">
+                <th mat-header-cell *matHeaderCellDef> סטטוס מבקר </th>
+                <td mat-cell *matCellDef="let element">
+                    <h4 *ngIf="element.VisitorStatus == '1'">תפוס</h4>
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2" style="background-color: cornflowerblue;"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;"
+                [style.background]="row.VisitorStatus == '1' ? 'firebrick' : 'antiquewhite'"
+                (click)="chooseWhatToDo(row.PM_CASE_NUMBER,row.VisitorStatus)"></tr>
+        </table>
+    </div>
+</form>

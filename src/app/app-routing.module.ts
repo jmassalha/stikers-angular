@@ -51,6 +51,8 @@ import { ManageClinicPriceComponent } from "./manage-clinic-price/manage-clinic-
 import { ScannersComponent } from "./scanners/scanners.component";
 import { CasenumbersComponent } from "./casenumbers/casenumbers.component";
 import { PublicInquiriesChartsComponent } from "./emailsdashboard/public-inquiries-charts/public-inquiries-charts.component";
+import { VisitorsMonitoringComponent } from "./visitors-monitoring/visitors-monitoring.component";
+import { VisitorsRegistrationComponent } from "./visitors-monitoring/visitors-registration/visitors-registration.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -105,6 +107,8 @@ const routes: Routes = [
     { path: "drugsnic", component: DrugsnicComponent },
     { path: "casenumbers", component: CasenumbersComponent },
     { path: "publicinquiriescharts", component: PublicInquiriesChartsComponent },
+    { path: "visitorsmonitoring", component: VisitorsMonitoringComponent },
+    { path: "visitorsregistration", component: VisitorsRegistrationComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

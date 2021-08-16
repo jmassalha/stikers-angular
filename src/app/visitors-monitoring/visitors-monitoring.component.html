@@ -1,0 +1,16 @@
+<mat-card dir="rtl" style="background-color: aliceblue;">
+    <mat-spinner class="loader" *ngIf="!loaded"></mat-spinner>
+    <div class="survey-options">
+        <div class="poll-options">
+            <div class="row" style="margin-bottom: 20px;">
+                <div class="col-3" *ngFor="let item of all_departments_array"
+                    (click)="openDialogToFill(item.Dept_Number,item.Dept_Name)" style="margin-bottom: 10px;">
+                    <mat-card class="card dash-cards m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 30px;color: darkblue;">{{item.Dept_Name}}
+                        </div>
+                    </mat-card>
+                </div>
+            </div>
+        </div>
+    </div>
+</mat-card>
