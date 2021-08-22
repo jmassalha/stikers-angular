@@ -156,16 +156,18 @@ export class MaternitypatientsComponent implements OnInit {
             // console.log(this.patientForm.controls.errors);
             return;
         }
-        this.patientForm.value.PatientDOB = formatDate(
-            this.patientForm.value.PatientDOB,
-            "yyyy-MM-dd",
-            "en-US"
-        );
-        this.patientForm.value.PatientPregnancyDOB = formatDate(
-            this.patientForm.value.PatientPregnancyDOB,
-            "yyyy-MM-dd",
-            "en-US"
-        );
+        if(this.patientForm.value.PatientDOB != '')
+            this.patientForm.value.PatientDOB = formatDate(
+                this.patientForm.value.PatientDOB,
+                "yyyy-MM-dd",
+                "en-US"
+            );
+        if(this.patientForm.value.PatientPregnancyDOB != '')
+            this.patientForm.value.PatientPregnancyDOB = formatDate(
+                this.patientForm.value.PatientPregnancyDOB,
+                "yyyy-MM-dd",
+                "en-US"
+            );
         //debugger;
         this.http
             .post(
@@ -202,24 +204,24 @@ export class MaternitypatientsComponent implements OnInit {
             ],
             PatientId: [
                 _element.PatientId,
-                [Validators.required, Validators.pattern("[0-9].{7,}")],
+                [Validators.nullValidator, Validators.pattern("[0-9].{7,}")],
             ],
-            PatientFirstName: [_element.PatientFirstName, Validators.required],
-            PatientLastName: [_element.PatientLastName, Validators.required],
-            PatientStatus: [_element.PatientStatus + "", Validators.required],
+            PatientFirstName: [_element.PatientFirstName, Validators.nullValidator],
+            PatientLastName: [_element.PatientLastName, Validators.nullValidator],
+            PatientStatus: [_element.PatientStatus + "", Validators.nullValidator],
             UserIdUpdate: [
                 localStorage.getItem("loginUserName"),
-                Validators.required,
+                Validators.nullValidator,
             ],
-            PatientPregnancyDOB: [_element.PatientPregnancyDOB, Validators.required],
-            PatientDOB: [_element.PatientDOB, Validators.required],
-            RowID: [_element.RowID, Validators.required],
-            MaternityRowId: [this.MaternityRowId, Validators.required],
+            PatientPregnancyDOB: [_element.PatientPregnancyDOB, Validators.nullValidator],
+            PatientDOB: [_element.PatientDOB, Validators.nullValidator],
+            RowID: [_element.RowID, Validators.nullValidator],
+            MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
             PatientNote: [_element.PatientNote, Validators.nullValidator],
-            PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.required],
-            PatientAddress: [_element.PatientAddress, Validators.required],
-            PatientMobile: [_element.PatientMobile, Validators.required],
-            PatientEmail: [_element.PatientEmail, Validators.required],
+            PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.nullValidator],
+            PatientAddress: [_element.PatientAddress, Validators.nullValidator],
+            PatientMobile: [_element.PatientMobile, Validators.nullValidator],
+            PatientEmail: [_element.PatientEmail, Validators.nullValidator],
         });
         this.activeModal = this.modalServicematernitypatients.open(
             content,
@@ -256,24 +258,24 @@ export class MaternitypatientsComponent implements OnInit {
             ],
             PatientId: [
                 "",
-                [Validators.required, Validators.pattern("[0-9].{7,}")],
+                [Validators.nullValidator, Validators.pattern("[0-9].{7,}")],
             ],
-            PatientFirstName: ["", Validators.required],
-            PatientLastName: ["", Validators.required],
-            PatientStatus: [1 + "", Validators.required],
+            PatientFirstName: ["", Validators.nullValidator],
+            PatientLastName: ["", Validators.nullValidator],
+            PatientStatus: [1 + "", Validators.nullValidator],
             UserIdInsert: [
                 localStorage.getItem("loginUserName"),
-                Validators.required,
+                Validators.nullValidator,
             ],
-            PatientPregnancyDOB: ["", Validators.required],
-            PatientDOB: ["", Validators.required],
-            RowID: [0, Validators.required],
-            MaternityRowId: [this.MaternityRowId, Validators.required],
+            PatientPregnancyDOB: ["", Validators.nullValidator],
+            PatientDOB: ["", Validators.nullValidator],
+            RowID: [0, Validators.nullValidator],
+            MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
             PatientNote: ["", Validators.nullValidator],
-            PatientPregnancyWeekAtInsert: ["", Validators.required],
-            PatientAddress: ["", Validators.required],
-            PatientMobile: ["", Validators.required],
-            PatientEmail: ["", Validators.required],
+            PatientPregnancyWeekAtInsert: ["", Validators.nullValidator],
+            PatientAddress: ["", Validators.nullValidator],
+            PatientMobile: ["", Validators.nullValidator],
+            PatientEmail: ["", Validators.nullValidator],
         });
         this.activeModal = this.modalServicematernitypatients.open(
             content,
