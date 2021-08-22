@@ -38,10 +38,15 @@ table {
   overflow: auto;
 } */
 
-#EventBtnnew{
+/* #EventBtnnew{
   border-radius: 0px 20px 20px 0px;
-}
+} */
 
-#EventBtndisplay{
+/* #EventBtndisplay{
   border-radius: 20px 0px 0px 20px;
+} */
+
+#generalClinicalBtn{
+  float: left;
+  margin-left: 30px;
 }

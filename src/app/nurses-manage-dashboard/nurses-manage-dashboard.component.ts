@@ -5,6 +5,7 @@ import { HttpClient } from "@angular/common/http";
 import { MatDialog } from '@angular/material/dialog';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
+import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
 import { DatePipe } from '@angular/common';
 import { MatTableDataSource } from '@angular/material/table';
 import { interval, Subscription } from 'rxjs';
@@ -40,6 +41,7 @@ export class NursesManageDashboardComponent implements OnInit {
   dateToDisplayString: string;
   loaded: boolean;
   allErOccupancy: int
+  ELEMENT_DATA = [];
 
   ngOnInit(): void {
     this.loaded = false;
@@ -56,6 +58,37 @@ export class NursesManageDashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(NursesDepartmentManageComponent, {});
     dialogRef.componentInstance.departCode = departCode;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
+    dialogRef.afterClosed()
+      .subscribe((data) => {
+        if (!data) {
+          return;
+        }
+        this.ELEMENT_DATA = data;
+
+        $("#loader").removeClass("d-none");
+        setTimeout(function () {
+          $("#loader").addClass("d-none");
+          window.print();
+        }, 1500);
+      })
+  }
+  
+  openReportDialog(report_type) {
+    let dialogRef = this.dialog.open(NursesDashboardComponent, {});
+    dialogRef.componentInstance.reportType = report_type;
+    dialogRef.afterClosed()
+      .subscribe((data) => {
+        if (!data) {
+          return;
+        }
+        this.ELEMENT_DATA = data;
+
+        $("#loader").removeClass("d-none");
+        setTimeout(function () {
+          $("#loader").addClass("d-none");
+          window.print();
+        }, 1500);
+      })
   }
 
 
@@ -63,7 +96,7 @@ export class NursesManageDashboardComponent implements OnInit {
   getAllDeparts() {
     this.loaded = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
+      .post("http://localhost:64964/WebService.asmx/GetNursesSystemDepartments", {
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];

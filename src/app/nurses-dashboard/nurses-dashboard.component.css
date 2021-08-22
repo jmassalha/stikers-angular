@@ -107,7 +107,7 @@ h2{
 }
 
 .example-element-diagram {
-  min-width: 130px;
+  min-width: 200px;
   border-radius: 30px;
   border: 1px solid black;
   padding: 8px;
@@ -116,8 +116,12 @@ h2{
   height: 90%;
 }
 
+#BtnStyle{
+  box-shadow: 3px 4px 3px 0px black;
+}
+
 #page-toshow{
-  font-size: x-large;
+  font-size: small;
 }
 
 .close {
@@ -142,4 +146,13 @@ h2{
   margin-top: 20px;
   justify-content: center;
   text-align-last: center;
+}
+
+h2{
+  padding: 6px;
+  margin-left: 25px;
+}
+#formBody{
+  border-style: outset;
+    margin-bottom: 8px;
 }

@@ -17,7 +17,7 @@ export class OtherDepartmentsComponent implements OnInit {
   columnsToDisplay2: string[] = ['inprogress', 'waiting', 'completed', 'canceled'];
   columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'date', 'room', 'surgeryname', 'status'];
   columnsToDisplay3: string[] = ['adult', 'child', 'women', 'lyingdown', 'standing', 'shockroom'];
-  columnsToDisplay3_2: string[] = ['casenumber', 'patientfirstname', 'patientlastname', 'departmed', 'patientid', 'active'];
+  columnsToDisplay3_2: string[] = ['casenumber','departmed', 'patientlastname', 'patientfirstname','dadname','age','gender','datein', 'timein'];
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
   dataSource5 = new MatTableDataSource<any>();
@@ -90,7 +90,7 @@ export class OtherDepartmentsComponent implements OnInit {
   getOtherDepartmentsDetails() {
     this.progressBarNumbers = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentDetails", {
+      .post("http://localhost:64964/WebService.asmx/GetOtherDepartmentDetails", {
         _otherDepartName: this.otherDepartName
       })
       .subscribe((Response) => {
@@ -123,7 +123,7 @@ export class OtherDepartmentsComponent implements OnInit {
 
   getOtherDepartmentPatients(ICUType) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentPatients", {
+      .post("http://localhost:64964/WebService.asmx/GetOtherDepartmentPatients", {
         _otherDepartName: ICUType
       })
       .subscribe((Response) => {

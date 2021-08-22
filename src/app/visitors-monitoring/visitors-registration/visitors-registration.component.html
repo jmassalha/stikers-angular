@@ -55,7 +55,7 @@
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns2" style="background-color: cornflowerblue;"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns2;"
-                [style.background]="row.VisitorStatus == '1' ? 'firebrick' : 'antiquewhite'"
+                [style.background]="row.VisitorStatus == '1' ? 'firebrick' : 'white'"
                 (click)="chooseWhatToDo(row.PM_CASE_NUMBER,row.VisitorStatus)"></tr>
         </table>
     </div>

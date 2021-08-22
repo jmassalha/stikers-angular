@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FillReportComponent } from '../fill-report/fill-report.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
@@ -27,7 +27,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   displayedColumns: string[] = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'lastname','firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'reportpatint', 'displayreports'];
+  displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'lastname','firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
   dataSource2 = new MatTableDataSource<any>();
 
   applyFilter(event: Event, filval: string) {
@@ -43,6 +43,7 @@ export class NursesDepartmentManageComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private _snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<NursesDepartmentManageComponent>,
     private formBuilder: FormBuilder,
     private datePipe: DatePipe) { }
 
@@ -87,7 +88,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   }
 
   closeModal() {
-    this.dialog.closeAll();
+    this.dialogRef.close();
   }
 
   openSnackBar(message) {
@@ -106,13 +107,22 @@ export class NursesDepartmentManageComponent implements OnInit {
     dialogRef.componentInstance.lastName = lastName;
     dialogRef.componentInstance.caseNumber = caseNumber;
   }
-  displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname) {
+  displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname,gender,dob,reportType) {
     let dialogRef = this.dialog.open(NursesDashboardComponent);
     dialogRef.componentInstance.caseNumber = caseNumber;
     dialogRef.componentInstance.asDialog = asDialog;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
     dialogRef.componentInstance.firstname = firstname;
     dialogRef.componentInstance.lastname = lastname;
+    dialogRef.componentInstance.gender = gender;
+    dialogRef.componentInstance.dob = dob;
+    dialogRef.componentInstance.reportType = reportType;
+    dialogRef.afterClosed()
+      .subscribe((data) => {
+        if(data){
+          this.dialogRef.close(data);
+        }
+      })
   }
 
   getDepartDetails() {
@@ -133,7 +143,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   getPatientsPerDepart(event: Event,subDepart: string) {
     this.Patientsloading = true;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsPerDepart", {
+      .post("http://localhost:64964/WebService.asmx/GetPatientsPerDepart", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {

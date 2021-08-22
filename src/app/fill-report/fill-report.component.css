@@ -8,3 +8,20 @@
 .redBG{
     background: #ff8484;
 }
+
+#display-line{
+    border: 5px solid #1976d2;
+}
+
+#BtnStyle{
+    box-shadow: 3px 4px 3px 0px black;
+}
+
+#formBody{
+    border-style: outset;
+    margin-bottom: 8px;
+}
+
+/* .form .col{
+    font-size: xx-small;
+} */

@@ -112,6 +112,7 @@ import { PublicInquiriesChartsComponent } from './emailsdashboard/public-inquiri
 import { VisitorsMonitoringComponent } from './visitors-monitoring/visitors-monitoring.component';
 import { VisitorsRegistrationComponent } from './visitors-monitoring/visitors-registration/visitors-registration.component';
 import { VisitorNameDialog } from './visitors-monitoring/visitors-registration/visitors-registration.component';
+import { ShareReportsDialog } from './nurses-dashboard/nurses-dashboard.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -191,7 +192,8 @@ const maskConfig: Partial<IConfig> = {
     OtherDepartmentsComponent,
     PublicInquiriesChartsComponent,
     VisitorsMonitoringComponent,
-    VisitorsRegistrationComponent
+    VisitorsRegistrationComponent,
+    ShareReportsDialog
   ],
   imports: [
     NgxBarCodePutModule,

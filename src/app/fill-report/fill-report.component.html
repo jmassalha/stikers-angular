@@ -1,19 +1,8 @@
-<form dir="rtl" class="form col" [formGroup]="ReportGroup">
+<form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup">
     <div class="modal-header text-right">
         <div class="row mt-3">
-            <div class="col-4 text-center">{{date2}}
-            </div>
-            <div class="col-4 text-center" style="font-size: xx-large;">
-                {{firstName}} {{lastName}}
-            </div>
-            <div class="col-4 text-center">
-                {{time2}}
-            </div>
+                {{date2}} - {{time2}} - {{userFullName}}
         </div>
-        <!-- <h4 class="modal-title text-center">דווח</h4> -->
-        <button type="button" class="close" aria-label="Close" (click)="closeModal()">
-            <span aria-hidden="true">&times;</span>
-        </button>
     </div>
     <div class="modal-body">
         <div class="row">
@@ -64,6 +53,16 @@
                     </mat-form-field>
                 </div>
             </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <mat-label>סטטוס</mat-label>
+                        <mat-select formControlName="ReportStatus">
+                            <mat-option *ngFor="let st of status" [value]="st.value"> {{st.viewValue}} </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+            </div>
             <div class="col" style="align-self: center;">
                 <section class="example-section">
                     <mat-checkbox class="example-margin" formControlName="toContinue"
@@ -97,7 +96,7 @@
                     </mat-form-field>
                 </div>
             </div> -->
-            <div class="col">
+            <div class="col-3">
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>משמרת</mat-label>
@@ -108,36 +107,28 @@
                     </mat-form-field>
                 </div>
             </div>
-            <div class="col">
+            <div class="col-9">
                 <div class="form-group">
                     <mat-form-field>
-                        <mat-label>סטטוס</mat-label>
-                        <mat-select formControlName="ReportStatus">
-                            <mat-option *ngFor="let st of status" [value]="st.value"> {{st.viewValue}} </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col-12">
-                <div class="form-group">
-                    <mat-form-field>
-                        <textarea matInput rows="15" placeholder="תוכן הדוח" class="form-control border-1"
+                        <textarea matInput rows="3" placeholder="תוכן הדוח" class="form-control border-1"
                             formControlName="ReportText"></textarea>
                     </mat-form-field>
                 </div>
             </div>
+            
         </div>
+        <!-- <div class="row">
+            
+        </div> -->
     </div>
     <div class="modal-footer text-left" *ngIf="creator || reportID == '0';else note">
-        <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" color="primary" (click)="onSubmit()" type="submit"
+        <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="onSubmit()" type="submit"
             mat-raised-button>
             <span class="material-icons">
                 save
             </span>
         </button>
-        <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" mat-raised-button class="btn btn-outline-dark"
+        <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" id="BtnStyle" mat-raised-button class="btn btn-outline-dark"
             color="warn" (click)="deleteReport(reportID)">
             <span class="material-icons">
                 delete
