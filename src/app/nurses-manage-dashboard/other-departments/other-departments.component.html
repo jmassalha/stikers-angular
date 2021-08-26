@@ -101,7 +101,7 @@
 </form>
 
 <form class="form" *ngIf="surgery">
-    <h4><b>חדר ניתוח </b> {{myDate}}</h4>
+    <h4><b>חדר ניתוח </b> {{myDate | date: "dd.MM.yyyy"}}</h4>
     <table dir="rtl" [dataSource]="dataSource4" mat-table class="mat-elevation-z8" style="width: 100%;">
 
         <ng-container matColumnDef="inprogress">
@@ -177,7 +177,7 @@
 </form>
 
 <form class="form" *ngIf="ICU">
-    <h4><b>מחלקה לרפואה דחופה </b> {{myDate}}</h4>
+    <h4><b>מחלקה לרפואה דחופה </b> {{myDate | date: "dd.MM.yyyy"}}</h4>
     <table dir="rtl" [dataSource]="dataSource5" mat-table class="mat-elevation-z8" style="width: 100%;">
 
         <ng-container matColumnDef="adult">

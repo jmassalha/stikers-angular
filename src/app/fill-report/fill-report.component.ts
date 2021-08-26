@@ -185,7 +185,7 @@ export class FillReportComponent implements OnInit {
     }
     if (!this.ReportGroup.invalid) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/AddUpdateReport", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName,
           _caseNumber: this.caseNumber
@@ -220,7 +220,7 @@ export class FillReportComponent implements OnInit {
 
   getReportToUpdate() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetReportToUpdate", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReportToUpdate", {
         _reportID: this.reportID
       })
       .subscribe((Response) => {

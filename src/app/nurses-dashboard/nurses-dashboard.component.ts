@@ -104,7 +104,7 @@ export class ShareReportsDialog {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
       this.http
-        .post("http://localhost:64964/WebService.asmx/AttachReportToUser", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
           _reportArray: this.reportArray,
@@ -430,7 +430,7 @@ export class NursesDashboardComponent implements OnInit {
       _reportEndDate = "";
     }
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetReports", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
         _reportShift: _reportShift,
         _reportDepartment: _reportDepartment,
         _reportStatus: _reportStatus,
@@ -496,7 +496,7 @@ export class NursesDashboardComponent implements OnInit {
     }
     if (!this.ReportGroup.invalid) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/AddUpdateReport", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName,
           _caseNumber: this.caseNumber

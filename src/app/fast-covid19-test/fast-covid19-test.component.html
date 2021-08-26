@@ -1,0 +1,393 @@
+<form dir="rtl" class="form col" id="formBody" [formGroup]="TestsForm">
+    <div class="modal-header text-right">
+        <div class="row mt-3">
+            {{date2}} - {{time2}}
+        </div>
+    </div>
+    <div class="card" id="Qr" *ngIf="ifQRCodeReady">
+        <img [src]="QRImage">
+    </div>
+    <div class="modal-body"  *ngIf="!ifQRCodeReady">
+        <div formGroupName="TestData">
+            <div class="row">
+                <div class="col-2">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" (keyup)="is_israeli_id_number()" class="form-control"
+                                formControlName="IDNum" placeholder="מספר זהות" type="number" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>סוג זיהוי</mat-label>
+                            <mat-select formControlName="IdType">
+                                <mat-option *ngFor="let IdType of IdTypeArray" [value]="IdType.idCode">
+                                    {{IdType.idType}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="FirstName"
+                                placeholder="שם פרטי" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-2">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="LastName"
+                                placeholder="שם משפחה" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-1">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>מגדר</mat-label>
+                            <mat-select formControlName="Gender">
+                                <mat-option *ngFor="let Gender of GenderArray" [value]="Gender.genderCode">
+                                    {{Gender.genderType}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div formGroupName="BirthDate">
+                        <div class="row">
+                            <div class="coL-4">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>שנת לידה</mat-label>
+                                        <input matInput autocomplete="off" class="form-control" formControlName="Year"
+                                            placeholder="yyyy" type="number" min="1920" max="2021" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>חודש לידה</mat-label>
+                                        <input matInput autocomplete="off" class="form-control"
+                                            (keyup)="checkBirthDateValidity()" formControlName="Month" placeholder="mm"
+                                            type="number" min="1" max="12" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-4">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>יום לידה</mat-label>
+                                        <input matInput autocomplete="off" class="form-control"
+                                            (keyup)="checkBirthDateValidity()" formControlName="Day" placeholder="dd"
+                                            type="number" min="1" max="31" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+
+                <!-- <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <input matInput readonly placeholder="תאריך לידה" formGroupName="BirthDate"
+                                (focus)="birthpicker.open()" [matDatepicker]="birthpicker">
+                            <mat-datepicker-toggle matSuffix [for]="birthpicker" (yearSelected)="chosenYearHandler($event)"
+                            (monthSelected)="chosenMonthHandler($event, dp)">
+                            </mat-datepicker-toggle>
+                            <mat-datepicker #birthpicker></mat-datepicker>
+                        </mat-form-field>
+                    </div> -->
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>תוצאה</mat-label>
+                            <mat-select formControlName="ResultTestCorona">
+                                <mat-option *ngFor="let ResultTestCorona of ResultTestCoronaArray"
+                                    [value]="ResultTestCorona.TestNumber">
+                                    {{ResultTestCorona.TestName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="Result"
+                                placeholder="תוצאה בטקסט" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>קוד קיט</mat-label>
+                            <mat-select formControlName="MethodCode">
+                                <mat-option>-- None --</mat-option>
+                                <mat-optgroup *ngFor="let MethodCode of MethodCodeArray" [label]="MethodCode.name"
+                                    [disabled]="MethodCode.disabled">
+                                    <mat-option *ngFor="let methodGroup of MethodCode.methodGroup"
+                                        [value]="methodGroup.MethodNumber">
+                                        {{methodGroup.MethodName}}
+                                    </mat-option>
+                                </mat-optgroup>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="MethodDesc"
+                                placeholder="תיאור קיט בטקסט" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>סוג סדיקה</mat-label>
+                            <mat-select formControlName="TestedType">
+                                <mat-option *ngFor="let testType of TestedTypeArray" [value]="testType.TestNumber">
+                                    {{testType.TestName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="LabCode"
+                                placeholder="קוד מעבדה מבצעת" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="LabDesc"
+                                placeholder="תיאור מעבדה מבצעת" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+
+
+        <div formGroupName="SampleData">
+            <div class="row">
+                <div class="col-6">
+                    <div class="row">
+                        <div formGroupName="Institute" style="width: 100%">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput autocomplete="off" class="form-control"
+                                                formControlName="Name" placeholder="שם מוסד ומיקום" type="text" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field style="padding: 13px;">
+                                            <mat-label>סוג מוסד</mat-label>
+                                            <mat-select formControlName="Type">
+                                                <mat-option *ngFor="let Type of TypeArray" [value]="Type.TypeCode">
+                                                    {{Type.TypeName}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput autocomplete="off" class="form-control"
+                                                formControlName="Code" placeholder="קוד מוסד" type="text" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-6">
+                    <div class="row">
+                        <div class="col">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <input matInput autocomplete="off" class="form-control" formControlName="SenderName"
+                                        placeholder="שם שולח בדיקה" type="text" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <input matInput autocomplete="off" class="form-control"
+                                        formControlName="SenderIDnum" placeholder="זיהוי המשתמש" type="text" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <input matInput autocomplete="off" class="form-control" formControlName="RequestID"
+                                        placeholder="מספר דגימה" type="text" />
+                                </mat-form-field>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>ישוב</mat-label>
+                            <input type="text" aria-label="city" matInput [formControl]="myControl"
+                                [matAutocomplete]="auto">
+                            <mat-autocomplete #auto="matAutocomplete" (optionSelected)='changeCity($event.option.value)'
+                                [displayWith]="displayFn">
+                                <mat-option *ngFor="let City of filteredOptions | async" [value]="City">
+                                    {{City.cityName}}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                        <!-- <mat-form-field style="padding: 13px;">
+                            <mat-label>ישוב</mat-label>
+                            <mat-select formControlName="CityCode" (selectionChange)="selectCity($event)">
+                                <mat-option *ngFor="let City of CitiesArray" [value]="City">
+                                    {{City.cityName}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field> -->
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="StreetCode"
+                                placeholder="קוד רחוב" type="number" step="1" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="StreetDesc"
+                                placeholder="שם רחוב" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="HouseNumber"
+                                placeholder="מספר בית" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="Appartment"
+                                placeholder="מספר דירה" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>מיקום איסוף</mat-label>
+                            <mat-select formControlName="PlaceOfCollect">
+                                <mat-option *ngFor="let PlaceOfCollect of PlaceOfCollectArray"
+                                    [value]="PlaceOfCollect.code">
+                                    {{PlaceOfCollect.Name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="Tel1"
+                                placeholder="מספר טלפון" type="number" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>קופת חולים/ גורם מבטח אחר</mat-label>
+                            <mat-select formControlName="Insurer">
+                                <mat-option *ngFor="let Insurer of InsurerArray" [value]="Insurer.code">
+                                    {{Insurer.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="SupplierCode"
+                                placeholder="גוף דוגם" type="number" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="SupplierDesc"
+                                placeholder="גוף דוגם תאור" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field style="padding: 13px;">
+                            <mat-label>גורם מפנה</mat-label>
+                            <mat-select formControlName="Origin">
+                                <mat-option *ngFor="let Origin of OriginArray" [value]="Origin.code"> {{Origin.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal-footer text-left">
+        <button matTooltip="שליחה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="onSubmit()"
+            type="submit" mat-raised-button *ngIf="!ifQRCodeReady">
+            <span class="material-icons">
+                save
+            </span>
+        </button>
+        <button matTooltip="סיום" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="Finish()"
+            type="submit" mat-raised-button *ngIf="ifQRCodeReady">
+            <span class="material-icons">
+                done
+            </span>
+        </button>
+    </div>
+</form>

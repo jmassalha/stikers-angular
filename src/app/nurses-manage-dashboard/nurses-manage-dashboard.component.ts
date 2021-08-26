@@ -96,7 +96,7 @@ export class NursesManageDashboardComponent implements OnInit {
   getAllDeparts() {
     this.loaded = false;
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetNursesSystemDepartments", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];

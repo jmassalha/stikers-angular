@@ -53,6 +53,7 @@ import { CasenumbersComponent } from "./casenumbers/casenumbers.component";
 import { PublicInquiriesChartsComponent } from "./emailsdashboard/public-inquiries-charts/public-inquiries-charts.component";
 import { VisitorsMonitoringComponent } from "./visitors-monitoring/visitors-monitoring.component";
 import { VisitorsRegistrationComponent } from "./visitors-monitoring/visitors-registration/visitors-registration.component";
+import { FastCovid19TestComponent } from "./fast-covid19-test/fast-covid19-test.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -109,6 +110,7 @@ const routes: Routes = [
     { path: "publicinquiriescharts", component: PublicInquiriesChartsComponent },
     { path: "visitorsmonitoring", component: VisitorsMonitoringComponent },
     { path: "visitorsregistration", component: VisitorsRegistrationComponent },
+    { path: "fastcovid19test", component: FastCovid19TestComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({
