@@ -121,10 +121,11 @@ export class OtherDepartmentsComponent implements OnInit {
       });
   }
 
-  getOtherDepartmentPatients(ICUType) {
+  getOtherDepartmentPatients(ICUType,live) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentPatients", {
-        _otherDepartName: ICUType
+        _otherDepartName: ICUType,
+        _ifLive: live,
       })
       .subscribe((Response) => {
         // this.dataSource5_2 = new MatTableDataSource<any>();

@@ -7,7 +7,6 @@ import { NursesDepartmentManageComponent } from '../nurses-department-manage/nur
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
 import { DatePipe } from '@angular/common';
-import { MatTableDataSource } from '@angular/material/table';
 import { interval, Subscription } from 'rxjs';
 import { int } from '@zxing/library/esm/customTypings';
 

@@ -140,6 +140,15 @@
     <div class="survey-options">
         <div class="poll-options">
             <div class="row" style="margin-bottom: 10px;">
+                <div class="col-4" style="margin-bottom: 5px;height: 75px">
+                    <mat-card style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span>גריאטריה שיקומית</span>
+                        </div>
+                        <div class="list-style text-center" style="font-size: 18px;"> סה"כ: 0 -
+                            תפוסה: 0%
+                        </div>
+                    </mat-card>
+                </div>
                 <div class="col-4" *ngFor="let item of all_departments_array"
                     (click)="openDialogToFill(item.Dept_Number,item.Dept_Name)" style="margin-bottom: 5px;height: 75px">
                     <mat-card style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
@@ -149,8 +158,8 @@
                             <span
                                 *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
                         </div>
-                        <div class="list-style text-center" style="font-size: 18px;"><span class="coronaNumber"
-                                [ngStyle]="{'color':item.CoronaNumber !== '0' ? 'red' : 'green'}">חולי קורונה:
+                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name"><span class="coronaNumber"
+                                *ngIf="item.CoronaNumber !== '0'" style="color: red;">חולי קורונה:
                                 {{item.CoronaNumber}}</span> סה"כ: {{item.OccupancyPerDepart}} -
                             תפוסה: {{item.PercentOccupancy}}%
                         </div>
