@@ -1,4 +1,4 @@
-<mat-card dir="rtl" style="background-color: aliceblue;">
+<mat-card dir="rtl" id="page-toshow" style="background-color: aliceblue;padding-top: 0px;">
 
 
     <div class="container-fluid">
@@ -9,6 +9,7 @@
                     <div dir="rtl" class="card-body">
                         <form class="form">
                             <div class="row">
+
                                 <div class="col-4 text-center">
                                     <div class="row text-center">
                                         <div class="col-3 text-center">
@@ -62,7 +63,8 @@
                                         </div>
                                         <div class="col-6 text-center">
                                             <h3><b>קבלות מחלקה לרפואה דחופה</b></h3>
-                                            <h3 style="font-size: 20px;">  סה"כ {{allErOccupancy}} &nbsp;&nbsp; {{newDate | date: "dd.MM.yyyy"}}</h3>
+                                            <h3 style="font-size: 20px;"> סה"כ {{allErOccupancy}} &nbsp;&nbsp; {{newDate
+                                                | date: "dd.MM.yyyy"}}</h3>
                                             <h3 style="font-size: 20px;"></h3>
                                         </div>
                                         <div class="col-3 text-center">
@@ -126,27 +128,127 @@
                     </div>
                 </div>
             </div>
+            <button matTooltip="דווח מינהלי" type="button" id="EventBtndisplay" mat-fab color="primary"
+                (click)="openReportDialog('administrative')">
+                <i class="material-icons">edit</i>
+            </button>
         </div>
-    </div><br><br>
-
-
+    </div>
+    <hr id="dashLine">
 
     <mat-spinner class="loader" *ngIf="!loaded"></mat-spinner>
     <div class="survey-options">
         <div class="poll-options">
-            <div class="row" style="margin-bottom: 20px;">
-                <div class="col-4" *ngFor="let item of all_departments_array"
-                    (click)="openDialogToFill(item.Dept_Number,item.Dept_Name)" style="margin-bottom: 10px;">
+            <div class="row" style="margin-bottom: 10px;">
+                <div class="col-4" style="margin-bottom: 5px;height: 75px">
                     <mat-card style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
-                        <div class="list-style text-center" style="font-size: 30px;color: darkblue;">{{item.Dept_Name}}
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span>גריאטריה שיקומית</span>
                         </div>
-                        <div class="list-style text-center" style="font-size: 24px;">תפוסה: {{item.OccupancyPerDepart}}
+                        <div class="list-style text-center" style="font-size: 18px;"> סה"כ: 0 -
+                            תפוסה: 0%
                         </div>
-                        <div class="list-style text-center" style="font-size: 24px;">תפוסה: %{{item.PercentOccupancy}} 
+                    </mat-card>
+                </div>
+                <div class="col-4" *ngFor="let item of all_departments_array"
+                    (click)="openDialogToFill(item.Dept_Number,item.Dept_Name)" style="margin-bottom: 5px;height: 75px">
+                    <mat-card style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
+                                *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
+                                *ngIf="item.Dept_Name == 'טפול נמרץ פגים ובילוד בחולה'">טיפול נמרץ פגים</span>
+                            <span
+                                *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
                         </div>
+                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name"><span class="coronaNumber"
+                                *ngIf="item.CoronaNumber !== '0'" style="color: red;">חולי קורונה:
+                                {{item.CoronaNumber}}</span> סה"כ: {{item.OccupancyPerDepart}} -
+                            תפוסה: {{item.PercentOccupancy}}%
+                        </div>
+                        <!-- <div class="list-style text-center" style="font-size: 24px;"> 
+                        </div> -->
                     </mat-card>
                 </div>
             </div>
         </div>
     </div>
 </mat-card>
+
+
+<div class="d-none-desktop">
+    <table dir="rtl">
+        <div class="card text-center">
+            <h1>מערכת דוחות אחיות</h1>
+        </div>
+        <thead>
+            <!-- <tr>
+                <th><br></th>
+            </tr>
+            <tr>
+                <th>
+                    <div class="row">
+
+                    </div>
+                </th>
+            </tr> -->
+
+            <!-- <tr>
+                <th>
+                   <span>פרטי הדווח</span> 
+                   <span>תוכן הדווח</span> 
+                </th>
+            </tr> -->
+        </thead>
+        <tbody>
+            <tr *ngFor="let tblRow of ELEMENT_DATA" class="text-right">
+                <td>
+                    <div class="text-right">
+                        <div class="row">
+                            <div class="col-4 bord-l">
+                                <div class="row">
+                                    <div class="col-md-6">
+                                        <b>תאריך שעה:</b>
+                                        {{
+                                        tblRow.date
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>נושא/מחלקה:</b>
+                                        {{ tblRow.machlol }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>קטיגוריה:</b>
+                                        {{ tblRow.category }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>תת קטיגוריה:</b>
+                                        {{
+                                        tblRow.reportsubcategory
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>משמרת:</b>
+                                        {{
+                                        tblRow.shift
+                                        }}
+                                    </div>
+                                    <div class="col-md-6">
+                                        <b>מדווח:</b>
+                                        {{
+                                        tblRow.userFullName
+                                        }}
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="col-8 bord-l">
+                                <h3>{{ tblRow.title }}</h3>
+                                <p class="">
+                                    {{ tblRow.description }}
+                                </p>
+                            </div>
+                        </div>
+                    </div>
+                </td>
+            </tr>
+        </tbody>
+        <tfoot></tfoot>
+    </table>
+</div>

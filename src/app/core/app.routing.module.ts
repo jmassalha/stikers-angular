@@ -30,7 +30,7 @@ import { ConsultationsComponent } from "../consultations/consultations.component
 import { ResearchesusersComponent } from "../researchesusers/researchesusers.component";
 import { ResearchespatientsComponent } from "../researchespatients/researchespatients.component";
 import { ResearchesComponent } from "../researches/researches.component";
-
+import { FastCovid19TestComponent } from "../fast-covid19-test/fast-covid19-test.component";
 import { Sarscov2Component } from "../sarscov2/sarscov2.component";
 import { AddpatientcoronaformComponent } from "../addpatientcoronaform/addpatientcoronaform.component";
 import { SarsresultsComponent } from "../sarsresults/sarsresults.component";
@@ -127,6 +127,7 @@ const routes: Routes = [
   { path: "publicinquiriescharts", component: PublicInquiriesChartsComponent },
   { path: "visitorsmonitoring", component: VisitorsMonitoringComponent },
   { path: "visitorsregistration", component: VisitorsRegistrationComponent },
+  { path: "fastcovid19test", component: FastCovid19TestComponent },
   { path: '', component : LoginComponent}
 ];
  

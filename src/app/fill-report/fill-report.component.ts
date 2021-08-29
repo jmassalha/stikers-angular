@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, Inject, Input, OnInit } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -14,10 +14,6 @@ import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 
 
-// export interface Priority {
-//   value: string;
-//   viewValue: string;
-// }
 export interface Status {
   value: string;
   viewValue: string;
@@ -35,14 +31,14 @@ export interface Shift {
 })
 export class FillReportComponent implements OnInit {
 
+  @Input()
+  reportID: string;
+  @Input()
+  userFullName: string;
+
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  // priority: Priority[] = [
-  //   { value: 'רגיל', viewValue: 'רגיל' },
-  //   { value: 'דחוף', viewValue: 'דחוף' },
-  //   { value: 'בהול', viewValue: 'בהול' },
-  // ];
   status: Status[] = [
     { value: 'לטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
@@ -60,6 +56,7 @@ export class FillReportComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private route: ActivatedRoute,
     private router: Router,
+    private dialogRef: MatDialogRef<FillReportComponent>,
     private datePipe: DatePipe,
     private http: HttpClient,
     private formBuilder: FormBuilder,
@@ -74,7 +71,7 @@ export class FillReportComponent implements OnInit {
   departmentfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
   department = [];
-  reportID: string;
+  // reportID: string;
   Dept_Name: string;
   firstName: string;
   lastName: string;
@@ -97,10 +94,8 @@ export class FillReportComponent implements OnInit {
       ReportMachlol: ['', null],
       ReportCategory: ['', null],
       ReportSubCategory: ['', null],
-      // ReportPriority: ['', Validators.compose([Validators.required])],
       ReportStatus: ['', null],
       ReportShift: [{value:'',disabled:true},null],
-      // ReportSchudledDate: ['', Validators.compose([Validators.required])],
       ReportText: ['', null],
       toContinue: [false, null],
     });
@@ -113,7 +108,7 @@ export class FillReportComponent implements OnInit {
     //   this.ReportGroup.controls['ReportText'].setValue(this.firstName+" "+this.lastName);
     // }
 
-    this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
+    // this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
     if(this.now.getHours() >= 7 && this.now.getHours() < 15){
       this.automaticShift = 'בוקר';
@@ -161,7 +156,7 @@ export class FillReportComponent implements OnInit {
   }
 
   closeModal() {
-    this.dialog.closeAll();
+    this.dialogRef.close();
   }
 
   autoDate(amin) {
@@ -264,11 +259,15 @@ export class FillReportComponent implements OnInit {
         let ifEditable = false;
         let mishmeret = "בוקר";
         let reportDate = this.all_report_management.ReportDate.split(" ",1)[0];
+        this.date2 = this.all_report_management.LastUpdatedDate.split(" ",1)[0];
+        this.time2 = this.all_report_management.LastUpdatedDate.split(" ",2)[1];
+        this.date2 = this.date2.replace("/",".");
+        this.date2 = this.date2.replace("/",".");
         let Rday = parseInt(reportDate.split("/",1)[0]);
         let Rmonth = parseInt(reportDate.split("/",2)[1]);
         let Ryear = parseInt(reportDate.split("/",3)[2]);
         reportDate = Rday+""+Rmonth+""+Ryear;
-        let thisDate = this.pipe.transform(this.now, 'MM/dd/yyyy');
+        let thisDate = this.pipe.transform(this.now, 'dd/MM/yyyy');
         let Tday = parseInt(thisDate.split("/",1)[0]);
         let Tmonth = parseInt(thisDate.split("/",2)[1]);
         let Tyear = parseInt(thisDate.split("/",3)[2]);

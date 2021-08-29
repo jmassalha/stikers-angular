@@ -112,6 +112,8 @@ import { PublicInquiriesChartsComponent } from './emailsdashboard/public-inquiri
 import { VisitorsMonitoringComponent } from './visitors-monitoring/visitors-monitoring.component';
 import { VisitorsRegistrationComponent } from './visitors-monitoring/visitors-registration/visitors-registration.component';
 import { VisitorNameDialog } from './visitors-monitoring/visitors-registration/visitors-registration.component';
+import { ShareReportsDialog } from './nurses-dashboard/nurses-dashboard.component';
+import { FastCovid19TestComponent } from './fast-covid19-test/fast-covid19-test.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -191,7 +193,9 @@ const maskConfig: Partial<IConfig> = {
     OtherDepartmentsComponent,
     PublicInquiriesChartsComponent,
     VisitorsMonitoringComponent,
-    VisitorsRegistrationComponent
+    VisitorsRegistrationComponent,
+    ShareReportsDialog,
+    FastCovid19TestComponent
   ],
   imports: [
     NgxBarCodePutModule,

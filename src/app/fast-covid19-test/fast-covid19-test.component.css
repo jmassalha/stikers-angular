@@ -25,3 +25,8 @@
 /* .form .col{
     font-size: xx-small;
 } */
+
+#Qr{
+    width: 450px;
+    margin: auto;
+}

@@ -19,6 +19,7 @@ export class HeaderComponent implements OnInit {
     clinicsUserPermission: boolean = false;
     nursesUserPermission: boolean = false;
     visitorsUserPermission: boolean = false;
+    fastCovidTestPermission: boolean = false;
     loginUserName: string;
     numberOfUnread: number;
     _shoDimot: Boolean;
@@ -497,6 +498,7 @@ export class HeaderComponent implements OnInit {
         this.ClinicsPricingPermission();
         this.NursesSystemPermission();
         this.VisitorsSystemPermission();
+        this.fastCovidTestSystemPermission();
     }
     logout($event): void {
         ////debugger
@@ -536,6 +538,17 @@ export class HeaderComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.visitorsUserPermission = Response["d"];
+            });
+    }
+    
+    fastCovidTestSystemPermission() {
+        let userName = localStorage.getItem("loginUserName").toLowerCase();
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/FastCovidTestSystemPermission", {
+                _userName: userName
+            })
+            .subscribe((Response) => {
+                this.fastCovidTestPermission = Response["d"];
             });
     }
 

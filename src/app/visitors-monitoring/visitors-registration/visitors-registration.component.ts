@@ -99,34 +99,6 @@ export class VisitorsRegistrationComponent implements OnInit {
     });
   }
 
-  /*
-  this.confirmationDialogService
-        .confirm("נא לאשר..", "האם אתה בטוח ...? ")
-        .then((confirmed) => {
-          console.log("User confirmed:", confirmed);
-          if (confirmed) {
-            this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/MarkAsHasVisitor", {
-          _patientCaseNumber: patientCaseNumber,
-          _visitorName: this.visitorName
-        })
-        .subscribe((Response) => {
-          if (Response["d"] == "success") {
-            this.openSnackBar("התבצע בהצלחה");
-          } else {
-            this.openSnackBar("משהו השתבש, לא נשמר");
-          }
-          this.getPatientsPerDepart();
-        });
-          } else {
-          }
-        })
-        .catch(() =>
-          console.log(
-            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
-          )
-        );
-  */
 
   registerVisitor(patientCaseNumber, visitorStatus) {
     if (visitorStatus == '0' && (this.visitorName == "" || this.visitorName == undefined)) {
