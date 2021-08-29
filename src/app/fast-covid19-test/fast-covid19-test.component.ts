@@ -58,17 +58,10 @@ export interface Type {
   TypeCode: number;
   TypeName: string;
 }
-interface MethodCode {
-  MethodName: string;
-  MethodNumber: number;
-}
-
 interface MethodCodeGroup {
-  disabled?: boolean;
-  name: string;
-  methodGroup: MethodCode[];
+  MethodName: string;
+  MethodNumber: string;
 }
-
 
 @Component({
   selector: 'app-fast-covid19-test',
@@ -76,8 +69,6 @@ interface MethodCodeGroup {
   styleUrls: ['./fast-covid19-test.component.css']
 })
 export class FastCovid19TestComponent implements OnInit {
-
-  @ViewChild("endTime") myTimeSample: ElementRef;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -103,33 +94,23 @@ export class FastCovid19TestComponent implements OnInit {
   ResultTestCoronaArray: ResultTestCorona[] = [
     { TestNumber: 3341, TestName: 'חיובי אנטיגן' },
     { TestNumber: 3340, TestName: 'שלילי אנטיגן' },
-    { TestNumber: 3331, TestName: 'חיובי סופיה' },
-    { TestNumber: 3330, TestName: 'שלילי סופיה' },
-    { TestNumber: 51, TestName: 'חיובי סרולוגיה' },
-    { TestNumber: 50, TestName: 'שלילי סרולוגיה' },
+    // { TestNumber: 3331, TestName: 'חיובי סופיה' },
+    // { TestNumber: 3330, TestName: 'שלילי סופיה' },
+    // { TestNumber: 51, TestName: 'חיובי סרולוגיה' },
+    // { TestNumber: 50, TestName: 'שלילי סרולוגיה' },
   ];
 
   MethodCodeArray: MethodCodeGroup[] = [
-    {
-      name: 'סוגי קיטים לאנטיגין',
-      methodGroup: [
-        { MethodNumber: 8733401, MethodName: 'Panbio' },
-        { MethodNumber: 8733402, MethodName: 'SD Biosensor' },
-        { MethodNumber: 8733403, MethodName: 'NoCheck' },
-        { MethodNumber: 8733404, MethodName: 'Sofia' },
-        { MethodNumber: 8733405, MethodName: 'Veritor' },
-        { MethodNumber: 8733406, MethodName: 'Selignostics' },
-        { MethodNumber: 8733407, MethodName: 'Certest' },
-      ]
-    },
-    {
-      name: 'סוגי קיטים לסרולוגיה',
-      methodGroup: [
-        { MethodNumber: 24, MethodName: 'PharmACT' },
-        { MethodNumber: 25, MethodName: 'Diasorin FS' },
-        { MethodNumber: 26, MethodName: 'ACON' }
-      ]
-    }
+        { MethodNumber: "8733401", MethodName: 'Panbio' },
+        { MethodNumber: "8733402", MethodName: 'SD Biosensor' },
+        { MethodNumber: "8733403", MethodName: 'NoCheck' },
+        { MethodNumber: "8733404", MethodName: 'Sofia' },
+        { MethodNumber: "8733405", MethodName: 'Veritor' },
+        { MethodNumber: "8733406", MethodName: 'Selignostics' },
+        { MethodNumber: "8733407", MethodName: 'Certest' },
+        { MethodNumber: "24", MethodName: 'PharmACT' },
+        { MethodNumber: "25", MethodName: 'Diasorin FS' },
+        { MethodNumber: "26", MethodName: 'ACON' }
   ];
 
   CitiesArray: City[] = [];
@@ -156,7 +137,7 @@ export class FastCovid19TestComponent implements OnInit {
   OriginArray: Origin[] = [
     { code: 4, name: 'בסופיה' },
     { code: 9, name: 'באנטיגן - דיגום פרטי' },
-    { code: 9, name: 'בסרולוגיה - דיגום פרטי' },
+    // { code: 9, name: 'בסרולוגיה - דיגום פרטי' },
   ];
 
   TypeArray: Type[] = [
@@ -222,7 +203,7 @@ export class FastCovid19TestComponent implements OnInit {
         Gender: ['M', null],
         ResultTestCorona: [, Validators.required],
         Result: ['', null],
-        MethodCode: [8733405, Validators.required],
+        MethodCode: ["8733405", Validators.required],
         MethodDesc: ['', null],
         TestedType: [87334, Validators.required],
         LabCode: [{ value: 36717, disabled: true }, Validators.required],
@@ -261,9 +242,15 @@ export class FastCovid19TestComponent implements OnInit {
         Insurer: [101, null],
         SupplierCode: [{ value: 36717, disabled: true }, Validators.required],
         SupplierDesc: [{ value: 'המרכז הרפואי ע"ש ברוך פדה, פוריה', disabled: true }, Validators.required],
-        Origin: [, Validators.required],
+        Origin: [9, Validators.required],
       })
     });
+    let method = {
+      MethodNumber: "8733405",
+      MethodName: 'Veritor'
+    };
+    const name = this.MethodCodeArray.filter(option => option.MethodNumber.includes(method.MethodNumber));
+    this.TestsForm.controls.TestData['controls']['MethodDesc'].setValue(name[0].MethodName);
     this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
 
@@ -289,6 +276,21 @@ export class FastCovid19TestComponent implements OnInit {
   changeCity(event) {
     this.TestsForm.controls.SampleData['controls']['CityCode'].setValue(event.cityCode);
     this.TestsForm.controls.SampleData['controls']['CityDesc'].setValue(event.cityName);
+  }
+
+  completeResultText(event) {
+    this.TestsForm.controls.TestData['controls']['Result'].setValue(event.TestName);
+  }
+
+  displayFnMethod(city: MethodCodeGroup): string {
+    return city && city.MethodName ? city.MethodName : '';
+  }
+
+  completeMethodText(event) {
+    const filterValue = event;
+    const name = this.MethodCodeArray.filter(option => option.MethodNumber.includes(filterValue));
+    this.TestsForm.controls.TestData['controls']['MethodDesc'].setValue(name[0].MethodName);
+    // this.TestsForm.controls.TestData['controls']['MethodCode'].setValue(name[0].MethodNumber);
   }
 
   checkBirthDateValidity() {
@@ -333,6 +335,7 @@ export class FastCovid19TestComponent implements OnInit {
 
   sendReport() {
     if (!this.TestsForm.invalid) {
+      this.TestsForm.controls.TestData['controls']['ResultTestCorona'].setValue(this.TestsForm.controls.TestData['controls']['ResultTestCorona'].value.TestNumber);
       this.confirmationDialogService
         .confirm("נא לאשר..", "האם אתה בטוח ...? ")
         .then((confirmed) => {
@@ -403,13 +406,13 @@ export class FastCovid19TestComponent implements OnInit {
     }
   }
 
-  createQR(){
+  createQR() {
     let QRstring = "";
     this.QRImage = "data:image/png;base64," + QRstring;
     this.ifQRCodeReady = true;
   }
 
-  Finish(){
+  Finish() {
     window.location.reload();
   }
 
