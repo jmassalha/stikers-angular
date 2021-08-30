@@ -212,56 +212,57 @@ export class FastCovid19TestComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserFullName();
+    // Validators.pattern("[0-9 ]{1,9}")
     this.TestsForm = this.formBuilder.group({
-      TransactionID: [this.myId, null],
+      TransactionID: ["3fa85f64-5717-4562-b3fc-2c963f66afa6", null],
       TestData: this.formBuilder.group({
-        IDNum: ['', [Validators.required, Validators.pattern("[0-9 ]{1,9}")]],
-        IdType: [1, Validators.required],
-        FirstName: ['', Validators.required],
-        LastName: ['', Validators.required],
+        IDNum: ['123456', null],
+        IdType: ['1', Validators.required],
+        FirstName: ['moshe', Validators.required],
+        LastName: ['cohen', Validators.required],
         Gender: ['M', null],
-        ResultTestCorona: [, Validators.required],
-        Result: ['', null],
-        MethodCode: [8733405, Validators.required],
-        MethodDesc: ['', null],
-        TestedType: [87334, Validators.required],
-        LabCode: [{ value: 36717, disabled: true }, Validators.required],
-        LabDesc: ['בדיקות אנטיגן', Validators.required],
+        ResultTestCorona: ['3340', Validators.required],
+        Result: ['string', null],
+        MethodCode: ['8733407', Validators.required],
+        MethodDesc: ['string', null],
+        TestedType: ['87334', Validators.required],
+        LabCode: ['36702', Validators.required],
+        LabDesc: ['פמי', Validators.required],
         BirthDate: this.formBuilder.group({
-          Year: [, [Validators.required, Validators.max(this.todaysYear), Validators.min(1920)]],
-          Month: [, [Validators.required, Validators.max(12), Validators.min(1)]],
-          Day: [, [Validators.required, Validators.max(31), Validators.min(1)]],
+          Year: ['1983', [Validators.required, Validators.max(this.todaysYear), Validators.min(1920)]],
+          Month: ['6', [Validators.required, Validators.max(12), Validators.min(1)]],
+          Day: ['25', [Validators.required, Validators.max(31), Validators.min(1)]],
         }),
       }),
       SampleData: this.formBuilder.group({
         SamplingTime: this.formBuilder.group({
-          Year: [this.myDate.getFullYear(), Validators.required],
-          Month: [this.myDate.getMonth() + 1, Validators.required],
-          Day: [this.myDate.getDate(), Validators.required],
-          Hour: [this.myDate.getHours(), Validators.required],
-          Minutes: [this.myDate.getMinutes(), Validators.required],
-          Seconds: [this.myDate.getSeconds(), Validators.required],
+          Year: ['2021', Validators.required],
+          Month: ['7', Validators.required],
+          Day: ['4', Validators.required],
+          Hour: ['8', Validators.required],
+          Minutes: ['20', Validators.required],
+          Seconds: ['50', Validators.required],
         }),
         Institute: this.formBuilder.group({
-          Name: [{ value: 'אחר', disabled: true }, Validators.required],
-          Type: [0, null],
-          Code: ['', null],
+          Name: ['נתבג', Validators.required],
+          Type: ['0', null],
+          Code: ['string', null],
         }),
-        SenderName: [{ value: this.userFullName, disabled: true }, Validators.required],
-        SenderIDnum: [{ value: this.UserName, disabled: true }, Validators.required],
-        RequestID: ['', Validators.required],
-        CityCode: ['', Validators.required],
-        CityDesc: ['', Validators.required],
-        StreetCode: [, null],
-        StreetDesc: ['', null],
-        HouseNumber: ['', null],
-        Appartment: ['', null],
-        PlaceOfCollect: [0, Validators.required],
-        Tel1: ['', [Validators.required, Validators.pattern("[0-9 ]{9}")]],
-        Insurer: [101, null],
-        SupplierCode: [{ value: 36717, disabled: true }, Validators.required],
-        SupplierDesc: [{ value: 'המרכז הרפואי ע"ש ברוך פדה, פוריה', disabled: true }, Validators.required],
-        Origin: [, Validators.required],
+        SenderName: ['TEST', Validators.required],
+        SenderIDnum: ['string', Validators.required],
+        RequestID: ['s1040', Validators.required],
+        CityCode: ['1', Validators.required],
+        CityDesc: ['חולון', Validators.required],
+        StreetCode: ['6', null],
+        StreetDesc: ['טסט', null],
+        HouseNumber: ['7', null],
+        Appartment: ['string', null],
+        PlaceOfCollect: ['0', Validators.required],
+        Tel1: ['052050', null],
+        Insurer: ['101', null],
+        SupplierCode: ['8', Validators.required],
+        SupplierDesc: ['string', Validators.required],
+        Origin: ['8', Validators.required],
       })
     });
     this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
@@ -332,6 +333,7 @@ export class FastCovid19TestComponent implements OnInit {
   }
 
   sendReport() {
+    debugger
     if (!this.TestsForm.invalid) {
       this.confirmationDialogService
         .confirm("נא לאשר..", "האם אתה בטוח ...? ")
@@ -343,8 +345,13 @@ export class FastCovid19TestComponent implements OnInit {
                 resultClass: this.TestsForm.getRawValue(),
               })
               .subscribe((Response) => {
+                debugger
                 if (Response["d"]) {
-                  this.openSnackBar("נשלח בהצלחה");
+                  var json = JSON.parse(Response["d"]);
+                  console.log(json);
+                  var FastCoronaTestResponse = json["FastCoronaTestResponse"];
+                  console.log(FastCoronaTestResponse["FastTest"]["QRCode"]);
+                  this.createQRFromApi(FastCoronaTestResponse["FastTest"]["QRCode"])
                   // window.location.reload();
                 } else {
                   this.openSnackBar("משהו השתבש, לא נשלח");
@@ -390,6 +397,7 @@ export class FastCovid19TestComponent implements OnInit {
   }
 
   onSubmit() {
+    //this.sendReport();
     if (!this.is_israeli_id_number()) {
       this.openSnackBar("תעודת זהות לא תקינה");
     } else {
@@ -402,7 +410,10 @@ export class FastCovid19TestComponent implements OnInit {
       this.sendReport();
     }
   }
-
+  createQRFromApi(img){
+    this.QRImage = "data:image/png;base64," + img;
+    this.ifQRCodeReady = true;
+  }
   createQR(){
     let QRstring = "";
     this.QRImage = "data:image/png;base64," + QRstring;
