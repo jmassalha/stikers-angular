@@ -414,11 +414,6 @@ export class FastCovid19TestComponent implements OnInit {
     }
   }
 
-  createQR() {
-    let QRstring = "";
-    this.QRImage = "data:image/png;base64," + QRstring;
-    this.ifQRCodeReady = true;
-  }
 
   Finish() {
     window.location.reload();
