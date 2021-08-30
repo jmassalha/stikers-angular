@@ -18,7 +18,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-1">
+                <div class="col-2">
                     <div class="form-group">
                         <mat-form-field style="padding: 13px;">
                             <mat-label>סוג זיהוי</mat-label>
@@ -30,7 +30,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput autocomplete="off" class="form-control" formControlName="FirstName"
@@ -38,7 +38,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-2">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput autocomplete="off" class="form-control" formControlName="LastName"
@@ -46,7 +46,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-1">
+                <div class="col-2">
                     <div class="form-group">
                         <mat-form-field style="padding: 13px;">
                             <mat-label>מגדר</mat-label>
@@ -58,41 +58,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div formGroupName="BirthDate">
-                        <div class="row">
-                            <div class="coL-4">
-                                <div class="form-group">
-                                    <mat-form-field>
-                                        <mat-label>שנת לידה</mat-label>
-                                        <input matInput autocomplete="off" class="form-control" formControlName="Year"
-                                            placeholder="yyyy" type="number" min="1920" max="2021" />
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <mat-form-field>
-                                        <mat-label>חודש לידה</mat-label>
-                                        <input matInput autocomplete="off" class="form-control"
-                                            (keyup)="checkBirthDateValidity()" formControlName="Month" placeholder="mm"
-                                            type="number" min="1" max="12" />
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                            <div class="col-4">
-                                <div class="form-group">
-                                    <mat-form-field>
-                                        <mat-label>יום לידה</mat-label>
-                                        <input matInput autocomplete="off" class="form-control"
-                                            (keyup)="checkBirthDateValidity()" formControlName="Day" placeholder="dd"
-                                            type="number" min="1" max="31" />
-                                    </mat-form-field>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                </div>
+                
 
 
                 <!-- <div class="form-group">
@@ -107,52 +73,111 @@
                     </div> -->
             </div>
             <div class="row">
+                <div class="col" formGroupName="BirthDate">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>שנת לידה</mat-label>
+                            <input matInput autocomplete="off" class="form-control" formControlName="Year"
+                                placeholder="yyyy" type="number" min="1920" max="2021" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col" formGroupName="BirthDate">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>חודש לידה</mat-label>
+                            <input matInput autocomplete="off" class="form-control"
+                                (keyup)="checkBirthDateValidity()" formControlName="Month" placeholder="mm"
+                                type="number" min="1" max="12" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col" formGroupName="BirthDate">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>יום לידה</mat-label>
+                            <input matInput autocomplete="off" class="form-control"
+                                (keyup)="checkBirthDateValidity()" formControlName="Day" placeholder="dd"
+                                type="number" min="1" max="31" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!-- <div class="col">
+                    <div formGroupName="BirthDate">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>שנת לידה</mat-label>
+                                        <input matInput autocomplete="off" class="form-control" formControlName="Year"
+                                            placeholder="yyyy" type="number" min="1920" max="2021" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>חודש לידה</mat-label>
+                                        <input matInput autocomplete="off" class="form-control"
+                                            (keyup)="checkBirthDateValidity()" formControlName="Month" placeholder="mm"
+                                            type="number" min="1" max="12" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>יום לידה</mat-label>
+                                        <input matInput autocomplete="off" class="form-control"
+                                            (keyup)="checkBirthDateValidity()" formControlName="Day" placeholder="dd"
+                                            type="number" min="1" max="31" />
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div> -->
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field style="padding: 13px;">
                             <mat-label>תוצאה</mat-label>
-                            <mat-select formControlName="ResultTestCorona">
+                            <mat-select formControlName="ResultTestCorona" (selectionChange)='completeResultText($event.value)'>
                                 <mat-option *ngFor="let ResultTestCorona of ResultTestCoronaArray"
-                                    [value]="ResultTestCorona.TestNumber">
+                                    [value]="ResultTestCorona">
                                     {{ResultTestCorona.TestName}}
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col">
+                <!-- <div class="col">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput autocomplete="off" class="form-control" formControlName="Result"
                                 placeholder="תוצאה בטקסט" type="text" />
                         </mat-form-field>
                     </div>
-                </div>
+                </div> -->
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field style="padding: 13px;">
                             <mat-label>קוד קיט</mat-label>
-                            <mat-select formControlName="MethodCode">
-                                <mat-option>-- None --</mat-option>
-                                <mat-optgroup *ngFor="let MethodCode of MethodCodeArray" [label]="MethodCode.name"
-                                    [disabled]="MethodCode.disabled">
-                                    <mat-option *ngFor="let methodGroup of MethodCode.methodGroup"
-                                        [value]="methodGroup.MethodNumber">
-                                        {{methodGroup.MethodName}}
-                                    </mat-option>
-                                </mat-optgroup>
+                            <mat-select formControlName="MethodCode" (selectionChange)='completeMethodText($event.value)'>
+                                <mat-option *ngFor="let MethodCode of MethodCodeArray" [value]="MethodCode.MethodNumber">
+                                    {{MethodCode.MethodName}}
+                                </mat-option>
                             </mat-select>
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col">
+                <!-- <div class="col">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput autocomplete="off" class="form-control" formControlName="MethodDesc"
                                 placeholder="תיאור קיט בטקסט" type="text" />
                         </mat-form-field>
                     </div>
-                </div>
+                </div> -->
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field style="padding: 13px;">
@@ -242,20 +267,20 @@
                                 </mat-form-field>
                             </div>
                         </div>
-                        <div class="col">
-                            <div class="form-group">
-                                <mat-form-field>
-                                    <input matInput autocomplete="off" class="form-control" formControlName="RequestID"
-                                        placeholder="מספר דגימה" type="text" />
-                                </mat-form-field>
-                            </div>
-                        </div>
                     </div>
                 </div>
             </div>
 
 
             <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="RequestID"
+                                placeholder="מספר דגימה" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field style="padding: 13px;">
@@ -378,6 +403,12 @@
     </div>
     <div class="modal-footer text-left">
         <button matTooltip="שליחה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="onSubmit()"
+            type="submit" mat-raised-button *ngIf="!ifQRCodeReady">
+            <span class="material-icons">
+                save
+            </span>
+        </button>
+        <button matTooltip="שליחה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="warn" (click)="onClose()"
             type="submit" mat-raised-button *ngIf="!ifQRCodeReady">
             <span class="material-icons">
                 save

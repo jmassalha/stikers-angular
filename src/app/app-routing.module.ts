@@ -54,6 +54,7 @@ import { PublicInquiriesChartsComponent } from "./emailsdashboard/public-inquiri
 import { VisitorsMonitoringComponent } from "./visitors-monitoring/visitors-monitoring.component";
 import { VisitorsRegistrationComponent } from "./visitors-monitoring/visitors-registration/visitors-registration.component";
 import { FastCovid19TestComponent } from "./fast-covid19-test/fast-covid19-test.component";
+import { FastCovidTestDashboardComponent } from "./fast-covid-test-dashboard/fast-covid-test-dashboard.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -111,6 +112,7 @@ const routes: Routes = [
     { path: "visitorsmonitoring", component: VisitorsMonitoringComponent },
     { path: "visitorsregistration", component: VisitorsRegistrationComponent },
     { path: "fastcovid19test", component: FastCovid19TestComponent },
+    { path: "fastcovidtestdashboard", component: FastCovidTestDashboardComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

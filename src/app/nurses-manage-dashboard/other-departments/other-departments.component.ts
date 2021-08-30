@@ -17,7 +17,7 @@ export class OtherDepartmentsComponent implements OnInit {
   columnsToDisplay2: string[] = ['inprogress', 'waiting', 'completed', 'canceled'];
   columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'date', 'room', 'surgeryname', 'status'];
   columnsToDisplay3: string[] = ['adult', 'child', 'women', 'lyingdown', 'standing', 'shockroom'];
-  columnsToDisplay3_2: string[] = ['casenumber','departmed', 'patientlastname', 'patientfirstname','dadname','age','gender','datein', 'timein'];
+  columnsToDisplay3_2: string[] = ['casenumber', 'departmed', 'patientlastname', 'patientfirstname', 'dadname', 'age', 'gender', 'datein', 'timein'];
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
   dataSource5 = new MatTableDataSource<any>();
@@ -33,9 +33,14 @@ export class OtherDepartmentsComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource4_2.filter = filterValue;
   }
-  applyFilter3(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource5_2.filter = filterValue;
+  applyFilter3(event: Event, live) {
+    if (live == '1') {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource5_2.filter = 'ACTIVE';
+    } else {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource5_2.filter = filterValue;
+    }
   }
 
   constructor(public dialog: MatDialog,
@@ -121,7 +126,7 @@ export class OtherDepartmentsComponent implements OnInit {
       });
   }
 
-  getOtherDepartmentPatients(ICUType,live) {
+  getOtherDepartmentPatients(ICUType, live, event) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentPatients", {
         _otherDepartName: ICUType,
@@ -131,6 +136,7 @@ export class OtherDepartmentsComponent implements OnInit {
         // this.dataSource5_2 = new MatTableDataSource<any>();
         this.ICUDetails = true;
         this.dataSource5_2 = new MatTableDataSource<any>(Response["d"]);
+        this.applyFilter3(event, live);
       });
   }
 

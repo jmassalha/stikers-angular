@@ -58,17 +58,10 @@ export interface Type {
   TypeCode: number;
   TypeName: string;
 }
-interface MethodCode {
-  MethodName: string;
-  MethodNumber: number;
-}
-
 interface MethodCodeGroup {
-  disabled?: boolean;
-  name: string;
-  methodGroup: MethodCode[];
+  MethodName: string;
+  MethodNumber: string;
 }
-
 
 @Component({
   selector: 'app-fast-covid19-test',
@@ -76,8 +69,6 @@ interface MethodCodeGroup {
   styleUrls: ['./fast-covid19-test.component.css']
 })
 export class FastCovid19TestComponent implements OnInit {
-
-  @ViewChild("endTime") myTimeSample: ElementRef;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -101,35 +92,25 @@ export class FastCovid19TestComponent implements OnInit {
   ];
 
   ResultTestCoronaArray: ResultTestCorona[] = [
-    { TestNumber: 3341, TestName: 'חיובי אנטיגן' },
-    { TestNumber: 3340, TestName: 'שלילי אנטיגן' },
-    { TestNumber: 3331, TestName: 'חיובי סופיה' },
-    { TestNumber: 3330, TestName: 'שלילי סופיה' },
-    { TestNumber: 51, TestName: 'חיובי סרולוגיה' },
-    { TestNumber: 50, TestName: 'שלילי סרולוגיה' },
+    { TestNumber: 3341, TestName: 'חיובי' },
+    { TestNumber: 3340, TestName: 'שלילי' },
+    // { TestNumber: 3331, TestName: 'חיובי סופיה' },
+    // { TestNumber: 3330, TestName: 'שלילי סופיה' },
+    // { TestNumber: 51, TestName: 'חיובי סרולוגיה' },
+    // { TestNumber: 50, TestName: 'שלילי סרולוגיה' },
   ];
 
   MethodCodeArray: MethodCodeGroup[] = [
-    {
-      name: 'סוגי קיטים לאנטיגין',
-      methodGroup: [
-        { MethodNumber: 8733401, MethodName: 'Panbio' },
-        { MethodNumber: 8733402, MethodName: 'SD Biosensor' },
-        { MethodNumber: 8733403, MethodName: 'NoCheck' },
-        { MethodNumber: 8733404, MethodName: 'Sofia' },
-        { MethodNumber: 8733405, MethodName: 'Veritor' },
-        { MethodNumber: 8733406, MethodName: 'Selignostics' },
-        { MethodNumber: 8733407, MethodName: 'Certest' },
-      ]
-    },
-    {
-      name: 'סוגי קיטים לסרולוגיה',
-      methodGroup: [
-        { MethodNumber: 24, MethodName: 'PharmACT' },
-        { MethodNumber: 25, MethodName: 'Diasorin FS' },
-        { MethodNumber: 26, MethodName: 'ACON' }
-      ]
-    }
+        { MethodNumber: "8733401", MethodName: 'Panbio' },
+        { MethodNumber: "8733402", MethodName: 'SD Biosensor' },
+        { MethodNumber: "8733403", MethodName: 'NoCheck' },
+        { MethodNumber: "8733404", MethodName: 'Sofia' },
+        { MethodNumber: "8733405", MethodName: 'Veritor' },
+        { MethodNumber: "8733406", MethodName: 'Selignostics' },
+        { MethodNumber: "8733407", MethodName: 'Certest' },
+        { MethodNumber: "24", MethodName: 'PharmACT' },
+        { MethodNumber: "25", MethodName: 'Diasorin FS' },
+        { MethodNumber: "26", MethodName: 'ACON' }
   ];
 
   CitiesArray: City[] = [];
@@ -156,7 +137,7 @@ export class FastCovid19TestComponent implements OnInit {
   OriginArray: Origin[] = [
     { code: 4, name: 'בסופיה' },
     { code: 9, name: 'באנטיגן - דיגום פרטי' },
-    { code: 9, name: 'בסרולוגיה - דיגום פרטי' },
+    // { code: 9, name: 'בסרולוגיה - דיגום פרטי' },
   ];
 
   TypeArray: Type[] = [
@@ -212,59 +193,64 @@ export class FastCovid19TestComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserFullName();
-    // Validators.pattern("[0-9 ]{1,9}")
     this.TestsForm = this.formBuilder.group({
-      TransactionID: ["3fa85f64-5717-4562-b3fc-2c963f66afa6", null],
+      TransactionID: [this.myId, null],
       TestData: this.formBuilder.group({
-        IDNum: ['123456', null],
-        IdType: ['1', Validators.required],
-        FirstName: ['moshe', Validators.required],
-        LastName: ['cohen', Validators.required],
+        IDNum: ['', [Validators.required, Validators.pattern("[0-9 ]{1,9}")]],
+        IdType: [1, Validators.required],
+        FirstName: ['', Validators.required],
+        LastName: ['', Validators.required],
         Gender: ['M', null],
-        ResultTestCorona: ['3340', Validators.required],
-        Result: ['string', null],
-        MethodCode: ['8733407', Validators.required],
-        MethodDesc: ['string', null],
-        TestedType: ['87334', Validators.required],
-        LabCode: ['36702', Validators.required],
-        LabDesc: ['פמי', Validators.required],
+        ResultTestCorona: [, Validators.required],
+        Result: ['', null],
+        MethodCode: ["8733405", Validators.required],
+        MethodDesc: ['', null],
+        TestedType: [87334, Validators.required],
+        LabCode: [{ value: 36717, disabled: true }, Validators.required],
+        LabDesc: ['בדיקות אנטיגן', Validators.required],
         BirthDate: this.formBuilder.group({
-          Year: ['1983', [Validators.required, Validators.max(this.todaysYear), Validators.min(1920)]],
-          Month: ['6', [Validators.required, Validators.max(12), Validators.min(1)]],
-          Day: ['25', [Validators.required, Validators.max(31), Validators.min(1)]],
+          Year: [, [Validators.required, Validators.max(this.todaysYear), Validators.min(1920)]],
+          Month: [, [Validators.required, Validators.max(12), Validators.min(1)]],
+          Day: [, [Validators.required, Validators.max(31), Validators.min(1)]],
         }),
       }),
       SampleData: this.formBuilder.group({
         SamplingTime: this.formBuilder.group({
-          Year: ['2021', Validators.required],
-          Month: ['7', Validators.required],
-          Day: ['4', Validators.required],
-          Hour: ['8', Validators.required],
-          Minutes: ['20', Validators.required],
-          Seconds: ['50', Validators.required],
+          Year: [this.myDate.getFullYear(), Validators.required],
+          Month: [this.myDate.getMonth() + 1, Validators.required],
+          Day: [this.myDate.getDate(), Validators.required],
+          Hour: [this.myDate.getHours(), Validators.required],
+          Minutes: [this.myDate.getMinutes(), Validators.required],
+          Seconds: [this.myDate.getSeconds(), Validators.required],
         }),
         Institute: this.formBuilder.group({
-          Name: ['נתבג', Validators.required],
-          Type: ['0', null],
-          Code: ['string', null],
+          Name: [{ value: 'אחר', disabled: true }, Validators.required],
+          Type: [0, null],
+          Code: ['', null],
         }),
-        SenderName: ['TEST', Validators.required],
-        SenderIDnum: ['string', Validators.required],
-        RequestID: ['s1040', Validators.required],
-        CityCode: ['1', Validators.required],
-        CityDesc: ['חולון', Validators.required],
-        StreetCode: ['6', null],
-        StreetDesc: ['טסט', null],
-        HouseNumber: ['7', null],
-        Appartment: ['string', null],
-        PlaceOfCollect: ['0', Validators.required],
-        Tel1: ['052050', null],
-        Insurer: ['101', null],
-        SupplierCode: ['8', Validators.required],
-        SupplierDesc: ['string', Validators.required],
-        Origin: ['8', Validators.required],
+        SenderName: [{ value: this.userFullName, disabled: true }, Validators.required],
+        SenderIDnum: [{ value: this.UserName, disabled: true }, Validators.required],
+        RequestID: ['', Validators.required],
+        CityCode: ['', Validators.required],
+        CityDesc: ['', Validators.required],
+        StreetCode: [, null],
+        StreetDesc: ['', null],
+        HouseNumber: ['', null],
+        Appartment: ['', null],
+        PlaceOfCollect: [0, Validators.required],
+        Tel1: ['', [Validators.required, Validators.pattern("[0-9 ]{9}")]],
+        Insurer: [101, null],
+        SupplierCode: [{ value: 36717, disabled: true }, Validators.required],
+        SupplierDesc: [{ value: 'פוריה', disabled: true }, Validators.required],
+        Origin: [9, Validators.required],
       })
     });
+    let method = {
+      MethodNumber: "8733405",
+      MethodName: 'Veritor'
+    };
+    const name = this.MethodCodeArray.filter(option => option.MethodNumber.includes(method.MethodNumber));
+    this.TestsForm.controls.TestData['controls']['MethodDesc'].setValue(name[0].MethodName);
     this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
 
@@ -290,6 +276,21 @@ export class FastCovid19TestComponent implements OnInit {
   changeCity(event) {
     this.TestsForm.controls.SampleData['controls']['CityCode'].setValue(event.cityCode);
     this.TestsForm.controls.SampleData['controls']['CityDesc'].setValue(event.cityName);
+  }
+
+  completeResultText(event) {
+    this.TestsForm.controls.TestData['controls']['Result'].setValue(event.TestName);
+  }
+
+  displayFnMethod(city: MethodCodeGroup): string {
+    return city && city.MethodName ? city.MethodName : '';
+  }
+
+  completeMethodText(event) {
+    const filterValue = event;
+    const name = this.MethodCodeArray.filter(option => option.MethodNumber.includes(filterValue));
+    this.TestsForm.controls.TestData['controls']['MethodDesc'].setValue(name[0].MethodName);
+    // this.TestsForm.controls.TestData['controls']['MethodCode'].setValue(name[0].MethodNumber);
   }
 
   checkBirthDateValidity() {
@@ -331,10 +332,13 @@ export class FastCovid19TestComponent implements OnInit {
       return counter + (step > 9 ? step - 9 : step);
     }) % 10 === 0;
   }
-
+  createQRFromApi(img){
+    this.QRImage = "data:image/png;base64," + img;
+    this.ifQRCodeReady = true;
+  }
   sendReport() {
-    debugger
     if (!this.TestsForm.invalid) {
+      this.TestsForm.controls.TestData['controls']['ResultTestCorona'].setValue(this.TestsForm.controls.TestData['controls']['ResultTestCorona'].value.TestNumber);
       this.confirmationDialogService
         .confirm("נא לאשר..", "האם אתה בטוח ...? ")
         .then((confirmed) => {
@@ -397,7 +401,6 @@ export class FastCovid19TestComponent implements OnInit {
   }
 
   onSubmit() {
-    //this.sendReport();
     if (!this.is_israeli_id_number()) {
       this.openSnackBar("תעודת זהות לא תקינה");
     } else {
@@ -410,17 +413,13 @@ export class FastCovid19TestComponent implements OnInit {
       this.sendReport();
     }
   }
-  createQRFromApi(img){
-    this.QRImage = "data:image/png;base64," + img;
-    this.ifQRCodeReady = true;
-  }
-  createQR(){
-    let QRstring = "";
-    this.QRImage = "data:image/png;base64," + QRstring;
-    this.ifQRCodeReady = true;
+  
+  onClose(){
+    this.dialog.closeAll();
   }
 
-  Finish(){
+
+  Finish() {
     window.location.reload();
   }
 

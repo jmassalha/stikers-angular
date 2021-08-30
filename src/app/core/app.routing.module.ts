@@ -39,7 +39,7 @@ import { MaternitypatientsComponent } from "../maternitypatients/maternitypatien
 import { EmergencycallgroupsComponent } from "../emergencycallgroups/emergencycallgroups.component";
 import { EmergencymembersComponent } from "../emergencymembers/emergencymembers.component";
 import { EmployeesComponent } from "../employees/employees.component";
-
+import { FastCovidTestDashboardComponent } from "../fast-covid-test-dashboard/fast-covid-test-dashboard.component";
 import { FillSurveyComponent } from "../fill-survey/fill-survey.component";
 import { FormDashboardComponent } from '../form-dashboard/form-dashboard.component';
 import { UpdateformComponent } from '../updateform/updateform.component';
@@ -128,6 +128,7 @@ const routes: Routes = [
   { path: "visitorsmonitoring", component: VisitorsMonitoringComponent },
   { path: "visitorsregistration", component: VisitorsRegistrationComponent },
   { path: "fastcovid19test", component: FastCovid19TestComponent },
+  { path: "fastcovidtestdashboard", component: FastCovidTestDashboardComponent },
   { path: '', component : LoginComponent}
 ];
  

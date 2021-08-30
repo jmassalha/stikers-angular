@@ -182,70 +182,70 @@
 
         <ng-container matColumnDef="adult">
             <th mat-header-cell *matHeaderCellDef> מבוגרים </th>
-            <td mat-cell *matCellDef="let element"><button type="button" (click)="getOtherDepartmentPatients('ADULTS','0')"
+            <td mat-cell *matCellDef="let element"><button type="button" (click)="getOtherDepartmentPatients('ADULTS','0',$event)"
                     matTooltip="מטופלים במצטבר" mat-raised-button
                     style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.ADULTS}}
                 </button>
-                <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('ADULTS','1')"  matTooltip="מטופלים כעת" [disabled]
+                <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('ADULTS','1',$event)"  matTooltip="מטופלים כעת" [disabled]
                     mat-raised-button>
-                    10
+                    {{element.ADULTSNOW}}
                 </button>
             </td>
         </ng-container>
         <ng-container matColumnDef="child">
             <th mat-header-cell *matHeaderCellDef> ילדים </th>
             <td mat-cell *matCellDef="let element"><button type="button"
-                    (click)="getOtherDepartmentPatients('CHILDREN','0')" mat-raised-button
+                    (click)="getOtherDepartmentPatients('CHILDREN','0',$event)" mat-raised-button
                     style="background-image: linear-gradient(grey, aquamarine);" matTooltip="מטופלים במצטבר">
                     {{element.CHILDREN}}
-                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('CHILDREN','1')"  matTooltip="מטופלים כעת"
+                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('CHILDREN','1',$event)"  matTooltip="מטופלים כעת"
                     [disabled] mat-raised-button>
-                    10
+                    {{element.CHILDRENNOW}}
                 </button></td>
         </ng-container>
         <ng-container matColumnDef="women">
             <th mat-header-cell *matHeaderCellDef> נשים </th>
-            <td mat-cell *matCellDef="let element"><button type="button" (click)="getOtherDepartmentPatients('WOMEN','0')"
+            <td mat-cell *matCellDef="let element"><button type="button" (click)="getOtherDepartmentPatients('WOMEN','0',$event)"
                     mat-raised-button matTooltip="מטופלים במצטבר"
                     style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.WOMEN}}
-                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('WOMEN','1')"  matTooltip="מטופלים כעת"
+                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('WOMEN','1',$event)"  matTooltip="מטופלים כעת"
                     [disabled] mat-raised-button>
-                    10
+                    {{element.WOMENNOW}}
                 </button></td>
         </ng-container>
         <ng-container matColumnDef="lyingdown">
             <th mat-header-cell *matHeaderCellDef> שוכבים </th>
             <td mat-cell *matCellDef="let element"><button type="button" matTooltip="מטופלים במצטבר"
-                    (click)="getOtherDepartmentPatients('SHOKHVVEM','0')" mat-raised-button
+                    (click)="getOtherDepartmentPatients('SHOKHVVEM','0',$event)" mat-raised-button
                     style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.SHOKHVVEM}}
-                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('SHOKHVVEM','1')"  matTooltip="מטופלים כעת"
+                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('SHOKHVVEM','1',$event)"  matTooltip="מטופלים כעת"
                     [disabled] mat-raised-button>
-                    10
+                    {{element.SHOKHVVEMNOW}}
                 </button></td>
         </ng-container>
         <ng-container matColumnDef="standing">
             <th mat-header-cell *matHeaderCellDef> מהלכים </th>
             <td mat-cell *matCellDef="let element"><button type="button" matTooltip="מטופלים במצטבר"
-                    (click)="getOtherDepartmentPatients('MEHALKHEM','0')" mat-raised-button
+                    (click)="getOtherDepartmentPatients('MEHALKHEM','0',$event)" mat-raised-button
                     style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.MEHALKHEM}}
-                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('MEHALKHEM','1')"  matTooltip="מטופלים כעת"
+                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('MEHALKHEM','1',$event)"  matTooltip="מטופלים כעת"
                     [disabled] mat-raised-button>
-                    10
+                    {{element.MEHALKHEMNOW}}
                 </button></td>
         </ng-container>
         <ng-container matColumnDef="shockroom">
             <th mat-header-cell *matHeaderCellDef> חדר הלם </th>
-            <td mat-cell *matCellDef="let element"><button type="button" (click)="getOtherDepartmentPatients('HELEM','0')"
+            <td mat-cell *matCellDef="let element"><button type="button" (click)="getOtherDepartmentPatients('HELEM','0',$event)"
                     matTooltip="מטופלים במצטבר" mat-raised-button
                     style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.HELEM}}
-                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('HELEM','1')" matTooltip="מטופלים כעת"
+                </button> <button type="button" style="background-color: aquamarine;" (click)="getOtherDepartmentPatients('HELEM','1',$event)" matTooltip="מטופלים כעת"
                     [disabled] mat-raised-button>
-                    10
+                    {{element.HELEMNOW}}
                 </button></td>
         </ng-container>
 
@@ -259,7 +259,7 @@
     <div dir="rtl">
         <mat-form-field appearance="standard" *ngIf="ICUDetails">
             <mat-label>סינון</mat-label>
-            <input matInput (keyup)="applyFilter3($event)" placeholder="הקלד..." #input>
+            <input matInput (keyup)="applyFilter3($event,'0')" placeholder="הקלד..." #input>
         </mat-form-field>
     </div>
     <table dir="rtl" *ngIf="ICUDetails" mat-table [dataSource]="dataSource5_2" class="mat-elevation-z8"
@@ -316,7 +316,7 @@
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay3_2"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay3_2;"
-            [style.background]="row.Active == '1' ? 'aquamarine': 'darkgray'"></tr>
+            [style.background]="row.Active == 'ACTIVE' ? 'aquamarine': 'darkgray'"></tr>
 
     </table>
 </form>
