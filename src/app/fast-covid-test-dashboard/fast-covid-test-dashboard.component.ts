@@ -27,37 +27,51 @@ export class FastCovidTestDashboardComponent implements OnInit {
   all_Patients_array = [];
   TABLE_DATA: any[] = [];
   displayedColumns: string[] = [
-    'FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'showAll'
+    'SampleDate', 'IdNumber', 'FullName', 'Result', 'QrCode'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
   ngOnInit(): void {
 
     this.searchCovidTestPatients = new FormGroup({
-
+      searchWord: new FormControl('',null)
     });
+    this.getAllAntigTestedPatients();
 
   }
+
 
   getAllAntigTestedPatients(){
     this.http
     .post("http://srv-apps/wsrfc/WebService.asmx/GetAllAntigTestedPatients", {
+      _searchWord: this.searchCovidTestPatients.controls['searchWord'].value
     })
     .subscribe((Response) => {
       this.all_Patients_array = Response["d"];
 
       this.TABLE_DATA = [];
       for (var i = 0; i < this.all_Patients_array.length; i++) {
+        var json = JSON.parse(this.all_Patients_array[i].TestData.ImgQrCode);
+        console.log(json);
+        var FastCoronaTestResponse = json["FastCoronaTestResponse"];
+        console.log(FastCoronaTestResponse["FastTest"]["QRCode"]);
+        var img = "data:image/png;base64," +FastCoronaTestResponse["FastTest"]["QRCode"];
         this.TABLE_DATA.push({
-          FormID: this.all_Patients_array[i],
-          FormName: this.all_Patients_array[i],
-          FormDate: this.all_Patients_array[i],
-          FormDepartment: this.all_Patients_array[i],
+          SampleDate: this.all_Patients_array[i].SampleData.SamplingTime.Day +'/'+this.all_Patients_array[i].SampleData.SamplingTime.Month+'/'+this.all_Patients_array[i].SampleData.SamplingTime.Year,
+          IdNumber: this.all_Patients_array[i].TestData.IDNum,
+          FullName: this.all_Patients_array[i].TestData.LastName+' '+this.all_Patients_array[i].TestData.FirstName,
+          Result: this.all_Patients_array[i].TestData.Result,
+           QrCode: img,
         });
       }
       this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
       this.dataSource.paginator = this.paginator;
     });
   }
+
+  openNewTest(){
+    let dialogRef = this.dialog.open(FastCovid19TestComponent, { disableClose: true });
+  }
+
 
 }

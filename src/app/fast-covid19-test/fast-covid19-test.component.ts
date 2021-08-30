@@ -92,8 +92,8 @@ export class FastCovid19TestComponent implements OnInit {
   ];
 
   ResultTestCoronaArray: ResultTestCorona[] = [
-    { TestNumber: 3341, TestName: 'חיובי אנטיגן' },
-    { TestNumber: 3340, TestName: 'שלילי אנטיגן' },
+    { TestNumber: 3341, TestName: 'חיובי' },
+    { TestNumber: 3340, TestName: 'שלילי' },
     // { TestNumber: 3331, TestName: 'חיובי סופיה' },
     // { TestNumber: 3330, TestName: 'שלילי סופיה' },
     // { TestNumber: 51, TestName: 'חיובי סרולוגיה' },
@@ -241,7 +241,7 @@ export class FastCovid19TestComponent implements OnInit {
         Tel1: ['', [Validators.required, Validators.pattern("[0-9 ]{9}")]],
         Insurer: [101, null],
         SupplierCode: [{ value: 36717, disabled: true }, Validators.required],
-        SupplierDesc: [{ value: 'המרכז הרפואי ע"ש ברוך פדה, פוריה', disabled: true }, Validators.required],
+        SupplierDesc: [{ value: 'פוריה', disabled: true }, Validators.required],
         Origin: [9, Validators.required],
       })
     });
@@ -412,6 +412,10 @@ export class FastCovid19TestComponent implements OnInit {
       this.TestsForm.controls.SampleData['controls']['SamplingTime'].controls.Seconds.setValue(this.myDate.getSeconds());
       this.sendReport();
     }
+  }
+  
+  onClose(){
+    this.dialog.closeAll();
   }
 
 

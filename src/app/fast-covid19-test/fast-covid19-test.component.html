@@ -408,6 +408,12 @@
                 save
             </span>
         </button>
+        <button matTooltip="שליחה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="warn" (click)="onClose()"
+            type="submit" mat-raised-button *ngIf="!ifQRCodeReady">
+            <span class="material-icons">
+                save
+            </span>
+        </button>
         <button matTooltip="סיום" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="Finish()"
             type="submit" mat-raised-button *ngIf="ifQRCodeReady">
             <span class="material-icons">
