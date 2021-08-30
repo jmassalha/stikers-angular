@@ -332,7 +332,10 @@ export class FastCovid19TestComponent implements OnInit {
       return counter + (step > 9 ? step - 9 : step);
     }) % 10 === 0;
   }
-
+  createQRFromApi(img){
+    this.QRImage = "data:image/png;base64," + img;
+    this.ifQRCodeReady = true;
+  }
   sendReport() {
     if (!this.TestsForm.invalid) {
       this.TestsForm.controls.TestData['controls']['ResultTestCorona'].setValue(this.TestsForm.controls.TestData['controls']['ResultTestCorona'].value.TestNumber);
@@ -346,8 +349,13 @@ export class FastCovid19TestComponent implements OnInit {
                 resultClass: this.TestsForm.getRawValue(),
               })
               .subscribe((Response) => {
+                debugger
                 if (Response["d"]) {
-                  this.openSnackBar("נשלח בהצלחה");
+                  var json = JSON.parse(Response["d"]);
+                  console.log(json);
+                  var FastCoronaTestResponse = json["FastCoronaTestResponse"];
+                  console.log(FastCoronaTestResponse["FastTest"]["QRCode"]);
+                  this.createQRFromApi(FastCoronaTestResponse["FastTest"]["QRCode"])
                   // window.location.reload();
                 } else {
                   this.openSnackBar("משהו השתבש, לא נשלח");
