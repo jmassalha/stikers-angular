@@ -1,4 +1,4 @@
-<h2 class="page-title text-center">רשימת שאלונים</h2>
+<h2 class="page-title text-center">בדיקת קורונה מהירה</h2>
 
 <div id="page-toshow">
     <div class="container-fluid">
@@ -7,10 +7,22 @@
                 <div class="card-body">
                     <form class="form" [formGroup]="searchCovidTestPatients">
                         <div class="row">
-                            <div class="form-group mt-3 col-lg-12 col-sm-12 col-xs-12">
+                            <div
+                                class="
+                                    form-group
+                                    mt-3
+                                    col-lg-12 col-sm-12 col-xs-12
+                                "
+                            >
                                 <mat-form-field>
-                                    <input matInput formControlName="searchWord" autocomplete="off"
-                                        placeholder="חיפוש לפי תעודת זהות" type="number" name="fliterVal" />
+                                    <input
+                                        matInput
+                                        formControlName="searchWord"
+                                        autocomplete="off"
+                                        placeholder="חיפוש לפי תעודת זהות"
+                                        type="number"
+                                        name="fliterVal"
+                                    />
                                 </mat-form-field>
                             </div>
                             <!-- <div class="form-group mt-2 col-lg-4 col-sm-12">
@@ -27,68 +39,185 @@
                                 </mat-form-field>
                             </div> -->
                         </div>
-                        <button mat-raised-button type="submit"
-                            class="btn btn-primary btn-raised" (click)="getAllAntigTestedPatients()">
-                            <span class="material-icons">
-                                search
-                            </span>
+                        <button
+                            mat-raised-button
+                            type="submit"
+                            class="btn btn-primary btn-raised"
+                            (click)="getAllAntigTestedPatients()"
+                        >
+                            <span class="material-icons"> search </span>
                         </button>
                     </form>
                 </div>
             </div>
         </div>
-    </div><br><br>
+        <br /><br />
 
-    <div dir="rtl">
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-            <!-- Position Column -->
-            <ng-container matColumnDef="SampleDate">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך דגימה
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.SampleDate}}</mat-cell>
-            </ng-container>
+        <div dir="rtl">
+            <table
+            class="table mat-elevation-z8"
+            mat-table
+            [dataSource]="dataSource">
+                <!-- Position Column -->
+                <ng-container matColumnDef="SampleDate">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        תאריך דגימה
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        {{ element.SampleDate }}</mat-cell
+                    >
+                </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="IdNumber">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תעודת זהות
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;text-align: center;">
-                    {{element.IdNumber}}
-                </mat-cell>
-            </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="IdNumber">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        תעודת זהות
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center; text-align: center"
+                    >
+                        {{ element.IdNumber }}
+                    </mat-cell>
+                </ng-container>
 
-            <ng-container matColumnDef="FullName">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם נבדק
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FullName}}
-                </mat-cell>
-            </ng-container>
+                <ng-container matColumnDef="FullName">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        שם נבדק
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        {{ element.FullName }}
+                    </mat-cell>
+                </ng-container>
 
-            <!-- Weight Column -->
-            <ng-container matColumnDef="Result">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תוצאה
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;">{{element.Result}} </mat-cell>
-            </ng-container>
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Result">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        תוצאה
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                        >{{ element.Result }}
+                    </mat-cell>
+                </ng-container>
 
-            <!-- Update Column -->
-            <ng-container matColumnDef="QrCode">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> QRCode
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;"> <img [src]="element.QrCode"> </mat-cell>
-            </ng-container>
+                <!-- Update Column -->
+                <ng-container matColumnDef="QrCode">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        QRCode
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        <img [src]="element.QrCode" width="75"/>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Print">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        הדפס
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        <button
+                            matTooltip="הדפס"
+                            class="btn btn-outline-dark ml-4"
+                            id="BtnStyle"
+                            color="primary"
+                            (click)="print(element)"
+                            type="button"
+                            mat-raised-button
+                        >
+                            <span class="material-icons"> print </span>
+                        </button>
+                    </mat-cell>
+                </ng-container>
 
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        <button type="button" id="rolesDetailsBtn" mat-fab color="primary"><i class="material-icons"
-                matTooltip="בדיקה חדשה" (click)="openNewTest()">add</i></button>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+                <mat-header-row
+                    *matHeaderRowDef="displayedColumns"
+                ></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></mat-row>
+            </table>
+            <button
+                type="button"
+                id="rolesDetailsBtn"
+                mat-fab
+                color="primary"
+                (click)="openNewTest()"
+            >
+                <i class="material-icons" matTooltip="בדיקה חדשה">add</i>
+            </button>
+            <mat-paginator
+                [pageSizeOptions]="[20, 50]"
+                showFirstLastButtons
+            ></mat-paginator>
+        </div>
+    </div>
+</div>
+<div id="printQrCode" class="modal-header d-none text-right">
+    <div class="row mt-3">
+        <div class="col">
+            <p><b>ת.ז: </b> {{ PatienId }}</p>
+            <p><b>שם מלא: </b> {{ FirstName }}</p>
+            <p><b>תוצאת בדיקה: </b> {{ CheckResuls }}</p>
+            <p><b>מועד הדגימה: </b> {{ date2 }} - {{ time2 }}</p>
+            <p><b>תוקף הדגימה: </b> {{ dateEnd }} - {{ time2 }}</p>
+        </div>
+    </div>
+    <div class="card" id="Qr">
+        <img [src]="QRImage" />
     </div>
 </div>

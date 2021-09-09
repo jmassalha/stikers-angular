@@ -22,12 +22,19 @@ export class FastCovidTestDashboardComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     public datepipe: DatePipe) { }
-
+    PatienId
+    FirstName
+    LastName
+    date2
+    time2
+    dateEnd
+    CheckResuls
+    QRImage
   searchCovidTestPatients: FormGroup;
   all_Patients_array = [];
   TABLE_DATA: any[] = [];
   displayedColumns: string[] = [
-    'SampleDate', 'IdNumber', 'FullName', 'Result', 'QrCode'
+    'SampleDate', 'IdNumber', 'FullName', 'Result', 'QrCode', 'Print'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -52,16 +59,23 @@ export class FastCovidTestDashboardComponent implements OnInit {
       this.TABLE_DATA = [];
       for (var i = 0; i < this.all_Patients_array.length; i++) {
         var json = JSON.parse(this.all_Patients_array[i].TestData.ImgQrCode);
-        console.log(json);
+       // console.log(json);
         var FastCoronaTestResponse = json["FastCoronaTestResponse"];
-        console.log(FastCoronaTestResponse["FastTest"]["QRCode"]);
-        var img = "data:image/png;base64," +FastCoronaTestResponse["FastTest"]["QRCode"];
+        if(FastCoronaTestResponse["FastTest"]["QRCode"]){
+          console.log(FastCoronaTestResponse["FastTest"]["QRCode"]);
+          var img = "data:image/png;base64," +FastCoronaTestResponse["FastTest"]["QRCode"];
+        }else{
+          var img = "";
+        }
+
         this.TABLE_DATA.push({
           SampleDate: this.all_Patients_array[i].SampleData.SamplingTime.Day +'/'+this.all_Patients_array[i].SampleData.SamplingTime.Month+'/'+this.all_Patients_array[i].SampleData.SamplingTime.Year,
+          SampleEndDate: (parseInt(this.all_Patients_array[i].SampleData.SamplingTime.Day) + 1) +'/'+this.all_Patients_array[i].SampleData.SamplingTime.Month+'/'+this.all_Patients_array[i].SampleData.SamplingTime.Year,
           IdNumber: this.all_Patients_array[i].TestData.IDNum,
           FullName: this.all_Patients_array[i].TestData.LastName+' '+this.all_Patients_array[i].TestData.FirstName,
           Result: this.all_Patients_array[i].TestData.Result,
-           QrCode: img,
+          QrCode: img,
+          SampleTime: this.all_Patients_array[i].SampleData.SamplingTime.Hour+":"+this.all_Patients_array[i].SampleData.SamplingTime.Minutes          
         });
       }
       this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
@@ -72,6 +86,35 @@ export class FastCovidTestDashboardComponent implements OnInit {
   openNewTest(){
     let dialogRef = this.dialog.open(FastCovid19TestComponent, { disableClose: true });
   }
+  print(element){
+    //debugger
+    this.PatienId = element.IdNumber
+    this.FirstName =  element.FullName
+    this.date2 =  element.SampleDate
+    this.time2 =  element.SampleTime
+    this.dateEnd =  element.SampleEndDate
+    this.QRImage =  element.QrCode
+    this.CheckResuls =  element.Result
+    $("#loader").removeClass("d-none");
+    setTimeout(function(){
+      
+      $("#loader").addClass("d-none");
+      var mywindow = window.open('', 'PRINT');
 
+      mywindow.document.write('<html><head><title>בדיקת קורונה מהירה</title>');
+      mywindow.document.write('</head><body dir="rtl" style="text-align:right;width:300px;margin:auto;display:block;">');
+      mywindow.document.write('<h1 style="text-align:center">בדיקת קורונה מהירה</h1>');
+      mywindow.document.write(document.getElementById("printQrCode").innerHTML);
+      mywindow.document.write('</body></html>');
+
+      mywindow.document.close(); // necessary for IE >= 10
+      mywindow.focus(); // necessary for IE >= 10*/
+
+      mywindow.print();
+      mywindow.close();
+      return true;
+    }, 1500)
+    
+  }
 
 }
