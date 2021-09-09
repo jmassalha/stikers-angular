@@ -21,7 +21,21 @@
     border-style: outset;
     margin-bottom: 8px;
 }
+.mat-accordion{
+    width: 100%;
+}
+.expantionBox{
+    overflow: auto;
+    width: 100%;
+    height: 132px;  
+    /* padding: 10px 20px 70px 20px;
+    border: 1px solid black;
+    border-radius: 0px 10px 10px 0px; */
+}
+#addReply{
+    bottom: -95px;
+}
 
-/* .form .col{
-    font-size: xx-small;
-} */
+h5{
+    float: right;
+}

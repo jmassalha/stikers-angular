@@ -99,7 +99,7 @@ export class ShareReportsDialog {
   }
 
 
-  shareComplaintWithOthers() {
+  shareReportWithOthers() {
     if (this.myControl.value == "") {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
@@ -112,10 +112,8 @@ export class ShareReportsDialog {
         .subscribe((Response) => {
           if (Response["d"] == "found") {
             this.openSnackBar("! נשלח בהצלחה לנמען");
-          } else if (Response["d"] == "Exists") {
-            this.openSnackBar("! כבר משוייך לפנייה");
           } else {
-            this.openSnackBar("! נמען לא קיים");
+            this.openSnackBar("! אירעה תקלה, לא נשלח");
           }
         });
     }
@@ -146,57 +144,57 @@ export class ShareReportsDialog {
   }
 
 }
-@Component({
-  selector: 'dialog-elements-example-dialog',
-  templateUrl: 'changesHistory.html',
-})
+// @Component({
+//   selector: 'dialog-elements-example-dialog',
+//   templateUrl: 'changesHistory.html',
+// })
 
-export class DialogElementsExampleDialog implements OnInit {
+// export class DialogElementsExampleDialog implements OnInit {
 
-  displayedColumns: string[] = ['Row_ID', 'UpdateDate', 'FullName'];
-  dataSource2;
+//   displayedColumns: string[] = ['Row_ID', 'UpdateDate', 'FullName'];
+//   dataSource2;
 
-  constructor(
-    private http: HttpClient,
-    public dialog: MatDialog,
-    public datepipe: DatePipe,
-    private dialogRef: MatDialogRef<DialogElementsExampleDialog>,) { }
+//   constructor(
+//     private http: HttpClient,
+//     public dialog: MatDialog,
+//     public datepipe: DatePipe,
+//     private dialogRef: MatDialogRef<DialogElementsExampleDialog>,) { }
 
-  all_history_filter = [];
-  reportID: string;
+//   all_history_filter = [];
+//   reportID: string;
 
 
-  ngOnInit(): void {
-    this.getHistories();
+//   ngOnInit(): void {
+//     this.getHistories();
 
-  }
+//   }
 
-  closeDialog() {
-    this.dialogRef.close();
-  }
+//   closeDialog() {
+//     this.dialogRef.close();
+//   }
 
-  getHistories() {
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetReportsChangesHistory", {
-        _reportID: this.reportID
-      })
-      .subscribe((Response) => {
-        let ELEMENT_DATA2 = [];
-        this.all_history_filter = Response["d"];
-        if (this.all_history_filter.length > 0) {
-          for (var i = 0; i < this.all_history_filter.length; i++) {
-            let runingNum = i + 1;
-            ELEMENT_DATA2.push({
-              Row_ID: runingNum.toString(),
-              UpdateDate: this.all_history_filter[i].UpdateDate,
-              FullName: this.all_history_filter[i].FirstName + ' ' + this.all_history_filter[i].LastName,
-            });
-          }
-        }
-        this.dataSource2 = ELEMENT_DATA2;
-      });
-  }
-}
+//   getHistories() {
+//     this.http
+//       .post("http://srv-apps/wsrfc/WebService.asmx/GetReportsChangesHistory", {
+//         _reportID: this.reportID
+//       })
+//       .subscribe((Response) => {
+//         let ELEMENT_DATA2 = [];
+//         this.all_history_filter = Response["d"];
+//         if (this.all_history_filter.length > 0) {
+//           for (var i = 0; i < this.all_history_filter.length; i++) {
+//             let runingNum = i + 1;
+//             ELEMENT_DATA2.push({
+//               Row_ID: runingNum.toString(),
+//               UpdateDate: this.all_history_filter[i].UpdateDate,
+//               FullName: this.all_history_filter[i].FirstName + ' ' + this.all_history_filter[i].LastName,
+//             });
+//           }
+//         }
+//         this.dataSource2 = ELEMENT_DATA2;
+//       });
+//   }
+// }
 @Component({
   selector: 'app-nurses-dashboard',
   templateUrl: './nurses-dashboard.component.html',
@@ -269,6 +267,8 @@ export class NursesDashboardComponent implements OnInit {
   reportType: string;
   gender: string;
   dob: string;
+  description: string;
+  corona: string;
   firstName: string;
   lastName: string;
   all_report_management;
@@ -325,6 +325,7 @@ export class NursesDashboardComponent implements OnInit {
         map(value => this._filter2(value))
       );
     this.departmentfilter.setValue(this.Dept_Name);
+    this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
   }
 
   openSnackBar(message) {
@@ -364,10 +365,10 @@ export class NursesDashboardComponent implements OnInit {
     dialogRef.componentInstance.lastName = lastName;
   }
 
-  displayHistoryDialog(reportid) {
-    let dialogRef = this.dialog.open(DialogElementsExampleDialog);
-    dialogRef.componentInstance.reportID = reportid;
-  }
+  // displayHistoryDialog(reportid) {
+  //   let dialogRef = this.dialog.open(DialogElementsExampleDialog);
+  //   dialogRef.componentInstance.reportID = reportid;
+  // }
 
   addReply(reportid) {
     let dialogRef = this.dialog.open(ReportRepliesComponent);
@@ -448,17 +449,17 @@ export class NursesDashboardComponent implements OnInit {
           for (var i = 0; i < this.reportsArr.length; i++) {
             this.ELEMENT_DATA.push({
               reportID: this.reportsArr[i].Row_ID,
-              date: this.reportsArr[i].ReportDate,
-              status: this.reportsArr[i].ReportStatus,
-              description: this.reportsArr[i].ReportText,
+              ReportDate: this.reportsArr[i].ReportDate,
+              ReportStatus: this.reportsArr[i].ReportStatus,
+              ReportText: this.reportsArr[i].ReportText,
               userFullName: this.reportsArr[i].UsersReportsList[0].UsersList[0].FirstName + " " + this.reportsArr[i].UsersReportsList[0].UsersList[0].LastName,
               UserName: this.reportsArr[i].UsersReportsList[0].UsersList[0].UserName,
-              updateDate: this.reportsArr[i].LastUpdatedDate,
-              shift: this.reportsArr[i].ReportShift,
+              LastUpdatedDate: this.reportsArr[i].LastUpdatedDate,
+              ReportShift: this.reportsArr[i].ReportShift,
               // priority: this.reportsArr[i].ReportPriority,
-              machlol: this.reportsArr[i].ReportMachlol,
-              category: this.reportsArr[i].ReportCategory,
-              reportsubcategory: this.reportsArr[i].ReportSubCategory,
+              ReportMachlol: this.reportsArr[i].ReportMachlol,
+              ReportCategory: this.reportsArr[i].ReportCategory,
+              ReportSubCategory: this.reportsArr[i].ReportSubCategory,
             });
           }
           this.departmentfilter.setValue(this.Dept_Name);
@@ -484,12 +485,6 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   sendReport() {
-    // if (this.ReportGroup.controls['toContinue'].value == false) {
-    //   this.ReportGroup.controls['ReportSchudledDate'].enable();
-    //   this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
-    // }
-    // this.ReportGroup.controls['ReportSchudledDate'].setValue(this.pipe.transform(this.ReportGroup.controls['ReportSchudledDate'].value, 'yyyy-MM-dd'));
-    // this.ReportGroup.controls['ReportSchudledDate'].setValidators(null);
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
     if (this.caseNumber == undefined) {
       this.caseNumber = "";
@@ -504,8 +499,7 @@ export class NursesDashboardComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] == "Success") {
             this.openSnackBar("נשמר בהצלחה");
-            this.dialog.closeAll();
-            window.location.reload();
+            this.searchReports();
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");
           }
@@ -532,17 +526,11 @@ export class NursesDashboardComponent implements OnInit {
 
   autoDate(amin) {
     if (amin) {
-      // this.ReportGroup.controls['ReportSchudledDate'].setValue(null);
-      // this.ReportGroup.controls['ReportSchudledDate'].setValidators(Validators.required);
-      // this.ReportGroup.controls['ReportSchudledDate'].enable();
       this.ReportGroup.controls['ReportStatus'].setValue('לטיפול');
     } else {
-      // this.ReportGroup.controls['ReportSchudledDate'].disable();
-      // this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
     }
   }
-
 
   onSubmit() {
     this.sendReport();

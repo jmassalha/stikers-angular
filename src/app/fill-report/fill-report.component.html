@@ -1,20 +1,23 @@
 <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup">
     <div class="modal-header text-right">
         <div class="row mt-3">
+            <div class="col">
                 {{date2}} - {{time2}} - {{userFullName}}
+            </div>
+            <div class="col">
+                <button matTooltip="שליחה לנמען" mat-raised-button type="button" class="btn btn-primary btn-raised float-left"
+                    (click)="openShareDialog()">
+                    <span class="material-icons">
+                        reply
+                    </span>
+                </button>
+            </div>
+
+
         </div>
     </div>
     <div class="modal-body">
         <div class="row">
-            <!-- <div class="col-9">
-                <div class="form-group">
-                    <mat-form-field>
-                        <input matInput autocomplete="off" class="form-control" formControlName="ReportTitle"
-                            placeholder="נושא" type="text" />
-                    </mat-form-field>
-                </div>
-            </div> -->
-
             <div class="col">
                 <div class="form-group">
                     <mat-form-field>
@@ -70,41 +73,17 @@
                         המשך טיפול</mat-checkbox>
                 </section>
             </div>
-            <!-- <div class="col">
-                <div class="form-group">
-                    <mat-form-field appearance="fill">
-                        <input matInput placeholder="תאריך לביצוע" formControlName="ReportSchudledDate"
-                            [matDatepicker]="picker">
-                        <mat-datepicker-toggle matSuffix [for]="picker">
-                        </mat-datepicker-toggle>
-                        <mat-datepicker #picker></mat-datepicker>
-                    </mat-form-field>
-                </div>
-
-            </div> -->
         </div>
         <div class="row">
-            <!-- <div class="col">
-                <div class="form-group">
-                    <mat-form-field>
-                        <mat-label>עדיפות</mat-label>
-                        <mat-select formControlName="ReportPriority">
-                            <mat-option *ngFor="let pr of priority" [value]="pr.value">
-                                {{pr.viewValue}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div>
-            </div> -->
             <div class="col-3">
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>משמרת</mat-label>
-                        <input matInput class="form-control" formControlName="ReportShift" type="text" />
-                        <!-- <mat-select formControlName="ReportShift">
-                            <mat-option *ngFor="let sh of shift" [value]="sh.value"> {{sh.viewValue}} </mat-option>
-                        </mat-select> -->
+                        <b style="font-size: 26px;font-family: 'Roboto';">
+                            <input matInput class="form-control" formControlName="ReportShift" type="text" />
+                        </b>
                     </mat-form-field>
+
                 </div>
             </div>
             <div class="col-9">
@@ -115,25 +94,51 @@
                     </mat-form-field>
                 </div>
             </div>
-            
         </div>
-        <!-- <div class="row">
-            
-        </div> -->
+        <div class="row">
+            <div class="col-11">
+                <h5>תגובות:</h5>
+                <div class="expantionBox">
+                    <mat-accordion class="mat-accordion">
+                        <div *ngFor="let response of usersReponsesList">
+                            <mat-expansion-panel *ngIf="response.FirstName != ''" (opened)="panelOpenState = true"
+                                (closed)="panelOpenState = false">
+                                <mat-expansion-panel-header>
+                                    <mat-panel-title>
+                                        {{response.FirstName}} {{response.LastName}}
+                                    </mat-panel-title>
+                                    <mat-panel-description>
+                                        {{response.UpdateDate}}
+                                    </mat-panel-description>
+                                </mat-expansion-panel-header>
+                                <p>{{response.ResponseText}}</p>
+                            </mat-expansion-panel>
+                        </div>
+
+                    </mat-accordion>
+                </div>
+            </div>
+            <div class="col-1">
+                <button mat-mini-fab matTooltip="הוספת תגובה" id="addReply" (click)="addResponseToReport(reportID)"
+                    color="primary">
+                    <mat-icon>add</mat-icon>
+                </button>
+            </div>
+        </div>
     </div>
     <div class="modal-footer text-left" *ngIf="creator || reportID == '0';else note">
-        <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="onSubmit()" type="submit"
-            mat-raised-button>
+        <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="onSubmit()"
+            type="submit" mat-raised-button>
             <span class="material-icons">
                 save
             </span>
         </button>
-        <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" id="BtnStyle" mat-raised-button class="btn btn-outline-dark"
-            color="warn" (click)="deleteReport(reportID)">
+        <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" id="BtnStyle" mat-raised-button
+            class="btn btn-outline-dark" color="warn" (click)="deleteReport(reportID)">
             <span class="material-icons">
                 delete
             </span>
         </button>
     </div>
-    <ng-template #note>להוספת תגובה לדווח תחת העמודה "הוסף תגובה לדווח"</ng-template>
+    <ng-template #note>הדווח נעול לעריכה</ng-template>
 </form>

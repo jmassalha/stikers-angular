@@ -1,6 +1,5 @@
 <mat-card dir="rtl" id="page-toshow" style="background-color: aliceblue;padding-top: 0px;">
-
-
+    <h1 class="page-title text-center">מערכת דיווח אחיות</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -130,7 +129,7 @@
             </div>
             <button matTooltip="דווח מינהלי" type="button" id="EventBtndisplay" mat-fab color="primary"
                 (click)="openReportDialog('administrative')">
-                <i class="material-icons">edit</i>
+                <i class="material-icons">assignment_ind</i>
             </button>
         </div>
     </div>
@@ -150,9 +149,11 @@
                                 *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
                         </div>
                         <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name"><span
-                                class="coronaNumber" *ngIf="item.CoronaNumber !== '0'" style="color: red;">חולי קורונה:
-                                {{item.CoronaNumber}}</span> סה"כ: {{item.OccupancyPerDepart}} -
-                            תפוסה: {{item.PercentOccupancy}}%
+                                class="coronaNumber" *ngIf="item.CoronaNumber !== '0'" style="color: red;">מטופלי
+                                קורונה:
+                                {{item.CoronaNumber}}</span> סה"כ: {{item.OccupancyPerDepart}}
+                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה: - {{item.PercentOccupancy}}%
+                            </span>
                         </div>
                         <!-- <div class="list-style text-center" style="font-size: 24px;"> 
                         </div> -->
@@ -170,23 +171,6 @@
             <h1>מערכת דוחות אחיות</h1>
         </div>
         <thead>
-            <!-- <tr>
-                <th><br></th>
-            </tr>
-            <tr>
-                <th>
-                    <div class="row">
-
-                    </div>
-                </th>
-            </tr> -->
-
-            <!-- <tr>
-                <th>
-                   <span>פרטי הדווח</span> 
-                   <span>תוכן הדווח</span> 
-                </th>
-            </tr> -->
         </thead>
         <tbody>
             <tr *ngFor="let tblRow of ELEMENT_DATA" class="text-right">
@@ -198,27 +182,27 @@
                                     <div class="col-md-6">
                                         <b>תאריך שעה:</b>
                                         {{
-                                        tblRow.date
+                                        tblRow.LastUpdatedDate
                                         }}
                                     </div>
                                     <div class="col-md-6">
                                         <b>נושא/מחלקה:</b>
-                                        {{ tblRow.machlol }}
+                                        {{ tblRow.ReportMachlol }}
                                     </div>
                                     <div class="col-md-6">
                                         <b>קטיגוריה:</b>
-                                        {{ tblRow.category }}
+                                        {{ tblRow.ReportCategory }}
                                     </div>
                                     <div class="col-md-6">
                                         <b>תת קטיגוריה:</b>
                                         {{
-                                        tblRow.reportsubcategory
+                                        tblRow.ReportSubCategory
                                         }}
                                     </div>
                                     <div class="col-md-6">
                                         <b>משמרת:</b>
                                         {{
-                                        tblRow.shift
+                                        tblRow.ReportShift
                                         }}
                                     </div>
                                     <div class="col-md-6">
@@ -232,7 +216,7 @@
                             <div class="col-8 bord-l">
                                 <h3>{{ tblRow.title }}</h3>
                                 <p class="">
-                                    {{ tblRow.description }}
+                                    {{ tblRow.ReportText }}
                                 </p>
                             </div>
                         </div>

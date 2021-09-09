@@ -874,7 +874,7 @@ tr.mat-footer-row {
 }
 .cdk-overlay-container {
     position: fixed;
-    z-index: 9999999999 !important;
+    z-index: 9999999999999!important;
 }
 .mat-form-field-appearance-fill .mat-form-field-flex {
     border-radius: 4px 4px 0 0;
@@ -1618,7 +1618,7 @@ g text {
     min-height: 100vh;
 }
 .lh-37 .mat-form-field-infix {
-    line-height: 37px;
+    line-height: 15px;
 }
 .pos-abs-center {
     position: absolute;

@@ -24,17 +24,17 @@ export class NursesDepartmentManageComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  displayedColumns: string[] = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
+  displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'lastname','firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
+  displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'lastname', 'firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
   dataSource2 = new MatTableDataSource<any>();
 
   applyFilter(event: Event, filval: string) {
     if (filval == '') {
       const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource2.filter = filterValue;
-    }else{
+    } else {
       this.dataSource2.filter = filval;
     }
   }
@@ -61,6 +61,11 @@ export class NursesDepartmentManageComponent implements OnInit {
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
 
   ngOnInit(): void {
+    if (this.Dept_Name != 'מיון יולדות (חדר לידה)') {
+      this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
+    } else {
+      this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday'];
+    }
     this.loading = true;
     this.patientsTable = false;
     this.Patientsloading = false;
@@ -107,7 +112,7 @@ export class NursesDepartmentManageComponent implements OnInit {
     dialogRef.componentInstance.lastName = lastName;
     dialogRef.componentInstance.caseNumber = caseNumber;
   }
-  displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname,gender,dob,reportType) {
+  displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname, gender, dob,description,corona, reportType) {
     let dialogRef = this.dialog.open(NursesDashboardComponent);
     dialogRef.componentInstance.caseNumber = caseNumber;
     dialogRef.componentInstance.asDialog = asDialog;
@@ -116,10 +121,12 @@ export class NursesDepartmentManageComponent implements OnInit {
     dialogRef.componentInstance.lastname = lastname;
     dialogRef.componentInstance.gender = gender;
     dialogRef.componentInstance.dob = dob;
+    dialogRef.componentInstance.description = description;
+    dialogRef.componentInstance.corona = corona;
     dialogRef.componentInstance.reportType = reportType;
     dialogRef.afterClosed()
       .subscribe((data) => {
-        if(data){
+        if (data) {
           this.dialogRef.close(data);
         }
       })
@@ -140,7 +147,7 @@ export class NursesDepartmentManageComponent implements OnInit {
       });
   }
 
-  getPatientsPerDepart(event: Event,subDepart: string) {
+  getPatientsPerDepart(event: Event, subDepart: string) {
     this.Patientsloading = true;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsPerDepart", {
@@ -149,9 +156,9 @@ export class NursesDepartmentManageComponent implements OnInit {
       .subscribe((Response) => {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);
         this.patientsTable = !this.patientsTable;
-        if(subDepart != ''){
+        if (subDepart != '') {
           this.patientsTable = true;
-          this.applyFilter(event,subDepart);
+          this.applyFilter(event, subDepart);
         }
         this.Patientsloading = false;
       });

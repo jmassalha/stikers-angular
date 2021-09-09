@@ -51,7 +51,6 @@ import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.com
 import { CaseinvoisesComponent } from '../caseinvoises/caseinvoises.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
 import { FillReportComponent } from '../fill-report/fill-report.component';
-import { DialogElementsExampleDialog } from '../nurses-dashboard/nurses-dashboard.component';
 import { ManageClinicPriceComponent } from '../manage-clinic-price/manage-clinic-price.component';
 import { NursesManageDashboardComponent } from '../nurses-manage-dashboard/nurses-manage-dashboard.component';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
@@ -102,7 +101,6 @@ const routes: Routes = [
   { path: "emergencycallgroups", component: EmergencycallgroupsComponent },
   { path: "emergencymembers", component: EmergencymembersComponent },
   { path: "employees", component: EmployeesComponent },
-  { path: "historydialog", component: DialogElementsExampleDialog },
   { path: "fillsurvey/:id", component: FillSurveyComponent },
   { path: "formdashboard", component: FormDashboardComponent },
   { path: "digitalforms", component: UpdateformComponent },

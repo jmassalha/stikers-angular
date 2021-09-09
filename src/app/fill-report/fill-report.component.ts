@@ -9,6 +9,7 @@ import {
 } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { ShareReportsDialog } from '../nurses-dashboard/nurses-dashboard.component';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
@@ -23,7 +24,65 @@ export interface Shift {
   value: string;
   viewValue: string;
 }
+@Component({
+  selector: 'add-response',
+  templateUrl: 'add-response.html',
+})
+export class AddResponseDialog {
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  constructor(
+    public dialogRef: MatDialogRef<AddResponseDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: string,
+    private _snackBar: MatSnackBar,
+    private http: HttpClient,
+    private formBuilder: FormBuilder) { }
+
+    reportID: string;
+    userFullName: string;
+    reportResponse: FormGroup;
+    UserName = localStorage.getItem("loginUserName").toLowerCase();
+
+  ngOnInit() {
+    this.reportResponse = this.formBuilder.group({
+      responseText: new FormControl('', Validators.required),
+    })
+  }
+
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  saveResponse(){
+    let ResponseText = this.reportResponse.controls['responseText'].value;
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/SendReportResponse", {
+    _userName: this.UserName,
+    _responseText: ResponseText,
+    _reportID: this.reportID,
+    _userFullName: this.userFullName
+      })
+      .subscribe((Response) => {
+        if(Response["d"]){
+          this.openSnackBar("נשמר בהצלחה");
+          this.dialogRef.close();
+        }else{
+          this.openSnackBar("אופס משהו השתבש, לא נשמר");
+        }
+      });    
+  }
+
+  closeModal(){
+    this.dialogRef.close();
+  }
+
+}
 @Component({
   selector: 'app-fill-report',
   templateUrl: './fill-report.component.html',
@@ -64,6 +123,7 @@ export class FillReportComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,) { }
 
   ReportGroup: FormGroup;
+  UsersReportsList: FormArray;
   caseNumber: string;
   all_departs_filter = [];
   subCategory = [];
@@ -76,13 +136,15 @@ export class FillReportComponent implements OnInit {
   firstName: string;
   lastName: string;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
-  all_report_management;
+  all_report_management: any;
+  usersReponsesList: any;
   date = this.pipe.transform(this.myDate, 'dd-MM-yyyy');
   date2: string;
   time2: string;
   automaticShift: string;
   creator: boolean;
   now = new Date();
+  panelOpenState = false;
 
   ngOnInit(): void {
     if(this.Dept_Name != ""){
@@ -108,7 +170,7 @@ export class FillReportComponent implements OnInit {
     //   this.ReportGroup.controls['ReportText'].setValue(this.firstName+" "+this.lastName);
     // }
 
-    // this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
+    //this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
     if(this.now.getHours() >= 7 && this.now.getHours() < 15){
       this.automaticShift = 'בוקר';
@@ -155,8 +217,26 @@ export class FillReportComponent implements OnInit {
       });
   }
 
+  openShareDialog(){
+    let reportArr = [];
+    reportArr.push(this.all_report_management);
+    let dialogRef = this.dialog.open(ShareReportsDialog);
+    dialogRef.componentInstance.reportArray = reportArr;
+  }
+
   closeModal() {
     this.dialogRef.close();
+  }
+
+  addResponseToReport(reportID){
+    const dialogRef = this.dialog.open(AddResponseDialog, {
+      width: '600px'
+    });
+    dialogRef.componentInstance.reportID = reportID;
+    dialogRef.componentInstance.userFullName = this.userFullName;
+    dialogRef.afterClosed().subscribe(result => {
+      this.getReportToUpdate();
+    });
   }
 
   autoDate(amin) {
@@ -173,12 +253,6 @@ export class FillReportComponent implements OnInit {
   }
 
   sendReport() {
-    // if (this.ReportGroup.controls['toContinue'].value == false) {
-    //   this.ReportGroup.controls['ReportSchudledDate'].enable();
-    //   this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
-    // }
-    // this.ReportGroup.controls['ReportSchudledDate'].setValue(this.pipe.transform(this.ReportGroup.controls['ReportSchudledDate'].value, 'yyyy-MM-dd'));
-    // this.ReportGroup.controls['ReportSchudledDate'].setValidators(null);
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
     if(this.caseNumber == undefined){
       this.caseNumber = "";
@@ -193,8 +267,7 @@ export class FillReportComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] == "Success") {
             this.openSnackBar("נשמר בהצלחה");
-            this.dialog.closeAll();
-            window.location.reload();
+            this.getReportToUpdate();
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");
           }
@@ -225,11 +298,11 @@ export class FillReportComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.all_report_management = Response["d"];
+        this.usersReponsesList = this.all_report_management.UsersReportsList;
         // if(this.all_report_management.UserName == this.UserName){
           this.ReportGroup = this.formBuilder.group({
             Row_ID: new FormControl(this.all_report_management.Row_ID, null),
             ReportDate: new FormControl(this.all_report_management.ReportDate, null),
-            // ReportSchudledDate: new FormControl(this.all_report_management.ReportSchudledDate, null),
             ReportSubCategory: new FormControl(this.all_report_management.ReportSubCategory, null),
             ReportMachlol: new FormControl(this.all_report_management.ReportMachlol, null),
             ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
@@ -237,32 +310,15 @@ export class FillReportComponent implements OnInit {
             ReportShift: new FormControl({value:this.all_report_management.ReportShift,disabled: true}, null),
             ReportText: new FormControl(this.all_report_management.ReportText, null),
             ReportTitle: new FormControl(this.all_report_management.ReportTitle, null),
-            // ReportPriority: new FormControl(this.all_report_management.ReportPriority, null),
             toContinue: new FormControl(this.all_report_management.toContinue, null),
           });
-        // }else{
-        //   this.ReportGroup = this.formBuilder.group({
-        //     Row_ID: new FormControl(this.all_report_management.Row_ID, null),
-        //     ReportDate: new FormControl({ value: this.all_report_management.ReportDate, disabled: true }, null),
-        //     // ReportSchudledDate: new FormControl(this.all_report_management.ReportSchudledDate, null),
-        //     ReportSubCategory: new FormControl({ value: this.all_report_management.ReportSubCategory, disabled: true }, null),
-        //     ReportMachlol: new FormControl({ value: this.all_report_management.ReportMachlol, disabled: true }, null),
-        //     ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
-        //     ReportCategory: new FormControl({ value: this.all_report_management.ReportCategory, disabled: true }, null),
-        //     ReportShift: new FormControl({ value: this.all_report_management.ReportShift, disabled: true }, null),
-        //     ReportText: new FormControl({ value: this.all_report_management.ReportText, disabled: true }, null),
-        //     ReportTitle: new FormControl({ value: this.all_report_management.ReportTitle, disabled: true }, null),
-        //     ReportPriority: new FormControl({ value: this.all_report_management.ReportPriority, disabled: true }, null),
-        //     toContinue: new FormControl(this.all_report_management.toContinue, null),
-        //   });
-        // }
         let ifEditable = false;
         let mishmeret = "בוקר";
         let reportDate = this.all_report_management.ReportDate.split(" ",1)[0];
         this.date2 = this.all_report_management.LastUpdatedDate.split(" ",1)[0];
         this.time2 = this.all_report_management.LastUpdatedDate.split(" ",2)[1];
-        this.date2 = this.date2.replace("/",".");
-        this.date2 = this.date2.replace("/",".");
+        this.date2 = this.date2.replace('/','.');
+        this.date2 = this.date2.replace('/','.');
         let Rday = parseInt(reportDate.split("/",1)[0]);
         let Rmonth = parseInt(reportDate.split("/",2)[1]);
         let Ryear = parseInt(reportDate.split("/",3)[2]);
@@ -294,7 +350,6 @@ export class FillReportComponent implements OnInit {
         }
         if (this.ReportGroup.controls['toContinue'].value == 'False') {
           this.ReportGroup.controls['toContinue'].setValue(false);
-          // this.ReportGroup.controls['ReportSchudledDate'].disable();
         } else {
           this.ReportGroup.controls['toContinue'].setValue(true);
         }
@@ -313,11 +368,6 @@ export class FillReportComponent implements OnInit {
         this.subCategory = this.all_categories_filter[lastIndex].SubCategory;
       });
   }
-
-  changeSubCategory(myselect: any) {
-    console.log(myselect);
-  }
-
 
   onSubmit() {
     this.sendReport();

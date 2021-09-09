@@ -111,7 +111,7 @@
 
     <div class="row mb-3 mr-3" dir="rtl">
         <button class="btn btn-primary" mat-raised-button style="margin-left: 5px;" (click)="loadInquiries()"
-            *ngIf="UserName == 'matias'"><span class="material-icons">
+            *ngIf="UserName == 'matias' || UserName == 'miruach'"><span class="material-icons">
                 refresh
             </span> טען מיילים חדשים</button>
         <button class="btn btn-primary" mat-raised-button style="margin-right: 5px;" (click)="searchForm('1')"><span
@@ -162,7 +162,7 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                         color="accent" (click)="openDialogToManageEmail(element.EmailID,1)"
-                        *ngIf="UserName == 'matias'"><span class="material-icons">
+                        *ngIf="UserName == 'matias' || UserName == 'miruach'"><span class="material-icons">
                             event_note
                         </span></button> </mat-cell>
             </ng-container>
@@ -173,7 +173,7 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                         color="accent" (click)="openDialogToManageEmail(element.EmailID,0)"
-                        *ngIf="UserName == 'matias'"><span class="material-icons">
+                        *ngIf="UserName == 'matias' || UserName == 'miruach'"><span class="material-icons">
                             add
                         </span></button> </mat-cell>
             </ng-container>
@@ -196,7 +196,7 @@
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" style="justify-content: center;">
                     <mat-slide-toggle [checked]="element.Status" (change)="changeStatus($event,element.EmailID)"
-                        *ngIf="UserName == 'matias'" matTooltip="פתיחת/סגירת פניה"></mat-slide-toggle>
+                        *ngIf="UserName == 'matias' || UserName == 'miruach'" matTooltip="פתיחת/סגירת פניה"></mat-slide-toggle>
                 </mat-cell>
             </ng-container>
 
@@ -206,7 +206,7 @@
                 matTooltip="{{row.ContentToShow}}"></mat-row>
         </mat-table>
         <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"
-            *ngIf="UserName == 'matias'" matTooltip="הוספת פנייה חדשה"><i class="material-icons">add</i></button>
+            *ngIf="UserName == 'matias' || UserName == 'miruach'" matTooltip="הוספת פנייה חדשה"><i class="material-icons">add</i></button>
         <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
     </div>
 </div>

@@ -15,7 +15,7 @@ export class OtherDepartmentsComponent implements OnInit {
   columnsToDisplay1: string[] = ['regular', 'imperial', 'other', 'beforebirth', 'beforesurgery'];
   columnsToDisplay1_2: string[] = ['casenumber', 'firstname', 'lastname', 'birthtype', 'date', 'time', 'birthweek'];
   columnsToDisplay2: string[] = ['inprogress', 'waiting', 'completed', 'canceled'];
-  columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'date', 'room', 'surgeryname', 'status'];
+  columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'room', 'surgeryname', 'date', 'starttime', 'endtime', 'status'];
   columnsToDisplay3: string[] = ['adult', 'child', 'women', 'lyingdown', 'standing', 'shockroom'];
   columnsToDisplay3_2: string[] = ['casenumber', 'departmed', 'patientlastname', 'patientfirstname', 'dadname', 'age', 'gender', 'datein', 'timein'];
   dataSource3 = new MatTableDataSource<any>();
@@ -25,9 +25,15 @@ export class OtherDepartmentsComponent implements OnInit {
   dataSource4_2 = new MatTableDataSource<any>();
   dataSource5_2 = new MatTableDataSource<any>();
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource3_2.filter = filterValue;
+  applyFilter(event: Event, filval) {
+    if (filval == '') {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource3_2.filter = filterValue;
+    } else {
+      this.dataSource3_2.filter = filval;
+    }
+    // const filterValue = (event.target as HTMLInputElement).value;
+    // this.dataSource3_2.filter = filterValue;
   }
   applyFilter2(event: Event) {
     const filterValue = (event.target as HTMLInputElement).value;

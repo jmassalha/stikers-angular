@@ -32,8 +32,7 @@
           <div class="row">
             <div class="col-9">
               <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>מספר מטופלים</mat-label>
-                <input matInput type="number" formControlName="plannedToRelease">
+                <input matInput type="number" formControlName="plannedToRelease" style="text-align: center;">
               </mat-form-field>
             </div>
             <div class="col-3">
@@ -50,35 +49,35 @@
         <th mat-header-cell *matHeaderCellDef> בחופשה </th>
         <td mat-cell *matCellDef="let element"> {{element.HolidayCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="respirators">
+      <ng-container matColumnDef="respirators" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
         <th mat-header-cell *matHeaderCellDef> מונשמים </th>
         <td mat-cell *matCellDef="let element"> {{element.RespiratorsCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="catheter">
+      <ng-container matColumnDef="catheter" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
         <th mat-header-cell *matHeaderCellDef> צנתר שתן </th>
         <td mat-cell *matCellDef="let element"> {{element.CatheterCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="centralcatheter">
+      <ng-container matColumnDef="centralcatheter" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
         <th mat-header-cell *matHeaderCellDef> צנתר מרכזי </th>
         <td mat-cell *matCellDef="let element"> {{element.CentralCatheterCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="isolation">
+      <ng-container matColumnDef="isolation" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
         <th mat-header-cell *matHeaderCellDef> בידוד </th>
         <td mat-cell *matCellDef="let element"> {{element.IsolationCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="phlimitation">
+      <ng-container matColumnDef="phlimitation" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
         <th mat-header-cell *matHeaderCellDef> הגבלה פיזית </th>
         <td mat-cell *matCellDef="let element"> {{element.PhLimitationCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="death">
+      <ng-container matColumnDef="death" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
         <th mat-header-cell *matHeaderCellDef> פטירה </th>
         <td mat-cell *matCellDef="let element"> {{element.DeathCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="kpc">
+      <ng-container matColumnDef="kpc" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
         <th mat-header-cell *matHeaderCellDef> CPE </th>
         <td mat-cell *matCellDef="let element"> {{element.KpcCount}} </td>
       </ng-container>
-      <ng-container matColumnDef="complex">
+      <ng-container matColumnDef="complex" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
         <th mat-header-cell *matHeaderCellDef> מורכב </th>
         <td mat-cell *matCellDef="let element"> {{element.ComplexCount}} </td>
       </ng-container>
@@ -89,8 +88,8 @@
     <div class="row p-3">
       <div class="col">
         <button matTooltip="דווח מינהלי" type="button" id="EventBtndisplay" mat-fab color="primary"
-          (click)="displayReports('',true,Dept_Name,'','','','','administrative')">
-          <i class="material-icons">edit</i>
+          (click)="displayReports('',true,Dept_Name,'','','','','','','administrative')">
+          <i class="material-icons">assignment_ind</i>
         </button>
         <!-- <button matTooltip="דווח מינהלי חדש" type="button" id="EventBtnnew" mat-fab color="primary"
           (click)="fillReportDialog(0,Dept_Name,'','','')">
@@ -124,7 +123,7 @@
         <input matInput (keyup)="applyFilter($event,'')" placeholder="הקלד..." #input>
       </mat-form-field>
     </div>
-    <div dir="rtl" class="mb-3" *ngIf="patientsTable">
+    <div dir="rtl" class="mb-3 text-center" *ngIf="patientsTable">
       <mat-list role="list" id="list_of_types">
         <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'')"
             mat-raised-button color="primary">
@@ -157,8 +156,8 @@
         <!-- <mat-list-item role="listitem"></mat-list-item> -->
       </mat-list>
       <button matTooltip="דווח קליני למחלקה" type="button" id="generalClinicalBtn" mat-fab color="primary"
-        (click)="displayReports('', '', Dept_Name, '', '','','','clinical')">
-        <i class="material-icons">edit</i>
+        (click)="displayReports('', '', Dept_Name, '', '','','','','','clinical')">
+        <i class="material-icons">receipt_long</i>
       </button>
     </div>
 
@@ -234,7 +233,7 @@
         <th mat-header-cell *matHeaderCellDef> דוחות קליניים</th>
         <td mat-cell *matCellDef="let element"> <button matTooltip="דוחות למטופל" type="button" mat-mini-fab
             color="primary"
-            (click)="displayReports(element.PM_CASE_NUMBER,true,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_PATIENT_GENDER,element.PM_DOB,'clinical')">
+            (click)="displayReports(element.PM_CASE_NUMBER,true,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_PATIENT_GENDER,element.PM_DOB,element.SSP_DESCRIPTION,element.CoronaStatus,'clinical')">
             <span class="material-icons">
               <span class="material-icons">
                 menu_open

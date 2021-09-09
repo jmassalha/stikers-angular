@@ -6,13 +6,15 @@
 </div>
 <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
     <h2><b>{{firstname}} {{lastname}}</b></h2>
-    <h2><b>{{gender}}</b></h2>
-    <h2><b>{{dob}}</b></h2>
+</div>
+<div dir="rtl" class="row reportHeader" *ngIf="asDialog">
+    <h3><b>{{gender}}</b></h3>
+    <h3><b>{{dob}}</b></h3>
+    <h3><b>{{description}}</b></h3>
+    <h3><b>{{corona}}</b></h3>
 </div>
 
 <div id="page-toshow" class="padding-top-0">
-    <h1 class="page-title text-center">מערכת דיווח אחיות</h1>
-
     <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup">
         <div class="modal-header text-right">
             <div class="row mt-3">
@@ -89,7 +91,9 @@
                     <div class="form-group">
                         <mat-form-field>
                             <mat-label>משמרת</mat-label>
-                            <input matInput class="form-control" formControlName="ReportShift" type="text" />
+                            <b style="font-size: 26px;font-family: 'Roboto';">
+                                <input matInput class="form-control" formControlName="ReportShift" type="text" />
+                            </b>
                         </mat-form-field>
                     </div>
                 </div>
@@ -104,8 +108,8 @@
             </div>
         </div>
         <div class="modal-footer text-left">
-            <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="onSubmit()"
-                type="submit" mat-raised-button>
+            <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary"
+                (click)="onSubmit()" type="submit" mat-raised-button>
                 <span class="material-icons">
                     save
                 </span>
@@ -119,7 +123,8 @@
         </div>
     </form>
 
-    <app-fill-report *ngFor="let item of ELEMENT_DATA" style="font-size: small;" [reportID]="item.reportID" [userFullName]="item.userFullName"></app-fill-report>
+    <app-fill-report *ngFor="let item of ELEMENT_DATA" style="font-size: small;" [reportID]="item.reportID"
+        [userFullName]="item.userFullName"></app-fill-report>
 
 </div>
 <div class="container-fluid trans-80 mb-2">
@@ -233,8 +238,8 @@
                             </span>
                         </button>
                         &nbsp;&nbsp;
-                        <button matTooltip="שליחה לנמען" mat-raised-button type="button" class="btn btn-primary btn-raised"
-                            (click)="openShareDialog()">
+                        <button matTooltip="שליחה לנמען" mat-raised-button type="button"
+                            class="btn btn-primary btn-raised" (click)="openShareDialog()">
                             <span class="material-icons">
                                 reply
                             </span>
@@ -245,6 +250,3 @@
         </div>
     </div>
 </div>
-
-
-

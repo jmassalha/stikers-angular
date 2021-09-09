@@ -15,6 +15,7 @@ export interface Department {
   Row_ID: string;
   DepartName: string;
   DepartNumber: string;
+  InchargeDoctor: string;
 }
 export interface Services {
   ServiceId: string;
@@ -33,6 +34,7 @@ export interface Patient {
   DOB: string;
   TotalPrice: string;
   DepartName: string;
+  InchargeDoctor: string;
 }
 
 @Component({
@@ -156,6 +158,7 @@ export class ClinicsDashboardComponent implements OnInit {
               DOB: relevantServices[0].DOB,
               TotalPrice: relevantServices[relevantServices.length-1].TotalVersionPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","),//.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
               DepartName: relevantServices[1].DepartName,
+              InchargeDoctor: relevantServices[1].InchargeDoctor,
             });
             if (this.detailsFormGroup2.Gender == '1') {
               this.genderText = "זכר";

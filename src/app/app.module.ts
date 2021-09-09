@@ -95,7 +95,6 @@ import { ConfirmationDialogService } from './confirmation-dialog/confirmation-di
 import { CaseinvoisesComponent } from './caseinvoises/caseinvoises.component';
 import { NursesDashboardComponent } from './nurses-dashboard/nurses-dashboard.component';
 import { FillReportComponent } from './fill-report/fill-report.component';
-import { DialogElementsExampleDialog } from './nurses-dashboard/nurses-dashboard.component';
 import { ReportRepliesComponent } from './report-replies/report-replies.component';
 import { ManageClinicPriceComponent } from './manage-clinic-price/manage-clinic-price.component';
 import { NursesManageDashboardComponent } from './nurses-manage-dashboard/nurses-manage-dashboard.component';
@@ -115,6 +114,7 @@ import { VisitorNameDialog } from './visitors-monitoring/visitors-registration/v
 import { ShareReportsDialog } from './nurses-dashboard/nurses-dashboard.component';
 import { FastCovid19TestComponent } from './fast-covid19-test/fast-covid19-test.component';
 import { FastCovidTestDashboardComponent } from './fast-covid-test-dashboard/fast-covid-test-dashboard.component';
+import { AddResponseDialog } from './fill-report/fill-report.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -160,9 +160,9 @@ const maskConfig: Partial<IConfig> = {
     ResearchesComponent,
     VisitorNameDialog,
     ResearchespatientsComponent,
-    DialogElementsExampleDialog,
     Sarscov2Component,
     AddpatientcoronaformComponent,
+    AddResponseDialog,
     SarsresultsComponent,
     MaternityComponent,
     MaternitypatientsComponent,
