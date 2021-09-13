@@ -62,6 +62,7 @@ import { CasenumbersComponent } from "../casenumbers/casenumbers.component";
 import { PublicInquiriesChartsComponent } from "../emailsdashboard/public-inquiries-charts/public-inquiries-charts.component";
 import { VisitorsMonitoringComponent } from "../visitors-monitoring/visitors-monitoring.component";
 import { VisitorsRegistrationComponent } from "../visitors-monitoring/visitors-registration/visitors-registration.component";
+import { UrgentSurgeriesComponent } from "../urgent-surgeries/urgent-surgeries.component";
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -127,6 +128,7 @@ const routes: Routes = [
   { path: "visitorsregistration", component: VisitorsRegistrationComponent },
   { path: "fastcovid19test", component: FastCovid19TestComponent },
   { path: "fastcovidtestdashboard", component: FastCovidTestDashboardComponent },
+  { path: "urgentsurgeries", component: UrgentSurgeriesComponent },
   { path: '', component : LoginComponent}
 ];
  

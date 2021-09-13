@@ -24,13 +24,14 @@ import {
   Validators,
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
-import { FillReportComponent } from '../fill-report/fill-report.component';
+//import { FillReportComponent } from '../fill-report/fill-report.component';
 import { ReportRepliesComponent } from '../report-replies/report-replies.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
 import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
+import { FillReportComponent } from "../fill-report/fill-report.component";
 export interface User {
   name: string;
   id: string;
@@ -539,3 +540,4 @@ export class NursesDashboardComponent implements OnInit {
 
 
 }
+

@@ -115,6 +115,7 @@ import { ShareReportsDialog } from './nurses-dashboard/nurses-dashboard.componen
 import { FastCovid19TestComponent } from './fast-covid19-test/fast-covid19-test.component';
 import { FastCovidTestDashboardComponent } from './fast-covid-test-dashboard/fast-covid-test-dashboard.component';
 import { AddResponseDialog } from './fill-report/fill-report.component';
+import { UrgentSurgeriesComponent } from './urgent-surgeries/urgent-surgeries.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -197,7 +198,8 @@ const maskConfig: Partial<IConfig> = {
     VisitorsRegistrationComponent,
     ShareReportsDialog,
     FastCovid19TestComponent,
-    FastCovidTestDashboardComponent
+    FastCovidTestDashboardComponent,
+    UrgentSurgeriesComponent
   ],
   imports: [
     NgxBarCodePutModule,

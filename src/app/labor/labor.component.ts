@@ -292,6 +292,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                 localStorage.getItem("loginUserName").toLowerCase() == "ssarusi"||
             localStorage.getItem("loginUserName").toLowerCase() == "samos" ||
             localStorage.getItem("loginUserName").toLowerCase() == "tklinger"||
+            localStorage.getItem("loginUserName").toLowerCase() == "relmalem"||
             localStorage.getItem("loginUserName").toLowerCase() == "aamara"
         ) {
         } else {
