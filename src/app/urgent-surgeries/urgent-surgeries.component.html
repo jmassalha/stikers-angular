@@ -112,6 +112,18 @@
                                     {{ element.Depart }}
                                 </td>
                             </ng-container>
+                            <ng-container matColumnDef="SurgeryName">
+                                <th mat-header-cell *matHeaderCellDef>שם ניתוח</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.SurgeryName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SurgeryCode">
+                                <th mat-header-cell *matHeaderCellDef>קוד ניתוח</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.SurgeryCode }}
+                                </td>
+                            </ng-container>
                             <ng-container matColumnDef="PatientId">
                                 <th mat-header-cell *matHeaderCellDef>ת.ז</th>
                                 <td mat-cell *matCellDef="let element">

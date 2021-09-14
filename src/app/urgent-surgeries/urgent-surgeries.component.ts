@@ -40,6 +40,8 @@ export interface TableRow {
     Note: string;
     UserAdded: string;
     UpdatedUser: string;
+    SurgeryName: string;
+    SurgeryCode: string;
 }
 
 @Component({
@@ -56,6 +58,8 @@ export class UrgentSurgeriesComponent implements OnInit {
     displayedColumns: string[] = [
         "CaseNumber",
         "Depart",
+        "SurgeryName",
+        "SurgeryCode",
         "PatientId",
         "PatientFirstName",
         "PatientLastName",
@@ -296,6 +300,8 @@ export class UrgentSurgeriesComponent implements OnInit {
                         Note: SarsData[i].Note,
                         UserAdded: SarsData[i].UserAdded,
                         UpdatedUser: SarsData[i].UpdatedUser,
+                        SurgeryName: SarsData[i].SurgeryName,
+                        SurgeryCode: SarsData[i].SurgeryCode,
                     });
                 }
 
