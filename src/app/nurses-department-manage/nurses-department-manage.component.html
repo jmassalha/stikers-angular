@@ -1,257 +1,254 @@
-<button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
-  <span aria-hidden="true">&times;</span>
-</button>
-<form class="form" [formGroup]="departmentRelease">
+<div class="my-container">
+  <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+  </button>
+  <form class="form" [formGroup]="departmentRelease">
 
-  <div class="card text-center" id="table-overflow">
-    <h4><b>{{Dept_Name}}</b> {{myDate | date: "dd.MM.yyyy"}}</h4>
+    <div class="card text-center" id="table-overflow">
+      <h4><b>{{Dept_Name}}</b> {{myDate | date: "dd.MM.yyyy"}}</h4>
 
-    <table dir="rtl" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+      <table dir="rtl" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
-      <ng-container matColumnDef="nursing">
-        <th mat-header-cell *matHeaderCellDef> תפוסה סיעודית </th>
-        <td mat-cell *matCellDef="let element"> {{element.NursingCount}} </td>
-      </ng-container>
-      <!-- <ng-container matColumnDef="medical">
-        <th mat-header-cell *matHeaderCellDef> תפוסה רפואית </th>
-        <td mat-cell *matCellDef="let element"> {{element.MedicCount}} </td>
-      </ng-container> -->
-      <ng-container matColumnDef="receipts">
-        <th mat-header-cell *matHeaderCellDef> קבלות </th>
-        <td mat-cell *matCellDef="let element"> <span
-            matTooltip="לילה: {{element.RecieptNight}} ,בוקר: {{element.RecieptMorning}}, ערב: {{element.RecieptEvening}}">{{element.RecieptCount}}</span>
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="released">
-        <th mat-header-cell *matHeaderCellDef> שחרורים </th>
-        <td mat-cell *matCellDef="let element"> {{element.ReleasedCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="plannedtorelease">
-        <th mat-header-cell *matHeaderCellDef> מתוכננים להשתחרר בערב </th>
-        <td mat-cell *matCellDef="let element">
-          <div class="row">
-            <div class="col-9">
-              <mat-form-field class="example-full-width" appearance="fill">
-                <input matInput type="number" formControlName="plannedToRelease" style="text-align: center;">
-              </mat-form-field>
+        <ng-container matColumnDef="nursing">
+          <th mat-header-cell *matHeaderCellDef> תפוסה סיעודית </th>
+          <td mat-cell *matCellDef="let element"> {{element.NursingCount}} </td>
+        </ng-container>
+        <!-- <ng-container matColumnDef="medical">
+          <th mat-header-cell *matHeaderCellDef> תפוסה רפואית </th>
+          <td mat-cell *matCellDef="let element"> {{element.MedicCount}} </td>
+        </ng-container> -->
+        <ng-container matColumnDef="receipts">
+          <th mat-header-cell *matHeaderCellDef> קבלות </th>
+          <td mat-cell *matCellDef="let element"> <span
+              matTooltip="לילה: {{element.RecieptNight}} ,בוקר: {{element.RecieptMorning}}, ערב: {{element.RecieptEvening}}">{{element.RecieptCount}}</span>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="released">
+          <th mat-header-cell *matHeaderCellDef> שחרורים </th>
+          <td mat-cell *matCellDef="let element"> {{element.ReleasedCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="plannedtorelease">
+          <th mat-header-cell *matHeaderCellDef> מתוכננים להשתחרר </th>
+          <td mat-cell *matCellDef="let element">
+            <div class="row">
+              <div class="col-12">
+                <mat-form-field class="example-full-width" appearance="fill">
+                  <input matInput type="number" formControlName="plannedToRelease" style="text-align: center;">
+                </mat-form-field>
+              </div>
             </div>
-            <div class="col-3">
-              <button type="button" class="mt-2" mat-mini-fab color="primary" matTooltip="שמירה"
-                (click)="getSubmitPlannedToRealse('1')">
-                <i class="material-icons">save</i>
-              </button>
-            </div>
-          </div>
+          </td>
+        </ng-container>
+        <ng-container matColumnDef="holiday">
+          <th mat-header-cell *matHeaderCellDef> בחופשה </th>
+          <td mat-cell *matCellDef="let element"> {{element.HolidayCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="respirators" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
+          <th mat-header-cell *matHeaderCellDef> מונשמים </th>
+          <td mat-cell *matCellDef="let element"> {{element.RespiratorsCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="catheter" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
+          <th mat-header-cell *matHeaderCellDef> צנתר שתן </th>
+          <td mat-cell *matCellDef="let element"> {{element.CatheterCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="centralcatheter" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
+          <th mat-header-cell *matHeaderCellDef> צנתר מרכזי </th>
+          <td mat-cell *matCellDef="let element"> {{element.CentralCatheterCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="isolation" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
+          <th mat-header-cell *matHeaderCellDef> בידוד </th>
+          <td mat-cell *matCellDef="let element"> {{element.IsolationCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="phlimitation" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
+          <th mat-header-cell *matHeaderCellDef> הגבלה פיזית </th>
+          <td mat-cell *matCellDef="let element"> {{element.PhLimitationCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="death" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
+          <th mat-header-cell *matHeaderCellDef> פטירה </th>
+          <td mat-cell *matCellDef="let element"> {{element.DeathCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="kpc" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
+          <th mat-header-cell *matHeaderCellDef> CPE </th>
+          <td mat-cell *matCellDef="let element"> {{element.KpcCount}} </td>
+        </ng-container>
+        <ng-container matColumnDef="complex" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
+          <th mat-header-cell *matHeaderCellDef> מורכב </th>
+          <td mat-cell *matCellDef="let element"> {{element.ComplexCount}} </td>
+        </ng-container>
 
-        </td>
-      </ng-container>
-      <ng-container matColumnDef="holiday">
-        <th mat-header-cell *matHeaderCellDef> בחופשה </th>
-        <td mat-cell *matCellDef="let element"> {{element.HolidayCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="respirators" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
-        <th mat-header-cell *matHeaderCellDef> מונשמים </th>
-        <td mat-cell *matCellDef="let element"> {{element.RespiratorsCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="catheter" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
-        <th mat-header-cell *matHeaderCellDef> צנתר שתן </th>
-        <td mat-cell *matCellDef="let element"> {{element.CatheterCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="centralcatheter" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
-        <th mat-header-cell *matHeaderCellDef> צנתר מרכזי </th>
-        <td mat-cell *matCellDef="let element"> {{element.CentralCatheterCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="isolation" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
-        <th mat-header-cell *matHeaderCellDef> בידוד </th>
-        <td mat-cell *matCellDef="let element"> {{element.IsolationCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="phlimitation" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
-        <th mat-header-cell *matHeaderCellDef> הגבלה פיזית </th>
-        <td mat-cell *matCellDef="let element"> {{element.PhLimitationCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="death" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
-        <th mat-header-cell *matHeaderCellDef> פטירה </th>
-        <td mat-cell *matCellDef="let element"> {{element.DeathCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="kpc" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
-        <th mat-header-cell *matHeaderCellDef> CPE </th>
-        <td mat-cell *matCellDef="let element"> {{element.KpcCount}} </td>
-      </ng-container>
-      <ng-container matColumnDef="complex" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
-        <th mat-header-cell *matHeaderCellDef> מורכב </th>
-        <td mat-cell *matCellDef="let element"> {{element.ComplexCount}} </td>
-      </ng-container>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+      <div class="row p-3">
+        <div class="col">
+          <button mat-raised-button type="submit" id="releasedBtn" class="btn btn-primary btn-raised" matTooltip="שמירה"
+            (click)="getSubmitPlannedToRealse('1')">
+            <i class="material-icons">save</i>
+          </button>
+          <button matTooltip="דיווח קליני למחלקה" mat-raised-button type="submit" class="btn btn-primary btn-raised"
+            id="generalClinicalBtn" (click)="displayReports('', '', Dept_Name, '', '','','','','','clinical')">
+            <i class="material-icons">receipt_long</i>
+          </button>
+          <button matTooltip="דווח מינהלי" id="EventBtndisplay" mat-raised-button type="submit"
+            class="btn btn-primary btn-raised"
+            (click)="displayReports('',true,Dept_Name,'','','','','','','administrative')">
+            <i class="material-icons">assignment_ind</i>
+          </button>
+        </div>
+        <div class="col">
+          <button mat-raised-button type="submit" class="btn btn-primary btn-raised" *ngIf="Dept_Name == 'פנימית א'"
+            (click)="getPatientsPerDepart($event,'רנורול')">
+            נוירולוגיה
+          </button>
+        </div>
+        <div class="col">
+          <button mat-raised-button type="submit" class="btn btn-primary btn-raised" *ngIf="Dept_Name == 'פנימית א'"
+            (click)="getPatientsPerDepart($event,'רשבצ-מ')">
+            שבץ מוחי
+          </button>
+        </div>
+        <div class="col">
+          <button matTooltip="מטופלים במחלקת {{Dept_Name}}" mat-raised-button type="submit"
+            class="btn btn-primary btn-raised" id="EventBtn2" (click)="getPatientsPerDepart($event,'')">
+            <i class="material-icons">arrow_circle_down</i>
+          </button>
+        </div>
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-    </table>
-    <div class="row p-3">
-      <div class="col">
-        <button matTooltip="דווח מינהלי" type="button" id="EventBtndisplay" mat-fab color="primary"
-          (click)="displayReports('',true,Dept_Name,'','','','','','','administrative')">
-          <i class="material-icons">assignment_ind</i>
-        </button>
-        <!-- <button matTooltip="דווח מינהלי חדש" type="button" id="EventBtnnew" mat-fab color="primary"
-          (click)="fillReportDialog(0,Dept_Name,'','','')">
-          <i class="material-icons">assignment</i>
-        </button> -->
       </div>
-      <div class="col">
-        <button type="button" id="details-btn" *ngIf="Dept_Name == 'פנימית א'"
-          (click)="getPatientsPerDepart($event,'רנורול')" mat-raised-button color="primary">
-          נוירולוגיה
-        </button>
+      <mat-progress-bar mode="buffer" id="buffer" *ngIf="Patientsloading"></mat-progress-bar>
+      <div dir="rtl">
+        <mat-form-field appearance="standard" *ngIf="patientsTable">
+          <mat-label>סינון</mat-label>
+          <input matInput (keyup)="applyFilter($event,'')" placeholder="הקלד..." #input>
+        </mat-form-field>
       </div>
-      <div class="col">
-        <button type="button" id="details-btn" *ngIf="Dept_Name == 'פנימית א'"
-          (click)="getPatientsPerDepart($event,'רשבצ-מ')" mat-raised-button color="primary">
-          שבץ מוחי
-        </button>
+      <div dir="rtl" class="mb-3 text-center" *ngIf="patientsTable">
+        <mat-list role="list" id="list_of_types">
+          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'')"
+              mat-raised-button>
+              הכל
+            </button></mat-list-item>
+          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'מונשם')"
+              mat-raised-button color="primary">
+              מונשמים
+            </button></mat-list-item>
+          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'צנתר שתן')"
+              mat-raised-button color="primary">
+              צנתר שתן
+            </button></mat-list-item>
+          <mat-list-item role="listitem"><button type="button" id="details-btn"
+              (click)="applyFilter($event,'צנתר מרכזי')" mat-raised-button color="primary">
+              צנתר מרכזי
+            </button></mat-list-item>
+          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'בידוד')"
+              mat-raised-button color="primary">
+              בידוד
+            </button></mat-list-item>
+          <mat-list-item role="listitem"><button type="button" id="details-btn"
+              (click)="applyFilter($event,'הגבלה פיזית')" mat-raised-button color="primary">
+              הגבלה פיזית
+            </button></mat-list-item>
+          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'מאומת')"
+              mat-raised-button color="primary">
+              סטטוס קורונה
+            </button></mat-list-item>
+          <!-- <mat-list-item role="listitem"></mat-list-item> -->
+        </mat-list>
+
       </div>
-      <div class="col">
-        <button matTooltip="מטופלים במחלקת {{Dept_Name}}" type="button" id="EventBtn2" mat-fab color="primary"
-          (click)="getPatientsPerDepart($event,'')">
-          <i class="material-icons">arrow_circle_down</i>
-        </button>
-      </div>
 
-    </div>
-    <mat-progress-bar mode="buffer" *ngIf="Patientsloading"></mat-progress-bar>
-    <div dir="rtl">
-      <mat-form-field appearance="standard" *ngIf="patientsTable">
-        <mat-label>סינון</mat-label>
-        <input matInput (keyup)="applyFilter($event,'')" placeholder="הקלד..." #input>
-      </mat-form-field>
-    </div>
-    <div dir="rtl" class="mb-3 text-center" *ngIf="patientsTable">
-      <mat-list role="list" id="list_of_types">
-        <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'')"
-            mat-raised-button color="primary">
-            הכל
-          </button></mat-list-item>
-        <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'מונשם')"
-            mat-raised-button color="primary">
-            מונשמים
-          </button></mat-list-item>
-        <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'צנתר שתן')"
-            mat-raised-button color="primary">
-            צנתר שתן
-          </button></mat-list-item>
-        <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'צנתר מרכזי')"
-            mat-raised-button color="primary">
-            צנתר מרכזי
-          </button></mat-list-item>
-        <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'בידוד')"
-            mat-raised-button color="primary">
-            בידוד
-          </button></mat-list-item>
-        <mat-list-item role="listitem"><button type="button" id="details-btn"
-            (click)="applyFilter($event,'הגבלה פיזית')" mat-raised-button color="primary">
-            הגבלה פיזית
-          </button></mat-list-item>
-        <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'מאומת')"
-            mat-raised-button color="primary">
-            סטטוס קורונה
-          </button></mat-list-item>
-        <!-- <mat-list-item role="listitem"></mat-list-item> -->
-      </mat-list>
-      <button matTooltip="דווח קליני למחלקה" type="button" id="generalClinicalBtn" mat-fab color="primary"
-        (click)="displayReports('', '', Dept_Name, '', '','','','','','clinical')">
-        <i class="material-icons">receipt_long</i>
-      </button>
-    </div>
+      <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" *ngIf="patientsTable">
 
-    <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" *ngIf="patientsTable">
+        <ng-container matColumnDef="casenumber">
+          <th mat-header-cell *matHeaderCellDef> מספר מקרה </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_CASE_NUMBER}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="casenumber">
-        <th mat-header-cell *matHeaderCellDef> מספר מקרה </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_CASE_NUMBER}} </td>
-      </ng-container>
+        <!-- <ng-container matColumnDef="departmentnursing">
+          <th mat-header-cell *matHeaderCellDef> מחלקה סיעודית </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART_SEODE}} </td>
+        </ng-container> -->
 
-      <!-- <ng-container matColumnDef="departmentnursing">
-        <th mat-header-cell *matHeaderCellDef> מחלקה סיעודית </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART_SEODE}} </td>
-      </ng-container> -->
+        <ng-container matColumnDef="departmentmedical">
+          <th mat-header-cell *matHeaderCellDef> מחלקה רפואית </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="departmentmedical">
-        <th mat-header-cell *matHeaderCellDef> מחלקה רפואית </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART}} </td>
-      </ng-container>
+        <ng-container matColumnDef="lastname">
+          <th mat-header-cell *matHeaderCellDef> שם משפחה </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_LAST_NAME}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="lastname">
-        <th mat-header-cell *matHeaderCellDef> שם משפחה </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_LAST_NAME}} </td>
-      </ng-container>
+        <ng-container matColumnDef="firstname">
+          <th mat-header-cell *matHeaderCellDef> שם פרטי </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_FIRST_NAME}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="firstname">
-        <th mat-header-cell *matHeaderCellDef> שם פרטי </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_FIRST_NAME}} </td>
-      </ng-container>
+        <ng-container matColumnDef="dadname">
+          <th mat-header-cell *matHeaderCellDef> שם אבא </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_FATHER_NAME}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="dadname">
-        <th mat-header-cell *matHeaderCellDef> שם אבא </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_FATHER_NAME}} </td>
-      </ng-container>
+        <ng-container matColumnDef="age">
+          <th mat-header-cell *matHeaderCellDef> גיל </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_DOB}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="age">
-        <th mat-header-cell *matHeaderCellDef> גיל </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_DOB}} </td>
-      </ng-container>
+        <ng-container matColumnDef="gender">
+          <th mat-header-cell *matHeaderCellDef> מין </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_GENDER}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="gender">
-        <th mat-header-cell *matHeaderCellDef> מין </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_GENDER}} </td>
-      </ng-container>
+        <!-- <ng-container matColumnDef="city">
+          <th mat-header-cell *matHeaderCellDef> כתובת מגורים </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_CITY}} </td>
+        </ng-container> -->
 
-      <!-- <ng-container matColumnDef="city">
-        <th mat-header-cell *matHeaderCellDef> כתובת מגורים </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_CITY}} </td>
-      </ng-container> -->
+        <ng-container matColumnDef="enterdate">
+          <th mat-header-cell *matHeaderCellDef> תאריך קבלה </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DATE}} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="enterdate">
-        <th mat-header-cell *matHeaderCellDef> תאריך קבלה </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DATE}} </td>
-      </ng-container>
+        <ng-container matColumnDef="entertime">
+          <th mat-header-cell *matHeaderCellDef> שעת קבלה </th>
+          <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_TIME }} </td>
+        </ng-container>
 
-      <ng-container matColumnDef="entertime">
-        <th mat-header-cell *matHeaderCellDef> שעת קבלה </th>
-        <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_TIME }} </td>
-      </ng-container>
-
-      <!-- <ng-container matColumnDef="reportpatint">
-        <th mat-header-cell *matHeaderCellDef> דיווח</th>
-        <td mat-cell *matCellDef="let element"> <button matTooltip="דווח קליני למטופל" type="button" id="EventBtn2"
-            mat-mini-fab color="primary"
-            (click)="fillReportDialog(0,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_CASE_NUMBER)">
-            <span class="material-icons">
-              assignment
-            </span>
-          </button> </td>
-      </ng-container> -->
-
-      <ng-container matColumnDef="displayreports">
-        <th mat-header-cell *matHeaderCellDef> דוחות קליניים</th>
-        <td mat-cell *matCellDef="let element"> <button matTooltip="דוחות למטופל" type="button" mat-mini-fab
-            color="primary"
-            (click)="displayReports(element.PM_CASE_NUMBER,true,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_PATIENT_GENDER,element.PM_DOB,element.SSP_DESCRIPTION,element.CoronaStatus,'clinical')">
-            <span class="material-icons">
+        <!-- <ng-container matColumnDef="reportpatint">
+          <th mat-header-cell *matHeaderCellDef> דיווח</th>
+          <td mat-cell *matCellDef="let element"> <button matTooltip="דווח קליני למטופל" type="button" id="EventBtn2"
+              mat-mini-fab color="primary"
+              (click)="fillReportDialog(0,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_CASE_NUMBER)">
               <span class="material-icons">
-                menu_open
+                assignment
               </span>
-            </span>
-          </button> </td>
-      </ng-container>
+            </button> </td>
+        </ng-container> -->
 
-      <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns2;"
-        matTooltip="{{row.SSP_DESCRIPTION}}&#13;{{row.CoronaStatus}}" matTooltipClass="my-tooltip"
-        matTooltipPosition="before"></tr>
+        <ng-container matColumnDef="displayreports">
+          <th mat-header-cell *matHeaderCellDef> דיווח קליני</th>
+          <td mat-cell *matCellDef="let element"> <button matTooltip="דיווח למטופל" mat-raised-button type="submit"
+              class="btn btn-primary btn-raised"
+              (click)="displayReports(element.PM_CASE_NUMBER,true,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_PATIENT_GENDER,element.PM_DOB,element.SSP_DESCRIPTION,element.CoronaStatus,'clinical')">
+              <span class="material-icons">
+                <span class="material-icons">
+                  menu_open
+                </span>
+              </span>
+            </button> </td>
+        </ng-container>
 
-    </table>
+        <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+        <tr mat-row *matRowDef="let row;let even=even; columns: displayedColumns2;"
+          matTooltip="{{row.SSP_DESCRIPTION}}&#13;{{row.CoronaStatus}}" matTooltipClass="my-tooltip"
+          matTooltipPosition="before"></tr>
 
-  </div>
-</form>
+      </table>
+
+    </div>
+  </form>
 
 
 
-<mat-progress-bar mode="indeterminate" *ngIf="loading"></mat-progress-bar>
+  <mat-progress-bar mode="indeterminate" id="buffer" *ngIf="loading"></mat-progress-bar>
+</div>

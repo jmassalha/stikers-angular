@@ -12,7 +12,9 @@ th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
 h4{
     text-align: center;
 }
-
+#buffer{
+  background-color: blue;
+}
 
 #EventBtn2{
     float: right;
@@ -20,6 +22,12 @@ h4{
 
 #details-btn{
     font-size: 25px;
+}
+.mat-elevation-z8{
+  background-color: floralwhite;
+}
+.form{
+  background-color: aliceblue;
 }
 
 .close {
