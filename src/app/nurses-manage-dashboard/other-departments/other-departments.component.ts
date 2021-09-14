@@ -16,7 +16,7 @@ export class OtherDepartmentsComponent implements OnInit {
   columnsToDisplay1_2: string[] = ['casenumber', 'firstname', 'lastname', 'birthtype', 'date', 'time', 'birthweek'];
   columnsToDisplay2: string[] = ['inprogress', 'waiting', 'completed', 'canceled'];
   columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'room', 'surgeryname', 'date', 'starttime', 'endtime', 'status'];
-  columnsToDisplay3: string[] = ['adult', 'child', 'women', 'lyingdown', 'standing', 'shockroom'];
+  columnsToDisplay3: string[] = ['all','shockroom', 'lyingdown', 'standing', 'women','child'];
   columnsToDisplay3_2: string[] = ['casenumber', 'departmed', 'patientlastname', 'patientfirstname', 'dadname', 'age', 'gender', 'datein', 'timein'];
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
@@ -55,6 +55,7 @@ export class OtherDepartmentsComponent implements OnInit {
 
   otherDepartName: string;
   progressBarNumbers: boolean;
+  IcuPatientsBar: boolean;
   delivery: boolean;
   surgery: boolean;
   ICU: boolean;
@@ -69,6 +70,7 @@ export class OtherDepartmentsComponent implements OnInit {
     this.ICU = false;
     this.ICUDetails = false;
     this.progressBarNumbers = false;
+    this.IcuPatientsBar = true;
     this.getOtherDepartmentsDetails();
 
     this.deliveryRoomForm = new FormGroup({
@@ -133,6 +135,7 @@ export class OtherDepartmentsComponent implements OnInit {
   }
 
   getOtherDepartmentPatients(ICUType, live, event) {
+    this.IcuPatientsBar = false;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentPatients", {
         _otherDepartName: ICUType,
@@ -143,6 +146,7 @@ export class OtherDepartmentsComponent implements OnInit {
         this.ICUDetails = true;
         this.dataSource5_2 = new MatTableDataSource<any>(Response["d"]);
         this.applyFilter3(event, live);
+        this.IcuPatientsBar = true;
       });
   }
 

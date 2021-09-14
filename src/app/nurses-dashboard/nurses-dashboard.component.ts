@@ -77,7 +77,7 @@ export class ShareReportsDialog {
     private http: HttpClient) { }
 
   filteredOptions: Observable<string[]>;
-  myControl = new FormControl('',Validators.required);
+  myControl = new FormControl('', Validators.required);
   users = [];
   all_users_filter = [];
   reportArray = [];
@@ -113,6 +113,7 @@ export class ShareReportsDialog {
         .subscribe((Response) => {
           if (Response["d"] == "found") {
             this.openSnackBar("! נשלח בהצלחה לנמען");
+            this.dialogRef.close();
           } else {
             this.openSnackBar("! אירעה תקלה, לא נשלח");
           }
@@ -252,7 +253,11 @@ export class NursesDashboardComponent implements OnInit {
   all_categories_filter = [];
   UserName = localStorage.getItem('loginUserName').toLowerCase();
   departmentfilter = new FormControl();
+  categoryfilter = new FormControl();
+  subcategoryfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
+  filteredOptions3: Observable<string[]>;
+  filteredOptions4: Observable<string[]>;
   department = [];
   all_departs_filter = [];
   permission: boolean = false;
@@ -300,6 +305,7 @@ export class NursesDashboardComponent implements OnInit {
       ReportShift: [{ value: '', disabled: true }, null],
       ReportText: ['', null],
       toContinue: [false, null],
+      Diagnosis: ['', null],
     });
     if (this.now.getHours() >= 7 && this.now.getHours() < 15) {
       this.automaticShift = 'בוקר';
@@ -311,11 +317,6 @@ export class NursesDashboardComponent implements OnInit {
     this.ReportGroup.controls['ReportShift'].setValue(this.automaticShift);
     this.getCategories();
     this.getDeparts();
-    this.filteredOptions2 = this.departmentfilter.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter2(value))
-      );
     this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
     this.searchReports();
@@ -325,8 +326,31 @@ export class NursesDashboardComponent implements OnInit {
         startWith(''),
         map(value => this._filter2(value))
       );
+    this.filteredOptions3 = this.categoryfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter3(value))
+      );
+    this.filteredOptions4 = this.subcategoryfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter4(value))
+      );
     this.departmentfilter.setValue(this.Dept_Name);
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
+  }
+
+  private _filter2(value: string): string[] {
+    const filterValue2 = value;
+    return this.department.filter(option => option.Dept_Name.includes(filterValue2));
+  }
+  private _filter3(value: string): string[] {
+    const filterValue3 = value;
+    return this.all_categories_filter.filter(option => option.Cat_Name.includes(filterValue3));
+  }
+  private _filter4(value: string): string[] {
+    const filterValue4 = value;
+    return this.subCategory.filter(option => option.SubCat_Name.includes(filterValue4));
   }
 
   openSnackBar(message) {
@@ -353,10 +377,7 @@ export class NursesDashboardComponent implements OnInit {
   }
 
 
-  private _filter2(value: string): string[] {
-    const filterValue2 = value;
-    return this.department.filter(option => option.Dept_Name.includes(filterValue2));
-  }
+
 
   fillReportDialog(reportid, Dept_Name, firstName, lastName) {
     let dialogRef = this.dialog.open(FillReportComponent);
@@ -375,7 +396,7 @@ export class NursesDashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(ReportRepliesComponent);
     dialogRef.componentInstance.reportID = reportid;
   }
-  
+
   openShareDialog() {
     let dialogRef = this.dialog.open(ShareReportsDialog);
     dialogRef.componentInstance.reportArray = this.ELEMENT_DATA;
@@ -431,43 +452,46 @@ export class NursesDashboardComponent implements OnInit {
     } else {
       _reportEndDate = "";
     }
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
-        _reportShift: _reportShift,
-        _reportDepartment: _reportDepartment,
-        _reportStatus: _reportStatus,
-        _caseNumber: _caseNumber,
-        _reportStartDate: _reportStartDate,
-        _reportEndDate: _reportEndDate,
-        _reportCategory: _reportCategory,
-        _userName: this.UserName,
-        _reportType: this.reportType
-      })
-      .subscribe((Response) => {
-        this.ELEMENT_DATA = [];
-        this.reportsArr = Response["d"];
-        if (this.reportsArr.length > 0) {
-          for (var i = 0; i < this.reportsArr.length; i++) {
-            this.ELEMENT_DATA.push({
-              reportID: this.reportsArr[i].Row_ID,
-              ReportDate: this.reportsArr[i].ReportDate,
-              ReportStatus: this.reportsArr[i].ReportStatus,
-              ReportText: this.reportsArr[i].ReportText,
-              userFullName: this.reportsArr[i].UsersReportsList[0].UsersList[0].FirstName + " " + this.reportsArr[i].UsersReportsList[0].UsersList[0].LastName,
-              UserName: this.reportsArr[i].UsersReportsList[0].UsersList[0].UserName,
-              LastUpdatedDate: this.reportsArr[i].LastUpdatedDate,
-              ReportShift: this.reportsArr[i].ReportShift,
-              // priority: this.reportsArr[i].ReportPriority,
-              ReportMachlol: this.reportsArr[i].ReportMachlol,
-              ReportCategory: this.reportsArr[i].ReportCategory,
-              ReportSubCategory: this.reportsArr[i].ReportSubCategory,
-            });
+    if (!this.searchReportsGroup.invalid) {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
+          _reportShift: _reportShift,
+          _reportDepartment: _reportDepartment,
+          _reportStatus: _reportStatus,
+          _caseNumber: _caseNumber,
+          _reportStartDate: _reportStartDate,
+          _reportEndDate: _reportEndDate,
+          _reportCategory: _reportCategory,
+          _userName: this.UserName,
+          _reportType: this.reportType
+        })
+        .subscribe((Response) => {
+          this.ELEMENT_DATA = [];
+          this.reportsArr = Response["d"];
+          if (this.reportsArr.length > 0) {
+            for (var i = 0; i < this.reportsArr.length; i++) {
+              this.ELEMENT_DATA.push({
+                reportID: this.reportsArr[i].Row_ID,
+                ReportDate: this.reportsArr[i].ReportDate,
+                ReportStatus: this.reportsArr[i].ReportStatus,
+                ReportText: this.reportsArr[i].ReportText,
+                userFullName: this.reportsArr[i].UsersReportsList[0].UsersList[0].FirstName + " " + this.reportsArr[i].UsersReportsList[0].UsersList[0].LastName,
+                UserName: this.reportsArr[i].UsersReportsList[0].UsersList[0].UserName,
+                LastUpdatedDate: this.reportsArr[i].LastUpdatedDate,
+                ReportShift: this.reportsArr[i].ReportShift,
+                // priority: this.reportsArr[i].ReportPriority,
+                ReportMachlol: this.reportsArr[i].ReportMachlol,
+                ReportCategory: this.reportsArr[i].ReportCategory,
+                ReportSubCategory: this.reportsArr[i].ReportSubCategory,
+              });
+            }
+            this.departmentfilter.setValue(this.Dept_Name);
+            this.permission = true;
           }
-          this.departmentfilter.setValue(this.Dept_Name);
-          this.permission = true;
-        }
-        this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
-      });
+          this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+        });
+    }
+
   }
 
   changeReportToHandled(reportID) {
@@ -495,7 +519,8 @@ export class NursesDashboardComponent implements OnInit {
         .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName,
-          _caseNumber: this.caseNumber
+          _caseNumber: this.caseNumber,
+          _reportType: this.reportType
         })
         .subscribe((Response) => {
           if (Response["d"] == "Success") {

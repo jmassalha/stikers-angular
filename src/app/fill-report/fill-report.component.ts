@@ -41,10 +41,10 @@ export class AddResponseDialog {
     private http: HttpClient,
     private formBuilder: FormBuilder) { }
 
-    reportID: string;
-    userFullName: string;
-    reportResponse: FormGroup;
-    UserName = localStorage.getItem("loginUserName").toLowerCase();
+  reportID: string;
+  userFullName: string;
+  reportResponse: FormGroup;
+  UserName = localStorage.getItem("loginUserName").toLowerCase();
 
   ngOnInit() {
     this.reportResponse = this.formBuilder.group({
@@ -60,26 +60,26 @@ export class AddResponseDialog {
     });
   }
 
-  saveResponse(){
+  saveResponse() {
     let ResponseText = this.reportResponse.controls['responseText'].value;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/SendReportResponse", {
-    _userName: this.UserName,
-    _responseText: ResponseText,
-    _reportID: this.reportID,
-    _userFullName: this.userFullName
+        _userName: this.UserName,
+        _responseText: ResponseText,
+        _reportID: this.reportID,
+        _userFullName: this.userFullName
       })
       .subscribe((Response) => {
-        if(Response["d"]){
+        if (Response["d"]) {
           this.openSnackBar("נשמר בהצלחה");
           this.dialogRef.close();
-        }else{
+        } else {
           this.openSnackBar("אופס משהו השתבש, לא נשמר");
         }
-      });    
+      });
   }
 
-  closeModal(){
+  closeModal() {
     this.dialogRef.close();
   }
 
@@ -130,7 +130,11 @@ export class FillReportComponent implements OnInit {
   subCategory = [];
   all_categories_filter = [];
   departmentfilter = new FormControl();
+  categoryfilter = new FormControl();
+  subcategoryfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
+  filteredOptions3: Observable<string[]>;
+  filteredOptions4: Observable<string[]>;
   department = [];
   // reportID: string;
   Dept_Name: string;
@@ -143,12 +147,13 @@ export class FillReportComponent implements OnInit {
   date2: string;
   time2: string;
   automaticShift: string;
+  reportType: string;
   creator: boolean;
   now = new Date();
   panelOpenState = false;
 
   ngOnInit(): void {
-    if(this.Dept_Name != ""){
+    if (this.Dept_Name != "") {
       this.departmentfilter.setValue(this.Dept_Name);
     }
     this.ReportGroup = this.formBuilder.group({
@@ -158,9 +163,10 @@ export class FillReportComponent implements OnInit {
       ReportCategory: ['', null],
       ReportSubCategory: ['', null],
       ReportStatus: ['', null],
-      ReportShift: [{value:'',disabled:true},null],
+      ReportShift: [{ value: '', disabled: true }, null],
       ReportText: ['', null],
       toContinue: [false, null],
+      Diagnosis: [false, null],
     });
     if (this.reportID != "0") {
       this.getReportToUpdate();
@@ -173,11 +179,11 @@ export class FillReportComponent implements OnInit {
 
     //this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
-    if(this.now.getHours() >= 7 && this.now.getHours() < 15){
+    if (this.now.getHours() >= 7 && this.now.getHours() < 15) {
       this.automaticShift = 'בוקר';
-    }else if(this.now.getHours() >= 15 && this.now.getHours() < 23){
+    } else if (this.now.getHours() >= 15 && this.now.getHours() < 23) {
       this.automaticShift = 'ערב';
-    }else{
+    } else {
       this.automaticShift = 'לילה';
     }
     this.ReportGroup.controls['ReportShift'].setValue(this.automaticShift);
@@ -188,11 +194,29 @@ export class FillReportComponent implements OnInit {
         startWith(''),
         map(value => this._filter2(value))
       );
+    this.filteredOptions3 = this.categoryfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter3(value))
+      );
+    this.filteredOptions4 = this.subcategoryfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter4(value))
+      );
   }
 
   private _filter2(value: string): string[] {
     const filterValue2 = value;
     return this.department.filter(option => option.Dept_Name.includes(filterValue2));
+  }
+  private _filter3(value: string): string[] {
+    const filterValue3 = value;
+    return this.all_categories_filter.filter(option => option.Cat_Name.includes(filterValue3));
+  }
+  private _filter4(value: string): string[] {
+    const filterValue4 = value;
+    return this.subCategory.filter(option => option.SubCat_Name.includes(filterValue4));
   }
 
   openSnackBar(message) {
@@ -218,7 +242,7 @@ export class FillReportComponent implements OnInit {
       });
   }
 
-  openShareDialog(){
+  openShareDialog() {
     let reportArr = [];
     reportArr.push(this.all_report_management);
     let dialogRef = this.dialog.open(ShareReportsDialog);
@@ -229,7 +253,7 @@ export class FillReportComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  addResponseToReport(reportID){
+  addResponseToReport(reportID) {
     const dialogRef = this.dialog.open(AddResponseDialog, {
       width: '600px'
     });
@@ -242,20 +266,17 @@ export class FillReportComponent implements OnInit {
 
   autoDate(amin) {
     if (amin) {
-      // this.ReportGroup.controls['ReportSchudledDate'].setValue(null);
-      // this.ReportGroup.controls['ReportSchudledDate'].setValidators(Validators.required);
-      // this.ReportGroup.controls['ReportSchudledDate'].enable();
       this.ReportGroup.controls['ReportStatus'].setValue('לטיפול');
     } else {
-      // this.ReportGroup.controls['ReportSchudledDate'].disable();
-      // this.ReportGroup.controls['ReportSchudledDate'].setValue(this.myDate);
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
     }
   }
 
   sendReport() {
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
-    if(this.caseNumber == undefined){
+    this.ReportGroup.controls['ReportCategory'].setValue(this.categoryfilter.value);
+    this.ReportGroup.controls['ReportSubCategory'].setValue(this.subcategoryfilter.value);
+    if (this.caseNumber == undefined) {
       this.caseNumber = "";
     }
     if (!this.ReportGroup.invalid) {
@@ -263,7 +284,8 @@ export class FillReportComponent implements OnInit {
         .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName,
-          _caseNumber: this.caseNumber
+          _caseNumber: this.caseNumber,
+          _reportType: this.reportType
         })
         .subscribe((Response) => {
           if (Response["d"] == "Success") {
@@ -301,52 +323,54 @@ export class FillReportComponent implements OnInit {
         this.all_report_management = Response["d"];
         this.usersReponsesList = this.all_report_management.UsersReportsList;
         // if(this.all_report_management.UserName == this.UserName){
-          this.ReportGroup = this.formBuilder.group({
-            Row_ID: new FormControl(this.all_report_management.Row_ID, null),
-            ReportDate: new FormControl(this.all_report_management.ReportDate, null),
-            ReportSubCategory: new FormControl(this.all_report_management.ReportSubCategory, null),
-            ReportMachlol: new FormControl(this.all_report_management.ReportMachlol, null),
-            ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
-            ReportCategory: new FormControl(this.all_report_management.ReportCategory, null),
-            ReportShift: new FormControl({value:this.all_report_management.ReportShift,disabled: true}, null),
-            ReportText: new FormControl(this.all_report_management.ReportText, null),
-            ReportTitle: new FormControl(this.all_report_management.ReportTitle, null),
-            toContinue: new FormControl(this.all_report_management.toContinue, null),
-          });
+        this.ReportGroup = this.formBuilder.group({
+          Row_ID: new FormControl(this.all_report_management.Row_ID, null),
+          ReportDate: new FormControl(this.all_report_management.ReportDate, null),
+          ReportSubCategory: new FormControl(this.all_report_management.ReportSubCategory, null),
+          ReportMachlol: new FormControl(this.all_report_management.ReportMachlol, null),
+          ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
+          ReportCategory: new FormControl(this.all_report_management.ReportCategory, null),
+          ReportShift: new FormControl({ value: this.all_report_management.ReportShift, disabled: true }, null),
+          ReportText: new FormControl(this.all_report_management.ReportText, null),
+          ReportTitle: new FormControl(this.all_report_management.ReportTitle, null),
+          toContinue: new FormControl(this.all_report_management.toContinue, null),
+          Diagnosis: new FormControl(this.all_report_management.Diagnosis, null),
+        });
+        this.reportType = this.all_report_management.ReportType;
         let ifEditable = false;
         let mishmeret = "בוקר";
-        let reportDate = this.all_report_management.ReportDate.split(" ",1)[0];
-        this.date2 = this.all_report_management.LastUpdatedDate.split(" ",1)[0];
-        this.time2 = this.all_report_management.LastUpdatedDate.split(" ",2)[1];
-        this.date2 = this.date2.replace('/','.');
-        this.date2 = this.date2.replace('/','.');
-        let Rday = parseInt(reportDate.split("/",1)[0]);
-        let Rmonth = parseInt(reportDate.split("/",2)[1]);
-        let Ryear = parseInt(reportDate.split("/",3)[2]);
-        reportDate = Rday+""+Rmonth+""+Ryear;
+        let reportDate = this.all_report_management.ReportDate.split(" ", 1)[0];
+        this.date2 = this.all_report_management.LastUpdatedDate;
+        this.time2 = this.all_report_management.LastUpdatedTime;
+        // this.date2 = this.date2.replace('/','.');
+        // this.date2 = this.date2.replace('/','.');
+        let Rday = parseInt(reportDate.split("/", 1)[0]);
+        let Rmonth = parseInt(reportDate.split("/", 2)[1]);
+        let Ryear = parseInt(reportDate.split("/", 3)[2]);
+        reportDate = Rday + "" + Rmonth + "" + Ryear;
         let thisDate = this.pipe.transform(this.now, 'dd/MM/yyyy');
-        let Tday = parseInt(thisDate.split("/",1)[0]);
-        let Tmonth = parseInt(thisDate.split("/",2)[1]);
-        let Tyear = parseInt(thisDate.split("/",3)[2]);
-        thisDate = Tday+""+Tmonth+""+Tyear;
+        let Tday = parseInt(thisDate.split("/", 1)[0]);
+        let Tmonth = parseInt(thisDate.split("/", 2)[1]);
+        let Tyear = parseInt(thisDate.split("/", 3)[2]);
+        thisDate = Tday + "" + Tmonth + "" + Tyear;
         let thisTime = this.pipe.transform(this.now, 'HH');
 
-        if(parseInt(thisTime) > 14 && parseInt(thisTime) < 23){
+        if (parseInt(thisTime) > 14 && parseInt(thisTime) < 23) {
           mishmeret = "ערב";
-        }else if((parseInt(thisTime) > 22 && parseInt(thisTime) < 24) || (parseInt(thisTime) > 0 && parseInt(thisTime) < 7)){
+        } else if ((parseInt(thisTime) > 22 && parseInt(thisTime) < 24) || (parseInt(thisTime) > 0 && parseInt(thisTime) < 7)) {
           mishmeret = "לילה";
         }
-        if(this.all_report_management.ReportShift == 'בוקר' && reportDate == thisDate && parseInt(thisTime) < 17 && parseInt(thisTime) > 6){
+        if (this.all_report_management.ReportShift == 'בוקר' && reportDate == thisDate && parseInt(thisTime) < 17 && parseInt(thisTime) > 6) {
           ifEditable = true;
-        }else if(this.all_report_management.ReportShift == 'ערב' && reportDate == thisDate && ((parseInt(thisTime) > 14 && parseInt(thisTime) < 24) || parseInt(thisTime) < 1) && mishmeret == 'ערב'){
+        } else if (this.all_report_management.ReportShift == 'ערב' && reportDate == thisDate && ((parseInt(thisTime) > 14 && parseInt(thisTime) < 24) || parseInt(thisTime) < 1) && mishmeret == 'ערב') {
           ifEditable = true;
-        }else if(this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate.split('/')[0]) - parseInt(thisDate.split('/')[0]) == 1) && (parseInt(thisTime) < 9 || parseInt(thisTime) > 22) && mishmeret == 'לילה'){
+        } else if (this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate.split('/')[0]) - parseInt(thisDate.split('/')[0]) == 1) && (parseInt(thisTime) < 9 || parseInt(thisTime) > 22) && mishmeret == 'לילה') {
           ifEditable = true;
         }
 
-        if(this.all_report_management.UserName == this.UserName && reportDate == thisDate && ifEditable){
+        if (this.all_report_management.UserName == this.UserName && reportDate == thisDate && ifEditable) {
           this.creator = true;
-        }else{
+        } else {
           this.creator = false;
         }
         if (this.ReportGroup.controls['toContinue'].value == 'False') {
@@ -355,6 +379,8 @@ export class FillReportComponent implements OnInit {
           this.ReportGroup.controls['toContinue'].setValue(true);
         }
         this.departmentfilter.setValue(this.all_report_management.ReportMachlol);
+        this.categoryfilter.setValue(this.all_report_management.ReportCategory);
+        this.subcategoryfilter.setValue(this.all_report_management.ReportSubCategory);
       });
     this.getCategories();
   }

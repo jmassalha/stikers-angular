@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
 export interface Email {
   EmailID: string;
@@ -125,7 +126,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   TABLE_DATA: Email[] = [];
   displayedColumns: string[] = [
-    'FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'add', 'showAll', 'status'
+    'delete','FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'add', 'showAll', 'status'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -138,6 +139,7 @@ export class EmailsdashboardComponent implements OnInit {
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
     private router: Router,
+    private confirmationDialogService: ConfirmationDialogService,
     private http: HttpClient) { }
 
   UserName = localStorage.getItem("loginUserName").toLowerCase();
@@ -232,6 +234,36 @@ export class EmailsdashboardComponent implements OnInit {
     this.formSearch.controls['DeadLineSearch'].setValue("");
     this.formSearch.controls['compStatusControl'].setValue("");
     this.searchForm("0");
+  }
+
+  deleteInquiry(inquiryID){
+    this.confirmationDialogService
+    .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+    .then((confirmed) => {
+        console.log("User confirmed:", confirmed);
+        if (confirmed) {
+            this.http
+                .post(
+                    "http://srv-apps/wsrfc/WebService.asmx/DeleteInquiry",
+                    {
+                        _inquiryID: inquiryID
+                    }
+                )
+                .subscribe((Response) => {
+                    if(Response["d"]){
+                      this.openSnackBar("נמחק בהצלחה");
+                    }else{
+                      this.openSnackBar("משהו השתבש, לא נמחק !");
+                    }
+                });
+        } else {
+        }
+    })
+    .catch(() =>
+        console.log(
+            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+        )
+    );
   }
 
 
