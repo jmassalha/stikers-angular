@@ -1,15 +1,10 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { NestedTreeControl } from '@angular/cdk/tree';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { map, startWith } from 'rxjs/operators';
 
 
 export interface Department {
@@ -123,7 +118,7 @@ export class ManageClinicPriceComponent implements OnInit {
           this.detailsFormGroup.controls['Address'].disable();
 
           this.servicesFormGroup.controls['DepartNumber'].setValue(mPersonalDetails.PatientVersionsList[0].DepartNumber);
-          this.searchServices();
+          // this.searchServices();
         });
     } else {
       let mPersonalDetails = this.PatientElement;
@@ -179,11 +174,12 @@ export class ManageClinicPriceComponent implements OnInit {
               ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
               ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
               ServicePrice: [{ value: relevantServices[i].ServicePrice, disabled: true }, null],
-              ServiceQuantity: [relevantServices[i].ServiceQuantity, null],
+              ServiceQuantity: [relevantServices[i].ServiceQuantity, Validators.required],
             });
             let serialNumber = {
               value: i,
-              name: relevantServices[i].ServiceName
+              name: relevantServices[i].ServiceName,
+              number: relevantServices[i].ServiceNumber,
             }
             ELEMENT_DATA.push(serialNumber);
             PatientsServicesList.push(ServiceItem);

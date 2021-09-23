@@ -1,4 +1,4 @@
-<div class="survey-options" *ngIf="! _choosed">
+<div class="survey-options" *ngIf="!_choosed">
     <div class="poll-options">
         <div class="row">
             <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getAndSendMessages(comp.Row_ID)">
@@ -22,13 +22,20 @@
                 <form class="example-form">
                     <mat-form-field class="example-full-width">
                         <mat-label>קישור אחראי לפנייה</mat-label>
-                        <input type="text" aria-label="manager" matInput
-                            [formControl]="myControl" [matAutocomplete]="auto">
+                        <input type="text" aria-label="manager" matInput [formControl]="myControl"
+                            [matAutocomplete]="auto">
                         <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                            <mat-option *ngFor="let option of filteredOptions | async"
-                                [value]="option">
-                                {{option.name}}
+                            <mat-option *ngFor="let data of filteredOptions | async">
+                                <div (click)="optionClicked($event, data)">
+                                    <mat-checkbox [checked]="data.selected" (change)="toggleSelection(data)"
+                                        (click)="$event.stopPropagation()">
+                                        {{ data.firstname }}
+                                    </mat-checkbox>
+                                </div>
                             </mat-option>
+                            <!-- <mat-option *ngFor="let option of filteredOptions | async"
+                                [value]="option">{{option.name}}
+                            </mat-option> -->
                         </mat-autocomplete>
                     </mat-form-field>
                 </form>

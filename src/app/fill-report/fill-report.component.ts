@@ -8,14 +8,15 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-
-import { ShareReportsDialog } from '../nurses-dashboard/nurses-dashboard.component';
 import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
-
+export interface User {
+  name: string;
+  id: string;
+}
 export interface Status {
   value: string;
   viewValue: string;
@@ -24,6 +25,91 @@ export interface Status {
 export interface Shift {
   value: string;
   viewValue: string;
+}
+@Component({
+  selector: 'share-reports-dialog',
+  templateUrl: 'share-reports-dialog.html',
+})
+export class ShareReportDialog {
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
+  constructor(
+    public dialogRef: MatDialogRef<ShareReportDialog>,
+    @Inject(MAT_DIALOG_DATA) public data: string,
+    private _snackBar: MatSnackBar,
+    private http: HttpClient) { }
+
+  filteredOptions: Observable<string[]>;
+  myControl = new FormControl('', Validators.required);
+  users = [];
+  all_users_filter = [];
+  reportArray = [];
+
+  ngOnInit() {
+    this.filteredOptions = this.myControl.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => typeof value === 'string' ? value : value.name),
+        map(name => name ? this._filter(name) : this.users.slice())
+      );
+    this.getUsers();
+  }
+  displayFn(user: User): string {
+    return user && user.name ? user.name : '';
+  }
+  private _filter(value: string): string[] {
+    const filterValue = value.toLowerCase();
+    return this.users.filter(option => option.name.includes(filterValue));
+  }
+
+
+  shareReportWithOthers() {
+    if (this.myControl.value == "") {
+      this.openSnackBar("נא לבחור אחראי לשליחה");
+    } else {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
+          _userSender: localStorage.getItem('loginUserName').toLowerCase(),
+          userId: this.myControl.value.id,
+          _reportArray: this.reportArray,
+        })
+        .subscribe((Response) => {
+          if (Response["d"] == "found") {
+            this.openSnackBar("! נשלח בהצלחה לנמען");
+            this.dialogRef.close();
+          } else {
+            this.openSnackBar("! אירעה תקלה, לא נשלח");
+          }
+        });
+    }
+  }
+
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+  getUsers() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
+
+      })
+      .subscribe((Response) => {
+        this.all_users_filter = Response["d"];
+
+        this.all_users_filter.forEach(element => {
+          this.users.push({
+            name: element.firstname + " " + element.lastname,
+            id: element.id
+          });
+        })
+      });
+  }
+
 }
 @Component({
   selector: 'add-response',
@@ -245,7 +331,7 @@ export class FillReportComponent implements OnInit {
   openShareDialog() {
     let reportArr = [];
     reportArr.push(this.all_report_management);
-    let dialogRef = this.dialog.open(ShareReportsDialog);
+    let dialogRef = this.dialog.open(ShareReportDialog);
     dialogRef.componentInstance.reportArray = reportArr;
   }
 

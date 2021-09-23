@@ -126,7 +126,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   TABLE_DATA: Email[] = [];
   displayedColumns: string[] = [
-    'delete','FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'add', 'showAll', 'status'
+    'delete', 'FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'add', 'showAll', 'status'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -226,7 +226,7 @@ export class EmailsdashboardComponent implements OnInit {
       });
   }
 
-  clearFields(){
+  clearFields() {
     this.formSearch.controls['compName'].setValue("");
     this.departmentfilter.setValue("");
     this.formSearch.controls['compDateControl'].setValue("");
@@ -236,34 +236,34 @@ export class EmailsdashboardComponent implements OnInit {
     this.searchForm("0");
   }
 
-  deleteInquiry(inquiryID){
+  deleteInquiry(inquiryID) {
     this.confirmationDialogService
-    .confirm("נא לאשר..", "האם אתה בטוח ...? ")
-    .then((confirmed) => {
+      .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+      .then((confirmed) => {
         console.log("User confirmed:", confirmed);
         if (confirmed) {
-            this.http
-                .post(
-                    "http://srv-apps/wsrfc/WebService.asmx/DeleteInquiry",
-                    {
-                        _inquiryID: inquiryID
-                    }
-                )
-                .subscribe((Response) => {
-                    if(Response["d"]){
-                      this.openSnackBar("נמחק בהצלחה");
-                    }else{
-                      this.openSnackBar("משהו השתבש, לא נמחק !");
-                    }
-                });
+          this.http
+            .post(
+              "http://srv-apps/wsrfc/WebService.asmx/DeleteInquiry",
+              {
+                _inquiryID: inquiryID
+              }
+            )
+            .subscribe((Response) => {
+              if (Response["d"]) {
+                this.openSnackBar("נמחק בהצלחה");
+              } else {
+                this.openSnackBar("משהו השתבש, לא נמחק !");
+              }
+            });
         } else {
         }
-    })
-    .catch(() =>
+      })
+      .catch(() =>
         console.log(
-            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+          "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
         )
-    );
+      );
   }
 
 
@@ -357,7 +357,7 @@ export class EmailsdashboardComponent implements OnInit {
           this.department.push(element.Depart_Name);
         })
       });
-      
+
   }
 
   onsubmit() {
