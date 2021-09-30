@@ -188,49 +188,60 @@ export class AddupdateactionComponent implements OnInit {
       })
       .subscribe((Response) => {
         let mPersonalDetails = Response["d"];
-        if(mPersonalDetails.PersonID == null){
-          this.openSnackBar("לבדוק תקינות תעודת זהות");
-        }else{
+        // if(mPersonalDetails.PersonID == null){
           this.detailsFormGroup = this.fb.group({
-            Row_ID: new FormControl({value: mPersonalDetails.Row_ID,disabled: true}, null),
-            FirstName: new FormControl({value: mPersonalDetails.FirstName,disabled: true}, null),
-            LastName: new FormControl({value: mPersonalDetails.LastName,disabled: true}, null),
-            PersonID: new FormControl({value: mPersonalDetails.PersonID,disabled: true}, null),
-            DOB: new FormControl({value: mPersonalDetails.DOB,disabled: true}, null),
-            Gender: new FormControl({value: mPersonalDetails.Gender,disabled: true}, null),
-            PhoneNumber: new FormControl({value: mPersonalDetails.PhoneNumber,disabled: true}, null),
-            Email: new FormControl({value: mPersonalDetails.Email,disabled: true}, null),
-            Address: new FormControl({value: mPersonalDetails.Address,disabled: true}, null),
+            Row_ID: new FormControl(mPersonalDetails.Row_ID, null),
+            FirstName: new FormControl(mPersonalDetails.FirstName, null),
+            LastName: new FormControl(mPersonalDetails.LastName, null),
+            PersonID: new FormControl(mPersonalDetails.PersonID, null),
+            DOB: new FormControl(mPersonalDetails.DOB, null),
+            Gender: new FormControl(mPersonalDetails.Gender, null),
+            PhoneNumber: new FormControl(mPersonalDetails.PhoneNumber, null),
+            Email: new FormControl(mPersonalDetails.Email, null),
+            Address: new FormControl(mPersonalDetails.Address, null),
           });
-          this.patientFound = true;
-        }
+        // }else{
+        //   this.detailsFormGroup = this.fb.group({
+        //     Row_ID: new FormControl({value: mPersonalDetails.Row_ID,disabled: true}, null),
+        //     FirstName: new FormControl({value: mPersonalDetails.FirstName,disabled: true}, null),
+        //     LastName: new FormControl({value: mPersonalDetails.LastName,disabled: true}, null),
+        //     PersonID: new FormControl({value: mPersonalDetails.PersonID,disabled: true}, null),
+        //     DOB: new FormControl({value: mPersonalDetails.DOB,disabled: true}, null),
+        //     Gender: new FormControl({value: mPersonalDetails.Gender,disabled: true}, null),
+        //     PhoneNumber: new FormControl({value: mPersonalDetails.PhoneNumber,disabled: true}, null),
+        //     Email: new FormControl({value: mPersonalDetails.Email,disabled: true}, null),
+        //     Address: new FormControl({value: mPersonalDetails.Address,disabled: true}, null),
+        //   });
+        // }
+        this.patientFound = true;
         this.searchPatientProgressBar = true;
       });
   }
 
-  onSubmit() {
-    this.actionForm.controls['MidsOrder'].setValue(this.midsControl.value);
-    this.actionForm.controls['PatientAction'].setValue(this.actionControl.value);
-    this.actionForm.controls['PersonID'].setValue(this.searchPatient.controls['Passport'].value);
-    this.actionForm.controls['ArrivalDate'].setValue(this.datePipe.transform(this.actionForm.controls['ArrivalDate'].value, 'yyyy-MM-dd'));
-    let url = "";
-    if(this.actionID == '1'){
-      url = "http://srv-apps/wsrfc/WebService.asmx/UpdateCardiologyPatientQueue";
-    }else{
-      url = "http://srv-apps/wsrfc/WebService.asmx/SubmitCardiologyPatientQueue";
-    }
-    this.http
-      .post(url, {
-        _actionDetails: this.actionForm.value
-      })
-      .subscribe((Response) => {
-        if(Response["d"]){
-          this.openSnackBar("נשמר בהצלחה");
-        }else{
-          this.openSnackBar("משהו השתבש, לא נשמר");
-        }
-      });
-  }
+  // onSubmit() {
+  //   this.actionForm.controls['MidsOrder'].setValue(this.midsControl.value);
+  //   this.actionForm.controls['PatientAction'].setValue(this.actionControl.value);
+  //   this.actionForm.controls['PersonID'].setValue(this.searchPatient.controls['Passport'].value);
+  //   this.actionForm.controls['ArrivalDate'].setValue(this.datePipe.transform(this.actionForm.controls['ArrivalDate'].value, 'yyyy-MM-dd'));
+  //   let url = "";
+  //   if(this.actionID == '1'){
+  //     url = "http://srv-apps/wsrfc/WebService.asmx/UpdateCardiologyPatientQueue";
+  //   }else{
+  //     url = "http://srv-apps/wsrfc/WebService.asmx/SubmitCardiologyPatientQueue";
+  //   }
+  //   this.http
+  //     .post(url, {
+  //       _actionDetails: this.actionForm.value
+  //     })
+  //     .subscribe((Response) => {
+  //       if(Response["d"]){
+  //         this.dialogRef.close();
+  //         this.openSnackBar("נשמר בהצלחה");
+  //       }else{
+  //         this.openSnackBar("משהו השתבש, לא נשמר");
+  //       }
+  //     });
+  // }
   
   onNoClick(): void {
     this.dialogRef.close(this.detailsFormGroup.value);

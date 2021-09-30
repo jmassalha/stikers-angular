@@ -4,13 +4,15 @@ import {
   ViewChild,
   TemplateRef,
   OnInit,
+  ElementRef,
+  ChangeDetectorRef,
 } from '@angular/core';
 import {
   startOfDay,
   isSameDay,
   isSameMonth,
 } from 'date-fns';
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
@@ -18,20 +20,31 @@ import {
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
-import { DatePipe, formatDate } from '@angular/common';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { DatePipe } from '@angular/common';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 import { AddupdateactionComponent } from '../cardiology-calendar/addupdateaction/addupdateaction.component';
 import { HttpClient } from '@angular/common/http';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { registerLocaleData } from '@angular/common';
+import localeHe from '@angular/common/locales/he';
 
 const colors: any = {
   red: '#ad2121',
   blue: '#1e90ff',
   yellow: '#e3bc08',
 };
-
+export interface Action {
+  Row_ID: string,
+  ActionDesc: string,
+  selected: boolean
+}
+registerLocaleData(localeHe);
 @Component({
   selector: 'app-cardiology-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -40,6 +53,12 @@ const colors: any = {
 })
 export class CardiologyCalendarComponent implements OnInit {
 
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  actionCtrl = new FormControl();
+  filteredActions: Observable<string[]>;
+  @ViewChild('actionInput') public actionInput: ElementRef;
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
@@ -49,12 +68,13 @@ export class CardiologyCalendarComponent implements OnInit {
   CalendarView = CalendarView;
 
   viewDate: Date = new Date();
-
+  locale: string = 'he';
+  _actionsList = [];
   modalData: {
     action: string;
     event: CalendarEvent;
   };
-
+  
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
@@ -82,15 +102,12 @@ export class CardiologyCalendarComponent implements OnInit {
               "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
             )
           );
-
       },
     },
   ];
 
   refresh: Subject<any> = new Subject();
-
   events: CalendarEvent[] = [];
-
   activeDayIsOpen: boolean = true;
   patientSearch: FormGroup;
 
@@ -100,8 +117,9 @@ export class CardiologyCalendarComponent implements OnInit {
     private http: HttpClient,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder) { }
-
+    private formBuilder: FormBuilder,
+    private cdr: ChangeDetectorRef) { }
+    
   ngOnInit(): void {
     this.patientSearch = new FormGroup({
       'searchWord': new FormControl('', null),
@@ -110,7 +128,54 @@ export class CardiologyCalendarComponent implements OnInit {
       'untilDate': new FormControl('', null),
     });
     this.getPatientsQueues();
+    this.getactionsList();
+    this.filteredActions = this.actionCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this._actionsList.slice()));
   }
+
+  add(event: MatChipInputEvent, inputName, personQueue): void {
+    const value = (event.value || '').trim();
+
+    if (value) {
+      personQueue.patientAction.PatientAction.push({
+        Row_ID: '',
+        ActionDesc: value,
+        Status: 'True'
+      });
+    }
+
+    // event.chipInput!.clear();
+    inputName.value = "";
+
+    this.actionCtrl.setValue(null);
+  }
+
+  remove(fruit: string, event): void {
+    const index = event.patientAction.PatientAction.indexOf(fruit);
+    event.patientAction.PatientAction[index].Status = 'False';
+
+    // if (index >= 0) {
+    //   event.patientAction.PatientAction.splice(index, 1);
+    // }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent, actionInput, personQueue): void {
+    personQueue.patientAction.PatientAction.push({
+      Row_ID: '',
+      ActionDesc: event.option.viewValue,
+      Status: 'True'
+    });
+    actionInput.value = '';
+    this.actionCtrl.setValue(null);
+  }
+
+  private _filter(value: string): Action[] {
+    const filterValue = value.toLowerCase();
+
+    return this._actionsList.filter(action => action.ActionDesc.toLowerCase().includes(filterValue));
+  }
+
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, event): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -147,6 +212,10 @@ export class CardiologyCalendarComponent implements OnInit {
     this.modal.open(this.modalContent, { size: 'md' });
   }
 
+  SetNewTime(event2, event) {
+    event.patientAction.ArrivalTime = event2.srcElement.defaultValue.split('T')[1];
+  }
+
   addEvent(event): void {
     const dialogRef = this.dialog.open(AddupdateactionComponent, {
       width: 'md'
@@ -160,10 +229,11 @@ export class CardiologyCalendarComponent implements OnInit {
           patientAction: {
             Row_ID: '',
             PersonID: result.PersonID,
-            PatientAction: '',
+            PatientAction: [],
             MidsOrder: '',
             ArrivalDate: date,
-            ArrivalTime: time
+            ArrivalTime: time,
+            Status: 'True'
           },
           patientDetails: {
             FirstName: result.FirstName,
@@ -184,19 +254,28 @@ export class CardiologyCalendarComponent implements OnInit {
             afterEnd: true,
           },
         };
+        this.modalData.event["day"]["events"].push(event2);
         this.events = [
           ...this.events,
           event2
         ];
-        this.modalData.event["day"]["events"].push(event2);
       }
-
+      this.cdr.detectChanges();
     });
-
-
   }
 
   deleteEvent(eventToDelete: CalendarEvent) {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteEventInCalendarCardiology", {
+        _rowID: eventToDelete.patientAction.Row_ID
+      })
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("נמחק בהצלחה");
+        } else {
+          this.openSnackBar("משהו השתבש, לא נמחק");
+        }
+      });
     this.events = this.events.filter((event) => event !== eventToDelete);
     this.modalData.event["day"]["events"] = this.events;
   }
@@ -211,13 +290,14 @@ export class CardiologyCalendarComponent implements OnInit {
 
   saveDayEvents(day) {
     let thisDate = this.datePipe.transform(day, 'yyyy-MM-dd');
-    let thisDateEvents = this.events.filter(t=>t.patientAction.ArrivalDate === thisDate);
+    let thisDateEvents = this.events.filter(t => t.patientAction.ArrivalDate === thisDate);
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/SubmitUpdateCardiologyPatientQueue", {
         _queueDetails: thisDateEvents
       })
       .subscribe((Response) => {
         if (Response["d"]) {
+          this.modal.dismissAll();
           this.openSnackBar("נשמר בהצלחה");
         } else {
           this.openSnackBar("משהו השתבש, לא נשמר");
@@ -239,16 +319,25 @@ export class CardiologyCalendarComponent implements OnInit {
         let tempArr = [];
         tempArr = Response["d"];
         tempArr.forEach(element => {
-          element.draggable =  true,
-          element.actions = this.actions,
-          element.resizable = {
-            beforeStart: true,
-            afterEnd: true,
-          },
-          element.start = new Date(element.patientAction.ArrivalDate + " " +element.patientAction.ArrivalTime);
+          element.draggable = true,
+            element.actions = this.actions,
+            element.resizable = {
+              beforeStart: true,
+              afterEnd: true,
+            },
+            element.start = new Date(element.patientAction.ArrivalDate + " " + element.patientAction.ArrivalTime);
           this.events.push(element);
           this.refresh.next();
-        }); 
+        });
+      });
+  }
+
+  getactionsList() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetActionsList", {
+      })
+      .subscribe((Response) => {
+        this._actionsList = Response["d"];
       });
   }
 

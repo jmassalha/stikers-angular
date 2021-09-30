@@ -3,27 +3,6 @@
 </button>
 <div class="row" id="page-toshow">
     <div class="col-12" dir="rtl">
-        <!-- <form class="form" [formGroup]="actionForm" *ngIf="patientFound">
-            <div class="row">
-                <div class="col-6">
-                    <mat-form-field appearance="fill" style="margin-top: 18px;">
-                        <mat-label>תאריך הגעה</mat-label>
-                        <input matInput [matDatepicker]="picker2" formControlName="ArrivalDate" (focus)="picker2.open()" ng-model-options="{ timezone: 'utc' }">
-                        <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                    </mat-form-field>
-                    <mat-datepicker #picker2></mat-datepicker>
-                </div>
-                <div class="col-4">
-                    <mat-form-field appearance="fill">
-                        <label>שעת הגעה</label>
-                        <input matInput autocomplete="off" type="time" formControlName="ArrivalTime" name="fliterVal" />
-                    </mat-form-field>
-                </div>
-                <div class="col-2">
-                    <button (click)="setNow()" style="margin-top: 50px;">קבע לעכשיו</button>
-                </div>
-            </div>
-        </form> -->
         <div class="col-12" *ngIf="!patientFound">
             <div dir="rtl" class="card w-85-p">
                 <div dir="rtl" class="card-body">
@@ -90,7 +69,7 @@
                         <div class="col">
                             <mat-form-field appearance="fill">
                                 <mat-label>תאריך לידה</mat-label>
-                                <input matInput [matDatepicker]="picker" formControlName="DOB">
+                                <input matInput [matDatepicker]="picker" formControlName="DOB" (focus)="picker.open()">
                                 <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                             </mat-form-field>
                             <mat-datepicker #picker></mat-datepicker>
@@ -131,7 +110,7 @@
                     <div class="button-row">
                         <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
                             color="primary" type="submit" (click)="onNoClick()" mat-raised-button>
-                            <span>שמירה ושליחה לפקידה</span>
+                            <span>שמירת פרטים</span>
                         </button>
                     </div>
                 </form>

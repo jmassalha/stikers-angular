@@ -9,6 +9,7 @@ import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.c
 import { DatePipe } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { int } from '@zxing/library/esm/customTypings';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 
 @Component({
   selector: 'app-nurses-manage-dashboard',
@@ -17,17 +18,22 @@ import { int } from '@zxing/library/esm/customTypings';
 })
 export class NursesManageDashboardComponent implements OnInit {
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   all_departments_array = [];
   ER_Occupancy = [];
   searchWord: string;
   hospitalBedsInUse: string;
   resparotriesCount: string;
   private updateSubscription: Subscription;
+  UserName = localStorage.getItem("loginUserName").toLowerCase();
+  nursesUserPermission: boolean = false;
 
   constructor(
     public dialog: MatDialog,
     private router: Router,
     private http: HttpClient,
+    private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder) { }
 
 
@@ -36,6 +42,8 @@ export class NursesManageDashboardComponent implements OnInit {
     total: 0,
   };
   numberOfDays = 0;
+  Dept_Number: string;
+  Dept_Name: string;
   newDate: string;
   dateToDisplayString: string;
   loaded: boolean;
@@ -51,6 +59,7 @@ export class NursesManageDashboardComponent implements OnInit {
     this.updateSubscription = interval(60000).subscribe(
       (val) => { this.getAllDeparts(); this.getEROccupancy("", "er"); }
     );
+    // this.NursesSystemPermission();
   }
 
   openDialogToFill(departCode, Dept_Name) {
@@ -63,7 +72,6 @@ export class NursesManageDashboardComponent implements OnInit {
           return;
         }
         this.ELEMENT_DATA = data;
-
         $("#loader").removeClass("d-none");
         setTimeout(function () {
           $("#loader").addClass("d-none");
@@ -71,7 +79,15 @@ export class NursesManageDashboardComponent implements OnInit {
         }, 1500);
       })
   }
-  
+
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
   openReportDialog(report_type) {
     let dialogRef = this.dialog.open(NursesDashboardComponent, {});
     dialogRef.componentInstance.reportType = report_type;
@@ -90,22 +106,46 @@ export class NursesManageDashboardComponent implements OnInit {
       })
   }
 
-
+  NursesSystemPermission() {
+    let userName = localStorage.getItem("loginUserName").toLowerCase();
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
+        _userName: userName
+      })
+      .subscribe((Response) => {
+        this.nursesUserPermission = Response["d"];
+      });
+      return this.nursesUserPermission;
+  }
 
   getAllDeparts() {
     this.loaded = false;
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
+        _userName: this.UserName
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
+        if(this.NursesSystemPermission()){
+          if(this.all_departments_array.length == 0){
+            this.getAllDeparts();
+          }
+        }else{
+          this.Dept_Number = this.all_departments_array[0].Dept_Number;
+          this.Dept_Name = this.all_departments_array[0].Dept_Name;
+        }
+        
         this.loaded = true;
       });
   }
 
   getOtherDepartmentDetails(otherDepartName) {
-    let dialogRef = this.dialog.open(OtherDepartmentsComponent, {});
-    dialogRef.componentInstance.otherDepartName = otherDepartName;
+    if (!this.nursesUserPermission) {
+      this.openSnackBar("אין הרשאה");
+    } else {
+      let dialogRef = this.dialog.open(OtherDepartmentsComponent, {});
+      dialogRef.componentInstance.otherDepartName = otherDepartName;
+    }
   }
 
   getEROccupancy(datePointer, dept) {
@@ -129,7 +169,7 @@ export class NursesManageDashboardComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.ER_Occupancy = Response["d"];
-        this.allErOccupancy = parseInt(this.ER_Occupancy[0])+parseInt(this.ER_Occupancy[1])+parseInt(this.ER_Occupancy[2]);
+        this.allErOccupancy = parseInt(this.ER_Occupancy[0]) + parseInt(this.ER_Occupancy[1]) + parseInt(this.ER_Occupancy[2]);
       });
   }
 

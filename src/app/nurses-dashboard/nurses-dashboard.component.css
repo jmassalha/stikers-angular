@@ -115,6 +115,8 @@ table {
 
 #BtnStyle{
   box-shadow: 3px 4px 3px 0px black;
+  min-width: 50px;
+  line-height: 30px;
 }
 
 #page-toshow{

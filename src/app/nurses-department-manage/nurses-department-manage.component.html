@@ -13,10 +13,6 @@
           <th mat-header-cell *matHeaderCellDef> תפוסה סיעודית </th>
           <td mat-cell *matCellDef="let element"> {{element.NursingCount}} </td>
         </ng-container>
-        <!-- <ng-container matColumnDef="medical">
-          <th mat-header-cell *matHeaderCellDef> תפוסה רפואית </th>
-          <td mat-cell *matCellDef="let element"> {{element.MedicCount}} </td>
-        </ng-container> -->
         <ng-container matColumnDef="receipts">
           <th mat-header-cell *matHeaderCellDef> קבלות </th>
           <td mat-cell *matCellDef="let element"> <span
@@ -27,7 +23,7 @@
           <th mat-header-cell *matHeaderCellDef> שחרורים </th>
           <td mat-cell *matCellDef="let element"> {{element.ReleasedCount}} </td>
         </ng-container>
-        <ng-container matColumnDef="plannedtorelease">
+        <ng-container matColumnDef="plannedtorelease" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
           <th mat-header-cell *matHeaderCellDef> מתוכננים להשתחרר </th>
           <td mat-cell *matCellDef="let element">
             <div class="row">
@@ -39,7 +35,7 @@
             </div>
           </td>
         </ng-container>
-        <ng-container matColumnDef="holiday">
+        <ng-container matColumnDef="holiday" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
           <th mat-header-cell *matHeaderCellDef> בחופשה </th>
           <td mat-cell *matCellDef="let element"> {{element.HolidayCount}} </td>
         </ng-container>
@@ -95,23 +91,23 @@
             <i class="material-icons">assignment_ind</i>
           </button>
         </div>
-        <div class="col">
-          <button mat-raised-button type="submit" class="btn btn-primary btn-raised" *ngIf="Dept_Name == 'פנימית א'"
+        <div class="col" *ngIf="Dept_Name == 'פנימית א'">
+          <button mat-raised-button type="submit" class="btn btn-primary btn-raised"
             (click)="getPatientsPerDepart($event,'רנורול')">
-            נוירולוגיה
+            נוירולוגיה: {{numberOfNeurology}}
           </button>
         </div>
-        <div class="col">
-          <button mat-raised-button type="submit" class="btn btn-primary btn-raised" *ngIf="Dept_Name == 'פנימית א'"
+        <div class="col" *ngIf="Dept_Name == 'פנימית א'">
+          <button mat-raised-button type="submit" class="btn btn-primary btn-raised"
             (click)="getPatientsPerDepart($event,'רשבצ-מ')">
-            שבץ מוחי
+            שבץ מוחי: {{numberOfCVA}}
           </button>
         </div>
         <div class="col">
-          <button matTooltip="מטופלים במחלקת {{Dept_Name}}" mat-raised-button type="submit"
+          <!-- <button matTooltip="מטופלים במחלקת {{Dept_Name}}" mat-raised-button type="submit"
             class="btn btn-primary btn-raised" id="EventBtn2" (click)="getPatientsPerDepart($event,'')">
             <i class="material-icons">arrow_circle_down</i>
-          </button>
+          </button> -->
         </div>
 
       </div>
@@ -122,8 +118,8 @@
           <input matInput (keyup)="applyFilter($event,'')" placeholder="הקלד..." #input>
         </mat-form-field>
       </div>
-      <div dir="rtl" class="mb-3 text-center" *ngIf="patientsTable">
-        <mat-list role="list" id="list_of_types">
+      <div dir="rtl" class="mb-3 text-center" *ngIf="patientsTable && Dept_Name != 'מיון יולדות (חדר לידה)'">
+        <mat-list role="list" id="list_of_types" *ngIf="Dept_Name != 'חדר לידה'">
           <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'')"
               mat-raised-button>
               הכל
@@ -152,9 +148,7 @@
               mat-raised-button color="primary">
               סטטוס קורונה
             </button></mat-list-item>
-          <!-- <mat-list-item role="listitem"></mat-list-item> -->
         </mat-list>
-
       </div>
 
       <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" *ngIf="patientsTable">
@@ -163,11 +157,6 @@
           <th mat-header-cell *matHeaderCellDef> מספר מקרה </th>
           <td mat-cell *matCellDef="let element"> {{element.PM_CASE_NUMBER}} </td>
         </ng-container>
-
-        <!-- <ng-container matColumnDef="departmentnursing">
-          <th mat-header-cell *matHeaderCellDef> מחלקה סיעודית </th>
-          <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART_SEODE}} </td>
-        </ng-container> -->
 
         <ng-container matColumnDef="departmentmedical">
           <th mat-header-cell *matHeaderCellDef> מחלקה רפואית </th>
@@ -199,11 +188,6 @@
           <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_GENDER}} </td>
         </ng-container>
 
-        <!-- <ng-container matColumnDef="city">
-          <th mat-header-cell *matHeaderCellDef> כתובת מגורים </th>
-          <td mat-cell *matCellDef="let element"> {{element.PM_CITY}} </td>
-        </ng-container> -->
-
         <ng-container matColumnDef="enterdate">
           <th mat-header-cell *matHeaderCellDef> תאריך קבלה </th>
           <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DATE}} </td>
@@ -213,17 +197,6 @@
           <th mat-header-cell *matHeaderCellDef> שעת קבלה </th>
           <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_TIME }} </td>
         </ng-container>
-
-        <!-- <ng-container matColumnDef="reportpatint">
-          <th mat-header-cell *matHeaderCellDef> דיווח</th>
-          <td mat-cell *matCellDef="let element"> <button matTooltip="דווח קליני למטופל" type="button" id="EventBtn2"
-              mat-mini-fab color="primary"
-              (click)="fillReportDialog(0,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_CASE_NUMBER)">
-              <span class="material-icons">
-                assignment
-              </span>
-            </button> </td>
-        </ng-container> -->
 
         <ng-container matColumnDef="displayreports">
           <th mat-header-cell *matHeaderCellDef> דיווח קליני</th>
@@ -242,13 +215,8 @@
         <tr mat-row *matRowDef="let row;let even=even; columns: displayedColumns2;"
           matTooltip="{{row.SSP_DESCRIPTION}}&#13;{{row.CoronaStatus}}" matTooltipClass="my-tooltip"
           matTooltipPosition="before"></tr>
-
       </table>
-
     </div>
   </form>
-
-
-
   <mat-progress-bar mode="indeterminate" id="buffer" *ngIf="loading"></mat-progress-bar>
 </div>

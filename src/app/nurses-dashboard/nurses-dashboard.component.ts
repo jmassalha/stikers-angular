@@ -238,11 +238,13 @@ export class NursesDashboardComponent implements OnInit {
       ReportMachlol: ['', null],
       ReportCategory: ['', null],
       ReportSubCategory: ['', null],
-      ReportStatus: ['', null],
+      ReportStatus: ['טופל', null],
       ReportShift: [{ value: '', disabled: true }, null],
       ReportText: ['', null],
       toContinue: [false, null],
       Diagnosis: ['', null],
+      PatientName: [this.firstname + ' ' + this.lastname, null],
+      PatientNurseStatus: [this.description + ' ' + this.corona, null],
     });
     if (this.now.getHours() >= 7 && this.now.getHours() < 15) {
       this.automaticShift = 'בוקר';
@@ -382,7 +384,7 @@ export class NursesDashboardComponent implements OnInit {
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
-      _reportStartDate = "";
+      _reportStartDate = pipe.transform(this.myDate, 'yyyy/MM/dd');
     }
     if (!(_reportEndDate == undefined || _reportEndDate == "" || _reportEndDate == null)) {
       _reportEndDate = pipe.transform(_reportEndDate, 'yyyy/MM/dd');
@@ -416,11 +418,13 @@ export class NursesDashboardComponent implements OnInit {
                 UserName: this.reportsArr[i].UsersReportsList[0].UsersList[0].UserName,
                 LastUpdatedDate: this.reportsArr[i].LastUpdatedDate,
                 ReportShift: this.reportsArr[i].ReportShift,
-                // priority: this.reportsArr[i].ReportPriority,
                 ReportMachlol: this.reportsArr[i].ReportMachlol,
                 ReportCategory: this.reportsArr[i].ReportCategory,
                 ReportSubCategory: this.reportsArr[i].ReportSubCategory,
               });
+            }
+            if (_caseNumber != "") {
+              this.ReportGroup.controls['Diagnosis'].setValue(this.reportsArr[0].Diagnosis);
             }
             this.departmentfilter.setValue(this.Dept_Name);
             this.permission = true;
@@ -462,6 +466,7 @@ export class NursesDashboardComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] == "Success") {
             this.openSnackBar("נשמר בהצלחה");
+            this.ReportGroup.reset();
             this.searchReports();
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");

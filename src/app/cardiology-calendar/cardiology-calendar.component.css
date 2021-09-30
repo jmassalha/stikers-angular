@@ -16,6 +16,19 @@ pre {
 .btn-group{
   margin-left: 5px;
 }
+.span-cards{
+  display: block;
+  border: 1px solid #000; 
+  padding: 3px;
+  border-radius: 4px;
+  font-size: 14px;
+  font-weight: bolder;
+  text-align: right;
+  color: white;
+}
+.example-chip-list {
+  width: 100%;
+}
 
 /* 
 

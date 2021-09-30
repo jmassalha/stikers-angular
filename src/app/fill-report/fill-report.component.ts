@@ -236,7 +236,7 @@ export class FillReportComponent implements OnInit {
   reportType: string;
   creator: boolean;
   now = new Date();
-  panelOpenState = false;
+  panelOpenState = true;
 
   ngOnInit(): void {
     if (this.Dept_Name != "") {
@@ -252,7 +252,9 @@ export class FillReportComponent implements OnInit {
       ReportShift: [{ value: '', disabled: true }, null],
       ReportText: ['', null],
       toContinue: [false, null],
-      Diagnosis: [false, null],
+      Diagnosis: ['', null],
+      PatientName: ['', null],
+      PatientNurseStatus: ['', null],
     });
     if (this.reportID != "0") {
       this.getReportToUpdate();
@@ -421,6 +423,8 @@ export class FillReportComponent implements OnInit {
           ReportTitle: new FormControl(this.all_report_management.ReportTitle, null),
           toContinue: new FormControl(this.all_report_management.toContinue, null),
           Diagnosis: new FormControl(this.all_report_management.Diagnosis, null),
+          PatientName: new FormControl(this.all_report_management.PatientName, null),
+          PatientNurseStatus: new FormControl(this.all_report_management.PatientNurseStatus, null),
         });
         this.reportType = this.all_report_management.ReportType;
         let ifEditable = false;
@@ -479,6 +483,21 @@ export class FillReportComponent implements OnInit {
         this.all_categories_filter = Response["d"];
         let lastIndex = this.all_categories_filter.length - 1;
         this.subCategory = this.all_categories_filter[lastIndex].SubCategory;
+      });
+  }
+
+  deleteReply(responseRowID){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteResponseNurses", {
+        _responseRowID: responseRowID
+      })
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("נשמר בהצלחה");
+          this.getReportToUpdate();
+        } else {
+          this.openSnackBar("משהו השתבש, לא נשמר");
+        }
       });
   }
 

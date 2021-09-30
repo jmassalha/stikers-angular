@@ -47,7 +47,9 @@ export class NursesDepartmentManageComponent implements OnInit {
     private formBuilder: FormBuilder,
     private datePipe: DatePipe) { }
 
-
+  event: Event;
+  numberOfCVA: number = 0;
+  numberOfNeurology: number = 0;
   departCode: string;
   Dept_Name: string;
   loading: boolean;
@@ -61,10 +63,10 @@ export class NursesDepartmentManageComponent implements OnInit {
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
 
   ngOnInit(): void {
-    if (this.Dept_Name != 'מיון יולדות (חדר לידה)') {
-      this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
+    if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה' ) {
+      this.displayedColumns = ['nursing', 'receipts', 'released'];
     } else {
-      this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday'];
+      this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
     }
     this.loading = true;
     this.patientsTable = false;
@@ -74,6 +76,7 @@ export class NursesDepartmentManageComponent implements OnInit {
     });
     this.getDepartDetails();
     this.getSubmitPlannedToRealse('0');
+    this.getPatientsPerDepart(this.event, '');
   }
 
   getSubmitPlannedToRealse(ifsaved) {
@@ -84,7 +87,7 @@ export class NursesDepartmentManageComponent implements OnInit {
         userName: localStorage.getItem('loginUserName').toLowerCase()
       })
       .subscribe((Response) => {
-        this.departmentRelease.controls['plannedToRelease'].setValue(Response["d"][0]);
+        this.departmentRelease.controls['plannedToRelease'].setValue(Response["d"]);
       });
     if (ifsaved == '1') {
       this.openSnackBar("נשמר בהצלחה");
@@ -112,7 +115,7 @@ export class NursesDepartmentManageComponent implements OnInit {
     dialogRef.componentInstance.lastName = lastName;
     dialogRef.componentInstance.caseNumber = caseNumber;
   }
-  displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname, gender, dob,description,corona, reportType) {
+  displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname, gender, dob, description, corona, reportType) {
     let dialogRef = this.dialog.open(NursesDashboardComponent);
     dialogRef.componentInstance.caseNumber = caseNumber;
     dialogRef.componentInstance.asDialog = asDialog;
@@ -141,6 +144,7 @@ export class NursesDepartmentManageComponent implements OnInit {
         this.ELEMENT_DATA = Response["d"];
         if (this.ELEMENT_DATA.length == 0) {
           this.openSnackBar("לא נטען, לנסות שוב");
+          this.getDepartDetails();
         }
         this.loading = false;
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
@@ -155,6 +159,15 @@ export class NursesDepartmentManageComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);
+        this.numberOfNeurology = 0;
+        this.numberOfCVA = 0;
+        this.dataSource2.filteredData.forEach(element => {
+          if(element.PM_MOVE_DEPART == 'רשבצ-מ'){
+            this.numberOfCVA++;
+          }else if(element.PM_MOVE_DEPART == 'רנורול'){
+            this.numberOfNeurology++;
+          }
+        });
         this.patientsTable = !this.patientsTable;
         if (subDepart != '') {
           this.patientsTable = true;

@@ -41,6 +41,10 @@ export class DashboardComponent implements OnInit {
         '<div class="bounce3"></div>' +
         "</div>";
     ngOnInit() {
+        $("#Vector_13").append('text').text('This is some information about whatever')
+        .attr('x', 50)
+        .attr('y', 150)
+        .attr('fill', '#938F8F');
         if (
             localStorage.getItem("loginState") != "true" ||
             localStorage.getItem("loginUserName") == ""

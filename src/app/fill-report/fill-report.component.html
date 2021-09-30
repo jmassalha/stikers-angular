@@ -1,14 +1,35 @@
 <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup">
     <div class="modal-header text-right">
         <div class="row mt-3">
-            <div class="col">
+            <div class="col-4" style="font-family: 'Roboto';">
                 {{date2}} - {{time2}} - {{userFullName}}
             </div>
-            <div class="col">
-                <button matTooltip="שליחה לנמען" mat-raised-button type="button"
+            <div class="col-3" style="font-family: 'Roboto';">
+                {{ReportGroup.controls['PatientName'].value}}<br> {{ReportGroup.controls['PatientNurseStatus'].value}}
+            </div>
+            <div class="col-5">
+                <button matTooltip="שליחה לנמען" mat-raised-button type="button" id="BtnStyle"
                     class="btn btn-primary btn-raised float-left" (click)="openShareDialog()">
                     <span class="material-icons">
                         reply
+                    </span>
+                </button>
+                <button matTooltip="שמירה" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
+                    (click)="onSubmit()" type="submit" mat-raised-button>
+                    <span class="material-icons">
+                        save
+                    </span>
+                </button>
+                <button matTooltip="הוספת תגובה" type="button" id="BtnStyle" mat-raised-button
+                    class="btn btn-primary btn-raised ml-3 float-left" (click)="addResponseToReport(reportID)">
+                    <span class="material-icons">
+                        add
+                    </span>
+                </button>
+                <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" id="BtnStyle" mat-raised-button
+                    class="btn btn-outline-dark ml-3 float-left" color="warn" (click)="deleteReport(reportID)">
+                    <span class="material-icons">
+                        delete
                     </span>
                 </button>
             </div>
@@ -19,8 +40,9 @@
             <div class="col-12">
                 <mat-form-field class="example-full-width" appearance="fill">
                     <mat-label>אבחנה</mat-label>
-                    <textarea matInput formControlName="Diagnosis" placeholder="אבחנה"></textarea>
-                  </mat-form-field>
+                    <textarea matInput style="font-family: 'Roboto';" formControlName="Diagnosis"
+                        placeholder="אבחנה"></textarea>
+                </mat-form-field>
             </div>
         </div>
         <div class="row" *ngIf="reportType == 'administrative'">
@@ -28,10 +50,11 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>נושא/מחלקה</mat-label>
-                        <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
-                            [matAutocomplete]="auto2">
+                        <input type="text" aria-label="department" style="font-family: 'Roboto';" matInput
+                            [formControl]="departmentfilter" [matAutocomplete]="auto2">
                         <mat-autocomplete #auto2="matAutocomplete">
-                            <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Dept_Name">
+                            <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Dept_Name"
+                                style="font-family: 'Roboto';">
                                 {{dept.Dept_Name}}
                             </mat-option>
                         </mat-autocomplete>
@@ -42,10 +65,11 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>קטגוריה</mat-label>
-                        <input type="text" aria-label="category" matInput [formControl]="categoryfilter"
-                            [matAutocomplete]="auto3">
+                        <input type="text" aria-label="category" style="font-family: 'Roboto';" matInput
+                            [formControl]="categoryfilter" [matAutocomplete]="auto3">
                         <mat-autocomplete #auto3="matAutocomplete">
-                            <mat-option *ngFor="let cat of filteredOptions3 | async" [value]="cat.Cat_Name">
+                            <mat-option *ngFor="let cat of filteredOptions3 | async" [value]="cat.Cat_Name"
+                                style="font-family: 'Roboto';">
                                 {{cat.Cat_Name}}
                             </mat-option>
                         </mat-autocomplete>
@@ -56,10 +80,11 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>תת קטגוריה</mat-label>
-                        <input type="text" aria-label="subcategory" matInput [formControl]="subcategoryfilter"
-                            [matAutocomplete]="auto4">
+                        <input type="text" aria-label="subcategory" style="font-family: 'Roboto';" matInput
+                            [formControl]="subcategoryfilter" [matAutocomplete]="auto4">
                         <mat-autocomplete #auto4="matAutocomplete">
-                            <mat-option *ngFor="let subcat of filteredOptions4 | async" [value]="subcat.SubCat_Name">
+                            <mat-option *ngFor="let subcat of filteredOptions4 | async" [value]="subcat.SubCat_Name"
+                                style="font-family: 'Roboto';">
                                 {{subcat.SubCat_Name}}
                             </mat-option>
                         </mat-autocomplete>
@@ -70,8 +95,9 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>סטטוס</mat-label>
-                        <mat-select formControlName="ReportStatus">
-                            <mat-option *ngFor="let st of status" [value]="st.value"> {{st.viewValue}} </mat-option>
+                        <mat-select formControlName="ReportStatus" style="font-family: 'Roboto';">
+                            <mat-option *ngFor="let st of status" [value]="st.value" style="font-family: 'Roboto';">
+                                {{st.viewValue}} </mat-option>
                         </mat-select>
                     </mat-form-field>
                 </div>
@@ -79,7 +105,7 @@
             <div class="col" style="align-self: center;">
                 <section class="example-section">
                     <mat-checkbox class="example-margin" formControlName="toContinue"
-                        (change)="autoDate($event.checked)">דורש
+                        (change)="autoDate($event.checked)" style="font-family: 'Roboto';">דורש
                         המשך טיפול</mat-checkbox>
                 </section>
             </div>
@@ -99,7 +125,8 @@
             <div class="col-9">
                 <div class="form-group">
                     <mat-form-field>
-                        <textarea matInput rows="3" placeholder="תוכן הדוח" class="form-control border-1"
+                        <textarea matInput rows="3" style="font-size: 15px;font-family: 'Roboto';"
+                            placeholder="תוכן הדוח" class="form-control border-1"
                             formControlName="ReportText"></textarea>
                     </mat-form-field>
                 </div>
@@ -109,34 +136,41 @@
             <div class="col-11">
                 <h5>תגובות:</h5>
                 <div class="expantionBox" *ngIf="usersReponsesList?.length > 0">
-                    <mat-accordion class="mat-accordion">
+                    <div class="mat-accordion">
                         <div *ngFor="let response of usersReponsesList">
-                            <mat-expansion-panel *ngIf="response.FirstName != ''" (opened)="panelOpenState = true"
-                                (closed)="panelOpenState = false">
-                                <mat-expansion-panel-header>
-                                    <mat-panel-title>
-                                        {{response.FirstName}} {{response.LastName}}
-                                    </mat-panel-title>
-                                    <mat-panel-description>
-                                        {{response.UpdateDate}}
-                                    </mat-panel-description>
-                                </mat-expansion-panel-header>
-                                <p>{{response.ResponseText}}</p>
-                            </mat-expansion-panel>
+                            <div class="reply-row" *ngIf="response.FirstName != ''">
+                                <div class="row mt-2">
+                                    <div class="col-10">
+                                        <h6 style="font-family: 'Roboto';">
+                                            {{response.FirstName}} {{response.LastName}} &nbsp;{{response.UpdateDate}}
+                                        </h6>
+                                    </div>
+                                    <div class="col-2">
+                                        <button *ngIf="response.UserName == UserName" matTooltip="מחיקה" type="button"
+                                            id="BtnStyle" mat-raised-button class="btn btn-outline-dark" color="warn"
+                                            (click)="deleteReply(response.ResponseRowID)">
+                                            <span class="material-icons">
+                                                delete
+                                            </span>
+                                        </button>
+                                    </div>
+                                </div>
+                                <br>
+                                <p class="text-right" style="font-family: 'Roboto';">{{response.ResponseText}}</p>
+                            </div>
                         </div>
-
-                    </mat-accordion>
+                    </div>
                 </div>
             </div>
             <div class="col-1">
-                <button mat-mini-fab matTooltip="הוספת תגובה" id="addReply" (click)="addResponseToReport(reportID)"
+                <!-- <button mat-mini-fab matTooltip="הוספת תגובה" id="addReply" (click)="addResponseToReport(reportID)"
                     color="primary">
                     <mat-icon>add</mat-icon>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
-    <div class="modal-footer text-left" *ngIf="creator || reportID == '0';else note">
+    <!-- <div class="modal-footer text-left" *ngIf="creator || reportID == '0';else note">
         <button matTooltip="שמירה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="onSubmit()"
             type="submit" mat-raised-button>
             <span class="material-icons">
@@ -149,6 +183,6 @@
                 delete
             </span>
         </button>
-    </div>
+    </div> -->
     <ng-template #note>הדווח נעול לעריכה</ng-template>
 </form>

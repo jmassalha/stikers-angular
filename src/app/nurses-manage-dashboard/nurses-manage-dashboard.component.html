@@ -1,4 +1,4 @@
-<mat-card dir="rtl" id="page-toshow" style="background-color: aliceblue;padding-top: 0px;">
+<mat-card dir="rtl" id="page-toshow" *ngIf="nursesUserPermission" style="background-color: aliceblue;padding-top: 0px;">
     <h1 class="page-title text-center">דיווח סיעודי</h1>
     <div class="container-fluid">
         <div class="row">
@@ -40,7 +40,7 @@
                                             <h5>מונשמים</h5>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" *ngIf="nursesUserPermission">
                                         <div class="col-4">
                                             <h5>{{hospitalBedsInUse}}</h5>
                                         </div>
@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="col-6 text-center">
                                             <h3><b>קבלות מחלקה לרפואה דחופה</b></h3>
-                                            <h3 style="font-size: 20px;"> סה"כ {{allErOccupancy}} &nbsp;&nbsp; {{newDate
+                                            <h3 style="font-size: 20px;" *ngIf="nursesUserPermission"> סה"כ {{allErOccupancy}} &nbsp;&nbsp; {{newDate
                                                 | date: "dd.MM.yyyy"}}</h3>
                                             <h3 style="font-size: 20px;"></h3>
                                         </div>
@@ -85,7 +85,7 @@
                                             <h5>ערב</h5>
                                         </div>
                                     </div>
-                                    <div class="row">
+                                    <div class="row" *ngIf="nursesUserPermission">
                                         <div class="col-4" *ngFor="let occ of ER_Occupancy">
                                             <h5>{{occ}}</h5>
                                         </div>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <button matTooltip="דווח מינהלי" id="EventBtndisplay" mat-raised-button type="submit" class="btn btn-primary btn-raised"
+            <button matTooltip="דווח מינהלי" id="EventBtndisplay" *ngIf="nursesUserPermission" mat-raised-button type="submit" class="btn btn-primary btn-raised"
                 (click)="openReportDialog('administrative')">
                 <i class="material-icons">assignment_ind</i>
             </button>
@@ -164,6 +164,7 @@
     </div>
 </mat-card>
 
+<app-nurses-department-manage *ngIf="!nursesUserPermission"></app-nurses-department-manage>
 
 <div class="d-none-desktop">
     <table dir="rtl">
