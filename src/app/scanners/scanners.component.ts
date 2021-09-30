@@ -269,6 +269,8 @@ export class ScannersComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.openSendSnackBar();
+                this.selection = new SelectionModel<Boxes>(true, []);
+                this.selectedOn = false;
             });
     }
     showcasenumbers(content, _type, _element) {

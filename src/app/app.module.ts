@@ -88,7 +88,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { EventsscheduleComponent } from './eventsschedule/eventsschedule.component';
 import { EmailsdashboardComponent } from './emailsdashboard/emailsdashboard.component';
 import { EmailmanagementComponent } from './emailmanagement/emailmanagement.component';
-import {DatePipe} from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import { StatusComplaintComponent } from './status-complaint/status-complaint.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
@@ -116,8 +116,12 @@ import { FastCovid19TestComponent } from './fast-covid19-test/fast-covid19-test.
 import { FastCovidTestDashboardComponent } from './fast-covid-test-dashboard/fast-covid-test-dashboard.component';
 import { AddResponseDialog } from './fill-report/fill-report.component';
 import { UrgentSurgeriesComponent } from './urgent-surgeries/urgent-surgeries.component';
-
-
+import { OnlineAppointmentsComponent } from './online-appointments/online-appointments.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import localeHe from '@angular/common/locales/he';
+import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+registerLocaleData(localeHe);
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -199,10 +203,16 @@ const maskConfig: Partial<IConfig> = {
     ShareReportsDialog,
     FastCovid19TestComponent,
     FastCovidTestDashboardComponent,
-    UrgentSurgeriesComponent
+    UrgentSurgeriesComponent,
+    OnlineAppointmentsComponent
   ],
   imports: [
+    CalendarModule.forRoot({
+      provide: DateAdapter,
+      useFactory: adapterFactory,
+    }),
     NgxBarCodePutModule,
+    NgbModalModule,
     GoogleChartsModule,
     NgxMatNativeDateModule,    
     MatMomentDateModule,
