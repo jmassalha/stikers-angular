@@ -127,7 +127,7 @@
             <td mat-cell *matCellDef="let element"> {{element.SurgeryCountInProgress}} </td>
         </ng-container>
         <ng-container matColumnDef="waiting">
-            <th mat-header-cell *matHeaderCellDef> בהמתנה </th>
+            <th mat-header-cell *matHeaderCellDef> מתוכנן </th>
             <td mat-cell *matCellDef="let element"> {{element.SurgeryCountPlanned}} </td>
         </ng-container>
         <ng-container matColumnDef="completed">
@@ -201,7 +201,7 @@
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay2_2"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay2_2;"
-            [style.background]="row.SurgeryStatus == 'בהמתנה' ? 'antiquewhite' : row.SurgeryStatus == 'פעיל' ? 'aquamarine' : 'darkgray'">
+            [style.background]="row.SurgeryStatus == 'מתוכנן' ? 'antiquewhite' : row.SurgeryStatus == 'פעיל' ? 'aquamarine' : 'darkgray'">
         </tr>
 
     </table>

@@ -17,7 +17,7 @@ export class HeaderComponent implements OnInit {
 
     personReadInquiry: boolean = false;
     clinicsUserPermission: boolean = false;
-    nursesUserPermission: boolean = false;
+    cardiologyPermission: boolean = false;
     visitorsUserPermission: boolean = false;
     fastCovidTestPermission: boolean = false;
     loginUserName: string;
@@ -99,7 +99,7 @@ export class HeaderComponent implements OnInit {
         this._publicInquiry = false;
         this._shoEventsschedule = false;
         this._shoEmergincyCall = false;
-        this.loginUserName = localStorage.getItem("loginUserName");
+        this.loginUserName = localStorage.getItem("loginUserName").toLowerCase();
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "adahabre" ||
@@ -522,9 +522,9 @@ export class HeaderComponent implements OnInit {
         });
         this.ifPersonRead();
         this.ClinicsPricingPermission();
-        this.NursesSystemPermission();
         this.VisitorsSystemPermission();
         this.fastCovidTestSystemPermission();
+        this.CardiologyPermission();
     }
     logout($event): void {
         ////debugger
@@ -545,14 +545,14 @@ export class HeaderComponent implements OnInit {
             });
     }
     
-    NursesSystemPermission() {
+    CardiologyPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/CardiologyPermissions", {
                 _userName: userName
             })
             .subscribe((Response) => {
-                this.nursesUserPermission = Response["d"];
+                this.cardiologyPermission = Response["d"];
             });
     }
     

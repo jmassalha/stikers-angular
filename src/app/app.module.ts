@@ -112,16 +112,23 @@ import { VisitorsMonitoringComponent } from './visitors-monitoring/visitors-moni
 import { VisitorsRegistrationComponent } from './visitors-monitoring/visitors-registration/visitors-registration.component';
 import { VisitorNameDialog } from './visitors-monitoring/visitors-registration/visitors-registration.component';
 import { ShareReportsDialog } from './nurses-dashboard/nurses-dashboard.component';
+import { ShareReportDialog } from './fill-report/fill-report.component';
 import { FastCovid19TestComponent } from './fast-covid19-test/fast-covid19-test.component';
 import { FastCovidTestDashboardComponent } from './fast-covid-test-dashboard/fast-covid-test-dashboard.component';
 import { AddResponseDialog } from './fill-report/fill-report.component';
 import { UrgentSurgeriesComponent } from './urgent-surgeries/urgent-surgeries.component';
 import { OnlineAppointmentsComponent } from './online-appointments/online-appointments.component';
-import { CalendarModule, DateAdapter } from 'angular-calendar';
-import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import localeHe from '@angular/common/locales/he';
 import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 registerLocaleData(localeHe);
+import { CardiologyCalendarComponent } from './cardiology-calendar/cardiology-calendar.component';
+import { AddupdateactionComponent } from './cardiology-calendar/addupdateaction/addupdateaction.component';
+import { CalendarModule, DateAdapter } from 'angular-calendar';
+import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
+import { FlatpickrModule } from 'angularx-flatpickr';
+
+
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -201,16 +208,21 @@ const maskConfig: Partial<IConfig> = {
     VisitorsMonitoringComponent,
     VisitorsRegistrationComponent,
     ShareReportsDialog,
+    ShareReportDialog,
     FastCovid19TestComponent,
     FastCovidTestDashboardComponent,
     UrgentSurgeriesComponent,
     OnlineAppointmentsComponent
   ],
   imports: [
+    CardiologyCalendarComponent,
+    AddupdateactionComponent,
+    FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
+    NgbModalModule,
     NgxBarCodePutModule,
     NgbModalModule,
     GoogleChartsModule,
@@ -273,7 +285,8 @@ const maskConfig: Partial<IConfig> = {
     MatCheckboxModule,
     MatListModule,
     MatRadioModule,
-    ReactiveFormsModule 
+    ReactiveFormsModule,
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }) 
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },DatePipe
@@ -283,7 +296,8 @@ const maskConfig: Partial<IConfig> = {
   bootstrap: [AppComponent],
   exports: [
     FormsModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    CardiologyCalendarComponent
   ]
 })
 export class AppModule { }

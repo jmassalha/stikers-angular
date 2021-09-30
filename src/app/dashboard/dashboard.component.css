@@ -4,7 +4,19 @@
 }
 .h-85{
   height: 63%;
-  overflow-y: auto;
+  /* overflow-y: auto; */
+}
+#waving{
+  animation: hand 3s ease-in-out infinite alternate;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+@keyframes hand {
+  from {
+    transform: rotateX(45deg);
+  }to{
+    transform: rotateX(0deg);
+  }
 }
 tbody {
   display:block;

@@ -92,6 +92,7 @@ export class PublicInquiriesChartsComponent implements OnInit {
    todaysYear: number = this.myDate.getFullYear();
    lineSearchForm: FormGroup;
    pieSearchForm: FormGroup;
+   pieSearchForm2: FormGroup;
    barSearchForm: FormGroup;
 
    ngOnInit(): void {
@@ -104,12 +105,18 @@ export class PublicInquiriesChartsComponent implements OnInit {
          pieDepartments: new FormControl('', null),
          piePercentSearch: new FormControl('inquiries', null)
       });
+      this.pieSearchForm2 = this.fb.group({
+         pieYears2: new FormControl(this.todaysYear, null),
+         pieDepartments2: new FormControl('', null),
+         piePercentSearch2: new FormControl('inquiries', null)
+      });
       this.barSearchForm = this.fb.group({
          barYears: new FormControl(this.todaysYear, null),
          barDepartments: new FormControl('', null)
       });
       this.getLineChart();
       this.getPieChart();
+      this.getPieChart2();
       this.getBarChart();
    }
 
@@ -146,6 +153,16 @@ export class PublicInquiriesChartsComponent implements OnInit {
    };
    Piewidth = 650;
    Pieheight = 800;
+   
+   // Pie Chart2
+   Pietitle2 = 'פירוט עפ"י סוג פנייה';
+   Pietype2 = 'PieChart';
+   Piedata2 = [];
+   Pieoptions2 = {
+      is3D: true
+   };
+   Piewidth2 = 650;
+   Pieheight2 = 800;
 
    // Bar Chart
    Bartitle = 'פירוט פניות עפ"י שנים';
@@ -205,6 +222,34 @@ export class PublicInquiriesChartsComponent implements OnInit {
                }
                for (let i = 0; i < inquiriesStatPie.length; i++) {
                   this.Piedata.push([inquiriesStatPie[i].Comp_Type, parseInt(inquiriesStatPie[i].NumberOfCompType)]);
+               }
+            });
+      }
+   }
+   
+   getPieChart2() {
+      let year = this.pieSearchForm2.controls['pieYears2'].value;
+      let dept = this.pieSearchForm2.controls['pieDepartments2'].value;
+      let percent = this.pieSearchForm2.controls['piePercentSearch2'].value;
+      if (percent == "patients" && dept == "") {
+         this.openSnackBar("נא לבחור מחלקה");
+      } else {
+         this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetPieChart2", {
+               _pieyear2: year,
+               _pieDept2: dept,
+               _percent2: percent
+            })
+            .subscribe((Response) => {
+               let inquiriesStatPie = Response["d"];
+               this.Piedata2 = [];
+               this.years = [];
+               let yearsLength = this.todaysYear - 2019;
+               for (let i = 0; i <= yearsLength; i++) {
+                  this.years.push(this.todaysYear - i);
+               }
+               for (let i = 0; i < inquiriesStatPie.length; i++) {
+                  this.Piedata2.push([inquiriesStatPie[i].ComplaintSubject, parseInt(inquiriesStatPie[i].NumberOfCompSubject)]);
                }
             });
       }

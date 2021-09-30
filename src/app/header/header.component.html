@@ -31,6 +31,21 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
+            <li class="nav-item" *ngIf="cardiologyPermission">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> אלקטרופיזיולוגיה </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="cardiologycalendar">יומן ניהול מטופלים</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
             <li class="nav-item" *ngIf="!_shoSofiMenu">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -130,7 +145,7 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
-            <li class="nav-item" *ngIf="nursesUserPermission">
+            <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
@@ -139,7 +154,7 @@
                         </mat-expansion-panel-header>
                         <ul>
                             <li class="nav-item">
-                                <a class="nav-link" routerLink="nursesmanagedashboard">דאשבורד מחלקות</a>
+                                <a class="nav-link" routerLink="nursesmanagedashboard">ניהול דוחות</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -307,7 +322,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" routerLink="emailsdashboard">דאשבורד פניות</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" *ngIf="loginUserName == 'matias'">
                                 <a class="nav-link" routerLink="publicinquiriescharts">גרפים</a>
                             </li>
                         </ul>

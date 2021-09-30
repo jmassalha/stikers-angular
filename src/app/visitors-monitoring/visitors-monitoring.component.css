@@ -57,3 +57,14 @@
   right: 50%;
   margin-right: -4em;
 }
+
+h3{
+  margin: auto;
+}
+
+hr {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+  border: 5px solid;
+  border-top: 1px solid rgba(0,0,0,.1);
+}

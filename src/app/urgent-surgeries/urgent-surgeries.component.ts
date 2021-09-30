@@ -209,7 +209,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
-                //"http://localhost:64964/WebService.asmx/UrgentSurgeriesSubmitNote",
+                //"http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
                 {
                     _noteForm: this.noteForm.value,
                 }
@@ -270,7 +270,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         }
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/GetAllEmergencySurgeriesApp", {
-            //.post("http://localhost:64964/WebService.asmx/GetAllEmergencySurgeriesApp",{
+            //.post("http://srv-apps/wsrfc/WebService.asmx/GetAllEmergencySurgeriesApp",{
                     _fromDate: _startDate,
                     _toDate: _endDate,
                     _pageIndex: _pageIndex,

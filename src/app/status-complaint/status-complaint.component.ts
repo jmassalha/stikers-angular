@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -15,8 +15,10 @@ import { isEmpty, map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 
 export interface User {
-  name: string;
+  firstname: string;
   id: string;
+  email: string;
+  selected: boolean;
 }
 
 @Component({
@@ -57,7 +59,9 @@ export class StatusComplaintComponent implements OnInit {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   filteredOptions: Observable<string[]>;
   myControl = new FormControl();
-
+  selectData: Array<User> = [];
+  @Output() result = new EventEmitter<{ key: string, data: Array<string> }>();
+  @Input() key: string = '';
 
   ngOnInit(): void {
     this._choosed = false;
@@ -70,16 +74,22 @@ export class StatusComplaintComponent implements OnInit {
     });
     this.getRelevantComplaints(this.urlID);
     this.getUsers();
+    // this.getAndSendMessages(this.urlID);
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.users.slice())
+        map(value => typeof value === 'string' ? value : value.firstname),
+        map(firstname => firstname ? this._filter(firstname) : this.users.slice())
       );
   }
 
+  // selectChange = (event: any) => {
+  //   const key: string = event.key;
+  //   this.cardValue[key] = [ ...event.data ];
+  // };
+
   displayFn(user: User): string {
-    return user && user.name ? user.name : '';
+    return user && user.firstname ? user.firstname : '';
   }
 
   openSnackBar(message) {
@@ -89,6 +99,28 @@ export class StatusComplaintComponent implements OnInit {
       verticalPosition: this.verticalPosition,
     });
   }
+  optionClicked = (event: Event, data: User): void => {
+    event.stopPropagation();
+    this.toggleSelection(data);
+  }
+  toggleSelection = (data: User): void => {
+    data.selected = !data.selected;
+    if (data.selected === true) {
+      this.selectData.push(data);
+    } else {
+      const i = this.selectData.findIndex(value => value.firstname === data.firstname);
+      this.selectData.splice(i, 1);
+    }
+    this.myControl.setValue(this.selectData);
+    this.emitAdjustedData();
+  }
+  emitAdjustedData = (): void => {
+    const results: Array<string> = []
+    this.selectData.forEach((data: User) => {
+      results.push(data.firstname);
+    });
+    this.result.emit({ key: this.key, data: results });
+  };
 
   deleteMessage(messageID, ComplaintID) {
     // this.confirmationDialogService
@@ -122,7 +154,7 @@ export class StatusComplaintComponent implements OnInit {
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.users.filter(option => option.name.includes(filterValue));
+    return this.users.filter(option => option.firstname.includes(filterValue));
   }
 
   shareComplaintWithOthers() {
@@ -131,12 +163,12 @@ export class StatusComplaintComponent implements OnInit {
     } else {
       this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/attachCompToUser", {
-          userId: this.myControl.value.id,
+          users: this.myControl.value,
           compId: this.complaintID,
         })
         .subscribe((Response) => {
           if (Response["d"] == "found") {
-            this.openSnackBar("! נשלח בהצלחה לנמען");
+            this.openSnackBar("! נשלח בהצלחה לנמענים");
           } else if (Response["d"] == "Exists") {
             this.openSnackBar("! כבר משוייך לפנייה");
           } else {
@@ -156,8 +188,9 @@ export class StatusComplaintComponent implements OnInit {
 
         this.all_users_filter.forEach(element => {
           this.users.push({
-            name: element.firstname + " " + element.lastname,
-            id: element.id
+            firstname: element.firstname + " " + element.lastname,
+            id: element.id,
+            email: element.email
           });
         })
       });

@@ -24,7 +24,6 @@ import {
   Validators,
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
-//import { FillReportComponent } from '../fill-report/fill-report.component';
 import { ReportRepliesComponent } from '../report-replies/report-replies.component';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -52,15 +51,10 @@ export interface Shift {
   value: string;
   viewValue: string;
 }
-// export interface Priority {
-//   value: string;
-//   viewValue: string;
-// }
 export interface Status {
   value: string;
   viewValue: string;
 }
-
 @Component({
   selector: 'share-reports-dialog',
   templateUrl: 'share-reports-dialog.html',
@@ -148,57 +142,6 @@ export class ShareReportsDialog {
   }
 
 }
-// @Component({
-//   selector: 'dialog-elements-example-dialog',
-//   templateUrl: 'changesHistory.html',
-// })
-
-// export class DialogElementsExampleDialog implements OnInit {
-
-//   displayedColumns: string[] = ['Row_ID', 'UpdateDate', 'FullName'];
-//   dataSource2;
-
-//   constructor(
-//     private http: HttpClient,
-//     public dialog: MatDialog,
-//     public datepipe: DatePipe,
-//     private dialogRef: MatDialogRef<DialogElementsExampleDialog>,) { }
-
-//   all_history_filter = [];
-//   reportID: string;
-
-
-//   ngOnInit(): void {
-//     this.getHistories();
-
-//   }
-
-//   closeDialog() {
-//     this.dialogRef.close();
-//   }
-
-//   getHistories() {
-//     this.http
-//       .post("http://srv-apps/wsrfc/WebService.asmx/GetReportsChangesHistory", {
-//         _reportID: this.reportID
-//       })
-//       .subscribe((Response) => {
-//         let ELEMENT_DATA2 = [];
-//         this.all_history_filter = Response["d"];
-//         if (this.all_history_filter.length > 0) {
-//           for (var i = 0; i < this.all_history_filter.length; i++) {
-//             let runingNum = i + 1;
-//             ELEMENT_DATA2.push({
-//               Row_ID: runingNum.toString(),
-//               UpdateDate: this.all_history_filter[i].UpdateDate,
-//               FullName: this.all_history_filter[i].FirstName + ' ' + this.all_history_filter[i].LastName,
-//             });
-//           }
-//         }
-//         this.dataSource2 = ELEMENT_DATA2;
-//       });
-//   }
-// }
 @Component({
   selector: 'app-nurses-dashboard',
   templateUrl: './nurses-dashboard.component.html',
@@ -218,12 +161,6 @@ export class NursesDashboardComponent implements OnInit {
     { value: 'ערב', viewValue: 'ערב' },
     { value: 'לילה', viewValue: 'לילה' },
   ];
-
-  // priority: Priority[] = [
-  //   { value: 'רגיל', viewValue: 'רגיל' },
-  //   { value: 'דחוף', viewValue: 'דחוף' },
-  //   { value: 'בהול', viewValue: 'בהול' },
-  // ];
 
   status: Status[] = [
     { value: 'לטיפול', viewValue: 'לטיפול' },
@@ -303,11 +240,13 @@ export class NursesDashboardComponent implements OnInit {
       ReportMachlol: ['', null],
       ReportCategory: ['', null],
       ReportSubCategory: ['', null],
-      ReportStatus: ['', null],
+      ReportStatus: ['טופל', null],
       ReportShift: [{ value: '', disabled: true }, null],
       ReportText: ['', null],
       toContinue: [false, null],
       Diagnosis: ['', null],
+      PatientName: [this.firstname + ' ' + this.lastname, null],
+      PatientNurseStatus: [this.description + ' ' + this.corona, null],
     });
     if (this.now.getHours() >= 7 && this.now.getHours() < 15) {
       this.automaticShift = 'בוקר';
@@ -320,7 +259,7 @@ export class NursesDashboardComponent implements OnInit {
     this.getCategories();
     this.getDeparts();
     this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
-    this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
+    this.time2 = this.datePipe.transform(this.now, 'HH:mm');
     this.searchReports();
     this.permission = false;
     this.filteredOptions2 = this.departmentfilter.valueChanges
@@ -447,7 +386,7 @@ export class NursesDashboardComponent implements OnInit {
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
-      _reportStartDate = "";
+      _reportStartDate = pipe.transform(this.myDate, 'yyyy/MM/dd');
     }
     if (!(_reportEndDate == undefined || _reportEndDate == "" || _reportEndDate == null)) {
       _reportEndDate = pipe.transform(_reportEndDate, 'yyyy/MM/dd');
@@ -481,11 +420,13 @@ export class NursesDashboardComponent implements OnInit {
                 UserName: this.reportsArr[i].UsersReportsList[0].UsersList[0].UserName,
                 LastUpdatedDate: this.reportsArr[i].LastUpdatedDate,
                 ReportShift: this.reportsArr[i].ReportShift,
-                // priority: this.reportsArr[i].ReportPriority,
                 ReportMachlol: this.reportsArr[i].ReportMachlol,
                 ReportCategory: this.reportsArr[i].ReportCategory,
                 ReportSubCategory: this.reportsArr[i].ReportSubCategory,
               });
+            }
+            if (_caseNumber != "") {
+              this.ReportGroup.controls['Diagnosis'].setValue(this.reportsArr[0].Diagnosis);
             }
             this.departmentfilter.setValue(this.Dept_Name);
             this.permission = true;
@@ -527,6 +468,7 @@ export class NursesDashboardComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] == "Success") {
             this.openSnackBar("נשמר בהצלחה");
+            this.ReportGroup.reset();
             this.searchReports();
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");
