@@ -15,6 +15,7 @@
     "add_date_css": "sed -i.bak 's:css\":css?'$(date +%H%M%m%d%y)'\":g' dist/index.html",
     "rm_bak_files": "find dist -name '*.bak' -exec rm -Rf {} \\;"
   },
+  "postinstall": "ngcc",
   "private": true,
   "dependencies": {
     "@agm/core": "^1.1.0",
@@ -56,7 +57,7 @@
     "datatables.net-buttons": "^1.7.1",
     "datatables.net-buttons-dt": "^1.7.1",
     "datatables.net-dt": "^1.10.25",
-    "date-fns": "^2.16.1",
+    "date-fns": "^2.24.0",
     "firebase": "^8.7.1",
     "flatpickr": "^4.6.9",
     "hammerjs": "^2.0.8",

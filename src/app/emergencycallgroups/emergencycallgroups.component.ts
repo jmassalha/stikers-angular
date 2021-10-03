@@ -166,8 +166,10 @@ export class EmergencycallgroupsComponent implements OnInit {
             localStorage.getItem("loginUserName").toLowerCase() == ("NSela").toLowerCase() ||
             localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase() ||
             localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("MRuach").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("LCerem").toLowerCase()
+            localStorage.getItem("loginUserName").toLowerCase() == ("MRuach").toLowerCase() 
+            || localStorage.getItem("loginUserName").toLowerCase() == ("LCerem").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("ZAvraham").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase()
         ) {
         } else {
             this.router.navigate(["login"]);

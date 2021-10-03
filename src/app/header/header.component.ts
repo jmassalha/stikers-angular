@@ -49,6 +49,7 @@ export class HeaderComponent implements OnInit {
     _shoCaseinvoises: Boolean;
     _shoToWesam: Boolean;
     _EmSurgiries: Boolean = false;
+    _OnlineAppointments: Boolean = false;
     _shoNIC: Boolean;
     _shoScanners: Boolean;
     getPermission() {
@@ -123,6 +124,8 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("LCerem").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("MTsaban").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("MRuach").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ZAvraham").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("GJidovetsk").toLowerCase() ||
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._shoEventsschedule = true;
@@ -140,6 +143,11 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase()  == "lfisher" ||
+            this.loginUserName.toLowerCase()  == "salmalem" ||
+            this.loginUserName.toLowerCase()  == "skarasenti" ||
+            this.loginUserName.toLowerCase()  == "yhameiry" ||
+            this.loginUserName.toLowerCase()  == "saamar" ||
+            this.loginUserName.toLowerCase()  == "mshema" ||
             this.loginUserName.toLowerCase()  == "malkobi" ||
             this.loginUserName.toLowerCase() == "owertheim" 
         ) {
@@ -151,6 +159,15 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._SHowToAdmins = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "adahabre" ||
+            this.loginUserName.toLowerCase() == "matias" ||
+            this.loginUserName.toLowerCase() == "owertheim"
+        ) {
+            this._OnlineAppointments = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -311,6 +328,8 @@ export class HeaderComponent implements OnInit {
             ||
 
             this.loginUserName.toLowerCase() == "thajouj" ||
+            this.loginUserName.toLowerCase() == "gabdo" ||
+            this.loginUserName.toLowerCase() == "massadi" ||            
             this.loginUserName.toLowerCase() == "ssarusi" ||
             this.loginUserName.toLowerCase() == "gmoldavsky" ||
             this.loginUserName.toLowerCase() == "ekellerman" ||

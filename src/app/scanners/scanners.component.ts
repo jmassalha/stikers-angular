@@ -144,6 +144,11 @@ export class ScannersComponent implements OnInit {
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "jmassalha" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
+            localStorage.getItem("loginUserName").toLowerCase()   == "salmalem" ||
+            localStorage.getItem("loginUserName").toLowerCase()   == "skarasenti" ||
+            localStorage.getItem("loginUserName").toLowerCase()   == "yhameiry" ||
+            localStorage.getItem("loginUserName").toLowerCase()   == "saamar" ||
+            localStorage.getItem("loginUserName").toLowerCase()   == "mshema" ||
             localStorage.getItem("loginUserName").toLowerCase() == "lfisher" ||
             localStorage.getItem("loginUserName").toLowerCase() == "malkobi" ||
             localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
@@ -269,6 +274,8 @@ export class ScannersComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.openSendSnackBar();
+                this.selection = new SelectionModel<Boxes>(true, []);
+                this.selectedOn = false;
             });
     }
     showcasenumbers(content, _type, _element) {

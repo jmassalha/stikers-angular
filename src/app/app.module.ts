@@ -88,7 +88,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
 import { EventsscheduleComponent } from './eventsschedule/eventsschedule.component';
 import { EmailsdashboardComponent } from './emailsdashboard/emailsdashboard.component';
 import { EmailmanagementComponent } from './emailmanagement/emailmanagement.component';
-import {DatePipe} from '@angular/common';
+import {DatePipe, registerLocaleData} from '@angular/common';
 import { StatusComplaintComponent } from './status-complaint/status-complaint.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
@@ -117,12 +117,15 @@ import { FastCovid19TestComponent } from './fast-covid19-test/fast-covid19-test.
 import { FastCovidTestDashboardComponent } from './fast-covid-test-dashboard/fast-covid-test-dashboard.component';
 import { AddResponseDialog } from './fill-report/fill-report.component';
 import { UrgentSurgeriesComponent } from './urgent-surgeries/urgent-surgeries.component';
-import { CardiologyCalendarComponent } from './cardiology-calendar/cardiology-calendar.component';
-import { AddupdateactionComponent } from './cardiology-calendar/addupdateaction/addupdateaction.component';
+import { OnlineAppointmentsComponent } from './online-appointments/online-appointments.component';
+import localeHe from '@angular/common/locales/he';
+//import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+registerLocaleData(localeHe);
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { CardiologyCalendarComponent } from './cardiology-calendar/cardiology-calendar.component';
+import { AddupdateactionComponent } from './cardiology-calendar/addupdateaction/addupdateaction.component';
 
 
 
@@ -209,6 +212,7 @@ const maskConfig: Partial<IConfig> = {
     FastCovid19TestComponent,
     FastCovidTestDashboardComponent,
     UrgentSurgeriesComponent,
+    OnlineAppointmentsComponent,
     CardiologyCalendarComponent,
     AddupdateactionComponent
   ],
@@ -218,7 +222,7 @@ const maskConfig: Partial<IConfig> = {
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    NgbModalModule,
+    //NgbModal,
     NgxBarCodePutModule,
     GoogleChartsModule,
     NgxMatNativeDateModule,    
@@ -250,7 +254,6 @@ const maskConfig: Partial<IConfig> = {
     MatDialogModule,
     MatSelectModule,
     ChartsModule,
-    MatDialogModule,
     BrowserModule,
     HttpClientModule,
     MatTooltipModule,
@@ -291,8 +294,7 @@ const maskConfig: Partial<IConfig> = {
   bootstrap: [AppComponent],
   exports: [
     FormsModule,
-    ReactiveFormsModule,
-    CardiologyCalendarComponent
+    ReactiveFormsModule
   ]
 })
 export class AppModule { }
