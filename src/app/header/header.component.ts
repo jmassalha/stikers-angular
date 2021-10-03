@@ -143,6 +143,11 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase()  == "lfisher" ||
+            this.loginUserName.toLowerCase()  == "salmalem" ||
+            this.loginUserName.toLowerCase()  == "skarasenti" ||
+            this.loginUserName.toLowerCase()  == "yhameiry" ||
+            this.loginUserName.toLowerCase()  == "saamar" ||
+            this.loginUserName.toLowerCase()  == "mshema" ||
             this.loginUserName.toLowerCase()  == "malkobi" ||
             this.loginUserName.toLowerCase() == "owertheim" 
         ) {
@@ -323,6 +328,8 @@ export class HeaderComponent implements OnInit {
             ||
 
             this.loginUserName.toLowerCase() == "thajouj" ||
+            this.loginUserName.toLowerCase() == "gabdo" ||
+            this.loginUserName.toLowerCase() == "massadi" ||            
             this.loginUserName.toLowerCase() == "ssarusi" ||
             this.loginUserName.toLowerCase() == "gmoldavsky" ||
             this.loginUserName.toLowerCase() == "ekellerman" ||

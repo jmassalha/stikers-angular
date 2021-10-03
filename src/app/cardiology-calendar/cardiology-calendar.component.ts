@@ -13,13 +13,18 @@ import {
   isSameMonth,
 } from 'date-fns';
 import { Observable, Subject } from 'rxjs';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import {
   CalendarEvent,
   CalendarEventAction,
   CalendarEventTimesChangedEvent,
   CalendarView,
 } from 'angular-calendar';
+import {
+  NgbModal,
+  ModalDismissReasons,
+  NgbModalOptions,
+  NgbActiveModal,
+} from "@ng-bootstrap/ng-bootstrap";
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DatePipe } from '@angular/common';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
@@ -111,7 +116,8 @@ export class CardiologyCalendarComponent implements OnInit {
   activeDayIsOpen: boolean = true;
   patientSearch: FormGroup;
 
-  constructor(private modal: NgbModal,
+  constructor(
+    private modal: NgbModal,
     public datePipe: DatePipe,
     private confirmationDialogService: ConfirmationDialogService,
     private http: HttpClient,

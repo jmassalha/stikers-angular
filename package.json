@@ -15,6 +15,7 @@
     "add_date_css": "sed -i.bak 's:css\":css?'$(date +%H%M%m%d%y)'\":g' dist/index.html",
     "rm_bak_files": "find dist -name '*.bak' -exec rm -Rf {} \\;"
   },
+  "postinstall": "ngcc",
   "private": true,
   "dependencies": {
     "@agm/core": "^1.1.0",

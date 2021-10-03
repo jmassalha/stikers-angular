@@ -116,7 +116,7 @@ export class OnlineAppointmentsComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetAllAppointments",
+                "http://srv-ipracticom:8080/WebService.asmx/GetAllAppointments",
                 {}
             )
             .subscribe((Response) => {
@@ -166,7 +166,7 @@ export class OnlineAppointmentsComponent implements OnInit {
      // debugger
       this.http
           .post(
-              "http://srv-apps/wsrfc/WebService.asmx/GetAllDepartAppointmentsByDay",
+              "http://srv-ipracticom:8080/WebService.asmx/GetAllDepartAppointmentsByDay",
               {
                 depart: event['depart'],
                 date: this.datePipe.transform(event['start'],"yyyy-MM-dd"),
@@ -175,7 +175,7 @@ export class OnlineAppointmentsComponent implements OnInit {
           .subscribe((Response) => {
               this.EventsDerpatDay = Response["d"] as EventDepartDay[];
               this.TABLE_DATA = [];
-              this.TABLE_DATA = this.EventsDerpatDay;
+              this.TABLE_DATA = this.EventsDerpatDay
               this.dataSource = new MatTableDataSource<EventDepartDay>(this.TABLE_DATA); ;
               this.modalData = { 
                   action: "זימונים ל- "+ event['depart'] + ", לתאריך "+ this.datePipe.transform(event['start'],"yyyy-MM-dd"),

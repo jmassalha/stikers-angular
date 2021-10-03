@@ -119,13 +119,13 @@ import { AddResponseDialog } from './fill-report/fill-report.component';
 import { UrgentSurgeriesComponent } from './urgent-surgeries/urgent-surgeries.component';
 import { OnlineAppointmentsComponent } from './online-appointments/online-appointments.component';
 import localeHe from '@angular/common/locales/he';
-import { NgbModalModule } from '@ng-bootstrap/ng-bootstrap';
+//import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 registerLocaleData(localeHe);
-import { CardiologyCalendarComponent } from './cardiology-calendar/cardiology-calendar.component';
-import { AddupdateactionComponent } from './cardiology-calendar/addupdateaction/addupdateaction.component';
 import { CalendarModule, DateAdapter } from 'angular-calendar';
 import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
+import { CardiologyCalendarComponent } from './cardiology-calendar/cardiology-calendar.component';
+import { AddupdateactionComponent } from './cardiology-calendar/addupdateaction/addupdateaction.component';
 
 
 
@@ -212,19 +212,18 @@ const maskConfig: Partial<IConfig> = {
     FastCovid19TestComponent,
     FastCovidTestDashboardComponent,
     UrgentSurgeriesComponent,
-    OnlineAppointmentsComponent
+    OnlineAppointmentsComponent,
+    CardiologyCalendarComponent,
+    AddupdateactionComponent
   ],
   imports: [
-    CardiologyCalendarComponent,
-    AddupdateactionComponent,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
-    NgbModalModule,
+    //NgbModal,
     NgxBarCodePutModule,
-    NgbModalModule,
     GoogleChartsModule,
     NgxMatNativeDateModule,    
     MatMomentDateModule,
@@ -255,7 +254,6 @@ const maskConfig: Partial<IConfig> = {
     MatDialogModule,
     MatSelectModule,
     ChartsModule,
-    MatDialogModule,
     BrowserModule,
     HttpClientModule,
     MatTooltipModule,
@@ -296,8 +294,7 @@ const maskConfig: Partial<IConfig> = {
   bootstrap: [AppComponent],
   exports: [
     FormsModule,
-    ReactiveFormsModule,
-    CardiologyCalendarComponent
+    ReactiveFormsModule
   ]
 })
 export class AppModule { }
