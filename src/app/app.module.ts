@@ -126,6 +126,7 @@ import { adapterFactory } from 'angular-calendar/date-adapters/date-fns';
 import { FlatpickrModule } from 'angularx-flatpickr';
 import { CardiologyCalendarComponent } from './cardiology-calendar/cardiology-calendar.component';
 import { AddupdateactionComponent } from './cardiology-calendar/addupdateaction/addupdateaction.component';
+import { MotherChildeLinkComponent } from './mother-childe-link/mother-childe-link.component';
 
 
 
@@ -214,7 +215,8 @@ const maskConfig: Partial<IConfig> = {
     UrgentSurgeriesComponent,
     OnlineAppointmentsComponent,
     CardiologyCalendarComponent,
-    AddupdateactionComponent
+    AddupdateactionComponent,
+    MotherChildeLinkComponent
   ],
   imports: [
     FlatpickrModule.forRoot(),
