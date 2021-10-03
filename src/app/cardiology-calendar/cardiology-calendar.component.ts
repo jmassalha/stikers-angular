@@ -110,6 +110,7 @@ export class CardiologyCalendarComponent implements OnInit {
   events: CalendarEvent[] = [];
   activeDayIsOpen: boolean = true;
   patientSearch: FormGroup;
+  date = new Date();
 
   constructor(private modal: NgbModal,
     public datePipe: DatePipe,
@@ -127,7 +128,8 @@ export class CardiologyCalendarComponent implements OnInit {
       'fromDate': new FormControl('', null),
       'untilDate': new FormControl('', null),
     });
-    this.getPatientsQueues();
+    let month = this.datePipe.transform(this.viewDate, 'MM');
+    this.getPatientsQueues(month);
     this.getactionsList();
     this.filteredActions = this.actionCtrl.valueChanges.pipe(
       startWith(null),
@@ -264,7 +266,7 @@ export class CardiologyCalendarComponent implements OnInit {
     });
   }
 
-  deleteEvent(eventToDelete: CalendarEvent) {
+  deleteEvent(eventToDelete: CalendarEvent,day) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/DeleteEventInCalendarCardiology", {
         _rowID: eventToDelete.patientAction.Row_ID
@@ -276,15 +278,20 @@ export class CardiologyCalendarComponent implements OnInit {
           this.openSnackBar("משהו השתבש, לא נמחק");
         }
       });
+    let thisDate = this.datePipe.transform(day, 'yyyy-MM-dd');
+    let thisDateEvents = this.events.filter(t => t.patientAction.ArrivalDate === thisDate);
     this.events = this.events.filter((event) => event !== eventToDelete);
-    this.modalData.event["day"]["events"] = this.events;
+    thisDateEvents = thisDateEvents.filter((event) => event !== eventToDelete);
+    this.modalData.event["day"]["events"] = thisDateEvents;
   }
 
   setView(view: CalendarView) {
     this.view = view;
   }
 
-  closeOpenMonthViewDay() {
+  closeOpenMonthViewDay(){
+    let month = this.datePipe.transform(this.viewDate, 'MM');
+    this.getPatientsQueues(month);
     this.activeDayIsOpen = false;
   }
 
@@ -305,7 +312,8 @@ export class CardiologyCalendarComponent implements OnInit {
       });
   }
 
-  getPatientsQueues() {
+  getPatientsQueues(month) {
+    this.events = [];
     let fromDate = this.datePipe.transform(this.patientSearch.controls['fromDate'].value, 'yyyy-MM-dd');
     let untilDate = this.datePipe.transform(this.patientSearch.controls['untilDate'].value, 'yyyy-MM-dd');
     this.http
@@ -314,6 +322,7 @@ export class CardiologyCalendarComponent implements OnInit {
         _passportSearch: this.patientSearch.controls['passportSearch'].value,
         _fromDate: fromDate,
         _untilDate: untilDate,
+        _month: month
       })
       .subscribe((Response) => {
         let tempArr = [];
@@ -350,72 +359,3 @@ export class CardiologyCalendarComponent implements OnInit {
   }
 
 }
-// import { HttpClient } from '@angular/common/http';
-// import { Component, OnInit, ViewChild } from '@angular/core';
-// import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
-// import { MatPaginator } from '@angular/material/paginator';
-// import { MatTableDataSource } from '@angular/material/table';
-// import { Router } from '@angular/router';
-// import { MatDialog } from '@angular/material/dialog';
-// import { DatePipe } from '@angular/common';
-// import { AddupdateactionComponent } from '../cardiology-calendar/addupdateaction/addupdateaction.component';
-
-// @Component({
-//   selector: 'app-cardiology-calendar',
-//   templateUrl: './cardiology-calendar.component.html',
-//   styleUrls: ['./cardiology-calendar.component.css']
-// })
-// export class CardiologyCalendarComponent implements OnInit {
-
-//   @ViewChild(MatPaginator) paginator: MatPaginator;
-
-//   patientSearch: FormGroup;
-//   displayedColumns: string[] = [
-//     'passport', 'patientname', 'datetime', 'action', 'update'
-//   ];
-//   TABLE_DATA: any[] = [];
-//   patientsQueuesArray = [];
-//   dataSource = new MatTableDataSource(this.TABLE_DATA);
-
-//   constructor(
-//     private formBuilder: FormBuilder,
-//     public dialog: MatDialog,
-//     private router: Router,
-//     private http: HttpClient,
-//     public datepipe: DatePipe) { }
-
-//   ngOnInit(): void {
-//     this.patientSearch = new FormGroup({
-//       'searchWord': new FormControl('', null),
-//       'passportSearch': new FormControl('', null),
-//       'fromDate': new FormControl('', null),
-//       'untilDate': new FormControl('', null),
-//     });
-//     this.getPatientsQueues();
-//   }
-
-//   openToAddUpdateAction(id,element) {
-//     let dialogRef = this.dialog.open(AddupdateactionComponent, { disableClose: true });
-//     dialogRef.componentInstance.actionID = id;
-//     dialogRef.componentInstance.QueueDetails = element;
-//   }
-
-//   getPatientsQueues(){
-//     let fromDate = this.datepipe.transform(this.patientSearch.controls['fromDate'].value, 'yyyy-MM-dd');
-//     let untilDate = this.datepipe.transform(this.patientSearch.controls['untilDate'].value, 'yyyy-MM-dd');
-//     this.http
-//       .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsQueues", {
-//         _searchWord: this.patientSearch.controls['searchWord'].value,
-//         _passportSearch: this.patientSearch.controls['passportSearch'].value,
-//         _fromDate: fromDate,
-//         _untilDate: untilDate,
-//       })
-//       .subscribe((Response) => {
-//         this.patientsQueuesArray = Response["d"];
-//         this.TABLE_DATA.push(this.patientsQueuesArray);
-//         this.dataSource = new MatTableDataSource<any>(this.patientsQueuesArray);
-//       this.dataSource.paginator = this.paginator;
-//       });
-//   }
-
-// }

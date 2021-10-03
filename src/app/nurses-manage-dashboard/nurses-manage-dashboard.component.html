@@ -1,4 +1,4 @@
-<mat-card dir="rtl" id="page-toshow" *ngIf="nursesUserPermission" style="background-color: aliceblue;padding-top: 0px;">
+<mat-card dir="rtl" *ngIf="nursesUserPermission" id="page-toshow" style="background-color: aliceblue;padding-top: 0px;">
     <h1 class="page-title text-center">דיווח סיעודי</h1>
     <div class="container-fluid">
         <div class="row">
@@ -164,7 +164,10 @@
     </div>
 </mat-card>
 
-<app-nurses-department-manage *ngIf="!nursesUserPermission"></app-nurses-department-manage>
+<!-- <mat-card *ngIf="!nursesUserPermission">
+    <app-nurses-department-manage [Dept_Name]="Dept_Name" [Dept_Number]="Dept_Number"></app-nurses-department-manage>
+</mat-card> -->
+
 
 <div class="d-none-desktop">
     <table dir="rtl">

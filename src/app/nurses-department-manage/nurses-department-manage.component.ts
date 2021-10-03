@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
 import { FillReportComponent } from '../fill-report/fill-report.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
@@ -12,6 +12,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { DatePipe } from '@angular/common';
+import { interval, Subscription } from 'rxjs';
 
 
 @Component({
@@ -21,6 +22,7 @@ import { DatePipe } from '@angular/common';
 })
 export class NursesDepartmentManageComponent implements OnInit {
 
+  
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
@@ -41,6 +43,7 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
     private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: string,
     private http: HttpClient,
     private _snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<NursesDepartmentManageComponent>,
@@ -51,6 +54,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   numberOfCVA: number = 0;
   numberOfNeurology: number = 0;
   departCode: string;
+  private updateSubscription: Subscription;
   Dept_Name: string;
   loading: boolean;
   Patientsloading: boolean;
@@ -69,7 +73,7 @@ export class NursesDepartmentManageComponent implements OnInit {
       this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
     }
     this.loading = true;
-    this.patientsTable = false;
+    this.patientsTable = true;
     this.Patientsloading = false;
     this.departmentRelease = new FormGroup({
       plannedToRelease: new FormControl('', null),
@@ -77,6 +81,9 @@ export class NursesDepartmentManageComponent implements OnInit {
     this.getDepartDetails();
     this.getSubmitPlannedToRealse('0');
     this.getPatientsPerDepart(this.event, '');
+    this.updateSubscription = interval(60000).subscribe(
+      (val) => { this.ngOnInit(); }
+    );
   }
 
   getSubmitPlannedToRealse(ifsaved) {
@@ -168,7 +175,7 @@ export class NursesDepartmentManageComponent implements OnInit {
             this.numberOfNeurology++;
           }
         });
-        this.patientsTable = !this.patientsTable;
+        // this.patientsTable = !this.patientsTable;
         if (subDepart != '') {
           this.patientsTable = true;
           this.applyFilter(event, subDepart);
