@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
@@ -10,6 +10,7 @@ import { DatePipe } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+
 
 @Component({
   selector: 'app-nurses-manage-dashboard',
@@ -53,12 +54,12 @@ export class NursesManageDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loaded = false;
     this.searchWord = "";
+    this.Dept_Name = 'פנימית ב';
+    this.Dept_Number = 'ספנ-ב';
     this.getAllDeparts();
     this.getDataFormServer("");
     this.getEROccupancy('', '');
-    this.updateSubscription = interval(60000).subscribe(
-      (val) => { this.getAllDeparts(); this.getEROccupancy("", "er"); }
-    );
+    
     // this.NursesSystemPermission();
   }
 
@@ -108,14 +109,15 @@ export class NursesManageDashboardComponent implements OnInit {
 
   NursesSystemPermission() {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
-        _userName: userName
-      })
-      .subscribe((Response) => {
-        this.nursesUserPermission = Response["d"];
-      });
-      return this.nursesUserPermission;
+    return this.http.post( "http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {_userName: userName, withCredentials:true}).subscribe(response => {response["d"];this.nursesUserPermission = response["d"]});
+    // this.http
+    //   .post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
+    //     _userName: userName
+    //   })
+    //   .subscribe((Response) => {
+    //     this.nursesUserPermission = Response["d"];
+    //     return this.nursesUserPermission;
+    //   });
   }
 
   getAllDeparts() {
@@ -126,15 +128,19 @@ export class NursesManageDashboardComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
-        if(this.NursesSystemPermission()){
+        this.NursesSystemPermission();
+        if(this.nursesUserPermission){
           if(this.all_departments_array.length == 0){
             this.getAllDeparts();
           }
+          this.updateSubscription = interval(60000).subscribe(
+            (val) => { this.getAllDeparts(); this.getEROccupancy("", "er"); }
+          );
         }else{
           this.Dept_Number = this.all_departments_array[0].Dept_Number;
           this.Dept_Name = this.all_departments_array[0].Dept_Name;
+          this.openDialogToFill(this.Dept_Number,this.Dept_Name);
         }
-        
         this.loaded = true;
       });
   }

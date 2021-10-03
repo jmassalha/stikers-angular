@@ -104,9 +104,6 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <!-- <div>
-                        <button mat-raised-button matStepperNext>הבא</button>
-                    </div> -->
                     <div class="button-row">
                         <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
                             color="primary" type="submit" (click)="onNoClick()" mat-raised-button>
@@ -115,48 +112,6 @@
                     </div>
                 </form>
             </mat-step>
-            <!-- <mat-step [stepControl]="actionForm">
-                <form [formGroup]="actionForm">
-                    <ng-template matStepLabel>סוג שירות</ng-template>
-                    <div class="row">
-                        <div class="col-6">
-                            <mat-form-field class="example-full-width" appearance="fill">
-                                <mat-label>פעולה</mat-label>
-                                <input type="text" aria-label="Number" matInput [formControl]="actionControl"
-                                    [matAutocomplete]="auto">
-                                <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete">
-                                    <mat-option *ngFor="let option of filteredOptions | async"
-                                        [value]="option.ActionValue">
-                                        {{option.ActionValue}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-                        </div>
-                        <div class="col-6 text-right">
-                            <mat-form-field class="example-full-width" appearance="fill">
-                                <mat-label>הוראות לתרופות</mat-label>
-                                <input type="text" aria-label="MidsOrders" matInput [formControl]="midsControl"
-                                    [matAutocomplete]="auto1">
-                                <mat-autocomplete autoActiveFirstOption #auto1="matAutocomplete">
-                                    <mat-option *ngFor="let mid of filteredOptions2 | async" [value]="mid.MidsValue">
-                                        {{mid.MidsValue}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
-                        </div>
-                    </div>
-                    <div class="button-row">
-                        <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
-                            color="primary" type="submit" (click)="onNoClick()" mat-raised-button>
-                            <span>שמירה ושליחה לפקידה</span>
-                        </button>
-                    </div>
-                    <div>
-                        <button mat-raised-button matStepperPrevious>חזרה</button>
-                        <button mat-stroked-button (click)="stepper.reset()">איפוס</button>
-                    </div>
-                </form>
-            </mat-step> -->
         </mat-vertical-stepper>
     </div>
 </div>

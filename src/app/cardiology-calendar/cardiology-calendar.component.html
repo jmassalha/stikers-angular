@@ -46,8 +46,8 @@
                 {{ ev.title }}
             </span>
         </small>
-        <span dir="rtl" class="span-cards" *ngIf="day.events.length > 2" style="color: black;border: white;">
-            ועוד {{ day.events.length - 2 }} נוספים
+        <span dir="rtl" class="span-cards" *ngIf="day.events.length > 3" style="color: black;border: white;">
+            ועוד {{ day.events.length - 3 }} נוספים
         </span>
     </ng-template>
     <div [ngSwitch]="view">
@@ -152,9 +152,9 @@
                                         <textarea type="text" class="form-control" [(ngModel)]="event.patientAction.MidsOrder" placeholder="הוראות לתרופות" (keyup)="refresh.next()"></textarea>
                                     </td>
                                     <td>
-                                        <!-- <button class="btn btn-danger" (click)="deleteEvent(event)">
+                                        <button class="btn btn-danger" (click)="deleteEvent(event,modalData?.event.day.date)">
                                             מחיקה
-                                        </button> -->
+                                        </button>
                                         <!-- <button class="btn btn-primary">
                                             שמירה
                                         </button> -->
@@ -168,118 +168,8 @@
         </div>
         <div class="modal-footer">
             <button type="button" class="btn btn-outline-secondary" (click)="saveDayEvents(modalData?.event.day.date)">
-                אישור
+                שמירה
             </button>
         </div>
     </ng-template>
 </div>
-
-<!-- <h2 class="page-title text-center">רשימת שאלונים</h2>
-
-<div id="page-toshow">
-    <div class="container-fluid">
-        <div class="row">
-            <div dir="rtl" class="card w-85-p">
-                <div class="card-body">
-                    <h5 class="text-center">תיבת חיפוש</h5>
-                    <form class="form" [formGroup]="patientSearch">
-                        <div class="row">
-                            <div class="form-group mt-3 col-lg-6 col-sm-12 col-xs-12">
-                                <mat-form-field>
-                                    <input matInput formControlName="searchWord" autocomplete="off"
-                                        placeholder="שם מטופל" name="fliterVal" />
-                                </mat-form-field>
-                            </div>
-                            <div class="form-group mt-3 col-lg-6 col-sm-12 col-xs-12">
-                                <mat-form-field>
-                                    <input matInput formControlName="passportSearch" autocomplete="off"
-                                        placeholder="תעודת זהות" name="fliterVal" />
-                                </mat-form-field>
-                            </div>
-                            <div class="form-group mt-3 col-lg-6 col-sm-12 col-xs-12">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>מ-תאריך</mat-label>
-                                    <input matInput [matDatepicker]="picker2" formControlName="fromDate"
-                                        (focus)="picker2.open()">
-                                    <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-                                </mat-form-field>
-                                <mat-datepicker #picker2></mat-datepicker>
-                            </div>
-                            <div class="form-group mt-3 col-lg-6 col-sm-12 col-xs-12">
-                                <mat-form-field appearance="fill">
-                                    <mat-label>עד-תאריך</mat-label>
-                                    <input matInput [matDatepicker]="picker3" formControlName="untilDate"
-                                        (focus)="picker3.open()">
-                                    <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
-                                </mat-form-field>
-                                <mat-datepicker #picker3></mat-datepicker>
-                            </div>
-                        </div>
-                        <button mat-raised-button type="submit" class="btn btn-primary btn-raised" (click)="getPatientsQueues()">
-                            <span class="material-icons">
-                                search
-                            </span>
-                        </button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div><br><br>
-
-    <div dir="rtl">
-        <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
-
-            <ng-container matColumnDef="passport">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תעודת זהות
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.PersonID}}</mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="patientname">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם מטופל
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;text-align: center;">
-                    {{element.PersonFullName}}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="datetime">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך ושעת
-                    זימון
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;">{{element.ArrivalDate}}
-                    {{element.ArrivalTime}}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="action">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> פעולה
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;">{{element.PatientAction}}
-                </mat-cell>
-            </ng-container>
-
-            <ng-container matColumnDef="update">
-                <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> עדכון פרטים
-                </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
-                        matTooltip="עריכת זימון" color="accent" (click)="openToAddUpdateAction('1',element)"><span
-                            class="material-icons">
-                            edit
-                        </span></button></mat-cell>
-            </ng-container>
-
-
-            <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>
-            <mat-row *matRowDef="let row; columns: displayedColumns;"></mat-row>
-        </mat-table>
-        <button type="button" id="rolesDetailsBtn" mat-fab color="primary" (click)="openToAddUpdateAction('0','')"><i
-                class="material-icons" matTooltip="הוספת מטופל">add</i></button>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
-    </div>
-</div> -->

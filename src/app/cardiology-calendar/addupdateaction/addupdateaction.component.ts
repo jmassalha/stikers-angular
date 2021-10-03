@@ -76,20 +76,20 @@ export class AddupdateactionComponent implements OnInit {
   date: string;
   actionControl = new FormControl();
   actions: Actions[] = [
-    {ActionValue: 'בדיקה 1'},
-    {ActionValue: 'בדיקה 2'},
-    {ActionValue: 'בדיקה 3'},
-    {ActionValue: 'בדיקה 4'},
-    {ActionValue: 'בדיקה 5'},
+    { ActionValue: 'בדיקה 1' },
+    { ActionValue: 'בדיקה 2' },
+    { ActionValue: 'בדיקה 3' },
+    { ActionValue: 'בדיקה 4' },
+    { ActionValue: 'בדיקה 5' },
   ];
   filteredOptions: Observable<Actions[]>;
   midsControl = new FormControl();
   midsorders: MidsOrders[] = [
-    {MidsValue: 'בדיקה 1'},
-    {MidsValue: 'בדיקה 2'},
-    {MidsValue: 'בדיקה 3'},
-    {MidsValue: 'בדיקה 4'},
-    {MidsValue: 'בדיקה 5'},
+    { MidsValue: 'בדיקה 1' },
+    { MidsValue: 'בדיקה 2' },
+    { MidsValue: 'בדיקה 3' },
+    { MidsValue: 'בדיקה 4' },
+    { MidsValue: 'בדיקה 5' },
   ];
   filteredOptions2: Observable<MidsOrders[]>;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
@@ -116,7 +116,7 @@ export class AddupdateactionComponent implements OnInit {
     this.searchPatient = this.fb.group({
       Passport: ['', null],
     });
-    if(this.actionID == '1'){
+    if (this.actionID == '1') {
       this.searchPatient.controls['Passport'].setValue(this.QueueDetails.PersonID);
       this.actionForm.controls['PersonID'].setValue(this.QueueDetails.PersonID);
       this.actionForm.controls['Row_ID'].setValue(this.QueueDetails.Row_ID);
@@ -136,7 +136,7 @@ export class AddupdateactionComponent implements OnInit {
     );
   }
 
-  setNow(){
+  setNow() {
     let now = new Date();
     let hours = ("0" + now.getHours()).slice(-2);
     let minutes = ("0" + now.getMinutes()).slice(-2);
@@ -189,17 +189,17 @@ export class AddupdateactionComponent implements OnInit {
       .subscribe((Response) => {
         let mPersonalDetails = Response["d"];
         // if(mPersonalDetails.PersonID == null){
-          this.detailsFormGroup = this.fb.group({
-            Row_ID: new FormControl(mPersonalDetails.Row_ID, null),
-            FirstName: new FormControl(mPersonalDetails.FirstName, null),
-            LastName: new FormControl(mPersonalDetails.LastName, null),
-            PersonID: new FormControl(mPersonalDetails.PersonID, null),
-            DOB: new FormControl(mPersonalDetails.DOB, null),
-            Gender: new FormControl(mPersonalDetails.Gender, null),
-            PhoneNumber: new FormControl(mPersonalDetails.PhoneNumber, null),
-            Email: new FormControl(mPersonalDetails.Email, null),
-            Address: new FormControl(mPersonalDetails.Address, null),
-          });
+        this.detailsFormGroup = this.fb.group({
+          Row_ID: new FormControl(mPersonalDetails.Row_ID, null),
+          FirstName: new FormControl(mPersonalDetails.FirstName, Validators.required),
+          LastName: new FormControl(mPersonalDetails.LastName, Validators.required),
+          PersonID: new FormControl(mPersonalDetails.PersonID, Validators.required),
+          DOB: new FormControl(mPersonalDetails.DOB, null),
+          Gender: new FormControl(mPersonalDetails.Gender, null),
+          PhoneNumber: new FormControl(mPersonalDetails.PhoneNumber, null),
+          Email: new FormControl(mPersonalDetails.Email, null),
+          Address: new FormControl(mPersonalDetails.Address, null),
+        });
         // }else{
         //   this.detailsFormGroup = this.fb.group({
         //     Row_ID: new FormControl({value: mPersonalDetails.Row_ID,disabled: true}, null),
@@ -242,8 +242,12 @@ export class AddupdateactionComponent implements OnInit {
   //       }
   //     });
   // }
-  
+
   onNoClick(): void {
-    this.dialogRef.close(this.detailsFormGroup.value);
+    if (this.detailsFormGroup.invalid) {
+      this.openSnackBar("לבדוק שדות חובה");
+    } else {
+      this.dialogRef.close(this.detailsFormGroup.value);
+    }
   }
 }
