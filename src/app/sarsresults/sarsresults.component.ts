@@ -169,6 +169,7 @@ export class SarsresultsComponent implements OnInit {
             localStorage.getItem("loginUserName").toLowerCase() == "ssarusi" ||
             localStorage.getItem("loginUserName").toLowerCase() == "gmoldavsky"  ||
             localStorage.getItem("loginUserName").toLowerCase() == "ekellerman" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "massadi" ||
             localStorage.getItem("loginUserName").toLowerCase() == "tklinger"
         ) {
         } else {
