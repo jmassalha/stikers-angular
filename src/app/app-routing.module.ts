@@ -59,6 +59,7 @@ import { UrgentSurgeriesComponent } from "./urgent-surgeries/urgent-surgeries.co
 import { OnlineAppointmentsComponent } from "./online-appointments/online-appointments.component";
 import { CardiologyCalendarComponent } from "./cardiology-calendar/cardiology-calendar.component";
 import { AddupdateactionComponent } from "./cardiology-calendar/addupdateaction/addupdateaction.component";
+import { MotherChildeLinkComponent } from "./mother-childe-link/mother-childe-link.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -121,6 +122,7 @@ const routes: Routes = [
     { path: "onlineappointments", component: OnlineAppointmentsComponent },
     { path: "cardiologycalendar", component: CardiologyCalendarComponent },
     { path: "addupdateaction", component: AddupdateactionComponent },
+    { path: "motherchildelink", component: MotherChildeLinkComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({
