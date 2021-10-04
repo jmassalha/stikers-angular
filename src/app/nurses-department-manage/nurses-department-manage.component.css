@@ -14,13 +14,29 @@ table {
     float: right;
   }
 
-  th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+  th.mat-header-cell, td.mat-footer-cell {
     padding: 0;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     font-size: 20px;
     background-color: floralwhite;
 }
+
+td.mat-cell{
+  padding: 0;
+  border-bottom-width: 1px;
+  border-bottom-style: solid;
+  font-size: 20px;
+}
+
+.mat-row:nth-child(even){
+  background-color: antiquewhite;
+}
+      
+.mat-row:nth-child(odd){
+  background-color: floralwhite;
+}
+
 [dir=rtl] th.mat-header-cell {
     text-align: center;
     padding: 10px 5px 10px 30px;
