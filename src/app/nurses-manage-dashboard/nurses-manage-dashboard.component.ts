@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { Router } from "@angular/router";
+import { NavigationEnd, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
-import { DatePipe } from '@angular/common';
+import { DatePipe, Location  } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -26,7 +26,7 @@ export class NursesManageDashboardComponent implements OnInit {
   searchWord: string;
   hospitalBedsInUse: string;
   resparotriesCount: string;
-  private updateSubscription: Subscription;
+  updateSubscription: any;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   nursesUserPermission: boolean = false;
 
@@ -35,7 +35,9 @@ export class NursesManageDashboardComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder) { }
+    private formBuilder: FormBuilder) {
+      
+     }
 
 
   Departmints = {
@@ -54,19 +56,18 @@ export class NursesManageDashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loaded = false;
     this.searchWord = "";
-    this.Dept_Name = 'פנימית ב';
-    this.Dept_Number = 'ספנ-ב';
     this.getAllDeparts();
     this.getDataFormServer("");
-    this.getEROccupancy('', '');
-    
+    this.getEROccupancy('', 'er');
+
     // this.NursesSystemPermission();
   }
 
-  openDialogToFill(departCode, Dept_Name) {
-    let dialogRef = this.dialog.open(NursesDepartmentManageComponent, {});
+  openDialogToFill(departCode, Dept_Name, ifAdmin) {
+    let dialogRef = this.dialog.open(NursesDepartmentManageComponent, { disableClose: true });
     dialogRef.componentInstance.departCode = departCode;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
+    dialogRef.componentInstance.ifAdmin = ifAdmin;
     dialogRef.afterClosed()
       .subscribe((data) => {
         if (!data) {
@@ -90,7 +91,7 @@ export class NursesManageDashboardComponent implements OnInit {
   }
 
   openReportDialog(report_type) {
-    let dialogRef = this.dialog.open(NursesDashboardComponent, {});
+    let dialogRef = this.dialog.open(NursesDashboardComponent, { disableClose: true });
     dialogRef.componentInstance.reportType = report_type;
     dialogRef.afterClosed()
       .subscribe((data) => {
@@ -109,7 +110,7 @@ export class NursesManageDashboardComponent implements OnInit {
 
   NursesSystemPermission() {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
-    return this.http.post( "http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {_userName: userName, withCredentials:true}).subscribe(response => {response["d"];this.nursesUserPermission = response["d"]});
+    return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => { response["d"]; this.nursesUserPermission = response["d"] });
     // this.http
     //   .post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
     //     _userName: userName
@@ -129,29 +130,28 @@ export class NursesManageDashboardComponent implements OnInit {
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
         this.NursesSystemPermission();
-        if(this.nursesUserPermission){
-          if(this.all_departments_array.length == 0){
-            this.getAllDeparts();
+        let that = this;
+        let time = setTimeout(() => {
+          if (that.nursesUserPermission) {
+            if(this.router.url !== '/nursesmanagedashboard'){
+              clearTimeout(time);
+            }else{
+              this.getAllDeparts();
+              this.getEROccupancy("", "er");
+            }
+          } else {
+            that.Dept_Number = that.all_departments_array[0].Dept_Number;
+            that.Dept_Name = that.all_departments_array[0].Dept_Name;
+            that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');
           }
-          this.updateSubscription = interval(60000).subscribe(
-            (val) => { this.getAllDeparts(); this.getEROccupancy("", "er"); }
-          );
-        }else{
-          this.Dept_Number = this.all_departments_array[0].Dept_Number;
-          this.Dept_Name = this.all_departments_array[0].Dept_Name;
-          this.openDialogToFill(this.Dept_Number,this.Dept_Name);
-        }
+        }, 60000);
         this.loaded = true;
       });
   }
 
   getOtherDepartmentDetails(otherDepartName) {
-    if (!this.nursesUserPermission) {
-      this.openSnackBar("אין הרשאה");
-    } else {
-      let dialogRef = this.dialog.open(OtherDepartmentsComponent, {});
-      dialogRef.componentInstance.otherDepartName = otherDepartName;
-    }
+    let dialogRef = this.dialog.open(OtherDepartmentsComponent, {});
+    dialogRef.componentInstance.otherDepartName = otherDepartName;
   }
 
   getEROccupancy(datePointer, dept) {
@@ -175,6 +175,12 @@ export class NursesManageDashboardComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.ER_Occupancy = Response["d"];
+        // if(this.ER_Occupancy.length == 0){
+        //   let that = this;
+        //   setTimeout(() => {
+        //     that.getEROccupancy("", "er");
+        //   }, 1000);
+        // }
         this.allErOccupancy = parseInt(this.ER_Occupancy[0]) + parseInt(this.ER_Occupancy[1]) + parseInt(this.ER_Occupancy[2]);
       });
   }

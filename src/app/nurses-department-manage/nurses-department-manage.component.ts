@@ -22,7 +22,7 @@ import { interval, Subscription } from 'rxjs';
 })
 export class NursesDepartmentManageComponent implements OnInit {
 
-  
+
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
@@ -54,8 +54,9 @@ export class NursesDepartmentManageComponent implements OnInit {
   numberOfCVA: number = 0;
   numberOfNeurology: number = 0;
   departCode: string;
-  private updateSubscription: Subscription;
+  updateSubscription: any;
   Dept_Name: string;
+  ifAdmin: string;
   loading: boolean;
   Patientsloading: boolean;
   patientsTable: boolean;
@@ -67,7 +68,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
 
   ngOnInit(): void {
-    if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה' ) {
+    if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה') {
       this.displayedColumns = ['nursing', 'receipts', 'released'];
     } else {
       this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
@@ -81,9 +82,11 @@ export class NursesDepartmentManageComponent implements OnInit {
     this.getDepartDetails();
     this.getSubmitPlannedToRealse('0');
     this.getPatientsPerDepart(this.event, '');
-    this.updateSubscription = interval(60000).subscribe(
-      (val) => { this.ngOnInit(); }
-    );
+    this.updateSubscription = setInterval(() => {
+      this.getDepartDetails();
+      this.getSubmitPlannedToRealse('0');
+      this.getPatientsPerDepart(this.event, '');
+    }, 60000);
   }
 
   getSubmitPlannedToRealse(ifsaved) {
@@ -103,6 +106,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   }
 
   closeModal() {
+    clearInterval(this.updateSubscription);
     this.dialogRef.close();
   }
 
@@ -114,16 +118,17 @@ export class NursesDepartmentManageComponent implements OnInit {
     });
   }
 
-  fillReportDialog(reportid, Dept_Name, firstName, lastName, caseNumber) {
-    let dialogRef = this.dialog.open(FillReportComponent);
-    dialogRef.componentInstance.reportID = reportid;
-    dialogRef.componentInstance.Dept_Name = Dept_Name;
-    dialogRef.componentInstance.firstName = firstName;
-    dialogRef.componentInstance.lastName = lastName;
-    dialogRef.componentInstance.caseNumber = caseNumber;
-  }
+  // fillReportDialog(reportid, Dept_Name, firstName, lastName, caseNumber) {
+  //   let dialogRef = this.dialog.open(FillReportComponent);
+  //   dialogRef.componentInstance.reportID = reportid;
+  //   dialogRef.componentInstance.Dept_Name = Dept_Name;
+  //   dialogRef.componentInstance.firstName = firstName;
+  //   dialogRef.componentInstance.lastName = lastName;
+  //   dialogRef.componentInstance.caseNumber = caseNumber;
+  // }
+
   displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname, gender, dob, description, corona, reportType) {
-    let dialogRef = this.dialog.open(NursesDashboardComponent);
+    let dialogRef = this.dialog.open(NursesDashboardComponent,{ disableClose: true });
     dialogRef.componentInstance.caseNumber = caseNumber;
     dialogRef.componentInstance.asDialog = asDialog;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
@@ -139,6 +144,7 @@ export class NursesDepartmentManageComponent implements OnInit {
         if (data) {
           this.dialogRef.close(data);
         }
+        // clearInterval(this.updateSubscription);
       })
   }
 
@@ -150,8 +156,7 @@ export class NursesDepartmentManageComponent implements OnInit {
       .subscribe((Response) => {
         this.ELEMENT_DATA = Response["d"];
         if (this.ELEMENT_DATA.length == 0) {
-          this.openSnackBar("לא נטען, לנסות שוב");
-          this.getDepartDetails();
+          this.openSnackBar("לא נטען, לרענן");
         }
         this.loading = false;
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
@@ -169,9 +174,9 @@ export class NursesDepartmentManageComponent implements OnInit {
         this.numberOfNeurology = 0;
         this.numberOfCVA = 0;
         this.dataSource2.filteredData.forEach(element => {
-          if(element.PM_MOVE_DEPART == 'רשבצ-מ'){
+          if (element.PM_MOVE_DEPART == 'רשבצ-מ') {
             this.numberOfCVA++;
-          }else if(element.PM_MOVE_DEPART == 'רנורול'){
+          } else if (element.PM_MOVE_DEPART == 'רנורול') {
             this.numberOfNeurology++;
           }
         });

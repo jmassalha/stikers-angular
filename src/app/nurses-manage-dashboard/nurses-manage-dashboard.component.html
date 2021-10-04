@@ -40,7 +40,7 @@
                                             <h5>מונשמים</h5>
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf="nursesUserPermission">
+                                    <div class="row">
                                         <div class="col-4">
                                             <h5>{{hospitalBedsInUse}}</h5>
                                         </div>
@@ -62,7 +62,7 @@
                                         </div>
                                         <div class="col-6 text-center">
                                             <h3><b>קבלות מחלקה לרפואה דחופה</b></h3>
-                                            <h3 style="font-size: 20px;" *ngIf="nursesUserPermission"> סה"כ {{allErOccupancy}} &nbsp;&nbsp; {{newDate
+                                            <h3 style="font-size: 20px;"> סה"כ {{allErOccupancy}} &nbsp;&nbsp; {{newDate
                                                 | date: "dd.MM.yyyy"}}</h3>
                                             <h3 style="font-size: 20px;"></h3>
                                         </div>
@@ -85,7 +85,7 @@
                                             <h5>ערב</h5>
                                         </div>
                                     </div>
-                                    <div class="row" *ngIf="nursesUserPermission">
+                                    <div class="row">
                                         <div class="col-4" *ngFor="let occ of ER_Occupancy">
                                             <h5>{{occ}}</h5>
                                         </div>
@@ -127,7 +127,7 @@
                     </div>
                 </div>
             </div>
-            <button matTooltip="דווח מינהלי" id="EventBtndisplay" *ngIf="nursesUserPermission" mat-raised-button type="submit" class="btn btn-primary btn-raised"
+            <button matTooltip="דווח מינהלי" id="EventBtndisplay" mat-raised-button type="submit" class="btn btn-primary btn-raised"
                 (click)="openReportDialog('administrative')">
                 <i class="material-icons">assignment_ind</i>
             </button>
@@ -140,7 +140,7 @@
         <div class="poll-options">
             <div class="row" style="margin-bottom: 10px;">
                 <div class="col-4" *ngFor="let item of all_departments_array" style="margin-bottom: 5px;height: 75px">
-                    <mat-card *ngIf="item.Dept_Name" (click)="openDialogToFill(item.Dept_Number,item.Dept_Name)"
+                    <mat-card *ngIf="item.Dept_Name" (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
                         style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
                                 *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span

@@ -100,7 +100,7 @@ export class ShareReportsDialog {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
       this.http
-        //.post("http://localhost:64964/WebService.asmx/AttachReportToUser", {
+        //.post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
         .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
@@ -223,6 +223,7 @@ export class NursesDashboardComponent implements OnInit {
   automaticShift: string;
   creator: boolean;
   now = new Date();
+  autoSaveCounter: any;
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
@@ -279,6 +280,9 @@ export class NursesDashboardComponent implements OnInit {
       );
     this.departmentfilter.setValue(this.Dept_Name);
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
+    this.autoSaveCounter = setInterval(() => {
+      this.autosave();
+    }, 60000);
   }
 
   private _filter2(value: string): string[] {
@@ -303,6 +307,7 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   closeModal() {
+    clearInterval(this.autoSaveCounter);
     this.dialogRef.close();
   }
 
@@ -316,9 +321,6 @@ export class NursesDashboardComponent implements OnInit {
         this.subCategory = this.all_categories_filter[lastIndex].SubCategory;
       });
   }
-
-
-
 
   fillReportDialog(reportid, Dept_Name, firstName, lastName) {
     let dialogRef = this.dialog.open(FillReportComponent);
@@ -348,7 +350,6 @@ export class NursesDashboardComponent implements OnInit {
   getDeparts() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {
-
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];
@@ -360,6 +361,7 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   print() {
+    clearInterval(this.autoSaveCounter);
     this.dialogRef.close(this.ELEMENT_DATA);
   }
 
@@ -452,7 +454,19 @@ export class NursesDashboardComponent implements OnInit {
       });
   }
 
-  sendReport() {
+  autosave() {
+    let lengthOfText = this.ReportGroup.controls['ReportText'].value.length;
+    if (lengthOfText > 0) {
+      this.sendReport('1');
+    }
+    setTimeout(() => {
+      this.autosave();
+    }, 60000);
+  }
+
+
+
+  sendReport(autosave) {
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
     if (this.caseNumber == undefined) {
       this.caseNumber = "";
@@ -466,10 +480,16 @@ export class NursesDashboardComponent implements OnInit {
           _reportType: this.reportType
         })
         .subscribe((Response) => {
-          if (Response["d"] == "Success") {
-            this.openSnackBar("נשמר בהצלחה");
-            this.ReportGroup.reset();
-            this.searchReports();
+          if (Response["d"] != 0) {
+            if (autosave == '0') {
+              this.openSnackBar("נשמר בהצלחה");
+              this.ReportGroup.reset();
+              this.searchReports();
+            }
+            else {
+              this.openSnackBar("נשמר בהצלחה");
+              this.ReportGroup.controls['Row_ID'].setValue(Response["d"]);
+            }
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");
           }
@@ -487,6 +507,7 @@ export class NursesDashboardComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"] == "success") {
           this.openSnackBar("דווח נמחק בהצלחה");
+          clearInterval(this.autoSaveCounter);
           this.dialog.closeAll();
         } else {
           this.openSnackBar("משהו השתבש, לא נמחק");
@@ -502,8 +523,8 @@ export class NursesDashboardComponent implements OnInit {
     }
   }
 
-  onSubmit() {
-    this.sendReport();
+  onSubmit(autosave) {
+    this.sendReport(autosave);
   }
 
 

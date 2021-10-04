@@ -1,5 +1,5 @@
 <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
-    <span aria-hidden="true">&times;</span>
+    <span>&times;</span>
 </button>
 <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
     <h1>{{Dept_Name}}</h1>
@@ -132,7 +132,7 @@
         </div>
         <div class="modal-footer text-left">
             <button matTooltip="שמירה" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
-                (click)="onSubmit()" type="submit" mat-raised-button>
+                (click)="onSubmit('0')" type="submit" mat-raised-button>
                 <span class="material-icons">
                     save
                 </span>

@@ -1,5 +1,5 @@
 <div class="my-container">
-  <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+  <button type="button" class="close" matTooltip="סגירה" aria-label="Close" *ngIf="ifAdmin == '1'" (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
   </button>
   <form class="form" [formGroup]="departmentRelease">
@@ -91,14 +91,14 @@
             <i class="material-icons">assignment_ind</i>
           </button>
         </div>
-        <div class="col" *ngIf="Dept_Name == 'פנימית א'">
-          <button mat-raised-button type="submit" class="btn btn-primary btn-raised"
+        <div class="col">
+          <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'" class="btn btn-primary btn-raised"
             (click)="getPatientsPerDepart($event,'רנורול')">
             נוירולוגיה: {{numberOfNeurology}}
           </button>
         </div>
-        <div class="col" *ngIf="Dept_Name == 'פנימית א'">
-          <button mat-raised-button type="submit" class="btn btn-primary btn-raised"
+        <div class="col">
+          <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'" class="btn btn-primary btn-raised"
             (click)="getPatientsPerDepart($event,'רשבצ-מ')">
             שבץ מוחי: {{numberOfCVA}}
           </button>
