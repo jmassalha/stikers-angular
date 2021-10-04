@@ -64,6 +64,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   ELEMENT_DATA = [];
   ELEMENT_DATA2 = [];
   departmentRelease: FormGroup;
+  UserName = localStorage.getItem("loginUserName").toLowerCase();
   date = new Date();
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
 
@@ -146,6 +147,17 @@ export class NursesDepartmentManageComponent implements OnInit {
         }
         // clearInterval(this.updateSubscription);
       })
+  }
+
+
+  test(){
+    if(this.UserName.toLowerCase() == 'jubartal'){
+      localStorage.setItem("loginUserName", "nibrahim");
+      window.location.reload();
+    }else{
+      localStorage.setItem("loginUserName", "jubartal");
+      window.location.reload();
+    }
   }
 
   getDepartDetails() {

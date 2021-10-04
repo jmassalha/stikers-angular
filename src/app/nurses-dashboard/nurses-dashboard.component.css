@@ -132,6 +132,8 @@ table {
   text-shadow: 0 1px 0 #fff;
   opacity: .5;
   padding-left: 15px;
+  position: relative;
+  z-index: 99999999 !important;
 }
 
 #administrativeBtn , #clinicalBtn{

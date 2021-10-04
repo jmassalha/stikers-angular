@@ -224,6 +224,7 @@ export class NursesDashboardComponent implements OnInit {
   creator: boolean;
   now = new Date();
   autoSaveCounter: any;
+  autoSaveTimer: any;
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
@@ -280,9 +281,9 @@ export class NursesDashboardComponent implements OnInit {
       );
     this.departmentfilter.setValue(this.Dept_Name);
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
-    this.autoSaveCounter = setInterval(() => {
-      this.autosave();
-    }, 60000);
+    // this.autoSaveCounter = setInterval(() => {
+    //   this.autosave();
+    // }, 6000);
   }
 
   private _filter2(value: string): string[] {
@@ -308,6 +309,7 @@ export class NursesDashboardComponent implements OnInit {
 
   closeModal() {
     clearInterval(this.autoSaveCounter);
+    clearTimeout(this.autoSaveTimer);
     this.dialogRef.close();
   }
 
@@ -454,15 +456,16 @@ export class NursesDashboardComponent implements OnInit {
       });
   }
 
-  autosave() {
-    let lengthOfText = this.ReportGroup.controls['ReportText'].value.length;
-    if (lengthOfText > 0) {
-      this.sendReport('1');
-    }
-    setTimeout(() => {
-      this.autosave();
-    }, 60000);
-  }
+  // autosave() {
+  //   this.autoSaveTimer;
+  //   let lengthOfText = this.ReportGroup.controls['ReportText'].value.length;
+  //   if (lengthOfText > 0) {
+  //     this.sendReport('1');
+  //   }
+  //   this.autoSaveTimer = setTimeout(() => {
+  //     this.autosave();
+  //   }, 6000);
+  // }
 
 
 

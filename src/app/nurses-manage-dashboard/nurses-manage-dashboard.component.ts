@@ -133,20 +133,33 @@ export class NursesManageDashboardComponent implements OnInit {
         let that = this;
         let time = setTimeout(() => {
           if (that.nursesUserPermission) {
-            if(this.router.url !== '/nursesmanagedashboard'){
-              clearTimeout(time);
-            }else{
-              this.getAllDeparts();
-              this.getEROccupancy("", "er");
-            }
+            let time2 = setTimeout(() => {
+              if(this.router.url !== '/nursesmanagedashboard'){
+                clearTimeout(time);
+                clearTimeout(time2);
+              }else{
+                this.getAllDeparts();
+                this.getEROccupancy("", "er");
+              }
+            }, 60000);
           } else {
             that.Dept_Number = that.all_departments_array[0].Dept_Number;
             that.Dept_Name = that.all_departments_array[0].Dept_Name;
             that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');
           }
-        }, 60000);
+        }, 1500);
         this.loaded = true;
       });
+  }
+
+  test(){
+    if(this.UserName.toLowerCase() == 'jubartal'){
+      localStorage.setItem("loginUserName", "nibrahim");
+      window.location.reload();
+    }else{
+      localStorage.setItem("loginUserName", "jubartal");
+      window.location.reload();
+    }
   }
 
   getOtherDepartmentDetails(otherDepartName) {

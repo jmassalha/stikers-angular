@@ -90,6 +90,10 @@
             (click)="displayReports('',true,Dept_Name,'','','','','','','administrative')">
             <i class="material-icons">assignment_ind</i>
           </button>
+          <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'nibrahim'" mat-raised-button type="submit" class="btn btn-primary btn-raised"
+                (click)="test()">
+                <i class="material-icons">face</i>
+            </button>
         </div>
         <div class="col">
           <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'" class="btn btn-primary btn-raised"
