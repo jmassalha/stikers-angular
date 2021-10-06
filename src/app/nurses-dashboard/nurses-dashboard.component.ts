@@ -280,6 +280,8 @@ export class NursesDashboardComponent implements OnInit {
         map(value => this._filter4(value))
       );
     this.departmentfilter.setValue(this.Dept_Name);
+    this.categoryfilter.setValue('');
+    this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
     // this.autoSaveCounter = setInterval(() => {
     //   this.autosave();
@@ -308,8 +310,6 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   closeModal() {
-    clearInterval(this.autoSaveCounter);
-    clearTimeout(this.autoSaveTimer);
     this.dialogRef.close();
   }
 
@@ -363,7 +363,6 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   print() {
-    clearInterval(this.autoSaveCounter);
     this.dialogRef.close(this.ELEMENT_DATA);
   }
 
@@ -471,6 +470,9 @@ export class NursesDashboardComponent implements OnInit {
 
   sendReport(autosave) {
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
+    if(this.ReportGroup.controls['ReportMachlol'].value == undefined){
+      this.ReportGroup.controls['ReportMachlol'].setValue('');
+    }
     if (this.caseNumber == undefined) {
       this.caseNumber = "";
     }
@@ -486,12 +488,13 @@ export class NursesDashboardComponent implements OnInit {
           if (Response["d"] != 0) {
             if (autosave == '0') {
               this.openSnackBar("נשמר בהצלחה");
-              this.ReportGroup.reset();
-              this.searchReports();
+              // this.ReportGroup.reset();
+              this.ngOnInit();
             }
             else {
               this.openSnackBar("נשמר בהצלחה");
               this.ReportGroup.controls['Row_ID'].setValue(Response["d"]);
+              // this.ReportGroup.reset();
             }
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");
@@ -510,8 +513,7 @@ export class NursesDashboardComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"] == "success") {
           this.openSnackBar("דווח נמחק בהצלחה");
-          clearInterval(this.autoSaveCounter);
-          this.dialog.closeAll();
+          this.searchReports();
         } else {
           this.openSnackBar("משהו השתבש, לא נמחק");
         }

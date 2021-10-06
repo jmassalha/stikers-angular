@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, Injectable, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import {
@@ -205,6 +205,7 @@ export class EmailmanagementComponent implements OnInit {
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
+    private dialogRef: MatDialogRef<EmailmanagementComponent>,
   ) { }
 
   all_email_management = [];
@@ -399,6 +400,10 @@ export class EmailmanagementComponent implements OnInit {
         this.openSnackBar("שדה חובה לא תקין");
       }
     }
+  }
+
+  closeModal() {
+    this.dialogRef.close();
   }
 
   getDepatments() {

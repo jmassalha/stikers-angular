@@ -281,9 +281,9 @@ export class FastCovid19TestComponent implements OnInit {
                 RequestID: ["", Validators.required],
                 CityCode: ["", Validators.required],
                 CityDesc: ["", Validators.required],
-                StreetCode: ["", Validators.required],
+                StreetCode: ["1", Validators.required],
                 StreetDesc: ["", Validators.required],
-                HouseNumber: ["", Validators.required],
+                HouseNumber: ["1", Validators.required],
                 Appartment: ["", null],
                 PlaceOfCollect: [0, Validators.required],
                 Tel1: [

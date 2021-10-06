@@ -9,6 +9,12 @@
     background: #ff8484;
 }
 
+.col-4,.col-3,h5,h6{
+    font-family: 'math';
+    font-weight: bolder;
+    font-size: 18px;
+}
+
 #display-line{
     border: 5px solid #1976d2;
 }
@@ -40,6 +46,7 @@ h5{
 }
 h6{
     float: right;
+    font-size: 0.90rem;
 }
 .reply-row{
     border-bottom: 3px solid grey;

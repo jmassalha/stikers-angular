@@ -9,7 +9,6 @@ h3 {
   .table-bordered td, .table-bordered th {
     border: 1px solid #dee2e6;
     text-align: center;
-    width: 0.1%;
     white-space: nowrap;
   }
   

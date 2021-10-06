@@ -237,6 +237,7 @@ export class FillReportComponent implements OnInit {
   creator: boolean;
   now = new Date();
   panelOpenState = true;
+  visible: boolean = true;
 
   ngOnInit(): void {
     if (this.Dept_Name != "") {
@@ -323,7 +324,7 @@ export class FillReportComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"] == "success") {
           this.openSnackBar("דווח נמחק בהצלחה");
-          this.dialog.closeAll();
+          this.visible = false;
         } else {
           this.openSnackBar("משהו השתבש, לא נמחק");
         }
@@ -376,7 +377,7 @@ export class FillReportComponent implements OnInit {
           _reportType: this.reportType
         })
         .subscribe((Response) => {
-          if (Response["d"] == "Success") {
+          if (Response["d"] != 0) {
             this.openSnackBar("נשמר בהצלחה");
             this.getReportToUpdate();
           } else {

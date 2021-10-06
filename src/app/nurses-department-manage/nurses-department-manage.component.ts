@@ -67,11 +67,15 @@ export class NursesDepartmentManageComponent implements OnInit {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   date = new Date();
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
+  timer: any;
 
   ngOnInit(): void {
     if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה') {
       this.displayedColumns = ['nursing', 'receipts', 'released'];
-    } else {
+    }else if(this.Dept_Name == 'ילוד בריא' || this.Dept_Name == 'יולדות'){
+      this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday'];
+    } 
+    else {
       this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
     }
     this.loading = true;
@@ -83,11 +87,22 @@ export class NursesDepartmentManageComponent implements OnInit {
     this.getDepartDetails();
     this.getSubmitPlannedToRealse('0');
     this.getPatientsPerDepart(this.event, '');
-    this.updateSubscription = setInterval(() => {
-      this.getDepartDetails();
-      this.getSubmitPlannedToRealse('0');
-      this.getPatientsPerDepart(this.event, '');
-    }, 60000);
+    this.checkIfToRefresh(true);
+  }
+
+  checkIfToRefresh(refresh) {    
+      // let time = setTimeout(() => {
+      //   if (refresh) {
+      //     let time2 =  setTimeout(() => {
+      //       this.getDepartDetails();
+      //       this.getSubmitPlannedToRealse('0');
+      //       this.getPatientsPerDepart(this.event, '');
+      //       this.checkIfToRefresh(true);
+      //     }, 1500);
+      //   }else{
+      //     clearTimeout(time);
+      //   }
+      // }, 5000);
   }
 
   getSubmitPlannedToRealse(ifsaved) {
@@ -107,7 +122,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   }
 
   closeModal() {
-    clearInterval(this.updateSubscription);
+    this.checkIfToRefresh(false);
     this.dialogRef.close();
   }
 
@@ -129,7 +144,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   // }
 
   displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname, gender, dob, description, corona, reportType) {
-    let dialogRef = this.dialog.open(NursesDashboardComponent,{ disableClose: true });
+    let dialogRef = this.dialog.open(NursesDashboardComponent, { disableClose: true });
     dialogRef.componentInstance.caseNumber = caseNumber;
     dialogRef.componentInstance.asDialog = asDialog;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
@@ -150,11 +165,11 @@ export class NursesDepartmentManageComponent implements OnInit {
   }
 
 
-  test(){
-    if(this.UserName.toLowerCase() == 'jubartal'){
+  test() {
+    if (this.UserName.toLowerCase() == 'jubartal') {
       localStorage.setItem("loginUserName", "nibrahim");
       window.location.reload();
-    }else{
+    } else {
       localStorage.setItem("loginUserName", "jubartal");
       window.location.reload();
     }
@@ -168,7 +183,11 @@ export class NursesDepartmentManageComponent implements OnInit {
       .subscribe((Response) => {
         this.ELEMENT_DATA = Response["d"];
         if (this.ELEMENT_DATA.length == 0) {
-          this.openSnackBar("לא נטען, לרענן");
+          this.openSnackBar("לא נטען, מרענן מחדש...");
+          setTimeout(() => {
+            console.log('again');
+            this.getDepartDetails();
+          }, 5000);
         }
         this.loading = false;
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
