@@ -312,7 +312,7 @@
                         </mat-form-field> -->
                     </div>
                 </div>
-                <div class="col-3">
+                <div class="col-3  d-none">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput autocomplete="off" class="form-control" formControlName="StreetCode"
@@ -328,15 +328,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-4">
-                    <div class="form-group">
-                        <mat-form-field>
-                            <input matInput autocomplete="off" class="form-control" formControlName="HouseNumber"
-                                placeholder="מספר בית" type="text" />
-                        </mat-form-field>
-                    </div>
-                </div>
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput autocomplete="off" class="form-control" formControlName="Appartment"
@@ -344,6 +336,22 @@
                         </mat-form-field>
                     </div>
                 </div>
+                <div class="col-4  d-none">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="HouseNumber"
+                                placeholder="מספר בית" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <!-- <div class="col-4">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="Appartment"
+                                placeholder="מספר דירה" type="text" />
+                        </mat-form-field>
+                    </div>
+                </div> -->
                 <div class="col-4">
                     <div class="form-group">
                         <mat-form-field>
@@ -357,9 +365,29 @@
                         </mat-form-field>
                     </div>
                 </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <input matInput autocomplete="off" class="form-control" formControlName="Tel1"
+                                placeholder="מספר טלפון" type="number" />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-4">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>קופת חולים/ גורם מבטח אחר</mat-label>
+                            <mat-select formControlName="Insurer">
+                                <mat-option *ngFor="let Insurer of InsurerArray" [value]="Insurer.code">
+                                    {{Insurer.name}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
             </div>
             <div class="row">
-                <div class="col">
+                <!-- <div class="col">
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput autocomplete="off" class="form-control" formControlName="Tel1"
@@ -378,7 +406,7 @@
                             </mat-select>
                         </mat-form-field>
                     </div>
-                </div>
+                </div> -->
                 <div class="col  d-none">
                     <div class="form-group">
                         <mat-form-field>

@@ -239,6 +239,7 @@ export class CardiologyCalendarComponent implements OnInit {
             PersonID: result.PersonID,
             PatientAction: [],
             MidsOrder: '',
+            Notes: '',
             ArrivalDate: date,
             ArrivalTime: time,
             Status: 'True'

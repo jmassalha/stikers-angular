@@ -97,6 +97,7 @@
                                     <th>מתחיל בתאריך</th>
                                     <th>פעולה</th>
                                     <th>הוראות לתרופות</th>
+                                    <th>הערות</th>
                                     <th>מחיקה</th>
                                 </tr>
                             </thead>
@@ -150,6 +151,9 @@
                                     </td>
                                     <td>
                                         <textarea type="text" class="form-control" [(ngModel)]="event.patientAction.MidsOrder" placeholder="הוראות לתרופות" (keyup)="refresh.next()"></textarea>
+                                    </td>
+                                    <td>
+                                        <textarea type="text" class="form-control" [(ngModel)]="event.patientAction.Notes" placeholder="הערות" (keyup)="refresh.next()"></textarea>
                                     </td>
                                     <td>
                                         <button class="btn btn-danger" (click)="deleteEvent(event,modalData?.event.day.date)">

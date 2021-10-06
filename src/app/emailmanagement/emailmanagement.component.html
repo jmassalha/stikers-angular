@@ -1,3 +1,8 @@
+<div class="example-button-container">
+    <button mat-mini-fab color="warn" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <mat-icon>cancel</mat-icon>
+    </button>
+</div>
 <div class="survey-options" *ngIf="chooseComp && !_stepper">
     <div class="poll-options">
         <div class="row">
@@ -247,7 +252,7 @@
                         </div>
                         <div class="full-width row">
 
-                            
+
                             <li class="border-me col-12">
                                 <div class="col-12 text-right">
                                     <label>תאור האירוע</label>
@@ -272,7 +277,8 @@
                             <div class="col-12 text-right">
                                 <label>תאריך פניה</label>
                                 <mat-form-field appearance="fill">
-                                    <input matInput formControlName="Comp_Date" [matDatepicker]="picker" (focus)="picker.open()">
+                                    <input matInput formControlName="Comp_Date" [matDatepicker]="picker"
+                                        (focus)="picker.open()">
                                     <mat-datepicker-toggle matSuffix [for]="picker">
                                     </mat-datepicker-toggle>
                                     <mat-datepicker #picker></mat-datepicker>
@@ -354,8 +360,7 @@
                                 <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
                                     [matAutocomplete]="auto2" required>
                                 <mat-autocomplete #auto2="matAutocomplete">
-                                    <mat-option *ngFor="let dept of filteredOptions2 | async"
-                                        [value]="dept.value">
+                                    <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.value">
                                         {{dept.viewValue}}
                                     </mat-option>
                                 </mat-autocomplete>
@@ -380,7 +385,8 @@
                                 <label>תאריך סגירת הפניה</label>
                             </div>
                             <mat-form-field appearance="fill">
-                                <input matInput formControlName="Comp_Closing_Date" [matDatepicker]="picker2" (focus)="picker2.open()">
+                                <input matInput formControlName="Comp_Closing_Date" [matDatepicker]="picker2"
+                                    (focus)="picker2.open()">
                                 <mat-datepicker-toggle matSuffix [for]="picker2">
                                 </mat-datepicker-toggle>
                                 <mat-datepicker #picker2></mat-datepicker>

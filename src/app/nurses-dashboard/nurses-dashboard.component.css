@@ -15,7 +15,17 @@ table {
   table td{
     font-size: x-large;
   }
-  
+  h2{
+    font-family: 'math';
+    font-weight: bolder;
+    font-size: 27px;
+  }
+  h1,h6,h3,.col-4{
+    font-family: 'math';
+    font-weight: bolder;
+    font-size: 18px;
+  }
+
   tr.example-detail-row {
     height: 0;
   }
@@ -125,7 +135,7 @@ table {
 
 .close {
   float: right;
-  font-size: 2.5rem;
+  font-size: 2.0rem;
   font-weight: 700;
   line-height: 1;
   color: #000;
