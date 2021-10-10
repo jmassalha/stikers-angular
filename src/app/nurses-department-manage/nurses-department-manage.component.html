@@ -4,9 +4,21 @@
     <span aria-hidden="true">&times;</span>
   </button>
   <form class="form" [formGroup]="departmentRelease">
-
     <div class="card text-center" id="table-overflow">
-      <h4><b>{{Dept_Name}}</b> {{myDate | date: "dd.MM.yyyy"}}</h4>
+      <div class="row">
+        <div class="col">
+          
+        </div>
+        <div class="col">
+          <h4><b>{{Dept_Name}}</b> {{myDate | date: "dd.MM.yyyy"}}</h4>
+        </div>
+        <div class="col">
+          <button style="float: right;" matTooltip="דף הבית" *ngIf="ifAdmin == '0'" mat-raised-button type="submit"
+            class="btn btn-primary btn-raised" [routerLink]="['']" (click)="closeModal()">
+            <i class="material-icons">home</i>
+          </button>
+        </div>
+      </div>
       <div class="row">
         <table dir="rtl" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
 
@@ -81,8 +93,8 @@
 
       <div class="row p-3">
         <div class="col text-left">
-          <button mat-raised-button type="submit" id="generalClinicalBtn" class="btn btn-primary btn-raised" matTooltip="שמירה"
-            (click)="getSubmitPlannedToRealse('1')">
+          <button mat-raised-button type="submit" id="generalClinicalBtn" class="btn btn-primary btn-raised"
+            matTooltip="שמירה" (click)="getSubmitPlannedToRealse('1')">
             <i class="material-icons">save</i>
           </button>
           <button matTooltip="דיווח קליני למחלקה" mat-raised-button type="submit" class="btn btn-primary btn-raised"
@@ -94,9 +106,8 @@
             (click)="displayReports('',true,Dept_Name,'','','','','','','administrative')">
             <i class="material-icons">assignment_ind</i>
           </button>
-          <button matTooltip="רענון" id="generalClinicalBtn" mat-raised-button type="submit"
-            class="btn btn-primary btn-raised"
-            (click)="ngOnInit()">
+          <button matTooltip="רענון" id="generalClinicalBtn" mat-raised-button type="submit" class="btn btn-raised"
+            style="background: lawngreen;" (click)="ngOnInit()">
             <i class="material-icons">refresh</i>
           </button>
           <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'nibrahim'" mat-raised-button
@@ -109,8 +120,8 @@
             (click)="getPatientsPerDepart($event,'רנורול')">
             נוירולוגיה: {{numberOfNeurology}}
           </button>
-          <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'" class="btn btn-primary btn-raised ml-2"
-            (click)="getPatientsPerDepart($event,'רשבצ-מ')">
+          <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'"
+            class="btn btn-primary btn-raised ml-2" (click)="getPatientsPerDepart($event,'רשבצ-מ')">
             שבץ מוחי: {{numberOfCVA}}
           </button>
         </div>
