@@ -181,6 +181,8 @@ export class FillReportComponent implements OnInit {
   reportID: string;
   @Input()
   userFullName: string;
+  @Input()
+  ifGeneral: string;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -238,6 +240,7 @@ export class FillReportComponent implements OnInit {
   now = new Date();
   panelOpenState = true;
   visible: boolean = true;
+  AdminNurse: string;
 
   ngOnInit(): void {
     if (this.Dept_Name != "") {
@@ -374,7 +377,8 @@ export class FillReportComponent implements OnInit {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName,
           _caseNumber: this.caseNumber,
-          _reportType: this.reportType
+          _reportType: this.reportType,
+          _ifGeneral: this.ifGeneral
         })
         .subscribe((Response) => {
           if (Response["d"] != 0) {
@@ -427,6 +431,7 @@ export class FillReportComponent implements OnInit {
           PatientName: new FormControl(this.all_report_management.PatientName, null),
           PatientNurseStatus: new FormControl(this.all_report_management.PatientNurseStatus, null),
         });
+        this.AdminNurse = this.all_report_management.AdminNurse;
         this.reportType = this.all_report_management.ReportType;
         let ifEditable = false;
         let mishmeret = "בוקר";

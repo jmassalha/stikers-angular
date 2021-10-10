@@ -303,20 +303,28 @@ export class CardiologyCalendarComponent implements OnInit {
   }
 
   saveDayEvents(day) {
-    let thisDate = this.datePipe.transform(day, 'yyyy-MM-dd');
-    let thisDateEvents = this.events.filter(t => t.patientAction.ArrivalDate === thisDate);
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/SubmitUpdateCardiologyPatientQueue", {
-        _queueDetails: thisDateEvents
-      })
-      .subscribe((Response) => {
-        if (Response["d"]) {
-          this.modal.dismissAll();
-          this.openSnackBar("נשמר בהצלחה");
-        } else {
-          this.openSnackBar("משהו השתבש, לא נשמר");
-        }
-      });
+    
+    $("#loader").removeClass("d-none");
+    let that = this;
+    setTimeout(function(){
+      let thisDate = that.datePipe.transform(day, 'yyyy-MM-dd');
+      let thisDateEvents = that.events.filter(t => t.patientAction.ArrivalDate === thisDate);
+      that.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/SubmitUpdateCardiologyPatientQueue", {
+          _queueDetails: thisDateEvents
+        })
+        .subscribe((Response) => {
+          if (Response["d"]) {
+            that.modal.dismissAll();
+            that.openSnackBar("נשמר בהצלחה");
+          } else {
+            that.openSnackBar("משהו השתבש, לא נשמר");
+          }
+          
+          $("#loader").addClass("d-none");
+        });
+    }, 1000)
+    
   }
 
   getPatientsQueues(month) {

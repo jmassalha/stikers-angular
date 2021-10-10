@@ -225,10 +225,13 @@ export class NursesDashboardComponent implements OnInit {
   now = new Date();
   autoSaveCounter: any;
   autoSaveTimer: any;
+  ifGeneral: string = '1';
+  AdminNurse: string = '0';
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
       'ReportShift': new FormControl('', null),
+      'PatientName': new FormControl('', null),
       'ReportStatus': new FormControl('', null),
       'ReportDepartment': new FormControl('', null),
       'CaseNumber': new FormControl('', null),
@@ -260,6 +263,7 @@ export class NursesDashboardComponent implements OnInit {
     this.ReportGroup.controls['ReportShift'].setValue(this.automaticShift);
     this.getCategories();
     this.getDeparts();
+    this.NursesSystemPermission();
     this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm');
     this.searchReports();
@@ -280,6 +284,9 @@ export class NursesDashboardComponent implements OnInit {
         map(value => this._filter4(value))
       );
     this.departmentfilter.setValue(this.Dept_Name);
+    if (this.Dept_Name != '' && this.Dept_Name != undefined) {
+      this.ifGeneral = '0';
+    }
     this.categoryfilter.setValue('');
     this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
@@ -347,7 +354,14 @@ export class NursesDashboardComponent implements OnInit {
     dialogRef.componentInstance.reportArray = this.ELEMENT_DATA;
   }
 
-
+  NursesSystemPermission() {
+    let userName = localStorage.getItem("loginUserName").toLowerCase();
+    return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => { 
+      if(response["d"]){
+        this.AdminNurse = '1';
+      }; 
+    });
+  }
 
   getDeparts() {
     this.http
@@ -375,6 +389,9 @@ export class NursesDashboardComponent implements OnInit {
     if (this.Dept_Name == undefined) {
       _reportDepartment = "";
     }
+    if (this.departmentfilter.value != '' && this.departmentfilter.value != null) {
+      _reportDepartment = this.departmentfilter.value;
+    }
     let _reportStatus = this.searchReportsGroup.controls['ReportStatus'].value;
     let _caseNumber;
     if (this.caseNumber != undefined) {
@@ -385,6 +402,7 @@ export class NursesDashboardComponent implements OnInit {
     let _reportStartDate = this.searchReportsGroup.controls['ReportStartDate'].value;
     let _reportEndDate = this.searchReportsGroup.controls['ReportEndDate'].value;
     let _reportCategory = this.searchReportsGroup.controls['ReportCategory'].value;
+    let _patientName = this.searchReportsGroup.controls['PatientName'].value;
     let pipe = new DatePipe('en-US');
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
@@ -407,7 +425,9 @@ export class NursesDashboardComponent implements OnInit {
           _reportEndDate: _reportEndDate,
           _reportCategory: _reportCategory,
           _userName: this.UserName,
-          _reportType: this.reportType
+          _reportType: this.reportType,
+          _ifGeneral: this.ifGeneral,
+          _patientName: _patientName
         })
         .subscribe((Response) => {
           this.ELEMENT_DATA = [];
@@ -437,7 +457,6 @@ export class NursesDashboardComponent implements OnInit {
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
         });
     }
-
   }
 
   changeReportToHandled(reportID) {
@@ -470,7 +489,7 @@ export class NursesDashboardComponent implements OnInit {
 
   sendReport(autosave) {
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
-    if(this.ReportGroup.controls['ReportMachlol'].value == undefined){
+    if (this.ReportGroup.controls['ReportMachlol'].value == undefined) {
       this.ReportGroup.controls['ReportMachlol'].setValue('');
     }
     if (this.caseNumber == undefined) {
@@ -482,7 +501,9 @@ export class NursesDashboardComponent implements OnInit {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName,
           _caseNumber: this.caseNumber,
-          _reportType: this.reportType
+          _reportType: this.reportType,
+          _ifGeneral: this.ifGeneral,
+          _AdminNurse: this.AdminNurse
         })
         .subscribe((Response) => {
           if (Response["d"] != 0) {

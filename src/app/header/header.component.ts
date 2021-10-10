@@ -404,6 +404,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "tklinger" ||
+            this.loginUserName.toLowerCase() == "rtbol" ||
             this.loginUserName.toLowerCase() == "lyizhak"
 
         ) {

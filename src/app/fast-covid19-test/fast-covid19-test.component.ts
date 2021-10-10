@@ -475,7 +475,6 @@ LastName
                                 //  debugger
                                 if (Response["d"]) {
                                     var json = JSON.parse(Response["d"]);
-                                    console.log(json);
                                     var FastCoronaTestResponse =
                                         json["FastCoronaTestResponse"];
                                     if (
@@ -483,11 +482,6 @@ LastName
                                             "QRCode"
                                         ]
                                     ) {
-                                        console.log(
-                                            FastCoronaTestResponse["FastTest"][
-                                                "QRCode"
-                                            ]
-                                        );
                                         this.createQRFromApi(
                                             FastCoronaTestResponse["FastTest"][
                                                 "QRCode"

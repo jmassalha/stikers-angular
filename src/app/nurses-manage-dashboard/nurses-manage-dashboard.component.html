@@ -1,5 +1,5 @@
 <mat-card dir="rtl" *ngIf="nursesUserPermission" id="page-toshow" style="background-color: aliceblue;padding-top: 0px;">
-    <h1 class="page-title text-center">דיווח סיעודי</h1>
+    <h1 class="page-title text-center">מערכת ג'וליה</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -144,7 +144,7 @@
                                 class="coronaNumber" *ngIf="item.CoronaNumber !== '0'" style="color: red;">מטופלי
                                 קורונה:
                                 {{item.CoronaNumber}}</span> סה"כ: {{item.OccupancyPerDepart}}
-                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה: - {{item.PercentOccupancy}}%
+                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה: {{item.PercentOccupancy}}%
                             </span>
                         </div>
                         <!-- <div class="list-style text-center" style="font-size: 24px;"> 

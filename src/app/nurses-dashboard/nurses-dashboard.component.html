@@ -23,7 +23,7 @@
 </div>
 
 <div id="page-toshow" class="padding-top-0">
-    <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup">
+    <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup" [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
         <div class="modal-header text-right">
             <div class="row mt-3">
                 <div class="col-4 text-center">{{date2}}
@@ -150,7 +150,7 @@
     </form>
 
     <app-fill-report *ngFor="let item of ELEMENT_DATA" style="font-size: small;" [reportID]="item.reportID"
-        [userFullName]="item.userFullName"></app-fill-report>
+        [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
 
 </div>
 <div class="container-fluid trans-80 mb-2">
@@ -160,15 +160,15 @@
                 <div dir="rtl" class="card-body">
                     <form class="form" [formGroup]="searchReportsGroup">
                         <div class="row">
-                            <!-- <div class="col-12">
+                            <div class="col-12" *ngIf="reportType == 'clinical'">
                                 <div class="form-group">
                                     <mat-form-field>
-                                        <input matInput autocomplete="off" placeholder="מספר מקרה"
-                                            formControlName="CaseNumber" />
+                                        <input matInput autocomplete="off" placeholder="שם מטופל"
+                                            formControlName="PatientName"/>
                                     </mat-form-field>
                                 </div>
-                            </div> -->
-                            <div class="col-6">
+                            </div>
+                            <!-- <div class="col-6">
                                 <div class="form-group lh-37">
                                     <mat-form-field>
                                         <mat-label>משמרת</mat-label>
@@ -180,8 +180,8 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                            </div>
-                            <!-- <div class="col-4">
+                            </div> -->
+                            <div class="col-6" *ngIf="reportType == 'administrative'">
                                 <div class="form-group lh-37">
                                     <mat-form-field>
                                         <mat-label>מחלקה</mat-label>
@@ -195,8 +195,8 @@
                                         </mat-autocomplete>
                                     </mat-form-field>
                                 </div>
-                            </div> -->
-                            <div class="col-6">
+                            </div>
+                            <div class="col-6" *ngIf="reportType == 'administrative'">
                                 <div class="form-group lh-37">
                                     <mat-form-field>
                                         <mat-label>קטגוריה</mat-label>
@@ -213,7 +213,7 @@
 
                         </div>
                         <div class="row">
-                            <div class="col-4">
+                            <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
                                 <div class="form-group">
                                     <mat-form-field>
                                         <input matInput formControlName="ReportStartDate" (focus)="startdate.open()"
@@ -224,7 +224,7 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
                                 <div class="form-group">
                                     <mat-form-field>
                                         <input matInput formControlName="ReportEndDate" (focus)="enddate.open()"
@@ -235,7 +235,7 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="col-4">
+                            <div class="col-4" *ngIf="reportType == 'administrative'">
                                 <div class="form-group lh-37">
                                     <mat-form-field>
                                         <mat-label>סטטוס</mat-label>

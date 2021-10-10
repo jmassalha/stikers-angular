@@ -59,10 +59,8 @@ export class FastCovidTestDashboardComponent implements OnInit {
       this.TABLE_DATA = [];
       for (var i = 0; i < this.all_Patients_array.length; i++) {
         var json = JSON.parse(this.all_Patients_array[i].TestData.ImgQrCode);
-       // console.log(json);
         var FastCoronaTestResponse = json["FastCoronaTestResponse"];
         if(FastCoronaTestResponse["FastTest"]["QRCode"]){
-          console.log(FastCoronaTestResponse["FastTest"]["QRCode"]);
           var img = "data:image/png;base64," +FastCoronaTestResponse["FastTest"]["QRCode"];
         }else{
           var img = "";
