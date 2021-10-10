@@ -83,6 +83,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         "PatientFirstName",
         "PatientLastName",
         "SurgeryScheduledDate",
+        "SurgeryScheduledTime",
         "SurgeryDoneDate",
         "SurgeryDoneTime",
         "Note",
@@ -151,7 +152,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
         this.getTableFromServer(
             this.startdateVal,
@@ -194,7 +195,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         var index = this.ListToHolde.findIndex(x => x.SurgeryIdToHolde == element.SurgeryID); 
         // here you can check specific property for an object whether it exist in your array or not
         var mrowListToHolde = {} as rowListToHolde;
-
+        //debugger
         mrowListToHolde.SurgeryIdToHolde =  element.SurgeryID;
         mrowListToHolde.PatientNumberToHolde = element.PatientNumber ;
         mrowListToHolde.SurgeryCodeToHolde = element.SurgeryCode ;
@@ -211,6 +212,8 @@ export class UrgentSurgeriesComponent implements OnInit {
     }
 
     open(content, _type, _element) {
+        this.ListToHolde = [];
+        $("#loader").removeClass("d-none");
         this.GetSurgeriesListForToday() ;
         this.CaseNumber = _element.CaseNumber;
         this.SurgeryID = _element.SurgeryID;
@@ -218,7 +221,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         if (_element.UserAdded == null || _element.UserAdded == "") {
             type = "new";
         }
-        //debugger
+        ////debugger
         this.noteForm = this.fb.group({
             SurgeryID: [_element.SurgeryID, null],
             CaseNumber: [_element.CaseNumber, null],
@@ -226,29 +229,43 @@ export class UrgentSurgeriesComponent implements OnInit {
             Type: [type, null],
             User: [localStorage.getItem("loginUserName"), null],
         });
-        this.modalService.open(content, this.modalOptions).result.then(
-            (result) => {
-                this.closeResult = `Closed with: ${result}`;
-                ////debugger
-                if ("Save" == result) {
-                    // //debugger;
-                    //this.saveChad(_element.ROW_ID);
+        this.http
+            .post(
+                "http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
+                //"http://localhost:64964/WebService.asmx/GetUrgentSurgeriesToHold",
+                {
+                    SurgeryID: this.SurgeryID,
                 }
-            },
-            (reason) => {
-                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
-            }
-        );
+            )
+            .subscribe((Response) => {
+                this.ListToHolde = Response["d"];
+                this.modalService.open(content, this.modalOptions).result.then(
+                    (result) => {
+                        this.closeResult = `Closed with: ${result}`;
+                        //////debugger
+                        if ("Save" == result) {
+                            // ////debugger;
+                            //this.saveChad(_element.ROW_ID);
+                        }
+                    },
+                    (reason) => {
+                        this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+                    }
+                );
+                setTimeout(function () {
+                    $("#loader").addClass("d-none");
+                });
+            });
+        
     }
     openSurgeriesList(content, _type, _element) {
-        debugger
         //this.ListToHolde
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -263,14 +280,14 @@ export class UrgentSurgeriesComponent implements OnInit {
                 this.openSnackBarError();
             return;
         }
-        ////debugger
+        //////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
         this.http
             .post(
-                //"http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
-                "http://localhost:64964/WebService.asmx/UrgentSurgeriesSubmitNote",
+                "http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
+                //"http://localhost:64964/WebService.asmx/UrgentSurgeriesSubmitNote",
                 {
                     _noteForm: this.noteForm.value,
                     ListToHolde: this.ListToHolde,
@@ -326,7 +343,7 @@ export class UrgentSurgeriesComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -345,7 +362,7 @@ export class UrgentSurgeriesComponent implements OnInit {
                 var json = JSON.parse(Response["d"]);
                 let json_2 = JSON.parse(json);
                 let SarsData = JSON.parse(json_2["aaData"]);
-                // debugger;
+                // //debugger;
                 for (var i = 0; i < SarsData.length; i++) {
                     this.TABLE_DATA.push({
                         SurgeryID: SarsData[i].SurgeryID,
@@ -367,13 +384,13 @@ export class UrgentSurgeriesComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
                     JSON.parse(json_2["iTotalRecords"])
                 );
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -381,20 +398,20 @@ export class UrgentSurgeriesComponent implements OnInit {
             });
     }
     public deleteFromList(index: any){
-       // debugger
+       // //debugger
          this.ListToHolde.splice(index, index+1);
          
     }
     public GetSurgeriesListForToday() {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         this.http
-            //.post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeriesListForToday", {
-            .post("http://localhost:64964/WebService.asmx/GetSurgeriesListForToday",{
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeriesListForToday", {
+            //.post("http://localhost:64964/WebService.asmx/GetSurgeriesListForToday",{
                 }
             )
             .subscribe((Response) => {
@@ -402,12 +419,13 @@ export class UrgentSurgeriesComponent implements OnInit {
                 var json = JSON.parse(Response["d"]);
                // let json_2 = JSON.parse(json);
                 let SarsData = JSON.parse(json["aaData"]);
-                // debugger;
+                // //debugger;
                 for (var i = 0; i < SarsData.length; i++) {
                     this.TABLE_DATA_FOR_TODY.push({
                         SurgeryID: SarsData[i].SurgeryID,
                         PatientNumber: SarsData[i].PatientNumber,
-                        SurgeryScheduledDate: SarsData[i].SurgeryScheduledDate,
+                        SurgeryScheduledDate: SarsData[i].SurgeryScheduledDate,                        
+                        SurgeryScheduledTime: SarsData[i].SurgeryScheduledTime,
                         Depart: SarsData[i].Depart,
                         SurgeryRoom: SarsData[i].Depart,
                         SurgeryName: SarsData[i].SurgeryName,
@@ -416,7 +434,7 @@ export class UrgentSurgeriesComponent implements OnInit {
                 }
                 this.dataSourceForToday = new MatTableDataSource<any>(this.TABLE_DATA_FOR_TODY);               
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
