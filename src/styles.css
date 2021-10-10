@@ -10,7 +10,17 @@ footer {
 .pd-60{
     padding-bottom: 60px;
 }
-
+.row.boder-me{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: 1px solid #d3d3d3;
+    padding: 27px 0 10px;
+    box-shadow: 0px 0px 3px 0px #000;
+    border-radius: 7px;
+}
+#addBtnU.mat-fab .mat-button-wrapper {
+    padding: 0px 0 !important;
+}
 .cal-month-view .cal-day-cell:not(:last-child) {
     border-left: 1px solid  #e1e1e1 !important;
 }

@@ -26,24 +26,33 @@ import {
     Validators,
 } from "@angular/forms";
 export interface TableRow {
-    SurgeryID: string;
-    PatientId: string;
-    PatientNumber: string;
-    PatientFirstName: string;
-    PatientLastName: string;
-    SurgeryScheduledDate: string;
-    SurgeryScheduledTime: string;
-    SurgeryDoneDate: string;
-    SurgeryDoneTime: string;
-    CaseNumber: string;
-    Depart: string;
-    Note: string;
-    UserAdded: string;
-    UpdatedUser: string;
-    SurgeryName: string;
-    SurgeryCode: string;
+    SurgeryID?: string;
+    PatientId?: string;
+    PatientNumber?: string;
+    PatientFirstName?: string;
+    PatientLastName?: string;
+    SurgeryScheduledDate?: string;
+    SurgeryScheduledTime?: string;
+    SurgeryDoneDate?: string;
+    SurgeryDoneTime?: string;
+    CaseNumber?: string;
+    Depart?: string;
+    Note?: string;
+    UserAdded?: string;
+    UpdatedUser?: string;
+    SurgeryName?: string;
+    SurgeryCode?: string;
+    SurgeryRoom?: string;
 }
-
+export interface rowListToHolde{
+    SurgeryIdToHolde?: string;
+    PatientNumberToHolde?: string;
+    SurgeryCodeToHolde?: string;
+    SurgeryNameToHolde?: string;
+    SurgeryDepartToHolde?: string;
+    SurgeryDateToHolde?: string;
+    SurgeryTimeToHolde?: string;
+}
 @Component({
     selector: "app-urgent-surgeries",
     templateUrl: "./urgent-surgeries.component.html",
@@ -55,6 +64,16 @@ export class UrgentSurgeriesComponent implements OnInit {
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
+    displayedColumnsList: string[] = [
+        "SurgeryID",
+        "PatientNumber",
+        "SurgeryCode",
+        "SurgeryName",
+        "Depart",
+        "SurgeryScheduledDate",
+        "SurgeryScheduledTime",
+        "CLICK",
+    ];
     displayedColumns: string[] = [
         "CaseNumber",
         "Depart",
@@ -70,10 +89,14 @@ export class UrgentSurgeriesComponent implements OnInit {
         "CLICK",
     ];
     CaseNumber: string = "";
+    SurgeryID: string = "";
     modalOptions: NgbModalOptions;
     closeResult: string;
+    TABLE_DATA_FOR_TODY: TableRow[] = [];
     TABLE_DATA: TableRow[] = [];
+    ListToHolde: rowListToHolde[] = [];
     rowFormData = {} as TableRow;
+    dataSourceForToday = new MatTableDataSource(this.TABLE_DATA_FOR_TODY);
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     loader: Boolean;
     tableLoader: Boolean;
@@ -103,6 +126,7 @@ export class UrgentSurgeriesComponent implements OnInit {
     ngOnInit() {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
+        this.dataSourceForToday = new MatTableDataSource(this.TABLE_DATA_FOR_TODY);
         let dateIn = new Date();
         dateIn.setDate(dateIn.getDate() - 1);
         this.Sdate = new FormControl(dateIn);
@@ -147,6 +171,15 @@ export class UrgentSurgeriesComponent implements OnInit {
         });
     }
 
+    openSnackBarError() {
+        this._snackBar.open("לא נבח ניתוח לדחות...!", "", {
+            duration: 2500,
+            direction: "rtl",
+            panelClass: "error",
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+        });
+    }
     getReport($event: any): void {
         if (this.startdateVal && this.enddateVal)
             this.getTableFromServer(
@@ -157,26 +190,35 @@ export class UrgentSurgeriesComponent implements OnInit {
                 this.fliterVal
             );
     }
+    add(element:TableRow){
+        var index = this.ListToHolde.findIndex(x => x.SurgeryIdToHolde == element.SurgeryID); 
+        // here you can check specific property for an object whether it exist in your array or not
+        var mrowListToHolde = {} as rowListToHolde;
+
+        mrowListToHolde.SurgeryIdToHolde =  element.SurgeryID;
+        mrowListToHolde.PatientNumberToHolde = element.PatientNumber ;
+        mrowListToHolde.SurgeryCodeToHolde = element.SurgeryCode ;
+        mrowListToHolde.SurgeryNameToHolde = element.SurgeryName ;
+        mrowListToHolde.SurgeryDepartToHolde = element.Depart ;
+        mrowListToHolde.SurgeryDateToHolde = element.SurgeryScheduledDate ;
+        mrowListToHolde.SurgeryTimeToHolde = element.SurgeryScheduledTime ;
+        index === -1 ? this.ListToHolde.push(mrowListToHolde) : console.log("object already exists");
+    }
     applyFilter(filterValue: string) {
-        this.fliterVal = filterValue;
-        if (this.startdateVal && this.enddateVal) {
-            this.getTableFromServer(
-                this.startdateVal,
-                this.enddateVal,
-                this.paginator.pageIndex,
-                this.paginator.pageSize,
-                this.fliterVal
-            );
-        }
-        //this.dataSource.filter = filterValue.trim().toLowerCase();
+        // filterValue = filterValue.trim(); // Remove whitespace
+        // filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+        this.dataSourceForToday.filter = filterValue;
     }
 
     open(content, _type, _element) {
+        this.GetSurgeriesListForToday() ;
         this.CaseNumber = _element.CaseNumber;
+        this.SurgeryID = _element.SurgeryID;
         var type = "update";
         if (_element.UserAdded == null || _element.UserAdded == "") {
             type = "new";
         }
+        //debugger
         this.noteForm = this.fb.group({
             SurgeryID: [_element.SurgeryID, null],
             CaseNumber: [_element.CaseNumber, null],
@@ -198,8 +240,27 @@ export class UrgentSurgeriesComponent implements OnInit {
             }
         );
     }
+    openSurgeriesList(content, _type, _element) {
+        debugger
+        //this.ListToHolde
+        this.modalService.open(content, this.modalOptions).result.then(
+            (result) => {
+                this.closeResult = `Closed with: ${result}`;
+                ////debugger
+                if ("Save" == result) {
+                    // //debugger;
+                    //this.saveChad(_element.ROW_ID);
+                }
+            },
+            (reason) => {
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            }
+        );
+    }
     onSubmit() {
-        if (this.noteForm.invalid) {
+        if (this.noteForm.invalid || this.ListToHolde.length == 0) {
+            if(this.ListToHolde.length == 0)
+                this.openSnackBarError();
             return;
         }
         ////debugger
@@ -208,10 +269,11 @@ export class UrgentSurgeriesComponent implements OnInit {
         });
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
                 //"http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
+                "http://localhost:64964/WebService.asmx/UrgentSurgeriesSubmitNote",
                 {
                     _noteForm: this.noteForm.value,
+                    ListToHolde: this.ListToHolde,
                 }
             )
             .subscribe((Response) => {
@@ -310,6 +372,49 @@ export class UrgentSurgeriesComponent implements OnInit {
                 this.resultsLength = parseInt(
                     JSON.parse(json_2["iTotalRecords"])
                 );
+                setTimeout(function () {
+                    ////debugger
+                    if (tableLoader) {
+                        $("#loader").addClass("d-none");
+                    }
+                });
+            });
+    }
+    public deleteFromList(index: any){
+       // debugger
+         this.ListToHolde.splice(index, index+1);
+         
+    }
+    public GetSurgeriesListForToday() {
+        let tableLoader = false;
+        if ($("#loader").hasClass("d-none")) {
+            // //debugger
+            tableLoader = true;
+            $("#loader").removeClass("d-none");
+        }
+        this.http
+            //.post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeriesListForToday", {
+            .post("http://localhost:64964/WebService.asmx/GetSurgeriesListForToday",{
+                }
+            )
+            .subscribe((Response) => {
+                this.TABLE_DATA_FOR_TODY.splice(0, this.TABLE_DATA_FOR_TODY.length);
+                var json = JSON.parse(Response["d"]);
+               // let json_2 = JSON.parse(json);
+                let SarsData = JSON.parse(json["aaData"]);
+                // debugger;
+                for (var i = 0; i < SarsData.length; i++) {
+                    this.TABLE_DATA_FOR_TODY.push({
+                        SurgeryID: SarsData[i].SurgeryID,
+                        PatientNumber: SarsData[i].PatientNumber,
+                        SurgeryScheduledDate: SarsData[i].SurgeryScheduledDate,
+                        Depart: SarsData[i].Depart,
+                        SurgeryRoom: SarsData[i].Depart,
+                        SurgeryName: SarsData[i].SurgeryName,
+                        SurgeryCode: SarsData[i].SurgeryCode,
+                    });
+                }
+                this.dataSourceForToday = new MatTableDataSource<any>(this.TABLE_DATA_FOR_TODY);               
                 setTimeout(function () {
                     ////debugger
                     if (tableLoader) {
