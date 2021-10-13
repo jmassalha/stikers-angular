@@ -49,37 +49,16 @@ export interface EmailSender {
   EmailDateTime: string;
 }
 
-export interface CompType {
-  value: string;
-  viewValue: string;
-}
-
-export interface CompRelated {
-  value: string;
-  viewValue: string;
-}
-
 export interface EmailDepartment {
   deptVal: string;
 }
 
-export interface CompSource {
-  value: string;
-  viewValue: string;
-}
-export interface CompSektor {
-  value: string;
-  viewValue: string;
-}
 export interface DeadLine {
   value: string;
   viewValue: string;
 }
 
-export interface CompAmbolatory {
-  value: string;
-  viewValue: string;
-}
+
 export interface CompDepts {
   value: string;
   viewValue: string;
@@ -96,28 +75,12 @@ export class EmailmanagementComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  compTypeList: CompType[] = [
-    { value: 'Job', viewValue: 'חיפוש משרה' },
-    { value: 'Thank', viewValue: 'תודה' },
-    { value: 'Complaint', viewValue: 'תלונה' },
-    { value: 'Inquiry', viewValue: 'פנייה' },
-    { value: 'Other', viewValue: 'אחר' },
-  ];
+  compTypeList: any[] = [];
 
-  compRelatedPerson: CompRelated[] = [
-    { value: 'Patient', viewValue: 'מטופל' },
-    { value: 'Family', viewValue: 'בן משפחה' },
-    { value: 'Clinic', viewValue: 'מרפאה' },
-    { value: 'HealthMinistry', viewValue: 'משרד הבריאות' },
-    { value: 'Lawyer', viewValue: 'עו"ד' },
-    { value: 'Other', viewValue: 'אחר' },
-  ];
+  compRelatedPerson: any[] = [];
 
-  compAmbolatory: CompAmbolatory[] = [
-    { value: '0', viewValue: 'אמבולטורי' },
-    { value: '1', viewValue: 'בזמן אשפוז' },
-    { value: '3', viewValue: 'לאחר שחרור מאשפוז' },
-  ];
+  compAmbolatory: any[] = [];
+
   compDepts: any[] = [
     { value: 'MRI', viewValue: 'MRI' },
     { value: 'מיילדותי us', viewValue: 'מיילדותי us' },
@@ -143,7 +106,7 @@ export class EmailmanagementComponent implements OnInit {
     { value: 'כירורגיה לב חזה', viewValue: 'כירורגיה לב חזה' },
     { value: 'מלר"ד', viewValue: 'מלר"ד' },
     { value: 'מלר"ד ילדים', viewValue: 'מלר"ד ילדים' },
-    { value: 'מעברים', viewValue: 'מעברים' },
+    { value: 'משק וחצרנות', viewValue: 'משק וחצרנות' },
     { value: 'מרפאה אורולוגיה', viewValue: 'מרפאה אורולוגיה' },
     { value: 'מרפאה אורטופידית', viewValue: 'מרפאה אורטופידית' },
     { value: 'מרפאה נשים', viewValue: 'מרפאה נשים' },
@@ -174,24 +137,9 @@ export class EmailmanagementComponent implements OnInit {
     { value: '3', viewValue: '3 שבועות' },
   ];
 
-  compSektor: CompSektor[] = [
-    { value: 'Nursing', viewValue: 'סיעוד' },
-    { value: 'Manmash', viewValue: 'מנמ"ש' },
-    { value: 'Medical', viewValue: 'רפואי' },
-    { value: 'ParaMedical', viewValue: 'פרא רפואי' },
-    { value: 'Other', viewValue: 'אחר' },
-  ];
+  compSektor: any[] = [];
 
-  compSource: CompSource[] = [
-    { value: 'MedicalCenterWebsite', viewValue: 'אתר המרכז הרפואי' },
-    { value: 'Fax', viewValue: 'פקס' },
-    { value: 'Survey', viewValue: 'סקר' },
-    { value: 'Email', viewValue: 'אימייל' },
-    { value: 'Phone', viewValue: 'טלפון' },
-    { value: 'Facebook', viewValue: 'פייסבוק' },
-    { value: 'Frontal', viewValue: 'פנייה פרונטלית' },
-    { value: 'PublicInquiryBox', viewValue: 'תיבת פניות ציבור' },
-  ];
+  compSource: any[] = [];
 
   currentYear = new Date().getFullYear();
   currentMonth = new Date().getMonth();
@@ -337,7 +285,7 @@ export class EmailmanagementComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"] == "found") {
           this.openSnackBar("! נשלח בהצלחה לנמען");
-        } else if(Response["d"] == "Exists"){
+        } else if (Response["d"] == "Exists") {
           this.openSnackBar("! כבר משוייך לפנייה");
         } else {
           this.openSnackBar("! נמען לא קיים");
@@ -394,9 +342,9 @@ export class EmailmanagementComponent implements OnInit {
       this.router.navigate(['emailsdashboard']);
       window.location.reload();
     } else {
-      if(this.manageComplaintForm.controls['Comp_Department'].value === null){
+      if (this.manageComplaintForm.controls['Comp_Department'].value === null) {
         this.openSnackBar("נא לבחור מחלקה");
-      }else{
+      } else {
         this.openSnackBar("שדה חובה לא תקין");
       }
     }
@@ -520,7 +468,47 @@ export class EmailmanagementComponent implements OnInit {
           this.users.push(element);
         })
       });
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetAmbolatory", {
 
+      })
+      .subscribe((Response) => {
+        Response["d"].forEach(element => {
+          this.compAmbolatory.push(element);
+        })
+      });
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetEmailSubject", {
 
+      })
+      .subscribe((Response) => {
+        Response["d"].forEach(element => {
+          this.compSource.push(element);
+        })
+      });
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetCompTypes", {
+      })
+      .subscribe((Response) => {
+        Response["d"].forEach(element => {
+          this.compTypeList.push(element);
+        })
+      });
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetCompPesronRelat", {
+      })
+      .subscribe((Response) => {
+        Response["d"].forEach(element => {
+          this.compRelatedPerson.push(element);
+        })
+      });
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetSektors", {
+      })
+      .subscribe((Response) => {
+        Response["d"].forEach(element => {
+          this.compSektor.push(element);
+        })
+      });
   }
 }

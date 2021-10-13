@@ -134,8 +134,14 @@
             </div>
         </div>
         <div class="modal-footer text-left">
-            <button matTooltip="שמירה" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
+            <button matTooltip="דוח חדש" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
                 (click)="onSubmit('0')" type="submit" mat-raised-button>
+                <span class="material-icons">
+                    create_new_folder
+                </span>
+            </button>
+            <button matTooltip="שמור והמשך דיווח" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
+                (click)="onSubmit('1')" type="submit" mat-raised-button>
                 <span class="material-icons">
                     save
                 </span>
