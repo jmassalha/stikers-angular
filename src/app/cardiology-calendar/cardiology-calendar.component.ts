@@ -79,7 +79,7 @@ export class CardiologyCalendarComponent implements OnInit {
     action: string;
     event: CalendarEvent;
   };
-  
+
   actions: CalendarEventAction[] = [
     {
       label: '<i class="fas fa-fw fa-pencil-alt"></i>',
@@ -116,6 +116,7 @@ export class CardiologyCalendarComponent implements OnInit {
   activeDayIsOpen: boolean = true;
   patientSearch: FormGroup;
   date = new Date();
+  UserName = localStorage.getItem("loginUserName").toLowerCase();
 
   constructor(
     private modal: NgbModal,
@@ -126,20 +127,22 @@ export class CardiologyCalendarComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef) { }
-    
+
   ngOnInit(): void {
-    this.patientSearch = new FormGroup({
-      'searchWord': new FormControl('', null),
-      'passportSearch': new FormControl('', null),
-      'fromDate': new FormControl('', null),
-      'untilDate': new FormControl('', null),
-    });
-    let month = this.datePipe.transform(this.viewDate, 'MM');
-    this.getPatientsQueues(month);
-    this.getactionsList();
-    this.filteredActions = this.actionCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter(fruit) : this._actionsList.slice()));
+    if (this.UserName != null) {
+      this.patientSearch = new FormGroup({
+        'searchWord': new FormControl('', null),
+        'passportSearch': new FormControl('', null),
+        'fromDate': new FormControl('', null),
+        'untilDate': new FormControl('', null),
+      });
+      let month = this.datePipe.transform(this.viewDate, 'MM');
+      this.getPatientsQueues(month);
+      this.getactionsList();
+      this.filteredActions = this.actionCtrl.valueChanges.pipe(
+        startWith(null),
+        map((fruit: string | null) => fruit ? this._filter(fruit) : this._actionsList.slice()));
+    }
   }
 
   add(event: MatChipInputEvent, inputName, personQueue): void {
@@ -257,7 +260,7 @@ export class CardiologyCalendarComponent implements OnInit {
           start: startOfDay(event),
           color: colors.red,
           draggable: true,
-          actions: this.actions,
+          // actions: this.actions,
           resizable: {
             beforeStart: true,
             afterEnd: true,
@@ -273,7 +276,7 @@ export class CardiologyCalendarComponent implements OnInit {
     });
   }
 
-  deleteEvent(eventToDelete: CalendarEvent,day) {
+  deleteEvent(eventToDelete: CalendarEvent, day) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/DeleteEventInCalendarCardiology", {
         _rowID: eventToDelete.patientAction.Row_ID
@@ -296,17 +299,17 @@ export class CardiologyCalendarComponent implements OnInit {
     this.view = view;
   }
 
-  closeOpenMonthViewDay(){
+  closeOpenMonthViewDay() {
     let month = this.datePipe.transform(this.viewDate, 'MM');
     this.getPatientsQueues(month);
     this.activeDayIsOpen = false;
   }
 
   saveDayEvents(day) {
-    
+
     $("#loader").removeClass("d-none");
     let that = this;
-    setTimeout(function(){
+    setTimeout(function () {
       let thisDate = that.datePipe.transform(day, 'yyyy-MM-dd');
       let thisDateEvents = that.events.filter(t => t.patientAction.ArrivalDate === thisDate);
       that.http
@@ -320,11 +323,11 @@ export class CardiologyCalendarComponent implements OnInit {
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-          
+
           $("#loader").addClass("d-none");
         });
     }, 1000)
-    
+
   }
 
   getPatientsQueues(month) {
@@ -344,7 +347,7 @@ export class CardiologyCalendarComponent implements OnInit {
         tempArr = Response["d"];
         tempArr.forEach(element => {
           element.draggable = true,
-            element.actions = this.actions,
+            // element.actions = this.actions,
             element.resizable = {
               beforeStart: true,
               afterEnd: true,

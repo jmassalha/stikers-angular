@@ -290,8 +290,8 @@
                                 <label>סוג פניה</label>
                                 <mat-form-field class="full-width">
                                     <mat-select formControlName="Comp_Type" ng-model="myVar" required>
-                                        <mat-option *ngFor="let type of compTypeList" [value]="type.value">
-                                            {{type.viewValue}}
+                                        <mat-option *ngFor="let type of compTypeList" [value]="type.EnName">
+                                            {{type.HeName}}
                                         </mat-option>
                                     </mat-select>
                                 </mat-form-field>
@@ -305,8 +305,8 @@
                             </div>
                             <mat-form-field class="full-width">
                                 <mat-select formControlName="Comp_Source" ng-model="myVar">
-                                    <mat-option *ngFor="let related of compSource" [value]="related.value">
-                                        {{related.viewValue}}
+                                    <mat-option *ngFor="let related of compSource" [value]="related.SubjectName">
+                                        {{related.SubjectHeName}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -335,8 +335,8 @@
                             </div>
                             <mat-radio-group class="example-radio-group mt-3" formControlName="Ambolatory">
                                 <div class="d-block" *ngFor="let ambolatory of compAmbolatory">
-                                    <mat-radio-button style="float: right;" [value]="ambolatory.value">
-                                        {{ambolatory.viewValue}}</mat-radio-button>
+                                    <mat-radio-button style="float: right;" [value]="ambolatory.Code">
+                                        {{ambolatory.Name}}</mat-radio-button>
                                 </div>
                             </mat-radio-group>
                         </li>
@@ -348,8 +348,8 @@
                             </div>
                             <mat-form-field class="full-width">
                                 <mat-select formControlName="Comp_Pesron_Relat" ng-model="myVar">
-                                    <mat-option *ngFor="let related of compRelatedPerson" [value]="related.value">
-                                        {{related.viewValue}}
+                                    <mat-option *ngFor="let related of compRelatedPerson" [value]="related.EnName">
+                                        {{related.HeName}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
@@ -374,8 +374,8 @@
                             </div>
                             <mat-form-field class="full-width">
                                 <mat-select formControlName="Comp_Sektor" ng-model="myVar">
-                                    <mat-option *ngFor="let sektor of compSektor" [value]="sektor.value">
-                                        {{sektor.viewValue}}
+                                    <mat-option *ngFor="let sektor of compSektor" [value]="sektor.EnName">
+                                        {{sektor.HeName}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>

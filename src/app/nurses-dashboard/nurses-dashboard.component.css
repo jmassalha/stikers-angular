@@ -97,6 +97,9 @@ table {
     #form-html-templet .card-header * {
         padding: 0 !important;
     }
+    #page-toshow{
+      width: 900px;
+    }
     .card {
         padding: 0 !important;
         border: 0;

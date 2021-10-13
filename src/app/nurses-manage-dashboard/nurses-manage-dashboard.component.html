@@ -1,5 +1,5 @@
 <mat-card dir="rtl" *ngIf="nursesUserPermission" id="page-toshow" style="background-color: aliceblue;padding-top: 0px;">
-    <h1 class="page-title text-center">מערכת ג'וליה</h1>
+    <h1 class="page-title text-center">מערכת דיווח סיעודית</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -140,12 +140,24 @@
                             <span
                                 *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
                         </div>
-                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name"><span
-                                class="coronaNumber" *ngIf="item.CoronaNumber !== '0'" style="color: red;">מטופלי
-                                קורונה:
-                                {{item.CoronaNumber}}</span> סה"כ: {{item.OccupancyPerDepart}}
-                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה: {{item.PercentOccupancy}}%
-                            </span>
+                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name">
+                            <div class="col-3">
+                                <span class="coronaNumber" *ngIf="item.CoronaNumber !== '0'" style="color: red;">מטופלי
+                                    קורונה:
+                                    {{item.CoronaNumber}}
+                                </span>
+                            </div>
+                            <div class="col-6" style="margin-right: 150px;">
+                                סה"כ: {{item.OccupancyPerDepart}}
+                                <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה:
+                                    {{item.PercentOccupancy}}%
+                                </span>
+                            </div>
+                            <div class="col-3">
+
+                            </div>
+
+
                         </div>
                         <!-- <div class="list-style text-center" style="font-size: 24px;"> 
                         </div> -->
