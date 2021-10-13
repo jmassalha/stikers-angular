@@ -18,7 +18,7 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import * as Fun from "../public.functions";
-import { Time } from "@angular/common";
+import { DatePipe, Time } from "@angular/common";
 import {
     FormControl,
     FormBuilder,
@@ -52,6 +52,8 @@ export interface rowListToHolde{
     SurgeryDepartToHolde?: string;
     SurgeryDateToHolde?: string;
     SurgeryTimeToHolde?: string;
+    Depart?: string;
+    Room?: string;
 }
 @Component({
     selector: "app-urgent-surgeries",
@@ -70,6 +72,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         "SurgeryCode",
         "SurgeryName",
         "Depart",
+        "Room",
         "SurgeryScheduledDate",
         "SurgeryScheduledTime",
         "CLICK",
@@ -110,7 +113,8 @@ export class UrgentSurgeriesComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         public fb: FormBuilder,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private datePipe: DatePipe
     ) {
         this.noteForm = this.fb.group({
             SurgeryID: ["", null],
@@ -203,6 +207,8 @@ export class UrgentSurgeriesComponent implements OnInit {
         mrowListToHolde.SurgeryDepartToHolde = element.Depart ;
         mrowListToHolde.SurgeryDateToHolde = element.SurgeryScheduledDate ;
         mrowListToHolde.SurgeryTimeToHolde = element.SurgeryScheduledTime ;
+        mrowListToHolde.Depart = element.Depart ;
+        mrowListToHolde.Room = element.SurgeryRoom ;
         index === -1 ? this.ListToHolde.push(mrowListToHolde) : console.log("object already exists");
     }
     applyFilter(filterValue: string) {
@@ -214,7 +220,7 @@ export class UrgentSurgeriesComponent implements OnInit {
     open(content, _type, _element) {
         this.ListToHolde = [];
         $("#loader").removeClass("d-none");
-        this.GetSurgeriesListForToday() ;
+        this.GetSurgeriesListForToday(_element.SurgeryScheduledDate) ;
         this.CaseNumber = _element.CaseNumber;
         this.SurgeryID = _element.SurgeryID;
         var type = "update";
@@ -231,7 +237,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         });
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
+                "http://srv-apps/wsrfc/WebService.asmx/GetUrgentSurgeriesToHold",
                 //"http://localhost:64964/WebService.asmx/GetUrgentSurgeriesToHold",
                 {
                     SurgeryID: this.SurgeryID,
@@ -402,16 +408,19 @@ export class UrgentSurgeriesComponent implements OnInit {
          this.ListToHolde.splice(index, index+1);
          
     }
-    public GetSurgeriesListForToday() {
+    public GetSurgeriesListForToday(date: any) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
             // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
+        var d = date.split("-");
+        date = d[2]+"-"+d[1]+"-"+d[0];
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeriesListForToday", {
             //.post("http://localhost:64964/WebService.asmx/GetSurgeriesListForToday",{
+                    date: date
                 }
             )
             .subscribe((Response) => {
@@ -427,7 +436,7 @@ export class UrgentSurgeriesComponent implements OnInit {
                         SurgeryScheduledDate: SarsData[i].SurgeryScheduledDate,                        
                         SurgeryScheduledTime: SarsData[i].SurgeryScheduledTime,
                         Depart: SarsData[i].Depart,
-                        SurgeryRoom: SarsData[i].Depart,
+                        SurgeryRoom: SarsData[i].SurgeryRoom,
                         SurgeryName: SarsData[i].SurgeryName,
                         SurgeryCode: SarsData[i].SurgeryCode,
                     });

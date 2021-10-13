@@ -303,6 +303,12 @@
                                 {{ element.Depart }}
                             </td>
                         </ng-container>
+                        <ng-container matColumnDef="Room">
+                            <th mat-header-cell *matHeaderCellDef>חדר</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.SurgeryRoom }}
+                            </td>
+                        </ng-container>
                         <ng-container matColumnDef="SurgeryScheduledDate">
                             <th mat-header-cell *matHeaderCellDef>
                                 תאריך ניתוח
