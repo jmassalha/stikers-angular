@@ -97,7 +97,7 @@
                                 <input matInput (keyup)="applyFilter($event)" placeholder="התחל הקלדה ..." #input>
                             </mat-form-field>
                             <div class="amin">
-                                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+                                <mat-table   [dataSource]="dataSource" class="mat-elevation-z8"
                                     formArrayName="PatientsServicesList">
                                     <ng-container matColumnDef="code">
                                         <th mat-header-cell *matHeaderCellDef style="text-align: center;"> קוד שירות
@@ -137,7 +137,12 @@
                                         <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"
                                         </td>
                                     </tr>
-                                </table>
+                                    
+                                </mat-table>
+                                <mat-paginator                                                                           
+                                        [pageSize]="5"
+                                        showFirstLastButtons                                        
+                                    ></mat-paginator>
                             </div>
                         </div>
                     </div>

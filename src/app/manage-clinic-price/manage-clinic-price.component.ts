@@ -1,10 +1,11 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog } from '@angular/material/dialog';
+import { MatPaginator } from '@angular/material/paginator';
 
 
 export interface Department {
@@ -24,9 +25,9 @@ export interface Services {
   styleUrls: ['./manage-clinic-price.component.css']
 })
 export class ManageClinicPriceComponent implements OnInit {
-
+  dataSource = new MatTableDataSource<any>();
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[] = ['code', 'name', 'quantity'];
-  dataSource = new MatTableDataSource<Services>();
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -49,7 +50,7 @@ export class ManageClinicPriceComponent implements OnInit {
     private datePipe: DatePipe,
     private http: HttpClient,
     private _snackBar: MatSnackBar) { }
-
+    resultsLength: any;
   PatientElement: any;
   ifEdit: number;
   versionSelection: string;
@@ -189,7 +190,10 @@ export class ManageClinicPriceComponent implements OnInit {
             DepartCode: departCode,
             PatientsServicesList: PatientsServicesList
           });
-          this.dataSource = new MatTableDataSource<Services>(ELEMENT_DATA);
+          this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
+          debugger
+          //this.resultsLength = this.dataSource.data.length;
+          this.dataSource.paginator = this.paginator;
           this.searchingProgress = false;
         });
     }
