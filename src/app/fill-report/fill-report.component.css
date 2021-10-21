@@ -9,6 +9,11 @@
     background: #ff8484;
 }
 
+.col-5{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
 .col-4,.col-3,h5,h6{
     font-family: 'math';
     font-weight: bolder;

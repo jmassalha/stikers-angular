@@ -57,7 +57,6 @@ export class NursesManageDashboardComponent implements OnInit {
     this.loaded = false;
     this.searchWord = "";
     this.getAllDeparts();
-    this.getDataFormServer("");
     this.getEROccupancy('', 'er');
 
     // this.NursesSystemPermission();
@@ -68,6 +67,9 @@ export class NursesManageDashboardComponent implements OnInit {
     dialogRef.componentInstance.departCode = departCode;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
     dialogRef.componentInstance.ifAdmin = ifAdmin;
+    if(departCode == 'סח-ל'){
+      dialogRef.componentInstance.deliveryRoomDialog = 'DeliveryRoom';
+    }
     dialogRef.afterClosed()
       .subscribe((data) => {
         if (!data) {
@@ -149,6 +151,9 @@ export class NursesManageDashboardComponent implements OnInit {
           }
         }, 1500);
         this.loaded = true;
+        let numberOfPatients = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfPatients;
+        let numberOfBeds = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfBeds;
+        this.getDataFormServer("",numberOfPatients,numberOfBeds);
       });
   }
 
@@ -198,7 +203,7 @@ export class NursesManageDashboardComponent implements OnInit {
       });
   }
 
-  public getDataFormServer(_Depart: string) {
+  public getDataFormServer(_Depart: string,numberOfPatients,numberOfBeds) {
     this.http
       .post(
         "http://srv-apps/wsrfc/WebService.asmx/TfosaDashBoardApp",
@@ -209,30 +214,30 @@ export class NursesManageDashboardComponent implements OnInit {
       .subscribe(
         (Response) => {
           var obj = JSON.parse(Response["d"]);
-          var aobjTotal = JSON.parse(obj["total"]);
-          var aobj = JSON.parse(obj["DepartObjects"]);
-          var totalReal = JSON.parse(obj["totalReal"]);
+          // var aobjTotal = JSON.parse(obj["total"]);
+          // var aobj = JSON.parse(obj["DepartObjects"]);
+          // var totalReal = JSON.parse(obj["totalReal"]);
           this.resparotriesCount = JSON.parse(obj["totalReal2"]);
-          var aaobj = JSON.parse("[" + aobj[0] + "]");
-          aobjTotal = $.parseJSON(aobjTotal);
-          this.hospitalBedsInUse = aobjTotal.total;
-          aaobj.forEach((element, index) => {
-            if (element.BedsReal != "0") {
-              for (var i = index + 1; i < aaobj.length; i++) {
-                if (aaobj[i].BedsReal == "0") {
-                  element.Used =
-                    parseInt(element.Used) +
-                    parseInt(aaobj[i].Used);
-                } else {
-                  break;
-                }
-              }
-            } else {
-            }
-          });
-          this.Departmints["departs"] = aaobj;
+          // var aaobj = JSON.parse("[" + aobj[0] + "]");
+          // aobjTotal = $.parseJSON(aobjTotal);
+          this.hospitalBedsInUse = numberOfPatients;
+          // aaobj.forEach((element, index) => {
+          //   if (element.BedsReal != "0") {
+          //     for (var i = index + 1; i < aaobj.length; i++) {
+          //       if (aaobj[i].BedsReal == "0") {
+          //         element.Used =
+          //           parseInt(element.Used) +
+          //           parseInt(aaobj[i].Used);
+          //       } else {
+          //         break;
+          //       }
+          //     }
+          //   } else {
+          //   }
+          // });
+          // this.Departmints["departs"] = aaobj;
           this.Departmints["total"] = parseInt(
-            ((aobjTotal.total / parseInt(totalReal)) * 100).toFixed(
+            ((numberOfPatients / numberOfBeds) * 100).toFixed(
               0
             )
           );

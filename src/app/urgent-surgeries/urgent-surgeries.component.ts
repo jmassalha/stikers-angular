@@ -238,7 +238,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps/wsrfc/WebService.asmx/GetUrgentSurgeriesToHold",
-                //"http://localhost:64964/WebService.asmx/GetUrgentSurgeriesToHold",
+                //"http://srv-apps/wsrfc/WebService.asmx/GetUrgentSurgeriesToHold",
                 {
                     SurgeryID: this.SurgeryID,
                 }
@@ -293,7 +293,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
-                //"http://localhost:64964/WebService.asmx/UrgentSurgeriesSubmitNote",
+                //"http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
                 {
                     _noteForm: this.noteForm.value,
                     ListToHolde: this.ListToHolde,
@@ -419,7 +419,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         date = d[2]+"-"+d[1]+"-"+d[0];
         this.http
             .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeriesListForToday", {
-            //.post("http://localhost:64964/WebService.asmx/GetSurgeriesListForToday",{
+            //.post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeriesListForToday",{
                     date: date
                 }
             )

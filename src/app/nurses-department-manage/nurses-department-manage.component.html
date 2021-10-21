@@ -20,7 +20,7 @@
         </div>
       </div>
       <div class="row">
-        <table dir="rtl" mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <table mat-table dir="rtl" [dataSource]="dataSource" class="mat-elevation-z8">
 
           <ng-container matColumnDef="nursing">
             <th mat-header-cell *matHeaderCellDef> תפוסה סיעודית </th>
@@ -115,15 +115,19 @@
             <i class="material-icons">face</i>
           </button>
         </div>
-        <div class="col text-right">
-          <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'" class="btn btn-primary btn-raised"
+        <div class="col text-right" style="display: inline-flex;justify-content: right;">
+          <button mat-raised-button type="submit" class="btn btn-primary btn-raised" id="btnDepts" *ngFor="let dept of arrayOfMedDepts"
+            (click)="getPatientsPerDepart($event,dept.name)">
+            {{dept.name}} : {{dept.number}}
+          </button>
+          <!-- <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'" class="btn btn-primary btn-raised"
             (click)="getPatientsPerDepart($event,'רנורול')">
             נוירולוגיה: {{numberOfNeurology}}
           </button>
           <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'"
             class="btn btn-primary btn-raised ml-2" (click)="getPatientsPerDepart($event,'רשבצ-מ')">
             שבץ מוחי: {{numberOfCVA}}
-          </button>
+          </button> -->
         </div>
 
       </div>
@@ -140,28 +144,34 @@
               mat-raised-button>
               הכל
             </button></mat-list-item>
-          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'מונשם')"
-              mat-raised-button color="primary">
+          <mat-list-item role="listitem"><button type="button" id="details-btn"
+              [style.background]="RespiratorsCount == '0' ? 'darkgray': ''" [disabled]="RespiratorsCount == '0'"
+              (click)="applyFilter($event,'מונשם')" mat-raised-button color="primary">
               מונשמים
             </button></mat-list-item>
-          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'צנתר שתן')"
-              mat-raised-button color="primary">
+          <mat-list-item role="listitem"><button type="button" id="details-btn"
+              [style.background]="CatheterCount == '0' ? 'darkgray': ''" [disabled]="CatheterCount == '0'"
+              (click)="applyFilter($event,'צנתר שתן')" mat-raised-button color="primary">
               צנתר שתן
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
+              [style.background]="CentralCatheterCount == '0' ? 'darkgray': ''" [disabled]="CentralCatheterCount == '0'"
               (click)="applyFilter($event,'צנתר מרכזי')" mat-raised-button color="primary">
               צנתר מרכזי
             </button></mat-list-item>
-          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'בידוד')"
-              mat-raised-button color="primary">
+          <mat-list-item role="listitem"><button type="button" id="details-btn"
+              [style.background]="IsolationCount == '0' ? 'darkgray': ''" [disabled]="IsolationCount == '0'"
+              (click)="applyFilter($event,'בידוד')" mat-raised-button color="primary">
               בידוד
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
+              [style.background]="PhLimitationCount == '0' ? 'darkgray': ''" [disabled]="PhLimitationCount == '0'"
               (click)="applyFilter($event,'הגבלה פיזית')" mat-raised-button color="primary">
               הגבלה פיזית
             </button></mat-list-item>
-          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'מאומת')"
-              mat-raised-button color="primary">
+          <mat-list-item role="listitem"><button type="button" id="details-btn"
+              [style.background]="CoronaStatus == '' ? 'darkgray': ''" [disabled]="CoronaStatus == ''"
+              (click)="applyFilter($event,'מאומת')" mat-raised-button color="primary">
               סטטוס קורונה
             </button></mat-list-item>
         </mat-list>
@@ -240,4 +250,6 @@
     </div>
   </form>
   <mat-progress-bar mode="indeterminate" id="buffer" *ngIf="loading"></mat-progress-bar>
+  <br>
+  <app-other-departments [deliveryRoomDialog]="deliveryRoomDialog" *ngIf="deliveryRoomDialog != undefined"></app-other-departments>
 </div>

@@ -46,9 +46,6 @@ export class UpdateformComponent implements OnInit {
   all_departs_filter = [];
   department = [];
   _tableArr = [];
-
-
-
   formSearch: FormGroup;
 
   TABLE_DATA: Form[] = [];
@@ -57,7 +54,6 @@ export class UpdateformComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
   rowFormData = {} as Patient;
-
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,16 +77,13 @@ export class UpdateformComponent implements OnInit {
     Tables: this.surveyTables
   });
 
-
   ngOnInit(): void {
 
     this.formSearch = new FormGroup({
       'searchWord': new FormControl('', null),
       'departmentControl': new FormControl('', null)
     });
-
     this.searchForm();
-
   }
 
   openDialogToUpdate(id) {
