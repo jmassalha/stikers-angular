@@ -139,18 +139,22 @@
                                     </tr>
                                     
                                 </mat-table>
-                                <mat-paginator                                                                           
-                                        [pageSize]="5"
-                                        showFirstLastButtons                                        
-                                    ></mat-paginator>
+                                
                             </div>
                         </div>
                     </div>
+
                     <div>
+                        <mat-paginator
+                                        [length]="resultsLength"                                        
+                                        [pageSize]="5"
+                                        showFirstLastButtons                                        
+                                    ></mat-paginator>
                         <button mat-raised-button matStepperPrevious>חזרה</button>
                         <button mat-raised-button matStepperNext>הבא</button>
                     </div>
                 </form>
+                
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>סיום</ng-template>

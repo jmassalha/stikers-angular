@@ -18,11 +18,25 @@ footer {
     box-shadow: 0px 0px 3px 0px #000;
     border-radius: 7px;
 }
+table#formTable1 tbody tr:hover{
+    box-shadow: 1px 1px 1px 1px #000 !important;
+    background-color: #d32d3d;
+}
 #addBtnU.mat-fab .mat-button-wrapper {
     padding: 0px 0 !important;
 }
 .cal-month-view .cal-day-cell:not(:last-child) {
     border-left: 1px solid  #e1e1e1 !important;
+}
+.pd-25{
+    padding: 25px;
+}
+[dir=rtl] .mat-badge-large.mat-badge-after .mat-badge-content {
+    right: -7px;
+    left: auto;
+}
+textarea{
+    white-space: break-spaces !important;
 }
 .btn-group>.btn-group:not(:last-child)>.btn, .btn-group>.btn:not(:last-child):not(.dropdown-toggle),
 .btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:first-child) {

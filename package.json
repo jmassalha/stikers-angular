@@ -63,6 +63,7 @@
     "hammerjs": "^2.0.8",
     "jquery": "^3.6.0",
     "jszip": "^3.6.0",
+    "macaddress": "^0.5.2",
     "mat-select-filter": "^2.3.9",
     "ng-angular9-datatable": "^0.9.13",
     "ng-circle-progress": "^1.6.0",

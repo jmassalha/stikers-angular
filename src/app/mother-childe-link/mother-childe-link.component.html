@@ -53,41 +53,48 @@
         </button>
     </div>
     <div dir="rtl" class="modal-body  text-right">
-        <div *ngIf="mPatientData.Mother_Case_Number" class="row">
-            <div class="col-md-3">
-                <label><b>מס' מקרה אם</b></label>
-                <p>{{mPatientData.Mother_Case_Number}}</p>
-            </div>
-            <div class="col-md-3">
+        <div *ngIf="mPatientData[0].Mother_Case_Number" class="row">
+            <div class="col-md-4  text-center">
                 <label><b>ת.ז אם</b></label>
-                <p>{{mPatientData.Mother_ID}}</p>
+                <p>{{mPatientData[0].Mother_ID}}</p>
             </div>
-            <div class="col-md-3">
+            <div class="col-md-4  text-center">
                 <label><b>שם פרטי לאם</b></label>
-                <p>{{mPatientData.Mother_First_name}}</p>
+                <p>{{mPatientData[0].Mother_First_name}}</p>
             </div>
-            <div class="col-md-3">
-                <label><b>שם משפחה לאם</b></label>
-                <p>{{mPatientData.Mother_Last_Name}}</p>
+            <div class="col-md-4 text-center">
+                <label><b>שם פרטי לאם</b></label>
+                <p>{{mPatientData[0].Mother_Last_Name}}</p>
             </div>
-            <div class="col-md-3">
-                <label><b>מס' מקרה לילוד</b></label>
-                <p>{{mPatientData.Childe_Case_Number}}</p>
+        </div>
+        <hr>
+        <div *ngFor="let mPatient of mPatientData; let i = index;" class="row pd-25">          
+  
+            <div class="col">
+                <span  matBadge="{{i+1}}" matBadgeOverlap="false"  matBadgeSize="large"> <b>מס' מקרה לילוד</b> </span>
+                <p>{{mPatient.Childe_Case_Number}}</p>
             </div>
-            <div class="col-md-3"> 
+            <div class="col"> 
                 <label><b>ת.ז ילוד</b></label>
-                <p>{{mPatientData.Childe_ID}}</p>
+                <p>{{mPatient.Childe_ID}}</p>
             </div>
-            <div class="col-md-3">
+            <div class="col">
                 <label><b>שם פרטי לילוד</b></label>
-                <p>{{mPatientData.Childe_First_Name}}</p>
+                <p>{{mPatient.Childe_First_Name}}</p>
             </div>
-            <div class="col-md-3">
+            <div class="col">
                 <label><b>שם משפחה לילוד</b></label>
-                <p>{{mPatientData.Childe_Last_Name}}</p>
+                <p>{{mPatient.Childe_Last_Name}}</p>
+            </div>
+            <div class="col">
+                <label><b>תאריך לידה</b></label>
+                <p>{{mPatient.Chiled_DOB}}</p>
+            </div>
+            <div class="col-12">                
+                <hr>
             </div>
         </div>    
-        <div *ngIf="!mPatientData.Mother_Case_Number" class="row">
+        <div *ngIf="mPatientData.length == 0" class="row">
             <div class="col-md-12 text-center">
                 <h2><b> לא נמצא ניתונים</b></h2>
             </div>            

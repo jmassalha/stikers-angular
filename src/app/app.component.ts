@@ -10,8 +10,6 @@ export class AppComponent {
   showHeaderAndFooter: boolean = false;
 
   ngOnInit() {
-    //this.showHeaderAndFooter = false;
-    //debugger
   }
 
   constructor(private router: Router) {

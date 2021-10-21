@@ -295,6 +295,7 @@ const maskConfig: Partial<IConfig> = {
     , NgbActiveModal],
   bootstrap: [AppComponent],
   exports: [
+    MatBadgeModule,
     FormsModule,
     ReactiveFormsModule
   ]

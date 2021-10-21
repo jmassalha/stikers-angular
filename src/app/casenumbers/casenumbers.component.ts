@@ -1,3 +1,4 @@
+
 import {
     Component,
     OnInit,
@@ -36,6 +37,7 @@ import {
     
 } from "@angular/forms";
 import { IDetect } from "ngx-barcodeput";
+import { tr } from "date-fns/locale";
 
 export interface CaseNumbers {
     RowID: string;
@@ -48,6 +50,7 @@ export interface CaseNumbers {
     PatientNumber: string;
     Dose: string;
 }
+
 @Component({
     selector: "app-casenumbers",
     templateUrl: "./casenumbers.component.html",
@@ -64,6 +67,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
             }
         }, 100);
     }
+    @ViewChild('formTable1Div') formTable1Div: ElementRef;
     @Input() activeModal: NgbActiveModal;;
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -111,6 +115,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal
     ) {
+        debugger
         this.activeModal = activeModal;
     }
     myModal;
@@ -126,8 +131,10 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
     fullnameVal: string;
     rowIdVal: string;
     hide: boolean = true;
+    printOn: boolean = false;
     ngOnInit(): void {
-        //debugger
+        //var macaddress = require('macaddress');
+        debugger
         this.hide = true;
         let that = this;
         window.onafterprint = function(){
@@ -151,8 +158,8 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
             this.router.navigate(["login"]);
             ///$("#chadTable").DataTable();
         }
-        this.getTableFromServer("");
         if(localStorage.getItem("Print") == "true"){
+            this.printOn = true;
             this.displayedColumns = [
                 "Dose",
                 "HospitalDate",
@@ -164,12 +171,9 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
                 "DOB",
             ];
             this.hide = true;
-            this.myModal = this.activeModal;
-            setTimeout(function(){
-                window.print();
-            }, 2500)
-            
         }
+        this.getTableFromServer("");
+        
     }
     
     editRow(content, _type, _element) {
@@ -281,6 +285,17 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
                         $("#loader").addClass("d-none");
                     }
                 });
+                if(localStorage.getItem("Print") == "true"){
+                    setTimeout(function(){
+                        var printContents = this.formTable1Div.nativeElement.innerHTML;                    
+                        var w=window.open();
+                        w.document.write(printContents);
+                        w.print();
+                        w.close();
+                    }, 1000)
+                    
+                    
+                }
             });
     }
 }
