@@ -26,8 +26,8 @@ export interface Services {
 })
 export class ManageClinicPriceComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
-  @ViewChild(MatPaginator) paginator: MatPaginator;
   displayedColumns: string[] = ['code', 'name', 'quantity'];
+  @ViewChild(MatPaginator) paginator: MatPaginator;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -50,7 +50,7 @@ export class ManageClinicPriceComponent implements OnInit {
     private datePipe: DatePipe,
     private http: HttpClient,
     private _snackBar: MatSnackBar) { }
-    resultsLength: any;
+  resultsLength: any;
   PatientElement: any;
   ifEdit: number;
   versionSelection: string;
@@ -185,14 +185,13 @@ export class ManageClinicPriceComponent implements OnInit {
             ELEMENT_DATA.push(serialNumber);
             PatientsServicesList.push(ServiceItem);
           }
+          this.dataSource.paginator = this.paginator;
           this.servicesFormGroup = this.fb.group({
             DepartNumber: departNumber,
             DepartCode: departCode,
             PatientsServicesList: PatientsServicesList
           });
           this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
-          debugger
-          //this.resultsLength = this.dataSource.data.length;
           this.dataSource.paginator = this.paginator;
           this.searchingProgress = false;
         });

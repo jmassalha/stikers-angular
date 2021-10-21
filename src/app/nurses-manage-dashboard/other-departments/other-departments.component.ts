@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit,Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -11,6 +11,9 @@ import { MatTableDataSource } from '@angular/material/table';
   styleUrls: ['./other-departments.component.css']
 })
 export class OtherDepartmentsComponent implements OnInit {
+
+  @Input()
+  deliveryRoomDialog: string;
 
   columnsToDisplay1: string[] = ['regular', 'imperial', 'other', 'beforebirth', 'beforesurgery'];
   columnsToDisplay1_2: string[] = ['casenumber', 'firstname', 'lastname', 'birthtype', 'date', 'time', 'birthweek'];
@@ -102,6 +105,9 @@ export class OtherDepartmentsComponent implements OnInit {
 
   getOtherDepartmentsDetails() {
     this.progressBarNumbers = false;
+    if(this.deliveryRoomDialog != undefined){
+      this.otherDepartName = this.deliveryRoomDialog;
+    }
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentDetails", {
         _otherDepartName: this.otherDepartName

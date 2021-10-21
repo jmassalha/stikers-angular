@@ -274,9 +274,11 @@ export class EmailsdashboardComponent implements OnInit {
     let compDateControl2 = this.formSearch.controls['compDateControl2'].value;
     let compStatusControl = this.formSearch.controls['compStatusControl'].value;
     let deadLineSearch = this.formSearch.controls['DeadLineSearch'].value;
-    if (compStatusControl == "") {
+    if (compStatusControl == "" && compName == "") {
       compStatusControl = '1';
-    } else if (compStatusControl == undefined) {
+    }else if (compStatusControl == "" && compName != "") {
+      compStatusControl = '';
+    }else if (compStatusControl == undefined) {
       compStatusControl = "";
     }
     if (departmentControl == undefined) {
@@ -348,13 +350,22 @@ export class EmailsdashboardComponent implements OnInit {
         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
         this.dataSource.paginator = this.paginator;
       });
+    // this.http
+    //   .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
+    //   })
+    //   .subscribe((Response) => {
+    //     this.all_departs_filter = Response["d"];
+    //     this.all_departs_filter.forEach(element => {
+    //       this.department.push(element.Depart_Name);
+    //     })
+    //   });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetCompDepartments", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];
         this.all_departs_filter.forEach(element => {
-          this.department.push(element.Depart_Name);
+          this.compDepts.push(element.Depart_Name);
         })
       });
 

@@ -1,36 +1,43 @@
-th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+
+@media only screen and (min-width: 1050px) {
+ 
+  th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     padding: 0;
     border-bottom-width: 1px;
     border-bottom-style: solid;
     font-size: 20px;
-}
-[dir=rtl] th.mat-header-cell {
-    text-align: center;
-    padding: 10px 25px 10px 63px;
-}
-
-h4{
-    text-align: center;
-}
-#buffer{
-  background-color: blue;
-}
-
-#EventBtn2{
-    float: right;
+  }
+  td.mat-cell{
+    font-size: 20px;
   }
 
-#details-btn{
-    font-size: 25px;
-}
-.mat-elevation-z8{
-  background-color: floralwhite;
-}
-.form{
-  background-color: aliceblue;
-}
+  [dir=rtl] th.mat-header-cell {
+    text-align: center;
+    padding: 10px 25px 10px 63px;
+  }
 
-.close {
+  h4{
+    text-align: center;
+  }
+  #buffer{
+  background-color: blue;
+  }
+  
+  #EventBtn2{
+    float: right;
+  }
+  
+  #details-btn{
+    font-size: 25px;
+  }
+  .mat-elevation-z8{
+  background-color: floralwhite;
+  }
+  .form{
+  background-color: aliceblue;
+  }
+  
+  .close {
     float: right;
     font-size: 3.5rem;
     font-weight: 700;
@@ -40,15 +47,69 @@ h4{
     opacity: .5;
     padding-left: 15px;
   }
-
+  .mat-table{
+    table-layout: fixed;
+    font-family: 'math';
+  }
   #list_of_types{
     display: inline-flex;
   }
+ 
+}
 
-  /* th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
+@media only screen and (min-width: 100px) {
+
+  th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     padding: 0;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    font-size: 30px;
-    padding: 0px 5px 0px 5px;
-} */
+  }
+  td.mat-cell{
+    font-size: 16px;
+  }
+  
+  h4{
+    text-align: center;
+  }
+  #buffer{
+  background-color: blue;
+  }
+  
+  #EventBtn2{
+    float: right;
+  }
+  
+  #details-btn{
+    font-size: 25px;
+  }
+  .mat-elevation-z8{
+  background-color: floralwhite;
+  }
+  .form{
+  background-color: aliceblue;
+  }
+  
+  .close {
+    float: right;
+    font-size: 3.5rem;
+    font-weight: 700;
+    line-height: 1;
+    color: #000;
+    text-shadow: 0 1px 0 #fff;
+    opacity: .5;
+    padding-left: 15px;
+  }
+  .mat-table{
+    table-layout: fixed;
+    font-family: 'math';
+  }
+  #list_of_types{
+    display: inline-flex;
+  }
+ 
+[dir=rtl] th.mat-header-cell {
+  text-align: center;
+  font-size: 17px;
+}
+ 
+}

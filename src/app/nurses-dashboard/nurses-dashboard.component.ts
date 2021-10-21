@@ -376,6 +376,7 @@ export class NursesDashboardComponent implements OnInit {
       });
   }
 
+
   print() {
     this.dialogRef.close(this.ELEMENT_DATA);
   }
@@ -446,6 +447,7 @@ export class NursesDashboardComponent implements OnInit {
                 ReportMachlol: this.reportsArr[i].ReportMachlol,
                 ReportCategory: this.reportsArr[i].ReportCategory,
                 ReportSubCategory: this.reportsArr[i].ReportSubCategory,
+                ReportsReplyList: this.reportsArr[i].ReportsReplyList
               });
             }
             if (_caseNumber != "") {

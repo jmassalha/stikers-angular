@@ -23,7 +23,7 @@
 </div>
 
 <div id="page-toshow" class="padding-top-0">
-    <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup" [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
+    <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup" *ngIf="caseNumber != '' || reportType == 'administrative'" [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
         <div class="modal-header text-right">
             <div class="row mt-3">
                 <div class="col-4 text-center">{{date2}}
@@ -146,12 +146,12 @@
                     save
                 </span>
             </button>
-            <button *ngIf="reportID != '0'" matTooltip="מחיקה" id="BtnStyle" type="button" mat-raised-button
+            <!-- <button *ngIf="reportID != '0'" matTooltip="מחיקה" id="BtnStyle" type="button" mat-raised-button
                 class="btn btn-outline-dark ml-3" color="warn" (click)="deleteReport(reportID)">
                 <span class="material-icons">
                     delete
                 </span>
-            </button>
+            </button> -->
         </div>
     </form>
 

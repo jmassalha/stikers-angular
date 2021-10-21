@@ -141,23 +141,14 @@
                                 *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
                         </div>
                         <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name">
-                            <div class="col-3">
-                                <span class="coronaNumber" *ngIf="item.CoronaNumber !== '0'" style="color: red;">מטופלי
-                                    קורונה:
-                                    {{item.CoronaNumber}}
-                                </span>
-                            </div>
-                            <div class="col-6" style="margin-right: 150px;">
-                                סה"כ: {{item.OccupancyPerDepart}}
-                                <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה:
-                                    {{item.PercentOccupancy}}%
-                                </span>
-                            </div>
-                            <div class="col-3">
-
-                            </div>
-
-
+                            <span class="coronaNumber" *ngIf="item.CoronaNumber !== '0'" style="color: red;">מטופלי
+                                קורונה:
+                                {{item.CoronaNumber}}
+                            </span>
+                            סה"כ: {{item.OccupancyPerDepart}}
+                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה:
+                                {{item.PercentOccupancy}}%
+                            </span>
                         </div>
                         <!-- <div class="list-style text-center" style="font-size: 24px;"> 
                         </div> -->
@@ -173,8 +164,8 @@
 </mat-card> -->
 
 
-<div class="d-none-desktop">
-    <table dir="rtl">
+<div class="d-none-desktop" dir="rtl">
+    <!-- <table dir="rtl">
         <div class="card text-center">
             <h1>מערכת דוחות אחיות</h1>
         </div>
@@ -183,55 +174,71 @@
         <tbody>
             <tr *ngFor="let tblRow of ELEMENT_DATA" class="text-right">
                 <td>
-                    <div class="text-right">
-                        <div class="row">
-                            <div class="col-4 bord-l">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <b>תאריך שעה:</b>
-                                        {{
-                                        tblRow.LastUpdatedDate
-                                        }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>נושא/מחלקה:</b>
-                                        {{ tblRow.ReportMachlol }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>קטיגוריה:</b>
-                                        {{ tblRow.ReportCategory }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>תת קטיגוריה:</b>
-                                        {{
-                                        tblRow.ReportSubCategory
-                                        }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>משמרת:</b>
-                                        {{
-                                        tblRow.ReportShift
-                                        }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>מדווח:</b>
-                                        {{
-                                        tblRow.userFullName
-                                        }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-8 bord-l">
-                                <h3>{{ tblRow.title }}</h3>
-                                <p class="">
-                                    {{ tblRow.ReportText }}
-                                </p>
-                            </div>
-                        </div>
+                    <div class="text-right"> -->
+    <div class="row text-right" *ngFor="let tblRow of ELEMENT_DATA"
+        style="border-style: outset;margin-bottom: 20px;padding: 6px;">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <b>תאריך שעה:</b>
+                    {{
+                    tblRow.LastUpdatedDate
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>נושא/מחלקה:</b>
+                    {{ tblRow.ReportMachlol }}
+                </div>
+                <div class="col-md-4">
+                    <b>קטיגוריה:</b>
+                    {{ tblRow.ReportCategory }}
+                </div>
+                <div class="col-md-4">
+                    <b>תת קטיגוריה:</b>
+                    {{
+                    tblRow.ReportSubCategory
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>משמרת:</b>
+                    {{
+                    tblRow.ReportShift
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>מדווח:</b>
+                    {{
+                    tblRow.userFullName
+                    }}
+                </div>
+            </div>
+            <div class="row" *ngIf="tblRow.ReportText != ''" style="border-top: 1px dashed grey;margin-top: 12px;">
+                <div class="col-12">
+                    <h5><b>תוכן הדווח :</b></h5>
+                    <p class="">
+                        {{ tblRow.ReportText }}
+                    </p>
+                </div>
+            </div>
+            <div class="row" *ngFor="let reply of tblRow.ReportsReplyList">
+                <div class="col-12">
+                    <h5><b>תגובות לדווח :</b></h5>
+                    <div class="row">
+                        {{reply.FirstName}} {{reply.LastName}} - {{reply.MessageDate}} {{reply.MessageTime}}
                     </div>
+                    <div class="row">
+                        <p class="text-right" style="font-family: 'math';font-weight: bolder;font-size: 18px;">
+                            {{reply.ResponseText}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- </div>
                 </td>
+                <hr>
             </tr>
         </tbody>
         <tfoot></tfoot>
-    </table>
+    </table> -->
 </div>

@@ -51,6 +51,7 @@ export class NursesDepartmentManageComponent implements OnInit {
     private datePipe: DatePipe) { }
 
   event: Event;
+  deliveryRoomDialog: string;
   numberOfCVA: number = 0;
   numberOfNeurology: number = 0;
   departCode: string;
@@ -63,11 +64,18 @@ export class NursesDepartmentManageComponent implements OnInit {
   departmentArray = [];
   ELEMENT_DATA = [];
   ELEMENT_DATA2 = [];
+  RespiratorsCount: string = "0";
+  CatheterCount: string = "0";
+  CentralCatheterCount: string = "0";
+  IsolationCount: string = "0";
+  PhLimitationCount: string = "0";
+  CoronaStatus: string = '';
   departmentRelease: FormGroup;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   date = new Date();
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
   timer: any;
+  arrayOfMedDepts = [];
 
   ngOnInit(): void {
     if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה') {
@@ -188,9 +196,15 @@ export class NursesDepartmentManageComponent implements OnInit {
             console.log('again');
             this.getDepartDetails();
           }, 5000);
+        }else{
+          this.RespiratorsCount = this.ELEMENT_DATA[0].RespiratorsCount;
+          this.CatheterCount = this.ELEMENT_DATA[0].CatheterCount;
+          this.CentralCatheterCount = this.ELEMENT_DATA[0].CentralCatheterCount;
+          this.IsolationCount = this.ELEMENT_DATA[0].IsolationCount;
+          this.PhLimitationCount = this.ELEMENT_DATA[0].PhLimitationCount;
+          this.loading = false;
+          this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
         }
-        this.loading = false;
-        this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
       });
   }
 
@@ -202,15 +216,38 @@ export class NursesDepartmentManageComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);
-        this.numberOfNeurology = 0;
-        this.numberOfCVA = 0;
+        this.arrayOfMedDepts = [];
+        // this.numberOfNeurology = 0;
+        // this.numberOfCVA = 0;
+        let medDept = {
+          name: '',
+          number: 0,
+        };
         this.dataSource2.filteredData.forEach(element => {
-          if (element.PM_MOVE_DEPART == 'רשבצ-מ') {
-            this.numberOfCVA++;
-          } else if (element.PM_MOVE_DEPART == 'רנורול') {
-            this.numberOfNeurology++;
+          if(medDept.number == 0){
+            medDept.name = element.PM_MOVE_DEPART;
           }
+          if(medDept.name == element.PM_MOVE_DEPART){
+            medDept.number++;
+          }else{
+            medDept.number++;
+            this.arrayOfMedDepts.push(medDept);
+            medDept = {
+              name: '',
+              number: 0
+            }
+          }
+          // CoronaStatusBtn
+          if(element.CoronaStatus != ""){
+            this.CoronaStatus = '1'
+          }
+          // if (element.PM_MOVE_DEPART == 'רשבצ-מ') {
+          //   this.numberOfCVA++;
+          // } else if (element.PM_MOVE_DEPART == 'רנורול') {
+          //   this.numberOfNeurology++;
+          // }
         });
+        this.arrayOfMedDepts.push(medDept);
         // this.patientsTable = !this.patientsTable;
         if (subDepart != '') {
           this.patientsTable = true;
