@@ -378,7 +378,8 @@ export class FillReportComponent implements OnInit {
           _userName: this.UserName,
           _caseNumber: this.caseNumber,
           _reportType: this.reportType,
-          _ifGeneral: this.ifGeneral
+          _ifGeneral: this.ifGeneral,
+          _AdminNurse: this.AdminNurse,
         })
         .subscribe((Response) => {
           if (Response["d"] != 0) {
