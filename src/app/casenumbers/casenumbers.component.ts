@@ -286,8 +286,10 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
                     }
                 });
                 if(localStorage.getItem("Print") == "true"){
+                    let that = this;
                     setTimeout(function(){
-                        var printContents = this.formTable1Div.nativeElement.innerHTML;                    
+                        var printContents = that.formTable1Div.nativeElement.innerHTML;   
+                        //debugger                 
                         var w=window.open();
                         w.document.write(printContents);
                         w.print();
