@@ -1,6 +1,7 @@
+
+import { Component, OnInit, ViewChild, AfterViewInit, ViewContainerRef, ViewRef, TemplateRef } from '@angular/core';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -43,7 +44,6 @@ export class ManageClinicPriceComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-
 
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
@@ -168,6 +168,7 @@ export class ManageClinicPriceComponent implements OnInit {
           let ELEMENT_DATA = [];
           this.deptChosen = true;
           let departCode;
+          this.resultsLength = relevantServices.length;
           for (let i = 0; i < relevantServices.length; i++) {
             departCode = relevantServices[0].DepartCode;
             ServiceItem = this.fb.group({
@@ -193,6 +194,8 @@ export class ManageClinicPriceComponent implements OnInit {
           });
           this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
           this.dataSource.paginator = this.paginator;
+          debugger
+          
           this.searchingProgress = false;
         });
     }

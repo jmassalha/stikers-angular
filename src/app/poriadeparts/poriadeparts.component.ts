@@ -36,6 +36,7 @@ export interface Depart {
     D_NAME: string;
     D_ROW_STATUS: string;
     D_SEND_SMS: string;
+    SEODE_NAME: string;
     D_SMS_TEXT: string;
 }
 
@@ -94,6 +95,7 @@ export class PoriadepartsComponent implements OnInit {
         D_NAME: '',
         D_ROW_STATUS: '',
         D_SEND_SMS: '',
+        SEODE_NAME: '',
         D_SMS_TEXT: ''
     };
     ngOnInit(): void {
@@ -111,6 +113,7 @@ export class PoriadepartsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         this.departsForm = this.formBuilder.group({
             fullnameVal: ["", Validators.required],
+            SEODE_NAME: ["", Validators.required],
             active_sheet: ["", false],
             sms_text: ["", Validators.required],
             idSheet: ["", false],
@@ -171,13 +174,14 @@ export class PoriadepartsComponent implements OnInit {
         this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text;
         //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaDeparts", {
+            .post("http://srv-ipracticom:8080/WebService.asmx/PoriaDeparts", {
                 _departName: this.departsForm.value.fullnameVal,
                 _departStatus: 1,
                 _sheetId: this.departsForm.value.idSheet,
                 _rowId: this.departsForm.value.rowIdVal,
                 _sendSms:  this.active_sheet,
                 _smsText: this.departsForm.value.sms_text,
+                SEODE_NAME: this.departsForm.value.SEODE_NAME,
             })
             .subscribe((Response) => {
                 var json = Response["d"].split(", ");;
@@ -231,6 +235,7 @@ export class PoriadepartsComponent implements OnInit {
         this.sms_text = _element.D_SMS_TEXT;
         this.departsForm = this.formBuilder.group({
             fullnameVal: [this.fullnameVal, Validators.required],
+            SEODE_NAME: [_element.SEODE_NAME, Validators.required],
             active_sheet: [ this.active_sheet_bool, false],
             sms_text: [this.sms_text, Validators.required],
             idSheet: [this.idSheet, false],
@@ -279,6 +284,7 @@ export class PoriadepartsComponent implements OnInit {
             D_ROW_ID: 0,
             D_SHEET_ID: '-1',
             D_NAME: '',
+            SEODE_NAME: '',
             D_ROW_STATUS: '',
             D_SEND_SMS: '',
             D_SMS_TEXT: ''
@@ -290,6 +296,7 @@ export class PoriadepartsComponent implements OnInit {
 
         this.departsForm = this.formBuilder.group({
             fullnameVal: ["", Validators.required],
+            SEODE_NAME: ["", Validators.required],
             active_sheet: ["", false],
             sms_text: ["", Validators.required],
             idSheet: ["", false],
@@ -343,7 +350,7 @@ export class PoriadepartsComponent implements OnInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetPoriaDeparts",
+                "http://srv-ipracticom:8080/WebService.asmx/GetPoriaDeparts",
                 {
                     _pageIndex: _pageIndex,
                     _pageSize: _pageSize,
@@ -369,6 +376,7 @@ export class PoriadepartsComponent implements OnInit {
                         D_ROW_STATUS: DepartsData[i].D_ROW_STATUS,
                         D_SEND_SMS: DepartsData[i].D_SEND_SMS,
                         D_SMS_TEXT: DepartsData[i].D_SMS_TEXT,
+                        SEODE_NAME: DepartsData[i].SEODE_NAME,
                     });
                 }
 

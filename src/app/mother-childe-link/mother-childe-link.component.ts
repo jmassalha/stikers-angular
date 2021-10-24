@@ -34,17 +34,18 @@ export interface PatientData {
     Mother_ID: string;
     Mother_First_name: string;
     Mother_Last_Name: string;
+    Chiled_DOB: string;
 }
 @Component({
   selector: 'app-mother-childe-link',
   templateUrl: './mother-childe-link.component.html',
   styleUrls: ['./mother-childe-link.component.css']
 })
-export class MotherChildeLinkComponent implements OnInit {
+export class MotherChildeLinkComponent implements OnInit { 
 
   @ViewChild("patientModal") private patientModal;
     fliterVal = "";
-    mPatientData: PatientData;
+    mPatientData: PatientData[];
     constructor(
         private _snackBar: MatSnackBar,
         private router: Router,
@@ -72,6 +73,7 @@ export class MotherChildeLinkComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
+                //debugger
                 this.mPatientData = Response["d"];
                 this.modalService
                     .open(this.patientModal, this.modalOptions)
