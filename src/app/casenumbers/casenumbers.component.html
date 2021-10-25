@@ -1,17 +1,17 @@
-<div id="page-toshow111">
-    <h1 class="text-center">
+<div  id="formTable1Div" #formTable1Div>
+    <h1 class="text-center" style="text-align: center;">
         <b><span>מזהה קרטון: </span>{{ CartoonUNID }}</b>
     </h1>
-    <h1 class="text-center">
+    <h1 class="text-center" style="text-align: center;">
         <b><span>סה"כ מקרים: </span>{{ TotalCases }}</b>
     </h1>
     <br />
-    <div class="container-fluid hide-on-print">
+    <div *ngIf="!printOn" class="container-fluid hide-on-print">
         <div class="row">
             <div class="col">
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body">
-                        <form *ngIf="!printOn" class="form" ngbAutofocus>
+                        <form  class="form" ngbAutofocus>
                             <div class="row">
                                 <div class="col">
                                     <div class="form-group">
@@ -45,7 +45,7 @@
         <div class="row">
             <div dir="rtl" class="col">
                 <div class="table-responsive">
-                    <div class="table-spinner-container" id="formTable1Div" #formTable1Div>
+                    <div class="table-spinner-container">
                         <!-- <mat-form-field>
                                 <input matInput (keyup)="applyFiltercasenumbers($event.target.value)" placeholder="חפש">
                             </mat-form-field> -->
