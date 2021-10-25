@@ -23,8 +23,8 @@
                                             [formControl]="departmentfilter" [matAutocomplete]="auto2">
                                         <mat-autocomplete #auto2="matAutocomplete">
                                             <mat-option *ngFor="let dept of filteredOptions2 | async"
-                                                [value]="dept.value">
-                                                {{dept.viewValue}}
+                                                [value]="dept">
+                                                {{dept}}
                                             </mat-option>
                                         </mat-autocomplete>
                                     </mat-form-field>

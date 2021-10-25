@@ -1,8 +1,9 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit,Input } from '@angular/core';
+import { Component, OnInit, Input } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 
 @Component({
@@ -15,11 +16,14 @@ export class OtherDepartmentsComponent implements OnInit {
   @Input()
   deliveryRoomDialog: string;
 
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+
   columnsToDisplay1: string[] = ['regular', 'imperial', 'other', 'beforebirth', 'beforesurgery'];
   columnsToDisplay1_2: string[] = ['casenumber', 'firstname', 'lastname', 'birthtype', 'date', 'time', 'birthweek'];
   columnsToDisplay2: string[] = ['inprogress', 'waiting', 'completed', 'canceled'];
   columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'room', 'surgeryname', 'date', 'starttime', 'endtime', 'status'];
-  columnsToDisplay3: string[] = ['all','shockroom', 'lyingdown', 'standing', 'women','child'];
+  columnsToDisplay3: string[] = ['all', 'shockroom', 'lyingdown', 'standing', 'women', 'child'];
   columnsToDisplay3_2: string[] = ['casenumber', 'departmed', 'patientlastname', 'patientfirstname', 'dadname', 'age', 'gender', 'datein', 'timein'];
   dataSource3 = new MatTableDataSource<any>();
   dataSource4 = new MatTableDataSource<any>();
@@ -54,6 +58,7 @@ export class OtherDepartmentsComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
     private http: HttpClient,
+    private _snackBar: MatSnackBar,
     private datePipe: DatePipe) { }
 
   otherDepartName: string;
@@ -87,6 +92,14 @@ export class OtherDepartmentsComponent implements OnInit {
     this.dialog.closeAll();
   }
 
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
   getSubmitChanges(ifsaved) {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/SubmitOtherDepartmentChanges", {
@@ -99,13 +112,14 @@ export class OtherDepartmentsComponent implements OnInit {
         this.deliveryRoomForm.controls['beforeSurgery'].setValue(Response["d"][1]);
       });
     if (ifsaved == '1') {
-      this.dialog.closeAll();
+      this.openSnackBar("נשמר בהצלחה");
+      this.ngOnInit();
     }
   }
 
   getOtherDepartmentsDetails() {
     this.progressBarNumbers = false;
-    if(this.deliveryRoomDialog != undefined){
+    if (this.deliveryRoomDialog != undefined) {
       this.otherDepartName = this.deliveryRoomDialog;
     }
     this.http

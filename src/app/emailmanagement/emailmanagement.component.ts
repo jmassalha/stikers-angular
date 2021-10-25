@@ -81,7 +81,9 @@ export class EmailmanagementComponent implements OnInit {
 
   compAmbolatory: any[] = [];
 
-  compDepts: any[] = [
+  compDepts: any[] = [ ];
+
+  
     // { value: 'MRI', viewValue: 'MRI' },
     // { value: 'מיילדותי us', viewValue: 'מיילדותי us' },
     // { value: 'אונקולוגיה', viewValue: 'אונקולוגיה' },
@@ -130,7 +132,7 @@ export class EmailmanagementComponent implements OnInit {
     // { value: 'שונות', viewValue: 'שונות' },
     // { value: 'שינוע', viewValue: 'שינוע' },
     // { value: 'שיקומית', viewValue: 'שיקומית' },
-  ];
+    
   deadline: DeadLine[] = [
     { value: '1', viewValue: 'שבוע' },
     { value: '2', viewValue: 'שבועיים' },
@@ -265,7 +267,7 @@ export class EmailmanagementComponent implements OnInit {
   }
   private _filter2(value: string): string[] {
     const filterValue2 = value;
-    return this.compDepts.filter(option => option.value.includes(filterValue2));
+    return this.compDepts.filter(option => option.includes(filterValue2));
   }
 
   openSnackBar(message) {
@@ -515,7 +517,7 @@ export class EmailmanagementComponent implements OnInit {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {
-          this.compDepts.push(element);
+          this.compDepts.push(element.Dept_Name);
         })
       });
   }

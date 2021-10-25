@@ -266,6 +266,9 @@ export class NursesDashboardComponent implements OnInit {
     this.NursesSystemPermission();
     this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm');
+    if (this.Dept_Name != '' && this.Dept_Name != undefined) {
+      this.ifGeneral = '0';
+    }
     this.searchReports();
     this.permission = false;
     this.filteredOptions2 = this.departmentfilter.valueChanges
@@ -284,9 +287,7 @@ export class NursesDashboardComponent implements OnInit {
         map(value => this._filter4(value))
       );
     this.departmentfilter.setValue(this.Dept_Name);
-    if (this.Dept_Name != '' && this.Dept_Name != undefined) {
-      this.ifGeneral = '0';
-    }
+    
     this.categoryfilter.setValue('');
     this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
@@ -417,7 +418,7 @@ export class NursesDashboardComponent implements OnInit {
     }
     if (!this.searchReportsGroup.invalid) {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
+        .post("http://localhost:64964/WebService.asmx/GetReports", {
           _reportShift: _reportShift,
           _reportDepartment: _reportDepartment,
           _reportStatus: _reportStatus,

@@ -58,7 +58,7 @@
             <input matInput (keyup)="applyFilter($event,'')" #input>
         </mat-form-field>
     </div>
-    <div dir="rtl" class="mb-3 text-center">
+    <!-- <div dir="rtl" class="mb-3 text-center">
         <mat-list role="list" id="list_of_types">
             <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'')"
                     mat-raised-button style="background-image: linear-gradient(grey, aquamarine);font-family: 'math';">
@@ -73,8 +73,8 @@
                     השתחררו
                 </button></mat-list-item>
         </mat-list>
-    </div>
-    <table dir="rtl" mat-table [dataSource]="dataSource3_2" class="mat-elevation-z8" style="width: 100%;">
+    </div> -->
+    <table dir="rtl" mat-table [dataSource]="dataSource3_2" class="mat-elevation-z8" id="patientsTable" style="width: 100%;">
 
         <ng-container matColumnDef="casenumber">
             <th mat-header-cell *matHeaderCellDef> מס' מקרה (אמא) </th>
@@ -152,7 +152,7 @@
         </mat-form-field>
     </div>
 
-    <table dir="rtl" mat-table [dataSource]="dataSource4_2" class="mat-elevation-z8" style="width: 100%;">
+    <table dir="rtl" mat-table [dataSource]="dataSource4_2" class="mat-elevation-z8" id="patientsTable" style="width: 100%;">
 
         <ng-container matColumnDef="patientid">
             <th mat-header-cell *matHeaderCellDef> תעודת זהות </th>
@@ -303,7 +303,7 @@
             <input matInput (keyup)="applyFilter3($event,'0')" placeholder="הקלד..." #input>
         </mat-form-field>
     </div>
-    <table dir="rtl" *ngIf="ICUDetails" mat-table [dataSource]="dataSource5_2" class="mat-elevation-z8"
+    <table dir="rtl" *ngIf="ICUDetails" mat-table [dataSource]="dataSource5_2" id="patientsTable" class="mat-elevation-z8"
         style="width: 100%;">
 
         <ng-container matColumnDef="casenumber">

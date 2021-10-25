@@ -360,8 +360,8 @@
                                 <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
                                     [matAutocomplete]="auto2" required>
                                 <mat-autocomplete #auto2="matAutocomplete">
-                                    <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.value">
-                                        {{dept.viewValue}}
+                                    <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept">
+                                        {{dept}}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>

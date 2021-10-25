@@ -78,7 +78,7 @@
           </ng-container>
           <ng-container matColumnDef="kpc" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> CPE </th>
-            <td mat-cell *matCellDef="let element"> {{element.KpcCount}} </td>
+            <td mat-cell *matCellDef="let element"><span [ngStyle]="{'color':element.KpcCount != '0' ? 'red' : '' }">{{element.KpcCount}}</span></td>
           </ng-container>
           <ng-container matColumnDef="complex" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> מורכב </th>
@@ -178,7 +178,7 @@
       </div>
 
       <div class="row">
-        <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" *ngIf="patientsTable">
+        <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" id="patientsTable" *ngIf="patientsTable">
 
           <ng-container matColumnDef="casenumber">
             <th mat-header-cell *matHeaderCellDef> מספר מקרה </th>

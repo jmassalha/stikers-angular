@@ -10,6 +10,11 @@ footer {
 .pd-60{
     padding-bottom: 60px;
 }
+
+/* #mat-dialog-1{
+    min-width: 120%;
+} */
+
 .row.boder-me{
     margin-bottom: 10px;
     margin-top: 10px;
@@ -18,9 +23,8 @@ footer {
     box-shadow: 0px 0px 3px 0px #000;
     border-radius: 7px;
 }
-table#formTable1 tbody tr:hover{
-    box-shadow: 1px 1px 1px 1px #000 !important;
-    background-color: #d32d3d;
+table#patientsTable tbody tr:hover{
+    background-color: cornflowerblue;
 }
 #addBtnU.mat-fab .mat-button-wrapper {
     padding: 0px 0 !important;
