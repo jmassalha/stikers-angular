@@ -127,6 +127,8 @@ import { FlatpickrModule } from 'angularx-flatpickr';
 import { CardiologyCalendarComponent } from './cardiology-calendar/cardiology-calendar.component';
 import { AddupdateactionComponent } from './cardiology-calendar/addupdateaction/addupdateaction.component';
 import { MotherChildeLinkComponent } from './mother-childe-link/mother-childe-link.component';
+import { DevManageComponent } from './dev-manage/dev-manage.component';
+import { SystemManageComponent } from './nurses-manage-dashboard/system-manage/system-manage.component';
 
 
 
@@ -216,7 +218,9 @@ const maskConfig: Partial<IConfig> = {
     OnlineAppointmentsComponent,
     CardiologyCalendarComponent,
     AddupdateactionComponent,
-    MotherChildeLinkComponent
+    MotherChildeLinkComponent,
+    DevManageComponent,
+    SystemManageComponent
   ],
   imports: [
     FlatpickrModule.forRoot(),

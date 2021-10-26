@@ -188,6 +188,7 @@ export class FillReportComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   status: Status[] = [
+    { value: '', viewValue: '' },
     { value: 'לטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
   ];
@@ -252,6 +253,7 @@ export class FillReportComponent implements OnInit {
       ReportMachlol: ['', null],
       ReportCategory: ['', null],
       ReportSubCategory: ['', null],
+      Important: ['', null],
       ReportStatus: ['', null],
       ReportShift: [{ value: '', disabled: true }, null],
       ReportText: ['', null],
@@ -363,6 +365,26 @@ export class FillReportComponent implements OnInit {
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
     }
   }
+  
+  setImportantReport(){
+    if(this.ReportGroup.controls['Important'].value == 'True' || this.ReportGroup.controls['Important'].value == true){
+      this.ReportGroup.controls['Important'].setValue('False');
+    }else{
+      this.ReportGroup.controls['Important'].setValue('True');
+    }
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/SetImportantReport", {
+        _ifImportant: this.ReportGroup.controls['Important'].value,
+        _reportID: this.reportID
+      })
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("סומן כחשוב");
+        } else {
+          this.openSnackBar("בוטל הסימון");
+        }
+      });
+  }
 
   sendReport() {
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
@@ -421,6 +443,7 @@ export class FillReportComponent implements OnInit {
           Row_ID: new FormControl(this.all_report_management.Row_ID, null),
           ReportDate: new FormControl(this.all_report_management.ReportDate, null),
           ReportSubCategory: new FormControl(this.all_report_management.ReportSubCategory, null),
+          Important: new FormControl(this.all_report_management.Important, null),
           ReportMachlol: new FormControl(this.all_report_management.ReportMachlol, null),
           ReportStatus: new FormControl(this.all_report_management.ReportStatus, null),
           ReportCategory: new FormControl(this.all_report_management.ReportCategory, null),

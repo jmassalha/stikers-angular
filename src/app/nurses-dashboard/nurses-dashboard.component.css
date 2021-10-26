@@ -114,6 +114,9 @@ table {
     td label {
         display: none;
     }
+    .col-md-4{
+      width: 10%;
+    }
 }
 
 .example-element-diagram {
@@ -177,4 +180,9 @@ h3{
 }
 h1{
   margin: auto;
+}
+#importantIcon{
+  cursor: pointer;
+  text-align: center;
+  font-size: 30px;
 }

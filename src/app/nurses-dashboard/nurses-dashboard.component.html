@@ -1,4 +1,4 @@
-<div class="container">
+<div class="container" id="page-toshow">
     <div class="row" style="justify-content: right;">
         <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
             <span>&times;</span>
@@ -82,7 +82,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="col">
+                    <!-- <div class="col">
                         <div class="form-group">
                             <mat-form-field>
                                 <mat-label>תת קטגוריה</mat-label>
@@ -98,7 +98,7 @@
                                 </mat-autocomplete>
                             </mat-form-field>
                         </div>
-                    </div>
+                    </div> -->
                     <div class="col">
                         <div class="form-group">
                             <mat-form-field>
@@ -112,11 +112,16 @@
                             </mat-form-field>
                         </div>
                     </div>
+                    <div class="col-1 text-center">
+                        <span class="material-icons" [style.color]="ReportGroup.controls['Important'].value == 'True' ? 'red': 'grey'" (click)="setImportantReport()" matTooltip="סמן כחשוב" id="importantIcon">
+                            notification_important
+                        </span>
+                    </div>
                     <div class="col" style="align-self: center;">
                         <section class="example-section">
                             <mat-checkbox class="example-margin" formControlName="toContinue"
                                 (change)="autoDate($event.checked)"
-                                style="font-family: 'Roboto';font-weight: bolder;font-size: 20px;">דורש
+                                style="font-family: 'Roboto';font-weight: bolder;font-size: 20px; text-align: center;">דורש
                                 המשך טיפול</mat-checkbox>
                         </section>
                     </div>
@@ -134,7 +139,7 @@
                     </div>
                     <div class="col-9">
                         <div class="form-group">
-                            <mat-form-field>
+                            <mat-form-field id="reportContentField">
                                 <textarea matInput
                                     style="font-size: 15px;font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
                                     rows="3" placeholder="תוכן הדוח" class="form-control border-1"
@@ -203,11 +208,13 @@
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>מחלקה</mat-label>
-                                            <input type="text" aria-label="department" matInput
-                                                [formControl]="departmentfilter" [matAutocomplete]="auto2">
+                                            <input type="text" aria-label="department"
+                                                style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                                matInput [formControl]="departmentfilter" [matAutocomplete]="auto2">
                                             <mat-autocomplete #auto2="matAutocomplete">
                                                 <mat-option *ngFor="let dept of filteredOptions2 | async"
-                                                    [value]="dept.Dept_Name">
+                                                    [value]="dept.Dept_Name"
+                                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
                                                     {{dept.Dept_Name}}
                                                 </mat-option>
                                             </mat-autocomplete>
@@ -218,13 +225,16 @@
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>קטגוריה</mat-label>
-                                            <mat-select formControlName="ReportCategory">
-                                                <mat-option [value]="''">הכל</mat-option>
-                                                <mat-option *ngFor="let cat of all_categories_filter"
-                                                    [value]="cat.Cat_Name">
+                                            <input type="text" aria-label="category"
+                                                style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                                matInput [formControl]="categoryfilter2" [matAutocomplete]="auto3">
+                                            <mat-autocomplete #auto3="matAutocomplete">
+                                                <mat-option *ngFor="let cat of filteredOptions3_2 | async"
+                                                    [value]="cat.Cat_Name"
+                                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
                                                     {{cat.Cat_Name}}
                                                 </mat-option>
-                                            </mat-select>
+                                            </mat-autocomplete>
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -289,6 +299,72 @@
                                 </span>
                             </button>
                         </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="d-none-desktop" #printmycontent style="direction: rtl;">
+    <div class="row" style="text-align: center;">
+        <h2 *ngIf="reportType == 'clinical'">דווח קליני</h2>
+        <h2 *ngIf="reportType == 'administrative'">דווח ניהולי</h2>    
+    </div>
+    <div class="row text-right" *ngFor="let tblRow of ELEMENT_DATA"
+        style="border-style: outset;margin-bottom: 20px;padding: 6px;">
+        <div class="col-12" style="width: 100%;direction: rtl;">
+            <div class="row" style="width: 100%;">
+                <div class="col-md-4">
+                    <b>תאריך שעה:</b>
+                    {{
+                    tblRow.LastUpdatedDate
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>נושא/מחלקה:</b>
+                    {{ tblRow.ReportMachlol }}
+                </div>
+                <div class="col-md-4" *ngIf="tblRow.Important == 'True'">
+                    <b [ngStyle]="{color: tblRow.Important == 'True' ? 'red' : ''}">דווח חשוב</b> 
+                </div>
+                <div class="col-md-4">
+                    <b>משמרת:</b>
+                    {{
+                    tblRow.ReportShift
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>מדווח:</b>
+                    {{
+                    tblRow.userFullName
+                    }}
+                </div>
+                <div class="col-md-4" *ngIf="reportType == 'clinical'">
+                    <b>שם מטופל:</b>
+                    {{
+                    tblRow.PatientName
+                    }}
+                </div>
+            </div>
+            <div class="row" *ngIf="tblRow.ReportText != ''" style="border-top: 1px dashed grey;margin-top: 12px;">
+                <div class="col-12">
+                    <h5><b>תוכן הדווח :</b></h5>
+                    <p class="">
+                        {{ tblRow.ReportText }}
+                    </p>
+                </div>
+            </div>
+            <div class="row" *ngFor="let reply of tblRow.ReportsReplyList">
+                <div class="col-12">
+                    <h5><b>תגובות לדווח :</b></h5>
+                    <div class="row">
+                        {{reply.FirstName}} {{reply.LastName}} - {{reply.MessageDate}} {{reply.MessageTime}}
+                    </div>
+                    <div class="row">
+                        <p class="text-right" style="font-family: 'math';font-weight: bolder;font-size: 18px;">
+                            {{reply.ResponseText}}</p>
                     </div>
                 </div>
             </div>

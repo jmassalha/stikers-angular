@@ -60,6 +60,8 @@ import { OnlineAppointmentsComponent } from "./online-appointments/online-appoin
 import { CardiologyCalendarComponent } from "./cardiology-calendar/cardiology-calendar.component";
 import { AddupdateactionComponent } from "./cardiology-calendar/addupdateaction/addupdateaction.component";
 import { MotherChildeLinkComponent } from "./mother-childe-link/mother-childe-link.component";
+import { DevManageComponent } from "./dev-manage/dev-manage.component";
+import { SystemManageComponent } from './nurses-manage-dashboard/system-manage/system-manage.component';
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -123,6 +125,8 @@ const routes: Routes = [
     { path: "cardiologycalendar", component: CardiologyCalendarComponent },
     { path: "addupdateaction", component: AddupdateactionComponent },
     { path: "motherchildelink", component: MotherChildeLinkComponent },
+    { path: "devmanage", component: DevManageComponent },
+    { path: "systemmanage", component: SystemManageComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({
