@@ -6,7 +6,7 @@ import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
-import { DatePipe, Location  } from '@angular/common';
+import { DatePipe, Location } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -23,6 +23,7 @@ export class NursesManageDashboardComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   all_departments_array = [];
   ER_Occupancy = [];
+  Delivery_ER_Occupancy = [];
   searchWord: string;
   hospitalBedsInUse: string;
   resparotriesCount: string;
@@ -36,8 +37,8 @@ export class NursesManageDashboardComponent implements OnInit {
     private http: HttpClient,
     private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder) {
-      
-     }
+
+  }
 
 
   Departmints = {
@@ -45,19 +46,26 @@ export class NursesManageDashboardComponent implements OnInit {
     total: 0,
   };
   numberOfDays = 0;
+  numberOfDays2 = 0;
   Dept_Number: string;
   Dept_Name: string;
   newDate: string;
+  newDate2: string;
   dateToDisplayString: string;
   loaded: boolean;
-  allErOccupancy: int
+  occLoaded: boolean;
+  deliveryOccLoaded: boolean;
+  allErOccupancy: int;
+  allDeliveryErOccupancy: int;
   ELEMENT_DATA = [];
 
   ngOnInit(): void {
     this.loaded = false;
+    this.occLoaded = false;
     this.searchWord = "";
     this.getAllDeparts();
     this.getEROccupancy('', 'er');
+    this.getDeliveryEROccupancy('');
 
     // this.NursesSystemPermission();
   }
@@ -67,21 +75,21 @@ export class NursesManageDashboardComponent implements OnInit {
     dialogRef.componentInstance.departCode = departCode;
     dialogRef.componentInstance.Dept_Name = Dept_Name;
     dialogRef.componentInstance.ifAdmin = ifAdmin;
-    if(departCode == 'סח-ל'){
+    if (departCode == 'סח-ל') {
       dialogRef.componentInstance.deliveryRoomDialog = 'DeliveryRoom';
     }
-    dialogRef.afterClosed()
-      .subscribe((data) => {
-        if (!data) {
-          return;
-        }
-        this.ELEMENT_DATA = data;
-        $("#loader").removeClass("d-none");
-        setTimeout(function () {
-          $("#loader").addClass("d-none");
-          window.print();
-        }, 1500);
-      })
+    // dialogRef.afterClosed()
+    //   .subscribe((data) => {
+    //     if (!data) {
+    //       return;
+    //     }
+    //     this.ELEMENT_DATA = data;
+    //     $("#loader").removeClass("d-none");
+    //     setTimeout(function () {
+    //       $("#loader").addClass("d-none");
+    //       window.print();
+    //     }, 1500);
+    //   })
   }
 
   openSnackBar(message) {
@@ -136,12 +144,13 @@ export class NursesManageDashboardComponent implements OnInit {
         let time = setTimeout(() => {
           if (that.nursesUserPermission) {
             let time2 = setTimeout(() => {
-              if(this.router.url !== '/nursesmanagedashboard'){
+              if (this.router.url !== '/nursesmanagedashboard') {
                 clearTimeout(time);
                 clearTimeout(time2);
-              }else{
+              } else {
                 this.getAllDeparts();
                 this.getEROccupancy("", "er");
+                this.getDeliveryEROccupancy("");
               }
             }, 60000);
           } else {
@@ -153,15 +162,15 @@ export class NursesManageDashboardComponent implements OnInit {
         this.loaded = true;
         let numberOfPatients = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfPatients;
         let numberOfBeds = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfBeds;
-        this.getDataFormServer("",numberOfPatients,numberOfBeds);
+        this.getDataFormServer("", numberOfPatients, numberOfBeds);
       });
   }
 
-  test(){
-    if(this.UserName.toLowerCase() == 'jubartal'){
+  test() {
+    if (this.UserName.toLowerCase() == 'jubartal') {
       localStorage.setItem("loginUserName", "nibrahim");
       window.location.reload();
-    }else{
+    } else {
       localStorage.setItem("loginUserName", "jubartal");
       window.location.reload();
     }
@@ -172,7 +181,34 @@ export class NursesManageDashboardComponent implements OnInit {
     dialogRef.componentInstance.otherDepartName = otherDepartName;
   }
 
+  getDeliveryEROccupancy(datePointer) {
+    this.deliveryOccLoaded = false;
+    let dte = new Date();
+    let dateToDisplay = new Date();
+    if (datePointer == 'before') {
+      this.numberOfDays2++;
+    } else if (datePointer == 'next') {
+      this.numberOfDays2--;
+    } else {
+      this.numberOfDays2;
+    }
+    dte.setDate(dte.getDate() - this.numberOfDays2);
+    let pipe = new DatePipe('en-US');
+    this.newDate2 = pipe.transform(dte.toString(), 'yyyy-MM-dd');
+    this.dateToDisplayString = pipe.transform(dateToDisplay.toString(), 'yyyy-MM-dd');
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetDeliveryEROccupancy", {
+        _datePointer: this.newDate2
+      })
+      .subscribe((Response) => {
+        this.Delivery_ER_Occupancy = Response["d"];
+        this.allDeliveryErOccupancy = parseInt(this.Delivery_ER_Occupancy[0]) + parseInt(this.Delivery_ER_Occupancy[1]) + parseInt(this.Delivery_ER_Occupancy[2]);
+        this.deliveryOccLoaded = true;
+      });
+  }
+
   getEROccupancy(datePointer, dept) {
+    this.occLoaded = false;
     let dte = new Date();
     let dateToDisplay = new Date();
     if (datePointer == 'before') {
@@ -200,10 +236,12 @@ export class NursesManageDashboardComponent implements OnInit {
         //   }, 1000);
         // }
         this.allErOccupancy = parseInt(this.ER_Occupancy[0]) + parseInt(this.ER_Occupancy[1]) + parseInt(this.ER_Occupancy[2]);
+        this.occLoaded = true;
       });
   }
 
-  public getDataFormServer(_Depart: string,numberOfPatients,numberOfBeds) {
+
+  public getDataFormServer(_Depart: string, numberOfPatients, numberOfBeds) {
     this.http
       .post(
         "http://srv-apps/wsrfc/WebService.asmx/TfosaDashBoardApp",

@@ -163,9 +163,12 @@ export class NursesDashboardComponent implements OnInit {
   ];
 
   status: Status[] = [
+    { value: '', viewValue: '' },
     { value: 'לטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
   ];
+
+  @ViewChild('printmycontent') printmycontent: ElementRef;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -190,12 +193,15 @@ export class NursesDashboardComponent implements OnInit {
   searchReportsGroup: FormGroup;
   reportsArr = [];
   all_categories_filter = [];
+  all_categories_filter2 = [];
   UserName = localStorage.getItem('loginUserName').toLowerCase();
   departmentfilter = new FormControl();
   categoryfilter = new FormControl();
+  categoryfilter2 = new FormControl();
   subcategoryfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
   filteredOptions3: Observable<string[]>;
+  filteredOptions3_2: Observable<string[]>;
   filteredOptions4: Observable<string[]>;
   department = [];
   all_departs_filter = [];
@@ -245,10 +251,11 @@ export class NursesDashboardComponent implements OnInit {
       ReportMachlol: ['', null],
       ReportCategory: ['', null],
       ReportSubCategory: ['', null],
-      ReportStatus: ['לטיפול', null],
+      Important: [false, null],
+      ReportStatus: ['', null],
       ReportShift: [{ value: '', disabled: true }, null],
       ReportText: ['', null],
-      toContinue: [true, null],
+      toContinue: [false, null],
       Diagnosis: ['', null],
       PatientName: [this.firstname + ' ' + this.lastname, null],
       PatientNurseStatus: [this.description + ' ' + this.corona, null],
@@ -281,13 +288,18 @@ export class NursesDashboardComponent implements OnInit {
         startWith(''),
         map(value => this._filter3(value))
       );
+    this.filteredOptions3_2 = this.categoryfilter2.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter3_2(value))
+      );
     this.filteredOptions4 = this.subcategoryfilter.valueChanges
       .pipe(
         startWith(''),
         map(value => this._filter4(value))
       );
     this.departmentfilter.setValue(this.Dept_Name);
-    
+
     this.categoryfilter.setValue('');
     this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
@@ -303,6 +315,10 @@ export class NursesDashboardComponent implements OnInit {
   private _filter3(value: string): string[] {
     const filterValue3 = value;
     return this.all_categories_filter.filter(option => option.Cat_Name.includes(filterValue3));
+  }
+  private _filter3_2(value: string): string[] {
+    const filterValue3_2 = value;
+    return this.all_categories_filter2.filter(option => option.Cat_Name.includes(filterValue3_2));
   }
   private _filter4(value: string): string[] {
     const filterValue4 = value;
@@ -321,12 +337,21 @@ export class NursesDashboardComponent implements OnInit {
     this.dialogRef.close();
   }
 
+  setImportantReport() {
+    if (this.ReportGroup.controls['Important'].value == 'True' || this.ReportGroup.controls['Important'].value == true) {
+      this.ReportGroup.controls['Important'].setValue('False');
+    } else {
+      this.ReportGroup.controls['Important'].setValue('True');
+    }
+  }
+
   getCategories() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {
       })
       .subscribe((Response) => {
         this.all_categories_filter = Response["d"];
+        this.all_categories_filter2 = Response["d"];
         let lastIndex = this.all_categories_filter.length - 1;
         this.subCategory = this.all_categories_filter[lastIndex].SubCategory;
       });
@@ -357,10 +382,10 @@ export class NursesDashboardComponent implements OnInit {
 
   NursesSystemPermission() {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
-    return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => { 
-      if(response["d"]){
+    return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => {
+      if (response["d"]) {
         this.AdminNurse = '1';
-      }; 
+      };
     });
   }
 
@@ -377,9 +402,17 @@ export class NursesDashboardComponent implements OnInit {
       });
   }
 
-
   print() {
-    this.dialogRef.close(this.ELEMENT_DATA);
+    // this.dialogRef.close(this.ELEMENT_DATA);
+    // $("#loader").removeClass("d-none");
+    let that = this;
+    setTimeout(function () {
+      var printContents = that.printmycontent.nativeElement.innerHTML;                 
+      var w = window.open();
+      w.document.write(printContents);
+      w.print();
+      w.close();
+    }, 1000);
   }
 
   searchReports() {
@@ -418,7 +451,7 @@ export class NursesDashboardComponent implements OnInit {
     }
     if (!this.searchReportsGroup.invalid) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/GetReports", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
           _reportShift: _reportShift,
           _reportDepartment: _reportDepartment,
           _reportStatus: _reportStatus,
@@ -448,7 +481,9 @@ export class NursesDashboardComponent implements OnInit {
                 ReportMachlol: this.reportsArr[i].ReportMachlol,
                 ReportCategory: this.reportsArr[i].ReportCategory,
                 ReportSubCategory: this.reportsArr[i].ReportSubCategory,
-                ReportsReplyList: this.reportsArr[i].ReportsReplyList
+                ReportsReplyList: this.reportsArr[i].ReportsReplyList,
+                Important: this.reportsArr[i].Important,
+                PatientName: this.reportsArr[i].PatientName,
               });
             }
             if (_caseNumber != "") {

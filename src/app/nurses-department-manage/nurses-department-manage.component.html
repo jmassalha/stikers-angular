@@ -1,4 +1,4 @@
-<div class="my-container">
+<div class="my-container" id="page-toshow">
   <button type="button" class="close" matTooltip="סגירה" aria-label="Close" *ngIf="ifAdmin == '1'"
     (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
@@ -97,11 +97,11 @@
             matTooltip="שמירה" (click)="getSubmitPlannedToRealse('1')">
             <i class="material-icons">save</i>
           </button>
-          <button matTooltip="דיווח קליני למחלקה" mat-raised-button type="submit" class="btn btn-primary btn-raised"
+          <button matTooltip="דוחות קליניים במחלקה" mat-raised-button type="submit" class="btn btn-primary btn-raised"
             id="generalClinicalBtn" (click)="displayReports('', true, Dept_Name, '', '','','','','','clinical')">
             <i class="material-icons">receipt_long</i>
           </button>
-          <button matTooltip="דווח מינהלי" id="generalClinicalBtn" mat-raised-button type="submit"
+          <button matTooltip="דווח ניהולי" id="generalClinicalBtn" mat-raised-button type="submit"
             class="btn btn-primary btn-raised"
             (click)="displayReports('',true,Dept_Name,'','','','','','','administrative')">
             <i class="material-icons">assignment_ind</i>
@@ -240,7 +240,7 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
           <tr mat-row *matRowDef="let row;let even=even; columns: displayedColumns2;" id="rowTable"
-            matTooltip="{{row.SSP_DESCRIPTION}}&#13;{{row.CoronaStatus}}" matTooltipClass="my-tooltip"
+            matTooltip="{{row.SSP_DESCRIPTION}}&#13;{{row.CoronaStatus}}&#13;{{row.kpcType}}" matTooltipClass="my-tooltip"
             matTooltipPosition="before"></tr>
         </table>
       </div>

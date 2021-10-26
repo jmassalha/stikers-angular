@@ -10,6 +10,21 @@
             <li class="nav-item" *ngIf="!_shoSofiMenu">
                 <a class="nav-link" routerLink="dashboard">Dashboard</a>
             </li>
+            <li class="nav-item" *ngIf="_devManage">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> מנהל מערכת </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="devmanage">ניהול כללי</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
             <li class="nav-item" *ngIf="!_shoSofiMenu">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -171,6 +186,9 @@
                         <ul>
                             <li class="nav-item">
                                 <a class="nav-link" routerLink="nursesmanagedashboard">מערכת דיווח סיעודית</a>
+                            </li>
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="systemmanage">ניהול מערכת דיווח</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>

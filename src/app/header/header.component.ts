@@ -34,6 +34,8 @@ export class HeaderComponent implements OnInit {
     _shoCortinas: Boolean;
     _formsArea: Boolean;
     _nursesSystem: Boolean;
+    _nursesSystemManage: Boolean;
+    _devManage: Boolean;
     _publicInquiry: Boolean;
     _shoCortinasSettings: Boolean;
     _shoSofiMenu: Boolean;
@@ -96,6 +98,7 @@ export class HeaderComponent implements OnInit {
         this._sendSMSADMIN = false;
         this._clinicsPricing = false;
         this._formsArea = false;
+        this._devManage = false;
         this._publicInquiry = false;
         this._shoEventsschedule = false;
         this._shoEmergincyCall = false;
@@ -154,6 +157,17 @@ export class HeaderComponent implements OnInit {
             this._shoScanners = true;
         }
         if (
+            this.loginUserName.toLowerCase() == "adahabre"
+        ) {
+            this._devManage = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "adahabre"||
+            this.loginUserName.toLowerCase() == "jubartal"
+        ) {
+            this._nursesSystemManage = true;
+        }
+        if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim"
@@ -186,7 +200,9 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "klibai" ||
             this.loginUserName.toLowerCase() == "smatta" ||
             this.loginUserName.toLowerCase() == "rogolan"||
-            this.loginUserName.toLowerCase() == "hnlgbats"
+            this.loginUserName.toLowerCase() == "hnlgbats"||
+            this.loginUserName.toLowerCase() == "arozenwalt"||
+            this.loginUserName.toLowerCase() == "gmagril"
         ) {
             this._formsArea = true;
         }

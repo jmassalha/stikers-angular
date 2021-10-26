@@ -3,12 +3,11 @@
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
-
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body">
                         <form class="form">
                             <div class="row">
-                                <div class="col-4 text-center colForDash">
+                                <div class="col-3 text-center colForDash">
                                     <div class="row text-center">
                                         <div class="col-12 text-center">
                                             <h3><b>תפוסת</b><br><b>בית החולים</b></h3>
@@ -40,7 +39,7 @@
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 text-center colForDash">
+                                <div class="col-3 text-center colForDash">
                                     <div class="row">
                                         <div class="col-2 text-center">
                                             <span class="material-icons" (click)="getEROccupancy('next','er')"
@@ -75,11 +74,52 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-4 text-center colForDash" *ngFor="let occ of ER_Occupancy">
-                                            <h5>{{occ}}</h5>
+                                            <mat-spinner class="occLoaders" [diameter]="50" style="margin: auto;" *ngIf="!occLoaded"></mat-spinner>
+                                            <h5 *ngIf="occLoaded">{{occ}}</h5>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 text-center colForDash">
+                                <div class="col-3 text-center colForDash">
+                                    <div class="row">
+                                        <div class="col-2 text-center">
+                                            <span class="material-icons" (click)="getDeliveryEROccupancy('next')"
+                                                matTooltip="יום אחרי">
+                                                navigate_next
+                                            </span>
+                                        </div>
+                                        <div class="col-8 text-center">
+                                            <h3><b>קבלות מ.יולדות</b></h3>
+                                            <h3 style="font-size: 20px;"> סה"כ {{allDeliveryErOccupancy}} &nbsp;&nbsp; {{newDate2
+                                                | date: "dd.MM.yyyy"}}</h3>
+                                            <h3 style="font-size: 20px;"></h3>
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <span class="material-icons" (click)="getDeliveryEROccupancy('before')"
+                                                matTooltip="יום לפני">
+                                                navigate_before
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h5>לילה</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5>בוקר</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5>ערב</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 text-center colForDash" *ngFor="let occ of Delivery_ER_Occupancy">
+                                            <mat-spinner class="occLoaders" [diameter]="50" style="margin: auto;" *ngIf="!deliveryOccLoaded"></mat-spinner>
+                                            <h5 *ngIf="deliveryOccLoaded">{{occ}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 text-center colForDash">
                                     <div class="row text-center">
                                         <div class="col-12 text-center">
                                             <h3><b>סטטוס מחלקות מיוחדות</b></h3>
@@ -115,7 +155,7 @@
                     </div>
                 </div>
             </div>
-            <button matTooltip="דווח מינהלי" id="EventBtndisplay" mat-raised-button type="submit"
+            <button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="submit"
                 class="btn btn-primary btn-raised" (click)="openReportDialog('administrative')">
                 <i class="material-icons">assignment_ind</i>
             </button>
@@ -150,8 +190,6 @@
                                 {{item.PercentOccupancy}}%
                             </span>
                         </div>
-                        <!-- <div class="list-style text-center" style="font-size: 24px;"> 
-                        </div> -->
                     </mat-card>
                 </div>
             </div>
@@ -159,22 +197,7 @@
     </div>
 </mat-card>
 
-<!-- <mat-card *ngIf="!nursesUserPermission">
-    <app-nurses-department-manage [Dept_Name]="Dept_Name" [Dept_Number]="Dept_Number"></app-nurses-department-manage>
-</mat-card> -->
-
-
 <div class="d-none-desktop" dir="rtl">
-    <!-- <table dir="rtl">
-        <div class="card text-center">
-            <h1>מערכת דוחות אחיות</h1>
-        </div>
-        <thead>
-        </thead>
-        <tbody>
-            <tr *ngFor="let tblRow of ELEMENT_DATA" class="text-right">
-                <td>
-                    <div class="text-right"> -->
     <div class="row text-right" *ngFor="let tblRow of ELEMENT_DATA"
         style="border-style: outset;margin-bottom: 20px;padding: 6px;">
         <div class="col-12">
@@ -234,11 +257,4 @@
             </div>
         </div>
     </div>
-    <!-- </div>
-                </td>
-                <hr>
-            </tr>
-        </tbody>
-        <tfoot></tfoot>
-    </table> -->
 </div>

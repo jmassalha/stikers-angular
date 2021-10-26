@@ -185,7 +185,7 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   getDepartDetails() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetDepartDetails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetDepartDetails", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {
@@ -211,7 +211,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   getPatientsPerDepart(event: Event, subDepart: string) {
     this.Patientsloading = true;
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetPatientsPerDepart", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsPerDepart", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {
