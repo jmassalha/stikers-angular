@@ -238,7 +238,7 @@ export class NursesDashboardComponent implements OnInit {
     this.searchReportsGroup = new FormGroup({
       'ReportShift': new FormControl('', null),
       'PatientName': new FormControl('', null),
-      'ReportStatus': new FormControl('', null),
+      'ReportStatus': new FormControl('הכל', null),
       'ReportDepartment': new FormControl('', null),
       'CaseNumber': new FormControl('', null),
       'ReportStartDate': new FormControl('', null),

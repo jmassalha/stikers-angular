@@ -1,2 +1,42 @@
-<p>system-manage works!</p>
-<img src="https://balko.co.il/wp-content/uploads/2020/02/under-construction-.jpg" width="100%" height="100%">
+<img *ngIf="UserName == 'jubartal'" src="https://balko.co.il/wp-content/uploads/2020/02/under-construction-.jpg"
+    width="100%" height="100%">
+<div class="container" *ngIf="UserName == 'adahabre'" dir="rtl">
+    <form dir="rtl" class="form col" [formGroup]="updateBedsGroup">
+        <div class="row">
+            <div class="col-12 bedsUpdate">
+                <h2>עדכון מספר מיטות במחלקה</h2>
+                <div class="row">
+                    <div class="col-4">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>נושא/מחלקה</mat-label>
+                                <input type="text" aria-label="department"
+                                    style="font-family: 'math';font-weight: bolder;font-size: 18px;" matInput
+                                    [formControl]="departmentfilter" [matAutocomplete]="auto2">
+                                <mat-autocomplete #auto2="matAutocomplete">
+                                    <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Namer_ID"
+                                        style="font-family: 'math';font-weight: bolder;font-size: 18px;">
+                                        {{dept.Depart_Name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <mat-form-field>
+                            <input matInput formControlName="number_of_beds" autocomplete="off" placeholder="מספר מיטות" name="fliterVal" />
+                        </mat-form-field>
+                    </div>
+                    <div class="col-4">
+                        <button matTooltip="שמירה" mat-raised-button type="submit"
+                        class="btn btn-primary btn-raised float-right" (click)="submitUpdateBeds()">
+                        <span class="material-icons">
+                            done
+                        </span>
+                    </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

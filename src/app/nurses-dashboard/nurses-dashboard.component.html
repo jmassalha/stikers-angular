@@ -268,7 +268,7 @@
                                         <mat-form-field>
                                             <mat-label>סטטוס</mat-label>
                                             <mat-select formControlName="ReportStatus">
-                                                <mat-option [value]="''">הכל</mat-option>
+                                                <mat-option [value]="'הכל'">הכל</mat-option>
                                                 <mat-option *ngFor="let st of status" [value]="st.value"
                                                     [style.color]="st.value == 'טופל' ? 'darkseagreen':  'darkgrey'">
                                                     {{st.viewValue}}

@@ -160,9 +160,11 @@ export class NursesManageDashboardComponent implements OnInit {
           }
         }, 1500);
         this.loaded = true;
-        let numberOfPatients = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfPatients;
-        let numberOfBeds = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfBeds;
-        this.getDataFormServer("", numberOfPatients, numberOfBeds);
+        if (this.all_departments_array.length > 0) {
+          let numberOfPatients = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfPatients;
+          let numberOfBeds = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfBeds;
+          this.getDataFormServer("", numberOfPatients, numberOfBeds);
+        }
       });
   }
 
