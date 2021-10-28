@@ -22,8 +22,7 @@
                                         <input type="text" aria-label="department" matInput
                                             [formControl]="departmentfilter" [matAutocomplete]="auto2">
                                         <mat-autocomplete #auto2="matAutocomplete">
-                                            <mat-option *ngFor="let dept of filteredOptions2 | async"
-                                                [value]="dept">
+                                            <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept">
                                                 {{dept}}
                                             </mat-option>
                                         </mat-autocomplete>
@@ -110,10 +109,14 @@
     </div><br><br>
 
     <div class="row mb-3 mr-3" dir="rtl">
-        <button class="btn btn-primary" mat-raised-button style="margin-left: 5px;" (click)="loadInquiries()"
+        <!-- <button class="btn btn-primary" mat-raised-button style="margin-left: 5px;" (click)="loadInquiries()"
             *ngIf="UserName == 'matias' || UserName == 'miruach'"><span class="material-icons">
                 refresh
-            </span> טען מיילים חדשים</button>
+            </span> טען מיילים חדשים</button> -->
+        <button class="btn btn-raised" mat-raised-button style="margin-right: 5px;background-color: lawngreen;" (click)="searchForm('0')"><span
+                class="material-icons">
+                refresh
+            </span> רענון פניות</button>
         <button class="btn btn-primary" mat-raised-button style="margin-right: 5px;" (click)="searchForm('1')"><span
                 class="material-icons">
                 mark_as_unread

@@ -217,7 +217,6 @@ export class EmailsdashboardComponent implements OnInit {
       );
   }
 
-
   searchForm(isRead) {
     let compName = this.formSearch.controls['compName'].value;
     let departmentControl = this.departmentfilter.value;
