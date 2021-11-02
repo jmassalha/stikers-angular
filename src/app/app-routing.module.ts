@@ -62,6 +62,7 @@ import { AddupdateactionComponent } from "./cardiology-calendar/addupdateaction/
 import { MotherChildeLinkComponent } from "./mother-childe-link/mother-childe-link.component";
 import { DevManageComponent } from "./dev-manage/dev-manage.component";
 import { SystemManageComponent } from './nurses-manage-dashboard/system-manage/system-manage.component';
+import { DialogBoxComponent } from './nurses-manage-dashboard/system-manage/dialog-box/dialog-box.component';
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -127,6 +128,7 @@ const routes: Routes = [
     { path: "motherchildelink", component: MotherChildeLinkComponent },
     { path: "devmanage", component: DevManageComponent },
     { path: "systemmanage", component: SystemManageComponent },
+    { path: "dialogbox", component: DialogBoxComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

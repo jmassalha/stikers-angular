@@ -129,6 +129,7 @@ import { AddupdateactionComponent } from './cardiology-calendar/addupdateaction/
 import { MotherChildeLinkComponent } from './mother-childe-link/mother-childe-link.component';
 import { DevManageComponent } from './dev-manage/dev-manage.component';
 import { SystemManageComponent } from './nurses-manage-dashboard/system-manage/system-manage.component';
+import { DialogBoxComponent } from './nurses-manage-dashboard/system-manage/dialog-box/dialog-box.component';
 
 
 
@@ -220,7 +221,8 @@ const maskConfig: Partial<IConfig> = {
     AddupdateactionComponent,
     MotherChildeLinkComponent,
     DevManageComponent,
-    SystemManageComponent
+    SystemManageComponent,
+    DialogBoxComponent
   ],
   imports: [
     FlatpickrModule.forRoot(),

@@ -113,8 +113,8 @@
             *ngIf="UserName == 'matias' || UserName == 'miruach'"><span class="material-icons">
                 refresh
             </span> טען מיילים חדשים</button> -->
-        <button class="btn btn-raised" mat-raised-button style="margin-right: 5px;background-color: lawngreen;" (click)="searchForm('0')"><span
-                class="material-icons">
+        <button class="btn btn-raised" mat-raised-button style="margin-right: 5px;background-color: lawngreen;"
+            (click)="searchForm('0')"><span class="material-icons">
                 refresh
             </span> רענון פניות</button>
         <button class="btn btn-primary" mat-raised-button style="margin-right: 5px;" (click)="searchForm('1')"><span
@@ -224,6 +224,12 @@
         <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"
             *ngIf="UserName == 'matias' || UserName == 'miruach'" matTooltip="הוספת פנייה חדשה"><i
                 class="material-icons">add</i></button>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
+        <mat-paginator [pageSizeOptions]="[30,50,70,100]" showFirstLastButtons></mat-paginator>
+        <div class="row">
+            <div class="col text-center">
+                <h2>סה"כ מספר פניות: {{totalNumberOfInquiries}}</h2>
+            </div>
+            
+        </div>
     </div>
 </div>
