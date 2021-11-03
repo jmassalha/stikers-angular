@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// declare let ClientIP: any;
+declare let ClientIP: any;
 @Component({
   selector: 'app-nurses-manage-dashboard',
   templateUrl: './nurses-manage-dashboard.component.html',
@@ -71,7 +71,7 @@ export class NursesManageDashboardComponent implements OnInit {
     this.getEROccupancy('', 'er');
     this.getDeliveryEROccupancy('');
     // Private Ip
-    // this.privateIP = ClientIP;
+    this.privateIP = ClientIP;
     // Public IP
     this.http.get('https://api.ipify.org?format=json').subscribe(data => {
       this.publicIP = data['ip'];
@@ -143,19 +143,23 @@ export class NursesManageDashboardComponent implements OnInit {
 
   getAllDeparts() {
     this.loaded = false;
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetComputerName", {})
-      .subscribe((Response) => {
-        this.privateIP = Response["d"];
-      });
+    // this.http
+    //   .post("http://srv-apps/wsrfc/WebService.asmx/GetComputerName", {})
+    //   .subscribe((Response) => {
+    //     this.privateIP = Response["d"];
+    //   });
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
         _userName: this.UserName
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
-        let _ipAddress = this.all_departments_array[0].IpAddress;
-        let _adminNurse = this.all_departments_array[0].AdminNurse;
+        let _ipAddress;
+        let _adminNurse;
+        if(this.all_departments_array.length > 0){
+          _ipAddress = this.all_departments_array[0].IpAddress;
+          _adminNurse = this.all_departments_array[0].AdminNurse;
+        }
         console.log();
         // this.NursesSystemPermission();
         if (_adminNurse) {
