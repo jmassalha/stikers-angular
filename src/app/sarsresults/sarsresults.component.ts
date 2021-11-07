@@ -330,7 +330,7 @@ export class SarsresultsComponent implements OnInit {
                         L_LABEL: SarsData[i].L_LABEL,
                         L_F_E_NAME: SarsData[i].L_F_E_NAME,
                         L_L_E_NAME: SarsData[i].L_L_E_NAME,
-                        L_DOB: new Date(dateIn[2], dateIn[1], dateIn[0]),
+                        L_DOB: new Date(dateIn[2], parseInt(dateIn[1]) - 1, dateIn[0]),
                         L_PASSPORT: SarsData[i].L_PASSPORT,
                         L_RESULT_TIME: SarsData[i].L_RESULT_TIME,
                         L_SEND_DATE: SarsData[i].L_SEND_DATE,
@@ -339,6 +339,7 @@ export class SarsresultsComponent implements OnInit {
                         L_PATIENT_NUMBER: SarsData[i].L_PATIENT_NUMBER,
                         L_PASSWORD: SarsData[i].L_PASSWORD,
                     });
+                    //debugger
                 }
 
                 // ////debugger
