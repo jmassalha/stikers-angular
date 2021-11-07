@@ -20,7 +20,26 @@
             </div>
             <div class="col-5" *ngIf="UserName == 'matias'">
                 <form class="example-form">
-                    <mat-form-field class="example-full-width">
+                    <mat-form-field class="example-chip-list" appearance="fill">
+                        <mat-label>בחר אחראי מהרשימה</mat-label>
+                        <mat-chip-list #chipList aria-label="Fruit selection">
+                            <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
+                                (removed)="remove(fruit)">
+                                {{fruit.firstname}}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="בחר אחראי מהרשימה" #fruitInput [formControl]="fruitCtrl"
+                                [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                                {{fruit.firstname}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- <mat-form-field class="example-full-width">
                         <mat-label>קישור אחראי לפנייה</mat-label>
                         <input type="text" aria-label="manager" matInput [formControl]="myControl"
                             [matAutocomplete]="auto">
@@ -33,11 +52,8 @@
                                     </mat-checkbox>
                                 </div>
                             </mat-option>
-                            <!-- <mat-option *ngFor="let option of filteredOptions | async"
-                                [value]="option">{{option.name}}
-                            </mat-option> -->
                         </mat-autocomplete>
-                    </mat-form-field>
+                    </mat-form-field> -->
                 </form>
             </div>
             <div class="col-1" *ngIf="UserName == 'matias'">

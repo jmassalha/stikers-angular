@@ -1,4 +1,5 @@
-<mat-card dir="rtl" *ngIf="nursesUserPermission" id="page-toshow" style="background-color: aliceblue;padding-top: 0px;">
+<mat-card dir="rtl" *ngIf="nursesUserPermission && rightPC" id="page-toshow"
+    style="background-color: aliceblue;padding-top: 0px;">
     <h1 class="page-title text-center">מערכת דיווח סיעודית</h1>
     <div class="container-fluid">
         <div class="row">
@@ -74,7 +75,8 @@
                                     </div>
                                     <div class="row">
                                         <div class="col-4 text-center colForDash" *ngFor="let occ of ER_Occupancy">
-                                            <mat-spinner class="occLoaders" [diameter]="50" style="margin: auto;" *ngIf="!occLoaded"></mat-spinner>
+                                            <mat-spinner class="occLoaders" [diameter]="50" style="margin: auto;"
+                                                *ngIf="!occLoaded"></mat-spinner>
                                             <h5 *ngIf="occLoaded">{{occ}}</h5>
                                         </div>
                                     </div>
@@ -89,7 +91,8 @@
                                         </div>
                                         <div class="col-8 text-center">
                                             <h3><b>קבלות מ.יולדות</b></h3>
-                                            <h3 style="font-size: 20px;"> סה"כ {{allDeliveryErOccupancy}} &nbsp;&nbsp; {{newDate2
+                                            <h3 style="font-size: 20px;"> סה"כ {{allDeliveryErOccupancy}} &nbsp;&nbsp;
+                                                {{newDate2
                                                 | date: "dd.MM.yyyy"}}</h3>
                                             <h3 style="font-size: 20px;"></h3>
                                         </div>
@@ -113,8 +116,10 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-4 text-center colForDash" *ngFor="let occ of Delivery_ER_Occupancy">
-                                            <mat-spinner class="occLoaders" [diameter]="50" style="margin: auto;" *ngIf="!deliveryOccLoaded"></mat-spinner>
+                                        <div class="col-4 text-center colForDash"
+                                            *ngFor="let occ of Delivery_ER_Occupancy">
+                                            <mat-spinner class="occLoaders" [diameter]="50" style="margin: auto;"
+                                                *ngIf="!deliveryOccLoaded"></mat-spinner>
                                             <h5 *ngIf="deliveryOccLoaded">{{occ}}</h5>
                                         </div>
                                     </div>
@@ -131,7 +136,7 @@
                                         <div class="col-6">
                                             <mat-card class="other-cards pb-4"
                                                 (click)="getOtherDepartmentDetails('DeliveryRoom')">
-                                                <h5 style="margin: -12px;">חדר לידה</h5>
+                                                <h5 style="margin: -12px;">לאחר לידה</h5>
                                             </mat-card>
                                         </div>
                                         <div class="col-6">
@@ -196,6 +201,20 @@
         </div>
     </div>
 </mat-card>
+
+<ng-template #modalContent let-close="close">
+    <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
+        warning
+    </span>
+    <h1 class="text-center">
+        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit"
+            class="btn btn-primary btn-raised float-left" [routerLink]="['']" (click)="closeModal()">
+            <i class="material-icons">home</i>
+          </button>
+        <span class="mr-3">כניסה מותרת רק ממחשב מורשה</span>
+    </h1>
+    
+</ng-template>
 
 <div class="d-none-desktop" dir="rtl">
     <div class="row text-right" *ngFor="let tblRow of ELEMENT_DATA"

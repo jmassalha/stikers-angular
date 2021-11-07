@@ -10,7 +10,7 @@
             <li class="nav-item" *ngIf="!_shoSofiMenu">
                 <a class="nav-link" routerLink="dashboard">Dashboard</a>
             </li>
-            <li class="nav-item" *ngIf="_devManage">
+            <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
@@ -41,6 +41,21 @@
                             </li>
                             <li>
                                 <a class="nav-link" routerLink="hearing">סקר שמיעה</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+            <li class="nav-item" *ngIf="loginUserName == 'adahabre'">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> דווח גלית </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="galitpointsreport">ציונים</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -187,7 +202,7 @@
                             <li class="nav-item">
                                 <a class="nav-link" routerLink="nursesmanagedashboard">מערכת דיווח סיעודית</a>
                             </li>
-                            <li class="nav-item">
+                            <li class="nav-item" *ngIf="_nursesSystemManage">
                                 <a class="nav-link" routerLink="systemmanage">ניהול מערכת דיווח</a>
                             </li>
                         </ul>

@@ -97,6 +97,7 @@ export class EmailsdashboardComponent implements OnInit {
   loaded: boolean;
   filteredOptions2: Observable<string[]>;
   departmentfilter = new FormControl();
+  totalNumberOfInquiries: number;
 
 
   ngOnInit() {
@@ -217,7 +218,6 @@ export class EmailsdashboardComponent implements OnInit {
       );
   }
 
-
   searchForm(isRead) {
     let compName = this.formSearch.controls['compName'].value;
     let departmentControl = this.departmentfilter.value;
@@ -263,6 +263,7 @@ export class EmailsdashboardComponent implements OnInit {
         _isRead: isRead
       })
       .subscribe((Response) => {
+        this.totalNumberOfInquiries = 0;
         this.loaded = true;
         if (isRead == "1") {
           window.location.reload();
@@ -297,6 +298,7 @@ export class EmailsdashboardComponent implements OnInit {
             Status: status,
             NumberOfUnread: this.all_forms_filter[i].NumberOfUnread,
           });
+          this.totalNumberOfInquiries++;
         }
         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
         this.dataSource.paginator = this.paginator;

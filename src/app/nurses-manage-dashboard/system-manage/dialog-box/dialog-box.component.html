@@ -1,0 +1,13 @@
+<h1 mat-dialog-title dir="rtl"><strong>{{action}}</strong></h1>
+<div mat-dialog-content dir="rtl">
+    <mat-form-field *ngIf="action != 'Delete'; else elseTemplate">
+        <input placeholder="מספר מיטות" matInput [(ngModel)]="local_data.number_of_beds">
+    </mat-form-field>
+    <ng-template #elseTemplate>
+        Sure to delete <b>{{local_data.name}}</b>?
+    </ng-template>
+</div>
+<div mat-dialog-actions>
+    <button mat-button (click)="closeDialog()" mat-flat-button color="warn">ביטול</button>
+    <button mat-raised-button class="btn btn-primary btn-raised" (click)="doAction()">{{action}}</button>
+</div>

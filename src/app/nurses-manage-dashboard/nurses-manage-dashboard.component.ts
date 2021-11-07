@@ -1,17 +1,16 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
-import { NavigationEnd, Router } from "@angular/router";
+import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MatDialog } from '@angular/material/dialog';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
-import { DatePipe, Location } from '@angular/common';
-import { interval, Subscription } from 'rxjs';
+import { DatePipe } from '@angular/common';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-
-
+import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+declare let ClientIP: any;
 @Component({
   selector: 'app-nurses-manage-dashboard',
   templateUrl: './nurses-manage-dashboard.component.html',
@@ -30,16 +29,18 @@ export class NursesManageDashboardComponent implements OnInit {
   updateSubscription: any;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   nursesUserPermission: boolean = false;
+  privateIP;
+  publicIP;
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   constructor(
+    private modal: NgbModal,
     public dialog: MatDialog,
     private router: Router,
     private http: HttpClient,
     private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder) {
-
   }
-
 
   Departmints = {
     departs: [],
@@ -58,17 +59,25 @@ export class NursesManageDashboardComponent implements OnInit {
   allErOccupancy: int;
   allDeliveryErOccupancy: int;
   ELEMENT_DATA = [];
+  userIP = ''
+  rightPC: boolean;
 
   ngOnInit(): void {
     this.loaded = false;
     this.occLoaded = false;
+    this.rightPC = false;
     this.searchWord = "";
     this.getAllDeparts();
     this.getEROccupancy('', 'er');
     this.getDeliveryEROccupancy('');
-
-    // this.NursesSystemPermission();
+    // Private Ip
+    this.privateIP = ClientIP;
+    // Public IP
+    this.http.get('https://api.ipify.org?format=json').subscribe(data => {
+      this.publicIP = data['ip'];
+    });
   }
+
 
   openDialogToFill(departCode, Dept_Name, ifAdmin) {
     let dialogRef = this.dialog.open(NursesDepartmentManageComponent, { disableClose: true });
@@ -91,6 +100,7 @@ export class NursesManageDashboardComponent implements OnInit {
     //     }, 1500);
     //   })
   }
+
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
@@ -118,31 +128,52 @@ export class NursesManageDashboardComponent implements OnInit {
       })
   }
 
-  NursesSystemPermission() {
-    let userName = localStorage.getItem("loginUserName").toLowerCase();
-    return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => { response["d"]; this.nursesUserPermission = response["d"] });
-    // this.http
-    //   .post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
-    //     _userName: userName
-    //   })
-    //   .subscribe((Response) => {
-    //     this.nursesUserPermission = Response["d"];
-    //     return this.nursesUserPermission;
-    //   });
+  // NursesSystemPermission() {
+  //   let userName = localStorage.getItem("loginUserName").toLowerCase();
+  //   return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => { response["d"]; this.nursesUserPermission = response["d"] });
+  // }
+
+  handleEvent() {
+    this.dialog.open(this.modalContent, { width: '60%',disableClose: true} );
+  }
+
+  closeModal() {
+    this.dialog.closeAll();
   }
 
   getAllDeparts() {
     this.loaded = false;
+    // this.http
+    //   .post("http://srv-apps/wsrfc/WebService.asmx/GetComputerName", {})
+    //   .subscribe((Response) => {
+    //     this.privateIP = Response["d"];
+    //   });
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
         _userName: this.UserName
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
-        this.NursesSystemPermission();
+        let _ipAddress;
+        let _adminNurse;
+        if(this.all_departments_array.length > 0){
+          _ipAddress = this.all_departments_array[0].IpAddress;
+          _adminNurse = this.all_departments_array[0].AdminNurse;
+        }
+        console.log();
+        // this.NursesSystemPermission();
+        if (_adminNurse) {
+          this.nursesUserPermission = true;
+          if (this.privateIP != _ipAddress && _ipAddress != "") {
+            this.rightPC = false;
+            this.handleEvent();
+          } else {
+            this.rightPC = true;
+          }
+        }
         let that = this;
         let time = setTimeout(() => {
-          if (that.nursesUserPermission) {
+          if (that.nursesUserPermission && this.rightPC) {
             let time2 = setTimeout(() => {
               if (this.router.url !== '/nursesmanagedashboard') {
                 clearTimeout(time);
@@ -152,19 +183,24 @@ export class NursesManageDashboardComponent implements OnInit {
                 this.getEROccupancy("", "er");
                 this.getDeliveryEROccupancy("");
               }
-            }, 60000);
+            }, 300000);
           } else {
-            that.Dept_Number = that.all_departments_array[0].Dept_Number;
-            that.Dept_Name = that.all_departments_array[0].Dept_Name;
-            that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');
+            if (that.all_departments_array.length == 1) {
+              that.Dept_Number = that.all_departments_array[0].Dept_Number;
+              that.Dept_Name = that.all_departments_array[0].Dept_Name;
+              that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');
+            }
           }
         }, 1500);
         this.loaded = true;
-        let numberOfPatients = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfPatients;
-        let numberOfBeds = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfBeds;
-        this.getDataFormServer("", numberOfPatients, numberOfBeds);
+        if (this.all_departments_array.length > 0) {
+          let numberOfPatients = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfPatients;
+          let numberOfBeds = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfBeds;
+          this.getDataFormServer("", numberOfPatients, numberOfBeds);
+        }
       });
   }
+  
 
   test() {
     if (this.UserName.toLowerCase() == 'jubartal') {

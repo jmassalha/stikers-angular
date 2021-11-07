@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -13,6 +13,9 @@ import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-d
 import { EmployeesComponent } from '../employees/employees.component';
 import { isEmpty, map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import {COMMA, ENTER} from '@angular/cdk/keycodes';
 
 export interface User {
   firstname: string;
@@ -41,6 +44,15 @@ export class StatusComplaintComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
   ) { }
 
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredFruits: Observable<string[]>;
+  fruits: string[] = [];
+  allFruits: string[] = [];
+
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   users = [];
   all_users_filter = [];
@@ -81,6 +93,9 @@ export class StatusComplaintComponent implements OnInit {
         map(value => typeof value === 'string' ? value : value.firstname),
         map(firstname => firstname ? this._filter(firstname) : this.users.slice())
       );
+      this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+        startWith(null),
+        map((fruit: string | null) => fruit ? this._filter2(fruit) : this.users.slice()));
   }
 
   // selectChange = (event: any) => {
@@ -99,38 +114,78 @@ export class StatusComplaintComponent implements OnInit {
       verticalPosition: this.verticalPosition,
     });
   }
-  optionClicked = (event: Event, data: User): void => {
-    event.stopPropagation();
-    this.toggleSelection(data);
-  }
-  toggleSelection = (data: User): void => {
-    data.selected = !data.selected;
-    if (data.selected === true) {
-      this.selectData.push(data);
-    } else {
-      const i = this.selectData.findIndex(value => value.firstname === data.firstname);
-      this.selectData.splice(i, 1);
+  // optionClicked = (event: Event, data: User): void => {
+  //   event.stopPropagation();
+  //   this.toggleSelection(data);
+  // }
+  // toggleSelection = (data: User): void => {
+  //   data.selected = !data.selected;
+  //   if (data.selected === true) {
+  //     this.selectData.push(data);
+  //   } else {
+  //     const i = this.selectData.findIndex(value => value.firstname === data.firstname);
+  //     this.selectData.splice(i, 1);
+  //   }
+  //   this.myControl.setValue(this.selectData);
+  //   this.emitAdjustedData();
+  // }
+  // emitAdjustedData = (): void => {
+  //   const results: Array<string> = []
+  //   this.selectData.forEach((data: User) => {
+  //     results.push(data.firstname);
+  //   });
+  //   this.result.emit({ key: this.key, data: results });
+  // };
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.fruits.push(value);
     }
-    this.myControl.setValue(this.selectData);
-    this.emitAdjustedData();
+    // event.chipInput!.clear();
+    this.fruitCtrl.setValue(null);
   }
-  emitAdjustedData = (): void => {
-    const results: Array<string> = []
-    this.selectData.forEach((data: User) => {
-      results.push(data.firstname);
-    });
-    this.result.emit({ key: this.key, data: results });
-  };
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.value);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter2(value: any): string[] {
+    let filterValue = "";
+    if(value != '' && value.firstname == undefined){
+      filterValue = value.toLowerCase();
+    }
+    return this.users.filter(fruit => fruit.firstname.toLowerCase().includes(filterValue));
+  }
+  
+  getUsers() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
+
+      })
+      .subscribe((Response) => {
+        this.all_users_filter = Response["d"];
+
+        this.all_users_filter.forEach(element => {
+          this.users.push({
+            firstname: element.firstname + " " + element.lastname,
+            id: element.id,
+            email: element.email
+          });
+        })
+      });
+  }
 
   deleteMessage(messageID, ComplaintID) {
-    // this.confirmationDialogService
-    //   .confirm("נא לאשר..", "האם אתה בטוח ...? ")
-    //   .then((confirmed) => {
-    //     console.log("User confirmed:", confirmed);
-    //     if (confirmed) {
-    //       console.log("deleted");
-    //     }
-    //   });
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/DeleteMessage", {
         _messageID: messageID
@@ -158,6 +213,7 @@ export class StatusComplaintComponent implements OnInit {
   }
 
   shareComplaintWithOthers() {
+    this.myControl.setValue(this.fruits);
     if (this.myControl.value == null) {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
@@ -178,23 +234,6 @@ export class StatusComplaintComponent implements OnInit {
     }
   }
 
-  getUsers() {
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
-
-      })
-      .subscribe((Response) => {
-        this.all_users_filter = Response["d"];
-
-        this.all_users_filter.forEach(element => {
-          this.users.push({
-            firstname: element.firstname + " " + element.lastname,
-            id: element.id,
-            email: element.email
-          });
-        })
-      });
-  }
 
   getAndSendMessages(formid) {
     this._choosed = true;

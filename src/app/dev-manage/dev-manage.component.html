@@ -1,2 +1,60 @@
-<p>dev-manage works!</p>
-<img src="https://balko.co.il/wp-content/uploads/2020/02/under-construction-.jpg" width="100%" height="100%">
+<!-- <img src="https://balko.co.il/wp-content/uploads/2020/02/under-construction-.jpg"
+    width="100%" height="100%"> -->
+<div class="container" dir="rtl" *ngIf="!permission">
+    <form dir="rtl" class="form col" [formGroup]="permissionPassword">
+        <div class="row">
+            <div class="col-12 bedsUpdate">
+                <h2>כניסה לדף ניהול</h2>
+                <div class="row">
+                    <div class="col-4">
+                    </div>
+                    <div class="col-4">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <input matInput formControlName="passwordLogin" autocomplete="off" type="password"
+                                    placeholder="הקלד סיסמה לכניסה" name="fliterVal" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-4">
+                        <button matTooltip="אישור" mat-raised-button type="submit"
+                            class="btn btn-primary btn-raised float-right" (click)="checkPassword()">
+                            <span class="material-icons">
+                                done
+                            </span>
+                        </button>
+                    </div>
+                    <div class="col-4">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>
+<div class="container" dir="rtl" *ngIf="permission">
+    <form dir="rtl" class="form col" [formGroup]="changeUser">
+        <div class="row">
+            <div class="col-12 bedsUpdate">
+                <h2>שינוי שם משתמש</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>החלפה למשתמש חדש</mat-label>
+                                <input type="text" aria-label="user"
+                                    style="font-family: 'math';font-weight: bolder;font-size: 18px;" matInput
+                                    [formControl]="userfilter" [matAutocomplete]="auto2">
+                                <mat-autocomplete #auto2="matAutocomplete">
+                                    <mat-option *ngFor="let user of filteredOptions2 | async" [value]="user.firstname"
+                                        style="font-family: 'math';font-weight: bolder;font-size: 18px;">
+                                        {{user.firstname}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

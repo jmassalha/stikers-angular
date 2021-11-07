@@ -55,6 +55,10 @@ export interface Status {
   value: string;
   viewValue: string;
 }
+export interface ImportantCat {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'share-reports-dialog',
   templateUrl: 'share-reports-dialog.html',
@@ -167,6 +171,10 @@ export class NursesDashboardComponent implements OnInit {
     { value: 'לטיפול', viewValue: 'לטיפול' },
     { value: 'טופל', viewValue: 'טופל' },
   ];
+  importantCat: ImportantCat[] = [
+    { value: '1', viewValue: 'חשוב' },
+    { value: '0', viewValue: 'רגיל' },
+  ];
 
   @ViewChild('printmycontent') printmycontent: ElementRef;
 
@@ -238,12 +246,13 @@ export class NursesDashboardComponent implements OnInit {
     this.searchReportsGroup = new FormGroup({
       'ReportShift': new FormControl('', null),
       'PatientName': new FormControl('', null),
-      'ReportStatus': new FormControl('', null),
-      'ReportDepartment': new FormControl('', null),
+      'ReportStatus': new FormControl('הכל', null),
+      'ReportDepartment': new FormControl(' ', null),
       'CaseNumber': new FormControl('', null),
       'ReportStartDate': new FormControl('', null),
       'ReportEndDate': new FormControl('', null),
-      'ReportCategory': new FormControl('', null),
+      'ReportCategory': new FormControl(' ', null),
+      'ImportantCategory': new FormControl('הכל', null),
     });
     this.ReportGroup = this.formBuilder.group({
       Row_ID: ['0', null],
@@ -436,7 +445,11 @@ export class NursesDashboardComponent implements OnInit {
     }
     let _reportStartDate = this.searchReportsGroup.controls['ReportStartDate'].value;
     let _reportEndDate = this.searchReportsGroup.controls['ReportEndDate'].value;
+    this.searchReportsGroup.controls['ReportCategory'].setValue(this.categoryfilter2.value);
     let _reportCategory = this.searchReportsGroup.controls['ReportCategory'].value;
+    if(_reportCategory == null){
+      _reportCategory = "";
+    }
     let _patientName = this.searchReportsGroup.controls['PatientName'].value;
     let pipe = new DatePipe('en-US');
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
@@ -449,6 +462,7 @@ export class NursesDashboardComponent implements OnInit {
     } else {
       _reportEndDate = "";
     }
+    let _important = this.searchReportsGroup.controls['ImportantCategory'].value;
     if (!this.searchReportsGroup.invalid) {
       this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
@@ -462,7 +476,8 @@ export class NursesDashboardComponent implements OnInit {
           _userName: this.UserName,
           _reportType: this.reportType,
           _ifGeneral: this.ifGeneral,
-          _patientName: _patientName
+          _patientName: _patientName,
+          _important: _important
         })
         .subscribe((Response) => {
           this.ELEMENT_DATA = [];

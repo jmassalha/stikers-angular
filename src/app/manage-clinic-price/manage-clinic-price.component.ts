@@ -194,8 +194,6 @@ export class ManageClinicPriceComponent implements OnInit {
           });
           this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
           this.dataSource.paginator = this.paginator;
-          debugger
-          
           this.searchingProgress = false;
         });
     }

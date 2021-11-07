@@ -204,11 +204,11 @@
                                         </mat-form-field>
                                     </div>
                                 </div> -->
-                                <div class="col-6" *ngIf="reportType == 'administrative'">
+                                <div class="col-4" *ngIf="reportType == 'administrative'">
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>מחלקה</mat-label>
-                                            <input type="text" aria-label="department"
+                                            <input type="text" aria-label="department" name="departmentfilter"
                                                 style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
                                                 matInput [formControl]="departmentfilter" [matAutocomplete]="auto2">
                                             <mat-autocomplete #auto2="matAutocomplete">
@@ -221,7 +221,7 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div class="col-6" *ngIf="reportType == 'administrative'">
+                                <div class="col-4" *ngIf="reportType == 'administrative'">
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>קטגוריה</mat-label>
@@ -238,7 +238,20 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-
+                                <div class="col-4" *ngIf="reportType == 'administrative'">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>קטיגוריה אדומה</mat-label>
+                                            <mat-select formControlName="ImportantCategory">
+                                                <mat-option [value]="'הכל'">הכל</mat-option>
+                                                <mat-option *ngFor="let st of importantCat" [value]="st.value"
+                                                    [style.color]="st.value == '1' ? 'red':  'darkgrey'">
+                                                    {{st.viewValue}}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
                             </div>
                             <div class="row">
                                 <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
@@ -268,7 +281,7 @@
                                         <mat-form-field>
                                             <mat-label>סטטוס</mat-label>
                                             <mat-select formControlName="ReportStatus">
-                                                <mat-option [value]="''">הכל</mat-option>
+                                                <mat-option [value]="'הכל'">הכל</mat-option>
                                                 <mat-option *ngFor="let st of status" [value]="st.value"
                                                     [style.color]="st.value == 'טופל' ? 'darkseagreen':  'darkgrey'">
                                                     {{st.viewValue}}
@@ -327,7 +340,7 @@
                     {{ tblRow.ReportMachlol }}
                 </div>
                 <div class="col-md-4" *ngIf="tblRow.Important == 'True'">
-                    <b [ngStyle]="{color: tblRow.Important == 'True' ? 'red' : ''}">דווח חשוב</b> 
+                    <b [ngStyle]="{color: tblRow.Important == 'True' ? 'red' : ''}">קטיגוריה אדומה</b> 
                 </div>
                 <div class="col-md-4">
                     <b>משמרת:</b>
