@@ -42,12 +42,17 @@ export interface Staff {
     DS_ROW_STATUS: string;
     DS_STAFF_IMAGE: string;
     DS_STAFF_ROW_ID: string;
+    DS_STAFF_STATUS?: string;
 }
 export interface Depart {
     id: string;
     name: string;
 }
 export interface Role {
+    id: string;
+    name: string;
+}
+export interface Status {
     id: string;
     name: string;
 }
@@ -70,7 +75,10 @@ export class StaffComponent implements OnInit {
         "DS_ROW_STATUS",
         "D_CLICK",
     ];
-
+    STAFF_STATUS: Status[] = [
+        {id: "0", name: "לא פעיל"},
+        {id: "1", name: "פעיל"},
+        ]
     DS_DEPART_ID: string;
     DS_STAFF_ROLE: string;
     DS_STAFF_IMAGE: string;
@@ -108,6 +116,7 @@ export class StaffComponent implements OnInit {
     Edate: FormControl;
     fullnameVal: string;
     DS_STAFF_ROW_ID: string;
+    DS_STAFF_STATUS: string;
     rowIdVal: string;
     rowElement: Staff = {
         DS_ROW_ID: 0,
@@ -119,12 +128,14 @@ export class StaffComponent implements OnInit {
         DS_ROW_STATUS: "1",
         DS_STAFF_IMAGE: "",
         DS_STAFF_ROW_ID: "",
+        DS_STAFF_STATUS: "1",
     };
     ngOnInit(): void {
         this.DS_DEPART_ID = "";
         this.DS_STAFF_ROLE = "";
         this.DS_STAFF_ROW_ID = "0";
         this.DS_STAFF_IMAGE = "";
+        this.DS_STAFF_STATUS = "1";
         this.DepartmentID = "-1";
         this.RoleID = "-1";
         this.fullnameVal = "";
@@ -136,6 +147,7 @@ export class StaffComponent implements OnInit {
             DS_DEPART_ID: ["", Validators.required],
             DS_STAFF_ROLE: ["", Validators.required],
             DS_STAFF_IMAGE: ["", Validators.required],
+            DS_STAFF_STATUS: ["1", Validators.required],
             DS_STAFF_ROW_ID: ["", false],
             rowIdVal: ["0", false],
         });
@@ -254,21 +266,23 @@ export class StaffComponent implements OnInit {
         this.rowElement.DS_DEPART_ID = this.staffForm.value.DS_DEPART_ID;
         this.rowElement.DS_STAFF_ROLE = this.staffForm.value.DS_STAFF_ROLE;
         this.rowElement.DS_STAFF_IMAGE = this.staffForm.value.DS_STAFF_IMAGE;
+        this.rowElement.DS_ROW_STATUS = this.staffForm.value.DS_STAFF_STATUS;
         this.rowElement.DS_STAFF_ROW_ID = this.staffForm.value.DS_STAFF_ROW_ID;
         this.rowElement.DS_ROW_ID = this.staffForm.value.rowIdVal;
         var resultDeparts= this.search(this.staffForm.value.DS_DEPART_ID, this.departs);
         var resultRoles = this.search(this.staffForm.value.DS_STAFF_ROLE, this.roles);
         this.rowElement.DS_DEPART_NAME = resultDeparts['name'];
         this.rowElement.DS_ROLE_NAME = resultRoles['name'];
-        // //debugger
+        debugger
         this.http
-            .post("http://srv-ipracticom:8080/WebService.asmx/PoriaStaff", {
+            //.post("http://srv-ipracticom:8080/WebService.asmx/PoriaStaff", {
+            .post("http://localhost:64964/WebService.asmx/PoriaStaff", {
                 _staffName: this.staffForm.value.fullnameVal,
                 _DEPART_ID: this.staffForm.value.DS_DEPART_ID,
-                _STAFF_ROLE: this.staffForm.value.DS_STAFF_ROLE,
+                _STAFF_ROLE: this.staffForm.value.DS_STAFF_ROLE, 
                 _STAFF_IMAGE: this.staffForm.value.DS_STAFF_IMAGE,
                 _STAFF_ROW_ID: this.staffForm.value.DS_STAFF_ROW_ID,
-                _Status: 1,
+                _Status: this.staffForm.value.DS_STAFF_STATUS,
                 _rowId: this.staffForm.value.rowIdVal,
             })
             .subscribe((Response) => {
@@ -305,15 +319,20 @@ export class StaffComponent implements OnInit {
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
-       // //debugger
+       //debugger
         this.rowElement = _element;
         this.fullnameVal = _element.DS_STAFF_NAME;
         this.rowIdVal = _element.DS_ROW_ID;
+        this.DS_STAFF_STATUS = _element.DS_ROW_STATUS;
+        console.log(_element.DS_ROW_STATUS)
+        console.log( this.DS_STAFF_STATUS)
+      //  console.log(_element.DS_STAFF_ROLE)
         this.staffForm = this.formBuilder.group({
             fullnameVal: [_element.DS_STAFF_NAME, Validators.required],
             DS_DEPART_ID: [_element.DS_DEPART_ID, Validators.required],
             DS_STAFF_ROLE: [_element.DS_STAFF_ROLE, Validators.required],
             DS_STAFF_IMAGE: [_element.DS_STAFF_IMAGE, Validators.required],
+            DS_STAFF_STATUS: [_element.DS_ROW_STATUS, Validators.required],
             DS_STAFF_ROW_ID: [_element.DS_STAFF_ROW_ID, false],
             rowIdVal: [_element.DS_ROW_ID, false],
         });
@@ -378,6 +397,7 @@ export class StaffComponent implements OnInit {
             DS_DEPART_ID: ["", Validators.required],
             DS_STAFF_ROLE: ["", Validators.required],
             DS_STAFF_IMAGE: ["", Validators.required],
+            DS_STAFF_STATUS: ["1", Validators.required],
             DS_STAFF_ROW_ID: ["", false],
             rowIdVal: ["0", false],
         });
@@ -458,6 +478,7 @@ export class StaffComponent implements OnInit {
                         DS_ROLE_NAME: resultRoles['name'],
                         DS_STAFF_NAME: StaffData[i].DS_STAFF_NAME,
                         DS_ROW_STATUS: StaffData[i].DS_ROW_STATUS,
+                        DS_STAFF_STATUS: StaffData[i].DS_ROW_STATUS,
                         DS_STAFF_IMAGE: StaffData[i].DS_STAFF_IMAGE,
                         DS_STAFF_ROW_ID: StaffData[i].DS_STAFF_ROW_ID,
                     });

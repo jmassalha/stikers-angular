@@ -55,6 +55,7 @@ export class PoriadepartsComponent implements OnInit {
         "D_NAME", //"D_SHEET_ID",
         "D_SEND_SMS",
         "D_SMS_TEXT",
+        "D_LINK",
         "D_CLICK",
     ];
 
@@ -139,6 +140,10 @@ export class PoriadepartsComponent implements OnInit {
             ///$("#chadTable").DataTable();
         }
         this.getReport(this);
+    }
+    openLink(element: any){
+      //  debugger
+        window.open("https://poria.is-great.org/clicktothank/?id="+element.D_SHEET_ID, "_blank");
     }
     openSnackBar() {
         this._snackBar.open("נשמר בהצלחה", "", {

@@ -138,8 +138,9 @@ export class CortinasdepartsComponent implements OnInit {
                 ||
             localStorage.getItem("loginUserName").toLowerCase() == "tklinger"
                 ||
-            localStorage.getItem("loginUserName").toLowerCase() == "lyizhak" ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("MESHEK").toLowerCase()
+            localStorage.getItem("loginUserName").toLowerCase() == "lyizhak" 
+            ||          localStorage.getItem("loginUserName").toLowerCase() == ("MESHEK").toLowerCase()
+            ||          localStorage.getItem("loginUserName").toLowerCase() == ("rtbol").toLowerCase()
         ) {
         } else {
             this.router.navigate(["login"]);

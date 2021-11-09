@@ -17,9 +17,13 @@ export class FastCovidTestDashboardComponent implements OnInit {
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
+  startdateVal: string;
+  enddateVal: string;
   constructor(private formBuilder: FormBuilder,
     public dialog: MatDialog,
     private router: Router,
+    
+    public datePipe: DatePipe,
     private http: HttpClient,
     public datepipe: DatePipe) { }
     PatienId
@@ -33,6 +37,9 @@ export class FastCovidTestDashboardComponent implements OnInit {
   searchCovidTestPatients: FormGroup;
   all_Patients_array = [];
   TABLE_DATA: any[] = [];
+  
+  Sdate;
+  Edate;
   displayedColumns: string[] = [
     'SampleDate', 'IdNumber', 'FullName', 'Result', 'QrCode', 'Print'
   ];
@@ -40,8 +47,16 @@ export class FastCovidTestDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
+    let dateIn = new Date();
+    dateIn.setDate(dateIn.getDate() - 1);
+    this.Sdate = new FormControl(dateIn);
+    this.Edate = new FormControl(new Date());
+    this.startdateVal = this.Sdate.value;
+    this.enddateVal = this.Edate.value;
     this.searchCovidTestPatients = new FormGroup({
-      searchWord: new FormControl('',null)
+      searchWord: new FormControl('',null),
+      startdateVal: new FormControl(this.startdateVal,null),
+      enddateVal: new FormControl(this.enddateVal,null),
     });
     this.getAllAntigTestedPatients();
 
@@ -51,7 +66,9 @@ export class FastCovidTestDashboardComponent implements OnInit {
   getAllAntigTestedPatients(){
     this.http
     .post("http://srv-apps/wsrfc/WebService.asmx/GetAllAntigTestedPatients", {
-      _searchWord: this.searchCovidTestPatients.controls['searchWord'].value
+      _searchWord: this.searchCovidTestPatients.controls['searchWord'].value,
+      _startdateVal:  this.datePipe.transform(this.searchCovidTestPatients.controls['startdateVal'].value, 'yyyy-MM-dd'),
+      _enddateVal: this.datePipe.transform(this.searchCovidTestPatients.controls['enddateVal'].value, 'yyyy-MM-dd'),
     })
     .subscribe((Response) => {
       this.all_Patients_array = Response["d"];

@@ -108,7 +108,7 @@
                             <ng-container matColumnDef="DS_ROW_STATUS">
                                 <th mat-header-cell *matHeaderCellDef>מצב</th>
                                 <td mat-cell *matCellDef="let element">
-                                    {{ element.DS_ROW_STATUS }}
+                                    {{ element.DS_ROW_STATUS == '1'? 'פעיל' : 'לא פעיל' }}
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="D_CLICK">
@@ -225,6 +225,16 @@
                                 <mat-label>תפקיד</mat-label>
                                 <mat-select name="DS_STAFF_ROLE" formControlName="DS_STAFF_ROLE" id="DS_STAFF_ROLE" [(value)]="DS_STAFF_ROLE" required>
                                     <mat-option *ngFor="let roleIn of roles_submit" [value]="roleIn.id">{{roleIn.name}}</mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>   
+                    </div>
+                    <div class="col">
+                        <div class="form-group">                                  
+                            <mat-form-field>
+                                <mat-label>מצב</mat-label>
+                                <mat-select name="DS_STAFF_STATUS" formControlName="DS_STAFF_STATUS" id="DS_STAFF_STATUS" [(value)]="DS_STAFF_STATUS" required>
+                                    <mat-option *ngFor="let STATUS of STAFF_STATUS" [value]="STATUS.id">{{STATUS.name}}</mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>   

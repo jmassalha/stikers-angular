@@ -88,6 +88,24 @@
                                     {{ element.D_ROW_STATUS }}
                                 </td>
                             </ng-container>
+                            <ng-container matColumnDef="D_LINK">
+                                <th mat-header-cell *matHeaderCellDef width ="50">עריכה</th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="let element"
+                                >
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="openLink(element)"
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>visibility</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
                             <ng-container matColumnDef="D_CLICK">
                                 <th mat-header-cell *matHeaderCellDef width ="50">עריכה</th>
                                 <td
