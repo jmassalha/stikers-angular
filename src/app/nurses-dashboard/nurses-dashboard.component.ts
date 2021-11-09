@@ -392,7 +392,7 @@ export class NursesDashboardComponent implements OnInit {
   NursesSystemPermission() {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
     return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => {
-      if (response["d"]) {
+      if (response["d"].IfFound) {
         this.AdminNurse = '1';
       };
     });

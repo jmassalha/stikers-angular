@@ -345,7 +345,6 @@ export class CardiologyCalendarComponent implements OnInit {
       .subscribe((Response) => {
         let tempArr = [];
         tempArr = Response["d"];
-        
         tempArr.forEach(element => {
           element.draggable = true,
             // element.actions = this.actions,
@@ -357,7 +356,7 @@ export class CardiologyCalendarComponent implements OnInit {
           this.events.push(element);
           this.refresh.next();
         });
-        //alert(this.events);
+        alert(this.events[0].start);
       });
   }
 
