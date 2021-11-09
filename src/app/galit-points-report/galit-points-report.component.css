@@ -1,0 +1,13 @@
+.card.w-85-p{
+    width: 36%;
+}
+.searchingPatient{
+    float: right;
+  }
+  table {
+    width: 100%;
+  }
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }

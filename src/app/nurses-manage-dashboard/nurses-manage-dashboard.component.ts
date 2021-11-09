@@ -185,7 +185,7 @@ export class NursesManageDashboardComponent implements OnInit {
               }
             }, 300000);
           } else {
-            if (that.all_departments_array.length == 1) {
+            if (that.all_departments_array.length > 0) {
               that.Dept_Number = that.all_departments_array[0].Dept_Number;
               that.Dept_Name = that.all_departments_array[0].Dept_Name;
               that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');
