@@ -173,7 +173,7 @@ export class NursesManageDashboardComponent implements OnInit {
         }
         let that = this;
         let time = setTimeout(() => {
-          if (that.nursesUserPermission && this.rightPC) {
+          if (that.nursesUserPermission && that.rightPC) {
             let time2 = setTimeout(() => {
               if (this.router.url !== '/nursesmanagedashboard') {
                 clearTimeout(time);
@@ -185,7 +185,7 @@ export class NursesManageDashboardComponent implements OnInit {
               }
             }, 300000);
           } else {
-            if (that.all_departments_array.length > 0) {
+            if (that.all_departments_array.length == 1) {
               that.Dept_Number = that.all_departments_array[0].Dept_Number;
               that.Dept_Name = that.all_departments_array[0].Dept_Name;
               that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');

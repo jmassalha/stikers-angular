@@ -60,10 +60,47 @@ export class GalitPointsReportComponent implements OnInit {
   getGalitReportPatient() {
     this.patientFound = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetGalitReportPatient", {
+      .post("http://localhost:64964/WebService.asmx/GetGalitReportPatient", {
       })
       .subscribe((Response) => {
         this.ELEMENT_DATA = Response["d"];
+        this.ELEMENT_DATA.forEach(element => {
+          if(parseInt(element.AGE) > 70){
+            element.Points++;
+          }if(parseInt(element.DatesInHospital) > 8){
+            element.Points += 6;
+          }if(element.AnotherHospital == "yes"){
+            element.Points++;
+          }if(element.ICD9Anamniza != ""){
+            element.Points += 6;
+          }if(element.ICD9Surgery != ""){
+            element.Points += 0;
+          }if(parseInt(element.DifferenceInStayDays) > 30){
+            element.Points++;
+          }if(parseInt(element.Albomin) > 3){
+            element.Points += 6;
+          }if(parseInt(element.Norton) < 14){
+            element.Points++;
+          }if(element.ThroughInput != "רגילדרך הפה"){
+            element.Points += 6;
+          }if(element.Iv == "yes"){
+            element.Points += 6;
+          }if(element.HowToEat == "עזרה מלאה" || element.HowToEat == "עזרה חלקית"){
+            element.Points += 4;
+          }if(element.DietType != "רגילה"){
+            element.Points += 0;
+          }if(element.TextureFood != "רגיל"){
+            element.Points += 0;
+          }if(element.Desctiption != ""){
+            element.Points += 6;
+          }if(parseInt(element.BMI) > 18.5){
+            element.Points += 2;
+          }if(parseInt(element.MUST) > 2){
+            element.Points += 2;
+          }if(parseInt(element.STAMP) > 4){
+            element.Points += 2;
+          }
+        });
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
         if(this.ELEMENT_DATA.length == 0){
           //no data
