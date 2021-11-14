@@ -146,34 +146,78 @@ export class EventsscheduleComponent implements OnInit {
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
             localStorage.getItem("loginUserName").toLowerCase() == "adahabre" ||
             localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "waraidy"
+                "owertheim"
+            || localStorage.getItem("loginUserName").toLowerCase() == ("x_dshaull").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("IDitur").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("RYousef").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("DGolani").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("NSela").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MRuach").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("VZamir").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MAtias").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("SSabach").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("SBADER").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("ZLevi").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("KYedidia").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("OGolovkin").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("yhalif").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("ZAvraham").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MMadmon").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("jubartal").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("BMonastirsky").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("EMansour").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("HSeffada").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("dvainshtei").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("NAli").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("kMandel").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("NCaspi").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("TLivnat").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("OHaccoun").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("WAraidy").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("KLibai").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("IAharon").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MJourno").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum1").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum2").toLowerCase()
+            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum3").toLowerCase()
+
         ) {
         } else {
             this.router.navigate(["login"]);
             ///$("#chadTable").DataTable();
         }
-        this.getReport(this);
+        
         //$("#loader").addClass("d-none");
         this.desks = this.getDropDownLists("DeskDrop");
         this.catss = this.getDropDownLists("CatDrop");
         this.eventprioritys = this.getDropDownLists("PriorityDrop");
         this.eventStatuss = this.getDropDownLists("StatusDrop");
-        $("#loader").addClass("d-none");
+        let that = this;
+        setTimeout(function(){
+            that.getReport(that);
+            $("#loader").addClass("d-none");
+        }, 1500)
+        
         ////debugger;
     }
     getDropDownLists(mType): EventsDropDownData[] {
         let mEventsDropDownData: EventsDropDownData[] = [];
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetDropDownsSelects", {
+            //.post("http://srv-apps/wsrfc/WebService.asmx/GetDropDownsSelects", {
+            .post("http://localhost:64964/WebService.asmx/GetDropDownsSelects", {
                 mDropDownType: mType,
+                mUser: localStorage.getItem("loginUserName").toLowerCase()
             })
             .subscribe((Response: EventsDropDownData[]) => {
                 // //debugger;
                 mEventsDropDownData = Response;
                 switch (mType) {
                     case "DeskDrop":
+
                         this.desks = mEventsDropDownData["d"];
                         ////debugger
                         break;
@@ -446,7 +490,8 @@ export class EventsscheduleComponent implements OnInit {
         //http://srv-apps/wsrfc/WebService.asmx/
         //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetEventsSchedule", {
+            //.post("http://srv-apps/wsrfc/WebService.asmx/GetEventsSchedule", {
+            .post("http://localhost:64964/WebService.asmx/GetEventsSchedule", {
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 serachTxt: serachTxt,
@@ -456,6 +501,7 @@ export class EventsscheduleComponent implements OnInit {
                 EventDeskID: EventDeskID,
                 EventDateFrom: startdateVal,
                 EventDateTo: enddateVal,
+                mUser: localStorage.getItem("loginUserName").toLowerCase()
             })
             .subscribe((Response) => {
                 //debugger
