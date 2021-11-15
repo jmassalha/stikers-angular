@@ -32,6 +32,7 @@ export class NursesManageDashboardComponent implements OnInit {
   privateIP;
   publicIP;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
 
   constructor(
     private modal: NgbModal,
@@ -61,6 +62,8 @@ export class NursesManageDashboardComponent implements OnInit {
   ELEMENT_DATA = [];
   userIP = ''
   rightPC: boolean;
+  phoneNumber: any;
+  reportSubject: any;
 
   ngOnInit(): void {
     this.loaded = false;
@@ -101,6 +104,22 @@ export class NursesManageDashboardComponent implements OnInit {
     //   })
   }
 
+  submitBugReport(){
+    this.http
+      .post("http://localhost:64964/WebService.asmx/ReportBugNursesSystem", {
+        _phoneNumber: this.phoneNumber,
+        _reportSubject: this.reportSubject,
+        _userName: this.UserName,
+      })
+      .subscribe((Response) => {
+        if(Response["d"]){
+          this.openSnackBar("נשלח לטיפול");
+        }else{
+          this.openSnackBar("משהו השתבש לא נשלח");
+        }
+      });
+  }
+
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
@@ -135,6 +154,10 @@ export class NursesManageDashboardComponent implements OnInit {
 
   handleEvent() {
     this.dialog.open(this.modalContent, { width: '60%',disableClose: true} );
+  }
+  
+  bugReport() {
+    this.dialog.open(this.modalBug, { width: '60%',disableClose: false} );
   }
 
   closeModal() {
