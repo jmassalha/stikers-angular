@@ -5,6 +5,7 @@
     float: right;
   }
   table {
+    margin-top: 20px;
     width: 100%;
   }
   .mat-form-field {
