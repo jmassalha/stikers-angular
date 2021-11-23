@@ -618,7 +618,7 @@ export class FillSurveyComponent implements OnInit {
       NurseID = 0;
     }
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetForm", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
         formFormID: urlID,
         _nurseid: NurseID,
       })

@@ -172,7 +172,7 @@ export class NursesManageDashboardComponent implements OnInit {
     //     this.privateIP = Response["d"];
     //   });
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetNursesSystemDepartments", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
         _userName: this.UserName
       })
       .subscribe((Response) => {

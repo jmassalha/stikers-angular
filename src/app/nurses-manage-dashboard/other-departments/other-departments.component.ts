@@ -123,7 +123,7 @@ export class OtherDepartmentsComponent implements OnInit {
       this.otherDepartName = this.deliveryRoomDialog;
     }
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetOtherDepartmentDetails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentDetails", {
         _otherDepartName: this.otherDepartName
       })
       .subscribe((Response) => {
@@ -157,7 +157,7 @@ export class OtherDepartmentsComponent implements OnInit {
   getOtherDepartmentPatients(ICUType, live, event) {
     this.IcuPatientsBar = false;
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetOtherDepartmentPatients", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentPatients", {
         _otherDepartName: ICUType,
         _ifLive: live,
       })
