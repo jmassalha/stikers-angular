@@ -1,4 +1,4 @@
-import { ChangeDetectorRef, Component, Inject, Input, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, Inject, Input, OnInit, ViewChild } from '@angular/core';
 import { FormGroup, FormControl, FormArray, Validators, FormBuilder } from '@angular/forms';
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -235,6 +235,7 @@ export class FillReportComponent implements OnInit {
   date = this.pipe.transform(this.myDate, 'dd-MM-yyyy');
   date2: string;
   time2: string;
+  @ViewChild('printmycontent') printmycontent: ElementRef;
   automaticShift: string;
   reportType: string;
   creator: boolean;
@@ -242,6 +243,7 @@ export class FillReportComponent implements OnInit {
   panelOpenState = true;
   visible: boolean = true;
   AdminNurse: string;
+  print: boolean;
 
   ngOnInit(): void {
     if (this.Dept_Name != "") {
@@ -334,6 +336,18 @@ export class FillReportComponent implements OnInit {
           this.openSnackBar("משהו השתבש, לא נמחק");
         }
       });
+  }
+
+  printSingleReport() {
+    this.print = true;
+    let that = this;
+    setTimeout(function () {
+      var printContents = that.printmycontent.nativeElement.innerHTML;                 
+      var w = window.open();
+      w.document.write(printContents);
+      w.print();
+      w.close();
+    }, 1000);
   }
 
   openShareDialog() {
@@ -461,7 +475,7 @@ export class FillReportComponent implements OnInit {
         let mishmeret = "בוקר";
         let reportDate = this.all_report_management.ReportDate;
         this.date2 = this.all_report_management.ReportDate;
-        this.time2 = this.all_report_management.ReportTime;
+        this.time2 = this.all_report_management.LastUpdatedTime;
         // this.date2 = this.date2.replace('/','.');
         // this.date2 = this.date2.replace('/','.');
         let Rday = parseInt(reportDate.split(".", 1)[0]);

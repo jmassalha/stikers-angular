@@ -106,7 +106,7 @@ export class NursesManageDashboardComponent implements OnInit {
 
   submitBugReport(){
     this.http
-      .post("http://localhost:64964/WebService.asmx/ReportBugNursesSystem", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
         _phoneNumber: this.phoneNumber,
         _reportSubject: this.reportSubject,
         _userName: this.UserName,
@@ -172,26 +172,34 @@ export class NursesManageDashboardComponent implements OnInit {
     //     this.privateIP = Response["d"];
     //   });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
+      .post("http://localhost:64964/WebService.asmx/GetNursesSystemDepartments", {
         _userName: this.UserName
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
         let _ipAddress;
+        let _ipAddress2;
+        let _tabletAddress;
         let _adminNurse;
         if(this.all_departments_array.length > 0){
           _ipAddress = this.all_departments_array[0].IpAddress;
+          _ipAddress2 = this.all_departments_array[0].IpAddress2;
+          _tabletAddress = this.all_departments_array[0].TabletAddress;
           _adminNurse = this.all_departments_array[0].AdminNurse;
         }
-        console.log();
         // this.NursesSystemPermission();
         if (_adminNurse) {
           this.nursesUserPermission = true;
-          if (this.privateIP != _ipAddress && _ipAddress != "") {
-            this.rightPC = false;
-            this.handleEvent();
-          } else {
+          // If the user is a system admin give access else check if the machine is set to this user in database
+          if(_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == ""){
             this.rightPC = true;
+          }else{
+            if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || this.privateIP == _tabletAddress){
+              this.rightPC = true;
+            }else{
+              this.rightPC = false;
+              this.handleEvent();
+            }
           }
         }
         let that = this;
