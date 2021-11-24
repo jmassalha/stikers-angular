@@ -27,7 +27,7 @@
                             print
                         </span>
                     </button>
-                    <button mat-menu-item class="menuBtns" (click)="onSubmit()">שמירת שינויים
+                    <button mat-menu-item *ngIf="creator" class="menuBtns" (click)="onSubmit()">שמירה
                         <span class="material-icons">
                             save
                         </span>
@@ -37,8 +37,8 @@
                             add
                         </span>
                     </button>
-                    <button *ngIf="reportID != '0'" class="menuBtns" style="background: orangered;" mat-menu-item
-                        (click)="deleteReport(reportID)">מחיקת דיווח
+                    <button *ngIf="reportID != '0' && creator" class="menuBtns" style="background: orangered;" mat-menu-item
+                        (click)="areYouSureDeleteReport(reportID)">מחיקת דיווח
                         <span class="material-icons">
                             delete
                         </span>

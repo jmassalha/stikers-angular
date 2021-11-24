@@ -80,9 +80,9 @@ export class NursesDepartmentManageComponent implements OnInit {
   ngOnInit(): void {
     if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה') {
       this.displayedColumns = ['nursing', 'receipts', 'released'];
-    }else if(this.Dept_Name == 'ילוד בריא' || this.Dept_Name == 'יולדות'){
+    } else if (this.Dept_Name == 'ילוד בריא' || this.Dept_Name == 'יולדות') {
       this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday'];
-    } 
+    }
     else {
       this.displayedColumns = ['nursing', 'receipts', 'released', 'plannedtorelease', 'holiday', 'respirators', 'catheter', 'centralcatheter', 'isolation', 'phlimitation', 'death', 'kpc', 'complex'];
     }
@@ -98,19 +98,19 @@ export class NursesDepartmentManageComponent implements OnInit {
     this.checkIfToRefresh(true);
   }
 
-  checkIfToRefresh(refresh) {    
-      // let time = setTimeout(() => {
-      //   if (refresh) {
-      //     let time2 =  setTimeout(() => {
-      //       this.getDepartDetails();
-      //       this.getSubmitPlannedToRealse('0');
-      //       this.getPatientsPerDepart(this.event, '');
-      //       this.checkIfToRefresh(true);
-      //     }, 1500);
-      //   }else{
-      //     clearTimeout(time);
-      //   }
-      // }, 5000);
+  checkIfToRefresh(refresh) {
+    // let time = setTimeout(() => {
+    //   if (refresh) {
+    //     let time2 =  setTimeout(() => {
+    //       this.getDepartDetails();
+    //       this.getSubmitPlannedToRealse('0');
+    //       this.getPatientsPerDepart(this.event, '');
+    //       this.checkIfToRefresh(true);
+    //     }, 1500);
+    //   }else{
+    //     clearTimeout(time);
+    //   }
+    // }, 5000);
   }
 
   getSubmitPlannedToRealse(ifsaved) {
@@ -196,7 +196,7 @@ export class NursesDepartmentManageComponent implements OnInit {
             console.log('again');
             this.getDepartDetails();
           }, 5000);
-        }else{
+        } else {
           this.RespiratorsCount = this.ELEMENT_DATA[0].RespiratorsCount;
           this.CatheterCount = this.ELEMENT_DATA[0].CatheterCount;
           this.CentralCatheterCount = this.ELEMENT_DATA[0].CentralCatheterCount;
@@ -223,22 +223,33 @@ export class NursesDepartmentManageComponent implements OnInit {
           name: '',
           number: 0,
         };
+        let placeInArray = 0;
         this.dataSource2.filteredData.forEach(element => {
-          if(medDept.number == 0){
+          placeInArray++;
+          if (medDept.number == 0) {
             medDept.name = element.PM_MOVE_DEPART;
           }
-          if(medDept.name == element.PM_MOVE_DEPART){
+          if (medDept.name == element.PM_MOVE_DEPART) {
             medDept.number++;
-          }else{
+          } else {
             medDept.number++;
             this.arrayOfMedDepts.push(medDept);
-            medDept = {
-              name: '',
-              number: 0
+            if (this.dataSource2.filteredData.length == placeInArray) {
+              medDept = {
+                name: '',
+                number: 0
+              }
+              medDept.number++;
+              medDept.name = element.PM_MOVE_DEPART;
+            }else{
+              medDept = {
+                name: '',
+                number: 0
+              }
             }
           }
           // CoronaStatusBtn
-          if(element.CoronaStatus != ""){
+          if (element.CoronaStatus != "") {
             this.CoronaStatus = '1'
           }
           // if (element.PM_MOVE_DEPART == 'רשבצ-מ') {

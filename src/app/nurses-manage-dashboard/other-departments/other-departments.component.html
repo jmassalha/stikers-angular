@@ -168,6 +168,11 @@
             <th mat-header-cell *matHeaderCellDef> שם משפחה </th>
             <td mat-cell *matCellDef="let element"> {{element.PatientLastName}} </td>
         </ng-container>
+        
+        <ng-container matColumnDef="departname">
+            <th mat-header-cell *matHeaderCellDef> מחלקה רפואית </th>
+            <td mat-cell *matCellDef="let element"> {{element.DepartName}} </td>
+        </ng-container>
 
         <ng-container matColumnDef="room">
             <th mat-header-cell *matHeaderCellDef> חדר ניתוח </th>
@@ -176,7 +181,7 @@
 
         <ng-container matColumnDef="surgeryname">
             <th mat-header-cell *matHeaderCellDef> שם ניתוח </th>
-            <td mat-cell *matCellDef="let element"> {{element.SurgeryName}} </td>
+            <td mat-cell *matCellDef="let element" style="font-size: 12px;"> {{element.SurgeryName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="date">

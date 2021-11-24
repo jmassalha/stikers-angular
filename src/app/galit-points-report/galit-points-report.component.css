@@ -23,3 +23,6 @@
   .filterClass{
     font-weight: bold;
   }
+  th.mat-sort-header-sorted {
+    color: black;
+  }

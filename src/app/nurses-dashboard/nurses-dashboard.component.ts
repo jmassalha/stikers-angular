@@ -542,6 +542,7 @@ export class NursesDashboardComponent implements OnInit {
 
   sendReport(autosave) {
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
+    this.ReportGroup.controls['ReportCategory'].setValue(this.categoryfilter.value);
     if (this.ReportGroup.controls['ReportMachlol'].value == undefined) {
       this.ReportGroup.controls['ReportMachlol'].setValue('');
     }
@@ -563,6 +564,8 @@ export class NursesDashboardComponent implements OnInit {
             if (autosave == '0') {
               this.openSnackBar("נשמר בהצלחה");
               // this.ReportGroup.reset();
+              this.Dept_Name = "";
+              this.departmentfilter.setValue('');
               this.ngOnInit();
             }
             else {

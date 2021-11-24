@@ -338,6 +338,23 @@ export class FillReportComponent implements OnInit {
       });
   }
 
+  areYouSureDeleteReport(reportID){
+    this.confirmationDialogService
+        .confirm("נא לאשר..", "אתה מוחק דיווח.. האם אתה בטוח ...? ")
+        .then((confirmed) => {
+          console.log("User confirmed:", confirmed);
+          if (confirmed) {
+            this.deleteReport(reportID);
+          } else {
+          }
+        })
+        .catch(() =>
+          console.log(
+            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+          )
+        );
+  }
+
   printSingleReport() {
     this.print = true;
     let that = this;
