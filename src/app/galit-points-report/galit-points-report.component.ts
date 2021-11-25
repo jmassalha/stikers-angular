@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { AfterViewInit, ChangeDetectorRef, Component, OnInit, ViewChild } from '@angular/core';
+import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild,ViewEncapsulation  } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -12,7 +12,8 @@ import { MatPaginator } from '@angular/material/paginator';
 @Component({
   selector: 'app-galit-points-report',
   templateUrl: './galit-points-report.component.html',
-  styleUrls: ['./galit-points-report.component.css']
+  styleUrls: ['./galit-points-report.component.css'],
+  encapsulation: ViewEncapsulation.None
 })
 export class GalitPointsReportComponent implements OnInit {
 
@@ -21,6 +22,7 @@ export class GalitPointsReportComponent implements OnInit {
   ELEMENT_DATA: any = [];
   displayedColumns: string[] = ['PatientRowNumber', 'CaseNumber', 'DepartName', 'PM_ROOM_NUMBER', 'PatientFirstName', 'PatientLastName', 'PM_PATIENT_GENDER', 'DatesInHospital', 'AnotherHospital', 'ICD9Surgery', 'ICD9Anamniza', 'DifferenceInStayDays', 'AGE', 'Albomin', 'Norton', 'ThroughInput', 'Iv', 'HowToEat', 'DietType', 'TextureFood', 'Desctiption', 'BMI', 'MUST', 'STAMP', 'WieghtLoss', 'Points'];
   dataSource = this.ELEMENT_DATA;
+  @ViewChild('printmycontent') printmycontent: ElementRef;
 
   constructor(public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -35,6 +37,7 @@ export class GalitPointsReportComponent implements OnInit {
   // caseNumber: any;
   patientFound: boolean;
   numberOfPatients: number = 0;
+  private gridApi;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -67,10 +70,23 @@ export class GalitPointsReportComponent implements OnInit {
     });
   }
 
+  print() {
+    let that = this;
+    that.paginator._changePageSize(300);
+    setTimeout(function () {
+      var printContents = that.printmycontent.nativeElement.innerHTML;
+      var w = window.open();
+      w.document.write(printContents);
+      w.print();
+      w.close();
+      that.paginator._changePageSize(5);
+    }, 1000);
+  }
+
   getGalitReportPatient() {
     this.patientFound = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetGalitReportPatient", {
+      .post("http://localhost:64964/WebService.asmx/GetGalitReportPatient", {
       })
       .subscribe((Response) => {
         this.ELEMENT_DATA = Response["d"];
@@ -79,7 +95,7 @@ export class GalitPointsReportComponent implements OnInit {
             element.Points++;
           } if (parseInt(element.DatesInHospital) > 8) {
             element.Points += 6;
-          } if (element.AnotherHospital == "yes") {
+          } if (element.AnotherHospital == "כן") {
             element.Points++;
           } if (element.ICD9Anamniza != "") {
             element.Points += 6;

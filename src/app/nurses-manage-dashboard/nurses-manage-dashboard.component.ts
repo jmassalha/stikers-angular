@@ -194,7 +194,7 @@ export class NursesManageDashboardComponent implements OnInit {
           if(_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == ""){
             this.rightPC = true;
           }else{
-            if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || this.privateIP == _tabletAddress){
+            if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || _tabletAddress == ""){
               this.rightPC = true;
             }else{
               this.rightPC = false;
