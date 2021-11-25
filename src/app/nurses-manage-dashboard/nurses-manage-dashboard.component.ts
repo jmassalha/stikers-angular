@@ -159,7 +159,6 @@ export class NursesManageDashboardComponent implements OnInit {
   bugReport() {
     this.dialog.open(this.modalBug, { width: '60%',disableClose: false} );
   }
-
   closeModal() {
     this.dialog.closeAll();
   }
@@ -194,7 +193,8 @@ export class NursesManageDashboardComponent implements OnInit {
           if(_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == ""){
             this.rightPC = true;
           }else{
-            if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || _tabletAddress == ""){
+            let tableId = "192.168";
+            if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || (_tabletAddress == "" && this.privateIP.substring(0,7) == "192.168")){
               this.rightPC = true;
             }else{
               this.rightPC = false;
