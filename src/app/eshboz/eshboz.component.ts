@@ -212,7 +212,7 @@ export class EshbozComponent implements OnInit {
                 this.fliterVal,
                 this.Depart
             );
-            
+
             this.getDataCharts(
                 this.startdateVal,
                 this.enddateVal,
@@ -251,7 +251,7 @@ export class EshbozComponent implements OnInit {
         }
     }
     getReportExcel($event: any): void {
-        if (this.startdateVal && this.enddateVal){
+        if (this.startdateVal && this.enddateVal) {
             this.getDataFormServer(
                 this.startdateVal,
                 this.enddateVal,
@@ -263,13 +263,12 @@ export class EshbozComponent implements OnInit {
             this.getDataCharts(
                 this.startdateVal,
                 this.enddateVal,
-               0,
+                0,
                 10,
                 this.fliterVal,
                 this.Depart
             );
         }
-            
     }
     public newData() {
         this.http
@@ -322,7 +321,7 @@ export class EshbozComponent implements OnInit {
         let _surgeryType = "";
         let _counter = 0;
         this.TotalDaysInRange = this.calculateDiff(_startDate, _endDate);
-        
+
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
         this.yearStart = new Date(_startDate).getFullYear().toString();
@@ -346,7 +345,6 @@ export class EshbozComponent implements OnInit {
             })
             .subscribe(
                 (Response) => {
-                    
                     ////////debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                     var json = JSON.parse(Response["d"]);
@@ -355,25 +353,32 @@ export class EshbozComponent implements OnInit {
                     this.eshpoz = JSON.parse(json["DepartEshpozim"]);
                     this.kabalot = JSON.parse(json["DepartKblot"]);
                     this.kabalotPast = JSON.parse(json["DepartKblotPast"]);
+
                     this.eshpozPast = JSON.parse(json["DepartEshpozimPast"]);
                     this.departPast = JSON.parse(json["DepartNamePast"]);
                     this.departBedsIn = JSON.parse(json["DepartBeds"]);
                     this.FDepartKabalot = JSON.parse(json["FDepartKabalot"]);
                     this.FKabalotD7of = JSON.parse(json["FKabalotD7of"]);
                     this.FKabalotNotD7of = JSON.parse(json["FKabalotNotD7of"]);
-                    this.FKabalotD7ofPast = JSON.parse(json["FKabalotD7ofPast"]);
-                    this.FKabalotNotD7ofPast = JSON.parse(json["FKabalotNotD7ofPast"]);
+                    this.FKabalotD7ofPast = JSON.parse(
+                        json["FKabalotD7ofPast"]
+                    );
+                    this.FKabalotNotD7ofPast = JSON.parse(
+                        json["FKabalotNotD7ofPast"]
+                    );
                     this.depart7ozrem = JSON.parse(json["Eshpoz7ozerDeparts"]);
                     this.depart7ozremTot = JSON.parse(json["Eshpoz7ozer"]);
-                    this.depart7ozremPastTot = JSON.parse(json["Eshpoz7ozerPast"]);
-                    if(this.Depart[0] == "-1"){
+                    this.depart7ozremPastTot = JSON.parse(
+                        json["Eshpoz7ozerPast"]
+                    );
+                    debugger;
+                    if (this.Depart[0] == "-1") {
                         this.pasttoshow = false;
-
-                    }else{
+                    } else {
                         this.pasttoshow = true;
                     }
                     setTimeout(() => {
-                        $("#_department1s1").removeClass('d-none');
+                        $("#_department1s1").removeClass("d-none");
                         //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
                     });
@@ -410,33 +415,31 @@ export class EshbozComponent implements OnInit {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _freeText: _filterVal,
-                _depart: _Depart
+                _depart: _Depart,
             })
-            .subscribe(
-                Response => {
-                    var json = JSON.parse(Response["d"]);
-                    var LineName = JSON.parse(json["LineName"]);
-                    var LineCounter = JSON.parse(json["LineCounter"]);
-                    var LineCounterPast = JSON.parse(json["LineCounterPast"]);
-                    this._fun.drawCharToDom(
-                        "line",
-                        LineName,
-                        [LineCounter, LineCounterPast],
-                        "LineChart",
-                        "canvsLineChart",
-                        _yearStart.toString(),
-                        (_yearStart - 1).toString()
-                    );
-                    this._fun.drawCharToDom(
-                        "bar",
-                        JSON.parse(json["DepartName"]),
-                        JSON.parse(json["DepartCounter"]),
-                        "bekoremCount",
-                        "canvbekoremCount",
-                        'סה"כ',
-                        ''
-                    );
-                }
-            )
+            .subscribe((Response) => {
+                var json = JSON.parse(Response["d"]);
+                var LineName = JSON.parse(json["LineName"]);
+                var LineCounter = JSON.parse(json["LineCounter"]);
+                var LineCounterPast = JSON.parse(json["LineCounterPast"]);
+                this._fun.drawCharToDom(
+                    "line",
+                    LineName,
+                    [LineCounter, LineCounterPast],
+                    "LineChart",
+                    "canvsLineChart",
+                    _yearStart.toString(),
+                    (_yearStart - 1).toString()
+                );
+                this._fun.drawCharToDom(
+                    "bar",
+                    JSON.parse(json["DepartName"]),
+                    JSON.parse(json["DepartCounter"]),
+                    "bekoremCount",
+                    "canvbekoremCount",
+                    'סה"כ',
+                    ""
+                );
+            });
     }
 }
