@@ -32,6 +32,7 @@ export class NursesManageDashboardComponent implements OnInit {
   privateIP;
   publicIP;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild('modalContent2', { static: true }) modalContent2: TemplateRef<any>;
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
 
   constructor(
@@ -155,6 +156,9 @@ export class NursesManageDashboardComponent implements OnInit {
   handleEvent() {
     this.dialog.open(this.modalContent, { width: '60%',disableClose: true} );
   }
+  handleEvent2() {
+    this.dialog.open(this.modalContent2, { width: '60%',disableClose: true} );
+  }
   
   bugReport() {
     this.dialog.open(this.modalBug, { width: '60%',disableClose: false} );
@@ -187,18 +191,22 @@ export class NursesManageDashboardComponent implements OnInit {
           _adminNurse = this.all_departments_array[0].AdminNurse;
         }
         // this.NursesSystemPermission();
-        if (_adminNurse) {
-          this.nursesUserPermission = true;
-          // If the user is a system admin give access else check if the machine is set to this user in database
-          if(_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == ""){
-            this.rightPC = true;
-          }else{
-            let tableId = "192.168";
-            if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || (_tabletAddress == "" && this.privateIP.substring(0,7) == "192.168")){
+        if(this.UserName == "clalit"){
+          this.rightPC = false;
+          this.handleEvent2();
+        }else{
+          if (_adminNurse) {
+            this.nursesUserPermission = true;
+            // If the user is a system admin give access else check if the machine is set to this user in database
+            if(_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == ""){
               this.rightPC = true;
             }else{
-              this.rightPC = false;
-              this.handleEvent();
+              if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || (_tabletAddress == "" && this.privateIP.substring(0,7) == "192.168")){
+                this.rightPC = true;
+              }else{
+                this.rightPC = false;
+                this.handleEvent();
+              }
             }
           }
         }

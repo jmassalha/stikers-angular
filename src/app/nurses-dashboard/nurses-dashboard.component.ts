@@ -2,6 +2,7 @@ import {
   Component,
   ElementRef,
   Inject,
+  Input,
   OnInit,
   ViewChild,
 } from "@angular/core";
@@ -31,6 +32,7 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { FillReportComponent } from "../fill-report/fill-report.component";
+import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 export interface User {
   name: string;
   id: string;
@@ -184,6 +186,8 @@ export class NursesDashboardComponent implements OnInit {
   columnsToDisplay = ['date', 'status', 'edit', 'continue', 'reply'];
   ELEMENT_DATA = [];
   dataSource = new MatTableDataSource(this.ELEMENT_DATA);
+  @Input()
+  autoActiveFirstOption: boolean
 
   pipe = new DatePipe('en-US');
   myDate = new Date();
@@ -251,7 +255,7 @@ export class NursesDashboardComponent implements OnInit {
       'CaseNumber': new FormControl('', null),
       'ReportStartDate': new FormControl('', null),
       'ReportEndDate': new FormControl('', null),
-      'ReportCategory': new FormControl(' ', null),
+      'ReportCategory': new FormControl('', null),
       'ImportantCategory': new FormControl('הכל', null),
     });
     this.ReportGroup = this.formBuilder.group({
@@ -312,11 +316,8 @@ export class NursesDashboardComponent implements OnInit {
     this.categoryfilter.setValue('');
     this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
-    // this.autoSaveCounter = setInterval(() => {
-    //   this.autosave();
-    // }, 6000);
   }
-
+ 
   private _filter2(value: string): string[] {
     const filterValue2 = value;
     return this.department.filter(option => option.Dept_Name.includes(filterValue2));
@@ -416,7 +417,7 @@ export class NursesDashboardComponent implements OnInit {
     // $("#loader").removeClass("d-none");
     let that = this;
     setTimeout(function () {
-      var printContents = that.printmycontent.nativeElement.innerHTML;                 
+      var printContents = that.printmycontent.nativeElement.innerHTML;
       var w = window.open();
       w.document.write(printContents);
       w.print();
@@ -447,7 +448,7 @@ export class NursesDashboardComponent implements OnInit {
     let _reportEndDate = this.searchReportsGroup.controls['ReportEndDate'].value;
     this.searchReportsGroup.controls['ReportCategory'].setValue(this.categoryfilter2.value);
     let _reportCategory = this.searchReportsGroup.controls['ReportCategory'].value;
-    if(_reportCategory == null){
+    if (_reportCategory == null) {
       _reportCategory = "";
     }
     let _patientName = this.searchReportsGroup.controls['PatientName'].value;

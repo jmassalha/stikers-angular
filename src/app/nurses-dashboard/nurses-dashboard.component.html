@@ -67,20 +67,20 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div class="form-group">
-                            <mat-form-field>
+                        <form class="example-form">
+                            <mat-form-field class="example-full-width">
                                 <mat-label>קטגוריה</mat-label>
                                 <input type="text" aria-label="category"
                                     style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;" matInput
                                     [formControl]="categoryfilter" [matAutocomplete]="auto3">
-                                <mat-autocomplete #auto3="matAutocomplete">
+                                <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
                                     <mat-option *ngFor="let cat of filteredOptions3 | async" [value]="cat.Cat_Name"
                                         style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
                                         {{cat.Cat_Name}}
                                     </mat-option>
                                 </mat-autocomplete>
                             </mat-form-field>
-                        </div>
+                        </form>
                     </div>
                     <!-- <div class="col">
                         <div class="form-group">
@@ -113,7 +113,9 @@
                         </div>
                     </div>
                     <div class="col-1 text-center">
-                        <span class="material-icons" [style.color]="ReportGroup.controls['Important'].value == 'True' ? 'red': 'grey'" (click)="setImportantReport()" matTooltip="סמן כחשוב" id="importantIcon">
+                        <span class="material-icons"
+                            [style.color]="ReportGroup.controls['Important'].value == 'True' ? 'red': 'grey'"
+                            (click)="setImportantReport()" matTooltip="סמן כחשוב" id="importantIcon">
                             notification_important
                         </span>
                     </div>
@@ -121,7 +123,8 @@
                         <section class="example-section">
                             <mat-checkbox class="example-margin" formControlName="toContinue"
                                 (change)="autoDate($event.checked)"
-                                style="font-family: 'Roboto';font-weight: bolder;font-size: 20px; text-align: center;">דורש
+                                style="font-family: 'Roboto';font-weight: bolder;font-size: 20px; text-align: center;">
+                                דורש
                                 המשך טיפול</mat-checkbox>
                         </section>
                     </div>
@@ -323,7 +326,7 @@
 <div class="d-none-desktop" #printmycontent style="direction: rtl;">
     <div class="row" style="text-align: center;">
         <h2 *ngIf="reportType == 'clinical'">דווח קליני</h2>
-        <h2 *ngIf="reportType == 'administrative'">דווח ניהולי</h2>    
+        <h2 *ngIf="reportType == 'administrative'">דווח ניהולי</h2>
     </div>
     <div class="row text-right" *ngFor="let tblRow of ELEMENT_DATA"
         style="border-style: outset;margin-bottom: 20px;padding: 6px;">
@@ -340,7 +343,7 @@
                     {{ tblRow.ReportMachlol }}
                 </div>
                 <div class="col-md-4" *ngIf="tblRow.Important == 'True'">
-                    <b [ngStyle]="{color: tblRow.Important == 'True' ? 'red' : ''}">קטיגוריה אדומה</b> 
+                    <b [ngStyle]="{color: tblRow.Important == 'True' ? 'red' : ''}">קטיגוריה אדומה</b>
                 </div>
                 <div class="col-md-4">
                     <b>משמרת:</b>

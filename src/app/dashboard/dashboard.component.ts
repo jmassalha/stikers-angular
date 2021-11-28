@@ -10,7 +10,7 @@ import {
 @Component({
     selector: "app-dashboard",
     templateUrl: "./dashboard.component.html",
-    styleUrls: ["./dashboard.component.css"],
+    styleUrls: ["./dashboard.component.scss"],
 })
 export class DashboardComponent implements OnInit {
     @ViewChild("circleProgress", { static: true })
@@ -23,16 +23,20 @@ export class DashboardComponent implements OnInit {
                     .find("svg")
                     .append($("#extra-precent").find("path"));
             }
-
-            ////debugger
             return "";
         },
     };
-    constructor(private router: Router, private http: HttpClient) {}
+    aobjTotal: number;
+    resporatoryCount: number;
+    name: string;
+    birthdayUser: boolean = false;
+    constructor(private router: Router, private http: HttpClient) { }
     today: number = Date.now();
+    // date = new Date();
     Departmints = {
         departs: [],
         total: 0,
+        resp: 0
     };
     _dotsLoader =
         '<div class="spinner">' +
@@ -42,9 +46,9 @@ export class DashboardComponent implements OnInit {
         "</div>";
     ngOnInit() {
         $("#Vector_13").append('text').text('This is some information about whatever')
-        .attr('x', 50)
-        .attr('y', 150)
-        .attr('fill', '#938F8F');
+            .attr('x', 50)
+            .attr('y', 150)
+            .attr('fill', '#938F8F');
         if (
             localStorage.getItem("loginState") != "true" ||
             localStorage.getItem("loginUserName") == ""
@@ -52,6 +56,7 @@ export class DashboardComponent implements OnInit {
             this.router.navigate(["login"]);
         }
         this.getDataFormServer("");
+        this.getEmployeesToUpdateDept();
     }
     // public getData(){
     //     this.Departmints["departs"].forEach((element, key) => {
@@ -61,6 +66,24 @@ export class DashboardComponent implements OnInit {
     //         this.getDataFormServer(key, element.Code);
     //     });
     // }
+    // getEmployeesToUpdateDept
+    getEmployeesToUpdateDept() {
+        let userName = localStorage.getItem("loginUserName").toLowerCase();
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetEmployeesBirthDates", {
+                _userName: userName
+            })
+            .subscribe((Response) => {
+                let user = Response["d"];
+                this.name = user.FirstName;
+                let currentDate = new Date();
+                let day = user.DateOfBirth.split("-")[1];
+                let month = user.DateOfBirth.split("-")[0];
+                if (day == currentDate.getDate().toString() && month == (currentDate.getMonth() + 1).toString()) {
+                    this.birthdayUser = true;
+                }
+            });
+    }
     public getDataFormServer(_Depart: string) {
         $("#loader").removeClass("d-none");
         this.http
@@ -72,23 +95,18 @@ export class DashboardComponent implements OnInit {
             )
             .subscribe(
                 (Response) => {
-                    ////debugger
-                    //var json = JSON.parse(Response["d"]);
                     var obj = JSON.parse(Response["d"]);
                     var aobjTotal = JSON.parse(obj["total"]);
                     var aobj = JSON.parse(obj["DepartObjects"]);
                     var totalReal = JSON.parse(obj["totalReal"]);
+                    this.resporatoryCount = JSON.parse(obj["totalReal2"]);
                     var aaobj = JSON.parse("[" + aobj[0] + "]");
-                    ////debugger
                     aobjTotal = JSON.parse(aobjTotal);
-//debugger
+                    this.aobjTotal = aobjTotal["total"];
                     aaobj.forEach((element, index) => {
-                        //debugger
                         if (element.BedsReal != "0") {
-                            //  //debuggr
-                            
                             for (var i = index + 1; i < aaobj.length; i++) {
-                                if (aaobj[i].BedsReal == "0"  && aaobj[i].Name != 'ילוד בריא' ) {
+                                if (aaobj[i].BedsReal == "0" && aaobj[i].Name != 'ילוד בריא') {
                                     element.Used =
                                         parseInt(element.Used) +
                                         parseInt(aaobj[i].Used);
@@ -96,8 +114,7 @@ export class DashboardComponent implements OnInit {
                                     break;
                                 }
                             }
-                        }else{
-                            //debugger
+                        } else {
                         }
                     });
 
@@ -107,15 +124,17 @@ export class DashboardComponent implements OnInit {
                             0
                         )
                     );
-                    // this.Departmints["total"] = 140;
+                    this.Departmints["resp"] = parseInt(
+                        ((this.resporatoryCount / aobjTotal.total) * 100).toFixed(
+                            0
+                        )
+                    );
                     setTimeout(() => {
-                        //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
                     });
                 },
                 (error) => {
                     setTimeout(() => {
-                        //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
                     });
                 }
