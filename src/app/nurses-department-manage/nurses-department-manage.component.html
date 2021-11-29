@@ -106,6 +106,10 @@
             (click)="displayReports('',true,Dept_Name,'','','','','','','administrative')">
             <i class="material-icons">assignment_ind</i>
           </button>
+          <button matTooltip="לדיווח תקלה במערכת" id="EventBtndisplay" mat-raised-button type="submit"
+                class="btn btn-raised mr-1" *ngIf="UserName != 'jubartal'" style="background-color: grey;" (click)="bugReport()">
+                <i class="material-icons">info</i>
+            </button>
           <button matTooltip="רענון" id="generalClinicalBtn" mat-raised-button type="submit" class="btn btn-raised"
             style="background: lawngreen;" (click)="ngOnInit()">
             <i class="material-icons">refresh</i>
@@ -253,3 +257,24 @@
   <br>
   <app-other-departments [deliveryRoomDialog]="deliveryRoomDialog" *ngIf="deliveryRoomDialog != undefined"></app-other-departments>
 </div>
+
+<ng-template #modalBug let-close="close">
+  <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal2()">
+      <span aria-hidden="true">&times;</span>
+  </button>
+  <h1 mat-dialog-title style="text-align: center;">דיווח תקלה</h1>
+  <hr>
+  <form mat-dialog-content dir="rtl" style="text-align: right;">
+      <mat-form-field class="example-full-width">
+          <mat-label>מספר טלפון לחזרה</mat-label>
+          <input matInput [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" type="number" placeholder=".......05" required/>
+      </mat-form-field>
+      <mat-form-field class="example-full-width">
+          <mat-label>מהות התקלה</mat-label>
+          <textarea matInput rows="6" [(ngModel)]="reportSubject" [ngModelOptions]="{standalone: true}" cols="15" required></textarea>
+      </mat-form-field>
+  </form>
+  <div mat-dialog-actions>
+      <button mat-raised-button color="primary" (click)="submitBugReport()" mat-dialog-close>שליחה</button>
+  </div>
+</ng-template>
