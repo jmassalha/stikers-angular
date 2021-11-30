@@ -5,13 +5,46 @@
             <div class="col-4">
                 <span>{{date2}} - {{time2}}</span> <br><span>{{userFullName}}</span>
             </div>
-            <div class="col-3">
+            <div class="col-5">
                 <span style="font-size: 20px;"
                     *ngIf="reportType == 'clinical'">{{ReportGroup.controls['PatientName'].value}}</span><br> <span
                     *ngIf="reportType == 'clinical'">{{ReportGroup.controls['PatientNurseStatus'].value}}</span>
             </div>
-            <div class="col-5">
-                <button matTooltip="שליחה לנמען" mat-raised-button type="button" id="BtnStyle"
+            <div class="col-3">
+                <button mat-icon-button style="float: left;" [matMenuTriggerFor]="menu"
+                    aria-label="Example icon-button with a menu">
+                    <mat-icon>more_vert</mat-icon>
+                </button>
+                <mat-menu #menu="matMenu" style="background: floralwhite;">
+                    <button class="menuBtns" mat-menu-item (click)="openShareDialog()">שליחה
+                        לנמען
+                        <span class="material-icons">
+                            reply
+                        </span>
+                    </button>
+                    <button class="menuBtns" mat-menu-item (click)="printSingleReport()">הדפסת דווח
+                        <span class="material-icons">
+                            print
+                        </span>
+                    </button>
+                    <button mat-menu-item *ngIf="creator" class="menuBtns" (click)="onSubmit()">שמירה
+                        <span class="material-icons">
+                            save
+                        </span>
+                    </button>
+                    <button mat-menu-item class="menuBtns" (click)="addResponseToReport(reportID)">הוספת תגובה
+                        <span class="material-icons">
+                            add
+                        </span>
+                    </button>
+                    <button *ngIf="reportID != '0' && creator" class="menuBtns" style="background: orangered;" mat-menu-item
+                        (click)="areYouSureDeleteReport(reportID)">מחיקת דיווח
+                        <span class="material-icons">
+                            delete
+                        </span>
+                    </button>
+                </mat-menu>
+                <!-- <button matTooltip="שליחה לנמען" mat-raised-button type="button" id="BtnStyle"
                     class="btn btn-primary btn-raised float-left" (click)="openShareDialog()">
                     <span class="material-icons">
                         reply
@@ -34,7 +67,7 @@
                     <span class="material-icons">
                         delete
                     </span>
-                </button>
+                </button> -->
             </div>
         </div>
     </div>
@@ -110,7 +143,9 @@
                 </div>
             </div>
             <div class="col-1 text-center">
-                <span class="material-icons" [style.color]="ReportGroup.controls['Important'].value == 'True' ? 'red': 'grey'" (click)="setImportantReport()" matTooltip="סמן כחשוב" id="importantIcon">
+                <span class="material-icons"
+                    [style.color]="ReportGroup.controls['Important'].value == 'True' ? 'red': 'grey'"
+                    (click)="setImportantReport()" matTooltip="סמן כחשוב" id="importantIcon">
                     notification_important
                 </span>
             </div>
@@ -201,3 +236,67 @@
     </div> -->
     <ng-template #note>הדווח נעול לעריכה</ng-template>
 </form>
+<div class="d-none-desktop" *ngIf="print" #printmycontent style="direction: rtl;">
+    <div class="row" style="text-align: center;">
+        <h2 *ngIf="reportType == 'clinical'">דווח קליני</h2>
+        <h2 *ngIf="reportType == 'administrative'">דווח ניהולי</h2>
+    </div>
+    <div class="row text-right" style="border-style: outset;margin-bottom: 20px;padding: 6px;">
+        <div class="col-12" style="width: 100%;direction: rtl;">
+            <div class="row" style="width: 100%;">
+                <div class="col-md-4">
+                    <b>תאריך שעה:</b>
+                    {{
+                    all_report_management.LastUpdatedDate
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>נושא/מחלקה:</b>
+                    {{ all_report_management.ReportMachlol }}
+                </div>
+                <div class="col-md-4" *ngIf="all_report_management.Important == 'True'">
+                    <b [ngStyle]="{color: all_report_management.Important == 'True' ? 'red' : ''}">קטיגוריה אדומה</b>
+                </div>
+                <div class="col-md-4">
+                    <b>משמרת:</b>
+                    {{
+                    all_report_management.ReportShift
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>מדווח:</b>
+                    {{
+                        userFullName
+                    }}
+                </div>
+                <div class="col-md-4" *ngIf="reportType == 'clinical'">
+                    <b>שם מטופל:</b>
+                    {{
+                    all_report_management.PatientName
+                    }}
+                </div>
+            </div>
+            <div class="row" *ngIf="all_report_management.ReportText != ''"
+                style="border-top: 1px dashed grey;margin-top: 12px;">
+                <div class="col-12">
+                    <h5><b>תוכן הדווח :</b></h5>
+                    <p class="">
+                        {{ all_report_management.ReportText }}
+                    </p>
+                </div>
+            </div>
+            <div class="row" *ngFor="let reply of all_report_management.UsersReportsList">
+                <div class="col-12">
+                    <h5><b>תגובות לדווח :</b></h5>
+                    <div class="row">
+                        {{reply.FirstName}} {{reply.LastName}} - {{reply.UpdateDate}}
+                    </div>
+                    <div class="row">
+                        <p class="text-right" style="font-family: 'math';font-weight: bolder;font-size: 18px;">
+                            {{reply.ResponseText}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

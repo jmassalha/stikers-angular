@@ -9,6 +9,20 @@
     background: #ff8484;
 }
 
+.border-1{
+    border: 1px solid !important;
+    padding: 0px 7px 5px 3px !important;
+}
+
+.menuBtns{
+    background-color: burlywood;
+    font-family: 'Math';
+    font-weight: bolder;
+    font-size: 18px;
+    border: 1px solid slategrey;
+    border-radius: 3%;
+}
+
 .col-5{
     padding-left: 2px;
     padding-right: 2px;

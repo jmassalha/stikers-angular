@@ -356,7 +356,7 @@ export class CardiologyCalendarComponent implements OnInit {
           this.events.push(element);
           this.refresh.next();
         });
-        alert(this.events[0].start);
+       /* alert(this.date.getFullYear()+'/'+(this.date.getMonth()+1)+'/'+this.date.getDate());*/
       });
   }
 

@@ -42,20 +42,8 @@
                             <li>
                                 <a class="nav-link" routerLink="hearing">סקר שמיעה</a>
                             </li>
-                        </ul>
-                    </mat-expansion-panel>
-                </mat-accordion>
-            </li>
-            <li class="nav-item" *ngIf="loginUserName == 'adahabre'">
-                <mat-accordion>
-                    <mat-expansion-panel>
-                        <mat-expansion-panel-header>
-                            <mat-panel-title> דווח גלית </mat-panel-title>
-                            <mat-panel-description> </mat-panel-description>
-                        </mat-expansion-panel-header>
-                        <ul>
                             <li>
-                                <a class="nav-link" routerLink="galitpointsreport">ציונים</a>
+                                <a class="nav-link" *ngIf="_galitReport" routerLink="galitpointsreport">דווח גלית</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>

@@ -5,9 +5,24 @@
     float: right;
   }
   table {
+    margin-top: 20px;
     width: 100%;
   }
   .mat-form-field {
     font-size: 14px;
     width: 100%;
+  }
+  td.mat-cell{
+    padding: 10px !important;
+    font-weight: bold;
+  }
+  [dir="rtl"] td.mat-cell:first-of-type{
+    padding: 10px !important;
+    font-weight: bold;
+  }
+  .filterClass{
+    font-weight: bold;
+  }
+  th.mat-sort-header-sorted {
+    color: black;
   }

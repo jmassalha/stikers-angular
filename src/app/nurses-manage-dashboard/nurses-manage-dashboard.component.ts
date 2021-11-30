@@ -32,6 +32,7 @@ export class NursesManageDashboardComponent implements OnInit {
   privateIP;
   publicIP;
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
 
   constructor(
     private modal: NgbModal,
@@ -61,6 +62,8 @@ export class NursesManageDashboardComponent implements OnInit {
   ELEMENT_DATA = [];
   userIP = ''
   rightPC: boolean;
+  phoneNumber: any;
+  reportSubject: any;
 
   ngOnInit(): void {
     this.loaded = false;
@@ -101,6 +104,22 @@ export class NursesManageDashboardComponent implements OnInit {
     //   })
   }
 
+  submitBugReport(){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
+        _phoneNumber: this.phoneNumber,
+        _reportSubject: this.reportSubject,
+        _userName: this.UserName,
+      })
+      .subscribe((Response) => {
+        if(Response["d"]){
+          this.openSnackBar("נשלח לטיפול");
+        }else{
+          this.openSnackBar("משהו השתבש לא נשלח");
+        }
+      });
+  }
+
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
@@ -136,6 +155,10 @@ export class NursesManageDashboardComponent implements OnInit {
   handleEvent() {
     this.dialog.open(this.modalContent, { width: '60%',disableClose: true} );
   }
+  
+  bugReport() {
+    this.dialog.open(this.modalBug, { width: '60%',disableClose: false} );
+  }
 
   closeModal() {
     this.dialog.closeAll();
@@ -155,25 +178,33 @@ export class NursesManageDashboardComponent implements OnInit {
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
         let _ipAddress;
+        let _ipAddress2;
+        let _tabletAddress;
         let _adminNurse;
         if(this.all_departments_array.length > 0){
           _ipAddress = this.all_departments_array[0].IpAddress;
+          _ipAddress2 = this.all_departments_array[0].IpAddress2;
+          _tabletAddress = this.all_departments_array[0].TabletAddress;
           _adminNurse = this.all_departments_array[0].AdminNurse;
         }
-        console.log();
         // this.NursesSystemPermission();
         if (_adminNurse) {
           this.nursesUserPermission = true;
-          if (this.privateIP != _ipAddress && _ipAddress != "") {
-            this.rightPC = false;
-            this.handleEvent();
-          } else {
+          // If the user is a system admin give access else check if the machine is set to this user in database
+          if(_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == ""){
             this.rightPC = true;
+          }else{
+            if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || this.privateIP == _tabletAddress){
+              this.rightPC = true;
+            }else{
+              this.rightPC = false;
+              this.handleEvent();
+            }
           }
         }
         let that = this;
         let time = setTimeout(() => {
-          if (that.nursesUserPermission && this.rightPC) {
+          if (that.nursesUserPermission && that.rightPC) {
             let time2 = setTimeout(() => {
               if (this.router.url !== '/nursesmanagedashboard') {
                 clearTimeout(time);
@@ -185,7 +216,7 @@ export class NursesManageDashboardComponent implements OnInit {
               }
             }, 300000);
           } else {
-            if (that.all_departments_array.length > 0) {
+            if (that.all_departments_array.length == 1) {
               that.Dept_Number = that.all_departments_array[0].Dept_Number;
               that.Dept_Name = that.all_departments_array[0].Dept_Name;
               that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');

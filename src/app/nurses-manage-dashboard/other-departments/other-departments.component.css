@@ -1,5 +1,33 @@
 
 @media only screen and (min-width: 1050px) {
+
+  .mat-column-patientid{
+    width: 100px !important;
+  }
+  .mat-column-firstname{
+    width: 12px !important;
+  }
+  .mat-column-lastname{
+    width: 12px !important;
+  }
+  .mat-column-departname{
+    width: 12px !important;
+  }
+  .mat-column-room{
+    width: 12px !important;
+  }
+  .mat-column-starttime{
+    width: 12px !important;
+  }
+  .mat-column-endtime{
+    width: 12px !important;
+  }
+  .mat-column-date{
+    width: 12px !important;
+  }
+  .mat-column-status{
+    width: 75px !important;
+  }
  
   th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     padding: 0;

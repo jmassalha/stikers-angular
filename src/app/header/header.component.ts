@@ -26,6 +26,7 @@ export class HeaderComponent implements OnInit {
     _shoCorona: Boolean;
     _shoCoronaform: Boolean;
     _shoSettings: Boolean;
+    _galitReport: Boolean;
     _sendSMS: Boolean;
     _sendSMSADMIN: Boolean;
     _shoGlucose: Boolean;
@@ -204,6 +205,16 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._SHowToAdmins = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "owertheim" ||
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "gmagril" ||
+            this.loginUserName.toLowerCase() == "arozenwalt" ||
+            this.loginUserName.toLowerCase() == "adahabre"
+        ) {
+            this._galitReport = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
