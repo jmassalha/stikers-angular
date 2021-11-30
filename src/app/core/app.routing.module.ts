@@ -70,6 +70,8 @@ import { MotherChildeLinkComponent } from "../mother-childe-link/mother-childe-l
 import { DevManageComponent } from "../dev-manage/dev-manage.component";
 import { SystemManageComponent } from "../nurses-manage-dashboard/system-manage/system-manage.component";
 import { GalitPointsReportComponent } from "../galit-points-report/galit-points-report.component";
+
+import { NmrIframeComponent } from '../nmr-iframe/nmr-iframe.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -143,6 +145,7 @@ const routes: Routes = [
   { path: "devmanage", component: DevManageComponent },
   { path: "systemmanage", component: SystemManageComponent },
   { path: "galitpointsreport", component: GalitPointsReportComponent },
+  { path: "nmriframe", component: NmrIframeComponent },
   { path: '', component : LoginComponent}
 ];
  
