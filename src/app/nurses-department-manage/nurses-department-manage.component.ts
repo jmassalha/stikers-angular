@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, Input, OnInit } from '@angular/core';
+import { Component, Inject, Input, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatTableDataSource } from '@angular/material/table';
@@ -31,6 +31,7 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'lastname', 'firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
   dataSource2 = new MatTableDataSource<any>();
+  @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
 
   applyFilter(event: Event, filval: string) {
     if (filval == '') {
@@ -76,6 +77,8 @@ export class NursesDepartmentManageComponent implements OnInit {
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
   timer: any;
   arrayOfMedDepts = [];
+  phoneNumber: any;
+  reportSubject: any;
 
   ngOnInit(): void {
     if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה') {
@@ -129,8 +132,15 @@ export class NursesDepartmentManageComponent implements OnInit {
     }
   }
 
+  bugReport() {
+    this.dialog.open(this.modalBug, { width: '60%',disableClose: false} );
+  }
+  closeModal2() {
+    this.dialog.closeAll();
+  }
+
   closeModal() {
-    this.checkIfToRefresh(false);
+    // this.checkIfToRefresh(false);
     this.dialogRef.close();
   }
 
@@ -181,6 +191,23 @@ export class NursesDepartmentManageComponent implements OnInit {
       localStorage.setItem("loginUserName", "jubartal");
       window.location.reload();
     }
+  }
+
+  submitBugReport(){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
+        _phoneNumber: this.phoneNumber,
+        _reportSubject: this.reportSubject,
+        _userName: this.UserName,
+      })
+      .subscribe((Response) => {
+        if(Response["d"]){
+          this.openSnackBar("נשלח לטיפול");
+          this.closeModal2();
+        }else{
+          this.openSnackBar("משהו השתבש לא נשלח");
+        }
+      });
   }
 
   getDepartDetails() {

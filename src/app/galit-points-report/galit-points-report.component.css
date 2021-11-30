@@ -7,6 +7,7 @@
   table {
     margin-top: 20px;
     width: 100%;
+    table-layout: fixed;
   }
   .mat-form-field {
     font-size: 14px;
@@ -15,6 +16,8 @@
   td.mat-cell{
     padding: 10px !important;
     font-weight: bold;
+    text-align: center;
+    overflow-wrap: break-word;
   }
   [dir="rtl"] td.mat-cell:first-of-type{
     padding: 10px !important;
@@ -26,3 +29,16 @@
   th.mat-sort-header-sorted {
     color: black;
   }
+  @media print {
+    table{
+      width: 100%;
+      table-layout: fixed;
+      border-spacing: 0px;
+    }
+    td.mat-cell{
+      padding: 10px !important;
+      font-weight: bold;
+      background-color: white;
+      text-align: center;
+    }
+ }

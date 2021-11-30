@@ -35,10 +35,14 @@
     <div class="col ml-3" style="overflow: auto;">
       <div class="row d-block">
         <h3 class="header float-right">מספר מטופלים: {{numberOfPatients}}</h3>
-        <button matTooltip="רענון" mat-raised-button class="btn btn-raised"
-            style="background: lawngreen;float: left;" (click)="ngOnInit()">
-            <i class="material-icons">refresh</i>
-          </button>
+        <button matTooltip="רענון" mat-raised-button class="btn btn-raised" style="background: lawngreen;float: left;"
+          (click)="ngOnInit()">
+          <i class="material-icons">refresh</i>
+        </button>
+        <button matTooltip="הדפסה" mat-raised-button class="btn btn-raised"
+          style="background: cornflowerblue;float: left;" (click)="print()">
+          <i class="material-icons">print</i>
+        </button>
       </div>
       <mat-form-field appearance="standard" style="box-shadow: -1px -1px 9px 0px #000;text-align: center;">
         <mat-label class="filterClass">מסנן</mat-label>
@@ -49,117 +53,123 @@
           <h1 *ngIf="!patientFound"> אוסף נתונים, נא להמתין ...</h1>
         </div>
       </div>
-      <table mat-table [dataSource]="dataSource" matSort dir="rtl" class="mat-elevation-z8">
-        <ng-container matColumnDef="PatientRowNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר שורה </th>
-          <td mat-cell *matCellDef="let element"> {{element.PatientRowNumber}} </td>
-        </ng-container>
-        <ng-container matColumnDef="CaseNumber">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר מקרה </th>
-          <td mat-cell *matCellDef="let element"> {{element.CaseNumber}} </td>
-        </ng-container>
-        <ng-container matColumnDef="DepartName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה </th>
-          <td mat-cell *matCellDef="let element"> {{element.DepartName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="PM_ROOM_NUMBER">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר חדר </th>
-          <td mat-cell *matCellDef="let element"> {{element.PM_ROOM_NUMBER}} </td>
-        </ng-container>
-        <ng-container matColumnDef="PatientFirstName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> שם פרטי </th>
-          <td mat-cell *matCellDef="let element"> {{element.PatientFirstName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="PatientLastName">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> שם משפחה </th>
-          <td mat-cell *matCellDef="let element"> {{element.PatientLastName}} </td>
-        </ng-container>
-        <ng-container matColumnDef="PM_PATIENT_GENDER">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> מגדר </th>
-          <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_GENDER}} </td>
-        </ng-container>
-        <ng-container matColumnDef="DatesInHospital">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ימי אשפוז </th>
-          <td mat-cell *matCellDef="let element"> {{element.DatesInHospital}} </td>
-        </ng-container>
-        <ng-container matColumnDef="AnotherHospital">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> בי"ח אחר </th>
-          <td mat-cell *matCellDef="let element"> {{element.AnotherHospital}} </td>
-        </ng-container>
-        <ng-container matColumnDef="ICD9Surgery">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ניתוח </th>
-          <td mat-cell *matCellDef="let element"> {{element.ICD9Surgery}} </td>
-        </ng-container>
-        <ng-container matColumnDef="ICD9Anamniza">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> אבחנה </th>
-          <td mat-cell *matCellDef="let element"> {{element.ICD9Anamniza}} </td>
-        </ng-container>
-        <ng-container matColumnDef="DifferenceInStayDays">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> הפרש ימי אשפוז </th>
-          <td mat-cell *matCellDef="let element"> {{element.DifferenceInStayDays}} </td>
-        </ng-container>
-        <ng-container matColumnDef="AGE">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> גיל </th>
-          <td mat-cell *matCellDef="let element"> {{element.AGE}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Albomin">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> אלבומין </th>
-          <td mat-cell *matCellDef="let element"> {{element.Albomin}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Norton">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> נורטון </th>
-          <td mat-cell *matCellDef="let element"> {{element.Norton}} </td>
-        </ng-container>
-        <ng-container matColumnDef="ThroughInput">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> דרך הזנה </th>
-          <td mat-cell *matCellDef="let element"> {{element.ThroughInput}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Iv">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> הזנה דרך וריד </th>
-          <td mat-cell *matCellDef="let element"> {{element.Iv}} </td>
-        </ng-container>
-        <ng-container matColumnDef="HowToEat">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> דרך האכלה</th>
-          <td mat-cell *matCellDef="let element"> {{element.HowToEat}} </td>
-        </ng-container>
-        <ng-container matColumnDef="DietType">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> סוג דיאטה </th>
-          <td mat-cell *matCellDef="let element"> {{element.DietType}} </td>
-        </ng-container>
-        <ng-container matColumnDef="TextureFood">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> סוג האכלה </th>
-          <td mat-cell *matCellDef="let element"> {{element.TextureFood}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Desctiption">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> מצב עור </th>
-          <td mat-cell *matCellDef="let element"> {{element.Desctiption}} </td>
-        </ng-container>
-        <ng-container matColumnDef="BMI">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> BMI </th>
-          <td mat-cell *matCellDef="let element"> {{element.BMI}} </td>
-        </ng-container>
-        <ng-container matColumnDef="MUST">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> MUST </th>
-          <td mat-cell *matCellDef="let element"> {{element.MUST}} </td>
-        </ng-container>
-        <ng-container matColumnDef="STAMP">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> STAMP </th>
-          <td mat-cell *matCellDef="let element"> {{element.STAMP}} </td>
-        </ng-container>
-        <ng-container matColumnDef="WieghtLoss">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ירידה במשקל </th>
-          <td mat-cell *matCellDef="let element"> {{element.WieghtLoss}} </td>
-        </ng-container>
-        <ng-container matColumnDef="Points">
-          <th mat-header-cell *matHeaderCellDef mat-sort-header> ציון </th>
-          <td mat-cell *matCellDef="let element"> {{element.Points}} </td>
-        </ng-container>
+      <div #printmycontent>
+        <table mat-table [dataSource]="dataSource" matSort dir="rtl" class="mat-elevation-z8">
+          <ng-container matColumnDef="PatientRowNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר שורה </th>
+            <td mat-cell *matCellDef="let element"> {{element.PatientRowNumber}} </td>
+          </ng-container>
+          <ng-container matColumnDef="CaseNumber">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר מקרה </th>
+            <td mat-cell *matCellDef="let element"> {{element.CaseNumber}} </td>
+          </ng-container>
+          <ng-container matColumnDef="DepartName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה </th>
+            <td mat-cell *matCellDef="let element"> {{element.DepartName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="PM_ROOM_NUMBER">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר חדר </th>
+            <td mat-cell *matCellDef="let element"> {{element.PM_ROOM_NUMBER}} </td>
+          </ng-container>
+          <ng-container matColumnDef="PatientFirstName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> שם פרטי </th>
+            <td mat-cell *matCellDef="let element"> {{element.PatientFirstName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="PatientLastName">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> שם משפחה </th>
+            <td mat-cell *matCellDef="let element"> {{element.PatientLastName}} </td>
+          </ng-container>
+          <ng-container matColumnDef="PM_PATIENT_GENDER">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> מגדר </th>
+            <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_GENDER}} </td>
+          </ng-container>
+          <ng-container matColumnDef="DatesInHospital">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ימי אשפוז </th>
+            <td mat-cell *matCellDef="let element"> {{element.DatesInHospital}} </td>
+          </ng-container>
+          <ng-container matColumnDef="AnotherHospital">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> בי"ח אחר </th>
+            <td mat-cell *matCellDef="let element"> {{element.AnotherHospital}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ICD9Surgery">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ניתוח </th>
+            <td mat-cell *matCellDef="let element"> {{element.ICD9Surgery}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ICD9Anamniza">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> אבחנה </th>
+            <td mat-cell *matCellDef="let element"> {{element.ICD9Anamniza}} </td>
+          </ng-container>
+          <ng-container matColumnDef="DifferenceInStayDays">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> הפרש ימי אשפוז </th>
+            <td mat-cell *matCellDef="let element"> {{element.DifferenceInStayDays}} </td>
+          </ng-container>
+          <ng-container matColumnDef="AGE">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> גיל </th>
+            <td mat-cell *matCellDef="let element"> {{element.AGE}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Albomin">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> אלבומין </th>
+            <td mat-cell *matCellDef="let element"> {{element.Albomin}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Norton">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> נורטון </th>
+            <td mat-cell *matCellDef="let element"> {{element.Norton}} </td>
+          </ng-container>
+          <ng-container matColumnDef="ThroughInput">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> דרך הזנה </th>
+            <td mat-cell *matCellDef="let element"> {{element.ThroughInput}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Iv">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> הזנה דרך וריד </th>
+            <td mat-cell *matCellDef="let element"> {{element.Iv}} </td>
+          </ng-container>
+          <ng-container matColumnDef="HowToEat">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> דרך האכלה</th>
+            <td mat-cell *matCellDef="let element"> {{element.HowToEat}} </td>
+          </ng-container>
+          <ng-container matColumnDef="DietType">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> סוג דיאטה </th>
+            <td mat-cell *matCellDef="let element"> {{element.DietType}} </td>
+          </ng-container>
+          <ng-container matColumnDef="TextureFood">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> סוג האכלה </th>
+            <td mat-cell *matCellDef="let element"> {{element.TextureFood}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Desctiption">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> מצב עור </th>
+            <td mat-cell *matCellDef="let element"> {{element.Desctiption}} </td>
+          </ng-container>
+          <ng-container matColumnDef="BMI">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> BMI </th>
+            <td mat-cell *matCellDef="let element"> {{element.BMI}} </td>
+          </ng-container>
+          <ng-container matColumnDef="MUST">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> MUST </th>
+            <td mat-cell *matCellDef="let element"> {{element.MUST}} </td>
+          </ng-container>
+          <ng-container matColumnDef="STAMP">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> STAMP </th>
+            <td mat-cell *matCellDef="let element"> {{element.STAMP}} </td>
+          </ng-container>
+          <ng-container matColumnDef="WieghtLoss">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ירידה במשקל </th>
+            <td mat-cell *matCellDef="let element"> {{element.WieghtLoss}} </td>
+          </ng-container>
+          <ng-container matColumnDef="Points">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> ציון </th>
+            <td mat-cell *matCellDef="let element"> {{element.Points}} </td>
+          </ng-container>
 
-        <tr mat-header-row *matHeaderRowDef="displayedColumns" [style.background]="'antiquewhite'"></tr>
-        <tr mat-row *matRowDef="let row; columns: displayedColumns;" [style.background]="row.Points >= 6 ? 'firebrick' : row.Points >= 2 && row.Points < 6 ? 'yellow': 'white'"></tr>
-      </table>
-      <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" style="float: right;"></mat-paginator>
-      <mat-progress-bar mode="buffer" *ngIf="!patientFound"></mat-progress-bar>
+          <tr mat-header-row *matHeaderRowDef="displayedColumns" [style.background]="'antiquewhite'"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;"
+            [style.background]="row.Points >= 6 ? 'firebrick' : row.Points >= 2 && row.Points < 6 ? 'yellow': 'white'">
+          </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" style="float: right;">
+        </mat-paginator>
+        <mat-progress-bar mode="buffer" *ngIf="!patientFound"></mat-progress-bar>
+      </div>
+
 
       <!-- <mat-list role="list">
         <mat-list-item role="listitem">DepartName: {{patient.DepartName}}</mat-list-item>
