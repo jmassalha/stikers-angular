@@ -129,6 +129,11 @@ export class FormsansweredComponent implements OnInit {
     this.dialog.close(row);
   }
 
+  applyFilter(event: Event) {
+    const filterValue = (event.target as HTMLInputElement).value;
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
       duration: 5000,

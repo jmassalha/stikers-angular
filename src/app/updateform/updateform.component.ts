@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormsansweredComponent } from '../formsanswered/formsanswered.component';
 import { UpdatesingleformComponent } from '../updatesingleform/updatesingleform.component';
 import { DatePipe } from '@angular/common';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export interface Form {
   FormID: string;
@@ -54,6 +56,9 @@ export class UpdateformComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
   rowFormData = {} as Patient;
+  departmentControl = new FormControl();
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -84,6 +89,16 @@ export class UpdateformComponent implements OnInit {
       'departmentControl': new FormControl('', null)
     });
     this.searchForm();
+    this.filteredOptions = this.departmentControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value)),
+    );
+  }
+
+  private _filter(value: any): string[] {
+    var filterValue = value.toLowerCase();
+
+    return this.department.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   openDialogToUpdate(id) {
