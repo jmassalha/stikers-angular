@@ -238,10 +238,10 @@ export class FormsansweredComponent implements OnInit {
             this.TABLE_DATA.push({
               FormID: this.all_forms_filter[i].formID,
               PatientID: "",
-              PatientName: "",
+              PatientName: this.all_forms_filter[i].Patient_Name,
               DateOfFillForm: this.all_forms_filter[i].DateOfFillForm.split(' ')[0],
               PatientBirthday: "",
-              PatientPassport: "",
+              PatientPassport: this.all_forms_filter[i].Patient_ID,
               PatientPhone: "",
               Row_ID: "",
               PatientEmail: "",
