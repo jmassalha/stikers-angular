@@ -281,7 +281,7 @@ export class EshbozComponent implements OnInit {
             })
             .subscribe((Response) => {
                 $("#_departments").empty();
-                ////////debugger
+                debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 //debugger
@@ -355,6 +355,7 @@ export class EshbozComponent implements OnInit {
                     this.eshpoz = JSON.parse(json["DepartEshpozim"]);
                     this.kabalot = JSON.parse(json["DepartKblot"]);
                     this.kabalotPast = JSON.parse(json["DepartKblotPast"]);
+                    
                     this.eshpozPast = JSON.parse(json["DepartEshpozimPast"]);
                     this.departPast = JSON.parse(json["DepartNamePast"]);
                     this.departBedsIn = JSON.parse(json["DepartBeds"]);
@@ -366,6 +367,7 @@ export class EshbozComponent implements OnInit {
                     this.depart7ozrem = JSON.parse(json["Eshpoz7ozerDeparts"]);
                     this.depart7ozremTot = JSON.parse(json["Eshpoz7ozer"]);
                     this.depart7ozremPastTot = JSON.parse(json["Eshpoz7ozerPast"]);
+                    debugger
                     if(this.Depart[0] == "-1"){
                         this.pasttoshow = false;
 

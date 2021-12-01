@@ -64,6 +64,7 @@ import { DevManageComponent } from "./dev-manage/dev-manage.component";
 import { SystemManageComponent } from './nurses-manage-dashboard/system-manage/system-manage.component';
 import { DialogBoxComponent } from './nurses-manage-dashboard/system-manage/dialog-box/dialog-box.component';
 import { GalitPointsReportComponent } from './galit-points-report/galit-points-report.component';
+import { NmrIframeComponent } from './nmr-iframe/nmr-iframe.component';
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -131,6 +132,7 @@ const routes: Routes = [
     { path: "systemmanage", component: SystemManageComponent },
     { path: "dialogbox", component: DialogBoxComponent },
     { path: "galitpointsreport", component: GalitPointsReportComponent },
+    { path: "nmriframe", component: NmrIframeComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

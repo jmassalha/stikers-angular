@@ -275,8 +275,8 @@ export class StaffComponent implements OnInit {
         this.rowElement.DS_ROLE_NAME = resultRoles['name'];
         debugger
         this.http
-            //.post("http://srv-ipracticom:8080/WebService.asmx/PoriaStaff", {
-            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaStaff", {
+            .post("http://srv-ipracticom:8080/WebService.asmx/PoriaStaff", {
+           // .post("http://srv-apps/wsrfc/WebService.asmx/PoriaStaff", {
                 _staffName: this.staffForm.value.fullnameVal,
                 _DEPART_ID: this.staffForm.value.DS_DEPART_ID,
                 _STAFF_ROLE: this.staffForm.value.DS_STAFF_ROLE, 
@@ -453,7 +453,7 @@ export class StaffComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-ipracticom:8080/WebService.asmx/GetPoriaStaff", {
+            .post("http://srv-ipracticom:8080/WebService.asmx/GetPoriaStaff", { 
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _FreeText: _FreeText,
@@ -474,7 +474,7 @@ export class StaffComponent implements OnInit {
                         DS_ROW_ID: StaffData[i].DS_ROW_ID,
                         DS_DEPART_ID: StaffData[i].DS_DEPART_ID,
                         DS_DEPART_NAME: resultDeparts['name'],
-                        DS_STAFF_ROLE: StaffData[i].DS_STAFF_ROLE,
+                        DS_STAFF_ROLE: StaffData[i].DS_STAFF_ROLE,   
                         DS_ROLE_NAME: resultRoles['name'],
                         DS_STAFF_NAME: StaffData[i].DS_STAFF_NAME,
                         DS_ROW_STATUS: StaffData[i].DS_ROW_STATUS,
