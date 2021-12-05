@@ -1,0 +1,20 @@
+<div id="page-toshow">
+    <h1 mat-dialog-title style="text-align: center;">דיווח תקלה</h1>
+    <hr>
+    <form mat-dialog-content dir="rtl" style="text-align: right;">
+        <mat-form-field class="example-full-width">
+            <mat-label>מספר טלפון לחזרה</mat-label>
+            <input matInput [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" type="number"
+                placeholder=".......05" required />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>מהות התקלה</mat-label>
+            <textarea matInput rows="6" [(ngModel)]="reportSubject" [ngModelOptions]="{standalone: true}" cols="15"
+                required></textarea>
+        </mat-form-field>
+    </form>
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>ביטול</button>
+        <button mat-raised-button color="primary" (click)="submitBugReport()" mat-dialog-close>שליחה</button>
+    </div>
+</div>

@@ -1,6 +1,6 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectorRef, Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -9,6 +9,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ConfirmationDialogService } from 'src/app/confirmation-dialog/confirmation-dialog.service';
 
+const ELEMENT_DATA: any[] = [];
 @Component({
   selector: 'app-dev-manage',
   templateUrl: './dev-manage.component.html',
@@ -16,19 +17,22 @@ import { ConfirmationDialogService } from 'src/app/confirmation-dialog/confirmat
 })
 export class DevManageComponent implements OnInit {
 
+  displayedColumns: string[] = ['user', 'pc1', 'pc2', 'tablet', 'change'];
+  dataSource = ELEMENT_DATA;
+  TABLE_DATA: any[] = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
+  UserNameUpdate: any;
+  IpAddress: any;
+  IpAddress2: any;
+  TabletAddress: any;
 
   constructor(public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private route: ActivatedRoute,
-    private router: Router,
-    private datePipe: DatePipe,
     private http: HttpClient,
-    private formBuilder: FormBuilder,
-    private readonly changeDetectorRef: ChangeDetectorRef,
-    private confirmationDialogService: ConfirmationDialogService,) { }
+    private formBuilder: FormBuilder) { }
 
   changeUser: FormGroup;
   permissionPassword: FormGroup;
@@ -41,7 +45,7 @@ export class DevManageComponent implements OnInit {
     this.permissionPassword = this.formBuilder.group({
       passwordLogin: ['', null],
     });
-    
+
     this.changeUser = this.formBuilder.group({
       Row_ID: ['', null],
       newUser: ['', null],
@@ -52,6 +56,7 @@ export class DevManageComponent implements OnInit {
         startWith(''),
         map(value => this._filter2(value))
       );
+    this.getNursesUsersToUpdatePermission();
   }
 
   private _filter2(value: string): string[] {
@@ -67,6 +72,40 @@ export class DevManageComponent implements OnInit {
     return this.users.filter(option => option.firstname.includes(filterValue2));
   }
 
+  updateUserPermission(element) {
+    let dialogRef = this.dialog.open(this.modalContent, { width: '40%', disableClose: true });
+    this.UserNameUpdate = element.UserName;
+    this.IpAddress = element.IpAddress;
+    this.IpAddress2 = element.IpAddress2;
+    this.TabletAddress = element.TabletAddress;
+  }
+
+  submitUpdate() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/SubmitUpdateNursesUsers", {
+        UserNameUpdate: this.UserNameUpdate,
+        IpAddress: this.IpAddress,
+        IpAddress2: this.IpAddress2,
+        TabletAddress: this.TabletAddress
+      })
+      .subscribe((Response) => {
+        if(Response["d"]){
+          this.openSnackBar("התחלף בהצלחה");
+        }else{
+          this.openSnackBar("משהו השתבש");
+        }
+      });
+  }
+
+  getNursesUsersToUpdatePermission() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesUsersToUpdatePermission", {
+      })
+      .subscribe((Response) => {
+        let all_departs_filter = Response["d"];
+        this.dataSource = all_departs_filter;
+      });
+  }
 
   getUsersToUpdateUser() {
     this.http
@@ -84,10 +123,10 @@ export class DevManageComponent implements OnInit {
       });
   }
 
-  checkPassword(){
-    if(this.permissionPassword.controls['passwordLogin'].value == 'Monster1948'){
+  checkPassword() {
+    if (this.permissionPassword.controls['passwordLogin'].value == '1948') {
       this.permission = true;
-    }else{
+    } else {
       this.openSnackBar("סיסמה לא נכונה");
     }
   }

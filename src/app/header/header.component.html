@@ -2,7 +2,7 @@
     <button class="btn bmd-btn-icon" type="button" id="menu-btn">
         <i class="material-icons closeMe"> close </i>
         <i class="material-icons open" *ngIf="!personReadInquiry"> menu </i>
-        <i class="material-icons open" matBadgeColor="warn" [matBadge]="numberOfUnread" *ngIf="personReadInquiry"> menu
+        <i class="material-icons open" *ngIf="personReadInquiry"> menu
         </i>
     </button>
     <div dir="rtl" class="text-right" id="app-menu">

@@ -137,6 +137,8 @@ table {
 
 #page-toshow{
   font-size: small;
+  width: 100%;
+  margin: 0px 140px 0px 0px;
 }
 
 .close {

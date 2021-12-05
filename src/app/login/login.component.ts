@@ -16,6 +16,8 @@ export class LoginComponent implements OnInit {
     ) {}
     username: string;
     password: string;
+    hide : boolean = true;
+
     ngOnInit() {
         if (
             localStorage.getItem("loginState") == "true" &&
@@ -24,6 +26,9 @@ export class LoginComponent implements OnInit {
             this.router.navigate(["dashboard"]);
         }
     }
+    hidePassword() {
+        this.hide = !this.hide;
+      }
     login(): void {
         $("#loader").removeClass("d-none");
         if (this.username && this.password) {
