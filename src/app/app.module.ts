@@ -132,6 +132,7 @@ import { SystemManageComponent } from './nurses-manage-dashboard/system-manage/s
 import { DialogBoxComponent } from './nurses-manage-dashboard/system-manage/dialog-box/dialog-box.component';
 import { GalitPointsReportComponent } from './galit-points-report/galit-points-report.component';
 import { NmrIframeComponent } from './nmr-iframe/nmr-iframe.component';
+import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
 
 
 
@@ -226,7 +227,8 @@ const maskConfig: Partial<IConfig> = {
     SystemManageComponent,
     DialogBoxComponent,
     GalitPointsReportComponent,
-    NmrIframeComponent
+    NmrIframeComponent,
+    OrdersToAppointmentsComponent
   ],
   imports: [
     FlatpickrModule.forRoot(),

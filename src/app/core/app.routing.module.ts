@@ -72,6 +72,7 @@ import { SystemManageComponent } from "../nurses-manage-dashboard/system-manage/
 import { GalitPointsReportComponent } from "../galit-points-report/galit-points-report.component";
 
 import { NmrIframeComponent } from '../nmr-iframe/nmr-iframe.component';
+import { OrdersToAppointmentsComponent } from '../orders-to-appointments/orders-to-appointments.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
@@ -145,7 +146,8 @@ const routes: Routes = [
   { path: "devmanage", component: DevManageComponent },
   { path: "systemmanage", component: SystemManageComponent },
   { path: "galitpointsreport", component: GalitPointsReportComponent },
-  { path: "nmriframe", component: NmrIframeComponent },
+  { path: "nmriframe", component: NmrIframeComponent },  
+  { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
   { path: '', component : LoginComponent}
 ];
  
