@@ -12,6 +12,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import {animate, state, style, transition, trigger} from '@angular/animations';
 
 export interface Email {
   EmailID: string;
@@ -50,7 +51,14 @@ export class DialogContentExampleDialog {
 @Component({
   selector: 'app-emailsdashboard',
   templateUrl: './emailsdashboard.component.html',
-  styleUrls: ['./emailsdashboard.component.css']
+  styleUrls: ['./emailsdashboard.component.css'],
+  animations: [
+    trigger('detailExpand', [
+      state('collapsed', style({height: '0px', minHeight: '0'})),
+      state('expanded', style({height: '*'})),
+      transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
+    ]),
+  ],
 })
 export class EmailsdashboardComponent implements OnInit {
 
@@ -79,6 +87,10 @@ export class EmailsdashboardComponent implements OnInit {
   displayedColumns: string[] = [
     'delete', 'FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'add', 'showAll', 'status'
   ];
+  // displayedColumns: string[] = [
+  //   'מחיקת פנייה', 'מס פניה', 'שם פונה', 'נושא פניה', 'תאריך קבלת פניה', 'ניהול פניה', 'פיצול פניה', 'צירוף אחראי לפניה', 'סטטוס פניה'
+  // ];
+  expandedElement: Email | null;
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
   compStatus: CompStatus[] = [

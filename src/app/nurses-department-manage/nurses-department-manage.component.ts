@@ -14,6 +14,60 @@ import {
 import { DatePipe } from '@angular/common';
 import { interval, Subscription } from 'rxjs';
 
+@Component({
+  selector: 'bug-report-component',
+  templateUrl: './bugModal.html',
+  styleUrls: ['./nurses-department-manage.component.css']
+})
+export class BugReportComponent implements OnInit {
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  UserName = localStorage.getItem("loginUserName").toLowerCase();
+  reportSubject: any;
+  phoneNumber: any;
+
+  constructor(public dialog: MatDialog,
+    private router: Router,
+    @Inject(MAT_DIALOG_DATA) public data: string,
+    private http: HttpClient,
+    private _snackBar: MatSnackBar,
+    private dialogRef: MatDialogRef<NursesDepartmentManageComponent>,
+    private formBuilder: FormBuilder,
+    private datePipe: DatePipe){
+
+  }
+
+  ngOnInit(){
+
+  }
+
+  
+  submitBugReport(){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
+        _phoneNumber: this.phoneNumber,
+        _reportSubject: this.reportSubject,
+        _userName: this.UserName,
+      })
+      .subscribe((Response) => {
+        if(Response["d"]){
+          this.openSnackBar("נשלח לטיפול");
+        }else{
+          this.openSnackBar("משהו השתבש לא נשלח");
+        }
+      });
+  }
+
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+  
+}
 
 @Component({
   selector: 'app-nurses-department-manage',
@@ -132,13 +186,6 @@ export class NursesDepartmentManageComponent implements OnInit {
     }
   }
 
-  bugReport() {
-    this.dialog.open(this.modalBug, { width: '60%',disableClose: false} );
-  }
-  closeModal2() {
-    this.dialog.closeAll();
-  }
-
   closeModal() {
     // this.checkIfToRefresh(false);
     this.dialogRef.close();
@@ -182,6 +229,12 @@ export class NursesDepartmentManageComponent implements OnInit {
       })
   }
 
+  bugReport(){
+    let dialogRef = this.dialog.open(BugReportComponent);
+    dialogRef.componentInstance.reportSubject = this.reportSubject;
+    dialogRef.componentInstance.phoneNumber = this.phoneNumber;
+  }
+
 
   test() {
     if (this.UserName.toLowerCase() == 'jubartal') {
@@ -193,22 +246,6 @@ export class NursesDepartmentManageComponent implements OnInit {
     }
   }
 
-  submitBugReport(){
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
-        _phoneNumber: this.phoneNumber,
-        _reportSubject: this.reportSubject,
-        _userName: this.UserName,
-      })
-      .subscribe((Response) => {
-        if(Response["d"]){
-          this.openSnackBar("נשלח לטיפול");
-          this.closeModal2();
-        }else{
-          this.openSnackBar("משהו השתבש לא נשלח");
-        }
-      });
-  }
 
   getDepartDetails() {
     this.http

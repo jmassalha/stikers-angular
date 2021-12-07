@@ -64,6 +64,7 @@ import { DevManageComponent } from "./dev-manage/dev-manage.component";
 import { SystemManageComponent } from './nurses-manage-dashboard/system-manage/system-manage.component';
 import { DialogBoxComponent } from './nurses-manage-dashboard/system-manage/dialog-box/dialog-box.component';
 import { GalitPointsReportComponent } from './galit-points-report/galit-points-report.component';
+import { BugReportComponent } from './nurses-department-manage/nurses-department-manage.component';
 import { NmrIframeComponent } from './nmr-iframe/nmr-iframe.component';
 import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
 const routes: Routes = [
@@ -133,6 +134,7 @@ const routes: Routes = [
     { path: "systemmanage", component: SystemManageComponent },
     { path: "dialogbox", component: DialogBoxComponent },
     { path: "galitpointsreport", component: GalitPointsReportComponent },
+    { path: "bugreport", component: BugReportComponent },
     { path: "nmriframe", component: NmrIframeComponent },
     { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
     { path: "", component: LoginComponent },

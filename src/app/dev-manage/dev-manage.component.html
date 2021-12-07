@@ -31,30 +31,103 @@
         </div>
     </form>
 </div>
-<div class="container" dir="rtl" *ngIf="permission">
-    <form dir="rtl" class="form col" [formGroup]="changeUser">
-        <div class="row">
-            <div class="col-12 bedsUpdate">
-                <h2>שינוי שם משתמש</h2>
-                <div class="row">
-                    <div class="col-12">
-                        <div class="form-group">
-                            <mat-form-field>
-                                <mat-label>החלפה למשתמש חדש</mat-label>
-                                <input type="text" aria-label="user"
-                                    style="font-family: 'math';font-weight: bolder;font-size: 18px;" matInput
-                                    [formControl]="userfilter" [matAutocomplete]="auto2">
-                                <mat-autocomplete #auto2="matAutocomplete">
-                                    <mat-option *ngFor="let user of filteredOptions2 | async" [value]="user.firstname"
-                                        style="font-family: 'math';font-weight: bolder;font-size: 18px;">
-                                        {{user.firstname}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field>
+<div *ngIf="permission">
+    <div class="container" dir="rtl">
+        <form dir="rtl" class="form col" [formGroup]="changeUser">
+            <div class="row">
+                <div class="col-12 bedsUpdate">
+                    <h2>שינוי שם משתמש</h2>
+                    <div class="row">
+                        <div class="col-12">
+                            <div class="form-group">
+                                <mat-form-field>
+                                    <mat-label>החלפה למשתמש חדש</mat-label>
+                                    <input type="text" aria-label="user"
+                                        style="font-family: 'math';font-weight: bolder;font-size: 18px;" matInput
+                                        [formControl]="userfilter" [matAutocomplete]="auto2">
+                                    <mat-autocomplete #auto2="matAutocomplete">
+                                        <mat-option *ngFor="let user of filteredOptions2 | async"
+                                            [value]="user.firstname"
+                                            style="font-family: 'math';font-weight: bolder;font-size: 18px;">
+                                            {{user.firstname}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </form>
+        </form>
+    </div>
+    <div class="container pb-5" dir="rtl">
+        <form dir="rtl" class="form col">
+            <div class="row">
+                <div class="col-12 bedsUpdate">
+                    <h2>הרשאות למערכת אחיות</h2>
+                    <div class="row">
+                        <div dir="rtl" class="container text-center">
+                            <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">
+
+                                <ng-container matColumnDef="user">
+                                    <th mat-header-cell *matHeaderCellDef> משתמש עובד </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.UserName}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="pc1">
+                                    <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 1 </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.IpAddress}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="pc2">
+                                    <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 2 </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.IpAddress2}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="tablet">
+                                    <th mat-header-cell *matHeaderCellDef> הרשאה לטאבלט </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.TabletAddress}} </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="change">
+                                    <th mat-header-cell *matHeaderCellDef> עדכון </th>
+                                    <td mat-cell *matCellDef="let element"> <button
+                                            (click)="updateUserPermission(element)"><a
+                                                style="color: blue">עדכן</a></button>
+                                    </td>
+                                </ng-container>
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </form>
+    </div>
 </div>
+
+<ng-template #modalContent let-close="close">
+    <h1 mat-dialog-title style="text-align: center;">דיווח תקלה</h1>
+    <hr>
+    <form mat-dialog-content dir="rtl" style="text-align: right;">
+        <p>{{UserNameUpdate}}</p>
+        <mat-form-field class="example-full-width">
+            <mat-label>מחשב 1:</mat-label>
+            <input matInput [(ngModel)]="IpAddress" [ngModelOptions]="{standalone: true}" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>מחשב 2:</mat-label>
+            <input matInput [(ngModel)]="IpAddress2" [ngModelOptions]="{standalone: true}" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>טאבלט:</mat-label>
+            <input matInput [(ngModel)]="TabletAddress" [ngModelOptions]="{standalone: true}" />
+        </mat-form-field>
+
+    </form>
+    <div mat-dialog-actions>
+        <button mat-button mat-dialog-close>ביטול</button>
+        <button mat-raised-button color="primary" mat-dialog-close (click)="submitUpdate()">בצע</button>
+    </div>
+</ng-template>

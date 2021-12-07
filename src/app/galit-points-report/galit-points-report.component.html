@@ -162,7 +162,7 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns" [style.background]="'antiquewhite'"></tr>
           <tr mat-row *matRowDef="let row; columns: displayedColumns;"
-            [style.background]="row.Points >= 6 ? 'firebrick' : row.Points >= 2 && row.Points < 6 ? 'yellow': 'white'">
+            [style.background]="row.Points >= 6 ? 'red' : row.Points >= 2 && row.Points < 6 ? 'yellow': 'white'">
           </tr>
         </table>
         <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" style="float: right;">

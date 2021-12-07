@@ -1,9 +1,10 @@
 <mat-card class="form-amen">
-    <button mat-mini-fab color="warn" type="button" (click)="onClose()" class="poll-remove-btn" matTooltip="סגירה ללא שמירה">
-      X
-    </button>
+  <button mat-mini-fab color="warn" type="button" (click)="onClose()" class="poll-remove-btn"
+    matTooltip="סגירה ללא שמירה">
+    X
+  </button>
   <form dir="rtl" [formGroup]="surveyForm" autocomplete="off">
-    
+
     <div class="border-me card-body">
       <div class="row">
         <div class="col-8">
@@ -12,13 +13,15 @@
           </mat-form-field>
         </div>
         <div class="col-4" *ngIf="surveyForm.controls['GeneralForm'].value == '0'">
-          <mat-form-field appearance="fill">
-            <mat-label>מחלקות</mat-label>
-            <mat-select formControlName="FormDepartmentID">
-              <mat-option *ngFor="let dept of department" [value]="dept.Row_ID">
+          <mat-form-field class="example-full-width" appearance="fill">
+            <mat-label>מחלקה</mat-label>
+            <input type="text" placeholder="בחר מחלקה" matInput [formControl]="departmentControl"
+              [matAutocomplete]="auto">
+            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" [displayWith]="displayFn">
+              <mat-option *ngFor="let dept of filteredOptions | async" [value]="dept">
                 {{dept.Depart_Name}}
               </mat-option>
-            </mat-select>
+            </mat-autocomplete>
           </mat-form-field>
         </div>
       </div>
@@ -112,7 +115,8 @@
                           </li>
                         </ul>
                         <button mat-raised-button type="button" (click)="addOption(i)"
-                          class="mat-sm-button add-option-btn" color="accent" matTooltip="הוספת אפשרות"> <span class="material-icons">
+                          class="mat-sm-button add-option-btn" color="accent" matTooltip="הוספת אפשרות"> <span
+                            class="material-icons">
                             playlist_add
                           </span></button>
                       </div>
@@ -139,7 +143,8 @@
                           </li>
                         </ul>
                         <button mat-raised-button type="button" (click)="addOption(i)"
-                          class="mat-sm-button add-option-btn" color="accent" matTooltip="הוספת אפשרות"> <span class="material-icons">
+                          class="mat-sm-button add-option-btn" color="accent" matTooltip="הוספת אפשרות"> <span
+                            class="material-icons">
                             playlist_add
                           </span></button>
                       </div>
@@ -151,8 +156,7 @@
                     </div>
                     <div *ngIf="questionCtrl.controls['questionType'].value == 'TextArea'">
                       <mat-form-field class="full-width">
-                        <textarea style="resize: none;" cols="3" rows="2" matInput
-                          placeholder="פסקה בקבועה"></textarea>
+                        <textarea style="resize: none;" cols="3" rows="2" matInput placeholder="פסקה בקבועה"></textarea>
                       </mat-form-field>
                     </div>
                     <div *ngIf="questionCtrl.controls['questionType'].value == 'Date'">
@@ -192,7 +196,8 @@
                     </div>
                   </div>
                 </div>
-                <button mat-mini-fab color="warn" type="button" (click)="onRemoveQuestion(i)" class="poll-remove-btn" matTooltip="מחיקת שאלה">
+                <button mat-mini-fab color="warn" type="button" (click)="onRemoveQuestion(i)" class="poll-remove-btn"
+                  matTooltip="מחיקת שאלה">
                   X
                 </button>
               </div>
@@ -264,8 +269,7 @@
                           </div>
                           <div class="col-6">
                             <mat-form-field class="full-width">
-                              <mat-select formControlName="ColType" placeholder="סוג עמודה"
-                                [required]="true">
+                              <mat-select formControlName="ColType" placeholder="סוג עמודה" [required]="true">
                                 <mat-option *ngFor="let type of columnType" [value]="type.value">
                                   {{type.viewValue}}
                                 </mat-option>
@@ -273,7 +277,8 @@
                             </mat-form-field>
                           </div>
                         </div>
-                        <button mat-raised-button class="mb-2" (click)="removeColumn(f,j)" color="warn" matTooltip="מחיקת עמודה">
+                        <button mat-raised-button class="mb-2" (click)="removeColumn(f,j)" color="warn"
+                          matTooltip="מחיקת עמודה">
                           X
                         </button>
                       </div>
@@ -302,7 +307,8 @@
                           <mat-label>כותרת שורה</mat-label>
                           <input matInput type="text" formControlName="rowsText">
                         </mat-form-field>
-                        <button mat-raised-button class="mb-2" (click)="removeRow(f,k)" color="warn" matTooltip="מחיקת שורה">
+                        <button mat-raised-button class="mb-2" (click)="removeRow(f,k)" color="warn"
+                          matTooltip="מחיקת שורה">
                           X
                         </button>
                       </div>
@@ -317,7 +323,8 @@
                   </span></button>
               </div>
               <!-- </div> -->
-              <button mat-mini-fab color="warn" type="button" (click)="onRemoveTable(f)" class="poll-remove-btn" matTooltip="מחיקת טבלה">
+              <button mat-mini-fab color="warn" type="button" (click)="onRemoveTable(f)" class="poll-remove-btn"
+                matTooltip="מחיקת טבלה">
                 X
               </button>
             </div>
@@ -346,7 +353,7 @@
       color="warn" type="submit" mat-raised-button>
       <span>יציאה ללא שמירה</span>
     </button>
-   
+
   </div>
 
   <!-- <div class="button-row">
