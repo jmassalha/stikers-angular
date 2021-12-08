@@ -31,7 +31,7 @@
                         </div>
                     </div>
                     <h4 class="searchingPatient" *ngIf="!searchPatientProgressBar"> מחפש נבדק ... </h4>
-                    <button type="submit" mat-raised-button color="yello" (click)="getPatients()">
+                    <button type="submit" mat-raised-button color="yello" (click)="getPatients('false',0)">
                         <mat-icon>search</mat-icon>
                     </button>
                     &nbsp;&nbsp;&nbsp;
@@ -85,7 +85,7 @@
             <ng-container matColumnDef="print">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> הדפסה </th>
                 <td mat-cell *matCellDef="let element"> <button type="submit" mat-raised-button color="primary"
-                        (click)="printClinicPrice(element)">
+                        (click)="printClinicPrice(element,0)">
                         <mat-icon>print</mat-icon>
                     </button> </td>
             </ng-container>

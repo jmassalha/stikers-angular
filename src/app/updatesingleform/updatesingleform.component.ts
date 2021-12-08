@@ -250,6 +250,10 @@ export class UpdatesingleformComponent implements OnInit {
         console.log("User confirmed:", confirmed);
         if (confirmed) {
           this.tableFormGroup.controls.tableArray['controls'][index].controls.TableStatus.patchValue("0");
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.setValidators(null);
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.setValidators(null);
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.updateValueAndValidity();
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.updateValueAndValidity();
         } else {
         }
       })
@@ -530,7 +534,7 @@ export class UpdatesingleformComponent implements OnInit {
       }
     });
 
-    if (!this.surveyForm.invalid && !this.tableFormGroup.invalid) {
+    if (!this.surveyForm.invalid) {
       if (this.urlID === 0) {
         this.http
           .post("http://srv-apps/wsrfc/WebService.asmx/Forms", {

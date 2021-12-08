@@ -225,7 +225,7 @@ export class ManageClinicPriceComponent implements OnInit {
           let message = Response["d"];
           if (message == "Success") {
             this.openSnackBar("הצעת טיפול נשלחה בהצלחה");
-            window.location.reload();
+            this.dialog.closeAll();
           } else if (message == "noServices") {
             this.openSnackBar("לא נשמר, לא נבחרו שירותים עבור המטופל");
           } else {
@@ -235,6 +235,7 @@ export class ManageClinicPriceComponent implements OnInit {
     } else {
       this.openSnackBar("לא בחרת שירותים עבור המטופל");
     }
+    // this.dialog.closeAll();
   }
 
 
