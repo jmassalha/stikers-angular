@@ -125,73 +125,75 @@ export class ClinicsDashboardComponent implements OnInit {
     });
   }
 
-  printClinicPrice(element) {
+  printClinicPrice(element, ifEdit) {
     if (this.selectV == "") {
-      this.openSnackBar("אנא בחר גרסה");
-    } else {
-      let passport = this.searchPatient.controls['Passport'].value;
-      this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/PrintReciept", {
-          _patientPassport: passport,
-          _patientRecordID: element.Row_ID,
-          _versionNum: this.selectV,
-        })
-        .subscribe((Response) => {
-          this.print = true;
-          let relevantServices = [];
-          relevantServices = Response["d"];
-          if (relevantServices.length == 0) {
-            this.openSnackBar("לא נמצאו רשומות עבור המטופל");
-            this.patientFound = false;
-          } else {
-            var ServiceArray: any = this.fb.array([]);
-            var ServiceItem;
-            this.deptChosen = true;
-            this.detailsFormGroup2 = ({
-              PersonID: relevantServices[0].PersonID,
-              LastName: relevantServices[0].LastName,
-              FirstName: relevantServices[0].FirstName,
-              PatientAddress: relevantServices[0].PatientAddress,
-              Email: relevantServices[0].Email,
-              Gender: relevantServices[0].Gender,
-              PhoneNumber: relevantServices[0].PhoneNumber,
-              DOB: relevantServices[0].DOB,
-              TotalPrice: relevantServices[relevantServices.length-1].TotalVersionPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","),//.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-              DepartName: relevantServices[1].DepartName,
-              InchargeDoctor: relevantServices[1].InchargeDoctor,
-            });
-            if (this.detailsFormGroup2.Gender == '1') {
-              this.genderText = "זכר";
-            } else if (this.detailsFormGroup2.Gender == '2') {
-              this.genderText = "נקבה";
-            } else {
-              this.genderText = "אחר";
-            }
-            this.ELEMENT_DATA = [];
-            for (let i = 1; i < relevantServices.length; i++) {
-              let total = relevantServices[i].ServicePrice * relevantServices[i].ServiceQuantity;
-              ServiceItem = this.fb.group({
-                ServiceNumber: relevantServices[i].ServiceNumber,
-                ServiceName: relevantServices[i].ServiceName,
-                ServiceQuantity: relevantServices[i].ServiceQuantity,
-                ServicePrice: relevantServices[i].ServicePrice,
-                Total: total,
-              });
-              this.ELEMENT_DATA.push(ServiceItem);
-            }
-            this.servicesFormGroup = this.fb.group({
-              ServiceArray: ServiceArray
-            });
-            this.dataSource = new MatTableDataSource<Services>(this.ELEMENT_DATA);
-            this.patientFound = true;
-            setTimeout(() => {
-              window.print();
-            }, 1000);
-
-          }
-        });
+      this.openSnackBar("נבחרה גרסה מספר 1");
+      this.selectV = element.RecordVersion[0];
     }
+    if (ifEdit == "1") {
+      this.selectV = element.RecordVersion[element.RecordVersion.length-1];
+    }
+    let passport = this.searchPatient.controls['Passport'].value;
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/PrintReciept", {
+        _patientPassport: passport,
+        _patientRecordID: element.Row_ID,
+        _versionNum: this.selectV,
+      })
+      .subscribe((Response) => {
+        this.print = true;
+        let relevantServices = [];
+        relevantServices = Response["d"];
+        if (relevantServices.length == 0) {
+          this.openSnackBar("לא נמצאו רשומות עבור המטופל");
+          this.patientFound = false;
+        } else {
+          var ServiceArray: any = this.fb.array([]);
+          var ServiceItem;
+          this.deptChosen = true;
+          this.detailsFormGroup2 = ({
+            PersonID: relevantServices[0].PersonID,
+            LastName: relevantServices[0].LastName,
+            FirstName: relevantServices[0].FirstName,
+            PatientAddress: relevantServices[0].PatientAddress,
+            Email: relevantServices[0].Email,
+            Gender: relevantServices[0].Gender,
+            PhoneNumber: relevantServices[0].PhoneNumber,
+            DOB: relevantServices[0].DOB,
+            TotalPrice: relevantServices[relevantServices.length - 1].TotalVersionPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","),//.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+            DepartName: relevantServices[1].DepartName,
+            InchargeDoctor: relevantServices[1].InchargeDoctor,
+          });
+          if (this.detailsFormGroup2.Gender == '1') {
+            this.genderText = "זכר";
+          } else if (this.detailsFormGroup2.Gender == '2') {
+            this.genderText = "נקבה";
+          } else {
+            this.genderText = "אחר";
+          }
+          this.ELEMENT_DATA = [];
+          for (let i = 1; i < relevantServices.length; i++) {
+            let total = relevantServices[i].ServicePrice * relevantServices[i].ServiceQuantity;
+            ServiceItem = this.fb.group({
+              ServiceNumber: relevantServices[i].ServiceNumber,
+              ServiceName: relevantServices[i].ServiceName,
+              ServiceQuantity: relevantServices[i].ServiceQuantity,
+              ServicePrice: relevantServices[i].ServicePrice,
+              Total: total,
+            });
+            this.ELEMENT_DATA.push(ServiceItem);
+          }
+          this.servicesFormGroup = this.fb.group({
+            ServiceArray: ServiceArray
+          });
+          this.dataSource = new MatTableDataSource<Services>(this.ELEMENT_DATA);
+          this.patientFound = true;
+          setTimeout(() => {
+            window.print();
+          }, 1000);
 
+        }
+      });
   }
 
   clearSearch() {
@@ -207,10 +209,23 @@ export class ClinicsDashboardComponent implements OnInit {
       dialogRef.componentInstance.PatientElement = element;
       dialogRef.componentInstance.ifEdit = ifEdit;
       dialogRef.componentInstance.versionSelection = this.selectV;
+      dialogRef.afterClosed().subscribe(result => {
+        // this.printClinicPrice(element);
+        let printAfter = true;
+        this.getPatients(printAfter, ifEdit);
+        // if (element.RecordVersion == undefined) {
+        //   this.selectV = "1";
+        // } else {
+        //   this.selectV = element.RecordVersion[element.RecordVersion.length - 1];
+        //   let t = parseInt(this.selectV) + 1;
+        //   this.selectV = t.toString();
+        // }
+        // this.printClinicPrice(element);
+      });
     }
   }
 
-  getPatients() {
+  getPatients(printAfter, ifEdit) {
     let passport = this.searchPatient.controls['Passport'].value;
     this.searchPatientProgressBar = false;
     this.http
@@ -247,6 +262,9 @@ export class ClinicsDashboardComponent implements OnInit {
                 TotalPrice: this.patientRecords[i].TotalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
               }
               ELEMENT_DATA.push(patientItem);
+            }
+            if (printAfter == true) {
+              this.printClinicPrice(ELEMENT_DATA[0], ifEdit);
             }
             this.dataSource3 = new MatTableDataSource<Patient>(ELEMENT_DATA);
             this.newPatient = true;
