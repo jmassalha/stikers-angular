@@ -562,7 +562,7 @@
                 formControlName="OrderedFromDepart"
             />
             <button 
-            *ngIf="OrderStatus == '0'" type="submit" class="btn btn-outline-dark">שמור</button>
+            *ngIf="OrderRealDateTime == '' || OrderStatus == '0'" type="submit" class="btn btn-outline-dark">שמור</button>
             
         </div>
     </form>

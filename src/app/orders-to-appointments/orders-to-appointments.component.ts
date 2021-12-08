@@ -378,7 +378,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 if (this.Permission == "" || this.Permission == null) {
                     this.router.navigate(["login"]);
                 }
-                //this.Permission = "3"
+                console.log(this.Permission);
+                
                 setTimeout(function () {
                     ////////////debugger
                     if (tableLoader) {
@@ -509,6 +510,17 @@ export class OrdersToAppointmentsComponent implements OnInit {
         });
     }
     onSubmit() {
+        debugger
+        if(this.OrdersToAppointmentsForm.value.OrderStatus == '1' && (this.OrdersToAppointmentsForm.value.OrderRealDateTime == "" || this.OrdersToAppointmentsForm.value.OrderRealDateTime == null)){
+            this._snackBar.open("תאריך ושעת תור בפועל שדה חובה!!", "", {
+                duration: 2500,
+                direction: "rtl",
+                panelClass: "error",
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+            });
+            return;
+        }
         if (this.OrdersToAppointmentsForm.invalid) {
             return;
         }
@@ -521,7 +533,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         if (
             this.OrdersToAppointmentsForm.value.OrderRealDateTime != "" &&
             this.OrdersToAppointmentsForm.value.OrderRealDateTime != null &&
-            typeof this.OrdersToAppointmentsForm.value.OrderDateTime != "string"
+            typeof this.OrdersToAppointmentsForm.value.OrderRealDateTime != "string"
         ) {
             this.OrdersToAppointmentsForm.value.OrderRealDateTime = formatDate(
                 this.OrdersToAppointmentsForm.value.OrderRealDateTime.getTime(),
@@ -549,6 +561,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         //debugger
         this.http
             .post(
+                //"http://localhost:64964/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
                 "http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
                 {
                     dataToSubmit: this.OrdersToAppointmentsForm.value,
