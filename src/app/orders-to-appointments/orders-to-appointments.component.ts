@@ -147,8 +147,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
             PatientName: ["", Validators.required],
             PatientId: ["", Validators.required],
             OrderedToDepart: ["", Validators.required],
-            OrderRangeQuantity: ["", Validators.required],
-            OrderRangeType: ["1", Validators.required],
+            OrderRangeQuantity: ["", null],
+            OrderRangeType: ["1", null],
             OrderToDate: ["", Validators.required],
             OrderedFromDepart: ["", Validators.required],
             OrderStatus: ["0", Validators.required],
@@ -451,6 +451,41 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 });
             });
     }
+    changeReq(event){
+        if (
+            event.srcElement.value != "" 
+        ) {
+            this.OrdersToAppointmentsForm.get("OrderToDate").setValidators(
+                Validators.required
+            );
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).updateValueAndValidity();
+
+            this.OrdersToAppointmentsForm.get(
+                "OrderRangeType"
+            ).clearValidators();
+            this.OrdersToAppointmentsForm.get(
+                "OrderRangeType"
+            ).updateValueAndValidity();
+            ////debugger
+        } else {
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).clearValidators();
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).updateValueAndValidity();
+
+            this.OrdersToAppointmentsForm.get("OrderRangeType").setValidators(
+                Validators.required
+            );
+            this.OrdersToAppointmentsForm.get(
+                "OrderRangeType"
+            ).updateValueAndValidity();
+        }
+    }
+
     checkValue(event) {
         ////debugger;
         if (
@@ -464,6 +499,13 @@ export class OrdersToAppointmentsComponent implements OnInit {
             this.OrdersToAppointmentsForm.get(
                 "OrderRangeType"
             ).updateValueAndValidity();
+
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).clearValidators();
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).updateValueAndValidity();
             ////debugger
         } else {
             this.OrdersToAppointmentsForm.get(
@@ -471,6 +513,13 @@ export class OrdersToAppointmentsComponent implements OnInit {
             ).clearValidators();
             this.OrdersToAppointmentsForm.get(
                 "OrderRangeType"
+            ).updateValueAndValidity();
+
+            this.OrdersToAppointmentsForm.get("OrderToDate").setValidators(
+                Validators.required
+            );
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
             ).updateValueAndValidity();
         }
     }
