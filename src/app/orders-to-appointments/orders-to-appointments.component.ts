@@ -302,8 +302,14 @@ export class OrdersToAppointmentsComponent implements OnInit {
                     // //////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
+                console.log("Hey!!2")
+                this.OrderStatus = _element.OrderStatus = "0";
             },
-            (reason) => {}
+            (reason) => {
+                this.OrderStatus = _element.OrderStatus = "0";
+                console.log("Hey!!1");
+
+            }
         );
     }
     applayRequerd(event) {
@@ -328,6 +334,9 @@ export class OrdersToAppointmentsComponent implements OnInit {
     open(content, _type, _element) {
         this.saveBtn = true;
         this.OrderStatus = "0";
+        this.OrderedFromDepart = this.UserDetails.Depart
+        this.OrderdUserName = this.UserDetails.FirstName + " "+this.UserDetails.LastName 
+        this.OrderdUserPhone = this.UserDetails.CellNumber
         this.OrdersToAppointmentsForm = this.formBuilder.group({
             Notes: ["", null],
             OrderRealDateTime: ["", null],
@@ -580,7 +589,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
             .subscribe((Response) => {
                 var json = Response["d"];
                 this.UserDetails = json;
-                // //debugger
+              //  debugger
                 setTimeout(function () {
                     ////////////debugger
                     if (tableLoader) {
