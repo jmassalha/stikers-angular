@@ -63,6 +63,7 @@
     "firebase": "^8.7.1",
     "flatpickr": "^4.6.9",
     "hammerjs": "^2.0.8",
+    "ipware": "^2.0.0",
     "jquery": "^3.6.0",
     "jszip": "^3.7.1",
     "macaddress": "^0.5.2",

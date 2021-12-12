@@ -58,7 +58,9 @@
                                         <mat-form-field>
                                             <mat-label>סטטוס</mat-label>
                                             <mat-select
-                                                (selectionChange)="changeStatus($event)"
+                                                (selectionChange)="
+                                                    changeStatus($event)
+                                                "
                                                 [value]="statusOrder"
                                             >
                                                 <mat-option value="0">
@@ -184,7 +186,11 @@
                                     תאריך מבוקש
                                 </th>
                                 <td mat-cell *matCellDef="let element">
-                                    {{ element.OrderToDate }}
+                                    {{
+                                        element.OrderToDate == "1900-01-01"
+                                            ? ""
+                                            : element.OrderToDate
+                                    }}
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="OrderRangeQuantity">
@@ -321,28 +327,54 @@
             >
                 <span aria-hidden="true">&times;</span>
             </button>
+            <button
+                *ngIf="!saveBtn"
+                type="button"
+                (click)="printModal()"
+                mat-fab
+                color="primary"
+            >
+                <i class="material-icons">print</i>
+            </button>
         </div>
         <div class="modal-body text-right" dir="rtl">
             <div class="row r-1">
                 <div class="col">
                     <div class="form-group br-1">
                         <label>מחלקה מבקשת</label>
-                        <p>{{ UserDetails.Depart }}</p>
+                        <p>{{ OrderedFromDepart }}</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group br-1">
                         <label> מבקש</label>
-                        <p>
-                            {{ UserDetails.FirstName }}
-                            {{ UserDetails.LastName }}
-                        </p>
+                        <p>{{ OrderdUserName }}</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group br-1">
-                        <label>מחלקה מבקשת</label>
-                        <p>{{ UserDetails.CellNumber }}</p>
+                        <label>טל מבקש / ת</label>
+
+                        <p>
+                            {{ OrderdUserPhone }}
+                        </p>
+                    </div>
+                </div>
+            </div>
+            <div *ngIf="AcceptedUser != ''" class="row r-1">
+                <div class="col">
+                    <div class="form-group br-1">
+                        <label> עובד מאשר</label>
+                        <p>{{ AcceptedUser }}</p>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group br-1">
+                        <label>טל מאשר / ת</label>
+
+                        <p>
+                            {{ AcceptedUserCellNumber }}
+                        </p>
                     </div>
                 </div>
             </div>
@@ -350,19 +382,19 @@
                 <div class="col">
                     <div class="form-group br-1">
                         <label>ת.ז מטופל</label>
-                        <p>{{PatientId}}</p>
+                        <p>{{ PatientId }}</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group br-1">
                         <label>שם מטופל </label>
-                        <p>{{PatientName}}</p>
+                        <p>{{ PatientName }}</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group br-1">
                         <label>זימון למרפאה </label>
-                        <p>{{OrderedToDepart}} - {{ClinicName}}</p>
+                        <p>{{ OrderedToDepart }} - {{ ClinicName }}</p>
                     </div>
                 </div>
             </div>
@@ -370,19 +402,19 @@
                 <div class="col">
                     <div class="form-group br-1">
                         <label>תאריך מבוקש</label>
-                        <p>{{OrderToDate}}</p>
+                        <p>{{ OrderToDate }}</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group br-1">
                         <label>ערך</label>
-                        <p>{{OrderRangeQuantity}}</p>
+                        <p>{{ OrderRangeQuantity }}</p>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group br-1">
                         <label>ימים / שבועות</label>
-                        <p>{{OrderRangeType}}</p>
+                        <p>{{ OrderRangeType }}</p>
                     </div>
                 </div>
             </div>
@@ -422,8 +454,10 @@
                     <div class="form-group">
                         <mat-form-field>
                             <mat-label>זימון למרפאה</mat-label>
-                            <mat-select 
-                            [disabled]="OrderStatus != '0'" formControlName="OrderedToDepart">
+                            <mat-select
+                                [disabled]="OrderStatus != '0'"
+                                formControlName="OrderedToDepart"
+                            >
                                 <input
                                     class="form-control"
                                     type="text"
@@ -450,7 +484,7 @@
                         <mat-form-field *ngIf="OrderStatus == '0'">
                             <mat-label>תאריך מבוקש</mat-label>
                             <input
-                                matInput 
+                                matInput
                                 [readonly]="OrderStatus != '0'"
                                 autocomplete="off"
                                 [min]="todayDate"
@@ -469,14 +503,57 @@
                                 format="yyyy-MM-dd"
                             ></mat-datepicker>
                         </mat-form-field>
-                        <div  *ngIf="OrderStatus != '0'" class="br-1">
+                        <div *ngIf="OrderStatus != '0'" class="br-1">
                             <mat-label>תאריך מבוקש</mat-label>
-                            <p>{{OrderToDate}}</p>
+                            <p>{{ OrderToDate }}</p>
                         </div>
-                        <div  *ngIf="OrderStatus != '0'" class="br-1">
+                        <div *ngIf="OrderStatus != '0'" class="br-1">
                             <mat-label> נקבע לתאריך </mat-label>
-                            <p>{{OrderRealDateTime}}</p>
+                            <p>{{ OrderRealDateTime }}</p>
                         </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div
+                    *ngIf="Permission == '1' || Permission == '2'"
+                    class="col text-center"
+                >
+                    <div
+                        style="
+                            width: 100%;
+                            height: 33px;
+                            border-bottom: 1px solid #d1caca;
+                            text-align: center;
+                            margin-bottom: 26px;
+                        "
+                    >
+                        <span
+                            style="
+                                font-size: 40px;
+                                background-color: #f3f5f6;
+                                padding: 0 10px;
+                            "
+                        >
+                            או
+                            <!--Padding is optional-->
+                        </span>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div *ngIf="Permission == '1' || Permission == '2'" class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>ימים / שבועות</mat-label>
+                            <mat-select
+                                [disabled]="OrderStatus != '0'"
+                                formControlName="OrderRangeType"
+                            >
+                                <mat-option value="ימים"> ימים </mat-option>
+                                <mat-option value="שבועות"> שבועות </mat-option>
+                            </mat-select>
+                        </mat-form-field>
                     </div>
                 </div>
                 <div *ngIf="Permission == '1' || Permission == '2'" class="col">
@@ -484,7 +561,7 @@
                         <mat-form-field>
                             <mat-label>ערך</mat-label>
                             <input
-                                matInput 
+                                matInput
                                 [readonly]="OrderStatus != '0'"
                                 (change)="checkValue($event)"
                                 autocomplete="off"
@@ -495,41 +572,50 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div *ngIf="Permission == '1' || Permission == '2'" class="col">
-                    <div class="form-group">
-                        <mat-form-field>
-                            <mat-label>ימים / שבועות</mat-label>
-                            <mat-select 
-                            [disabled]="OrderStatus != '0'" formControlName="OrderRangeType">
-                                <mat-option value="ימים"> ימים </mat-option>
-                                <mat-option value="שבועות"> שבועות </mat-option>
-                            </mat-select>
-                        </mat-form-field>
-                    </div>
-                </div>
             </div>
-            <div *ngIf="Permission == '3'"  class="row">
+            <div *ngIf="Permission == '3'" class="row">
                 <div class="col">
                     <div class="form-group">
-                        <div class="full-width">
+                        <div class="full-width fix-lable-pos">
                             <mat-form-field>
-                                <input matInput [ngxMatDatetimePicker]="picker" placeholder="תאריך ושעת תור בפועל" (focus)="picker.open()" formControlName="OrderRealDateTime"
-                                      >
-                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                                <ngx-mat-datetime-picker #picker [showSpinners]="true" [showSeconds]="false"
-                                   [stepHour]="true" [stepMinute]="true" [stepSecond]="false"
-                                   [touchUi]="ifMobile"   [enableMeridian]="false" 
-                                   [disableMinute]="false" [hideTime]="false">
+                                <input
+                                    matInput
+                                    [ngxMatDatetimePicker]="picker"
+                                    placeholder="תאריך ושעת תור בפועל"
+                                    (focus)="picker.open()"
+                                    formControlName="OrderRealDateTime"
+                                />
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="picker"
+                                ></mat-datepicker-toggle>
+                                <ngx-mat-datetime-picker
+                                    #picker
+                                    [showSpinners]="true"
+                                    [showSeconds]="false"
+                                    [stepHour]="true"
+                                    [stepMinute]="true"
+                                    [stepSecond]="false"
+                                    [touchUi]="ifMobile"
+                                    [enableMeridian]="false"
+                                    [disableMinute]="false"
+                                    [hideTime]="false"
+                                >
                                 </ngx-mat-datetime-picker>
-                             </mat-form-field>
-                            
-                        </div>                        
+                            </mat-form-field>
+                        </div>
                     </div>
                 </div>
                 <div class="col">
-                    <mat-radio-group (change)="applayRequerd($event)" formControlName="OrderStatus">
-                        <mat-radio-button value="1">קיים שירות</mat-radio-button>&nbsp;&nbsp;&nbsp;
-                        <mat-radio-button value="2">לא קיים שירות</mat-radio-button>
+                    <mat-radio-group
+                        (change)="applayRequerd($event)"
+                        formControlName="OrderStatus"
+                    >
+                        <mat-radio-button value="1">קיים שירות</mat-radio-button
+                        >&nbsp;&nbsp;&nbsp;
+                        <mat-radio-button value="2"
+                            >לא קיים שירות</mat-radio-button
+                        >
                     </mat-radio-group>
                 </div>
             </div>
@@ -539,7 +625,6 @@
                         <mat-form-field>
                             <mat-label>הערות</mat-label>
                             <textarea
-                            
                                 [readonly]="OrderStatus != '0'"
                                 rows="17"
                                 dir="rtl"
@@ -562,9 +647,9 @@
                 id="OrderedFromDepart"
                 formControlName="OrderedFromDepart"
             />
-            <button 
-            *ngIf="OrderRealDateTime == '' || OrderStatus == '0'" type="submit" class="btn btn-outline-dark">שמור</button>
-            
+            <button *ngIf="saveBtn" type="submit" class="btn btn-outline-dark">
+                שמור
+            </button>
         </div>
     </form>
 </ng-template>

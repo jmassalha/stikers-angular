@@ -825,6 +825,13 @@ mark {
     margin-bottom: 0;
 }
 @media print {
+   .fix-lable-pos .mat-form-field-label-wrapper{
+       top: -30px !important;
+       font-size: 25px !important;
+   }
+   .fix-lable-pos .mat-form-field-label-wrapper label{
+        font-size: 25px !important;
+    }
     .modalOptionsPrint .modal-content .show-on-print{
         display: block !important;
         
