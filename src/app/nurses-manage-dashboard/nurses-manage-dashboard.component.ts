@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-// declare let ClientIP: any;
+declare let ClientIP: any;
 @Component({
   selector: 'app-nurses-manage-dashboard',
   templateUrl: './nurses-manage-dashboard.component.html',
@@ -31,7 +31,7 @@ export class NursesManageDashboardComponent implements OnInit {
   nursesUserPermission: boolean = false;
   privateIP;
   publicIP;
-  localIp = sessionStorage.getItem('LOCAL_IP');
+  localIp = localStorage.getItem('LOCAL_IP');
 
   private ipRegex = new RegExp(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/);
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
@@ -79,39 +79,41 @@ export class NursesManageDashboardComponent implements OnInit {
     this.getAllDeparts();
     this.getEROccupancy('', 'er');
     this.getDeliveryEROccupancy('');
-    this.determineLocalIp();
-    this.privateIP = this.localIp;
+    // this.determineLocalIp();
+    // this.privateIP = this.localIp;
+    this.privateIP = ClientIP;
 
-    this.http.get('https://api.ipify.org?format=json').subscribe(data => {
-      this.publicIP = data['ip'];
-    });
+    // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
+    //   this.publicIP = data['ip'];
+    // });
   }
 
-  private determineLocalIp() {
-    window.RTCPeerConnection = this.getRTCPeerConnection();
+  // private determineLocalIp() {
+  //   window.RTCPeerConnection = this.getRTCPeerConnection();
 
-    const pc = new RTCPeerConnection({ iceServers: [] });
-    pc.createDataChannel('');
-    pc.createOffer().then(pc.setLocalDescription.bind(pc));
+  //   const pc = new RTCPeerConnection({ iceServers: [] });
+  //   pc.createDataChannel('');
+  //   pc.createOffer().then(pc.setLocalDescription.bind(pc));
 
-    pc.onicecandidate = (ice) => {
-      this.zone.run(() => {
-        if (!ice || !ice.candidate || !ice.candidate.candidate) {
-          return;
-        }
+  //   pc.onicecandidate = (ice) => {
+  //     this.zone.run(() => {
+  //       if (!ice || !ice.candidate || !ice.candidate.candidate) {
+  //         return;
+  //       }
+  //       console.log('localip 1: '+this.localIp);
+  //       console.log(ice.candidate.address);
+  //       this.localIp = this.ipRegex.exec(ice.candidate.candidate)[1];
+  //       sessionStorage.setItem('LOCAL_IP', this.localIp);
 
-        this.localIp = this.ipRegex.exec(ice.candidate.candidate)[1];
-        sessionStorage.setItem('LOCAL_IP', this.localIp);
+  //       pc.onicecandidate = () => {};
+  //       pc.close();
+  //     });
+  //   };
+  // }
 
-        pc.onicecandidate = () => {};
-        pc.close();
-      });
-    };
-  }
-
-  private getRTCPeerConnection() {
-    return window.RTCPeerConnection ;
-  }
+  // private getRTCPeerConnection() {
+  //   return window.RTCPeerConnection ;
+  // }
 
   openDialogToFill(departCode, Dept_Name, ifAdmin) {
     let dialogRef = this.dialog.open(NursesDepartmentManageComponent, { disableClose: true });
@@ -210,6 +212,7 @@ export class NursesManageDashboardComponent implements OnInit {
           _tabletAddress = this.all_departments_array[0].TabletAddress;
           _adminNurse = this.all_departments_array[0].AdminNurse;
         }
+        console.log('privateIp in departs: '+this.privateIP);
         // this.NursesSystemPermission();
         if (this.UserName == "clalit") {
           this.rightPC = false;

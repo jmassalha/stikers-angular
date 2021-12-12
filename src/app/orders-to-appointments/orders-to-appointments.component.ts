@@ -391,7 +391,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps/wsrfc/WebService.asmx/GetOrdersToAppointments",
-                //"http://localhost:64964/WebService.asmx/GetOrdersToAppointments",
+                //"http://srv-apps/wsrfc/WebService.asmx/GetOrdersToAppointments",
                 {
                     user: localStorage.getItem("loginUserName"),
                     pageSize: this.paginator.pageSize,
