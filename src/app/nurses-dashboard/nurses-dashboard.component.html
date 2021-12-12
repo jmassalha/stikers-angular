@@ -175,6 +175,9 @@
             </div>
         </form>
 
+        <!-- <div *ngIf="AdminNurse == '1'">
+
+        </div> -->
         <app-fill-report *ngFor="let item of ELEMENT_DATA" style="font-size: small;" [reportID]="item.reportID"
             [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
 

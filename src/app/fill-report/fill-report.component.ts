@@ -487,6 +487,7 @@ export class FillReportComponent implements OnInit {
           PatientNurseStatus: new FormControl(this.all_report_management.PatientNurseStatus, null),
         });
         this.AdminNurse = this.all_report_management.AdminNurse;
+        // if(this.AdminNurse == '1' && this.)
         this.reportType = this.all_report_management.ReportType;
         let ifEditable = false;
         let mishmeret = "בוקר";

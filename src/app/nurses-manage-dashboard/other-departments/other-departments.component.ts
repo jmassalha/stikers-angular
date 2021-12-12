@@ -70,6 +70,9 @@ export class OtherDepartmentsComponent implements OnInit {
   ICUDetails: boolean;
   deliveryRoomForm: FormGroup;
   date = new Date();
+  numberOfDays = 0;
+  dateToDisplayString: string;
+  newDate: string;
   myDate = this.datePipe.transform(this.date, 'yyyy-MM-dd');
 
   ngOnInit(): void {
@@ -79,7 +82,7 @@ export class OtherDepartmentsComponent implements OnInit {
     this.ICUDetails = false;
     this.progressBarNumbers = false;
     this.IcuPatientsBar = true;
-    this.getOtherDepartmentsDetails();
+    this.getOtherDepartmentsDetails('');
 
     this.deliveryRoomForm = new FormGroup({
       beforeDelivery: new FormControl('', null),
@@ -117,14 +120,28 @@ export class OtherDepartmentsComponent implements OnInit {
     }
   }
 
-  getOtherDepartmentsDetails() {
+  getOtherDepartmentsDetails(datePointer) {
     this.progressBarNumbers = false;
     if (this.deliveryRoomDialog != undefined) {
       this.otherDepartName = this.deliveryRoomDialog;
     }
+    let dte = new Date();
+    let dateToDisplay = new Date();
+    if (datePointer == 'before') {
+      this.numberOfDays++;
+    } else if (datePointer == 'next') {
+      this.numberOfDays--;
+    } else {
+      this.numberOfDays;
+    }
+    dte.setDate(dte.getDate() - this.numberOfDays);
+    let pipe = new DatePipe('en-US');
+    this.newDate = pipe.transform(dte.toString(), 'yyyy-MM-dd');
+    this.dateToDisplayString = pipe.transform(dateToDisplay.toString(), 'yyyy-MM-dd');
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentDetails", {
-        _otherDepartName: this.otherDepartName
+        _otherDepartName: this.otherDepartName,
+        _dateToLook: this.newDate
       })
       .subscribe((Response) => {
         let data = [];
@@ -160,6 +177,7 @@ export class OtherDepartmentsComponent implements OnInit {
       .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentPatients", {
         _otherDepartName: ICUType,
         _ifLive: live,
+        _dateToLook: this.dateToDisplayString
       })
       .subscribe((Response) => {
         // this.dataSource5_2 = new MatTableDataSource<any>();
