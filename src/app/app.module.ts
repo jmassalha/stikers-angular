@@ -136,7 +136,6 @@ import { NmrIframeComponent } from './nmr-iframe/nmr-iframe.component';
 import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
 
 
-
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };

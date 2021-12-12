@@ -186,7 +186,21 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "adahabre" ||
             this.loginUserName.toLowerCase() == "sabuhanna" ||
-            this.loginUserName.toLowerCase() == "rsharlin"
+            this.loginUserName.toLowerCase() == ("rsharlin").toLowerCase() || //רJKH13579-
+            this.loginUserName.toLowerCase() == "oivry" ||
+            this.loginUserName.toLowerCase() == "dbzuk" ||
+            this.loginUserName.toLowerCase() == ("HDEMERI").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("hkatsh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("laloni").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("llaybovich").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("RREVIVO").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("RHalfon").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("SAmos").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("lshimov").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("nmizrahi").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("MKatan").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("seliasaf").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase() 
         ) {
             this._OrdersToAppointmentsComponent = true;
         }
