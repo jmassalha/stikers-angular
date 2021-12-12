@@ -232,7 +232,7 @@
           <ng-container matColumnDef="displayreports">
             <th mat-header-cell *matHeaderCellDef> דיווח קליני</th>
             <td mat-cell *matCellDef="let element"> <button matTooltip="דיווח למטופל" mat-raised-button type="submit"
-                class="btn btn-primary btn-raised"
+              [ngClass]="element.IfHaveReports == '' ? 'btn btn-primary btn-raised' : 'btn btn-danger btn-raised'" 
                 (click)="displayReports(element.PM_CASE_NUMBER,true,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_PATIENT_GENDER,element.PM_DOB,element.SSP_DESCRIPTION,element.CoronaStatus,'clinical')">
                 <span class="material-icons">
                   <span class="material-icons">

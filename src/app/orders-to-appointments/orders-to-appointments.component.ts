@@ -610,7 +610,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         //debugger
         this.http
             .post(
-                //"http://localhost:64964/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
+                //"http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
                 "http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
                 {
                     dataToSubmit: this.OrdersToAppointmentsForm.value,
