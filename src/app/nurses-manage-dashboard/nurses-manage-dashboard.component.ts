@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, Inject, NgZone, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -10,7 +10,7 @@ import { DatePipe } from '@angular/common';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
-declare let ClientIP: any;
+// declare let ClientIP: any;
 @Component({
   selector: 'app-nurses-manage-dashboard',
   templateUrl: './nurses-manage-dashboard.component.html',
@@ -31,11 +31,15 @@ export class NursesManageDashboardComponent implements OnInit {
   nursesUserPermission: boolean = false;
   privateIP;
   publicIP;
+  localIp = sessionStorage.getItem('LOCAL_IP');
+
+  private ipRegex = new RegExp(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/);
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   @ViewChild('modalContent2', { static: true }) modalContent2: TemplateRef<any>;
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
 
   constructor(
+    private zone: NgZone,
     private modal: NgbModal,
     public dialog: MatDialog,
     private router: Router,
@@ -65,6 +69,7 @@ export class NursesManageDashboardComponent implements OnInit {
   rightPC: boolean;
   phoneNumber: any;
   reportSubject: any;
+  ClientIP: string;
 
   ngOnInit(): void {
     this.loaded = false;
@@ -74,14 +79,39 @@ export class NursesManageDashboardComponent implements OnInit {
     this.getAllDeparts();
     this.getEROccupancy('', 'er');
     this.getDeliveryEROccupancy('');
-    // Private Ip
-    this.privateIP = ClientIP;
-    // Public IP
+    this.determineLocalIp();
+    this.privateIP = this.localIp;
+
     this.http.get('https://api.ipify.org?format=json').subscribe(data => {
       this.publicIP = data['ip'];
     });
   }
 
+  private determineLocalIp() {
+    window.RTCPeerConnection = this.getRTCPeerConnection();
+
+    const pc = new RTCPeerConnection({ iceServers: [] });
+    pc.createDataChannel('');
+    pc.createOffer().then(pc.setLocalDescription.bind(pc));
+
+    pc.onicecandidate = (ice) => {
+      this.zone.run(() => {
+        if (!ice || !ice.candidate || !ice.candidate.candidate) {
+          return;
+        }
+
+        this.localIp = this.ipRegex.exec(ice.candidate.candidate)[1];
+        sessionStorage.setItem('LOCAL_IP', this.localIp);
+
+        pc.onicecandidate = () => {};
+        pc.close();
+      });
+    };
+  }
+
+  private getRTCPeerConnection() {
+    return window.RTCPeerConnection ;
+  }
 
   openDialogToFill(departCode, Dept_Name, ifAdmin) {
     let dialogRef = this.dialog.open(NursesDepartmentManageComponent, { disableClose: true });
@@ -91,21 +121,9 @@ export class NursesManageDashboardComponent implements OnInit {
     if (departCode == 'סח-ל') {
       dialogRef.componentInstance.deliveryRoomDialog = 'DeliveryRoom';
     }
-    // dialogRef.afterClosed()
-    //   .subscribe((data) => {
-    //     if (!data) {
-    //       return;
-    //     }
-    //     this.ELEMENT_DATA = data;
-    //     $("#loader").removeClass("d-none");
-    //     setTimeout(function () {
-    //       $("#loader").addClass("d-none");
-    //       window.print();
-    //     }, 1500);
-    //   })
   }
 
-  submitBugReport(){
+  submitBugReport() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
         _phoneNumber: this.phoneNumber,
@@ -113,9 +131,9 @@ export class NursesManageDashboardComponent implements OnInit {
         _userName: this.UserName,
       })
       .subscribe((Response) => {
-        if(Response["d"]){
+        if (Response["d"]) {
           this.openSnackBar("נשלח לטיפול");
-        }else{
+        } else {
           this.openSnackBar("משהו השתבש לא נשלח");
         }
       });
@@ -154,14 +172,14 @@ export class NursesManageDashboardComponent implements OnInit {
   // }
 
   handleEvent() {
-    this.dialog.open(this.modalContent, { width: '60%',disableClose: true} );
+    this.dialog.open(this.modalContent, { width: '60%', disableClose: true });
   }
   handleEvent2() {
-    this.dialog.open(this.modalContent2, { width: '60%',disableClose: true} );
+    this.dialog.open(this.modalContent2, { width: '60%', disableClose: true });
   }
-  
+
   bugReport() {
-    this.dialog.open(this.modalBug, { width: '60%',disableClose: false} );
+    this.dialog.open(this.modalBug, { width: '60%', disableClose: false });
   }
   closeModal() {
     this.dialog.closeAll();
@@ -182,28 +200,30 @@ export class NursesManageDashboardComponent implements OnInit {
         this.all_departments_array = Response["d"];
         let _ipAddress;
         let _ipAddress2;
+        let _ipAddress3;
         let _tabletAddress;
         let _adminNurse;
-        if(this.all_departments_array.length > 0){
+        if (this.all_departments_array.length > 0) {
           _ipAddress = this.all_departments_array[0].IpAddress;
           _ipAddress2 = this.all_departments_array[0].IpAddress2;
+          _ipAddress3 = this.all_departments_array[0].IpAddress3;
           _tabletAddress = this.all_departments_array[0].TabletAddress;
           _adminNurse = this.all_departments_array[0].AdminNurse;
         }
         // this.NursesSystemPermission();
-        if(this.UserName == "clalit"){
+        if (this.UserName == "clalit") {
           this.rightPC = false;
           this.handleEvent2();
-        }else{
+        } else {
           if (_adminNurse) {
             this.nursesUserPermission = true;
             // If the user is a system admin give access else check if the machine is set to this user in database
-            if(_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == ""){
+            if (_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == "") {
               this.rightPC = true;
-            }else{
-              if(this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || (_tabletAddress == "" && this.privateIP.substring(0,7) == "192.168")){
+            } else {
+              if (this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || this.privateIP == _ipAddress3 || (_tabletAddress == "" && this.privateIP.substring(0, 7) == "192.168")) {
                 this.rightPC = true;
-              }else{
+              } else {
                 this.rightPC = false;
                 this.handleEvent();
               }
@@ -239,7 +259,7 @@ export class NursesManageDashboardComponent implements OnInit {
         }
       });
   }
-  
+
 
   test() {
     if (this.UserName.toLowerCase() == 'jubartal') {
