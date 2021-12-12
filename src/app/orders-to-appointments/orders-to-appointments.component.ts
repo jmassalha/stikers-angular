@@ -147,8 +147,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
             PatientName: ["", Validators.required],
             PatientId: ["", Validators.required],
             OrderedToDepart: ["", Validators.required],
-            OrderRangeQuantity: ["", Validators.required],
-            OrderRangeType: ["1", Validators.required],
+            OrderRangeQuantity: ["", null],
+            OrderRangeType: ["1", null],
             OrderToDate: ["", Validators.required],
             OrderedFromDepart: ["", Validators.required],
             OrderStatus: ["0", Validators.required],
@@ -378,7 +378,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 if (this.Permission == "" || this.Permission == null) {
                     this.router.navigate(["login"]);
                 }
-                //this.Permission = "3"
+                console.log(this.Permission);
+                
                 setTimeout(function () {
                     ////////////debugger
                     if (tableLoader) {
@@ -450,6 +451,41 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 });
             });
     }
+    changeReq(event){
+        if (
+            event.srcElement.value != "" 
+        ) {
+            this.OrdersToAppointmentsForm.get("OrderToDate").setValidators(
+                Validators.required
+            );
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).updateValueAndValidity();
+
+            this.OrdersToAppointmentsForm.get(
+                "OrderRangeType"
+            ).clearValidators();
+            this.OrdersToAppointmentsForm.get(
+                "OrderRangeType"
+            ).updateValueAndValidity();
+            ////debugger
+        } else {
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).clearValidators();
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).updateValueAndValidity();
+
+            this.OrdersToAppointmentsForm.get("OrderRangeType").setValidators(
+                Validators.required
+            );
+            this.OrdersToAppointmentsForm.get(
+                "OrderRangeType"
+            ).updateValueAndValidity();
+        }
+    }
+
     checkValue(event) {
         ////debugger;
         if (
@@ -463,6 +499,13 @@ export class OrdersToAppointmentsComponent implements OnInit {
             this.OrdersToAppointmentsForm.get(
                 "OrderRangeType"
             ).updateValueAndValidity();
+
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).clearValidators();
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
+            ).updateValueAndValidity();
             ////debugger
         } else {
             this.OrdersToAppointmentsForm.get(
@@ -470,6 +513,13 @@ export class OrdersToAppointmentsComponent implements OnInit {
             ).clearValidators();
             this.OrdersToAppointmentsForm.get(
                 "OrderRangeType"
+            ).updateValueAndValidity();
+
+            this.OrdersToAppointmentsForm.get("OrderToDate").setValidators(
+                Validators.required
+            );
+            this.OrdersToAppointmentsForm.get(
+                "OrderToDate"
             ).updateValueAndValidity();
         }
     }
@@ -509,6 +559,17 @@ export class OrdersToAppointmentsComponent implements OnInit {
         });
     }
     onSubmit() {
+        debugger
+        if(this.OrdersToAppointmentsForm.value.OrderStatus == '1' && (this.OrdersToAppointmentsForm.value.OrderRealDateTime == "" || this.OrdersToAppointmentsForm.value.OrderRealDateTime == null)){
+            this._snackBar.open("תאריך ושעת תור בפועל שדה חובה!!", "", {
+                duration: 2500,
+                direction: "rtl",
+                panelClass: "error",
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+            });
+            return;
+        }
         if (this.OrdersToAppointmentsForm.invalid) {
             return;
         }
@@ -521,7 +582,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         if (
             this.OrdersToAppointmentsForm.value.OrderRealDateTime != "" &&
             this.OrdersToAppointmentsForm.value.OrderRealDateTime != null &&
-            typeof this.OrdersToAppointmentsForm.value.OrderDateTime != "string"
+            typeof this.OrdersToAppointmentsForm.value.OrderRealDateTime != "string"
         ) {
             this.OrdersToAppointmentsForm.value.OrderRealDateTime = formatDate(
                 this.OrdersToAppointmentsForm.value.OrderRealDateTime.getTime(),
@@ -549,6 +610,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         //debugger
         this.http
             .post(
+                //"http://localhost:64964/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
                 "http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
                 {
                     dataToSubmit: this.OrdersToAppointmentsForm.value,
