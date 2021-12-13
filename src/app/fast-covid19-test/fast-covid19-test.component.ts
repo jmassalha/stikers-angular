@@ -459,6 +459,9 @@ export class FastCovid19TestComponent implements OnInit {
                                 Month : dateDOB[1], 
                                 Day : dateDOB[2], 
                             }
+                        },
+                        SampleData : {
+                            Tel1: json.PhoneNumber.replace('-', '')
                         }
                         
                         // formControlName2: myValue2 (can be omitted)
