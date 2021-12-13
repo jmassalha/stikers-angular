@@ -430,6 +430,67 @@ export class FastCovid19TestComponent implements OnInit {
         this.QRImage = "data:image/png;base64," + img;
         this.ifQRCodeReady = true;
     }
+    getDetailsFromNamer(event){
+        let val = event.srcElement.value;
+        if(val == '')
+            return;
+        $("#loader").removeClass("d-none");
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/selectDetailsFromNamer", {
+                patientId: val,
+            })
+            .subscribe((Response) => {
+                var json = Response["d"];
+                console.log(json)
+                if(json.FirstName != null){
+                    if(json.Gender == '1')
+                        json.Gender = 'M';
+                    else
+                        json.Gender = 'F';
+                    var dateDOB = (json.DOB).toString().split('-');
+                    this.TestsForm.patchValue({
+                        
+                        TestData: {
+                            FirstName : json.FirstName, 
+                            LastName : json.LastName, 
+                            Gender : json.Gender, 
+                            BirthDate: {
+                                Year : dateDOB[0], 
+                                Month : dateDOB[1], 
+                                Day : dateDOB[2], 
+                            }
+                        },
+                        SampleData : {
+                            Tel1: json.PhoneNumber.replace('-', '')
+                        }
+                        
+                        // formControlName2: myValue2 (can be omitted)
+                      });
+                    
+                   
+                }
+                console.log(this.TestsForm.value)
+                /*this.TestsForm
+TestData
+FirstName
+LastName
+Gender
+BirthDate
+Year
+Month
+Day
+Tel1*/
+               // debugger;
+              //  debugger
+                setTimeout(function () {
+                    ////////////debugger
+                    
+                        $("#loader").addClass("d-none");
+                    
+                });
+            });
+        
+    }
     sendReport() {
         if (!this.TestsForm.invalid) {
             this.TestsForm.controls.TestData["controls"][

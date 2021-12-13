@@ -24,7 +24,7 @@
                 <div class="col-4">
                     <div class="form-group">
                         <mat-form-field>
-                            <input matInput autocomplete="off" (keyup)="is_israeli_id_number()" class="form-control"
+                            <input matInput autocomplete="off" (keyup)="is_israeli_id_number()" (change)="getDetailsFromNamer($event)" class="form-control"
                                 formControlName="IDNum" placeholder="מספר זהות" type="number" />
                         </mat-form-field>
                     </div>
