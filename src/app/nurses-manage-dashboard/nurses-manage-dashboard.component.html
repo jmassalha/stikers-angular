@@ -164,14 +164,14 @@
                 class="btn btn-primary btn-raised" (click)="openReportDialog('administrative')">
                 <i class="material-icons">assignment_ind</i>
             </button>
-            <button matTooltip="לדיווח תקלה במערכת" id="EventBtndisplay" mat-raised-button type="submit"
-                class="btn btn-raised mr-1" *ngIf="UserName != 'jubartal'" style="background-color: grey;" (click)="bugReport()">
+            <button  matTooltipPosition="left" matTooltip="לדיווח תקלה במערכת" id="EventBtndisplay" mat-raised-button type="submit"
+                class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
                 <i class="material-icons">info</i>
             </button>
-            <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'jubartal'" mat-raised-button
+            <!-- <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'jubartal'" mat-raised-button
                 type="submit" class="btn btn-raised" (click)="test()">
                 <i class="material-icons">face</i>
-            </button>
+            </button> -->
         </div>
     </div>
     <hr id="dashLine">
@@ -215,15 +215,47 @@
     <form mat-dialog-content dir="rtl" style="text-align: right;">
         <mat-form-field class="example-full-width">
             <mat-label>מספר טלפון לחזרה</mat-label>
-            <input matInput [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" type="number" placeholder=".......05" required/>
+            <input matInput [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" type="number"
+                placeholder=".......05" required />
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>מהות התקלה</mat-label>
-            <textarea matInput rows="6" [(ngModel)]="reportSubject" [ngModelOptions]="{standalone: true}" cols="15" required></textarea>
+            <textarea matInput rows="6" [(ngModel)]="reportSubject" [ngModelOptions]="{standalone: true}" cols="15"
+                required></textarea>
         </mat-form-field>
     </form>
     <div mat-dialog-actions>
-        <button mat-raised-button color="primary" (click)="submitBugReport()" mat-dialog-close>שליחה</button>
+        <div class="row">
+            <button mat-raised-button color="primary" (click)="submitBugReport()" mat-dialog-close>שליחה</button>
+            <button mat-raised-button color="primary" style="float: right;" (click)="showBugsTablef()">הצג תקלות</button> 
+        </div>
+        
+    </div>
+    <div class="row mt-5" *ngIf="showBugsTable">
+        <table mat-table [dataSource]="bugData" dir="rtl" class="mat-elevation-z8">
+            <ng-container matColumnDef="date">
+              <th mat-header-cell *matHeaderCellDef> תאריך התקלה </th>
+              <td mat-cell *matCellDef="let element"> {{element.Bug_Date}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="user">
+              <th mat-header-cell *matHeaderCellDef> שם משתמש </th>
+              <td mat-cell *matCellDef="let element"> {{element.Bug_User}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="subject">
+              <th mat-header-cell *matHeaderCellDef> תוכן התקלה </th>
+              <td mat-cell *matCellDef="let element"> {{element.Bug_Subject}} </td>
+            </ng-container>
+          
+            <ng-container matColumnDef="done">
+              <th mat-header-cell *matHeaderCellDef> בוצע </th>
+              <td mat-cell *matCellDef="let element"> {{element.Bug_Done}} </td>
+            </ng-container>
+          
+            <tr mat-header-row *matHeaderRowDef="bugColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: bugColumns;"></tr>
+          </table>
     </div>
 </ng-template>
 
@@ -232,24 +264,24 @@
         warning
     </span>
     <h1 class="text-center">
-        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit"
-            class="btn btn-primary btn-raised float-left" [routerLink]="['']" (click)="closeModal()">
+        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit" class="btn btn-primary btn-raised float-left"
+            [routerLink]="['']" (click)="closeModal()">
             <i class="material-icons">home</i>
-          </button>
+        </button>
         <span class="mr-3">כניסה מותרת רק ממחשב מורשה</span>
-    </h1>    
+    </h1>
 </ng-template>
 <ng-template #modalContent2 let-close="close">
     <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
         warning
     </span>
     <h1 class="text-center">
-        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit"
-            class="btn btn-primary btn-raised float-left" [routerLink]="['']" (click)="closeModal()">
+        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit" class="btn btn-primary btn-raised float-left"
+            [routerLink]="['']" (click)="closeModal()">
             <i class="material-icons">home</i>
-          </button>
+        </button>
         <span class="mr-3">השימוש בשם משתמש: <b>כללית</b> אסור, להחליף לשם משתמש אישי. תודה</span>
-    </h1>    
+    </h1>
 </ng-template>
 
 <div class="d-none-desktop" dir="rtl">

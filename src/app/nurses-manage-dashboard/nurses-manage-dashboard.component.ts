@@ -31,9 +31,9 @@ export class NursesManageDashboardComponent implements OnInit {
   nursesUserPermission: boolean = false;
   privateIP;
   publicIP;
-  localIp = localStorage.getItem('LOCAL_IP');
+  // localIp = localStorage.getItem('LOCAL_IP');
 
-  private ipRegex = new RegExp(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/);
+  // private ipRegex = new RegExp(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/);
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   @ViewChild('modalContent2', { static: true }) modalContent2: TemplateRef<any>;
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
@@ -70,6 +70,9 @@ export class NursesManageDashboardComponent implements OnInit {
   phoneNumber: any;
   reportSubject: any;
   ClientIP: string;
+  bugColumns: string[] = ['date', 'user', 'subject', 'done'];
+  bugData = [];
+  showBugsTable: boolean = false;
 
   ngOnInit(): void {
     this.loaded = false;
@@ -79,41 +82,26 @@ export class NursesManageDashboardComponent implements OnInit {
     this.getAllDeparts();
     this.getEROccupancy('', 'er');
     this.getDeliveryEROccupancy('');
-    // this.determineLocalIp();
-    // this.privateIP = this.localIp;
     this.privateIP = ClientIP;
+    
 
     // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
     //   this.publicIP = data['ip'];
     // });
   }
 
-  // private determineLocalIp() {
-  //   window.RTCPeerConnection = this.getRTCPeerConnection();
+  getBugsTable(){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetBugsReport", {
+      })
+      .subscribe((Response) => {
+        this.bugData = Response["d"];
+      });
+  }
 
-  //   const pc = new RTCPeerConnection({ iceServers: [] });
-  //   pc.createDataChannel('');
-  //   pc.createOffer().then(pc.setLocalDescription.bind(pc));
-
-  //   pc.onicecandidate = (ice) => {
-  //     this.zone.run(() => {
-  //       if (!ice || !ice.candidate || !ice.candidate.candidate) {
-  //         return;
-  //       }
-  //       console.log('localip 1: '+this.localIp);
-  //       console.log(ice.candidate.address);
-  //       this.localIp = this.ipRegex.exec(ice.candidate.candidate)[1];
-  //       sessionStorage.setItem('LOCAL_IP', this.localIp);
-
-  //       pc.onicecandidate = () => {};
-  //       pc.close();
-  //     });
-  //   };
-  // }
-
-  // private getRTCPeerConnection() {
-  //   return window.RTCPeerConnection ;
-  // }
+  showBugsTablef(){
+    this.showBugsTable = !this.showBugsTable;
+  }
 
   openDialogToFill(departCode, Dept_Name, ifAdmin) {
     let dialogRef = this.dialog.open(NursesDepartmentManageComponent, { disableClose: true });
@@ -135,12 +123,12 @@ export class NursesManageDashboardComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"]) {
           this.openSnackBar("נשלח לטיפול");
+          this.getBugsTable();
         } else {
           this.openSnackBar("משהו השתבש לא נשלח");
         }
       });
   }
-
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
@@ -182,6 +170,7 @@ export class NursesManageDashboardComponent implements OnInit {
 
   bugReport() {
     this.dialog.open(this.modalBug, { width: '60%', disableClose: false });
+    this.getBugsTable();
   }
   closeModal() {
     this.dialog.closeAll();
@@ -189,11 +178,6 @@ export class NursesManageDashboardComponent implements OnInit {
 
   getAllDeparts() {
     this.loaded = false;
-    // this.http
-    //   .post("http://srv-apps/wsrfc/WebService.asmx/GetComputerName", {})
-    //   .subscribe((Response) => {
-    //     this.privateIP = Response["d"];
-    //   });
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
         _userName: this.UserName
@@ -212,8 +196,7 @@ export class NursesManageDashboardComponent implements OnInit {
           _tabletAddress = this.all_departments_array[0].TabletAddress;
           _adminNurse = this.all_departments_array[0].AdminNurse;
         }
-        console.log('privateIp in departs: '+this.privateIP);
-        // this.NursesSystemPermission();
+        console.log('privateIp in departs: ' + this.privateIP);
         if (this.UserName == "clalit") {
           this.rightPC = false;
           this.handleEvent2();
@@ -264,15 +247,15 @@ export class NursesManageDashboardComponent implements OnInit {
   }
 
 
-  test() {
-    if (this.UserName.toLowerCase() == 'jubartal') {
-      localStorage.setItem("loginUserName", "nibrahim");
-      window.location.reload();
-    } else {
-      localStorage.setItem("loginUserName", "jubartal");
-      window.location.reload();
-    }
-  }
+  // test() {
+  //   if (this.UserName.toLowerCase() == 'jubartal') {
+  //     localStorage.setItem("loginUserName", "nibrahim");
+  //     window.location.reload();
+  //   } else {
+  //     localStorage.setItem("loginUserName", "jubartal");
+  //     window.location.reload();
+  //   }
+  // }
 
   getOtherDepartmentDetails(otherDepartName) {
     let dialogRef = this.dialog.open(OtherDepartmentsComponent, {});
@@ -327,12 +310,6 @@ export class NursesManageDashboardComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.ER_Occupancy = Response["d"];
-        // if(this.ER_Occupancy.length == 0){
-        //   let that = this;
-        //   setTimeout(() => {
-        //     that.getEROccupancy("", "er");
-        //   }, 1000);
-        // }
         this.allErOccupancy = parseInt(this.ER_Occupancy[0]) + parseInt(this.ER_Occupancy[1]) + parseInt(this.ER_Occupancy[2]);
         this.occLoaded = true;
       });
@@ -350,28 +327,8 @@ export class NursesManageDashboardComponent implements OnInit {
       .subscribe(
         (Response) => {
           var obj = JSON.parse(Response["d"]);
-          // var aobjTotal = JSON.parse(obj["total"]);
-          // var aobj = JSON.parse(obj["DepartObjects"]);
-          // var totalReal = JSON.parse(obj["totalReal"]);
           this.resparotriesCount = JSON.parse(obj["totalReal2"]);
-          // var aaobj = JSON.parse("[" + aobj[0] + "]");
-          // aobjTotal = $.parseJSON(aobjTotal);
           this.hospitalBedsInUse = numberOfPatients;
-          // aaobj.forEach((element, index) => {
-          //   if (element.BedsReal != "0") {
-          //     for (var i = index + 1; i < aaobj.length; i++) {
-          //       if (aaobj[i].BedsReal == "0") {
-          //         element.Used =
-          //           parseInt(element.Used) +
-          //           parseInt(aaobj[i].Used);
-          //       } else {
-          //         break;
-          //       }
-          //     }
-          //   } else {
-          //   }
-          // });
-          // this.Departmints["departs"] = aaobj;
           this.Departmints["total"] = parseInt(
             ((numberOfPatients / numberOfBeds) * 100).toFixed(
               0

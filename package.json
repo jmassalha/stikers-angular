@@ -15,6 +15,11 @@
     "add_date_css": "sed -i.bak 's:css\":css?'$(date +%H%M%m%d%y)'\":g' dist/index.html",
     "rm_bak_files": "find dist -name '*.bak' -exec rm -Rf {} \\;"
   },
+  "browser": {
+    "fs": false,
+    "path": false,
+    "os": false
+  },
   "postinstall": "ngcc",
   "private": true,
   "dependencies": {
@@ -66,7 +71,6 @@
     "ipware": "^2.0.0",
     "jquery": "^3.6.0",
     "jszip": "^3.7.1",
-    "macaddress": "^0.5.2",
     "mat-select-filter": "^2.3.9",
     "ng-angular9-datatable": "^0.9.13",
     "ng-circle-progress": "^1.6.0",
