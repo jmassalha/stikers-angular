@@ -203,7 +203,8 @@ export class FastCovid19TestComponent implements OnInit {
     QRImage: any;
     ifQRCodeReady: boolean;
 
-    ngOnInit(): void {
+    ngOnInit(): void {        
+
         this.getUserFullName();
         this.TestsForm = this.formBuilder.group({
             TransactionID: [this.myId, null],
@@ -430,6 +431,7 @@ export class FastCovid19TestComponent implements OnInit {
         this.QRImage = "data:image/png;base64," + img;
         this.ifQRCodeReady = true;
     }
+    
     getDetailsFromNamer(event){
         let val = event.srcElement.value;
         if(val == '')
