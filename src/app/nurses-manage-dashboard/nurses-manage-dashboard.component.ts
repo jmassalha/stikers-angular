@@ -75,14 +75,19 @@ export class NursesManageDashboardComponent implements OnInit {
   showBugsTable: boolean = false;
 
   ngOnInit(): void {
-    this.loaded = false;
-    this.occLoaded = false;
-    this.rightPC = false;
-    this.searchWord = "";
-    this.getAllDeparts();
-    this.getEROccupancy('', 'er');
-    this.getDeliveryEROccupancy('');
-    this.privateIP = ClientIP;
+    this.getLocalIP();
+    let that = this;
+    setTimeout(() => {
+      that.loaded = false;
+      that.occLoaded = false;
+      that.rightPC = false;
+      that.searchWord = "";
+      that.getAllDeparts();
+      that.getEROccupancy('', 'er');
+      that.getDeliveryEROccupancy('');
+      that.privateIP = this.ClientIP;
+    }, 1500);
+    
     
 
     // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
@@ -98,7 +103,23 @@ export class NursesManageDashboardComponent implements OnInit {
         this.bugData = Response["d"];
       });
   }
-
+  getLocalIP(){
+      this.http
+          .post("http://srv-apps/wsrfc/WebService.asmx/GetLocalIPAddress", {
+          })
+          .subscribe((Response) => {
+              //debugger
+              var json = Response["d"];
+              console.log(json)
+              this.ClientIP = json
+              setTimeout(function () {
+                  ////////////debugger
+                  
+                      $("#loader").addClass("d-none");
+                  
+              });
+          });
+  }
   showBugsTablef(){
     this.showBugsTable = !this.showBugsTable;
   }
