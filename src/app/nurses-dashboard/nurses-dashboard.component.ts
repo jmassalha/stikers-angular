@@ -289,7 +289,9 @@ export class NursesDashboardComponent implements OnInit {
     if (this.Dept_Name != '' && this.Dept_Name != undefined) {
       this.ifGeneral = '0';
     }
-    this.searchReports();
+    setTimeout(() => {
+      this.searchReports();
+    }, 500);
     this.permission = false;
     this.filteredOptions2 = this.departmentfilter.valueChanges
       .pipe(
@@ -317,7 +319,7 @@ export class NursesDashboardComponent implements OnInit {
     this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
   }
- 
+
   private _filter2(value: string): string[] {
     const filterValue2 = value;
     return this.department.filter(option => option.Dept_Name.includes(filterValue2));
@@ -485,9 +487,9 @@ export class NursesDashboardComponent implements OnInit {
           this.reportsArr = Response["d"];
           if (this.reportsArr.length > 0) {
             for (var i = 0; i < this.reportsArr.length; i++) {
-              if(this.AdminNurse == "0" && this.reportsArr[i].AdminNurse == "1"){
+              if (this.AdminNurse == "0" && this.reportsArr[i].AdminNurse == "1") {
                 continue;
-              }else{
+              } else {
                 this.ELEMENT_DATA.push({
                   reportID: this.reportsArr[i].Row_ID,
                   ReportDate: this.reportsArr[i].ReportDate,
@@ -566,7 +568,8 @@ export class NursesDashboardComponent implements OnInit {
           _caseNumber: this.caseNumber,
           _reportType: this.reportType,
           _ifGeneral: this.ifGeneral,
-          _AdminNurse: this.AdminNurse
+          _AdminNurse: this.AdminNurse,
+          _Patient_DobGender: this.dob + ' ' + this.gender
         })
         .subscribe((Response) => {
           if (Response["d"] != 0) {

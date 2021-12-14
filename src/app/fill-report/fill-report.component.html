@@ -7,7 +7,9 @@
             </div>
             <div class="col-5">
                 <span style="font-size: 20px;"
-                    *ngIf="reportType == 'clinical'">{{ReportGroup.controls['PatientName'].value}}</span><br> <span
+                    *ngIf="reportType == 'clinical'">{{ReportGroup.controls['PatientName'].value}} </span> <span
+                    *ngIf="reportType == 'clinical'" style="font-size: 14px;float: left;">
+                    {{ReportGroup.controls['Patient_DobGender'].value}}</span><br> <span
                     *ngIf="reportType == 'clinical'">{{ReportGroup.controls['PatientNurseStatus'].value}}</span>
             </div>
             <div class="col-3">
@@ -37,8 +39,8 @@
                             add
                         </span>
                     </button>
-                    <button *ngIf="reportID != '0' && creator" class="menuBtns" style="background: orangered;" mat-menu-item
-                        (click)="areYouSureDeleteReport(reportID)">מחיקת דיווח
+                    <button *ngIf="reportID != '0' && creator" class="menuBtns" style="background: orangered;"
+                        mat-menu-item (click)="areYouSureDeleteReport(reportID)">מחיקת דיווח
                         <span class="material-icons">
                             delete
                         </span>
@@ -266,7 +268,7 @@
                 <div class="col-md-4">
                     <b>מדווח:</b>
                     {{
-                        userFullName
+                    userFullName
                     }}
                 </div>
                 <div class="col-md-4" *ngIf="reportType == 'clinical'">

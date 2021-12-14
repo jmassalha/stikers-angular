@@ -123,6 +123,8 @@ export class NursesManageDashboardComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"]) {
           this.openSnackBar("נשלח לטיפול");
+          this.phoneNumber = "";
+          this.reportSubject = "";
           this.getBugsTable();
         } else {
           this.openSnackBar("משהו השתבש לא נשלח");

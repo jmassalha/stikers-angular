@@ -249,12 +249,12 @@
             </ng-container>
           
             <ng-container matColumnDef="done">
-              <th mat-header-cell *matHeaderCellDef> בוצע </th>
+              <th mat-header-cell *matHeaderCellDef> סטטוס </th>
               <td mat-cell *matCellDef="let element"> {{element.Bug_Done}} </td>
             </ng-container>
           
             <tr mat-header-row *matHeaderRowDef="bugColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: bugColumns;"></tr>
+            <tr mat-row *matRowDef="let row; columns: bugColumns;" [style.background]="row.Bug_Done == 'טופל' ? 'aquamarine': 'darkgray'"></tr>
           </table>
     </div>
 </ng-template>

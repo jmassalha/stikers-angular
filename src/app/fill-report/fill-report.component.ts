@@ -485,6 +485,7 @@ export class FillReportComponent implements OnInit {
           Diagnosis: new FormControl(this.all_report_management.Diagnosis, null),
           PatientName: new FormControl(this.all_report_management.PatientName, null),
           PatientNurseStatus: new FormControl(this.all_report_management.PatientNurseStatus, null),
+          Patient_DobGender: new FormControl(this.all_report_management.Patient_DobGender, null),
         });
         this.AdminNurse = this.all_report_management.AdminNurse;
         // if(this.AdminNurse == '1' && this.)

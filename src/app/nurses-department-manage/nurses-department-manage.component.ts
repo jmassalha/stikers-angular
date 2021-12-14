@@ -199,15 +199,6 @@ export class NursesDepartmentManageComponent implements OnInit {
     });
   }
 
-  // fillReportDialog(reportid, Dept_Name, firstName, lastName, caseNumber) {
-  //   let dialogRef = this.dialog.open(FillReportComponent);
-  //   dialogRef.componentInstance.reportID = reportid;
-  //   dialogRef.componentInstance.Dept_Name = Dept_Name;
-  //   dialogRef.componentInstance.firstName = firstName;
-  //   dialogRef.componentInstance.lastName = lastName;
-  //   dialogRef.componentInstance.caseNumber = caseNumber;
-  // }
-
   displayReports(caseNumber, asDialog, Dept_Name, firstname, lastname, gender, dob, description, corona, reportType) {
     let dialogRef = this.dialog.open(NursesDashboardComponent, { disableClose: true });
     dialogRef.componentInstance.caseNumber = caseNumber;
