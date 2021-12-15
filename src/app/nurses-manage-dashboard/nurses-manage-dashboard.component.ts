@@ -31,6 +31,7 @@ export class NursesManageDashboardComponent implements OnInit {
   nursesUserPermission: boolean = false;
   privateIP;
   publicIP;
+  updateDate = new Date();
   // localIp = localStorage.getItem('LOCAL_IP');
 
   // private ipRegex = new RegExp(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/);
@@ -144,6 +145,8 @@ export class NursesManageDashboardComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"]) {
           this.openSnackBar("נשלח לטיפול");
+          this.phoneNumber = "";
+          this.reportSubject = "";
           this.getBugsTable();
         } else {
           this.openSnackBar("משהו השתבש לא נשלח");
@@ -248,6 +251,7 @@ export class NursesManageDashboardComponent implements OnInit {
                 this.getAllDeparts();
                 this.getEROccupancy("", "er");
                 this.getDeliveryEROccupancy("");
+                this.updateDate = new Date();
               }
             }, 300000);
           } else {
