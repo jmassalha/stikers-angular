@@ -200,6 +200,33 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("nmizrahi").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("MKatan").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("seliasaf").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("amild").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("acoplev").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ashafik").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("jkhatib2").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("jkailikian").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ddahamshi").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("dshogan").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("wtaha").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("hakhalil").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ycohen4").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("mshakh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("mabutayeh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ntimsit").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ntischenko").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("szubi").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("akhoury").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("pvainner").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("cabuhani").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rnazazleh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("romalouf").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rgotliv").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rbenmayor").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rbaavad").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("skatan").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("sshakeeb").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("sthawkho").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("tkharanbah").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase() 
         ) {
             this._OrdersToAppointmentsComponent = true;
