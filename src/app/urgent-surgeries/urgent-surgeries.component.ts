@@ -144,8 +144,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         ) {
             this.router.navigate(["login"]);
         } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
+            localStorage.getItem("loginUserName").toLowerCase() == "jmassalha" ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
             localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
         ) {
