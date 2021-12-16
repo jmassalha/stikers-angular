@@ -88,15 +88,15 @@ export class NursesManageDashboardComponent implements OnInit {
       that.getDeliveryEROccupancy('');
       that.privateIP = this.ClientIP;
     }, 1500);
-    
-    
+
+
 
     // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
     //   this.publicIP = data['ip'];
     // });
   }
 
-  getBugsTable(){
+  getBugsTable() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetBugsReport", {
       })
@@ -104,24 +104,19 @@ export class NursesManageDashboardComponent implements OnInit {
         this.bugData = Response["d"];
       });
   }
-  getLocalIP(){
-      this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/GetLocalIPAddress", {
-          })
-          .subscribe((Response) => {
-              //debugger
-              var json = Response["d"];
-              console.log(json)
-              this.ClientIP = json
-              setTimeout(function () {
-                  ////////////debugger
-                  
-                      $("#loader").addClass("d-none");
-                  
-              });
-          });
+  getLocalIP() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetLocalIPAddress", {
+      })
+      .subscribe((Response) => {
+        var json = Response["d"];
+        this.ClientIP = json
+        setTimeout(function () {
+          $("#loader").addClass("d-none");
+        });
+      });
   }
-  showBugsTablef(){
+  showBugsTablef() {
     this.showBugsTable = !this.showBugsTable;
   }
 
