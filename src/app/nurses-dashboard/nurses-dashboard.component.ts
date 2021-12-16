@@ -245,6 +245,7 @@ export class NursesDashboardComponent implements OnInit {
   autoSaveTimer: any;
   ifGeneral: string = '1';
   AdminNurse: string = '0';
+  currentItemsToShow= [];
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
@@ -318,6 +319,11 @@ export class NursesDashboardComponent implements OnInit {
     this.categoryfilter.setValue('');
     this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
+    this.currentItemsToShow = this.ELEMENT_DATA;
+  }
+  
+  onPageChange($event) {
+    this.currentItemsToShow =  this.ELEMENT_DATA.slice($event.pageIndex*$event.pageSize, $event.pageIndex*$event.pageSize + $event.pageSize);
   }
 
   private _filter2(value: string): string[] {
@@ -520,6 +526,7 @@ export class NursesDashboardComponent implements OnInit {
             this.permission = true;
           }
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+          this.currentItemsToShow =  this.ELEMENT_DATA.slice(0, 5);
         });
     }
   }
@@ -625,4 +632,3 @@ export class NursesDashboardComponent implements OnInit {
 
 
 }
-

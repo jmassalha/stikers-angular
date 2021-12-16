@@ -30,13 +30,13 @@ export interface Shift {
   selector: 'share-reports-dialog',
   templateUrl: 'share-reports-dialog.html',
 })
-export class ShareReportDialog {
+export class ShareReportsFillDialog {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
-    public dialogRef: MatDialogRef<ShareReportDialog>,
+    public dialogRef: MatDialogRef<ShareReportsFillDialog>,
     @Inject(MAT_DIALOG_DATA) public data: string,
     private _snackBar: MatSnackBar,
     private http: HttpClient) { }
@@ -112,16 +112,16 @@ export class ShareReportDialog {
 
 }
 @Component({
-  selector: 'add-response',
-  templateUrl: 'add-response.html',
+  selector: 'add-response-fill',
+  templateUrl: 'add-response-fill.html',
 })
-export class AddResponseDialog {
+export class AddResponseFillDialog {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   constructor(
-    public dialogRef: MatDialogRef<AddResponseDialog>,
+    public dialogRef: MatDialogRef<AddResponseFillDialog>,
     @Inject(MAT_DIALOG_DATA) public data: string,
     private _snackBar: MatSnackBar,
     private http: HttpClient,
@@ -269,11 +269,6 @@ export class FillReportComponent implements OnInit {
     } else {
       // this.autoDate(false);
     }
-    // if((this.firstName != "" || this.lastName != "")&&(this.firstName != undefined || this.lastName != undefined)){
-    //   this.ReportGroup.controls['ReportText'].setValue(this.firstName+" "+this.lastName);
-    // }
-
-    //this.date2 = this.datePipe.transform(this.now, 'dd.MM.yyyy');
     this.time2 = this.datePipe.transform(this.now, 'HH:mm:ss');
     if (this.now.getHours() >= 7 && this.now.getHours() < 15) {
       this.automaticShift = 'בוקר';
@@ -370,7 +365,7 @@ export class FillReportComponent implements OnInit {
   openShareDialog() {
     let reportArr = [];
     reportArr.push(this.all_report_management);
-    let dialogRef = this.dialog.open(ShareReportDialog);
+    let dialogRef = this.dialog.open(ShareReportsFillDialog);
     dialogRef.componentInstance.reportArray = reportArr;
   }
 
@@ -379,7 +374,7 @@ export class FillReportComponent implements OnInit {
   }
 
   addResponseToReport(reportID) {
-    const dialogRef = this.dialog.open(AddResponseDialog, {
+    const dialogRef = this.dialog.open(AddResponseFillDialog, {
       width: '600px'
     });
     dialogRef.componentInstance.reportID = reportID;
