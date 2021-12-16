@@ -29,7 +29,7 @@
                             print
                         </span>
                     </button>
-                    <button mat-menu-item *ngIf="creator" class="menuBtns" (click)="onSubmit()">שמירה
+                    <button mat-menu-item [disabled]="!creator" class="menuBtns" (click)="onSubmit()">שמירה
                         <span class="material-icons">
                             save
                         </span>
@@ -39,7 +39,7 @@
                             add
                         </span>
                     </button>
-                    <button *ngIf="reportID != '0' && creator" class="menuBtns" style="background: orangered;"
+                    <button [disabled]="!creator" class="menuBtns" style="background: orangered;"
                         mat-menu-item (click)="areYouSureDeleteReport(reportID)">מחיקת דיווח
                         <span class="material-icons">
                             delete
