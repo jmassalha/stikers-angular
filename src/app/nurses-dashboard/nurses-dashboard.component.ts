@@ -466,7 +466,7 @@ export class NursesDashboardComponent implements OnInit {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
       myDate2.setDate(myDate2.getDate() - 1);
-      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
+      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00:00');
     }
     if (!(_reportEndDate == undefined || _reportEndDate == "" || _reportEndDate == null)) {
       _reportEndDate = pipe.transform(_reportEndDate, 'yyyy/MM/dd');
