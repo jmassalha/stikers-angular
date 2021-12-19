@@ -39,37 +39,13 @@
                             add
                         </span>
                     </button>
-                    <button [disabled]="!creator" class="menuBtns" style="background: orangered;"
-                        mat-menu-item (click)="areYouSureDeleteReport(reportID)">מחיקת דיווח
+                    <button [disabled]="!creator" class="menuBtns" style="background: orangered;" mat-menu-item
+                        (click)="areYouSureDeleteReport(reportID)">מחיקת דיווח
                         <span class="material-icons">
                             delete
                         </span>
                     </button>
                 </mat-menu>
-                <!-- <button matTooltip="שליחה לנמען" mat-raised-button type="button" id="BtnStyle"
-                    class="btn btn-primary btn-raised float-left" (click)="openShareDialog()">
-                    <span class="material-icons">
-                        reply
-                    </span>
-                </button>
-                <button matTooltip="שמירה" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
-                    (click)="onSubmit()" type="submit" mat-raised-button>
-                    <span class="material-icons">
-                        save
-                    </span>
-                </button>
-                <button matTooltip="הוספת תגובה" type="button" id="BtnStyle" mat-raised-button
-                    class="btn btn-primary btn-raised ml-3 float-left" (click)="addResponseToReport(reportID)">
-                    <span class="material-icons">
-                        add
-                    </span>
-                </button>
-                <button *ngIf="reportID != '0'" matTooltip="מחיקה" type="button" id="BtnStyle" mat-raised-button
-                    class="btn btn-outline-dark ml-3 float-left" color="warn" (click)="deleteReport(reportID)">
-                    <span class="material-icons">
-                        delete
-                    </span>
-                </button> -->
             </div>
         </div>
     </div>
@@ -135,7 +111,7 @@
                 <div class="form-group">
                     <mat-form-field>
                         <mat-label>סטטוס</mat-label>
-                        <mat-select formControlName="ReportStatus"
+                        <mat-select formControlName="ReportStatus" #mySelect (selectionChange)='autoDate($event)'
                             style="font-family: 'math';font-weight: bolder;font-size: 18px;">
                             <mat-option *ngFor="let st of status" [value]="st.value"
                                 style="font-family: 'math';font-weight: bolder;font-size: 18px;">
@@ -145,11 +121,12 @@
                 </div>
             </div>
             <div class="col-1 text-center">
-                <span class="material-icons"
+                <button [disabled]="!creator" (click)="setImportantReport()" matTooltip="סמן כחשוב"><span class="material-icons"
                     [style.color]="ReportGroup.controls['Important'].value == 'True' ? 'red': 'grey'"
-                    (click)="setImportantReport()" matTooltip="סמן כחשוב" id="importantIcon">
+                     id="importantIcon">
                     notification_important
-                </span>
+                </span></button>
+                
             </div>
             <div class="col" style="align-self: center;">
                 <section class="example-section">

@@ -206,12 +206,14 @@ export class NursesManageDashboardComponent implements OnInit {
         let _ipAddress;
         let _ipAddress2;
         let _ipAddress3;
+        let _ipAddress4;
         let _tabletAddress;
         let _adminNurse;
         if (this.all_departments_array.length > 0) {
           _ipAddress = this.all_departments_array[0].IpAddress;
           _ipAddress2 = this.all_departments_array[0].IpAddress2;
           _ipAddress3 = this.all_departments_array[0].IpAddress3;
+          _ipAddress4 = this.all_departments_array[0].IpAddress4;
           _tabletAddress = this.all_departments_array[0].TabletAddress;
           _adminNurse = this.all_departments_array[0].AdminNurse;
         }
@@ -223,10 +225,10 @@ export class NursesManageDashboardComponent implements OnInit {
           if (_adminNurse) {
             this.nursesUserPermission = true;
             // If the user is a system admin give access else check if the machine is set to this user in database
-            if (_ipAddress == "" && _ipAddress2 == "" && _tabletAddress == "") {
+            if (_ipAddress == "" && _ipAddress2 == "" && _ipAddress3 == "" && _ipAddress4 == "" && _tabletAddress == "") {
               this.rightPC = true;
             } else {
-              if (this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || this.privateIP == _ipAddress3 || (_tabletAddress == "" && this.privateIP.substring(0, 7) == "192.168")) {
+              if (this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || this.privateIP == _ipAddress3 || this.privateIP == _ipAddress4 || (_tabletAddress == "" && this.privateIP.substring(0, 6) == "10.222")) {
                 this.rightPC = true;
               } else {
                 this.rightPC = false;

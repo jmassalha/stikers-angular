@@ -434,6 +434,7 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   searchReports() {
+    let myDate2 = new Date();
     if (this.departmentfilter.value == null) {
       this.departmentfilter.setValue('');
     }
@@ -464,8 +465,8 @@ export class NursesDashboardComponent implements OnInit {
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
-      this.myDate.setDate(this.myDate.getDate() - 1);
-      _reportStartDate = pipe.transform(this.myDate, 'yyyy/MM/dd');
+      myDate2.setDate(myDate2.getDate() - 1);
+      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
     }
     if (!(_reportEndDate == undefined || _reportEndDate == "" || _reportEndDate == null)) {
       _reportEndDate = pipe.transform(_reportEndDate, 'yyyy/MM/dd');
@@ -618,10 +619,16 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   autoDate(amin) {
-    if (amin) {
+    if (amin == true) {
       this.ReportGroup.controls['ReportStatus'].setValue('לטיפול');
-    } else {
+    } else if(amin == false) {
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
+    }else{
+      if(amin.value == "לטיפול"){
+        this.ReportGroup.controls['toContinue'].setValue(true);
+      }else{
+        this.ReportGroup.controls['toContinue'].setValue(false);
+      }
     }
   }
 

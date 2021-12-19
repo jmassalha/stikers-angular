@@ -385,10 +385,16 @@ export class FillReportComponent implements OnInit {
   }
 
   autoDate(amin) {
-    if (amin) {
+    if (amin == true) {
       this.ReportGroup.controls['ReportStatus'].setValue('לטיפול');
-    } else {
+    } else if(amin == false) {
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
+    }else{
+      if(amin.value == "לטיפול"){
+        this.ReportGroup.controls['toContinue'].setValue(true);
+      }else{
+        this.ReportGroup.controls['toContinue'].setValue(false);
+      }
     }
   }
   
@@ -405,9 +411,9 @@ export class FillReportComponent implements OnInit {
       })
       .subscribe((Response) => {
         if (Response["d"]) {
-          this.openSnackBar("סומן כחשוב");
+          this.openSnackBar("סומן בהצלחה");
         } else {
-          this.openSnackBar("בוטל הסימון");
+          this.openSnackBar("לא התבצע");
         }
       });
   }
@@ -416,6 +422,7 @@ export class FillReportComponent implements OnInit {
     this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
     this.ReportGroup.controls['ReportCategory'].setValue(this.categoryfilter.value);
     this.ReportGroup.controls['ReportSubCategory'].setValue(this.subcategoryfilter.value);
+    let dobDetails = this.ReportGroup.controls['Patient_DobGender'].value;
     if (this.caseNumber == undefined) {
       this.caseNumber = "";
     }
@@ -428,6 +435,7 @@ export class FillReportComponent implements OnInit {
           _reportType: this.reportType,
           _ifGeneral: this.ifGeneral,
           _AdminNurse: this.AdminNurse,
+          _Patient_DobGender: dobDetails,
         })
         .subscribe((Response) => {
           if (Response["d"] != 0) {
@@ -486,7 +494,7 @@ export class FillReportComponent implements OnInit {
         // if(this.AdminNurse == '1' && this.)
         this.reportType = this.all_report_management.ReportType;
         let ifEditable = false;
-        let mishmeret = "בוקר";
+        // let mishmeret = "בוקר";
         let reportDate = this.all_report_management.ReportDate;
         this.date2 = this.all_report_management.ReportDate;
         this.time2 = this.all_report_management.LastUpdatedTime;
@@ -503,11 +511,11 @@ export class FillReportComponent implements OnInit {
         thisDate = Tday + "" + Tmonth + "" + Tyear;
         let thisTime = this.pipe.transform(this.now, 'HH');
 
-        if (parseInt(thisTime) > 14 && parseInt(thisTime) < 23) {
-          mishmeret = "ערב";
-        } else if ((parseInt(thisTime) > 22 && parseInt(thisTime) < 24) || (parseInt(thisTime) > 0 && parseInt(thisTime) < 7)) {
-          mishmeret = "לילה";
-        }
+        // if (parseInt(thisTime) > 14 && parseInt(thisTime) < 23) {
+        //   mishmeret = "ערב";
+        // } else if ((parseInt(thisTime) > 22 && parseInt(thisTime) < 24) || (parseInt(thisTime) > 0 && parseInt(thisTime) < 7)) {
+        //   mishmeret = "לילה";
+        // }
         if (this.all_report_management.ReportShift == 'בוקר' && reportDate == thisDate && parseInt(thisTime) < 17 && parseInt(thisTime) > 6) {
           ifEditable = true;
         } else if (this.all_report_management.ReportShift == 'ערב' && reportDate == thisDate && ((parseInt(thisTime) > 14 && parseInt(thisTime) < 24) || parseInt(thisTime) < 1)) {
@@ -516,19 +524,23 @@ export class FillReportComponent implements OnInit {
           ifEditable = true;
         }
 
+        this.departmentfilter.setValue(this.all_report_management.ReportMachlol);
+        this.categoryfilter.setValue(this.all_report_management.ReportCategory);
+        this.subcategoryfilter.setValue(this.all_report_management.ReportSubCategory);
         if (this.all_report_management.UserName == this.UserName && reportDate == thisDate && ifEditable) {
           this.creator = true;
         } else {
           this.creator = false;
+          this.ReportGroup.disable();
+          this.departmentfilter.disable();
+          this.categoryfilter.disable();
         }
         if (this.ReportGroup.controls['toContinue'].value == 'False') {
           this.ReportGroup.controls['toContinue'].setValue(false);
         } else {
           this.ReportGroup.controls['toContinue'].setValue(true);
         }
-        this.departmentfilter.setValue(this.all_report_management.ReportMachlol);
-        this.categoryfilter.setValue(this.all_report_management.ReportCategory);
-        this.subcategoryfilter.setValue(this.all_report_management.ReportSubCategory);
+        
       });
     this.getCategories();
   }
