@@ -4,6 +4,7 @@ import {
   Inject,
   Input,
   OnInit,
+  Renderer2,
   ViewChild,
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
@@ -101,7 +102,6 @@ export class ShareReportsDialog {
 
 
   shareReportWithOthers() {
-    debugger
     if (this.myControl.value == "") {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
@@ -179,6 +179,7 @@ export class NursesDashboardComponent implements OnInit {
   ];
 
   @ViewChild('printmycontent') printmycontent: ElementRef;
+  @ViewChild('pagetoshow') myScrollContainer: ElementRef;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -193,6 +194,7 @@ export class NursesDashboardComponent implements OnInit {
   myDate = new Date();
   constructor(private _snackBar: MatSnackBar,
     private router: Router,
+    private _renderer: Renderer2,
     private http: HttpClient,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -324,6 +326,7 @@ export class NursesDashboardComponent implements OnInit {
   
   onPageChange($event) {
     this.currentItemsToShow =  this.ELEMENT_DATA.slice($event.pageIndex*$event.pageSize, $event.pageIndex*$event.pageSize + $event.pageSize);
+    this.myScrollContainer.nativeElement.scrollIntoView();
   }
 
   private _filter2(value: string): string[] {

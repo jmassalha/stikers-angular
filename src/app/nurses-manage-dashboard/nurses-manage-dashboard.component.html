@@ -256,7 +256,7 @@
             </ng-container>
           
             <tr mat-header-row *matHeaderRowDef="bugColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: bugColumns;" [style.background]="row.Bug_Done == 'טופל' ? 'aquamarine': 'darkgray'"></tr>
+            <tr mat-row *matRowDef="let row; columns: bugColumns;" [style.background]="row.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'"></tr>
           </table>
     </div>
 </ng-template>

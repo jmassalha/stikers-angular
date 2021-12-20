@@ -217,7 +217,6 @@ export class NursesManageDashboardComponent implements OnInit {
           _tabletAddress = this.all_departments_array[0].TabletAddress;
           _adminNurse = this.all_departments_array[0].AdminNurse;
         }
-        console.log('privateIp in departs: ' + this.privateIP);
         if (this.UserName == "clalit") {
           this.rightPC = false;
           this.handleEvent2();

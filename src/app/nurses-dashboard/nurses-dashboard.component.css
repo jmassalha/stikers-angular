@@ -218,6 +218,12 @@ table {
   margin: 0px 140px 0px 0px;
 }
 
+#pagetoshow{
+  font-size: small;
+  width: 100%;
+  margin: 0px 140px 0px 0px;
+}
+
 .close {
   float: right;
   font-size: 2.0rem;
