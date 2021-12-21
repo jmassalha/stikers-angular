@@ -82,6 +82,7 @@ export class ShareReportsDialog {
   users = [];
   all_users_filter = [];
   reportArray = [];
+  disableBtn: boolean = false;
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
@@ -102,12 +103,13 @@ export class ShareReportsDialog {
 
 
   shareReportWithOthers() {
+    this.disableBtn = true;
     if (this.myControl.value == "") {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
       this.http
-        //.post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
-        .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
+        // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
+          .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
           _reportArray: this.reportArray,
@@ -119,8 +121,10 @@ export class ShareReportsDialog {
           } else {
             this.openSnackBar("! אירעה תקלה, לא נשלח");
           }
+          this.disableBtn = false;
         });
     }
+
   }
 
   openSnackBar(message) {
@@ -247,7 +251,7 @@ export class NursesDashboardComponent implements OnInit {
   autoSaveTimer: any;
   ifGeneral: string = '1';
   AdminNurse: string = '0';
-  currentItemsToShow= [];
+  currentItemsToShow = [];
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
@@ -323,9 +327,9 @@ export class NursesDashboardComponent implements OnInit {
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
     this.currentItemsToShow = this.ELEMENT_DATA;
   }
-  
+
   onPageChange($event) {
-    this.currentItemsToShow =  this.ELEMENT_DATA.slice($event.pageIndex*$event.pageSize, $event.pageIndex*$event.pageSize + $event.pageSize);
+    this.currentItemsToShow = this.ELEMENT_DATA.slice($event.pageIndex * $event.pageSize, $event.pageIndex * $event.pageSize + $event.pageSize);
     this.myScrollContainer.nativeElement.scrollIntoView();
   }
 
@@ -530,7 +534,7 @@ export class NursesDashboardComponent implements OnInit {
             this.permission = true;
           }
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
-          this.currentItemsToShow =  this.ELEMENT_DATA.slice(0, 5);
+          this.currentItemsToShow = this.ELEMENT_DATA.slice(0, 5);
         });
     }
   }
@@ -624,12 +628,12 @@ export class NursesDashboardComponent implements OnInit {
   autoDate(amin) {
     if (amin == true) {
       this.ReportGroup.controls['ReportStatus'].setValue('לטיפול');
-    } else if(amin == false) {
+    } else if (amin == false) {
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
-    }else{
-      if(amin.value == "לטיפול"){
+    } else {
+      if (amin.value == "לטיפול") {
         this.ReportGroup.controls['toContinue'].setValue(true);
-      }else{
+      } else {
         this.ReportGroup.controls['toContinue'].setValue(false);
       }
     }

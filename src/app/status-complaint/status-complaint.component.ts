@@ -15,7 +15,7 @@ import { isEmpty, map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import {COMMA, ENTER} from '@angular/cdk/keycodes';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 
 export interface User {
   firstname: string;
@@ -87,15 +87,15 @@ export class StatusComplaintComponent implements OnInit {
     this.getRelevantComplaints(this.urlID);
     this.getUsers();
     // this.getAndSendMessages(this.urlID);
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.firstname),
-        map(firstname => firstname ? this._filter(firstname) : this.users.slice())
-      );
-      this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-        startWith(null),
-        map((fruit: string | null) => fruit ? this._filter2(fruit) : this.users.slice()));
+    // this.filteredOptions = this.myControl.valueChanges
+    //   .pipe(
+    //     startWith(''),
+    //     map(value => typeof value === 'string' ? value : value.firstname),
+    //     map(firstname => firstname ? this._filter(firstname) : this.users.slice())
+    //   );
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter2(fruit) : this.users.slice()));
   }
 
   // selectChange = (event: any) => {
@@ -161,12 +161,12 @@ export class StatusComplaintComponent implements OnInit {
 
   private _filter2(value: any): string[] {
     let filterValue = "";
-    if(value != '' && value.firstname == undefined){
+    if (value != '' && value.firstname == undefined) {
       filterValue = value.toLowerCase();
     }
     return this.users.filter(fruit => fruit.firstname.toLowerCase().includes(filterValue));
   }
-  
+
   getUsers() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {

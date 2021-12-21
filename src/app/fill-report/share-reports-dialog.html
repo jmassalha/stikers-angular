@@ -19,7 +19,7 @@
             </form>
         </div>
         <div class="col-1">
-            <button mat-raised-button class="btn btn-primary btn-raised float-left"
+            <button mat-raised-button [disabled]="disableBtn" class="btn btn-primary btn-raised float-left"
                 (click)="shareReportWithOthers()" matTooltip="שליחה">
                 <span class="material-icons">
                     reply

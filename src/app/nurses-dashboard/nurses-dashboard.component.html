@@ -103,7 +103,8 @@
                         <div class="form-group">
                             <mat-form-field>
                                 <mat-label>סטטוס</mat-label>
-                                <mat-select formControlName="ReportStatus" #mySelect (selectionChange)='autoDate($event)'
+                                <mat-select formControlName="ReportStatus" #mySelect
+                                    (selectionChange)='autoDate($event)'
                                     style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
                                     <mat-option *ngFor="let st of status" [value]="st.value"
                                         style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
@@ -182,7 +183,8 @@
         <!-- <div class="card-footer pb-0 pt-3">
                 <jw-pagination [items]="items" (changePage)="onChangePage($event)"></jw-pagination>
             </div> -->
-        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="5" [pageSizeOptions]="[5, 10, 25, 100]">
+        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 25, 100]">
         </mat-paginator>
     </div>
     <div class="container-fluid trans-80 mb-2">

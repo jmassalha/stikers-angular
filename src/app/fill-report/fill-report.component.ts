@@ -46,6 +46,7 @@ export class ShareReportsFillDialog {
   users = [];
   all_users_filter = [];
   reportArray = [];
+  disableBtn: boolean;
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
@@ -69,6 +70,7 @@ export class ShareReportsFillDialog {
     if (this.myControl.value == "") {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
+      this.disableBtn = true;
       this.http
         .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
@@ -82,6 +84,7 @@ export class ShareReportsFillDialog {
           } else {
             this.openSnackBar("! אירעה תקלה, לא נשלח");
           }
+          this.disableBtn = false;
         });
     }
   }
