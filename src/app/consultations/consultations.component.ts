@@ -229,6 +229,7 @@ export class ConsultationsComponent implements OnInit {
     selectedIndexTab: number;
     fliterVal = "";
     _selectedYear = 0;
+    typeOf = -1;
     patientNumber: string;
     caseNumber: string;
     Sdate: FormControl;
@@ -1125,6 +1126,7 @@ DepartsDataRequestAvgAllNotPara
                 _Depart: _Depart,
                 _Workers: _Workers,
                 _Request: _Request,
+                _typeOf: this.typeOf,
             })
             .subscribe(
                 (Response) => {
