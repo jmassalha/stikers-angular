@@ -112,10 +112,10 @@ import { VisitorsMonitoringComponent } from './visitors-monitoring/visitors-moni
 import { VisitorsRegistrationComponent } from './visitors-monitoring/visitors-registration/visitors-registration.component';
 import { VisitorNameDialog } from './visitors-monitoring/visitors-registration/visitors-registration.component';
 import { ShareReportsDialog } from './nurses-dashboard/nurses-dashboard.component';
-import { ShareReportDialog } from './fill-report/fill-report.component';
+import { ShareReportsFillDialog } from './fill-report/fill-report.component';
 import { FastCovid19TestComponent } from './fast-covid19-test/fast-covid19-test.component';
 import { FastCovidTestDashboardComponent } from './fast-covid-test-dashboard/fast-covid-test-dashboard.component';
-import { AddResponseDialog } from './fill-report/fill-report.component';
+import { AddResponseFillDialog } from './fill-report/fill-report.component';
 import { UrgentSurgeriesComponent } from './urgent-surgeries/urgent-surgeries.component';
 import { OnlineAppointmentsComponent } from './online-appointments/online-appointments.component';
 import localeHe from '@angular/common/locales/he';
@@ -134,7 +134,6 @@ import { GalitPointsReportComponent } from './galit-points-report/galit-points-r
 import { BugReportComponent } from './nurses-department-manage/nurses-department-manage.component';
 import { NmrIframeComponent } from './nmr-iframe/nmr-iframe.component';
 import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
-
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -181,7 +180,7 @@ const maskConfig: Partial<IConfig> = {
     ResearchespatientsComponent,
     Sarscov2Component,
     AddpatientcoronaformComponent,
-    AddResponseDialog,
+    AddResponseFillDialog,
     SarsresultsComponent,
     MaternityComponent,
     MaternitypatientsComponent,
@@ -215,7 +214,7 @@ const maskConfig: Partial<IConfig> = {
     VisitorsMonitoringComponent,
     VisitorsRegistrationComponent,
     ShareReportsDialog,
-    ShareReportDialog,
+    ShareReportsFillDialog,
     FastCovid19TestComponent,
     FastCovidTestDashboardComponent,
     UrgentSurgeriesComponent,

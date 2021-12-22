@@ -1,5 +1,5 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, Injectable, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
@@ -10,7 +10,12 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { Observable } from 'rxjs';
-import { map, startWith } from 'rxjs/operators';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { EmployeesComponent } from '../employees/employees.component';
+import { isEmpty, map, startWith } from 'rxjs/operators';
 
 
 export interface EmailManagement {
@@ -58,10 +63,16 @@ export interface DeadLine {
   viewValue: string;
 }
 
-
 export interface CompDepts {
   value: string;
   viewValue: string;
+}
+
+export interface User {
+  firstname: string;
+  id: string;
+  email: string;
+  selected: boolean;
 }
 
 @Component({
@@ -76,63 +87,59 @@ export class EmailmanagementComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
   compTypeList: any[] = [];
-
   compRelatedPerson: any[] = [];
-
   compAmbolatory: any[] = [];
+  compDepts: any[] = [];
 
-  compDepts: any[] = [ ];
+  // { value: 'MRI', viewValue: 'MRI' },
+  // { value: 'מיילדותי us', viewValue: 'מיילדותי us' },
+  // { value: 'אונקולוגיה', viewValue: 'אונקולוגיה' },
+  // { value: 'אורולוגיה', viewValue: 'אורולוגיה' },
+  // { value: 'אורטופידיה', viewValue: 'אורטופידיה' },
+  // { value: 'אף אוזן גרון', viewValue: 'אף אוזן גרון' },
+  // { value: 'בטחון', viewValue: 'בטחון' },
+  // { value: 'גזברות', viewValue: 'גזברות' },
+  // { value: 'גסטרואנטרולוגיה', viewValue: 'גסטרואנטרולוגיה' },
+  // { value: 'דיאליזה', viewValue: 'דיאליזה' },
+  // { value: 'IVF - הפרייה חוץ גופית', viewValue: 'IVF - הפרייה חוץ גופית' },
+  // { value: 'זימון תורים', viewValue: 'זימון תורים' },
+  // { value: 'חדר ניתוח', viewValue: 'חדר ניתוח' },
+  // { value: 'חדרי לידה', viewValue: 'חדרי לידה' },
+  // { value: 'טיפול נמרץ כללי', viewValue: 'טיפול נמרץ כללי' },
+  // { value: 'טיפול נמרץ לב', viewValue: 'טיפול נמרץ לב' },
+  // { value: 'יולדות', viewValue: 'יולדות' },
+  // { value: 'ילדים', viewValue: 'ילדים' },
+  // { value: 'ילודים', viewValue: 'ילודים' },
+  // { value: 'כירורגיה כללית', viewValue: 'כירורגיה כללית' },
+  // { value: 'כירורגיה פלסטית', viewValue: 'כירורגיה פלסטית' },
+  // { value: 'כירורגיה לב חזה', viewValue: 'כירורגיה לב חזה' },
+  // { value: 'מלר"ד', viewValue: 'מלר"ד' },
+  // { value: 'מלר"ד ילדים', viewValue: 'מלר"ד ילדים' },
+  // { value: 'משק וחצרנות', viewValue: 'משק וחצרנות' },
+  // { value: 'מרפאה אורולוגיה', viewValue: 'מרפאה אורולוגיה' },
+  // { value: 'מרפאה אורטופידית', viewValue: 'מרפאה אורטופידית' },
+  // { value: 'מרפאה נשים', viewValue: 'מרפאה נשים' },
+  // { value: 'מרפאה עיניים', viewValue: 'מרפאה עיניים' },
+  // { value: 'מרפאה ראומטולוגיה', viewValue: 'מרפאה ראומטולוגיה' },
+  // { value: 'מרפאת חוץ', viewValue: 'מרפאת חוץ' },
+  // { value: 'משרד קבלת חולים', viewValue: 'משרד קבלת חולים' },
+  // { value: 'נוירולוגיה', viewValue: 'נוירולוגיה' },
+  // { value: 'נשים', viewValue: 'נשים' },
+  // { value: 'עיניים', viewValue: 'עיניים' },
+  // { value: 'פגייה', viewValue: 'פגייה' },
+  // { value: 'פה ולסת', viewValue: 'פה ולסת' },
+  // { value: 'פנימית א', viewValue: 'פנימית א' },
+  // { value: 'פנימית ב', viewValue: 'פנימית ב' },
+  // { value: 'קורונה', viewValue: 'קורונה' },
+  // { value: 'פגייה', viewValue: 'פגייה' },
+  // { value: 'קרדיולוגיה', viewValue: 'קרדיולוגיה' },
+  // { value: 'רנטגן', viewValue: 'רנטגן' },
+  // { value: 'רשומות ומידע רפואי', viewValue: 'רשומות ומידע רפואי' },
+  // { value: 'שבץ מוחי', viewValue: 'שבץ מוחי' },
+  // { value: 'שונות', viewValue: 'שונות' },
+  // { value: 'שינוע', viewValue: 'שינוע' },
+  // { value: 'שיקומית', viewValue: 'שיקומית' },
 
-  
-    // { value: 'MRI', viewValue: 'MRI' },
-    // { value: 'מיילדותי us', viewValue: 'מיילדותי us' },
-    // { value: 'אונקולוגיה', viewValue: 'אונקולוגיה' },
-    // { value: 'אורולוגיה', viewValue: 'אורולוגיה' },
-    // { value: 'אורטופידיה', viewValue: 'אורטופידיה' },
-    // { value: 'אף אוזן גרון', viewValue: 'אף אוזן גרון' },
-    // { value: 'בטחון', viewValue: 'בטחון' },
-    // { value: 'גזברות', viewValue: 'גזברות' },
-    // { value: 'גסטרואנטרולוגיה', viewValue: 'גסטרואנטרולוגיה' },
-    // { value: 'דיאליזה', viewValue: 'דיאליזה' },
-    // { value: 'IVF - הפרייה חוץ גופית', viewValue: 'IVF - הפרייה חוץ גופית' },
-    // { value: 'זימון תורים', viewValue: 'זימון תורים' },
-    // { value: 'חדר ניתוח', viewValue: 'חדר ניתוח' },
-    // { value: 'חדרי לידה', viewValue: 'חדרי לידה' },
-    // { value: 'טיפול נמרץ כללי', viewValue: 'טיפול נמרץ כללי' },
-    // { value: 'טיפול נמרץ לב', viewValue: 'טיפול נמרץ לב' },
-    // { value: 'יולדות', viewValue: 'יולדות' },
-    // { value: 'ילדים', viewValue: 'ילדים' },
-    // { value: 'ילודים', viewValue: 'ילודים' },
-    // { value: 'כירורגיה כללית', viewValue: 'כירורגיה כללית' },
-    // { value: 'כירורגיה פלסטית', viewValue: 'כירורגיה פלסטית' },
-    // { value: 'כירורגיה לב חזה', viewValue: 'כירורגיה לב חזה' },
-    // { value: 'מלר"ד', viewValue: 'מלר"ד' },
-    // { value: 'מלר"ד ילדים', viewValue: 'מלר"ד ילדים' },
-    // { value: 'משק וחצרנות', viewValue: 'משק וחצרנות' },
-    // { value: 'מרפאה אורולוגיה', viewValue: 'מרפאה אורולוגיה' },
-    // { value: 'מרפאה אורטופידית', viewValue: 'מרפאה אורטופידית' },
-    // { value: 'מרפאה נשים', viewValue: 'מרפאה נשים' },
-    // { value: 'מרפאה עיניים', viewValue: 'מרפאה עיניים' },
-    // { value: 'מרפאה ראומטולוגיה', viewValue: 'מרפאה ראומטולוגיה' },
-    // { value: 'מרפאת חוץ', viewValue: 'מרפאת חוץ' },
-    // { value: 'משרד קבלת חולים', viewValue: 'משרד קבלת חולים' },
-    // { value: 'נוירולוגיה', viewValue: 'נוירולוגיה' },
-    // { value: 'נשים', viewValue: 'נשים' },
-    // { value: 'עיניים', viewValue: 'עיניים' },
-    // { value: 'פגייה', viewValue: 'פגייה' },
-    // { value: 'פה ולסת', viewValue: 'פה ולסת' },
-    // { value: 'פנימית א', viewValue: 'פנימית א' },
-    // { value: 'פנימית ב', viewValue: 'פנימית ב' },
-    // { value: 'קורונה', viewValue: 'קורונה' },
-    // { value: 'פגייה', viewValue: 'פגייה' },
-    // { value: 'קרדיולוגיה', viewValue: 'קרדיולוגיה' },
-    // { value: 'רנטגן', viewValue: 'רנטגן' },
-    // { value: 'רשומות ומידע רפואי', viewValue: 'רשומות ומידע רפואי' },
-    // { value: 'שבץ מוחי', viewValue: 'שבץ מוחי' },
-    // { value: 'שונות', viewValue: 'שונות' },
-    // { value: 'שינוע', viewValue: 'שינוע' },
-    // { value: 'שיקומית', viewValue: 'שיקומית' },
-    
   deadline: DeadLine[] = [
     { value: '1', viewValue: 'שבוע' },
     { value: '2', viewValue: 'שבועיים' },
@@ -176,7 +183,13 @@ export class EmailmanagementComponent implements OnInit {
   emailSenderGroup: FormGroup;
   firstManagementGroup: FormGroup;
 
-
+  selectable = true;
+  removable = true;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruitCtrl = new FormControl();
+  filteredFruits: Observable<string[]>;
+  fruits: string[] = [];
+  allFruits: string[] = [];
   myControl = new FormControl();
   departmentfilter = new FormControl();
   filteredOptions: Observable<string[]>;
@@ -186,6 +199,10 @@ export class EmailmanagementComponent implements OnInit {
   _ifUpdate: boolean;
   _ifSplit: string;
   _stepper: boolean;
+  // selectData: Array<User> = [];
+  @Output() result = new EventEmitter<{ key: string, data: Array<string> }>();
+  @Input() key: string = '';
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {
 
@@ -255,11 +272,44 @@ export class EmailmanagementComponent implements OnInit {
         startWith(''),
         map(value => this._filter2(value))
       );
+    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter3(fruit) : this.users.slice()));
   }
 
   // displayFn(user: string): string {
   //   return user && user.DepartName ? user.DepartName : '';
   // }
+
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.fruits.push(value);
+    }
+    // event.chipInput!.clear();
+    this.fruitCtrl.setValue(null);
+  }
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    this.fruits.push(event.option.value);
+    this.fruitInput.nativeElement.value = '';
+    this.fruitCtrl.setValue(null);
+  }
+
+  private _filter3(value: any): string[] {
+    let filterValue = "";
+    if (value != '' && value.firstname == undefined) {
+      filterValue = value.toLowerCase();
+    }
+    return this.users.filter(fruit => fruit.firstname.toLowerCase().includes(filterValue));
+  }
 
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
@@ -467,7 +517,11 @@ export class EmailmanagementComponent implements OnInit {
         this.all_users_filter = Response["d"];
 
         this.all_users_filter.forEach(element => {
-          this.users.push(element);
+          this.users.push({
+            firstname: element.firstname + " " + element.lastname,
+            id: element.id,
+            email: element.email
+          });
         })
       });
     this.http

@@ -4,6 +4,7 @@ import {
   Inject,
   Input,
   OnInit,
+  Renderer2,
   ViewChild,
 } from "@angular/core";
 import { DatePipe } from "@angular/common";
@@ -81,6 +82,7 @@ export class ShareReportsDialog {
   users = [];
   all_users_filter = [];
   reportArray = [];
+  disableBtn: boolean = false;
 
   ngOnInit() {
     this.filteredOptions = this.myControl.valueChanges
@@ -101,13 +103,13 @@ export class ShareReportsDialog {
 
 
   shareReportWithOthers() {
-    debugger
+    this.disableBtn = true;
     if (this.myControl.value == "") {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
       this.http
-        //.post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
-        .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
+        // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
+          .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
           _reportArray: this.reportArray,
@@ -119,8 +121,10 @@ export class ShareReportsDialog {
           } else {
             this.openSnackBar("! אירעה תקלה, לא נשלח");
           }
+          this.disableBtn = false;
         });
     }
+
   }
 
   openSnackBar(message) {
@@ -179,6 +183,7 @@ export class NursesDashboardComponent implements OnInit {
   ];
 
   @ViewChild('printmycontent') printmycontent: ElementRef;
+  @ViewChild('pagetoshow') myScrollContainer: ElementRef;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -193,6 +198,7 @@ export class NursesDashboardComponent implements OnInit {
   myDate = new Date();
   constructor(private _snackBar: MatSnackBar,
     private router: Router,
+    private _renderer: Renderer2,
     private http: HttpClient,
     private modalService: NgbModal,
     private formBuilder: FormBuilder,
@@ -245,6 +251,7 @@ export class NursesDashboardComponent implements OnInit {
   autoSaveTimer: any;
   ifGeneral: string = '1';
   AdminNurse: string = '0';
+  currentItemsToShow = [];
 
   ngOnInit(): void {
     this.searchReportsGroup = new FormGroup({
@@ -318,6 +325,12 @@ export class NursesDashboardComponent implements OnInit {
     this.categoryfilter.setValue('');
     this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
+    this.currentItemsToShow = this.ELEMENT_DATA;
+  }
+
+  onPageChange($event) {
+    this.currentItemsToShow = this.ELEMENT_DATA.slice($event.pageIndex * $event.pageSize, $event.pageIndex * $event.pageSize + $event.pageSize);
+    this.myScrollContainer.nativeElement.scrollIntoView();
   }
 
   private _filter2(value: string): string[] {
@@ -428,6 +441,7 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   searchReports() {
+    let myDate2 = new Date();
     if (this.departmentfilter.value == null) {
       this.departmentfilter.setValue('');
     }
@@ -458,8 +472,8 @@ export class NursesDashboardComponent implements OnInit {
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
-      this.myDate.setDate(this.myDate.getDate() - 1);
-      _reportStartDate = pipe.transform(this.myDate, 'yyyy/MM/dd');
+      myDate2.setDate(myDate2.getDate() - 1);
+      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00:00');
     }
     if (!(_reportEndDate == undefined || _reportEndDate == "" || _reportEndDate == null)) {
       _reportEndDate = pipe.transform(_reportEndDate, 'yyyy/MM/dd');
@@ -520,6 +534,7 @@ export class NursesDashboardComponent implements OnInit {
             this.permission = true;
           }
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+          this.currentItemsToShow = this.ELEMENT_DATA.slice(0, 5);
         });
     }
   }
@@ -611,10 +626,16 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   autoDate(amin) {
-    if (amin) {
+    if (amin == true) {
       this.ReportGroup.controls['ReportStatus'].setValue('לטיפול');
-    } else {
+    } else if (amin == false) {
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
+    } else {
+      if (amin.value == "לטיפול") {
+        this.ReportGroup.controls['toContinue'].setValue(true);
+      } else {
+        this.ReportGroup.controls['toContinue'].setValue(false);
+      }
     }
   }
 
@@ -625,4 +646,3 @@ export class NursesDashboardComponent implements OnInit {
 
 
 }
-

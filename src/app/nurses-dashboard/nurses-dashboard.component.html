@@ -1,4 +1,4 @@
-<div class="container" id="page-toshow">
+<div class="container" #pagetoshow id="pagetoshow">
     <div class="row" style="justify-content: right;">
         <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
             <span>&times;</span>
@@ -103,7 +103,8 @@
                         <div class="form-group">
                             <mat-form-field>
                                 <mat-label>סטטוס</mat-label>
-                                <mat-select formControlName="ReportStatus"
+                                <mat-select formControlName="ReportStatus" #mySelect
+                                    (selectionChange)='autoDate($event)'
                                     style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
                                     <mat-option *ngFor="let st of status" [value]="st.value"
                                         style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
@@ -176,11 +177,15 @@
         </form>
 
         <!-- <div *ngIf="AdminNurse == '1'">
-
         </div> -->
-        <app-fill-report *ngFor="let item of ELEMENT_DATA" style="font-size: small;" [reportID]="item.reportID"
+        <app-fill-report *ngFor="let item of currentItemsToShow" style="font-size: small;" [reportID]="item.reportID"
             [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
-
+        <!-- <div class="card-footer pb-0 pt-3">
+                <jw-pagination [items]="items" (changePage)="onChangePage($event)"></jw-pagination>
+            </div> -->
+        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="5"
+            [pageSizeOptions]="[5, 10, 25, 100]">
+        </mat-paginator>
     </div>
     <div class="container-fluid trans-80 mb-2">
         <div class="row search-cont">

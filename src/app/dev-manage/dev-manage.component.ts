@@ -17,7 +17,7 @@ const ELEMENT_DATA: any[] = [];
 })
 export class DevManageComponent implements OnInit {
 
-  displayedColumns: string[] = ['user', 'pc1', 'pc2', 'tablet', 'change'];
+  displayedColumns: string[] = ['user', 'pc1', 'pc2', 'pc3', 'pc4', 'tablet', 'change'];
   dataSource = ELEMENT_DATA;
   TABLE_DATA: any[] = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
@@ -27,6 +27,8 @@ export class DevManageComponent implements OnInit {
   UserNameUpdate: any;
   IpAddress: any;
   IpAddress2: any;
+  IpAddress3: any;
+  IpAddress4: any;
   TabletAddress: any;
 
   constructor(public dialog: MatDialog,
@@ -77,6 +79,8 @@ export class DevManageComponent implements OnInit {
     this.UserNameUpdate = element.UserName;
     this.IpAddress = element.IpAddress;
     this.IpAddress2 = element.IpAddress2;
+    this.IpAddress3 = element.IpAddress3;
+    this.IpAddress4 = element.IpAddress4;
     this.TabletAddress = element.TabletAddress;
   }
 
@@ -86,6 +90,8 @@ export class DevManageComponent implements OnInit {
         UserNameUpdate: this.UserNameUpdate,
         IpAddress: this.IpAddress,
         IpAddress2: this.IpAddress2,
+        IpAddress3: this.IpAddress3,
+        IpAddress4: this.IpAddress4,
         TabletAddress: this.TabletAddress
       })
       .subscribe((Response) => {

@@ -1,7 +1,6 @@
-.col-3 :hover{
-    /* transform: scale(1.2,1.1); */
+/* .col-4 :hover{
     cursor: pointer;
-}
+} */
 
 .card-body,.other-cards,.card.dash-cards{
   font-family: 'Math';

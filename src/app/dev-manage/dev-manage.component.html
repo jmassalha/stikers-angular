@@ -83,6 +83,16 @@
                                     <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 2 </th>
                                     <td mat-cell *matCellDef="let element"> {{element.IpAddress2}} </td>
                                 </ng-container>
+                                
+                                <ng-container matColumnDef="pc3">
+                                    <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 3 </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.IpAddress3}} </td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="pc4">
+                                    <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 4 </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.IpAddress4}} </td>
+                                </ng-container>
 
                                 <ng-container matColumnDef="tablet">
                                     <th mat-header-cell *matHeaderCellDef> הרשאה לטאבלט </th>
@@ -119,6 +129,14 @@
         <mat-form-field class="example-full-width">
             <mat-label>מחשב 2:</mat-label>
             <input matInput [(ngModel)]="IpAddress2" [ngModelOptions]="{standalone: true}" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>מחשב 3:</mat-label>
+            <input matInput [(ngModel)]="IpAddress3" [ngModelOptions]="{standalone: true}" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>מחשב 4:</mat-label>
+            <input matInput [(ngModel)]="IpAddress4" [ngModelOptions]="{standalone: true}" />
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>טאבלט:</mat-label>

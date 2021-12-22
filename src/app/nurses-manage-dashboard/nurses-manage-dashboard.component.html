@@ -182,8 +182,8 @@
     <div class="survey-options">
         <div class="poll-options">
             <div class="row" style="margin-bottom: 10px;">
-                <div class="col-4" *ngFor="let item of all_departments_array" style="margin-bottom: 5px;height: 75px">
-                    <mat-card *ngIf="item.Dept_Name" (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
+                <div class="col-4" *ngFor="let item of all_departments_array" style="margin-bottom: 5px;height: 75px;cursor: pointer;">
+                    <mat-card *ngIf="item.Dept_Name && item.OccupancyPerDepart != '0'" (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
                         style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
                                 *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
@@ -256,7 +256,7 @@
             </ng-container>
           
             <tr mat-header-row *matHeaderRowDef="bugColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: bugColumns;" [style.background]="row.Bug_Done == 'טופל' ? 'aquamarine': 'darkgray'"></tr>
+            <tr mat-row *matRowDef="let row; columns: bugColumns;" [style.background]="row.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'"></tr>
           </table>
     </div>
 </ng-template>
