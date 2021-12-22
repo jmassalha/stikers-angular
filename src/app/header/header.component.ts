@@ -226,6 +226,25 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("skatan").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("sshakeeb").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("sthawkho").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Obergstein").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("OAvenaem").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("LAbutbul").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Nsuheil").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("EFarber").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Iatiya").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("jkailikian").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("djosef").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("DNoked").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("LShavit").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("muhbadarne").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ntimsit").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("nsaleh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("NAharon").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ACohen").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Enyefet").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("PVainner").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("SKatan").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("TAmiram").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("tkharanbah").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase() 
         ) {
