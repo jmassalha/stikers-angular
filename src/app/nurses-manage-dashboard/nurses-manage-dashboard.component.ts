@@ -87,6 +87,7 @@ export class NursesManageDashboardComponent implements OnInit {
       that.getEROccupancy('', 'er');
       that.getDeliveryEROccupancy('');
       that.privateIP = this.ClientIP;
+      this.IpAddressMonitoring();
     }, 1500);
 
 
@@ -94,6 +95,15 @@ export class NursesManageDashboardComponent implements OnInit {
     // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
     //   this.publicIP = data['ip'];
     // });
+  }
+
+  IpAddressMonitoring() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/IpAddressMonitoring", {
+        _userName: this.UserName,
+        IpAdress_Login: this.ClientIP
+      })
+      .subscribe((Response) => { });
   }
 
   getBugsTable() {
@@ -131,22 +141,26 @@ export class NursesManageDashboardComponent implements OnInit {
   }
 
   submitBugReport() {
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
-        _phoneNumber: this.phoneNumber,
-        _reportSubject: this.reportSubject,
-        _userName: this.UserName,
-      })
-      .subscribe((Response) => {
-        if (Response["d"]) {
-          this.openSnackBar("נשלח לטיפול");
-          this.phoneNumber = "";
-          this.reportSubject = "";
-          this.getBugsTable();
-        } else {
-          this.openSnackBar("משהו השתבש לא נשלח");
-        }
-      });
+    if ((this.reportSubject == "" || this.reportSubject == undefined) || (this.phoneNumber == "" || this.phoneNumber == undefined)) {
+      this.openSnackBar("נא למלא שדות חובה");
+    } else {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
+          _phoneNumber: this.phoneNumber,
+          _reportSubject: this.reportSubject,
+          _userName: this.UserName,
+        })
+        .subscribe((Response) => {
+          if (Response["d"]) {
+            this.openSnackBar("נשלח לטיפול");
+            this.phoneNumber = "";
+            this.reportSubject = "";
+            this.getBugsTable();
+          } else {
+            this.openSnackBar("משהו השתבש לא נשלח");
+          }
+        });
+    }
   }
 
   openSnackBar(message) {

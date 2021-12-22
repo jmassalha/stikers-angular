@@ -3,6 +3,147 @@
         <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
             <span>&times;</span>
         </button>
+        <div class="container-fluid trans-80 mb-2">
+            <div class="row search-cont">
+                <div class="col">
+                    <div dir="rtl" class="card w-85-p">
+                        <div dir="rtl" class="card-body">
+                            <form class="form" [formGroup]="searchReportsGroup">
+                                <div class="row">
+                                    <div class="col-12" *ngIf="reportType == 'clinical'">
+                                        <div class="form-group">
+                                            <mat-form-field>
+                                                <input matInput autocomplete="off" placeholder="שם מטופל"
+                                                    formControlName="PatientName" />
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <!-- <div class="col-6">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>משמרת</mat-label>
+                                                <mat-select formControlName="ReportShift">
+                                                    <mat-option [value]="''">הכל</mat-option>
+                                                    <mat-option *ngFor="let sh of shift" [value]="sh.value">
+                                                        {{sh.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div> -->
+                                    <div class="col-4" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>מחלקה</mat-label>
+                                                <input type="text" aria-label="department" name="departmentfilter"
+                                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                                    matInput [formControl]="departmentfilter" [matAutocomplete]="auto2">
+                                                <mat-autocomplete #auto2="matAutocomplete">
+                                                    <mat-option *ngFor="let dept of filteredOptions2 | async"
+                                                        [value]="dept.Dept_Name"
+                                                        style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                                        {{dept.Dept_Name}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-4" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>קטגוריה</mat-label>
+                                                <input type="text" aria-label="category"
+                                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                                    matInput [formControl]="categoryfilter2" [matAutocomplete]="auto3">
+                                                <mat-autocomplete #auto3="matAutocomplete">
+                                                    <mat-option *ngFor="let cat of filteredOptions3_2 | async"
+                                                        [value]="cat.Cat_Name"
+                                                        style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                                        {{cat.Cat_Name}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-4" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>קטיגוריה אדומה</mat-label>
+                                                <mat-select formControlName="ImportantCategory">
+                                                    <mat-option [value]="'הכל'">הכל</mat-option>
+                                                    <mat-option *ngFor="let st of importantCat" [value]="st.value"
+                                                        [style.color]="st.value == '1' ? 'red':  'darkgrey'">
+                                                        {{st.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
+                                        <div class="form-group">
+                                            <mat-form-field>
+                                                <input matInput formControlName="ReportStartDate" (focus)="startdate.open()"
+                                                    autocomplete="off" placeholder="מ תאריך" name="startdate"
+                                                    [matDatepicker]="startdate" />
+                                                <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+                                                <mat-datepicker #startdate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
+                                        <div class="form-group">
+                                            <mat-form-field>
+                                                <input matInput formControlName="ReportEndDate" (focus)="enddate.open()"
+                                                    autocomplete="off" placeholder="עד תאריך " required name="enddate"
+                                                    [matDatepicker]="enddate" />
+                                                <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+                                                <mat-datepicker #enddate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-4" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>סטטוס</mat-label>
+                                                <mat-select formControlName="ReportStatus">
+                                                    <mat-option [value]="'הכל'">הכל</mat-option>
+                                                    <mat-option *ngFor="let st of status" [value]="st.value"
+                                                        [style.color]="st.value == 'טופל' ? 'darkseagreen':  'darkgrey'">
+                                                        {{st.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                </div>
+                                <button matTooltip="חיפוש" mat-raised-button type="submit"
+                                    class="btn btn-primary btn-raised" (click)="searchReports()">
+                                    <span class="material-icons">
+                                        search
+                                    </span>
+                                </button>
+                                &nbsp;&nbsp;
+                                <button matTooltip="הדפסה" mat-raised-button type="button"
+                                    class="btn btn-primary btn-raised" (click)="print()">
+                                    <span class="material-icons">
+                                        local_printshop
+                                    </span>
+                                </button>
+                                &nbsp;&nbsp;
+                                <button matTooltip="שליחה לנמען" mat-raised-button type="button"
+                                    class="btn btn-primary btn-raised" (click)="openShareDialog()">
+                                    <span class="material-icons">
+                                        reply
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
     </div>
 
     <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
@@ -175,158 +316,14 @@
                 </button> -->
             </div>
         </form>
-
-        <!-- <div *ngIf="AdminNurse == '1'">
-        </div> -->
         <app-fill-report *ngFor="let item of currentItemsToShow" style="font-size: small;" [reportID]="item.reportID"
             [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
-        <!-- <div class="card-footer pb-0 pt-3">
-                <jw-pagination [items]="items" (changePage)="onChangePage($event)"></jw-pagination>
-            </div> -->
+        <span class="material-icons" matTooltip="לראש העמוד" id="takeMeToTheTop" (click)="takeMeToTheTop()">
+            upgrade
+        </span>
         <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="5"
             [pageSizeOptions]="[5, 10, 25, 100]">
         </mat-paginator>
-    </div>
-    <div class="container-fluid trans-80 mb-2">
-        <div class="row search-cont">
-            <div class="col">
-                <div dir="rtl" class="card w-85-p">
-                    <div dir="rtl" class="card-body">
-                        <form class="form" [formGroup]="searchReportsGroup">
-                            <div class="row">
-                                <div class="col-12" *ngIf="reportType == 'clinical'">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <input matInput autocomplete="off" placeholder="שם מטופל"
-                                                formControlName="PatientName" />
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <!-- <div class="col-6">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>משמרת</mat-label>
-                                            <mat-select formControlName="ReportShift">
-                                                <mat-option [value]="''">הכל</mat-option>
-                                                <mat-option *ngFor="let sh of shift" [value]="sh.value">
-                                                    {{sh.viewValue}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div> -->
-                                <div class="col-4" *ngIf="reportType == 'administrative'">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>מחלקה</mat-label>
-                                            <input type="text" aria-label="department" name="departmentfilter"
-                                                style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
-                                                matInput [formControl]="departmentfilter" [matAutocomplete]="auto2">
-                                            <mat-autocomplete #auto2="matAutocomplete">
-                                                <mat-option *ngFor="let dept of filteredOptions2 | async"
-                                                    [value]="dept.Dept_Name"
-                                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
-                                                    {{dept.Dept_Name}}
-                                                </mat-option>
-                                            </mat-autocomplete>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="col-4" *ngIf="reportType == 'administrative'">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>קטגוריה</mat-label>
-                                            <input type="text" aria-label="category"
-                                                style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
-                                                matInput [formControl]="categoryfilter2" [matAutocomplete]="auto3">
-                                            <mat-autocomplete #auto3="matAutocomplete">
-                                                <mat-option *ngFor="let cat of filteredOptions3_2 | async"
-                                                    [value]="cat.Cat_Name"
-                                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
-                                                    {{cat.Cat_Name}}
-                                                </mat-option>
-                                            </mat-autocomplete>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="col-4" *ngIf="reportType == 'administrative'">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>קטיגוריה אדומה</mat-label>
-                                            <mat-select formControlName="ImportantCategory">
-                                                <mat-option [value]="'הכל'">הכל</mat-option>
-                                                <mat-option *ngFor="let st of importantCat" [value]="st.value"
-                                                    [style.color]="st.value == '1' ? 'red':  'darkgrey'">
-                                                    {{st.viewValue}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <input matInput formControlName="ReportStartDate" (focus)="startdate.open()"
-                                                autocomplete="off" placeholder="מ תאריך" name="startdate"
-                                                [matDatepicker]="startdate" />
-                                            <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
-                                            <mat-datepicker #startdate></mat-datepicker>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <input matInput formControlName="ReportEndDate" (focus)="enddate.open()"
-                                                autocomplete="off" placeholder="עד תאריך " required name="enddate"
-                                                [matDatepicker]="enddate" />
-                                            <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
-                                            <mat-datepicker #enddate></mat-datepicker>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="col-4" *ngIf="reportType == 'administrative'">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>סטטוס</mat-label>
-                                            <mat-select formControlName="ReportStatus">
-                                                <mat-option [value]="'הכל'">הכל</mat-option>
-                                                <mat-option *ngFor="let st of status" [value]="st.value"
-                                                    [style.color]="st.value == 'טופל' ? 'darkseagreen':  'darkgrey'">
-                                                    {{st.viewValue}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </div>
-                            <button matTooltip="חיפוש" mat-raised-button type="submit"
-                                class="btn btn-primary btn-raised" (click)="searchReports()">
-                                <span class="material-icons">
-                                    search
-                                </span>
-                            </button>
-                            &nbsp;&nbsp;
-                            <button matTooltip="הדפסה" mat-raised-button type="button"
-                                class="btn btn-primary btn-raised" (click)="print()">
-                                <span class="material-icons">
-                                    local_printshop
-                                </span>
-                            </button>
-                            &nbsp;&nbsp;
-                            <button matTooltip="שליחה לנמען" mat-raised-button type="button"
-                                class="btn btn-primary btn-raised" (click)="openShareDialog()">
-                                <span class="material-icons">
-                                    reply
-                                </span>
-                            </button>
-                        </form>
-                    </div>
-                </div>
-            </div>
-        </div>
     </div>
 </div>
 

@@ -333,6 +333,10 @@ export class NursesDashboardComponent implements OnInit {
     this.myScrollContainer.nativeElement.scrollIntoView();
   }
 
+  takeMeToTheTop(){
+    this.myScrollContainer.nativeElement.scrollIntoView();
+  }
+
   private _filter2(value: string): string[] {
     const filterValue2 = value;
     return this.department.filter(option => option.Dept_Name.includes(filterValue2));
@@ -472,8 +476,10 @@ export class NursesDashboardComponent implements OnInit {
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
-      myDate2.setDate(myDate2.getDate() - 1);
-      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00:00');
+      if(this.time2 <= "09:00"){
+        myDate2.setDate(myDate2.getDate() - 1);
+      }
+      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
     }
     if (!(_reportEndDate == undefined || _reportEndDate == "" || _reportEndDate == null)) {
       _reportEndDate = pipe.transform(_reportEndDate, 'yyyy/MM/dd');
