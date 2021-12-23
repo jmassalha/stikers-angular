@@ -330,7 +330,7 @@ export class NursesDashboardComponent implements OnInit {
 
   onPageChange($event) {
     this.currentItemsToShow = this.ELEMENT_DATA.slice($event.pageIndex * $event.pageSize, $event.pageIndex * $event.pageSize + $event.pageSize);
-    this.myScrollContainer.nativeElement.scrollIntoView();
+    // this.myScrollContainer.nativeElement.scrollIntoView();
   }
 
   takeMeToTheTop(){
@@ -476,10 +476,11 @@ export class NursesDashboardComponent implements OnInit {
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
-      if(this.time2 <= "09:00"){
-        myDate2.setDate(myDate2.getDate() - 1);
+      if(this.time2 >= "09:00"){
+        _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 09:00');
+      }else{
+        _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
       }
-      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
     }
     if (!(_reportEndDate == undefined || _reportEndDate == "" || _reportEndDate == null)) {
       _reportEndDate = pipe.transform(_reportEndDate, 'yyyy/MM/dd');
