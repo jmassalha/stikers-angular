@@ -34,6 +34,7 @@ import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { FillReportComponent } from "../fill-report/fill-report.component";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 export interface User {
   name: string;
   id: string;
@@ -109,7 +110,7 @@ export class ShareReportsDialog {
     } else {
       this.http
         // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
-          .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
+        .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
           _reportArray: this.reportArray,
@@ -184,6 +185,7 @@ export class NursesDashboardComponent implements OnInit {
 
   @ViewChild('printmycontent') printmycontent: ElementRef;
   @ViewChild('pagetoshow') myScrollContainer: ElementRef;
+  @ViewChild(MatAccordion) accordion: MatAccordion;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
@@ -252,8 +254,16 @@ export class NursesDashboardComponent implements OnInit {
   ifGeneral: string = '1';
   AdminNurse: string = '0';
   currentItemsToShow = [];
+  differentReports = [];
+  print2: boolean;
+  panelOpenState: boolean = false;
+  Patientsloading: boolean = false;
 
   ngOnInit(): void {
+    if(this.caseNumber != "" && this.caseNumber != undefined){
+      this.panelOpenState = true;
+      this.getPatientDiagnosis();
+    }
     this.searchReportsGroup = new FormGroup({
       'ReportShift': new FormControl('', null),
       'PatientName': new FormControl('', null),
@@ -333,7 +343,7 @@ export class NursesDashboardComponent implements OnInit {
     // this.myScrollContainer.nativeElement.scrollIntoView();
   }
 
-  takeMeToTheTop(){
+  takeMeToTheTop() {
     this.myScrollContainer.nativeElement.scrollIntoView();
   }
 
@@ -445,6 +455,7 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   searchReports() {
+    this.Patientsloading = true;
     let myDate2 = new Date();
     if (this.departmentfilter.value == null) {
       this.departmentfilter.setValue('');
@@ -476,9 +487,9 @@ export class NursesDashboardComponent implements OnInit {
     if (!(_reportStartDate == undefined || _reportStartDate == "" || _reportStartDate == null)) {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
-      if(this.time2 >= "09:00"){
+      if (this.time2 >= "09:00") {
         _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 09:00');
-      }else{
+      } else {
         _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
       }
     }
@@ -512,39 +523,109 @@ export class NursesDashboardComponent implements OnInit {
               if (this.AdminNurse == "0" && this.reportsArr[i].AdminNurse == "1") {
                 continue;
               } else {
-                this.ELEMENT_DATA.push({
-                  reportID: this.reportsArr[i].Row_ID,
-                  ReportDate: this.reportsArr[i].ReportDate,
-                  ReportStatus: this.reportsArr[i].ReportStatus,
-                  ReportText: this.reportsArr[i].ReportText,
-                  userFullName: this.reportsArr[i].UsersReportsList[0].UsersList[0].FirstName + " " + this.reportsArr[i].UsersReportsList[0].UsersList[0].LastName,
-                  UserName: this.reportsArr[i].UsersReportsList[0].UsersList[0].UserName,
-                  LastUpdatedDate: this.reportsArr[i].LastUpdatedDate,
-                  ReportShift: this.reportsArr[i].ReportShift,
-                  ReportMachlol: this.reportsArr[i].ReportMachlol,
-                  ReportCategory: this.reportsArr[i].ReportCategory,
-                  ReportSubCategory: this.reportsArr[i].ReportSubCategory,
-                  ReportsReplyList: this.reportsArr[i].ReportsReplyList,
-                  Important: this.reportsArr[i].Important,
-                  PatientName: this.reportsArr[i].PatientName,
-                  AdminNurse: this.reportsArr[i].AdminNurse,
-                });
+                // this.ELEMENT_DATA.push({
+                //   reportID: this.reportsArr[i].Row_ID,
+                //   ReportDate: this.reportsArr[i].ReportDate,
+                //   ReportStatus: this.reportsArr[i].ReportStatus,
+                //   ReportText: this.reportsArr[i].ReportText,
+                //   userFullName: this.reportsArr[i].UsersReportsList[0].UsersList[0].FirstName + " " + this.reportsArr[i].UsersReportsList[0].UsersList[0].LastName,
+                //   UserName: this.reportsArr[i].UsersReportsList[0].UsersList[0].UserName,
+                //   LastUpdatedDate: this.reportsArr[i].LastUpdatedDate,
+                //   ReportShift: this.reportsArr[i].ReportShift,
+                //   ReportMachlol: this.reportsArr[i].ReportMachlol,
+                //   ReportCategory: this.reportsArr[i].ReportCategory,
+                //   ReportSubCategory: this.reportsArr[i].ReportSubCategory,
+                //   ReportsReplyList: this.reportsArr[i].ReportsReplyList,
+                //   Important: this.reportsArr[i].Important,
+                //   PatientName: this.reportsArr[i].PatientName,
+                //   AdminNurse: this.reportsArr[i].AdminNurse,
+                // });
+                this.ELEMENT_DATA.push(this.reportsArr[i]);
               }
             }
             // if(this.AdminNurse != '1'){
             //  this.ELEMENT_DATA.filter(s => s.includes('val')); 
             // }
-            if (_caseNumber != "") {
-              this.ReportGroup.controls['Diagnosis'].setValue(this.reportsArr[0].Diagnosis);
-            }
+            // if (_caseNumber != "") {
+            //   // this.ReportGroup.controls['Diagnosis'].setValue(this.reportsArr[0].Diagnosis);
+            //   this.getPatientDiagnosis();
+            // }
             this.departmentfilter.setValue(this.Dept_Name);
             this.permission = true;
           }
+          this.differentReports = [];
+          let patients = this.ELEMENT_DATA.map(item => item.PatientName)
+            .filter((value, index, self) => self.indexOf(value) === index);
+
+          for (let j = 0; j < patients.length; j++) {
+            for (let k = 0; k < this.ELEMENT_DATA.length; k++) {
+              if (this.ELEMENT_DATA[k].PatientName == patients[j]) {
+                if (typeof this.differentReports[j] != 'undefined')
+                  this.differentReports[j][this.differentReports[j].length] = this.ELEMENT_DATA[k];
+                else {
+                  this.differentReports.push([])
+                  this.differentReports[j][0] = this.ELEMENT_DATA[k];
+                }
+              }
+            }
+          }
+          
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
-          this.currentItemsToShow = this.ELEMENT_DATA.slice(0, 5);
+          this.currentItemsToShow = this.ELEMENT_DATA.slice(0, 15);
+          this.Patientsloading = false;
         });
     }
   }
+
+  getPatientDiagnosis(){
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientDiagnosis", {
+        _caseNumber: this.caseNumber
+      })
+      .subscribe((Response) => {
+        this.ReportGroup.controls['Diagnosis'].setValue(Response["d"]);
+      });
+  }
+
+  printSingleReport() {
+    this.print2 = true;
+    let that = this;
+    setTimeout(function () {
+      var printContents = that.printmycontent.nativeElement.innerHTML;
+      var w = window.open();
+      w.document.write(printContents);
+      w.print();
+      w.close();
+    }, 1000);
+  }
+
+  addResponseToReport(reportID) {
+    // const dialogRef = this.dialog.open(AddResponseFillDialog, {
+    //   width: '600px'
+    // });
+    // dialogRef.componentInstance.reportID = reportID;
+    // dialogRef.componentInstance.userFullName = this.userFullName;
+    // dialogRef.afterClosed().subscribe(result => {
+    //   this.getReportToUpdate();
+    // });
+  }
+
+  areYouSureDeleteReport(reportID){
+    this.confirmationDialogService
+        .confirm("נא לאשר..", "אתה מוחק דיווח.. האם אתה בטוח ...? ")
+        .then((confirmed) => {
+          console.log("User confirmed:", confirmed);
+          if (confirmed) {
+            this.deleteReport(reportID);
+          } else {
+          }
+        })
+        .catch(() =>
+          console.log(
+            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+          )
+        );
+  }  
 
   changeReportToHandled(reportID) {
     this.http

@@ -16,7 +16,6 @@
 
 .menuBtns{
     background-color: burlywood;
-    font-family: 'Math';
     font-weight: bolder;
     font-size: 18px;
     border: 1px solid slategrey;
@@ -29,7 +28,6 @@
 }
 
 .col-4,.col-3,h5,h6{
-    font-family: 'math';
     font-weight: bolder;
     font-size: 18px;
 }

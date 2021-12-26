@@ -72,6 +72,7 @@ export class ShareReportsFillDialog {
     } else {
       this.disableBtn = true;
       this.http
+        // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
         .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
@@ -487,6 +488,7 @@ export class FillReportComponent implements OnInit {
           ReportShift: new FormControl({ value: this.all_report_management.ReportShift, disabled: true }, null),
           ReportText: new FormControl(this.all_report_management.ReportText, null),
           ReportTitle: new FormControl(this.all_report_management.ReportTitle, null),
+          Patient_CaseNumber: new FormControl(this.all_report_management.Patient_CaseNumber, null),
           toContinue: new FormControl(this.all_report_management.toContinue, null),
           Diagnosis: new FormControl(this.all_report_management.Diagnosis, null),
           PatientName: new FormControl(this.all_report_management.PatientName, null),

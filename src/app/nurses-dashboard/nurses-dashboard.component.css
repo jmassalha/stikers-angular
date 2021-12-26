@@ -9,7 +9,10 @@
   left: 43px;
   z-index: 10;
 }
-
+.example-headers-align .mat-expansion-panel-header-description {
+  justify-content: space-between;
+  align-items: center;
+}
 .redBG{
   background: #ff8484;
 }
@@ -19,9 +22,13 @@
   padding: 0px 7px 5px 3px !important;
 }
 
+hr{
+  border: 10px solid cornflowerblue;
+  border-radius: 6px;
+}
+
 .menuBtns{
   background-color: burlywood;
-  font-family: 'Math';
   font-weight: bolder;
   font-size: 18px;
   border: 1px solid slategrey;
@@ -34,7 +41,6 @@
 }
 
 .col-4,.col-3,h5,h6{
-  font-family: 'math';
   font-weight: bolder;
   font-size: 18px;
 }
@@ -98,12 +104,10 @@ table {
     font-size: x-large;
   }
   h2{
-    font-family: 'math';
     font-weight: bolder;
     font-size: 27px;
   }
   h1,h6,h3,.col-4{
-    font-family: 'math';
     font-weight: bolder;
     font-size: 18px;
   }
