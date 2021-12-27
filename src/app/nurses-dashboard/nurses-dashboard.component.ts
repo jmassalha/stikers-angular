@@ -107,10 +107,15 @@ export class ShareReportsDialog {
     this.disableBtn = true;
     if (this.myControl.value == "") {
       this.openSnackBar("נא לבחור אחראי לשליחה");
+      this.disableBtn = false;
+    } else if (this.reportArray.length == 0) {
+      this.openSnackBar("לא נמצאו דיווחים לשליחה");
+      this.disableBtn = false;
     } else {
       this.http
         // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
-        .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
+        // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
+          .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
           _reportArray: this.reportArray,
@@ -260,7 +265,7 @@ export class NursesDashboardComponent implements OnInit {
   Patientsloading: boolean = false;
 
   ngOnInit(): void {
-    if(this.caseNumber != "" && this.caseNumber != undefined){
+    if (this.caseNumber != "" && this.caseNumber != undefined) {
       this.panelOpenState = true;
       this.getPatientDiagnosis();
     }
@@ -488,8 +493,10 @@ export class NursesDashboardComponent implements OnInit {
       _reportStartDate = pipe.transform(_reportStartDate, 'yyyy/MM/dd');
     } else {
       if (this.time2 >= "09:00") {
-        _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 09:00');
-      } else {
+        _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00');
+      }else if(this.time2 < "09:00" && this.time2 > "00:00"){
+        _reportStartDate = pipe.transform(myDate2.getDate() - 1, 'yyyy/MM/dd 07:00');
+      }else {
         _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
       }
     }
@@ -569,7 +576,7 @@ export class NursesDashboardComponent implements OnInit {
               }
             }
           }
-          
+
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
           this.currentItemsToShow = this.ELEMENT_DATA.slice(0, 15);
           this.Patientsloading = false;
@@ -577,7 +584,7 @@ export class NursesDashboardComponent implements OnInit {
     }
   }
 
-  getPatientDiagnosis(){
+  getPatientDiagnosis() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientDiagnosis", {
         _caseNumber: this.caseNumber
@@ -610,22 +617,22 @@ export class NursesDashboardComponent implements OnInit {
     // });
   }
 
-  areYouSureDeleteReport(reportID){
+  areYouSureDeleteReport(reportID) {
     this.confirmationDialogService
-        .confirm("נא לאשר..", "אתה מוחק דיווח.. האם אתה בטוח ...? ")
-        .then((confirmed) => {
-          console.log("User confirmed:", confirmed);
-          if (confirmed) {
-            this.deleteReport(reportID);
-          } else {
-          }
-        })
-        .catch(() =>
-          console.log(
-            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
-          )
-        );
-  }  
+      .confirm("נא לאשר..", "אתה מוחק דיווח.. האם אתה בטוח ...? ")
+      .then((confirmed) => {
+        console.log("User confirmed:", confirmed);
+        if (confirmed) {
+          this.deleteReport(reportID);
+        } else {
+        }
+      })
+      .catch(() =>
+        console.log(
+          "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+        )
+      );
+  }
 
   changeReportToHandled(reportID) {
     this.http

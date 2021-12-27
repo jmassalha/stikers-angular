@@ -101,23 +101,23 @@
             id="generalClinicalBtn" (click)="displayReports('', true, Dept_Name, '', '','','','','','clinical')">
             <i class="material-icons">receipt_long</i>
           </button>
-          <button matTooltip="דווח ניהולי" id="generalClinicalBtn" *ngIf="ifAdmin == '1'" mat-raised-button type="submit"
+          <button matTooltip="דווח ניהולי" id="generalClinicalBtn" mat-raised-button type="submit"
             class="btn btn-primary btn-raised"
             (click)="displayReports('',true,Dept_Name,'','','','','','','administrative')">
             <i class="material-icons">assignment_ind</i>
           </button>
           <button matTooltip="לדיווח תקלה במערכת" id="EventBtndisplay" mat-raised-button type="submit"
-                class="btn btn-raised mr-1" *ngIf="UserName != 'jubartal'" style="background-color: grey;" (click)="bugReport()">
+                class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
                 <i class="material-icons">info</i>
             </button>
           <button matTooltip="רענון" id="generalClinicalBtn" mat-raised-button type="submit" class="btn btn-raised"
             style="background: lawngreen;" (click)="ngOnInit()">
             <i class="material-icons">refresh</i>
           </button>
-          <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'nibrahim'" mat-raised-button
+          <!-- <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'nibrahim'" mat-raised-button
             type="submit" class="btn btn-primary btn-raised" (click)="test()">
             <i class="material-icons">face</i>
-          </button>
+          </button> -->
         </div>
         <div class="col text-right" style="display: inline-flex;justify-content: right;">
           <button mat-raised-button type="submit" class="btn btn-primary btn-raised" id="btnDepts" *ngFor="let dept of arrayOfMedDepts"
