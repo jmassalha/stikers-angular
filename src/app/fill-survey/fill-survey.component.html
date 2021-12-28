@@ -4,9 +4,24 @@
     <!-- <zxing-scanner [torch]="torchEnabled" [device]="deviceCurrent" (deviceChange)="onDeviceChange($event)" (scanSuccess)="onCodeResult($event)"
     [formats]="formatsEnabled" [tryHarder]="tryHarder" (permissionResponse)="onHasPermission($event)"
     (camerasFound)="onCamerasFound($event)" (torchCompatible)="onTorchCompatible($event)"></zxing-scanner> -->
-    <mat-form-field class="full-width">
-      <input formControlName="CaseNumber" matInput placeholder="מספר מקרה">
-    </mat-form-field>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="full-width">
+          <input formControlName="CaseNumber" matInput placeholder="מספר מקרה">
+        </mat-form-field>
+      </div>
+    </div>
+    <div class="row">
+      או
+    </div>
+    <div class="row">
+      <div class="col-12">
+        <mat-form-field class="full-width">
+          <input formControlName="Passport" matInput placeholder="תעודת זהות">
+        </mat-form-field>
+      </div>
+    </div>
+
     <button mat-raised-button type="submit" (click)="searchCaseNumber()" class="btn btn-primary btn-raised mb-2"
       matTooltip="חפש">
       <span class="material-icons">
@@ -140,11 +155,11 @@
           <div class="d-block" *ngFor="let table of _tableArr; let tableIndex = index" [formGroupName]="tableIndex"
             style="margin-top: 20px;">
             <mat-divider></mat-divider>
-            <div class="row" >
+            <div class="row">
               <h4 style="text-align: center;font-size: xx-large;font-weight: bold;">{{table.TableText}}</h4>
             </div>
             <mat-divider></mat-divider>
-            <div class="row" >
+            <div class="row">
               <h4 style="text-align: center;font-size: 22px;">{{table.SubTitle}}</h4>
             </div>
             <div formArrayName="ColumnRows" class="row" id="table-overflow">

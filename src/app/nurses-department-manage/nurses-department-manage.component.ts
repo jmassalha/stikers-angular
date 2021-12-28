@@ -34,29 +34,33 @@ export class BugReportComponent implements OnInit {
     private _snackBar: MatSnackBar,
     private dialogRef: MatDialogRef<NursesDepartmentManageComponent>,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe){
+    private datePipe: DatePipe) {
 
   }
 
-  ngOnInit(){
+  ngOnInit() {
 
   }
 
-  
-  submitBugReport(){
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
-        _phoneNumber: this.phoneNumber,
-        _reportSubject: this.reportSubject,
-        _userName: this.UserName,
-      })
-      .subscribe((Response) => {
-        if(Response["d"]){
-          this.openSnackBar("נשלח לטיפול");
-        }else{
-          this.openSnackBar("משהו השתבש לא נשלח");
-        }
-      });
+
+  submitBugReport() {
+    if ((this.phoneNumber == "" || this.phoneNumber == undefined) || (this.reportSubject == "" || this.reportSubject == undefined)) {
+      this.openSnackBar("להשלים שדות חובה");
+    } else {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
+          _phoneNumber: this.phoneNumber,
+          _reportSubject: this.reportSubject,
+          _userName: this.UserName,
+        })
+        .subscribe((Response) => {
+          if (Response["d"]) {
+            this.openSnackBar("נשלח לטיפול");
+          } else {
+            this.openSnackBar("משהו השתבש לא נשלח");
+          }
+        });
+    }
   }
 
   openSnackBar(message) {
@@ -66,7 +70,7 @@ export class BugReportComponent implements OnInit {
       verticalPosition: this.verticalPosition,
     });
   }
-  
+
 }
 
 @Component({
@@ -220,7 +224,7 @@ export class NursesDepartmentManageComponent implements OnInit {
       })
   }
 
-  bugReport(){
+  bugReport() {
     let dialogRef = this.dialog.open(BugReportComponent);
     dialogRef.componentInstance.reportSubject = this.reportSubject;
     dialogRef.componentInstance.phoneNumber = this.phoneNumber;
@@ -271,50 +275,24 @@ export class NursesDepartmentManageComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);
+        let uniqueMedDeparts = [];
         this.arrayOfMedDepts = [];
-        // this.numberOfNeurology = 0;
-        // this.numberOfCVA = 0;
-        let medDept = {
-          name: '',
-          number: 0,
-        };
-        let placeInArray = 0;
-        this.dataSource2.filteredData.forEach(element => {
-          placeInArray++;
-          if (medDept.number == 0) {
-            medDept.name = element.PM_MOVE_DEPART;
+        uniqueMedDeparts = this.dataSource2.filteredData.map(item => item.PM_MOVE_DEPART)
+          .filter((value, index, self) => self.indexOf(value) === index);
+
+        uniqueMedDeparts.forEach(element => {
+          let medDepart = {
+            name: '',
+            number: 0
           }
-          if (medDept.name == element.PM_MOVE_DEPART) {
-            medDept.number++;
-          } else {
-            medDept.number++;
-            this.arrayOfMedDepts.push(medDept);
-            if (this.dataSource2.filteredData.length == placeInArray) {
-              medDept = {
-                name: '',
-                number: 0
-              }
-              medDept.number++;
-              medDept.name = element.PM_MOVE_DEPART;
-            }else{
-              medDept = {
-                name: '',
-                number: 0
-              }
-            }
-          }
-          // CoronaStatusBtn
-          if (element.CoronaStatus != "") {
-            this.CoronaStatus = '1'
-          }
-          // if (element.PM_MOVE_DEPART == 'רשבצ-מ') {
-          //   this.numberOfCVA++;
-          // } else if (element.PM_MOVE_DEPART == 'רנורול') {
-          //   this.numberOfNeurology++;
-          // }
+          medDepart.name = element;
+          medDepart.number = this.dataSource2.filteredData.filter((obj) => obj.PM_MOVE_DEPART === element).length;
+          this.arrayOfMedDepts.push(medDepart);
         });
-        this.arrayOfMedDepts.push(medDept);
-        // this.patientsTable = !this.patientsTable;
+        let coronaExists = this.dataSource2.filteredData.filter((obj) => obj.CoronaStatus === 'מאומת קורונה').length;
+        if (coronaExists > 0) {
+          this.CoronaStatus = '1'
+        }
         if (subDepart != '') {
           this.patientsTable = true;
           this.applyFilter(event, subDepart);
