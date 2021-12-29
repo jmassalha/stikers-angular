@@ -10,6 +10,10 @@
             <li class="nav-item" *ngIf="!_shoSofiMenu">
                 <a class="nav-link" routerLink="dashboard">Dashboard</a>
             </li>
+            <div *ngIf="loginUserName == 'adahabre'" style="margin: 100px;">
+                <button style="margin: 10px;" (click)="startService()">Start</button>
+                <button style="margin: 10px;" (click)="stopService()">Stop</button>
+            </div>
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>

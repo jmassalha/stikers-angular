@@ -91,7 +91,6 @@
   }
   .mat-table{
     table-layout: fixed;
-    font-family: 'math';
   }
   #list_of_types{
     display: inline-flex;
@@ -107,7 +106,7 @@
     border-bottom-style: solid;
   }
   td.mat-cell{
-    font-size: 16px;
+    font-size: 18px;
   }
   
   h4{
@@ -143,7 +142,6 @@
   }
   .mat-table{
     table-layout: fixed;
-    font-family: 'math';
   }
   #list_of_types{
     display: inline-flex;

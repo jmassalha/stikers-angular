@@ -604,35 +604,52 @@ export class FillSurveyComponent implements OnInit {
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.Passport = this.caseNumberForm.controls['Passport'].value;
-    let http = this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
-        CaseNumber: this.CaseNumber,
-      });
+    this.withCaseNumber = false;
     if (this.Passport != '') {
-      http = this.http
+      this.http
         .post("http://srv-apps/wsrfc/WebService.asmx/GetRecordAndPatients", {
           _patientPassport: this.Passport,
+        }).subscribe((Response) => {
+          if (this.Passport != '') {
+            let passPatient = Response["d"];
+            this.mPersonalDetails.Address = passPatient[0].PatientAddress;
+            this.mPersonalDetails.DOB = passPatient[0].PatientDOB;
+            this.mPersonalDetails.Email = passPatient[0].PatientEmail;
+            this.mPersonalDetails.FirstName = passPatient[0].PatientFirstName;
+            this.mPersonalDetails.LastName = passPatient[0].PatientLastName;
+            this.mPersonalDetails.PersonID = passPatient[0].PatientPersonID;
+            this.mPersonalDetails.PhoneNumber = passPatient[0].PatientPhoneNumber;
+            this.mPersonalDetails.Gender = passPatient[0].PatientGender;
+          } else {
+            this.mPersonalDetails = Response["d"];
+          }
+          this.getForm(this.urlID, this.ifContinueForm, this.NurseID);
+          this.selectedSubCheckbox = new Array<any>();
+        });
+    } else {
+      this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
+          CaseNumber: this.CaseNumber,
+        }).subscribe((Response) => {
+          if (this.Passport != '') {
+            let passPatient = Response["d"];
+            this.mPersonalDetails.Address = passPatient[0].PatientAddress;
+            this.mPersonalDetails.DOB = passPatient[0].PatientDOB;
+            this.mPersonalDetails.Email = passPatient[0].PatientEmail;
+            this.mPersonalDetails.FirstName = passPatient[0].PatientFirstName;
+            this.mPersonalDetails.LastName = passPatient[0].PatientLastName;
+            this.mPersonalDetails.PersonID = passPatient[0].PatientPersonID;
+            this.mPersonalDetails.PhoneNumber = passPatient[0].PatientPhoneNumber;
+            this.mPersonalDetails.Gender = passPatient[0].PatientGender;
+          } else {
+            this.mPersonalDetails = Response["d"];
+          }
+          this.getForm(this.urlID, this.ifContinueForm, this.NurseID);
+          this.selectedSubCheckbox = new Array<any>();
         });
     }
-    this.withCaseNumber = false;
-    http
-      .subscribe((Response) => {
-        if(this.Passport != ''){
-          let passPatient = Response["d"];
-          this.mPersonalDetails.Address = passPatient[0].PatientAddress;
-          this.mPersonalDetails.DOB = passPatient[0].PatientDOB;
-          this.mPersonalDetails.Email = passPatient[0].PatientEmail;
-          this.mPersonalDetails.FirstName = passPatient[0].PatientFirstName;
-          this.mPersonalDetails.LastName = passPatient[0].PatientLastName;
-          this.mPersonalDetails.PersonID = passPatient[0].PatientPersonID;
-          this.mPersonalDetails.PhoneNumber = passPatient[0].PatientPhoneNumber;
-          this.mPersonalDetails.Gender = passPatient[0].PatientGender;
-        }else{
-          this.mPersonalDetails = Response["d"];
-        }
-        this.getForm(this.urlID, this.ifContinueForm, this.NurseID);
-        this.selectedSubCheckbox = new Array<any>();
-      });
+
+
   }
 
   getForm(urlID, ifContinue, NurseID) {

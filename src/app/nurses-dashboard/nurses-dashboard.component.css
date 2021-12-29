@@ -3,6 +3,11 @@
   cursor: pointer;
   float: right;
 }
+#speechBtn{
+  border-radius: 50%;
+  background-color: cornflowerblue;
+  margin: 10px;
+}
 #EventBtn{
   position: fixed;
   bottom: 43px;

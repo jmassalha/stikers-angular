@@ -6,7 +6,7 @@
 <form class="form" [formGroup]="deliveryRoomForm" *ngIf="delivery">
     <h4><span class="material-icons" id="navigate-icon-next" (click)="getOtherDepartmentsDetails('next')" matTooltip="יום אחרי">
         navigate_next
-    </span><b style="margin-left: 120px;font-family: 'math';">לאחר לידה </b> <span style="font-family: 'math';">{{newDate |
+    </span><b style="margin-left: 120px;">לאחר לידה </b> <span>{{newDate |
             date: "dd.MM.yyyy"}}</span>
             <span class="material-icons" id="navigate-icon-before" (click)="getOtherDepartmentsDetails('before')" matTooltip="יום לפני">
                 navigate_before
@@ -57,7 +57,7 @@
         </div>
     </div> -->
     <!-- <hr> -->
-    <!-- <h4 style="font-family: 'math';">רשימת מטופלות במחלקה <b>
+    <!-- <h4>רשימת מטופלות במחלקה <b>
         </b></h4> -->
 
     <div dir="rtl">
@@ -69,15 +69,15 @@
     <!-- <div dir="rtl" class="mb-3 text-center">
         <mat-list role="list" id="list_of_types">
             <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'')"
-                    mat-raised-button style="background-image: linear-gradient(grey, aquamarine);font-family: 'math';">
+                    mat-raised-button style="background-image: linear-gradient(grey, aquamarine);">
                     הכל
                 </button></mat-list-item>
             <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'ACTIVE')"
-                    mat-raised-button style="background-color: aquamarine;font-family: 'math';">
+                    mat-raised-button style="background-color: aquamarine;">
                     מטופלות כעת
                 </button></mat-list-item>
             <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'NOT')"
-                    mat-raised-button style="background-color: grey;font-family: 'math';">
+                    mat-raised-button style="background-color: grey;">
                     השתחררו
                 </button></mat-list-item>
         </mat-list>
@@ -128,7 +128,7 @@
 </form>
 
 <form class="form" *ngIf="surgery">
-    <h4 style="font-family: 'math';"><b style="margin-left: 120px;">חדר ניתוח </b> {{myDate | date: "dd.MM.yyyy"}}</h4>
+    <h4><b style="margin-left: 120px;">חדר ניתוח </b> {{myDate | date: "dd.MM.yyyy"}}</h4>
     <table dir="rtl" [dataSource]="dataSource4" mat-table class="mat-elevation-z8" style="width: 100%;">
 
         <ng-container matColumnDef="inprogress">
@@ -152,7 +152,7 @@
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay2;"></tr>
     </table>
     <hr>
-    <h4 style="font-family: 'math';">תוכנית ניתוחים <b>
+    <h4>תוכנית ניתוחים <b>
         </b></h4>
     <div dir="rtl">
         <mat-form-field class="float-right text-right" appearance="standard">
@@ -191,7 +191,7 @@
 
         <ng-container matColumnDef="surgeryname">
             <th mat-header-cell *matHeaderCellDef> שם ניתוח </th>
-            <td mat-cell *matCellDef="let element" style="font-size: 12px;"> {{element.SurgeryName}} </td>
+            <td mat-cell *matCellDef="let element" style="font-size: 16px;"> {{element.SurgeryName}} </td>
         </ng-container>
 
         <ng-container matColumnDef="date">
@@ -223,7 +223,7 @@
 </form>
 
 <form class="form" *ngIf="ICU">
-    <h4 style="font-family: 'math';"><b style="margin-left: 120px;">מחלקה לרפואה דחופה </b> {{myDate | date:
+    <h4><b style="margin-left: 120px;">מחלקה לרפואה דחופה </b> {{myDate | date:
         "dd.MM.yyyy"}}</h4>
     <table dir="rtl" [dataSource]="dataSource5" mat-table class="mat-elevation-z8" style="width: 100%;">
 
@@ -231,10 +231,10 @@
             <th mat-header-cell *matHeaderCellDef> הכל </th>
             <td mat-cell *matCellDef="let element"><button type="button"
                     (click)="getOtherDepartmentPatients('ALL','0',$event)" matTooltip="מטופלים במצטבר" mat-raised-button
-                    style="background-image: linear-gradient(grey, aquamarine);font-family: 'math';">
+                    style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.ALL}}
                 </button>
-                <button type="button" style="background-color: aquamarine;font-family: 'math';"
+                <button type="button" style="background-color: aquamarine;"
                     (click)="getOtherDepartmentPatients('ALL','1',$event)" matTooltip="מטופלים כעת" [disabled]
                     mat-raised-button>
                     {{element.ALLNOW}}
@@ -245,9 +245,9 @@
             <th mat-header-cell *matHeaderCellDef> חדר הלם </th>
             <td mat-cell *matCellDef="let element"><button type="button"
                     (click)="getOtherDepartmentPatients('HELEM','0',$event)" matTooltip="מטופלים במצטבר"
-                    mat-raised-button style="background-image: linear-gradient(grey, aquamarine);font-family: 'math';">
+                    mat-raised-button style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.HELEM}}
-                </button> <button type="button" style="background-color: aquamarine;font-family: 'math';"
+                </button> <button type="button" style="background-color: aquamarine;"
                     (click)="getOtherDepartmentPatients('HELEM','1',$event)" matTooltip="מטופלים כעת" [disabled]
                     mat-raised-button>
                     {{element.HELEMNOW}}
@@ -259,9 +259,9 @@
             <th mat-header-cell *matHeaderCellDef> שוכבים </th>
             <td mat-cell *matCellDef="let element"><button type="button" matTooltip="מטופלים במצטבר"
                     (click)="getOtherDepartmentPatients('SHOKHVVEM','0',$event)" mat-raised-button
-                    style="background-image: linear-gradient(grey, aquamarine);font-family: 'math';">
+                    style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.SHOKHVVEM}}
-                </button> <button type="button" style="background-color: aquamarine;font-family: 'math';"
+                </button> <button type="button" style="background-color: aquamarine;"
                     (click)="getOtherDepartmentPatients('SHOKHVVEM','1',$event)" matTooltip="מטופלים כעת" [disabled]
                     mat-raised-button>
                     {{element.SHOKHVVEMNOW}}
@@ -271,9 +271,9 @@
             <th mat-header-cell *matHeaderCellDef> מהלכים </th>
             <td mat-cell *matCellDef="let element"><button type="button" matTooltip="מטופלים במצטבר"
                     (click)="getOtherDepartmentPatients('MEHALKHEM','0',$event)" mat-raised-button
-                    style="background-image: linear-gradient(grey, aquamarine);font-family: 'math';">
+                    style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.MEHALKHEM}}
-                </button> <button type="button" style="background-color: aquamarine;font-family: 'math';"
+                </button> <button type="button" style="background-color: aquamarine;"
                     (click)="getOtherDepartmentPatients('MEHALKHEM','1',$event)" matTooltip="מטופלים כעת" [disabled]
                     mat-raised-button>
                     {{element.MEHALKHEMNOW}}
@@ -284,9 +284,9 @@
             <td mat-cell *matCellDef="let element"><button type="button"
                     (click)="getOtherDepartmentPatients('WOMEN','0',$event)" mat-raised-button
                     matTooltip="מטופלים במצטבר"
-                    style="background-image: linear-gradient(grey, aquamarine);font-family: 'math';">
+                    style="background-image: linear-gradient(grey, aquamarine);">
                     {{element.WOMEN}}
-                </button> <button type="button" style="background-color: aquamarine;font-family: 'math';"
+                </button> <button type="button" style="background-color: aquamarine;"
                     (click)="getOtherDepartmentPatients('WOMEN','1',$event)" matTooltip="מטופלים כעת" [disabled]
                     mat-raised-button>
                     {{element.WOMENNOW}}
@@ -296,10 +296,10 @@
             <th mat-header-cell *matHeaderCellDef> ילדים </th>
             <td mat-cell *matCellDef="let element"><button type="button"
                     (click)="getOtherDepartmentPatients('CHILDREN','0',$event)" mat-raised-button
-                    style="background-image: linear-gradient(grey, aquamarine);font-family: 'math';"
+                    style="background-image: linear-gradient(grey, aquamarine);"
                     matTooltip="מטופלים במצטבר">
                     {{element.CHILDREN}}
-                </button> <button type="button" style="background-color: aquamarine;font-family: 'math';"
+                </button> <button type="button" style="background-color: aquamarine;"
                     (click)="getOtherDepartmentPatients('CHILDREN','1',$event)" matTooltip="מטופלים כעת" [disabled]
                     mat-raised-button>
                     {{element.CHILDRENNOW}}
@@ -312,7 +312,7 @@
     </table>
 
     <hr>
-    <h4 *ngIf="ICUDetails" style="font-family: 'math';">רשימת מטופלים<b>
+    <h4 *ngIf="ICUDetails">רשימת מטופלים<b>
         </b></h4>
     <mat-progress-bar mode="indeterminate" id="buffer" *ngIf="!IcuPatientsBar"></mat-progress-bar>
     <div dir="rtl">
