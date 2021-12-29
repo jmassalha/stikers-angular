@@ -497,7 +497,8 @@ export class NursesDashboardComponent implements OnInit {
       if (this.time2 >= "09:00") {
         _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00');
       }else if(this.time2 < "09:00" && this.time2 > "00:00"){
-        _reportStartDate = pipe.transform(myDate2.getDate() - 1, 'yyyy/MM/dd 07:00');
+        myDate2.setDate(myDate2.getDate() - 1);
+      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00');
       }else {
         _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
       }

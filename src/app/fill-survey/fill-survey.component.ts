@@ -217,6 +217,7 @@ export class FillSurveyComponent implements OnInit {
   _formDate: string;
   _tableForm: string;
   CaseNumber: string = '';
+  Passport: string = '';
   _questionArr = [];
   _optionArr = [];
   _checkBoxesOptionArr = [];
@@ -408,7 +409,8 @@ export class FillSurveyComponent implements OnInit {
   });
 
   caseNumberForm = new FormGroup({
-    CaseNumber: new FormControl('', Validators.required)
+    CaseNumber: new FormControl('', null),
+    Passport: new FormControl('', null),
   });
 
   urlID: number;
@@ -601,13 +603,33 @@ export class FillSurveyComponent implements OnInit {
 
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
-    this.withCaseNumber = false;
-    this.http
+    this.Passport = this.caseNumberForm.controls['Passport'].value;
+    let http = this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
         CaseNumber: this.CaseNumber,
-      })
+      });
+    if (this.Passport != '') {
+      http = this.http
+        .post("http://srv-apps/wsrfc/WebService.asmx/GetRecordAndPatients", {
+          _patientPassport: this.Passport,
+        });
+    }
+    this.withCaseNumber = false;
+    http
       .subscribe((Response) => {
-        this.mPersonalDetails = Response["d"];
+        if(this.Passport != ''){
+          let passPatient = Response["d"];
+          this.mPersonalDetails.Address = passPatient[0].PatientAddress;
+          this.mPersonalDetails.DOB = passPatient[0].PatientDOB;
+          this.mPersonalDetails.Email = passPatient[0].PatientEmail;
+          this.mPersonalDetails.FirstName = passPatient[0].PatientFirstName;
+          this.mPersonalDetails.LastName = passPatient[0].PatientLastName;
+          this.mPersonalDetails.PersonID = passPatient[0].PatientPersonID;
+          this.mPersonalDetails.PhoneNumber = passPatient[0].PatientPhoneNumber;
+          this.mPersonalDetails.Gender = passPatient[0].PatientGender;
+        }else{
+          this.mPersonalDetails = Response["d"];
+        }
         this.getForm(this.urlID, this.ifContinueForm, this.NurseID);
         this.selectedSubCheckbox = new Array<any>();
       });
