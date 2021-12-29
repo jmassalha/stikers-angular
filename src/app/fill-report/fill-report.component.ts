@@ -70,6 +70,8 @@ export class ShareReportsFillDialog {
     if (this.myControl.value == "") {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
+      debugger
+
       this.disableBtn = true;
       this.http
         // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
@@ -474,6 +476,7 @@ export class FillReportComponent implements OnInit {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
+      //  debugger
         this.all_report_management = Response["d"];
         this.usersReponsesList = this.all_report_management.UsersReportsList;
         // if(this.all_report_management.UserName == this.UserName){

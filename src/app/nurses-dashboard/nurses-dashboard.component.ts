@@ -112,6 +112,7 @@ export class ShareReportsDialog {
       this.openSnackBar("לא נמצאו דיווחים לשליחה");
       this.disableBtn = false;
     } else {
+      debugger
       this.http
         // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
         // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
@@ -421,6 +422,7 @@ export class NursesDashboardComponent implements OnInit {
 
   openShareDialog() {
     let dialogRef = this.dialog.open(ShareReportsDialog);
+    debugger
     dialogRef.componentInstance.reportArray = this.ELEMENT_DATA;
   }
 
