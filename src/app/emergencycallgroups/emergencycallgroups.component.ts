@@ -184,7 +184,7 @@ export class EmergencycallgroupsComponent implements OnInit {
     }
     public GetMessagesGroupType(Type){
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesGroupType", {
+            .post("https://srv-apps:4433/WebService.asmx/GetMessagesGroupType", {
                 Type: Type
             })
             .subscribe((Response) => {
@@ -245,7 +245,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         });
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetGroupMembersMobilesByType",
+                "https://srv-apps:4433/WebService.asmx/GetGroupMembersMobilesByType",
                 {
                     mGroupSmsToForm: this.GroupSmsToForm.value,
                 }
@@ -290,7 +290,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         //debugger;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateGroup",
+                "https://srv-apps:4433/WebService.asmx/InsertOrUpdateGroup",
                 {
                     _GroupForm: this.GroupForm.value,
                 }
@@ -318,7 +318,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         this.GroupName = _element.GroupName;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetGroupMembersMobiles",
+                "https://srv-apps:4433/WebService.asmx/GetGroupMembersMobiles",
                 {
                     RowID: _element.RowID,
                 }
@@ -470,10 +470,10 @@ export class EmergencycallgroupsComponent implements OnInit {
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //http://srv-apps/wsrfc/WebService.asmx/
-        //http://srv-apps/wsrfc/WebService.asmx/
+        //https://srv-apps:4433/WebService.asmx/
+        //https://srv-apps:4433/WebService.asmx/
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetGroups", {
+            .post("https://srv-apps:4433/WebService.asmx/GetGroups", {
                 serachTxt: _FreeText,
             })
             .subscribe((Response) => {

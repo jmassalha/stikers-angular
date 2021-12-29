@@ -70,7 +70,7 @@ export class DashboardComponent implements OnInit {
     getEmployeesToUpdateDept() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetEmployeesBirthDates", {
+            .post("https://srv-apps:4433/WebService.asmx/GetEmployeesBirthDates", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -88,7 +88,7 @@ export class DashboardComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/TfosaDashBoardApp",
+                "https://srv-apps:4433/WebService.asmx/TfosaDashBoardApp",
                 {
                     _depart: _Depart,
                 }

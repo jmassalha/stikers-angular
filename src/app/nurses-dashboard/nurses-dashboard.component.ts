@@ -114,8 +114,8 @@ export class ShareReportsDialog {
     } else {
       debugger
       this.http
-        // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
-        // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
+        // .post("https://srv-apps:4433/WebService.asmx/AttachReportToUser", {
+        // .post("https://srv-apps:4433/WebService.asmx/AttachReportToUser", {
           .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
@@ -143,7 +143,7 @@ export class ShareReportsDialog {
   }
   getUsers() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
+      .post("https://srv-apps:4433/WebService.asmx/GetUsersForInquiries", {
 
       })
       .subscribe((Response) => {
@@ -392,7 +392,7 @@ export class NursesDashboardComponent implements OnInit {
 
   getCategories() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {
+      .post("https://srv-apps:4433/WebService.asmx/GetCategories", {
       })
       .subscribe((Response) => {
         this.all_categories_filter = Response["d"];
@@ -428,7 +428,7 @@ export class NursesDashboardComponent implements OnInit {
 
   NursesSystemPermission() {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
-    return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => {
+    return this.http.post("https://srv-apps:4433/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => {
       if (response["d"].IfFound) {
         this.AdminNurse = '1';
       };
@@ -437,7 +437,7 @@ export class NursesDashboardComponent implements OnInit {
 
   getDeparts() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {
+      .post("https://srv-apps:4433/WebService.asmx/GetNursesDeparts", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];
@@ -511,7 +511,7 @@ export class NursesDashboardComponent implements OnInit {
     let _important = this.searchReportsGroup.controls['ImportantCategory'].value;
     if (!this.searchReportsGroup.invalid) {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
+        .post("https://srv-apps:4433/WebService.asmx/GetReports", {
           _reportShift: _reportShift,
           _reportDepartment: _reportDepartment,
           _reportStatus: _reportStatus,
@@ -589,7 +589,7 @@ export class NursesDashboardComponent implements OnInit {
 
   getPatientDiagnosis() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientDiagnosis", {
+      .post("https://srv-apps:4433/WebService.asmx/GetPatientDiagnosis", {
         _caseNumber: this.caseNumber
       })
       .subscribe((Response) => {
@@ -639,7 +639,7 @@ export class NursesDashboardComponent implements OnInit {
 
   changeReportToHandled(reportID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/ReportHandled", {
+      .post("https://srv-apps:4433/WebService.asmx/ReportHandled", {
         _reportID: reportID
       })
       .subscribe((Response) => {
@@ -676,7 +676,7 @@ export class NursesDashboardComponent implements OnInit {
     }
     if (!this.ReportGroup.invalid) {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
+        .post("https://srv-apps:4433/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName,
           _caseNumber: this.caseNumber,
@@ -710,7 +710,7 @@ export class NursesDashboardComponent implements OnInit {
 
   deleteReport(reportID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReport", {
+      .post("https://srv-apps:4433/WebService.asmx/DeleteReport", {
         _reportID: reportID
       })
       .subscribe((Response) => {

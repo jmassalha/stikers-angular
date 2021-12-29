@@ -59,7 +59,7 @@ export class VisitorsMonitoringComponent implements OnInit {
   getAllDeparts() {
     this.loaded = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetVisitorsSystemDepartments", {
+      .post("https://srv-apps:4433/WebService.asmx/GetVisitorsSystemDepartments", {
       })
       .subscribe((Response) => {
         this.all_departments_array = Response["d"];
@@ -69,7 +69,7 @@ export class VisitorsMonitoringComponent implements OnInit {
 
   getAllCurrentVisitors() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllCurrentVisitors", {
+      .post("https://srv-apps:4433/WebService.asmx/GetAllCurrentVisitors", {
       })
       .subscribe((Response) => {
         this.all_visitors_array = Response["d"];
@@ -83,7 +83,7 @@ export class VisitorsMonitoringComponent implements OnInit {
         console.log("User confirmed:", confirmed);
         if (confirmed) {
           this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/MarkAsHasVisitor", {
+            .post("https://srv-apps:4433/WebService.asmx/MarkAsHasVisitor", {
               _patientCaseNumber: patientCaseNumber,
               _visitorName: visitorName
             })

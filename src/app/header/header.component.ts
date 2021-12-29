@@ -59,7 +59,7 @@ export class HeaderComponent implements OnInit {
     getPermission() {
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/getResearchPermission",
+                "https://srv-apps:4433/WebService.asmx/getResearchPermission",
                 {
                     _UserName: localStorage.getItem("loginUserName"),
                 }
@@ -723,7 +723,7 @@ export class HeaderComponent implements OnInit {
     ClinicsPricingPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/ClinicsUserPersmission", {
+            .post("https://srv-apps:4433/WebService.asmx/ClinicsUserPersmission", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -734,7 +734,7 @@ export class HeaderComponent implements OnInit {
     CardiologyPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/CardiologyPermissions", {
+            .post("https://srv-apps:4433/WebService.asmx/CardiologyPermissions", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -745,7 +745,7 @@ export class HeaderComponent implements OnInit {
     VisitorsSystemPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/VisitorsUserPersmission", {
+            .post("https://srv-apps:4433/WebService.asmx/VisitorsUserPersmission", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -756,7 +756,7 @@ export class HeaderComponent implements OnInit {
     fastCovidTestSystemPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/FastCovidTestSystemPermission", {
+            .post("https://srv-apps:4433/WebService.asmx/FastCovidTestSystemPermission", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -767,7 +767,7 @@ export class HeaderComponent implements OnInit {
     ifPersonRead() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/IfUserRead", {
+            .post("https://srv-apps:4433/WebService.asmx/IfUserRead", {
                 _userName: userName
             })
             .subscribe((Response) => {

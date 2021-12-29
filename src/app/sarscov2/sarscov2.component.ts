@@ -426,7 +426,7 @@ export class Sarscov2Component implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllSarscov2", {
+            .post("https://srv-apps:4433/WebService.asmx/GetAllSarscov2", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,

@@ -169,7 +169,7 @@ export class CortinasdepartsComponent implements OnInit {
         });
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepart",
+                "https://srv-apps:4433/WebService.asmx/SubmitCortinasDepart",
                 {
                     DepartRow: this.departsForm.value,
                 }
@@ -198,7 +198,7 @@ export class CortinasdepartsComponent implements OnInit {
         });
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepartRooms",
+                "https://srv-apps:4433/WebService.asmx/SubmitCortinasDepartRooms",
                 {
                     DepartRoomRows: this.roomsForm.value.roomsDetails,
                 }
@@ -229,7 +229,7 @@ export class CortinasdepartsComponent implements OnInit {
         });
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepartRoomsBeds",
+                "https://srv-apps:4433/WebService.asmx/SubmitCortinasDepartRoomsBeds",
                 {
                     DepartRoomBedsRows: this.roomsBedsForm.value
                         .roomsBedsDetails,
@@ -260,7 +260,7 @@ export class CortinasdepartsComponent implements OnInit {
         this.D_ID = _element.D_ID;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepartRoomsBeds",
+                "https://srv-apps:4433/WebService.asmx/GetCortinasDepartRoomsBeds",
                 {
                     _DepartID: _element.D_ID,
                 }
@@ -347,7 +347,7 @@ export class CortinasdepartsComponent implements OnInit {
         this.D_ID = _element.D_ID;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepartRooms",
+                "https://srv-apps:4433/WebService.asmx/GetCortinasDepartRooms",
                 {
                     _DepartID: _element.D_ID,
                 }
@@ -499,7 +499,7 @@ export class CortinasdepartsComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepart", {
+            .post("https://srv-apps:4433/WebService.asmx/GetCortinasDepart", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _FreeText: _FreeText,

@@ -330,7 +330,7 @@ export class EmailmanagementComponent implements OnInit {
 
   shareComplaintWithOthers() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
+      .post("https://srv-apps:4433/WebService.asmx/AttachCompToUser", {
         userId: this.myControl.value,
         compId: this.complainID,
       })
@@ -380,7 +380,7 @@ export class EmailmanagementComponent implements OnInit {
     // this.emailSenderGroup.controls['EmailDateTime'].setValue(this.manageComplaintForm.controls['Comp_Date'].value);
     if (!this.manageComplaintForm.invalid && !this.emailSenderGroup.invalid) {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
+        .post("https://srv-apps:4433/WebService.asmx/UpdateComplaint", {
           _compToUpdate: this.manageComplaintForm.value,
           _emailToInsert: this.emailSenderGroup.value,
           ifUpdate: _ifUpdate,
@@ -408,7 +408,7 @@ export class EmailmanagementComponent implements OnInit {
 
   getDepatments() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
+      .post("https://srv-apps:4433/WebService.asmx/GetInquiryDeparts", {
 
       })
       .subscribe((Response) => {
@@ -423,7 +423,7 @@ export class EmailmanagementComponent implements OnInit {
   getRelevantComplaints(urlID) {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
+      .post("https://srv-apps:4433/WebService.asmx/GetRelevantComplaints", {
         _urlID: urlID,
         _userName: userName
       })
@@ -452,7 +452,7 @@ export class EmailmanagementComponent implements OnInit {
     }
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
+      .post("https://srv-apps:4433/WebService.asmx/Manage_Emails", {
         _compID: urlID,
         _ifSplit: ifSplit
       })
@@ -498,7 +498,7 @@ export class EmailmanagementComponent implements OnInit {
 
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
+      .post("https://srv-apps:4433/WebService.asmx/GetInquiryDeparts", {
 
       })
       .subscribe((Response) => {
@@ -510,7 +510,7 @@ export class EmailmanagementComponent implements OnInit {
       });
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
+      .post("https://srv-apps:4433/WebService.asmx/GetUsersForInquiries", {
 
       })
       .subscribe((Response) => {
@@ -525,7 +525,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetAmbolatory", {
+      .post("https://srv-apps:4433/WebService.asmx/GetAmbolatory", {
 
       })
       .subscribe((Response) => {
@@ -534,7 +534,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetEmailSubject", {
+      .post("https://srv-apps:4433/WebService.asmx/GetEmailSubject", {
 
       })
       .subscribe((Response) => {
@@ -543,7 +543,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetCompTypes", {
+      .post("https://srv-apps:4433/WebService.asmx/GetCompTypes", {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {
@@ -551,7 +551,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetCompPesronRelat", {
+      .post("https://srv-apps:4433/WebService.asmx/GetCompPesronRelat", {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {
@@ -559,7 +559,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetSektors", {
+      .post("https://srv-apps:4433/WebService.asmx/GetSektors", {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {
@@ -567,7 +567,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetCompDepartments", {
+      .post("https://srv-apps:4433/WebService.asmx/GetCompDepartments", {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {

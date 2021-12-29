@@ -181,7 +181,7 @@ export class DrugsnicComponent implements OnInit {
     getNamerDrugs(freeSearch, pageIndex, pageSize) {
         ////debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetNamerDrugs", {
+            .post("https://srv-apps:4433/WebService.asmx/GetNamerDrugs", {
                 freeSearch: freeSearch,
                 pageIndex: pageIndex,
                 pageSize: pageSize,
@@ -225,7 +225,7 @@ export class DrugsnicComponent implements OnInit {
         }
         // ////////debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/submitConnectDrug", {
+            .post("https://srv-apps:4433/WebService.asmx/submitConnectDrug", {
                 drugRow: this.drugForm.value,
             })
             .subscribe((Response) => {
@@ -362,7 +362,7 @@ export class DrugsnicComponent implements OnInit {
         }
        // debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetNICDrugs", {
+            .post("https://srv-apps:4433/WebService.asmx/GetNICDrugs", {
                 freeSearch: freeSearch,
                 pageSize: pageSize,
                 pageIndex: pageIndex,

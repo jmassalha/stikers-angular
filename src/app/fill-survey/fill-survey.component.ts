@@ -566,7 +566,7 @@ export class FillSurveyComponent implements OnInit {
           console.log("User confirmed:", confirmed);
           if (confirmed) {
             this.http
-              .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+              .post("https://srv-apps:4433/WebService.asmx/answerForm", {
                 _answerValues: survey,
                 _ifContinue: continueForm,
               })
@@ -605,12 +605,12 @@ export class FillSurveyComponent implements OnInit {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.Passport = this.caseNumberForm.controls['Passport'].value;
     let http = this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
+      .post("https://srv-apps:4433/WebService.asmx/GetPersonalDetails", {
         CaseNumber: this.CaseNumber,
       });
     if (this.Passport != '') {
       http = this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/GetRecordAndPatients", {
+        .post("https://srv-apps:4433/WebService.asmx/GetRecordAndPatients", {
           _patientPassport: this.Passport,
         });
     }
@@ -640,7 +640,7 @@ export class FillSurveyComponent implements OnInit {
       NurseID = 0;
     }
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+      .post("https://srv-apps:4433/WebService.asmx/GetForm", {
         formFormID: urlID,
         _nurseid: NurseID,
       })
@@ -750,7 +750,7 @@ export class FillSurveyComponent implements OnInit {
   getQuestion(urlID, personalDetails, ifContinue, NurseID) {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
+      .post("https://srv-apps:4433/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
         isCaseNumber: this.isCaseNumber,
         nurseid: NurseID

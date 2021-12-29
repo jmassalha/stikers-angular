@@ -198,7 +198,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SendSmsToCoronaSurvey",
+                "https://srv-apps:4433/WebService.asmx/SendSmsToCoronaSurvey",
                 {
                     _FullName: this.fullnameVal,
                     _id: this.idPatient,
@@ -441,7 +441,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/Covid_19_SheetApp",
+                "https://srv-apps:4433/WebService.asmx/Covid_19_SheetApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,

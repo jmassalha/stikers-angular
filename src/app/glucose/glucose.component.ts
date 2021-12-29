@@ -161,7 +161,7 @@ export class GlucoseComponent implements OnInit {
         );
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetGlucoseByCaseNumber",
+                "https://srv-apps:4433/WebService.asmx/GetGlucoseByCaseNumber",
                 {
                     CaseNumber: _element.PGR_Case_Number,
                 }
@@ -180,7 +180,7 @@ export class GlucoseComponent implements OnInit {
     public getDataFormServer(_startDate: string, _endDate: string) {
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetGlucoseApp", {
+            .post("https://srv-apps:4433/WebService.asmx/GetGlucoseApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
             })

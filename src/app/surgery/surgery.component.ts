@@ -164,7 +164,7 @@ export class SurgeryComponent implements OnInit {
     getSurgens() {
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgens", {})
+            .post("https://srv-apps:4433/WebService.asmx/GetSurgens", {})
             .subscribe((Response) => {
                 //// ////debugger
                 this.SurgensList = [];
@@ -316,7 +316,7 @@ export class SurgeryComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetSurgeryExcelFile",
+                "https://srv-apps:4433/WebService.asmx/GetSurgeryExcelFile",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,
@@ -356,7 +356,7 @@ export class SurgeryComponent implements OnInit {
 
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/getSurgeryDeparts",
+                "https://srv-apps:4433/WebService.asmx/getSurgeryDeparts",
                 {}
             )
             .subscribe((Response) => {
@@ -402,7 +402,7 @@ export class SurgeryComponent implements OnInit {
         debugger
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeries", {
+            .post("https://srv-apps:4433/WebService.asmx/GetSurgeries", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,

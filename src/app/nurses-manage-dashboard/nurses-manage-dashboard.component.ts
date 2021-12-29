@@ -99,7 +99,7 @@ export class NursesManageDashboardComponent implements OnInit {
 
   IpAddressMonitoring() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/IpAddressMonitoring", {
+      .post("https://srv-apps:4433/WebService.asmx/IpAddressMonitoring", {
         _userName: this.UserName,
         IpAdress_Login: this.ClientIP
       })
@@ -108,7 +108,7 @@ export class NursesManageDashboardComponent implements OnInit {
 
   getBugsTable() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetBugsReport", {
+      .post("https://srv-apps:4433/WebService.asmx/GetBugsReport", {
       })
       .subscribe((Response) => {
         this.bugData = Response["d"];
@@ -116,7 +116,7 @@ export class NursesManageDashboardComponent implements OnInit {
   }
   getLocalIP() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetLocalIPAddress", {
+      .post("https://srv-apps:4433/WebService.asmx/GetLocalIPAddress", {
       })
       .subscribe((Response) => {
         var json = Response["d"];
@@ -145,7 +145,7 @@ export class NursesManageDashboardComponent implements OnInit {
       this.openSnackBar("נא למלא שדות חובה");
     } else {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
+        .post("https://srv-apps:4433/WebService.asmx/ReportBugNursesSystem", {
           _phoneNumber: this.phoneNumber,
           _reportSubject: this.reportSubject,
           _userName: this.UserName,
@@ -191,7 +191,7 @@ export class NursesManageDashboardComponent implements OnInit {
 
   // NursesSystemPermission() {
   //   let userName = localStorage.getItem("loginUserName").toLowerCase();
-  //   return this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => { response["d"]; this.nursesUserPermission = response["d"] });
+  //   return this.http.post("https://srv-apps:4433/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => { response["d"]; this.nursesUserPermission = response["d"] });
   // }
 
   handleEvent() {
@@ -212,7 +212,7 @@ export class NursesManageDashboardComponent implements OnInit {
   getAllDeparts() {
     this.loaded = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesSystemDepartments", {
+      .post("https://srv-apps:4433/WebService.asmx/GetNursesSystemDepartments", {
         _userName: this.UserName
       })
       .subscribe((Response) => {
@@ -313,7 +313,7 @@ export class NursesManageDashboardComponent implements OnInit {
     this.newDate2 = pipe.transform(dte.toString(), 'yyyy-MM-dd');
     this.dateToDisplayString = pipe.transform(dateToDisplay.toString(), 'yyyy-MM-dd');
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetDeliveryEROccupancy", {
+      .post("https://srv-apps:4433/WebService.asmx/GetDeliveryEROccupancy", {
         _datePointer: this.newDate2
       })
       .subscribe((Response) => {
@@ -339,7 +339,7 @@ export class NursesManageDashboardComponent implements OnInit {
     this.newDate = pipe.transform(dte.toString(), 'yyyy-MM-dd');
     this.dateToDisplayString = pipe.transform(dateToDisplay.toString(), 'yyyy-MM-dd');
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetEROccupancy", {
+      .post("https://srv-apps:4433/WebService.asmx/GetEROccupancy", {
         _datePointer: this.newDate,
         _department: dept
       })
@@ -354,7 +354,7 @@ export class NursesManageDashboardComponent implements OnInit {
   public getDataFormServer(_Depart: string, numberOfPatients, numberOfBeds) {
     this.http
       .post(
-        "http://srv-apps/wsrfc/WebService.asmx/TfosaDashBoardApp",
+        "https://srv-apps:4433/WebService.asmx/TfosaDashBoardApp",
         {
           _depart: _Depart,
         }

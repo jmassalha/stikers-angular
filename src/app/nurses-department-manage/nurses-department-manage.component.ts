@@ -48,7 +48,7 @@ export class BugReportComponent implements OnInit {
       this.openSnackBar("להשלים שדות חובה");
     } else {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/ReportBugNursesSystem", {
+        .post("https://srv-apps:4433/WebService.asmx/ReportBugNursesSystem", {
           _phoneNumber: this.phoneNumber,
           _reportSubject: this.reportSubject,
           _userName: this.UserName,
@@ -176,7 +176,7 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   getSubmitPlannedToRealse(ifsaved) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetSubmitPlannedToRealse", {
+      .post("https://srv-apps:4433/WebService.asmx/GetSubmitPlannedToRealse", {
         _plannedToRelease: this.departmentRelease.controls['plannedToRelease'].value,
         _departCode: this.departCode,
         userName: localStorage.getItem('loginUserName').toLowerCase()
@@ -244,7 +244,7 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   getDepartDetails() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetDepartDetails", {
+      .post("https://srv-apps:4433/WebService.asmx/GetDepartDetails", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {
@@ -270,7 +270,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   getPatientsPerDepart(event: Event, subDepart: string) {
     this.Patientsloading = true;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsPerDepart", {
+      .post("https://srv-apps:4433/WebService.asmx/GetPatientsPerDepart", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {

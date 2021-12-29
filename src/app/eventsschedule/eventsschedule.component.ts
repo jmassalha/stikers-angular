@@ -207,8 +207,8 @@ export class EventsscheduleComponent implements OnInit {
         let mEventsDropDownData: EventsDropDownData[] = [];
         $("#loader").removeClass("d-none");
         this.http
-            //.post("http://srv-apps/wsrfc/WebService.asmx/GetDropDownsSelects", {
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetDropDownsSelects", {
+            //.post("https://srv-apps:4433/WebService.asmx/GetDropDownsSelects", {
+            .post("https://srv-apps:4433/WebService.asmx/GetDropDownsSelects", {
                 mDropDownType: mType,
                 mUser: localStorage.getItem("loginUserName").toLowerCase()
             })
@@ -293,7 +293,7 @@ export class EventsscheduleComponent implements OnInit {
         ////debugger;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateEvent",
+                "https://srv-apps:4433/WebService.asmx/InsertOrUpdateEvent",
                 {
                     mEventsScheduleRow: this.EventsForm.value,
                 }
@@ -486,12 +486,12 @@ export class EventsscheduleComponent implements OnInit {
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //http://srv-apps/wsrfc/WebService.asmx/
-        //http://srv-apps/wsrfc/WebService.asmx/
+        //https://srv-apps:4433/WebService.asmx/
+        //https://srv-apps:4433/WebService.asmx/
         //debugger
         this.http
-            //.post("http://srv-apps/wsrfc/WebService.asmx/GetEventsSchedule", {
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetEventsSchedule", {
+            //.post("https://srv-apps:4433/WebService.asmx/GetEventsSchedule", {
+            .post("https://srv-apps:4433/WebService.asmx/GetEventsSchedule", {
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 serachTxt: serachTxt,

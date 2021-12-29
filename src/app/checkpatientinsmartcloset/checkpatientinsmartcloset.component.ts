@@ -67,7 +67,7 @@ export class CheckpatientinsmartclosetComponent implements OnInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/CheckIfPatientExist",
+                "https://srv-apps:4433/WebService.asmx/CheckIfPatientExist",
                 {
                     freeSearch: _freeSearch,
                 }

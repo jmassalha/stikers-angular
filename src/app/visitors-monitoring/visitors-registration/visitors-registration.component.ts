@@ -110,7 +110,7 @@ export class VisitorsRegistrationComponent implements OnInit {
           console.log("User confirmed:", confirmed);
           if (confirmed) {
             this.http
-              .post("http://srv-apps/wsrfc/WebService.asmx/MarkAsHasVisitor", {
+              .post("https://srv-apps:4433/WebService.asmx/MarkAsHasVisitor", {
                 _patientCaseNumber: patientCaseNumber,
                 _visitorName: this.visitorName
               })
@@ -158,7 +158,7 @@ export class VisitorsRegistrationComponent implements OnInit {
   getPatientsPerDepart() {
     this.Patientsloading = true;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsPerDepart", {
+      .post("https://srv-apps:4433/WebService.asmx/GetPatientsPerDepart", {
         _departCode: this.departCode
       })
       .subscribe((Response) => {
