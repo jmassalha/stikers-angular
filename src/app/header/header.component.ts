@@ -253,11 +253,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("SKatan").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("TAmiram").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("tkharanbah").toLowerCase() ||
-            this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase()
-        ) {
-            this._OrdersToAppointmentsComponent = true;
-        }
-        if (
+            this.loginUserName.toLowerCase() == ("EGrifat").toLowerCase() ||
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "lfisher" ||
