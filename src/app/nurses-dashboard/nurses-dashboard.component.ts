@@ -35,6 +35,7 @@ import { map, startWith } from "rxjs/operators";
 import { FillReportComponent } from "../fill-report/fill-report.component";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
+import { VoiceRecognitionService } from '../header/service/voice-recognition.service'
 export interface User {
   name: string;
   id: string;
@@ -205,6 +206,7 @@ export class NursesDashboardComponent implements OnInit {
   pipe = new DatePipe('en-US');
   myDate = new Date();
   constructor(private _snackBar: MatSnackBar,
+    public service : VoiceRecognitionService,
     private router: Router,
     private _renderer: Renderer2,
     private http: HttpClient,
@@ -214,7 +216,7 @@ export class NursesDashboardComponent implements OnInit {
     public dialog: MatDialog,
     public datePipe: DatePipe,
     private confirmationDialogService: ConfirmationDialogService,
-    activeModal: NgbActiveModal) { }
+    activeModal: NgbActiveModal) { this.service.init();}
 
   searchReportsGroup: FormGroup;
   reportsArr = [];
@@ -342,6 +344,20 @@ export class NursesDashboardComponent implements OnInit {
     this.subcategoryfilter.setValue('');
     this.searchReportsGroup.controls['ReportEndDate'].setValue(this.now);
     this.currentItemsToShow = this.ELEMENT_DATA;
+  }
+
+  startService(){
+    this.service.start();
+  }
+
+  stopService(){
+    if(this.service.tempWords.includes('מחק')){
+      this.ReportGroup.controls['ReportText'].setValue('');
+    }else{
+      let speechValue = this.ReportGroup.controls['ReportText'].value;
+      this.ReportGroup.controls['ReportText'].setValue(speechValue+' '+this.service.tempWords);  
+    }
+    this.service.stop();
   }
 
   onPageChange($event) {

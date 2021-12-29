@@ -280,7 +280,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col-3">
+                    <div class="col-2">
                         <div class="form-group">
                             <mat-form-field>
                                 <mat-label>משמרת</mat-label>
@@ -295,10 +295,16 @@
                             <mat-form-field id="reportContentField">
                                 <textarea matInput
                                     style="font-size: 15px;font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
-                                    rows="3" placeholder="תוכן הדוח" class="form-control border-1"
+                                    rows="5" placeholder="תוכן הדוח" class="form-control border-1"
                                     formControlName="ReportText" required></textarea>
                             </mat-form-field>
                         </div>
+                    </div>
+                    <div class="col-1" *ngIf="UserName == 'adahabre'">
+                        <button id="speechBtn" (mouseup)="stopService()" (mousedown)="startService()"
+                            (touchend)="stopService()" (touchstart)="startService()"><span class="material-icons" style="font-size: 30px;">
+                                mic
+                            </span></button>
                     </div>
                 </div>
             </div>
@@ -315,7 +321,7 @@
                         save
                     </span>
                 </button>
-                <br><br><br>                
+                <br><br><br>
                 <!-- <button *ngIf="reportID != '0'" matTooltip="מחיקה" id="BtnStyle" type="button" mat-raised-button
                     class="btn btn-outline-dark ml-3" color="warn" (click)="deleteReport(reportID)">
                     <span class="material-icons">
