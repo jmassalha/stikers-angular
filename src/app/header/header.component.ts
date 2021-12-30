@@ -474,7 +474,82 @@ export class HeaderComponent implements OnInit {
         } else {
             this._shoCorona = false;
         }
-
+        if (
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == "owertheim" ||
+            this.loginUserName.toLowerCase() == "adahabre" ||
+            this.loginUserName.toLowerCase() == "sabuhanna" ||
+            this.loginUserName.toLowerCase() == ("rsharlin").toLowerCase() || //רJKH13579-
+            this.loginUserName.toLowerCase() == "oivry" ||
+            this.loginUserName.toLowerCase() == "dbzuk" ||
+            this.loginUserName.toLowerCase() == ("HDEMERI").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("hkatsh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("laloni").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("llaybovich").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("RREVIVO").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("RHalfon").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("SAmos").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("lshimov").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("nmizrahi").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("MKatan").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("seliasaf").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("amild").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("acoplev").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ashafik").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("jkhatib2").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("jkailikian").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ddahamshi").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("dshogan").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("wtaha").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("hakhalil").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ycohen4").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("mshakh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("mabutayeh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ntimsit").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ntischenko").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("szubi").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("akhoury").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("pvainner").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("cabuhani").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rnazazleh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("romalouf").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rgotliv").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rbenmayor").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rbaavad").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("skatan").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("sshakeeb").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("sthawkho").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Obergstein").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("OAvenaem").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("LAbutbul").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Nsuheil").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("EFarber").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Iatiya").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("jkailikian").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("djosef").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("DNoked").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("LShavit").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("muhbadarne").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ntimsit").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("nsaleh").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("NAharon").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("ACohen").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Enyefet").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("PVainner").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("SKatan").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("TAmiram").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("tkharanbah").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("laloni").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("EGrifat").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("Obenkalifa").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("oivry").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("CSimsolo").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("SYehuda").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase() 
+        ) {
+            this._OrdersToAppointmentsComponent = true;
+        }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "eonn" ||
