@@ -294,10 +294,10 @@ export class SarsresultsComponent implements OnInit {
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/GetAllSarscov2Results",
+                "http://srv-apps/wsrfc/WebService.asmx/GetAllSarscov2Results",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,

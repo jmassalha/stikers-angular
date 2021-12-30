@@ -176,7 +176,7 @@ export class SystemManageComponent implements OnInit {
 
   getDepartmentsToUpdateBeds() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetDepartmentsToUpdateBeds", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetDepartmentsToUpdateBeds", {
       })
       .subscribe((Response) => {
         let all_departs_filter = Response["d"];
@@ -186,7 +186,7 @@ export class SystemManageComponent implements OnInit {
 
   getEmployeesToUpdateDept() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetEmployeesToUpdateDept", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetEmployeesToUpdateDept", {
       })
       .subscribe((Response) => {
         let all_employees_filter = Response["d"];
@@ -198,7 +198,7 @@ export class SystemManageComponent implements OnInit {
 
   getDepartsForEmployees() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetDepartsForEmployees", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetDepartsForEmployees", {
       })
       .subscribe((Response) => {
         let all_departs_filter = Response["d"];
@@ -214,7 +214,7 @@ export class SystemManageComponent implements OnInit {
     let employeeRowID = this.updateBedsGroup.controls['RowID'].value;
     if (deptCode != "") {
       this.http
-        .post("https://srv-apps:4433/WebService.asmx/SubmitUpdateEmployee", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/SubmitUpdateEmployee", {
           _deptCode: deptCode,
           _employeeRowID: employeeRowID,
         })
@@ -239,7 +239,7 @@ export class SystemManageComponent implements OnInit {
   submitUpdateBeds(row, ifDelete) {
     if (row.number_of_beds != "") {
       this.http
-        .post("https://srv-apps:4433/WebService.asmx/SubmitUpdateBeds", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/SubmitUpdateBeds", {
           _row_ID: row.Row_ID,
           _numberOfBeds: row.number_of_beds,
           _ifDelete: ifDelete

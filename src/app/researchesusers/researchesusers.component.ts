@@ -169,7 +169,7 @@ export class ResearchesusersComponent implements OnInit {
         // //debugger
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/InsertOrUpdateResearchesUsers",
+                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearchesUsers",
                 {
                     _usersForm: this.usersForm.value,
                 }
@@ -363,7 +363,7 @@ export class ResearchesusersComponent implements OnInit {
         }
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/getResearchesUsersTable",
+                "http://srv-apps/wsrfc/WebService.asmx/getResearchesUsersTable",
                 {
                     _pageIndex: _pageIndex,
                     _pageSize: _pageSize,

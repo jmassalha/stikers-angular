@@ -124,7 +124,7 @@ export class AddpatientcoronaformComponent implements OnInit {
         debugger;
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/addPatientCoronaForm",
+                "http://srv-apps/wsrfc/WebService.asmx/addPatientCoronaForm",
                 {
                     PatientCoronaForm: this.addPatientCoronaForm.value,
                 }

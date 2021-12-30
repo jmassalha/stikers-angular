@@ -277,7 +277,7 @@ Cecum_Time
         this.EditForm.value.Cecum_Time;
         //return;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SaveColonoscopy", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SaveColonoscopy", {
                 mSaveColonoscopy: this.EditForm.value,
             })
             .subscribe((Response) => {
@@ -297,7 +297,7 @@ Cecum_Time
         //return;
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/SaveRelevantOrNotColonoscopy",
+                "http://srv-apps/wsrfc/WebService.asmx/SaveRelevantOrNotColonoscopy",
                 {
                     mRelevantOrNot: this.RelevantForm.value,
                 }
@@ -796,7 +796,7 @@ options6min
     getDoctors() {
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/GetColonoscopyDoctorsList",
+                "http://srv-apps/wsrfc/WebService.asmx/GetColonoscopyDoctorsList",
                 {}
             )
             .subscribe((Response) => {
@@ -838,7 +838,7 @@ options6min
         debugger
         $("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getCOLONOSCOPY", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getCOLONOSCOPY", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,

@@ -78,7 +78,7 @@ export class CortinasnotificationComponent implements OnInit {
             alert.type = "cancel";
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/ChangeCortinasDate",
+                "http://srv-apps/wsrfc/WebService.asmx/ChangeCortinasDate",
                 {
                     alert: alert
                 }
@@ -106,7 +106,7 @@ export class CortinasnotificationComponent implements OnInit {
         }
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/GetCortinasAlerts",
+                "http://srv-apps/wsrfc/WebService.asmx/GetCortinasAlerts",
                 {}
             )
             .subscribe((Response) => {

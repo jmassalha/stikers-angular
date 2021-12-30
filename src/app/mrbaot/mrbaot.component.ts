@@ -201,7 +201,7 @@ export class MrbaotComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/GetBekoremAmbolatorimApp",
+                "http://srv-apps/wsrfc/WebService.asmx/GetBekoremAmbolatorimApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,

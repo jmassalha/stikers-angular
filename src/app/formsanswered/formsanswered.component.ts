@@ -205,7 +205,7 @@ export class FormsansweredComponent implements OnInit {
     }
 
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetPersonalDetailsForForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
         _formID: FormID,
         _caseNumber: caseNumber,
         _personalPassport: personalPassport,

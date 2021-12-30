@@ -1015,7 +1015,7 @@ DepartsDataRequestAvgAllNotPara
     getDeparts() {
         $("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetNamerDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetNamerDeparts", {})
             .subscribe((Response) => {
                 //// //////debugger
                 this.departsList = [];
@@ -1045,7 +1045,7 @@ DepartsDataRequestAvgAllNotPara
     getWorkers(valDepart) {
         $("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetWorkers", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetWorkers", {
                 _Depart: valDepart,
             })
             .subscribe((Response) => {
@@ -1075,7 +1075,7 @@ DepartsDataRequestAvgAllNotPara
     getRequest() {
         $("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetRequestDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetRequestDeparts", {})
             .subscribe((Response) => {
                 //// //////debugger
                 this.requestdepartsList = [];
@@ -1117,7 +1117,7 @@ DepartsDataRequestAvgAllNotPara
         ////debugger;
         $("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetAllConsultations", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllConsultations", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,

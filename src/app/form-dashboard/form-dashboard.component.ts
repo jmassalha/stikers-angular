@@ -49,7 +49,7 @@ export class FormDashboardComponent implements OnInit {
     let formNameControl = this.formSearch.controls['formNameControl'].value;
     let nurseUser = localStorage.getItem('loginUserName');
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetAllForms", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
         _formNameControl: formNameControl,
         _nurseUser: nurseUser,
       })

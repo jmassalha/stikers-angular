@@ -610,7 +610,7 @@ export class MershamComponent implements OnInit {
             if (this.rows.value[d].newRow == "false") {
                 this.http
                     .post(
-                        "https://srv-apps:4433/WebService.asmx/DeletePresRowInside",
+                        "http://srv-apps/wsrfc/WebService.asmx/DeletePresRowInside",
                         {
                             _rowID: this.DeleteRowId,
                         }
@@ -641,7 +641,7 @@ export class MershamComponent implements OnInit {
     }
     getPermission() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/selectPermission", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/selectPermission", {
                 _UserName: localStorage.getItem("loginUserName"),
             })
             .subscribe((Response) => {
@@ -746,7 +746,7 @@ export class MershamComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/DeletePresRow", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/DeletePresRow", {
                 _rowID: this.DeletePreRowId,
             })
             .subscribe((Response) => {
@@ -1113,7 +1113,7 @@ export class MershamComponent implements OnInit {
         //return
         //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitPrecpiction", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
                 ParentFrom: ParentFrom,
                 tableFrom: tableFrom,
                 patientId: this.ID,
@@ -1222,7 +1222,7 @@ export class MershamComponent implements OnInit {
         } ////debugger
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/SubmitPrecpictionNotToServe",
+                "http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpictionNotToServe",
                 {
                     status: $event,
                     patientId: _element.ROW_ID_PRE,
@@ -1293,7 +1293,7 @@ export class MershamComponent implements OnInit {
         //return
         // //////////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitPrecpiction", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
                 ParentFrom: ParentFrom,
                 tableFrom: tableFrom,
                 patientId: this.ID,
@@ -1515,7 +1515,7 @@ export class MershamComponent implements OnInit {
 
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/GetDropDownsOptions",
+                "http://srv-apps/wsrfc/WebService.asmx/GetDropDownsOptions",
                 {}
             )
             .subscribe((Response) => {
@@ -1545,7 +1545,7 @@ export class MershamComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetPresRows", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetPresRows", {
                 ID: _presID,
             })
             .subscribe((Response) => {
@@ -1759,7 +1759,7 @@ export class MershamComponent implements OnInit {
             tableLoader = true;
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetDemographData", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetDemographData", {
                 _id: _FreeText,
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,

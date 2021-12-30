@@ -169,7 +169,7 @@ export class StatusComplaintComponent implements OnInit {
 
   getUsers() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetUsersForInquiries", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
 
       })
       .subscribe((Response) => {
@@ -187,7 +187,7 @@ export class StatusComplaintComponent implements OnInit {
 
   deleteMessage(messageID, ComplaintID) {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/DeleteMessage", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteMessage", {
         _messageID: messageID
       })
       .subscribe((Response) => {
@@ -198,7 +198,7 @@ export class StatusComplaintComponent implements OnInit {
 
   getRelevantComplaints(urlID) {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetRelevantComplaints", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
         _urlID: urlID,
         _userName: this.UserName
       })
@@ -218,7 +218,7 @@ export class StatusComplaintComponent implements OnInit {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
       this.http
-        .post("https://srv-apps:4433/WebService.asmx/attachCompToUser", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/attachCompToUser", {
           users: this.myControl.value,
           compId: this.complaintID,
         })
@@ -246,7 +246,7 @@ export class StatusComplaintComponent implements OnInit {
     this.messanger.controls['MessageTime'].setValue(messageTime);
     this.messanger.controls['UserName'].setValue(UserName);
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/ComplaintMessanger", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/ComplaintMessanger", {
         _messageClass: this.messanger.value,
       })
       .subscribe((Response) => {

@@ -74,7 +74,7 @@ export class ShareReportsFillDialog {
 
       this.disableBtn = true;
       this.http
-        // .post("https://srv-apps:4433/WebService.asmx/AttachReportToUser", {
+        // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
         .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
@@ -101,7 +101,7 @@ export class ShareReportsFillDialog {
   }
   getUsers() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetUsersForInquiries", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
 
       })
       .subscribe((Response) => {
@@ -155,7 +155,7 @@ export class AddResponseFillDialog {
   saveResponse() {
     let ResponseText = this.reportResponse.controls['responseText'].value;
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/SendReportResponse", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/SendReportResponse", {
         _userName: this.UserName,
         _responseText: ResponseText,
         _reportID: this.reportID,
@@ -326,7 +326,7 @@ export class FillReportComponent implements OnInit {
 
   deleteReport(reportID) {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/DeleteReport", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReport", {
         _reportID: reportID
       })
       .subscribe((Response) => {
@@ -411,7 +411,7 @@ export class FillReportComponent implements OnInit {
       this.ReportGroup.controls['Important'].setValue('True');
     }
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/SetImportantReport", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/SetImportantReport", {
         _ifImportant: this.ReportGroup.controls['Important'].value,
         _reportID: this.reportID
       })
@@ -434,7 +434,7 @@ export class FillReportComponent implements OnInit {
     }
     if (!this.ReportGroup.invalid) {
       this.http
-        .post("https://srv-apps:4433/WebService.asmx/AddUpdateReport", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
           _userName: this.UserName,
           _caseNumber: this.caseNumber,
@@ -458,7 +458,7 @@ export class FillReportComponent implements OnInit {
 
   getDeparts() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetNursesDeparts", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {
 
       })
       .subscribe((Response) => {
@@ -472,7 +472,7 @@ export class FillReportComponent implements OnInit {
 
   getReportToUpdate() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetReportToUpdate", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetReportToUpdate", {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
@@ -555,7 +555,7 @@ export class FillReportComponent implements OnInit {
 
   getCategories() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetCategories", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {
       })
       .subscribe((Response) => {
         this.all_categories_filter = Response["d"];
@@ -566,7 +566,7 @@ export class FillReportComponent implements OnInit {
 
   deleteReply(responseRowID){
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/DeleteResponseNurses", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteResponseNurses", {
         _responseRowID: responseRowID
       })
       .subscribe((Response) => {

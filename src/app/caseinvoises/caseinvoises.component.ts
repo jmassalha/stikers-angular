@@ -123,7 +123,7 @@ export class CaseinvoisesComponent implements OnInit {
           $("#loader").removeClass("d-none");
       }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetInvoicesByCases", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetInvoicesByCases", {
               CaseNumbers: this.invoicesForm.value.caseNumbers,
               hfnia:  this.invoicesForm.value.hfnia
             })

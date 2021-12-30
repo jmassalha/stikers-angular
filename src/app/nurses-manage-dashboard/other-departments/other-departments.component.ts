@@ -105,7 +105,7 @@ export class OtherDepartmentsComponent implements OnInit {
 
   getSubmitChanges(ifsaved) {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/SubmitOtherDepartmentChanges", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/SubmitOtherDepartmentChanges", {
         _beforeDelivery: this.deliveryRoomForm.controls['beforeDelivery'].value,
         _beforeSurgery: this.deliveryRoomForm.controls['beforeSurgery'].value,
         userName: localStorage.getItem('loginUserName').toLowerCase()
@@ -139,7 +139,7 @@ export class OtherDepartmentsComponent implements OnInit {
     this.newDate = pipe.transform(dte.toString(), 'yyyy-MM-dd');
     this.dateToDisplayString = pipe.transform(dateToDisplay.toString(), 'yyyy-MM-dd');
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetOtherDepartmentDetails", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentDetails", {
         _otherDepartName: this.otherDepartName,
         _dateToLook: this.newDate
       })
@@ -174,7 +174,7 @@ export class OtherDepartmentsComponent implements OnInit {
   getOtherDepartmentPatients(ICUType, live, event) {
     this.IcuPatientsBar = false;
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetOtherDepartmentPatients", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetOtherDepartmentPatients", {
         _otherDepartName: ICUType,
         _ifLive: live,
         _dateToLook: this.dateToDisplayString

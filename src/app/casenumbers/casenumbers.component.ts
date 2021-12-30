@@ -194,8 +194,8 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
         //debugger
         this.http
             .post(
-                //"https://srv-apps:4433/WebService.asmx/InsertCaseNumberToBox",
-                "https://srv-apps:4433/WebService.asmx/InsertCaseNumberToBox",
+                //"http://srv-apps/wsrfc/WebService.asmx/InsertCaseNumberToBox",
+                "http://srv-apps/wsrfc/WebService.asmx/InsertCaseNumberToBox",
                 {
                     CaseNumber: event.value,
                     CartoonID: this.CartoonID,
@@ -232,7 +232,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
         }
         //debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/RemoveCaseFromBox", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/RemoveCaseFromBox", {
                 CaseNumber: this.removeCaseForm.value.CaseNumber,
                 CartoonID: this.removeCaseForm.value.CartoonID,
             })
@@ -254,9 +254,9 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
             $("#loader").removeClass("d-none");
         }
         ////debugger
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetBoxCases", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetBoxCases", {
                 _freeText: _FreeText,
                 BoxID: this.CartoonID,
             })

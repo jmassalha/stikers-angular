@@ -425,7 +425,7 @@ class AddpatientcoronaformComponent {
         }
         debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/addPatientCoronaForm", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/addPatientCoronaForm", {
             PatientCoronaForm: this.addPatientCoronaForm.value,
         })
             .subscribe((Response) => {
@@ -1654,7 +1654,7 @@ class CaseinvoisesComponent {
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetInvoicesByCases", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetInvoicesByCases", {
             CaseNumbers: this.invoicesForm.value.caseNumbers,
             hfnia: this.invoicesForm.value.hfnia
         })
@@ -1965,7 +1965,7 @@ class CasenumbersComponent {
         console.log(event);
         //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertCaseNumberToBox", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertCaseNumberToBox", {
             CaseNumber: event.value,
             CartoonID: this.CartoonID,
         })
@@ -1993,7 +1993,7 @@ class CasenumbersComponent {
         }
         //debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/RemoveCaseFromBox", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/RemoveCaseFromBox", {
             CaseNumber: this.removeCaseForm.value.CaseNumber,
             CartoonID: this.removeCaseForm.value.CartoonID,
         })
@@ -2014,9 +2014,9 @@ class CasenumbersComponent {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
         ////debugger
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetBoxCases", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetBoxCases", {
             _freeText: _FreeText,
             BoxID: this.CartoonID,
         })
@@ -2969,7 +2969,7 @@ class ChadsComponent {
         ////debugger;
         //return;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SaveRelevantOrNotChad", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SaveRelevantOrNotChad", {
             mRelevantOrNot: this.RelevantForm.value
         })
             .subscribe(Response => {
@@ -2980,7 +2980,7 @@ class ChadsComponent {
     }
     getDeparts() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetChadsDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetChadsDeparts", {})
             .subscribe(Response => {
             //// ////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -3035,7 +3035,7 @@ class ChadsComponent {
     saveChad(_rowID) {
         jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/saveChad", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/saveChad", {
             _chadVal: this.chadVal,
             _chadDate: this.chadDate,
             _chadTool: this.chadTool,
@@ -3249,7 +3249,7 @@ class ChadsComponent {
         //// ////debugger
         jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetReportTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetReportTable", {
             _reportTableName: _tableName,
             _fromDate: _startDate,
             _toDate: _endDate,
@@ -4004,7 +4004,7 @@ class CheckpatientinsmartclosetComponent {
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/CheckIfPatientExist", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/CheckIfPatientExist", {
             freeSearch: _freeSearch,
         })
             .subscribe((Response) => {
@@ -4887,7 +4887,7 @@ class ClinicsDashboardComponent {
         }
         else {
             this.http
-                .post("https://srv-apps:4433/WebService.asmx/GetClinicsServices", {
+                .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsServices", {
                 _departmentNumber: departNumber,
             })
                 .subscribe((Response) => {
@@ -4934,7 +4934,7 @@ class ClinicsDashboardComponent {
         else {
             if (this.usersWithPermission(localStorage.getItem("loginUserName").toLowerCase())) {
                 this.http
-                    .post("https://srv-apps:4433/WebService.asmx/GetClinicsPatientDetails", {
+                    .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPatientDetails", {
                     _choose: "1",
                     _passport: passport,
                     _caseNumber: caseNumber
@@ -4998,7 +4998,7 @@ class ClinicsDashboardComponent {
             }
             else {
                 this.http
-                    .post("https://srv-apps:4433/WebService.asmx/PrintReciept", {
+                    .post("http://srv-apps/wsrfc/WebService.asmx/PrintReciept", {
                     _patientPassport: passport,
                 })
                     .subscribe((Response) => {
@@ -5058,7 +5058,7 @@ class ClinicsDashboardComponent {
     }
     getDepartments() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetClinicsPricingDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPricingDeparts", {})
             .subscribe((Response) => {
             let clinicsDeparts = [];
             clinicsDeparts = Response["d"];
@@ -5070,7 +5070,7 @@ class ClinicsDashboardComponent {
     onSubmit() {
         if (!this.servicesFormGroup.invalid) {
             this.http
-                .post("https://srv-apps:4433/WebService.asmx/SendTreatmentToReception", {
+                .post("http://srv-apps/wsrfc/WebService.asmx/SendTreatmentToReception", {
                 _patientDetails: this.detailsFormGroup.getRawValue(),
                 _serviceDetails: this.servicesFormGroup.getRawValue(),
             })
@@ -6051,7 +6051,7 @@ Cecum_Time
         this.EditForm.value.Cecum_Time;
         //return;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SaveColonoscopy", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SaveColonoscopy", {
             mSaveColonoscopy: this.EditForm.value,
         })
             .subscribe((Response) => {
@@ -6071,7 +6071,7 @@ Cecum_Time
         // ;
         //return;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SaveRelevantOrNotColonoscopy", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SaveRelevantOrNotColonoscopy", {
             mRelevantOrNot: this.RelevantForm.value,
         })
             .subscribe((Response) => {
@@ -6504,7 +6504,7 @@ Cecum_Time
     }
     getDoctors() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetColonoscopyDoctorsList", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetColonoscopyDoctorsList", {})
             .subscribe((Response) => {
             //// ////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -6530,7 +6530,7 @@ Cecum_Time
         debugger;
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getCOLONOSCOPY", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getCOLONOSCOPY", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -8548,7 +8548,7 @@ class ConsultationsComponent {
     getDeparts() {
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetNamerDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetNamerDeparts", {})
             .subscribe((Response) => {
             //// //////debugger
             this.departsList = [];
@@ -8574,7 +8574,7 @@ class ConsultationsComponent {
     getWorkers(valDepart) {
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetWorkers", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetWorkers", {
             _Depart: valDepart,
         })
             .subscribe((Response) => {
@@ -8602,7 +8602,7 @@ class ConsultationsComponent {
     getRequest() {
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetRequestDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetRequestDeparts", {})
             .subscribe((Response) => {
             //// //////debugger
             this.requestdepartsList = [];
@@ -8630,7 +8630,7 @@ class ConsultationsComponent {
         ////debugger;
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetAllConsultations", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllConsultations", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -9875,7 +9875,7 @@ class CoronaformComponent {
             return;
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SendSmsToCoronaSurvey", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SendSmsToCoronaSurvey", {
             _FullName: this.fullnameVal,
             _id: this.idPatient,
             _phoneNumber: this.phoneNumber,
@@ -10068,7 +10068,7 @@ class CoronaformComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/Covid_19_SheetApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/Covid_19_SheetApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -10849,7 +10849,7 @@ class CoronaresultformComponent {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/RunGetLastRequestResult", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/RunGetLastRequestResult", {
             _ID: _ID,
         })
             .subscribe((Response) => {
@@ -11840,7 +11840,7 @@ class CoronavaccineComponent {
             return;
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SendSmsToCoronaSurvey", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SendSmsToCoronaSurvey", {
             _FullName: this.fullnameVal,
             _id: this.idPatient,
             _phoneNumber: this.phoneNumber,
@@ -12084,7 +12084,7 @@ class CoronavaccineComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetAllVaccine", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllVaccine", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -13247,7 +13247,7 @@ class CortinasdepartsComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitCortinasDepart", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepart", {
             DepartRow: this.departsForm.value,
         })
             .subscribe((Response) => {
@@ -13273,7 +13273,7 @@ class CortinasdepartsComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitCortinasDepartRooms", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepartRooms", {
             DepartRoomRows: this.roomsForm.value.roomsDetails,
         })
             .subscribe((Response) => {
@@ -13299,7 +13299,7 @@ class CortinasdepartsComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitCortinasDepartRoomsBeds", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepartRoomsBeds", {
             DepartRoomBedsRows: this.roomsBedsForm.value
                 .roomsBedsDetails,
         })
@@ -13325,7 +13325,7 @@ class CortinasdepartsComponent {
         this.D_NAME = _element.D_NAME;
         this.D_ID = _element.D_ID;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetCortinasDepartRoomsBeds", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepartRoomsBeds", {
             _DepartID: _element.D_ID,
         })
             .subscribe((Response) => {
@@ -13392,7 +13392,7 @@ class CortinasdepartsComponent {
         this.D_NAME = _element.D_NAME;
         this.D_ID = _element.D_ID;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetCortinasDepartRooms", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepartRooms", {
             _DepartID: _element.D_ID,
         })
             .subscribe((Response) => {
@@ -13509,7 +13509,7 @@ class CortinasdepartsComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetCortinasDepart", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepart", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -13891,7 +13891,7 @@ class CortinasnotificationComponent {
         else
             alert.type = "cancel";
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/ChangeCortinasDate", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/ChangeCortinasDate", {
             alert: alert
         })
             .subscribe((Response) => {
@@ -13916,7 +13916,7 @@ class CortinasnotificationComponent {
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetCortinasAlerts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasAlerts", {})
             .subscribe((Response) => {
             ////debugger
             var json = JSON.parse(Response["d"]);
@@ -14681,7 +14681,7 @@ class Covid19reportComponent {
         taht.addOrEditReportForm.value.Reporting_Date_Time = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
         debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitCovid19Report", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitCovid19Report", {
             mCovid19Report: taht.addOrEditReportForm.value,
         })
             .subscribe((Response) => {
@@ -14702,7 +14702,7 @@ class Covid19reportComponent {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetAllReporting", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllReporting", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -15045,7 +15045,7 @@ class DashboardComponent {
     getDataFormServer(_Depart) {
         $("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/TfosaDashBoardApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/TfosaDashBoardApp", {
             _depart: _Depart,
         })
             .subscribe((Response) => {
@@ -15550,7 +15550,7 @@ class DimotComponent {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetDimotTableApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetDimotTableApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -15608,7 +15608,7 @@ class DimotComponent {
         this.getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _Depart, this.fliterVal, this.Shift, this.RequestType);
         //////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetDimotApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetDimotApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -16350,7 +16350,7 @@ class DrugsComponent {
     }
     getMedGroups() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetTbl_MedGroups", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetTbl_MedGroups", {})
             .subscribe((Response) => {
             ////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -16411,7 +16411,7 @@ class DrugsComponent {
         }
         // //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/insertOrUpdateDrug", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateDrug", {
             drugRow: this.drugForm.value,
         })
             .subscribe((Response) => {
@@ -16509,7 +16509,7 @@ class DrugsComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getDrugsTbl", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getDrugsTbl", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -17234,7 +17234,7 @@ class DrugsnicComponent {
     getNamerDrugs(freeSearch, pageIndex, pageSize) {
         ////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetNamerDrugs", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetNamerDrugs", {
             freeSearch: freeSearch,
             pageIndex: pageIndex,
             pageSize: pageSize,
@@ -17274,7 +17274,7 @@ class DrugsnicComponent {
         }
         // ////////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/submitConnectDrug", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/submitConnectDrug", {
             drugRow: this.drugForm.value,
         })
             .subscribe((Response) => {
@@ -17375,7 +17375,7 @@ class DrugsnicComponent {
         }
         // debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetNICDrugs", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetNICDrugs", {
             freeSearch: freeSearch,
             pageSize: pageSize,
             pageIndex: pageIndex,
@@ -18569,7 +18569,7 @@ class EmailmanagementComponent {
     }
     shareComplaintWithOthers() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/AttachCompToUser", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
             userId: this.myControl.value,
             compId: this.complainID,
         })
@@ -18616,7 +18616,7 @@ class EmailmanagementComponent {
         }
         if (!this.manageComplaintForm.invalid || !this.emailSenderGroup.invalid) {
             this.http
-                .post("https://srv-apps:4433/WebService.asmx/UpdateComplaint", {
+                .post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
                 _compToUpdate: this.manageComplaintForm.value,
                 _emailToInsert: this.emailSenderGroup.value,
                 ifUpdate: _ifUpdate,
@@ -18636,7 +18636,7 @@ class EmailmanagementComponent {
     }
     getDepatments() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetInquiryDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {})
             .subscribe((Response) => {
             this.all_departs_filter = Response["d"];
             this.all_departs_filter.forEach(element => {
@@ -18647,7 +18647,7 @@ class EmailmanagementComponent {
     getRelevantComplaints(urlID) {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetRelevantComplaints", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
             _urlID: urlID,
             _userName: userName
         })
@@ -18674,7 +18674,7 @@ class EmailmanagementComponent {
             this._stepper = true;
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/Manage_Emails", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
             _compID: urlID,
             _ifSplit: ifSplit
         })
@@ -18717,7 +18717,7 @@ class EmailmanagementComponent {
             this.emailSubjectsArr = this.all_email_management[this.all_email_management.length - 1];
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetInquiryDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {})
             .subscribe((Response) => {
             this.all_departs_filter = Response["d"];
             this.all_departs_filter.forEach(element => {
@@ -18725,7 +18725,7 @@ class EmailmanagementComponent {
             });
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetUsersForInquiries", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {})
             .subscribe((Response) => {
             this.all_users_filter = Response["d"];
             this.all_users_filter.forEach(element => {
@@ -19121,7 +19121,7 @@ class EmailsdashboardComponent {
     }
     loadInquiries() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SavingEmailsToDB", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/SavingEmailsToDB", {})
             .subscribe((Response) => {
             this.openSnackBar("פניות נטענו בהצלחה");
             setTimeout(() => {
@@ -19131,7 +19131,7 @@ class EmailsdashboardComponent {
     }
     changeStatus(e, emailID) {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/ChangeStatus", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/ChangeStatus", {
             _status: e.checked,
             _emailID: emailID,
         })
@@ -19179,7 +19179,7 @@ class EmailsdashboardComponent {
             compDateControl2 = "";
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/Comp_Emails", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
             _compName: compName,
             _compDate: compDateControl,
             _compDate2: compDateControl2,
@@ -19226,7 +19226,7 @@ class EmailsdashboardComponent {
             this.dataSource.paginator = this.paginator;
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetInquiryDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {})
             .subscribe((Response) => {
             this.all_departs_filter = Response["d"];
             this.all_departs_filter.forEach(element => {
@@ -19876,7 +19876,7 @@ class EmergencycallgroupsComponent {
     }
     GetMessagesGroupType(Type) {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetMessagesGroupType", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesGroupType", {
             Type: Type
         })
             .subscribe((Response) => {
@@ -19937,7 +19937,7 @@ class EmergencycallgroupsComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetGroupMembersMobilesByType", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetGroupMembersMobilesByType", {
             mGroupSmsToForm: this.GroupSmsToForm.value,
         })
             .subscribe((Response) => {
@@ -19972,7 +19972,7 @@ class EmergencycallgroupsComponent {
         });
         //debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertOrUpdateGroup", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateGroup", {
             _GroupForm: this.GroupForm.value,
         })
             .subscribe((Response) => {
@@ -19995,7 +19995,7 @@ class EmergencycallgroupsComponent {
         // debugger;
         this.GroupName = _element.GroupName;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetGroupMembersMobiles", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetGroupMembersMobiles", {
             RowID: _element.RowID,
         })
             .subscribe((Response) => {
@@ -20128,10 +20128,10 @@ class EmergencycallgroupsComponent {
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
-        //https://srv-apps:4433/WebService.asmx/
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetGroups", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetGroups", {
             serachTxt: _FreeText,
         })
             .subscribe((Response) => {
@@ -20542,7 +20542,7 @@ class EmergencymembersComponent {
         }
         //debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/RemoveMemberFromGroup", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/RemoveMemberFromGroup", {
             MemberId: this.removeMemberForm.value.EmployeeID,
             GroupId: this.removeMemberForm.value.GroupId,
         })
@@ -20590,9 +20590,9 @@ class EmergencymembersComponent {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
         //debugger
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetGroupEmployeesMember", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetGroupEmployeesMember", {
             _FreeText: _FreeText,
             _GroupID: this.GroupID,
         })
@@ -20951,7 +20951,7 @@ class EmployeesComponent {
     addToGroup(_element) {
         //debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/AddMemberToGroup", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/AddMemberToGroup", {
             MemberId: _element.RowID,
             GroupId: this.GroupID,
         })
@@ -20983,7 +20983,7 @@ class EmployeesComponent {
         }
         //  debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetEmployees", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetEmployees", {
             pageIndex: _pageIndex,
             pageSize: _pageSize,
             serachTxt: _FreeText
@@ -21566,7 +21566,7 @@ class EshbozComponent {
     }
     newData() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/EshbozimAppNew", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/EshbozimAppNew", {
             _fromDate: this.startdateVal,
             _toDate: this.enddateVal,
             _freeText: this.fliterVal,
@@ -21612,7 +21612,7 @@ class EshbozComponent {
         ////debugger;
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/EshbozimAppNew", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/EshbozimAppNew", {
             _fromDate: this.startdateVal,
             _toDate: this.enddateVal,
             _freeText: this.fliterVal,
@@ -21666,7 +21666,7 @@ class EshbozComponent {
         ////debugger
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetEshbozemApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetEshbozemApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -22743,7 +22743,7 @@ class EventsscheduleComponent {
         let mEventsDropDownData = [];
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetDropDownsSelects", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetDropDownsSelects", {
             mDropDownType: mType,
         })
             .subscribe((Response) => {
@@ -22817,7 +22817,7 @@ class EventsscheduleComponent {
         });
         ////debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertOrUpdateEvent", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateEvent", {
             mEventsScheduleRow: this.EventsForm.value,
         })
             .subscribe((Response) => {
@@ -22948,11 +22948,11 @@ class EventsscheduleComponent {
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
-        //https://srv-apps:4433/WebService.asmx/
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetEventsSchedule", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetEventsSchedule", {
             pageIndex: pageIndex,
             pageSize: pageSize,
             serachTxt: serachTxt,
@@ -23489,7 +23489,7 @@ class FillReportComponent {
     }
     deleteReport(reportID) {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/DeleteReport", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReport", {
             _reportID: reportID
         })
             .subscribe((Response) => {
@@ -23528,7 +23528,7 @@ class FillReportComponent {
         this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
         if (!this.ReportGroup.invalid) {
             this.http
-                .post("https://srv-apps:4433/WebService.asmx/AddUpdateReport", {
+                .post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
                 _report: this.ReportGroup.getRawValue(),
                 _userName: this.UserName
             })
@@ -23549,7 +23549,7 @@ class FillReportComponent {
     }
     getDeparts() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetNursesDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {})
             .subscribe((Response) => {
             this.all_departs_filter = Response["d"];
             this.all_departs_filter.forEach(element => {
@@ -23559,7 +23559,7 @@ class FillReportComponent {
     }
     getReportToUpdate() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetReportToUpdate", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetReportToUpdate", {
             _reportID: this.reportID
         })
             .subscribe((Response) => {
@@ -23634,7 +23634,7 @@ class FillReportComponent {
     }
     getCategories() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetCategories", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {})
             .subscribe((Response) => {
             this.all_categories_filter = Response["d"];
             let lastIndex = this.all_categories_filter.length - 1;
@@ -24736,7 +24736,7 @@ class FillSurveyComponent {
                 console.log("User confirmed:", confirmed);
                 if (confirmed) {
                     this.http
-                        .post("https://srv-apps:4433/WebService.asmx/answerForm", {
+                        .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
                         _answerValues: survey,
                         _ifContinue: continueForm,
                     })
@@ -24771,7 +24771,7 @@ class FillSurveyComponent {
         this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
         this.withCaseNumber = false;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetPersonalDetails", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
             CaseNumber: this.CaseNumber,
         })
             .subscribe((Response) => {
@@ -24787,7 +24787,7 @@ class FillSurveyComponent {
             NurseID = 0;
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetForm", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
             formFormID: urlID,
             _nurseid: NurseID,
         })
@@ -24897,7 +24897,7 @@ class FillSurveyComponent {
     getQuestion(urlID, personalDetails, ifContinue, NurseID) {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetQuestion", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
             questionsFormID: urlID,
             isCaseNumber: this.isCaseNumber,
             nurseid: NurseID
@@ -25083,7 +25083,7 @@ class FillSurveyComponent {
     }
     // getOption(urlID) {
     // this.http
-    //   .post("https://srv-apps:4433/WebService.asmx/GetOption", {
+    //   .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
     //     optionsFormID: urlID,
     //   })
     //   .subscribe((Response) => {
@@ -25345,7 +25345,7 @@ class FormDashboardComponent {
         let formNameControl = this.formSearch.controls['formNameControl'].value;
         let nurseUser = localStorage.getItem('loginUserName');
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetAllForms", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
             _formNameControl: formNameControl,
             _nurseUser: nurseUser,
         })
@@ -25696,7 +25696,7 @@ class FormsansweredComponent {
             console.log("User confirmed:", confirmed);
             if (confirmed) {
                 this.http
-                    .post("https://srv-apps:4433/WebService.asmx/LinkPdfToPatientNamer", {
+                    .post("http://srv-apps/wsrfc/WebService.asmx/LinkPdfToPatientNamer", {
                     CaseNumber: element.PatientID,
                     FormID: element.FormID,
                     Catigory: "ZPO_ONLINE",
@@ -25746,7 +25746,7 @@ class FormsansweredComponent {
             personalPassport = "";
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetPersonalDetailsForForms", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
             _formID: FormID,
             _caseNumber: caseNumber,
             _personalPassport: personalPassport,
@@ -26435,7 +26435,7 @@ class GlucoseComponent {
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetGlucoseByCaseNumber", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetGlucoseByCaseNumber", {
             CaseNumber: _element.PGR_Case_Number,
         })
             .subscribe((Response) => {
@@ -26450,7 +26450,7 @@ class GlucoseComponent {
     getDataFormServer(_startDate, _endDate) {
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetGlucoseApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetGlucoseApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
         })
@@ -27254,7 +27254,7 @@ class HeaderComponent {
     }
     getPermission() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getResearchPermission", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getResearchPermission", {
             _UserName: localStorage.getItem("loginUserName"),
         })
             .subscribe((Response) => {
@@ -27657,7 +27657,7 @@ class HeaderComponent {
     ClinicsPricingPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/ClinicsUserPersmission", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/ClinicsUserPersmission", {
             _userName: userName
         })
             .subscribe((Response) => {
@@ -27667,7 +27667,7 @@ class HeaderComponent {
     NursesSystemPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/NursesUserPersmission", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
             _userName: userName
         })
             .subscribe((Response) => {
@@ -27677,7 +27677,7 @@ class HeaderComponent {
     ifPersonRead() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/IfUserRead", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/IfUserRead", {
             _userName: userName
         })
             .subscribe((Response) => {
@@ -28046,7 +28046,7 @@ class HearingComponent {
         this.loader = true;
         //////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/RunHearingReportApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/RunHearingReportApp", {
             _fromDate: _startDate,
             _toDate: _endDate
         })
@@ -28764,7 +28764,7 @@ class InvoicesComponent {
         ////////debugger
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetInvoicesApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetInvoicesApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -30072,7 +30072,7 @@ class LaborComponent {
         this.loader = true;
         // ////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/RunLaborAppNew", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/RunLaborAppNew", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _CheckResult: _CheckResult,
@@ -30642,7 +30642,7 @@ class LoginComponent {
         jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         if (this.username && this.password) {
             this.http
-                .post("https://srv-apps:4433/WebService.asmx/Login", {
+                .post("http://srv-apps/wsrfc/WebService.asmx/Login", {
                 _userName: this.username,
                 _mPassword: this.password
             })
@@ -31112,7 +31112,7 @@ class MaternityComponent {
         });
         debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertOrUpdateMaternity", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateMaternity", {
             _maternityForm: this.maternityForm.value,
         })
             .subscribe((Response) => {
@@ -31136,7 +31136,7 @@ class MaternityComponent {
         this.MaternityName = _element.MaternityNumber;
         this.MaternityNumber = _element.MaternityName;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetMaternityPatientMobiles", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMaternityPatientMobiles", {
             RowID: _element.RowID,
         })
             .subscribe((Response) => {
@@ -31245,10 +31245,10 @@ class MaternityComponent {
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
-        //https://srv-apps:4433/WebService.asmx/
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetMaternityTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMaternityTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _freeText: _FreeText,
@@ -31889,7 +31889,7 @@ class MaternitypatientsComponent {
         this.patientForm.value.PatientPregnancyDOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.PatientPregnancyDOB, "yyyy-MM-dd", "en-US");
         //debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertOrUpdateMaternityPatients", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateMaternityPatients", {
             _patientForm: this.patientForm.value,
         })
             .subscribe((Response) => {
@@ -32020,7 +32020,7 @@ class MaternitypatientsComponent {
         }
         //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getMaternityPatientsTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getMaternityPatientsTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -34642,7 +34642,7 @@ class MershamComponent {
             //////////////debugger
             if (this.rows.value[d].newRow == "false") {
                 this.http
-                    .post("https://srv-apps:4433/WebService.asmx/DeletePresRowInside", {
+                    .post("http://srv-apps/wsrfc/WebService.asmx/DeletePresRowInside", {
                     _rowID: this.DeleteRowId,
                 })
                     .subscribe((Response) => {
@@ -34669,7 +34669,7 @@ class MershamComponent {
     }
     getPermission() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/selectPermission", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/selectPermission", {
             _UserName: localStorage.getItem("loginUserName"),
         })
             .subscribe((Response) => {
@@ -34767,7 +34767,7 @@ class MershamComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/DeletePresRow", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/DeletePresRow", {
             _rowID: this.DeletePreRowId,
         })
             .subscribe((Response) => {
@@ -35080,7 +35080,7 @@ class MershamComponent {
         //return
         //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitPrecpiction", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
             ParentFrom: ParentFrom,
             tableFrom: tableFrom,
             patientId: this.ID,
@@ -35180,7 +35180,7 @@ class MershamComponent {
             $event = "0";
         } ////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitPrecpictionNotToServe", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpictionNotToServe", {
             status: $event,
             patientId: _element.ROW_ID_PRE,
             loginUserName: localStorage
@@ -35236,7 +35236,7 @@ class MershamComponent {
         //return
         // //////////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SubmitPrecpiction", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
             ParentFrom: ParentFrom,
             tableFrom: tableFrom,
             patientId: this.ID,
@@ -35422,7 +35422,7 @@ class MershamComponent {
     getDropDownFromServer() {
         ////////////////////////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetDropDownsOptions", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetDropDownsOptions", {})
             .subscribe((Response) => {
             var json = JSON.parse(JSON.parse(Response["d"]));
             this.Calc_Type = JSON.parse(json["Calc_Type"]);
@@ -35447,7 +35447,7 @@ class MershamComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetPresRows", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetPresRows", {
             ID: _presID,
         })
             .subscribe((Response) => {
@@ -35630,7 +35630,7 @@ class MershamComponent {
             tableLoader = true;
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetDemographData", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetDemographData", {
             _id: _FreeText,
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
@@ -36635,7 +36635,7 @@ class MrbaotComponent {
         ////////debugger
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetBekoremAmbolatorimApp", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetBekoremAmbolatorimApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -37631,7 +37631,7 @@ class DialogElementsExampleDialog {
     }
     getHistories() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetReportsChangesHistory", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetReportsChangesHistory", {
             _reportID: this.reportID
         })
             .subscribe((Response) => {
@@ -37752,7 +37752,7 @@ class NursesDashboardComponent {
     }
     getCategories() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetCategories", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {})
             .subscribe((Response) => {
             this.all_categories_filter = Response["d"];
         });
@@ -37775,7 +37775,7 @@ class NursesDashboardComponent {
     }
     getDeparts() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetNursesDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {})
             .subscribe((Response) => {
             this.all_departs_filter = Response["d"];
             this.all_departs_filter.forEach(element => {
@@ -37811,7 +37811,7 @@ class NursesDashboardComponent {
             _reportEndDate = "";
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetReports", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
             _reportShift: _reportShift,
             _reportDepartment: _reportDepartment,
             _reportStatus: _reportStatus,
@@ -38416,7 +38416,7 @@ class PoriadepartsComponent {
         this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text;
         //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/PoriaDeparts", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaDeparts", {
             _departName: this.departsForm.value.fullnameVal,
             _departStatus: 1,
             _sheetId: this.departsForm.value.idSheet,
@@ -38565,7 +38565,7 @@ class PoriadepartsComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetPoriaDeparts", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaDeparts", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -39113,7 +39113,7 @@ class ReportRepliesComponent {
     }
     deleteMessage(messageID, ReportID) {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/DeleteReportMessage", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/DeleteReportMessage", {
             _messageID: messageID
         })
             .subscribe((Response) => {
@@ -39136,7 +39136,7 @@ class ReportRepliesComponent {
         this.messanger.controls['MessageTime'].setValue(messageTime);
         this.messanger.controls['UserName'].setValue(UserName);
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetSendReportResponse", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetSendReportResponse", {
             _messageClass: this.messanger.value,
         })
             .subscribe((Response) => {
@@ -39650,7 +39650,7 @@ class ResearchesComponent {
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertOrUpdateResearches", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearches", {
             _ResearchesForm: this.ResearchesForm.value,
         })
             .subscribe((Response) => {
@@ -39666,7 +39666,7 @@ class ResearchesComponent {
     }
     getPermission() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getResearchPermission", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getResearchPermission", {
             _UserName: localStorage.getItem("loginUserName"),
         })
             .subscribe((Response) => {
@@ -39689,7 +39689,7 @@ class ResearchesComponent {
     getDropDownFromServer() {
         debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetResearchesDepart", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetResearchesDepart", {})
             .subscribe((Response) => {
             var json = JSON.parse(Response["d"]);
             debugger;
@@ -39796,7 +39796,7 @@ class ResearchesComponent {
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetResearchesTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetResearchesTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _freeText: _FreeText,
@@ -40380,7 +40380,7 @@ class ResearchespatientsComponent {
         }
         debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertOrUpdateResearchesPatients", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearchesPatients", {
             _patientForm: this.patientForm.value,
         })
             .subscribe((Response) => {
@@ -40490,7 +40490,7 @@ class ResearchespatientsComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getResearchesPatientsTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getResearchesPatientsTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -41156,7 +41156,7 @@ class ResearchesusersComponent {
         }
         // //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertOrUpdateResearchesUsers", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearchesUsers", {
             _usersForm: this.usersForm.value,
         })
             .subscribe((Response) => {
@@ -41317,7 +41317,7 @@ class ResearchesusersComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getResearchesUsersTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/getResearchesUsersTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -41755,7 +41755,7 @@ class RolesComponent {
         this.rowElement.R_ROW_ID = this.rolesForm.value.rowIdVal;
         // //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/PoriaRoles", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaRoles", {
             _roleName: this.rolesForm.value.fullnameVal,
             _roleStatus: 1,
             _rowId: this.rolesForm.value.rowIdVal,
@@ -41857,7 +41857,7 @@ class RolesComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetPoriaRoles", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaRoles", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -43096,7 +43096,7 @@ class Sarscov2Component {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetAllSarscov2", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllSarscov2", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -43935,9 +43935,9 @@ class SarsresultsComponent {
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetAllSarscov2Results", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllSarscov2Results", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -44436,7 +44436,7 @@ class ScannersComponent {
         });
         ////debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/InsertOrUpdateBox", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateBox", {
             boxes: this.BoxForm.value,
         })
             .subscribe((Response) => {
@@ -44536,10 +44536,10 @@ class ScannersComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         //debugger
-        //https://srv-apps:4433/WebService.asmx/
-        //https://srv-apps:4433/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
+        //http://srv-apps/wsrfc/WebService.asmx/
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetBoxes", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetBoxes", {
             serachTxt: _FreeText,
             pageIndex: _pageIndex,
             pageSize: _pageSize,
@@ -44798,7 +44798,7 @@ class SendsmsComponent {
         }
         // //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/SendSMSOnLine", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLine", {
             smsText: this.sendSmsForm.value.smsText,
             smsNumbers: this.sendSmsForm.value.smsNumbers,
             surveyNumber: this.sendSmsForm.value.surveyNumber,
@@ -45087,7 +45087,7 @@ class SendsmsadminComponent {
     ngAfterViewInit() { }
     GetMessagesTemp() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetMessagesTemp", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesTemp", {})
             .subscribe((Response) => {
             // debugger
             this.MessagesTemp = Response["d"];
@@ -45120,7 +45120,7 @@ class SendsmsadminComponent {
                     jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
                 }
                 this.http
-                    .post("https://srv-apps:4433/WebService.asmx/SendSMSOnLineAdmin", {
+                    .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
                     smsText: this.sendSmsForm.value.smsText,
                     smsNumbers: this.sendSmsForm.value.smsNumbers,
                     surveyNumber: 0,
@@ -45591,7 +45591,7 @@ class StaffComponent {
     }
     getRoles() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetRoles", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetRoles", {})
             .subscribe((Response) => {
             //// //debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -45623,7 +45623,7 @@ class StaffComponent {
     }
     getDeparts() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetDeparts", {})
             .subscribe((Response) => {
             //// //debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -45681,7 +45681,7 @@ class StaffComponent {
         this.rowElement.DS_ROLE_NAME = resultRoles['name'];
         // //debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/PoriaStaff", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaStaff", {
             _staffName: this.staffForm.value.fullnameVal,
             _DEPART_ID: this.staffForm.value.DS_DEPART_ID,
             _STAFF_ROLE: this.staffForm.value.DS_STAFF_ROLE,
@@ -45813,7 +45813,7 @@ class StaffComponent {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetPoriaStaff", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaStaff", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -46223,7 +46223,7 @@ class StatusComplaintComponent {
         //     }
         //   });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/DeleteMessage", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/DeleteMessage", {
             _messageID: messageID
         })
             .subscribe((Response) => {
@@ -46233,7 +46233,7 @@ class StatusComplaintComponent {
     }
     getRelevantComplaints(urlID) {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetRelevantComplaints", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
             _urlID: urlID,
             _userName: this.UserName
         })
@@ -46252,7 +46252,7 @@ class StatusComplaintComponent {
         this.messanger.controls['MessageTime'].setValue(messageTime);
         this.messanger.controls['UserName'].setValue(UserName);
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/ComplaintMessanger", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/ComplaintMessanger", {
             _messageClass: this.messanger.value,
         })
             .subscribe((Response) => {
@@ -46760,7 +46760,7 @@ class SurgeryComponent {
     getSurgens() {
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetSurgens", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgens", {})
             .subscribe((Response) => {
             //// ////debugger
             this.SurgensList = [];
@@ -46864,7 +46864,7 @@ class SurgeryComponent {
         ////debugger
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetSurgeryExcelFile", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeryExcelFile", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _freeText: _filterVal,
@@ -46894,7 +46894,7 @@ class SurgeryComponent {
     getDropDownFromServer() {
         debugger;
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/getSurgeryDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/getSurgeryDeparts", {})
             .subscribe((Response) => {
             var json = JSON.parse(Response["d"]);
             json = JSON.parse(json["SurgeryDeparts"]);
@@ -46928,7 +46928,7 @@ class SurgeryComponent {
         debugger;
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetSurgeries", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeries", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -48066,7 +48066,7 @@ class UpdateformComponent {
         }
         let UserName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetAllUsersForms", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllUsersForms", {
             _userName: UserName,
             _searchWord: searchWord,
             _departmentControl: departmentControl
@@ -48086,7 +48086,7 @@ class UpdateformComponent {
             this.dataSource.paginator = this.paginator;
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetFormsDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {})
             .subscribe((Response) => {
             this.all_departs_filter = Response["d"];
             this.all_departs_filter.forEach(element => {
@@ -49364,7 +49364,7 @@ class UpdatesingleformComponent {
         if (!this.surveyForm.invalid && !this.tableFormGroup.invalid) {
             if (this.urlID === 0) {
                 this.http
-                    .post("https://srv-apps:4433/WebService.asmx/Forms", {
+                    .post("http://srv-apps/wsrfc/WebService.asmx/Forms", {
                     _FormValues: survey,
                 })
                     .subscribe((Response) => {
@@ -49372,7 +49372,7 @@ class UpdatesingleformComponent {
             }
             else {
                 this.http
-                    .post("https://srv-apps:4433/WebService.asmx/UpdateForm", {
+                    .post("http://srv-apps/wsrfc/WebService.asmx/UpdateForm", {
                     updateFormValues: survey,
                 })
                     .subscribe((Response) => {
@@ -49388,7 +49388,7 @@ class UpdatesingleformComponent {
     }
     getFormData(urlID) {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetFormData", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetFormData", {
             formFormID: urlID,
         })
             .subscribe((Response) => {
@@ -49448,7 +49448,7 @@ class UpdatesingleformComponent {
             }
         });
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetFormsDeparts", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {})
             .subscribe((Response) => {
             this.all_departs_filter = Response["d"];
             this.all_departs_filter.forEach(element => {

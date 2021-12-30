@@ -278,7 +278,7 @@ export class CardiologyCalendarComponent implements OnInit {
 
   deleteEvent(eventToDelete: CalendarEvent, day) {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/DeleteEventInCalendarCardiology", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/DeleteEventInCalendarCardiology", {
         _rowID: eventToDelete.patientAction.Row_ID
       })
       .subscribe((Response) => {
@@ -313,7 +313,7 @@ export class CardiologyCalendarComponent implements OnInit {
       let thisDate = that.datePipe.transform(day, 'yyyy-MM-dd');
       let thisDateEvents = that.events.filter(t => t.patientAction.ArrivalDate === thisDate);
       that.http
-        .post("https://srv-apps:4433/WebService.asmx/SubmitUpdateCardiologyPatientQueue", {
+        .post("http://srv-apps/wsrfc/WebService.asmx/SubmitUpdateCardiologyPatientQueue", {
           _queueDetails: thisDateEvents
         })
         .subscribe((Response) => {
@@ -335,7 +335,7 @@ export class CardiologyCalendarComponent implements OnInit {
     let fromDate = this.datePipe.transform(this.patientSearch.controls['fromDate'].value, 'yyyy-MM-dd');
     let untilDate = this.datePipe.transform(this.patientSearch.controls['untilDate'].value, 'yyyy-MM-dd');
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetPatientsQueues", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetPatientsQueues", {
         _searchWord: this.patientSearch.controls['searchWord'].value,
         _passportSearch: this.patientSearch.controls['passportSearch'].value,
         _fromDate: fromDate,
@@ -362,7 +362,7 @@ export class CardiologyCalendarComponent implements OnInit {
 
   getactionsList() {
     this.http
-      .post("https://srv-apps:4433/WebService.asmx/GetActionsList", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetActionsList", {
       })
       .subscribe((Response) => {
         this._actionsList = Response["d"];

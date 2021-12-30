@@ -187,7 +187,7 @@ export class HearingComponent implements OnInit {
         //////debugger
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/RunHearingReportApp",
+                "http://srv-apps/wsrfc/WebService.asmx/RunHearingReportApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate

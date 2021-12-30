@@ -400,7 +400,7 @@ export class FastCovid19TestComponent implements OnInit {
 
     getUserFullName() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetUserFullName", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetUserFullName", {
                 _userName: this.UserName,
             })
             .subscribe((Response) => {
@@ -438,7 +438,7 @@ export class FastCovid19TestComponent implements OnInit {
             return;
         $("#loader").removeClass("d-none");
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/selectDetailsFromNamer", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/selectDetailsFromNamer", {
                 patientId: val,
             })
             .subscribe((Response) => {
@@ -529,7 +529,7 @@ LastName
                         $("#loader_2").removeClass("d-none");
                         this.http
                             .post(
-                                "https://srv-apps:4433/WebService.asmx/SavePatientFastTestResult",
+                                "http://srv-apps/wsrfc/WebService.asmx/SavePatientFastTestResult",
                                 {
                                     resultClass: this.TestsForm.getRawValue(),
                                 }
@@ -602,7 +602,7 @@ LastName
     }
     getCityCodes() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetCityCodes", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetCityCodes", {})
             .subscribe((Response) => {
                 this.all_cities_filter = Response["d"];
                 this.all_cities_filter.forEach((element) => {
@@ -616,7 +616,7 @@ LastName
 
     getCategories() {
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetCategories", {})
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {})
             .subscribe((Response) => {
                 this.all_categories_filter = Response["d"];
                 let lastIndex = this.all_categories_filter.length - 1;

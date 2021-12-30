@@ -164,7 +164,7 @@ export class ResearchespatientsComponent implements OnInit {
         debugger;
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/InsertOrUpdateResearchesPatients",
+                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearchesPatients",
                 {
                     _patientForm: this.patientForm.value,
                 }
@@ -305,7 +305,7 @@ export class ResearchespatientsComponent implements OnInit {
         }
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/getResearchesPatientsTable",
+                "http://srv-apps/wsrfc/WebService.asmx/getResearchesPatientsTable",
                 {
                     _pageIndex: _pageIndex,
                     _pageSize: _pageSize,

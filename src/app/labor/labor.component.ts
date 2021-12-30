@@ -648,7 +648,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.loader = true;
         // ////debugger
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/RunLaborAppNew", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/RunLaborAppNew", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _CheckResult: _CheckResult,

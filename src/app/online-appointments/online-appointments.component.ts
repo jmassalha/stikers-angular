@@ -116,7 +116,7 @@ export class OnlineAppointmentsComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/GetAllAppointments",
+                "http://srv-apps/wsrfc/WebService.asmx/GetAllAppointments",
                 {}
             )
             .subscribe((Response) => {
@@ -166,7 +166,7 @@ export class OnlineAppointmentsComponent implements OnInit {
      // debugger
       this.http
           .post(
-              "https://srv-apps:4433/WebService.asmx/GetAllDepartAppointmentsByDay",
+              "http://srv-apps/wsrfc/WebService.asmx/GetAllDepartAppointmentsByDay",
               {
                 depart: event['depart'],
                 date: this.datePipe.transform(event['start'],"yyyy-MM-dd"),

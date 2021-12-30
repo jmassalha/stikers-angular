@@ -234,7 +234,7 @@ export class ResearchesComponent implements OnInit {
         });
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/InsertOrUpdateResearches",
+                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearches",
                 {
                     _ResearchesForm: this.ResearchesForm.value,
                 }
@@ -254,7 +254,7 @@ export class ResearchesComponent implements OnInit {
     getPermission() {
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/getResearchPermission",
+                "http://srv-apps/wsrfc/WebService.asmx/getResearchPermission",
                 {
                     _UserName: localStorage.getItem("loginUserName"),
                 }
@@ -281,7 +281,7 @@ export class ResearchesComponent implements OnInit {
 
         this.http
             .post(
-                "https://srv-apps:4433/WebService.asmx/GetResearchesDepart",
+                "http://srv-apps/wsrfc/WebService.asmx/GetResearchesDepart",
                 {}
             )
             .subscribe((Response) => {
@@ -420,7 +420,7 @@ export class ResearchesComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("https://srv-apps:4433/WebService.asmx/GetResearchesTable", {
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetResearchesTable", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _freeText: _FreeText,
