@@ -1,6 +1,6 @@
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
@@ -27,7 +27,7 @@ export interface EmailManagement {
   Comp_Department: string;
   PersonID: string;
   Comp_Sektor: string;
-  RelevantEmployee1: string;
+  EmployeesToAttach: User[];
   Ambolatory: string;
   Eshpoz: string;
   ImprovementNote: string;
@@ -69,9 +69,10 @@ export interface CompDepts {
 }
 
 export interface User {
-  firstname: string;
-  id: string;
+  Employee_Name: string;
+  Employee_Id: string;
   email: string;
+  Status: string;
   selected: boolean;
 }
 
@@ -215,7 +216,12 @@ export class EmailmanagementComponent implements OnInit {
       Comp_Sektor: ['', null],
       PersonID: ['', null],
       ImprovementNote: ['', null],
-      RelevantEmployee1: ['', null],
+      EmployeesToAttach: this.formBuilder.array([{
+        Employee_Name: '',
+        Employee_Id: '',
+        email: '',
+        Status: ''
+      }]),
       Ambolatory: ['', null],
       Comp_Note: ['', null],
       Comp_Answer: ['', null],
@@ -282,19 +288,23 @@ export class EmailmanagementComponent implements OnInit {
   // }
 
   add(event: MatChipInputEvent): void {
-    const value = (event.value || '').trim();
+    const value: any = (event.value || '').trim();
     if (value) {
+      value.Status = 'True';
       this.fruits.push(value);
     }
     // event.chipInput!.clear();
     this.fruitCtrl.setValue(null);
   }
 
-  remove(fruit: string): void {
-    const index = this.fruits.indexOf(fruit);
-    if (index >= 0) {
-      this.fruits.splice(index, 1);
-    }
+  // remove(fruit: string): void {
+  //   const index = this.fruits.indexOf(fruit);
+  //   if (index >= 0) {
+  //     this.fruits.splice(index, 1);
+  //   }
+  // }
+  remove(fruit: User): void {
+    fruit.Status = 'False';
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
@@ -305,10 +315,10 @@ export class EmailmanagementComponent implements OnInit {
 
   private _filter3(value: any): string[] {
     let filterValue = "";
-    if (value != '' && value.firstname == undefined) {
+    if (value != '' && value.Employee_Name == undefined) {
       filterValue = value.toLowerCase();
     }
-    return this.users.filter(fruit => fruit.firstname.toLowerCase().includes(filterValue));
+    return this.users.filter(fruit => fruit.Employee_Name.toLowerCase().includes(filterValue));
   }
 
   private _filter(value: string): string[] {
@@ -377,6 +387,7 @@ export class EmailmanagementComponent implements OnInit {
     if (_ifSplit == "0") {
       this.manageComplaintForm.setValidators(null);
     }
+    this.manageComplaintForm.controls['EmployeesToAttach'].setValue(this.fruits);
     // this.emailSenderGroup.controls['EmailDateTime'].setValue(this.manageComplaintForm.controls['Comp_Date'].value);
     if (!this.manageComplaintForm.invalid && !this.emailSenderGroup.invalid) {
       this.http
@@ -480,7 +491,7 @@ export class EmailmanagementComponent implements OnInit {
             Comp_Sektor: new FormControl(this.all_email_management[0].Comp_Sektor, null),
             Comp_Status: new FormControl(this.all_email_management[0].Comp_Status, null),
             Comp_Note: new FormControl(this.all_email_management[0].Comp_Note, null),
-            RelevantEmployee1: new FormControl(this.all_email_management[0].RelevantEmployee1, null),
+            EmployeesToAttach: new FormControl(this.all_email_management[0].EmployeesToAttach, null),
             Ambolatory: new FormControl(this.all_email_management[0].Ambolatory, null),
             ImprovementNote: new FormControl(this.all_email_management[0].ImprovementNote, null),
             Comp_Answer: new FormControl(this.all_email_management[0].Comp_Answer, null),
@@ -491,6 +502,7 @@ export class EmailmanagementComponent implements OnInit {
             DeadLine: new FormControl(this.all_email_management[0].DeadLine, null),
           });
           this.departmentfilter.setValue(this.all_email_management[0].Comp_Department);
+          this.fruits = this.all_email_management[0].EmployeesToAttach;
         }
 
         this.emailSubjectsArr = this.all_email_management[this.all_email_management.length - 1];
@@ -518,9 +530,10 @@ export class EmailmanagementComponent implements OnInit {
 
         this.all_users_filter.forEach(element => {
           this.users.push({
-            firstname: element.firstname + " " + element.lastname,
-            id: element.id,
-            email: element.email
+            Employee_Name: element.firstname + " " + element.lastname,
+            Employee_Id: element.id,
+            email: element.email,
+            Status: 'True'
           });
         })
       });
