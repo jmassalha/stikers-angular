@@ -387,7 +387,9 @@ export class EmailmanagementComponent implements OnInit {
     if (_ifSplit == "0") {
       this.manageComplaintForm.setValidators(null);
     }
-    this.manageComplaintForm.controls['EmployeesToAttach'].setValue(this.fruits);
+    if (this.fruits.length > 0) {
+      this.manageComplaintForm.controls['EmployeesToAttach'].setValue(this.fruits);
+    }
     // this.emailSenderGroup.controls['EmailDateTime'].setValue(this.manageComplaintForm.controls['Comp_Date'].value);
     if (!this.manageComplaintForm.invalid && !this.emailSenderGroup.invalid) {
       this.http
@@ -402,8 +404,6 @@ export class EmailmanagementComponent implements OnInit {
           this.openSnackBar("!נשמר בהצלחה");
         });
       this.dialog.closeAll();
-      this.router.navigate(['emailsdashboard']);
-      window.location.reload();
     } else {
       if (this.manageComplaintForm.controls['Comp_Department'].value === null) {
         this.openSnackBar("נא לבחור מחלקה");

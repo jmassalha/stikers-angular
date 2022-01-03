@@ -302,7 +302,8 @@
                     </div>
                     <div class="col-1" *ngIf="UserName == 'adahabre'">
                         <button id="speechBtn" (mouseup)="stopService()" (mousedown)="startService()"
-                            (touchend)="stopService()" (touchstart)="startService()"><span class="material-icons" style="font-size: 30px;">
+                            (touchend)="stopService()" (touchstart)="startService()"><span class="material-icons"
+                                style="font-size: 30px;">
                                 mic
                             </span></button>
                     </div>
@@ -342,7 +343,17 @@
                         <mat-icon>account_circle</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-                <!-- <form dir="rtl" class="form col" id="formBody" *ngFor="let report of patient"
+
+                <app-fill-report *ngFor="let item of patient" style="font-size: small;" [reportID]="item.Row_ID"
+                    [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
+                <hr>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <div *ngIf="reportType == 'administrative'">
+            <app-fill-report *ngFor="let item of currentItemsToShow" style="font-size: small;" [reportID]="item.Row_ID"
+                [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
+            <!-- <form dir="rtl" class="form col" id="formBody">
+                <div *ngFor="let report of currentItemsToShow; let i = index"
                     [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
                     <div class="modal-header text-right">
                         <div class="row mt-3">
@@ -413,16 +424,7 @@
                                         <input type="text" aria-label="department"
                                             style="font-weight: bolder;font-size: 18px;" matInput
                                             value="{{report.ReportMachlol}}">
-                                        <input type="text" aria-label="department"
-                                            style="font-weight: bolder;font-size: 18px;" matInput
-                                            [formControl]="departmentfilter" [matAutocomplete]="auto2">
-                                        <mat-autocomplete #auto2="matAutocomplete">
-                                            <mat-option *ngFor="let dept of filteredOptions2 | async"
-                                                [value]="dept.Dept_Name"
-                                                style="font-weight: bolder;font-size: 18px;">
-                                                {{dept.Dept_Name}}
-                                            </mat-option>
-                                        </mat-autocomplete>
+
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -433,16 +435,7 @@
                                         <input type="text" aria-label="category"
                                             style="font-weight: bolder;font-size: 18px;" matInput
                                             value="{{report.ReportCategory}}">
-                                        <input type="text" aria-label="category"
-                                            style="font-weight: bolder;font-size: 18px;" matInput
-                                            [formControl]="categoryfilter" [matAutocomplete]="auto3">
-                                        <mat-autocomplete #auto3="matAutocomplete">
-                                            <mat-option *ngFor="let cat of filteredOptions3 | async"
-                                                [value]="cat.Cat_Name"
-                                                style="font-weight: bolder;font-size: 18px;">
-                                                {{cat.Cat_Name}}
-                                            </mat-option>
-                                        </mat-autocomplete>
+
                                     </mat-form-field>
                                 </div>
                             </div>
@@ -463,17 +456,16 @@
                             <div class="col-1 text-center">
                                 <button [disabled]="!creator" (click)="setImportantReport()"
                                     matTooltip="סמן כחשוב"><span class="material-icons"
-                                        [style.color]="report.Important == 'True' ? 'red': 'grey'"
-                                        id="importantIcon">
+                                        [style.color]="report.Important == 'True' ? 'red': 'grey'" id="importantIcon">
                                         notification_important
                                     </span></button>
-
                             </div>
                             <div class="col" style="align-self: center;">
                                 <section class="example-section">
                                     <mat-checkbox class="example-margin" value="{{report.toContinue}}"
                                         (change)="autoDate($event.checked)"
-                                        style="font-weight: bolder;font-size: 18px;">דורש
+                                        style="font-weight: bolder;font-size: 18px;">
+                                        דורש
                                         המשך טיפול</mat-checkbox>
                                 </section>
                             </div>
@@ -483,19 +475,18 @@
                                 <div class="form-group">
                                     <mat-form-field>
                                         <mat-label>משמרת</mat-label>
-                                        <b
-                                            style="font-size: 26px;font-weight: bolder;font-size: 18px;">
+                                        <b style="font-size: 26px;font-weight: bolder;font-size: 18px;">
                                             <input matInput class="form-control" value="{{report.ReportShift}}"
                                                 type="text" />
                                         </b>
                                     </mat-form-field>
-
                                 </div>
                             </div>
                             <div class="col-9">
                                 <div class="form-group">
                                     <mat-form-field>
                                         <textarea matInput rows="3"
+                                            [disabled]="i >= 20"
                                             style="font-size: 15px;font-weight: bolder;font-size: 18px;"
                                             placeholder="תוכן הדוח" class="form-control border-1"
                                             value="{{report.ReportText}}"></textarea>
@@ -504,57 +495,25 @@
                             </div>
                         </div>
                         <div class="row">
-                        <div class="col-12">
-                            <h5>תגובות:</h5>
-                            <div class="expantionBox" *ngIf="usersReponsesList?.length > 0">
-                                <div class="mat-accordion">
-                                    <div *ngFor="let response of usersReponsesList">
-                                        <div class="reply-row" *ngIf="response.FirstName != ''">
-                                            <div class="row mt-2">
-                                                <div class="col-10">
-                                                    <h6>
-                                                        {{response.FirstName}} {{response.LastName}}
-                                                        &nbsp;{{response.UpdateDate}}
-                                                    </h6>
-                                                </div>
-                                                <div class="col-2">
-                                                    <button *ngIf="response.UserName == UserName" matTooltip="מחיקה"
-                                                        type="button" id="BtnStyle" mat-raised-button
-                                                        class="btn btn-outline-dark" color="warn"
-                                                        (click)="deleteReply(response.ResponseRowID)">
-                                                        <span class="material-icons">
-                                                            delete
-                                                        </span>
-                                                    </button>
-                                                </div>
-                                            </div>
-                                            <br>
-                                            <p class="text-right"
-                                                style="font-weight: bolder;font-size: 18px;">
-                                                {{response.ResponseText}}</p>
-                                        </div>
+                            <div class="col-12">
+                                <h5>תגובות:</h5>
+                                <div class="expantionBox" >
+                                    <div class="mat-accordion">
+                                        
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
-                    </div>
-                </form> -->
-                <app-fill-report *ngFor="let item of patient" style="font-size: small;" [reportID]="item.Row_ID"
-                    [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
-                <hr>
-            </mat-expansion-panel>
+                </div>
 
-        </mat-accordion>
-        <div *ngIf="reportType == 'administrative'">
-            <app-fill-report *ngFor="let item of currentItemsToShow" style="font-size: small;" [reportID]="item.Row_ID"
-                [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
+            </form> -->
         </div>
 
         <span class="material-icons" matTooltip="לראש העמוד" id="takeMeToTheTop" (click)="takeMeToTheTop()">
             upgrade
         </span>
-        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="15"
+        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="100"
             [pageSizeOptions]="[15, 25, 50, 100]">
         </mat-paginator>
     </div>
