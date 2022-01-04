@@ -189,6 +189,8 @@ export class FillReportComponent implements OnInit {
   userFullName: string;
   @Input()
   ifGeneral: string;
+  @Input()
+  offsetFlag: string;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';

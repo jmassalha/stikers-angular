@@ -1,4 +1,4 @@
-import { Component, Inject, NgZone, OnInit, TemplateRef, ViewChild } from '@angular/core';
+import { Component, HostListener, Inject, NgZone, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder } from '@angular/forms';
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -96,6 +96,7 @@ export class NursesManageDashboardComponent implements OnInit {
     //   this.publicIP = data['ip'];
     // });
   }
+
 
   IpAddressMonitoring() {
     this.http

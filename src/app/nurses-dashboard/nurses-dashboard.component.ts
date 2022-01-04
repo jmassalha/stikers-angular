@@ -1,6 +1,7 @@
 import {
   Component,
   ElementRef,
+  HostListener,
   Inject,
   Input,
   OnInit,
@@ -36,6 +37,7 @@ import { FillReportComponent } from "../fill-report/fill-report.component";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { VoiceRecognitionService } from '../header/service/voice-recognition.service'
+import * as $ from "jquery";
 export interface User {
   name: string;
   id: string;
@@ -117,7 +119,7 @@ export class ShareReportsDialog {
       this.http
         // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
         // .post("http://srv-apps/wsrfc/WebService.asmx/AttachReportToUser", {
-          .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
+        .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
           userId: this.myControl.value.id,
           _reportArray: this.reportArray,
@@ -206,7 +208,7 @@ export class NursesDashboardComponent implements OnInit {
   pipe = new DatePipe('en-US');
   myDate = new Date();
   constructor(private _snackBar: MatSnackBar,
-    public service : VoiceRecognitionService,
+    public service: VoiceRecognitionService,
     private router: Router,
     private _renderer: Renderer2,
     private http: HttpClient,
@@ -216,7 +218,7 @@ export class NursesDashboardComponent implements OnInit {
     public dialog: MatDialog,
     public datePipe: DatePipe,
     private confirmationDialogService: ConfirmationDialogService,
-    activeModal: NgbActiveModal) { this.service.init();}
+    activeModal: NgbActiveModal) { this.service.init(); }
 
   searchReportsGroup: FormGroup;
   reportsArr = [];
@@ -266,6 +268,7 @@ export class NursesDashboardComponent implements OnInit {
   print2: boolean;
   panelOpenState: boolean = false;
   Patientsloading: boolean = false;
+  offsetFlag = true;
 
   ngOnInit(): void {
     if (this.caseNumber != "" && this.caseNumber != undefined) {
@@ -346,16 +349,35 @@ export class NursesDashboardComponent implements OnInit {
     this.currentItemsToShow = this.ELEMENT_DATA;
   }
 
-  startService(){
+  // @HostListener('window:scroll', ['$event']) getScrollHeight(event) {
+  //   console.log(this.myScrollContainer.nativeElement.pageYOffset, event);
+  //   if (this.myScrollContainer.nativeElement.pageYOffset > 0)
+  //     this.offsetFlag = false;
+  //   else
+  //     this.offsetFlag = true;
+  // }
+  // @HostListener('document:mousewheel', ['$event'])
+  // getScrollHeight(event) {
+  //   console.log("top: "+event.target.offsetTop);
+  //   console.log("flag: "+event.target.offsetFlag);
+  //   console.log("height: "+event.target.offsetHeight);
+  //   if (window.pageYOffset > 0)
+  //     this.offsetFlag = false;
+  //   else
+  //     this.offsetFlag = true;
+  // }
+
+
+  startService() {
     this.service.start();
   }
 
-  stopService(){
-    if(this.service.tempWords.includes('מחק')){
+  stopService() {
+    if (this.service.tempWords.includes('מחק')) {
       this.ReportGroup.controls['ReportText'].setValue('');
-    }else{
+    } else {
       let speechValue = this.ReportGroup.controls['ReportText'].value;
-      this.ReportGroup.controls['ReportText'].setValue(speechValue+' '+this.service.tempWords);  
+      this.ReportGroup.controls['ReportText'].setValue(speechValue + ' ' + this.service.tempWords);
     }
     this.service.stop();
   }
@@ -512,10 +534,10 @@ export class NursesDashboardComponent implements OnInit {
     } else {
       if (this.time2 >= "09:00") {
         _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00');
-      }else if(this.time2 < "09:00" && this.time2 > "00:00"){
+      } else if (this.time2 < "09:00" && this.time2 > "00:00") {
         myDate2.setDate(myDate2.getDate() - 1);
-      _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00');
-      }else {
+        _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd 07:00');
+      } else {
         _reportStartDate = pipe.transform(myDate2, 'yyyy/MM/dd');
       }
     }

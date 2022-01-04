@@ -1,4 +1,4 @@
-<div class="container" #pagetoshow id="pagetoshow">
+<div  class="container" #pagetoshow id="pagetoshow">
     <div class="row" style="justify-content: right;">
         <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
             <span>&times;</span>
@@ -290,7 +290,7 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="col-9">
+                    <div class="col-10">
                         <div class="form-group">
                             <mat-form-field id="reportContentField">
                                 <textarea matInput
@@ -300,13 +300,13 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <div class="col-1" *ngIf="UserName == 'adahabre'">
+                    <!-- <div class="col-1" *ngIf="UserName == 'adahabre'">
                         <button id="speechBtn" (mouseup)="stopService()" (mousedown)="startService()"
                             (touchend)="stopService()" (touchstart)="startService()"><span class="material-icons"
                                 style="font-size: 30px;">
                                 mic
                             </span></button>
-                    </div>
+                    </div> -->
                 </div>
             </div>
             <div class="modal-footer text-left">
@@ -331,6 +331,9 @@
                 </button> -->
             </div>
         </form>
+        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="15"
+            [pageSizeOptions]="[15, 25, 50, 100]">
+        </mat-paginator>
         <mat-accordion *ngIf="reportType == 'clinical'" class="example-headers-align" multi>
             <mat-expansion-panel *ngFor="let patient of differentReports" (opened)="panelOpenState = true"
                 (closed)="panelOpenState = false">
@@ -351,7 +354,7 @@
         </mat-accordion>
         <div *ngIf="reportType == 'administrative'">
             <app-fill-report *ngFor="let item of currentItemsToShow" style="font-size: small;" [reportID]="item.Row_ID"
-                [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
+                [userFullName]="item.userFullName" [ifGeneral]="ifGeneral" [offsetFlag]="offsetFlag"></app-fill-report>
             <!-- <form dir="rtl" class="form col" id="formBody">
                 <div *ngFor="let report of currentItemsToShow; let i = index"
                     [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
@@ -513,7 +516,7 @@
         <span class="material-icons" matTooltip="לראש העמוד" id="takeMeToTheTop" (click)="takeMeToTheTop()">
             upgrade
         </span>
-        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="15"
+        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" *ngIf="currentItemsToShow.length > 0" [pageSize]="15"
             [pageSizeOptions]="[15, 25, 50, 100]">
         </mat-paginator>
     </div>
