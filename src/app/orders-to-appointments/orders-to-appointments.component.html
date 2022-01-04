@@ -138,7 +138,7 @@
                             </ng-container>
                             <ng-container matColumnDef="OrderDateTime">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    תאריך שעת יצירת זימון
+                                    תאריך ושעת הבקשה
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.OrderDateTime }}
@@ -155,7 +155,7 @@
 
                             <ng-container matColumnDef="AcceptedDateTime">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    תאריך אישור
+                                    תאריך ושעת מענה
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.AcceptedDateTime }}
@@ -361,7 +361,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="AcceptedUser != ''" class="row r-1">
+            <div *ngIf="AcceptedUser != '' && RowId != '0' " class="row r-1">
                 <div class="col">
                     <div class="form-group br-1">
                         <label> עובד מאשר</label>

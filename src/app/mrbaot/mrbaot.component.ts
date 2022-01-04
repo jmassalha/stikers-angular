@@ -11,6 +11,7 @@ import * as $ from "jquery";
 import { Time } from "@angular/common";
 import { FormControl } from "@angular/forms";
 import * as Fun from "../public.functions";
+import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
 
 export interface Bekorem {
     PM_CASE_NUMBER: number;
@@ -43,6 +44,18 @@ export interface Bekorem {
     PM_MOVE_RANGE: string;
     PM_PATIENT_ID: string;
 }
+export interface ClinicName {
+    ClinicTitle: string;
+    DepartID: string;
+}
+export interface ClinicDoing {
+    ClinicParent: string;
+    ClinicName: string;
+    Counter: string;
+    CounterPast: string;
+    NewPatientCounter: string;
+    RepeatPatientCounter: string;
+}
 
 @Component({
     selector: "app-mrbaot",
@@ -57,7 +70,8 @@ export class MrbaotComponent implements OnInit {
     closeResult: string;
     Depart: string;
     PatientType: string;
-
+    ClinicsNames: ClinicName[] = [];
+    ClinicDoings: ClinicDoing[] = [];
     displayedColumns: string[] = [
         "PM_CASE_NUMBER",
         "PM_MOVE_DATE",
@@ -69,10 +83,10 @@ export class MrbaotComponent implements OnInit {
     ];
     TABLE_DATA: Bekorem[] = [];
     dataSource = new MatTableDataSource(this.TABLE_DATA);
-
+    _yearStart;
     resultsLength = 0;
     fliterVal = "";
-
+    cards: any = [];
     chart = null;
     isShow = false;
     _selectedYear = 0;
@@ -84,7 +98,12 @@ export class MrbaotComponent implements OnInit {
     _yearToSearch = 0;
     Sdate: FormControl;
     Edate: FormControl;
+    totalNow: number = 0;
+    totalPast: number = 0;
+    totalNew: number = 0;
+    totalNotNew: number = 0;
     ngOnInit() {
+        this.getClinicsNames();
         this.PatientType = "-1";
         this._fun.RunFunction();
         this.yearsToSelect = this._fun.yearsToSelect;
@@ -114,7 +133,7 @@ export class MrbaotComponent implements OnInit {
         //console.log(this.paginator.pageIndex);
     }
     radioChange(event: MatRadioChange) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -129,13 +148,13 @@ export class MrbaotComponent implements OnInit {
                 10,
                 filterValue,
                 this.Depart,
-                this.PatientType,
+                this.PatientType
             );
         }
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event: MatRadioChange) {
-        ////debugger;
+        //////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -189,15 +208,16 @@ export class MrbaotComponent implements OnInit {
         _Depart: string,
         _PatientType: string
     ) {
+        //debugger
         let _surgeryType = "";
         let _counter = 0;
-        let _yearStart = new Date(_startDate).getFullYear();
+        this._yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
 
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        ////////debugger
+        //////////debugger
         $("#loader").removeClass("d-none");
         this.http
             .post(
@@ -214,457 +234,162 @@ export class MrbaotComponent implements OnInit {
             )
             .subscribe(
                 (Response) => {
-                    $("#_departments").empty();
-                    // //////debugger
-                    this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = JSON.parse(Response["d"]);
-                    this._fun.drawCharToDom(
-                        "bar",
-                        JSON.parse(json["DepartSeodeName"]),
-                        JSON.parse(json["DepartCounterBekorem"]),
-                        "bekoremCount",
-                        "canvbekoremCount",
-                        'סה"כ',
-                        ""
-                    );
-                    var SeodeRoomNameNow = JSON.parse(
-                        json["SeodeRoomNameNow"]
-                    );
-                    var SeodeRoomCounterNow = JSON.parse(
-                        json["SeodeRoomCounterNow"]
-                    );
-                    var SeodeRoomDepartNow = JSON.parse(
-                        json["SeodeRoomDepartNow"]
-                    );
-                    var SeodeRoomNamePast = JSON.parse(
-                        json["SeodeRoomNamePast"]
-                    );
-                    var SeodeRoomCounterPast = JSON.parse(
-                        json["SeodeRoomCounterPast"]
-                    );
-                    var SeodeRoomDepartPast = JSON.parse(
-                        json["SeodeRoomDepartPast"]
-                    );
-                    var _monthsLabels = JSON.parse(json["_monthsLabels"]);
-                    var _monthsNowVal = JSON.parse(json["_monthsNowVal"]);
-                    var _monthsPastVal = JSON.parse(json["_monthsPastVal"]);
-                    ////////debugger
-                    var DepartName = JSON.parse(json["DepartName"]);
-
-                    var DepartSeodeName = JSON.parse(json["DepartSeodeName"]);
-                    var DepartNameSeodeRoomNew = JSON.parse(
-                        json["DepartNameSeodeRoomNew"]
-                    );
-                    var DepartNameRoomNew = JSON.parse(
-                        json["DepartNameRoomNew"]
-                    );
-                    var DepartCounterBekoremRoomNew = JSON.parse(
-                        json["DepartCounterBekoremRoomNew"]
-                    );
-                    var DepartNameSeodeRoomNotNew = JSON.parse(
-                        json["DepartNameSeodeRoomNotNew"]
-                    );
-                    var DepartNameRoomNotNew = JSON.parse(
-                        json["DepartNameRoomNotNew"]
-                    );
-                    var DepartCounterBekoremRoomNotNew = JSON.parse(
-                        json["DepartCounterBekoremRoomNotNew"]
-                    );
-                    var DepartSeodeNameNew = JSON.parse(
-                        json["DepartSeodeNameNew"]
-                    );
-                    var DepartNameSeodeNotNew = JSON.parse(
-                        json["DepartNameSeodeNotNew"]
-                    );
-                    var DepartNameSeodePast = JSON.parse(
-                        json["DepartNameSeodePast"]
-                    );
-                    var DepartSeodeNameNewPast = JSON.parse(
-                        json["DepartSeodeNameNewPast"]
-                    );
-                    var DepartSeodeNameNotNewPast = JSON.parse(
-                        json["DepartSeodeNameNotNewPast"]
-                    );
-
-                    var DepartCounterBekorem = JSON.parse(
-                        json["DepartCounterBekorem"]
-                    );
-                    var DepartNameNew = JSON.parse(json["DepartNameNew"]);
-                    var DepartCounterBekoremNew = JSON.parse(
-                        json["DepartCounterBekoremNew"]
-                    );
-                    var DepartNameNotNew = JSON.parse(
-                        json["DepartNameNotNew"]
-                    );
-                    var DepartCounterBekoremNotNew = JSON.parse(
-                        json["DepartCounterBekoremNotNew"]
-                    );
-                    var DepartNamePast = JSON.parse(json["DepartNamePast"]);
-                    var DepartCounterBekoremPast = JSON.parse(
-                        json["DepartCounterBekoremPast"]
-                    );
-                    var DepartNameNewPast = JSON.parse(
-                        json["DepartNameNewPast"]
-                    );
-                    var DepartCounterBekoremNewPast = JSON.parse(
-                        json["DepartCounterBekoremNewPast"]
-                    );
-                    var DepartNameNotNewPast = JSON.parse(
-                        json["DepartNameNotNewPast"]
-                    );
-                    var DepartCounterBekoremNotNewPast = JSON.parse(
-                        json["DepartCounterBekoremNotNewPast"]
-                    );
-                    debugger;
-
-                    this._fun.drawCharToDom(
-                        "line",
-                        _monthsLabels,
-                        [_monthsNowVal, _monthsPastVal],
-                        "totalLineChart",
-                        "canvsLineChart",
-                        _yearStart.toString(),
-                        (_yearStart - 1).toString()
-                    );
-                    let _div = $(
-                        '<div class="card text-right" dir="rtl"></div>'
-                    );
-                    let _header = $(
-                        '<div class="card-header"><h1 class="row"><span class="col-4" style="float: right;"><span class="depname"></span></span><span style="float: right;" class="col-2 text-center">מס ביקורים ' +
-                            _yearEnd +
-                            '</span><span style="float: right;" class="col-2 text-center">מס ביקורים ' +
-                            (_yearStart - 1) +
-                            '</span><span style="float: right;" class="col-2 text-center">מס מבקרים חדשים</span><span style="float: right;" class="col-2 text-center">מס מבקרים חוזרים</span></h1></div>'
-                    );
-                    let _bodyCard = $('<div class="card-body"></div>');
-                    let _row = $(
-                        '<p class="row rowBord"><span style="float: right;" class="col-4 dep"></span><span style="float: right;" class="col-2 text-center new"></span><span style="float: right;" class="col-2 text-center past"></span><span style="float: right;" class="col-2 text-center new2"></span><span style="float: right;" class="col-2 text-center past2"></span></p>'
-                    );
-                    let _footer = $(
-                        '<div class="card-footer"><h5 class="row"><span style="float: right;" class="col-4 text-left">סה"כ</span><span style="float: right;" class="col-2 text-center fnew"></span><span style="float: right;" class="col-2 text-center fpast"></span><span style="float: right;" class="col-2 text-center fnew2"></span><span style="float: right;" class="col-2 text-center fpast2"></span></h5></div>'
-                    );
-                    let i = 0;
-                    let _depName = "";
-                    var derpCounterForYear = 0;
-                    var derpCounterForPastYear = 0;
-                    var derpCounterNewForYear = 0;
-                    var derpCounterNotForYear = 0;
-                    var totAll = 0;
-                    var totAllPast = 0;
-                    for (i = 0; i < DepartName.length; i++) {
-                        if (i == 0) {
-                            _depName = DepartName[i];
-                            _header.find(".depname").text(_depName);
-                            _div.append(_header.clone());
+                    this.ClinicDoings = [];
+                    this.cards = [];
+                    var json = Response["d"];
+                    if (json["YearCount"].length == 0) {
+                        setTimeout(() => {
+                            //this.dataSource.paginator = this.paginator
+                            $("#loader").addClass("d-none");
+                            $("#totalBarChart").addClass("d-none");
+                            $("#totalLineChart").addClass("d-none");
+                        });
+                        //return;
+                    } else {
+                        
+                        $("#totalBarChart").removeClass("d-none");
+                        $("#totalLineChart").removeClass("d-none");
+                        var YearCountPast = 0;
+                        if(json["YearCountPast"][0] != undefined){
+                            YearCountPast = parseInt(json["YearCountPast"][0]["COUNTER"]);
                         }
-                        if (_depName != DepartName[i]) {
-                            _footer.find(".fnew").text(derpCounterForYear);
-                            _footer.find(".fpast").text(derpCounterForPastYear);
-                            _footer.find(".fnew2").text(derpCounterNewForYear);
-                            _footer.find(".fpast2").text(derpCounterNotForYear);
-                            _div.append(_footer.clone());
-                            //_div.append('<br>');
-                            $("#_departments").append(_div.clone());
-                            _depName = DepartName[i];
-                            derpCounterForYear = 0;
-                            derpCounterForPastYear = 0;
-                            derpCounterNewForYear = 0;
-                            derpCounterNotForYear = 0;
-                            _div.empty();
-                            _header.find(".depname").text(_depName);
-                            _div.append(_header.clone());
-                        }
-                        let _rowClone = _row.clone();
-                        _rowClone.find(".dep").text(DepartSeodeName[i]);
-
-                        _rowClone.find(".new").text(DepartCounterBekorem[i]);
-                        derpCounterForYear += parseInt(DepartCounterBekorem[i]);
-                        if (
-                            $.inArray(
-                                DepartSeodeName[i],
-                                DepartNameSeodePast
-                            ) != -1
-                        ) {
-                            _rowClone
-                                .find(".past")
-                                .text(
-                                    DepartCounterBekoremPast[
-                                        $.inArray(
-                                            DepartSeodeName[i],
-                                            DepartNameSeodePast
-                                        )
-                                    ]
-                                );
-                            derpCounterForPastYear += parseInt(
-                                DepartCounterBekoremPast[
-                                    $.inArray(
-                                        DepartSeodeName[i],
-                                        DepartNameSeodePast
-                                    )
-                                ]
+                        this._fun.drawCharToDom(
+                            "bar",
+                            [
+                                this._yearStart,
+                                this._yearStart - 1,
+                            ],
+                            [
+                                parseInt(json["YearCount"][0]["COUNTER"]),
+                                YearCountPast,
+                            ],
+                            "totalBarChart",
+                            "canvbekoremCount",
+                            'סה"כ',
+                            ""
+                        );
+                        var _monthsLabels = [];
+                        var _monthsCounter = [];
+                        var _monthsCounterPast = [];
+                        for (var i = 0; i < json["MonthCount"].length; i++) {
+                            _monthsLabels.push(json["MonthCount"][i]["MONTH"]);
+                            _monthsCounter.push(
+                                parseInt(json["MonthCount"][i]["COUNTER"])
                             );
-                        } else {
-                            _rowClone.find(".past").text(0);
-                        }
-                        if (
-                            $.inArray(DepartSeodeName[i], DepartSeodeNameNew) !=
-                            -1
-                        ) {
-                            _rowClone
-                                .find(".new2")
-                                .text(
-                                    DepartCounterBekoremNew[
-                                        $.inArray(
-                                            DepartSeodeName[i],
-                                            DepartSeodeNameNew
-                                        )
-                                    ]
-                                );
-                            derpCounterNewForYear += parseInt(
-                                DepartCounterBekoremNew[
-                                    $.inArray(
-                                        DepartSeodeName[i],
-                                        DepartSeodeNameNew
+                            if (json["MonthCountPast"][i] != undefined) {
+                                _monthsCounterPast.push(
+                                    parseInt(
+                                        json["MonthCountPast"][i]["COUNTER"]
                                     )
-                                ]
-                            );
-                        } else {
-                            _rowClone.find(".new2").text(0);
-                        }
-                        if (
-                            $.inArray(
-                                DepartSeodeName[i],
-                                DepartNameSeodeNotNew
-                            ) != -1
-                        ) {
-                            _rowClone
-                                .find(".past2")
-                                .text(
-                                    DepartCounterBekoremNotNew[
-                                        $.inArray(
-                                            DepartSeodeName[i],
-                                            DepartNameSeodeNotNew
-                                        )
-                                    ]
                                 );
-                            derpCounterNotForYear += parseInt(
-                                DepartCounterBekoremNotNew[
-                                    $.inArray(
-                                        DepartSeodeName[i],
-                                        DepartNameSeodeNotNew
-                                    )
-                                ]
-                            );
-                        } else {
-                            _rowClone.find(".past2").text(0);
-                        }
-                        _div.append(_rowClone);
-                        totAll += parseInt(DepartCounterBekorem[i]);
-                        //debugger
-                        if (
-                            DepartSeodeName[i] == "מר-קרד-כ" ||
-                            DepartSeodeName[i] == "מר-המט" ||
-                            DepartSeodeName[i] == "מכ-או-כ" ||
-                            DepartSeodeName[i] == "מר-פג" ||
-                            DepartSeodeName[i] == "מר-ראומט"
-                        ) {
-                            /*
-                            SeodeRoomNameNow
-    SeodeRoomCounterNow
-    SeodeRoomDepartNow
-    SeodeRoomNamePast
-    SeodeRoomCounterPast
-    SeodeRoomDepartPast
-                            */
-                            debugger;
-                            for (
-                                var sIn = 0;
-                                sIn < SeodeRoomNameNow.length;
-                                sIn++
-                            ) {
-                                var _rowClone2;
-                                if (DepartSeodeName[i] == "מכ-או-כ") {
-                                    if (
-                                        SeodeRoomNameNow[sIn].indexOf(
-                                            "מכון אונקולוגיה"
-                                        ) >= 0
-                                    ) {
-                                        _rowClone2 = _row.clone();
-                                        _rowClone2
-                                            .find(".dep")
-                                            .addClass("tab-1");
-                                        _rowClone2
-                                            .find(".dep")
-                                            .html(
-                                                "  --  " + SeodeRoomNameNow[sIn]
-                                            );
-
-                                        _rowClone2
-                                            .find(".new")
-                                            .text(SeodeRoomCounterNow[sIn]);
-
-                                        if (
-                                            $.inArray(
-                                                SeodeRoomNameNow[sIn],
-                                                SeodeRoomNamePast
-                                            ) != -1
-                                        ) {
-                                            _rowClone2
-                                                .find(".past")
-                                                .text(
-                                                    SeodeRoomCounterPast[
-                                                        $.inArray(
-                                                            SeodeRoomNameNow[
-                                                                sIn
-                                                            ],
-                                                            SeodeRoomNamePast
-                                                        )
-                                                    ]
-                                                );
-                                        } else {
-                                            _rowClone2.find(".past").text(0);
-                                        }
-                                    }
-                                } else if (DepartSeodeName[i] == "מר-המט") {
-                                    if (
-                                        SeodeRoomNameNow[sIn].indexOf(
-                                            "מרפאה המוטולוגית"
-                                        ) >= 0
-                                    ) {
-                                        _rowClone2 = _row.clone();
-                                        _rowClone2
-                                            .find(".dep")
-                                            .addClass("tab-1");
-                                        _rowClone2
-                                            .find(".dep")
-                                            .html(
-                                                "  --  " + SeodeRoomNameNow[sIn]
-                                            );
-
-                                        _rowClone2
-                                            .find(".new")
-                                            .text(SeodeRoomCounterNow[sIn]);
-
-                                        if (
-                                            $.inArray(
-                                                SeodeRoomNameNow[sIn],
-                                                SeodeRoomNamePast
-                                            ) != -1
-                                        ) {
-                                            _rowClone2
-                                                .find(".past")
-                                                .text(
-                                                    SeodeRoomCounterPast[
-                                                        $.inArray(
-                                                            SeodeRoomNameNow[
-                                                                sIn
-                                                            ],
-                                                            SeodeRoomNamePast
-                                                        )
-                                                    ]
-                                                );
-                                        } else {
-                                            _rowClone2.find(".past").text(0);
-                                        }
-                                    }
-                                } else {
-                                    _rowClone2 = _row.clone();
-                                    _rowClone2.find(".dep").addClass("tab-1");
-                                    _rowClone2
-                                        .find(".dep")
-                                        .html("  --  " + SeodeRoomNameNow[sIn]);
-
-                                    _rowClone2
-                                        .find(".new")
-                                        .text(SeodeRoomCounterNow[sIn]);
-
-                                    if (
-                                        $.inArray(
-                                            SeodeRoomNameNow[sIn],
-                                            SeodeRoomNamePast
-                                        ) != -1
-                                    ) {
-                                        _rowClone2
-                                            .find(".past")
-                                            .text(
-                                                SeodeRoomCounterPast[
-                                                    $.inArray(
-                                                        SeodeRoomNameNow[sIn],
-                                                        SeodeRoomNamePast
-                                                    )
-                                                ]
-                                            );
-                                    } else {
-                                        _rowClone2.find(".past").text(0);
-                                    }
-                                }
-
-                                // if (
-                                //     $.inArray(
-                                //         DepartSeodeName[i],
-                                //         DepartSeodeNameNew
-                                //     ) != -1
-                                // ) {
-                                //     _rowClone2
-                                //         .find(".new2")
-                                //         .text(
-                                //             DepartCounterBekoremNew[
-                                //                 $.inArray(
-                                //                     DepartSeodeName[i],
-                                //                     DepartSeodeNameNew
-                                //                 )
-                                //             ]
-                                //         );
-
-                                // } else {
-                                //     _rowClone2.find(".new2").text(0);
-                                // }
-                                // if (
-                                //     $.inArray(
-                                //         DepartSeodeName[i],
-                                //         DepartNameSeodeNotNew
-                                //     ) != -1
-                                // ) {
-                                //     _rowClone2
-                                //         .find(".past2")
-                                //         .text(
-                                //             DepartCounterBekoremNotNew[
-                                //                 $.inArray(
-                                //                     DepartSeodeName[i],
-                                //                     DepartNameSeodeNotNew
-                                //                 )
-                                //             ]
-                                //         );
-
-                                // } else {
-                                //     _rowClone2.find(".past2").text(0);
-                                // }
-                                _div.append(_rowClone2);
+                            } else {
+                                _monthsCounterPast.push(0);
                             }
                         }
+                        this._fun.drawCharToDom(
+                            "line",
+                            _monthsLabels,
+                            [_monthsCounter, _monthsCounterPast],
+                            "totalLineChart",
+                            "canvsLineChart",
+                            this._yearStart.toString(),
+                            (this._yearStart - 1).toString()
+                        );
+                        this.ClinicDoings = [];
+                        this.totalNow = 0;
+                        this.totalPast = 0;
+                        this.totalNew = 0;
+                        this.totalNotNew = 0;
+                        var lastDepart = "";
+                        for (var i = 0; i < json["DepartCount"].length; i++) {
+                            var index = json["DepartCountPast"]
+                                .map(function (e) {
+                                    return e.ClinicName;
+                                })
+                                .indexOf(json["DepartCount"][i]["ClinicName"]);
+                            var indexnew = json["DepartCountNew"]
+                                .map(function (e) {
+                                    return e.ClinicName;
+                                })
+                                .indexOf(json["DepartCount"][i]["ClinicName"]);
+                            var indexnotnew = json["DepartCountNotNew"]
+                                .map(function (e) {
+                                    return e.ClinicName;
+                                })
+                                .indexOf(json["DepartCount"][i]["ClinicName"]);
+                            var totPast = "0";
+                            var totNew = "0";
+                            var totNotNew = "0";
+                            //debugger
+                            if (index >= 0) {
+                                totPast =
+                                    json["DepartCountPast"][index]["Counter"];
+                            }
+                            if (indexnew >= 0) {
+                                totNew =
+                                    json["DepartCountNew"][indexnew]["Counter"];
+                            }
+                            if (indexnotnew >= 0) {
+                                totNotNew =
+                                    json["DepartCountNotNew"][indexnotnew][
+                                        "Counter"
+                                    ];
+                            }
+                            var ClinicDoing: ClinicDoing = {
+                                ClinicParent:
+                                    json["DepartCount"][i]["DepartName"],
+                                ClinicName:
+                                    json["DepartCount"][i]["ClinicName"],
+                                Counter: json["DepartCount"][i]["Counter"],
+                                CounterPast: totPast,
+                                NewPatientCounter: totNew,
+                                RepeatPatientCounter: totNotNew,
+                            };
+                            this.totalNow += parseInt(
+                                json["DepartCount"][i]["Counter"]
+                            );
+                            this.totalPast += parseInt(totPast);
+                            this.totalNew += parseInt(totNew);
+                            this.totalNotNew += parseInt(totNotNew);
+                            this.ClinicDoings.push(ClinicDoing);
+                            if (lastDepart == "") {
+                                lastDepart = this.ClinicDoings[i].ClinicParent;
+                                this.cards.push(lastDepart);
+                            }
+                            if (
+                                lastDepart != this.ClinicDoings[i].ClinicParent
+                            ) {
+                                lastDepart = this.ClinicDoings[i].ClinicParent;
+                                this.cards.push(lastDepart);
+                            }
+                        }
+                        setTimeout(() => {
+                            //this.dataSource.paginator = this.paginator
+                            $("#loader").addClass("d-none");
+                        });
                     }
-                    // //////debugger;
+                    // debugger;
 
-                    totAllPast = 0;
-                    for (i = 0; i < DepartNamePast.length; i++) {
-                        totAllPast += parseInt(DepartCounterBekoremPast[i]);
-                    }
-                    //////debugger;
-                    this._fun.drawCharToDom(
-                        "bar",
-                        [(_yearStart - 1).toString(), _yearStart.toString()],
-                        [totAllPast, totAll],
-                        "totalBarChart",
-                        "canvstotalBarChart",
-                        'סה"כ',
-                        ""
-                    );
-                    _footer.find(".fnew").text(derpCounterForYear);
-                    _footer.find(".fpast").text(totAllPast);
-                    _footer.find(".fnew2").text(derpCounterNewForYear);
-                    _footer.find(".fpast2").text(derpCounterNotForYear);
-                    _div.append(_footer.clone());
-                    $("#_departments").append(_div.clone());
+                    //this.dataSource.paginator = this.paginator;
+                },
+                (error) => {
+                    // ////////debugger;
+                    $("#loader").addClass("d-none");
+                }
+            );
+    }
+    public getClinicsNames() {
+        $("#loader").removeClass("d-none");
+        //debugger;
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsNames", {})
+            .subscribe(
+                (Response) => {
+                    $("#_departments").empty();
+                    debugger
+
+                    this.ClinicsNames = Response["d"];
+
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
@@ -672,7 +397,7 @@ export class MrbaotComponent implements OnInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 (error) => {
-                    // //////debugger;
+                    //debugger;
                     $("#loader").addClass("d-none");
                 }
             );
