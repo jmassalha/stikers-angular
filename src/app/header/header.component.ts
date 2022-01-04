@@ -546,7 +546,8 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("oivry").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("CSimsolo").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("SYehuda").toLowerCase() ||
-            this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase() 
+            this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("FSabbah").toLowerCase() 
         ) {
             this._OrdersToAppointmentsComponent = true;
         }

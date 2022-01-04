@@ -75,6 +75,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         CellNumber: "",
         Depart: "",
     };
+    RowId = "0";
     OrderdUser = "";
     OrderdUserPhone = "";
     OrderdUserName = "";
@@ -107,6 +108,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
     pageSize = 10;
     statusOrder = "0";
     displayedColumns: string[] = [
+        "OrderDateTime",
+        "AcceptedDateTime",
         "PatientId",
         "PatientName",
         "OrderedToDepart",
@@ -141,7 +144,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
             this.paginator.pageSize = this.pageSize;
         }
         var date = new Date();
-        date.setDate(date.getDate() - 7);
+        //date.setDate(date.getDate() - 7);
         this.Sdate = new FormControl(date);
         this.Edate = new FormControl(new Date());
         this.startdateVal = this.Sdate.value;
@@ -213,6 +216,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 .getItem("loginUserName")
                 .toLowerCase();
         }
+        this.RowId = _element.RowId;
         this.OrderdUser = _element.OrderdUser;
         this.OrderdUserName = _element.OrderdUserName;
         this.OrderdUserPhone = _element.OrderdUserPhone;
@@ -237,7 +241,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
             _element.OrderRealDateTime != ""
         ) {
             var dateString = _element.OrderRealDateTime;
-            var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2})/;
+            var reggie = /(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/;
             var dateArray = reggie.exec(dateString);
             dateObject = new Date(
                 +dateArray[1],
@@ -334,6 +338,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
     open(content, _type, _element) {
         this.saveBtn = true;
         this.OrderStatus = "0";
+        this.RowId = "0";
         this.OrderedFromDepart = this.UserDetails.Depart
         this.OrderdUserName = this.UserDetails.FirstName + " "+this.UserDetails.LastName 
         this.OrderdUserPhone = this.UserDetails.CellNumber
