@@ -12,7 +12,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
-import {animate, state, style, transition, trigger} from '@angular/animations';
+import { animate, state, style, transition, trigger } from '@angular/animations';
 
 export interface Email {
   EmailID: string;
@@ -54,8 +54,8 @@ export class DialogContentExampleDialog {
   styleUrls: ['./emailsdashboard.component.css'],
   animations: [
     trigger('detailExpand', [
-      state('collapsed', style({height: '0px', minHeight: '0'})),
-      state('expanded', style({height: '*'})),
+      state('collapsed', style({ height: '0px', minHeight: '0' })),
+      state('expanded', style({ height: '*' })),
       transition('expanded <=> collapsed', animate('225ms cubic-bezier(0.4, 0.0, 0.2, 1)')),
     ]),
   ],
@@ -146,11 +146,17 @@ export class EmailsdashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(EmailmanagementComponent);
     dialogRef.componentInstance.urlID = id;
     dialogRef.componentInstance.fakeID = fakeID;
+    dialogRef.afterClosed().subscribe(result => {
+      this.searchForm('0');
+    });
   }
 
   openDialogToStatusComplaint(id) {
     let dialogRef = this.dialog.open(StatusComplaintComponent);
     dialogRef.componentInstance.urlID = id;
+    dialogRef.afterClosed().subscribe(result => {
+      this.searchForm('0');
+    });
   }
 
   openSnackBar(message) {
@@ -239,9 +245,9 @@ export class EmailsdashboardComponent implements OnInit {
     let deadLineSearch = this.formSearch.controls['DeadLineSearch'].value;
     if (compStatusControl == "" && compName == "") {
       compStatusControl = '1';
-    }else if (compStatusControl == "" && compName != "") {
+    } else if (compStatusControl == "" && compName != "") {
       compStatusControl = '';
-    }else if (compStatusControl == undefined) {
+    } else if (compStatusControl == undefined) {
       compStatusControl = "";
     }
     if (departmentControl == undefined) {

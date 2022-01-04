@@ -13,6 +13,10 @@
             </span></h4>
     <table dir="rtl" [dataSource]="dataSource3" mat-table class="mat-elevation-z8" style="width: 100%;">
 
+        <ng-container matColumnDef="all">
+            <th mat-header-cell *matHeaderCellDef> סה"כ לידות </th>
+            <td mat-cell *matCellDef="let element"> {{element.AllBirth}} </td>
+        </ng-container>
         <ng-container matColumnDef="regular">
             <th mat-header-cell *matHeaderCellDef> לידה רגילה </th>
             <td mat-cell *matCellDef="let element"> {{element.RegularBirth}} </td>
@@ -121,8 +125,7 @@
         </ng-container>
 
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay1_2"></tr>
-        <tr mat-row *matRowDef="let row; columns: columnsToDisplay1_2;"
-            [style.background]="row.Active == 'ACTIVE' ? 'aquamarine': 'darkgray'"></tr>
+        <tr mat-row *matRowDef="let row;let even=even; columns: columnsToDisplay1_2;"></tr>
 
     </table>
 </form>

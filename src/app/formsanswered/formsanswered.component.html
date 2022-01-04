@@ -115,13 +115,13 @@
                     style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הדפסה/שמירה
                 </mat-header-cell>
                 <mat-cell *matCellDef="let element" style="justify-content: center;"> <button matTooltip="הדפסת הטופס"
-                        *ngIf="element.SavedToNamer == '1'" mat-raised-button color="primary"
+                         mat-raised-button color="primary"
                         (click)="printRowForm(element)">
                         <span class="material-icons">
                             zoom_out_map
                         </span>
                     </button>
-                    <button matTooltip="שמירה לתיק מטופל בנמר" *ngIf="element.SavedToNamer == '0'" mat-raised-button
+                    <button style="margin-right: 3px;" matTooltip="שמירה לתיק מטופל בנמר" mat-raised-button
                         color="primary" (click)="saveFormToNamer(element)">
                         <span class="material-icons">
                             save

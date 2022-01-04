@@ -325,16 +325,17 @@
                             <div class="col-12 text-right">
                                 <label>שם עובד</label>
                             </div>
-                            <mat-form-field class="example-full-width">
+                            <!-- <mat-form-field class="example-full-width">
                                 <input type="text" matInput formControlName="RelevantEmployee1">
-                            </mat-form-field>
-                            <!-- <mat-form-field class="example-chip-list" appearance="fill">
+                            </mat-form-field> -->
+                            <mat-form-field class="example-chip-list" appearance="fill">
                                 <mat-label>שם עובד</mat-label>
                                 <mat-chip-list #chipList aria-label="Fruit selection">
-                                    <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
-                                        (removed)="remove(fruit)">
-                                        {{fruit.firstname}}
-                                        <mat-icon matChipRemove>cancel</mat-icon>
+                                    <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable"
+                                        [removable]="removable" (removed)="remove(fruit)">
+                                        <div *ngIf="fruit.Status == 'True'">{{fruit.Employee_Name}}
+                                            <mat-icon matChipRemove>cancel</mat-icon>
+                                        </div>
                                     </mat-chip>
                                     <input placeholder="שם עובד" #fruitInput [formControl]="fruitCtrl"
                                         [matAutocomplete]="auto" [matChipInputFor]="chipList"
@@ -343,10 +344,10 @@
                                 </mat-chip-list>
                                 <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
                                     <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
-                                        {{fruit.firstname}}
+                                        {{fruit.Employee_Name}}
                                     </mat-option>
                                 </mat-autocomplete>
-                            </mat-form-field> -->
+                            </mat-form-field>
                         </li>
                         <li class="border-me col-6">
                             <div class="col-12 text-right">

@@ -355,15 +355,15 @@
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
-                        <mat-expansion-panel-header *ngIf="!personReadInquiry">
+                        <mat-expansion-panel-header>
                             <mat-panel-title> פניות ציבור </mat-panel-title>
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
-                        <mat-expansion-panel-header *ngIf="personReadInquiry">
+                        <!-- <mat-expansion-panel-header *ngIf="personReadInquiry">
                             <mat-panel-title> פניות ציבור</mat-panel-title>
                             <mat-panel-description style="align-items: center;"><i matBadgeColor="warn"
                                     [matBadge]="numberOfUnread"></i> </mat-panel-description>
-                        </mat-expansion-panel-header>
+                        </mat-expansion-panel-header> -->
                         <ul>
                             <li class="nav-item">
                                 <a class="nav-link" routerLink="emailsdashboard">דאשבורד פניות</a>

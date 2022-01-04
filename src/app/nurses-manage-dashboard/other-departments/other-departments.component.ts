@@ -19,7 +19,7 @@ export class OtherDepartmentsComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
 
-  columnsToDisplay1: string[] = ['regular', 'imperial', 'other', 'beforebirth', 'beforesurgery'];
+  columnsToDisplay1: string[] = ['all','regular', 'imperial', 'other', 'beforebirth', 'beforesurgery'];
   columnsToDisplay1_2: string[] = ['casenumber', 'firstname', 'lastname', 'birthtype', 'date', 'time', 'birthweek'];
   columnsToDisplay2: string[] = ['inprogress', 'waiting', 'completed', 'canceled'];
   columnsToDisplay2_2: string[] = ['patientid', 'firstname', 'lastname', 'departname', 'room', 'surgeryname', 'date', 'starttime', 'endtime', 'status'];
