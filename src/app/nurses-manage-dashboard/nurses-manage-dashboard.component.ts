@@ -102,7 +102,7 @@ export class NursesManageDashboardComponent implements OnInit {
   ipAddressUpdate() {
     if (this.ipUpdate == undefined) {
       this.ipUpdate = "";
-    }else{
+    } else {
       this.dialog.closeAll();
     }
     this.http
@@ -124,6 +124,8 @@ export class NursesManageDashboardComponent implements OnInit {
       .post("http://srv-apps/wsrfc/WebService.asmx/IpAddressMonitoring", {
         _userName: this.UserName,
         IpAdress_Login: this.ClientIP
+      }).subscribe(() => {
+
       })
   }
 
