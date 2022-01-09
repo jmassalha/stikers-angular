@@ -38,6 +38,7 @@ export class NursesManageDashboardComponent implements OnInit {
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   @ViewChild('modalContent2', { static: true }) modalContent2: TemplateRef<any>;
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
+  @ViewChild('modalIp', { static: true }) modalIp: TemplateRef<any>;
 
   constructor(
     private zone: NgZone,
@@ -70,6 +71,7 @@ export class NursesManageDashboardComponent implements OnInit {
   rightPC: boolean;
   phoneNumber: any;
   reportSubject: any;
+  ipUpdate: any;
   ClientIP: string;
   bugColumns: string[] = ['date', 'user', 'subject', 'done'];
   bugData = [];
@@ -89,8 +91,7 @@ export class NursesManageDashboardComponent implements OnInit {
       that.privateIP = this.ClientIP;
       this.IpAddressMonitoring();
     }, 1500);
-
-
+    this.ipAddressUpdate();
 
     // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
     //   this.publicIP = data['ip'];
@@ -98,13 +99,32 @@ export class NursesManageDashboardComponent implements OnInit {
   }
 
 
+  ipAddressUpdate() {
+    if (this.ipUpdate == undefined) {
+      this.ipUpdate = "";
+    }else{
+      this.dialog.closeAll();
+    }
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/ipAddressUpdate", {
+        _userName: this.UserName,
+        IpAdress_Login: this.ipUpdate
+      })
+      .subscribe((Response) => {
+        let ip = Response["d"];
+        this.ipUpdate = ip.IpAddress;
+        if (ip.Updated == "False") {
+          this.dialog.open(this.modalIp, { width: '60%', disableClose: true });
+        }
+      });
+  }
+
   IpAddressMonitoring() {
     this.http
       .post("http://srv-apps/wsrfc/WebService.asmx/IpAddressMonitoring", {
         _userName: this.UserName,
         IpAdress_Login: this.ClientIP
       })
-      .subscribe((Response) => { });
   }
 
   getBugsTable() {

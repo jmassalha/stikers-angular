@@ -31,6 +31,21 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
+            <li class="nav-item" *ngIf="loginUserName == 'adahabre'">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> ניהול עובדים </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="employeesmanagedashboard">דאשבורד</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
             <li class="nav-item" *ngIf="!_shoSofiMenu">
                 <mat-accordion>
                     <mat-expansion-panel>

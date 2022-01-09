@@ -36,6 +36,7 @@ export class FormDashboardComponent implements OnInit {
       'SwitchForms': new FormControl('1', null)
     });
     this.getAllForms();
+    // this.AlertToFill();
   }
 
   openDialogToFill(id,ifcontinue,NurseID) {
@@ -70,7 +71,16 @@ export class FormDashboardComponent implements OnInit {
           });
         });
       });
-
+  }
+  
+  AlertToFill() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/AlertToFill", {
+        _formID: "122"
+      })
+      .subscribe((Response) => {
+        let t = Response["d"];
+      });
   }
 
 }
