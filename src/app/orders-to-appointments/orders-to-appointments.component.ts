@@ -244,9 +244,9 @@ export class OrdersToAppointmentsComponent implements OnInit {
             var reggie = /(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/;
             var dateArray = reggie.exec(dateString);
             dateObject = new Date(
-                +dateArray[1],
-                +dateArray[2] - 1, // Careful, month starts at 0!
                 +dateArray[3],
+                +dateArray[2] - 1, // Careful, month starts at 0!
+                +dateArray[1],
                 +dateArray[4],
                 +dateArray[5]
             );
@@ -662,7 +662,19 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 "yyyy-MM-dd HH:mm:ss",
                 "en-US"
             );
+        }else if (typeof this.OrdersToAppointmentsForm.value.OrderDateTime == "string"){
+            var dateString = this.OrdersToAppointmentsForm.value.OrderDateTime;
+            var reggie = /(\d{2})\/(\d{2})\/(\d{4}) (\d{2}):(\d{2})/;
+            var dateArray = reggie.exec(dateString);
+            this.OrdersToAppointmentsForm.value.OrderDateTime = new Date(
+                +dateArray[3],
+                +dateArray[2] - 1, // Careful, month starts at 0!
+                +dateArray[1],
+                +dateArray[4],
+                +dateArray[5]
+            );
         }
+        debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
             // //////////debugger
