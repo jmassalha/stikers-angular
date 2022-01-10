@@ -1,1 +1,194 @@
-<p>employees-manage-dash works!</p>
+<div class="container">
+    <h1 class="page-title text-center">ניהול סטאג'רים</h1>
+    <div class="container-fluid trans-80 mb-2">
+        <div class="row search-cont">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form" [formGroup]="searchEmployeesGroup">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput type="text" autocomplete="off" placeholder="תעודת זהות"
+                                                formControlName="EmpID" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput type="text" autocomplete="off" placeholder="שם פרטי"
+                                                formControlName="EmpFirstName" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput type="text" autocomplete="off" placeholder="שם משפחה"
+                                                formControlName="EmpLastName" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>אלקטיב</mat-label>
+                                            <mat-select formControlName="Elective">
+                                                <mat-option value="'הכל'">הכל</mat-option>
+                                                <mat-option value="כן">
+                                                    כן
+                                                </mat-option>
+                                                <mat-option value="לא">
+                                                    לא
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>פעיל</mat-label>
+                                            <mat-select formControlName="On">
+                                                <mat-option value="'הכל'">הכל</mat-option>
+                                                <mat-option value="פעיל">
+                                                    כן
+                                                </mat-option>
+                                                <mat-option value="לא פעיל">
+                                                    לא
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>בוגר לימודי רפואה</mat-label>
+                                            <mat-select formControlName="Elective">
+                                                <mat-option value="'הכל'">הכל</mat-option>
+                                                <mat-option value="yes">
+                                                    כן
+                                                </mat-option>
+                                                <mat-option value="no">
+                                                    לא
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <button matTooltip="חיפוש" mat-raised-button type="submit"
+                                class="btn btn-primary btn-raised">
+                                <span class="material-icons">
+                                    search
+                                </span>
+                            </button>
+                            &nbsp;&nbsp;
+                            <!-- <button matTooltip="הדפסה" mat-raised-button type="button"
+                                class="btn btn-primary btn-raised">
+                                <span class="material-icons">
+                                    local_printshop
+                                </span>
+                            </button> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <mat-progress-bar mode="buffer" id="buffer" *ngIf="Patientsloading"></mat-progress-bar> -->
+    </div>
+    <div dir="rtl">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+
+            <ng-container matColumnDef="employee_id">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תעודת זהות
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.EmployeeID}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="first_name">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם פרטי
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FirstName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="last_name">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם משפחה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.LastName}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="gender">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מגדר
+                    פניה </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.Gender}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="date_of_birth">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך לידה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.DateOfBirth}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="cell_number">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> טלפון נייד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CellNumber}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="elictive">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> אלקטיב
+                    לפניה </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> Elective </td>
+            </ng-container>
+
+            <ng-container matColumnDef="email">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מייל
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.Email}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="function_description">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תפקיד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FunctionDescription}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="departnent_code">
+                <th mat-header-cell *matHeaderCellDef
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מחלקה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;">
+                    {{element.DepartnentDescripton}}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; let even=even; columns: displayedColumns;" (click)="addUpdateEmployee(row)">
+            </tr>
+        </table>
+        <button type="button" id="rolesDetailsBtn" mat-fab color="primary" matTooltip="הוספת עובד חדש" (click)="addUpdateEmployee('')"><i
+                class="material-icons">add</i></button>
+        <div class="text-right" style="padding-bottom: 8%;">
+            <mat-paginator style="float: right;" [pageSizeOptions]="[15,25,50,100]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+</div>

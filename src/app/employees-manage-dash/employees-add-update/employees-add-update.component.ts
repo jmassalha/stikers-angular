@@ -7,6 +7,8 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployeesAddUpdateComponent implements OnInit {
 
+  employee: any;
+
   constructor() { }
 
   ngOnInit(): void {
