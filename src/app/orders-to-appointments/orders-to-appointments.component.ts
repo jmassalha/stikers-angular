@@ -1,4 +1,4 @@
-import { Component, OnInit, ViewChild } from "@angular/core";
+import { Component, ElementRef, OnInit, ViewChild } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
@@ -47,6 +47,8 @@ export interface OrdersToAppointment {
     Permission: string;
     totalRows: number;
     OrderdUserName: number;
+    AcceptedUserNotes: string;
+    AlertPatient: string;
 }
 export interface OutpatientClinic {
     RoomNumber: string;
@@ -66,6 +68,7 @@ export interface UserDetails {
 export class OrdersToAppointmentsComponent implements OnInit {
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
+    @ViewChild('OrdersToAppointmentsFormID', { static: true }) OrdersToAppointmentsFormID: ElementRef;
     Permission: string = "";
     OutpatientClinics: OutpatientClinic[] = [];
     selectedClinics = this.OutpatientClinics;
@@ -75,6 +78,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
         CellNumber: "",
         Depart: "",
     };
+    DateNowR: Date = new Date();
+    DateNow: string;
     RowId = "0";
     OrderdUser = "";
     OrderdUserPhone = "";
@@ -95,6 +100,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
     OrderRealDateTime = "";
     Notes = "";
     ClinicName = "";
+    AcceptedUserNotes = "";
+    AlertPatient = "";
     UserName = localStorage.getItem("loginUserName").toLowerCase();
     TABLE_DATA: OrdersToAppointment[] = [];
     dataSource = new MatTableDataSource(this.TABLE_DATA);
@@ -156,6 +163,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
             PatientId: ["", Validators.required],
             OrderedToDepart: ["", Validators.required],
             OrderRangeQuantity: ["", null],
+            AcceptedUserNotes: ["", null],
+            AlertPatient: ["", null],
             OrderRangeType: ["1", null],
             OrderToDate: ["", Validators.required],
             OrderedFromDepart: ["", Validators.required],
@@ -170,7 +179,13 @@ export class OrdersToAppointmentsComponent implements OnInit {
             ],
             RowId: ["0", false],
         });
+        
         this.getOrdersToAppointments();
+        let that = this;
+        setInterval(function(){
+            that.getOrdersToAppointments();
+            console.log("I AM REFRESHING!!!" , new Date())
+        }, 60 * 1000 * 5)
     }
     changeStatus(event) {
         ////debugger
@@ -201,6 +216,12 @@ export class OrdersToAppointmentsComponent implements OnInit {
         this.getOrdersToAppointments();
     }
     editRow(content, _type, _element) {
+        this.DateNowR = new Date();
+        this.DateNow = formatDate(
+            this.DateNowR ,
+            "yyyy-MM-dd HH:mm",
+            "en-US"
+        );
         this.saveBtn = true;
         if(_element.OrderStatus != "0"){
             this.saveBtn = false;
@@ -234,6 +255,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
         this.PatientName = _element.PatientName;
         this.OrderRealDateTime = _element.OrderRealDateTime;
         this.Notes = _element.Notes;
+        this.AcceptedUserNotes = _element.AcceptedUserNotes;
+        this.AlertPatient = _element.AlertPatient;
         this.ClinicName = _element.ClinicName;
         var dateObject = null;
         if (
@@ -251,18 +274,22 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 +dateArray[5]
             );
         }
-
-        // //debugger
-        if(_element.OrderRangeQuantity != '' && _element.OrderRangeQuantity != '0'){
+        let bol = false
+        if(_element.AlertPatient == 'true'){
+            bol = true;
+        }       // debugger
+        if(_element.OrderRangeType != '' && _element.OrderRangeType != '0'){
             this.OrdersToAppointmentsForm = this.formBuilder.group({
                 Notes: [_element.Notes, false],
                 OrderRealDateTime: [dateObject, null],
                 PatientName: [_element.PatientName, Validators.required],
                 PatientId: [_element.PatientId, Validators.required],
                 OrderedToDepart: [_element.OrderedToDepart, Validators.required],
-                OrderRangeQuantity: [_element.OrderRangeQuantity, Validators.required],
+                OrderRangeQuantity: [_element.OrderRangeQuantity, null],
                 OrderRangeType: [_element.OrderRangeType, Validators.required],
                 OrderToDate: [_element.OrderToDate, null],
+                AcceptedUserNotes: [_element.AcceptedUserNotes, null],
+                AlertPatient: [bol, null],
                 OrderedFromDepart: [
                     _element.OrderedFromDepart,
                     Validators.required,
@@ -284,6 +311,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 OrderedToDepart: [_element.OrderedToDepart, Validators.required],
                 OrderRangeQuantity: [_element.OrderRangeQuantity, null],
                 OrderRangeType: [_element.OrderRangeType, null],
+                AcceptedUserNotes: [_element.AcceptedUserNotes, null],
+                AlertPatient: [bol, null],
                 OrderToDate: [_element.OrderToDate, Validators.required],
                 OrderedFromDepart: [
                     _element.OrderedFromDepart,
@@ -350,6 +379,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
             OrderedToDepart: ["", Validators.required],
             OrderRangeQuantity: ["", null],
             OrderRangeType: ["", null],
+            AcceptedUserNotes: ["", null],
+            AlertPatient: ["", null],
             OrderToDate: ["", Validators.required],
             OrderedFromDepart: [this.UserDetails.Depart, Validators.required],
             OrderStatus: ["0", Validators.required],
@@ -540,6 +571,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         }
     }
     printModal(){
+        this.modalService.dismissAll();
         window.print();
     }
     checkValue(event) {
@@ -673,7 +705,13 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 +dateArray[4],
                 +dateArray[5]
             );
+            this.OrdersToAppointmentsForm.value.OrderDateTime = formatDate(
+                this.OrdersToAppointmentsForm.value.OrderDateTime.getTime(),
+                "yyyy-MM-dd HH:mm:ss",
+                "en-US"
+            );
         }
+        this.OrdersToAppointmentsForm.value.AlertPatient = (this.OrdersToAppointmentsForm.value.AlertPatient).toString()
         debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {

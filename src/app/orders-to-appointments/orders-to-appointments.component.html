@@ -310,6 +310,7 @@
 <ng-template #OrdersToAppointmentsDetailsModal let-modal>
     <form
         dir="rtl"
+        #OrdersToAppointmentsFormID
         id="OrdersToAppointmentsFormID"
         class="form col"
         [formGroup]="OrdersToAppointmentsForm"
@@ -361,7 +362,7 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="AcceptedUser != '' && RowId != '0' " class="row r-1">
+            <div *ngIf="AcceptedUser != '' && RowId != '0'" class="row r-1">
                 <div class="col">
                     <div class="form-group br-1">
                         <label> עובד מאשר</label>
@@ -397,6 +398,11 @@
                         <p>{{ OrderedToDepart }} - {{ ClinicName }}</p>
                     </div>
                 </div>
+                <div *ngIf="AlertPatient == 'true'" class="col">
+                    <div class="form-group bg-red">
+                        <label><b> ליידע את המטופל</b></label>
+                    </div>
+                </div>
             </div>
             <div class="row r-1" *ngIf="Permission == '3'">
                 <div class="col">
@@ -422,7 +428,7 @@
                 <div *ngIf="Permission == '1' || Permission == '2'" class="col">
                     <div class="form-group">
                         <mat-form-field>
-                            <mat-label>ת.ז מטופל</mat-label>
+                            <label>ת.ז מטופל</label>
                             <input
                                 matInput
                                 autocomplete="off"
@@ -475,6 +481,13 @@
                                 </mat-option>
                             </mat-select>
                         </mat-form-field>
+                    </div>
+                </div>
+                <div *ngIf="Permission == '1' || Permission == '2'" class="col">
+                    <div class="form-group">
+                        <mat-checkbox formControlName="AlertPatient"
+                            >ליידע את המטופל</mat-checkbox
+                        >
                     </div>
                 </div>
             </div>
@@ -573,15 +586,24 @@
                     </div>
                 </div>
             </div>
-            <div *ngIf="Permission == '3'" class="row">
+            <div
+                *ngIf="Permission == '3'"
+                class="row"
+                style="
+                    box-shadow: 1px 1px 1px 1px #000;
+                    padding: 23px;
+                    background: rgb(136 121 181 / 72%);
+                "
+            >
                 <div class="col">
                     <div class="form-group">
                         <div class="full-width fix-lable-pos">
                             <mat-form-field>
+                                <p><b>תאריך ושעת תור בפועל</b></p>
+
                                 <input
                                     matInput
                                     [ngxMatDatetimePicker]="picker"
-                                    placeholder="תאריך ושעת תור בפועל"
                                     (focus)="picker.open()"
                                     formControlName="OrderRealDateTime"
                                 />
@@ -623,7 +645,7 @@
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field>
-                            <mat-label>הערות</mat-label>
+                            <mat-label>הערות מבקש</mat-label>
                             <textarea
                                 [readonly]="OrderStatus != '0'"
                                 rows="17"
@@ -633,6 +655,25 @@
                                 autocomplete="off"
                                 class="form-control"
                                 formControlName="Notes"
+                            ></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>הערות קובע תור</mat-label>
+                            <textarea
+                                [readonly]="Permission != '3'"
+                                rows="17"
+                                dir="rtl"
+                                id="AcceptedUserNotes"
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                formControlName="AcceptedUserNotes"
                             ></textarea>
                         </mat-form-field>
                     </div>
@@ -653,3 +694,93 @@
         </div>
     </form>
 </ng-template>
+<div class="d-none-desktop text-right" dir="rtl" id="print-res">
+    <div class="row">
+        <div class="col">
+            <img
+                width="90%"
+                class="d-block"
+                src="assets/images/zimontorem_header.jpg"
+            />
+        </div>
+    </div>
+    <div class="row text-rig">
+        <div class="col-12 text-center">
+            <br />
+            <br />
+            <br />
+            <h1>זימון תור למרפאות חוץ</h1>
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+            <br />
+        </div>
+        <div class="col-2"></div>
+        <div class="col-4">
+            <p>
+                <b>שם מטופל:&nbsp;&nbsp;&nbsp;</b><span>{{ PatientName }}</span>
+            </p>
+        </div>
+        <div class="col-4">
+            <p>
+                <b>ת.ז מטופל:&nbsp;&nbsp;&nbsp;</b><span>{{ PatientId }}</span>
+            </p>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-4">
+            <p>
+                <b>זימון למרפאה:&nbsp;&nbsp;&nbsp;</b><span>{{ ClinicName }}</span>
+            </p>
+        </div>
+        <div class="col-4">
+            <p>
+                <b>הזימון נקבע לתאריך:&nbsp;&nbsp;&nbsp;</b><span>{{ OrderRealDateTime }}</span>
+            </p>
+        </div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-4">
+            <p>
+                <b>מחלקה מבקשת:&nbsp;&nbsp;&nbsp;</b><span>{{ OrderedFromDepart }}</span>
+            </p>
+        </div>
+        <div class="col-4"></div>
+        <div class="col-2"></div>
+    </div>
+    <div class="row">
+        <div class="col-2"></div>
+        <div class="col-10">
+            <p><b>הערות:</b><span></span></p>
+            <p>{{ AcceptedUserNotes }}</p>
+        </div>
+    </div>
+    <div class="pos-botom-fixed-2">
+        <div class="col-12">
+           
+            <ol class="d-block">
+                <li class="d-block"><b>מייל:&nbsp;&nbsp;&nbsp;</b> MS@PMC.GOV.IL</li>
+                <li class="d-block"><b>פקס:&nbsp;&nbsp;&nbsp;</b> 04-6652754</li>
+                <li class="d-block"><b>טלפון:&nbsp;&nbsp;&nbsp;</b> *8891</li>
+            </ol>
+        </div>
+        <div class="col-12 text-left">
+            <p><b>תאריך הדפסה:&nbsp;&nbsp;&nbsp;</b>{{ DateNow }}</p>
+        </div>
+    </div>
+    <div class="pos-botom-fixed">
+        <img
+            width="90%"
+            class="d-block"
+            src="assets/images/zimontorem_footer.jpg"
+        />
+    </div>
+</div>
