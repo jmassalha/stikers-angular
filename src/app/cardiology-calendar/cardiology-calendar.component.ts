@@ -220,7 +220,7 @@ export class CardiologyCalendarComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'md' });
+    this.modal.open(this.modalContent, { size: 'md'});
   }
 
   SetNewTime(event2, event) {
@@ -234,7 +234,7 @@ export class CardiologyCalendarComponent implements OnInit {
     dialogRef.afterClosed().subscribe(result => {
       if (result != undefined) {
         let date = this.datePipe.transform(event, 'yyyy-MM-dd');
-        let time = this.datePipe.transform(event, 'hh:mm');
+        let time = this.datePipe.transform(event, 'HH:mm');
         let event2 = {
           title: result.FirstName + ' ' + result.LastName,
           patientAction: {
@@ -287,12 +287,12 @@ export class CardiologyCalendarComponent implements OnInit {
         } else {
           this.openSnackBar("משהו השתבש, לא נמחק");
         }
+        let thisDate = this.datePipe.transform(day, 'yyyy-MM-dd');
+        let thisDateEvents = this.events.filter(t => this.datePipe.transform(t.patientAction.ArrivalDate, 'yyyy-MM-dd') === thisDate);
+        this.events = this.events.filter((event) => event !== eventToDelete);
+        thisDateEvents = thisDateEvents.filter((event) => event !== eventToDelete);
+        this.modalData.event["day"]["events"] = thisDateEvents;
       });
-    let thisDate = this.datePipe.transform(day, 'yyyy-MM-dd');
-    let thisDateEvents = this.events.filter(t => t.patientAction.ArrivalDate === thisDate);
-    this.events = this.events.filter((event) => event !== eventToDelete);
-    thisDateEvents = thisDateEvents.filter((event) => event !== eventToDelete);
-    this.modalData.event["day"]["events"] = thisDateEvents;
   }
 
   setView(view: CalendarView) {
@@ -309,6 +309,7 @@ export class CardiologyCalendarComponent implements OnInit {
 
     $("#loader").removeClass("d-none");
     let that = this;
+    let month = this.datePipe.transform(this.viewDate, 'MM');
     setTimeout(function () {
       let thisDate = that.datePipe.transform(day, 'yyyy-MM-dd');
       let thisDateEvents = that.events.filter(t => t.patientAction.ArrivalDate === thisDate);
@@ -323,8 +324,8 @@ export class CardiologyCalendarComponent implements OnInit {
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-
           $("#loader").addClass("d-none");
+          that.getPatientsQueues(month);
         });
     }, 1000)
 
@@ -356,7 +357,7 @@ export class CardiologyCalendarComponent implements OnInit {
           this.events.push(element);
           this.refresh.next();
         });
-       /* alert(this.date.getFullYear()+'/'+(this.date.getMonth()+1)+'/'+this.date.getDate());*/
+        /* alert(this.date.getFullYear()+'/'+(this.date.getMonth()+1)+'/'+this.date.getDate());*/
       });
   }
 

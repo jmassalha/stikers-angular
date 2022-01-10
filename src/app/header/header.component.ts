@@ -44,6 +44,7 @@ export class HeaderComponent implements OnInit {
     _nursesSystem: Boolean;
     _nursesSystemManage: Boolean;
     _devManage: Boolean;
+    _employeesManage: Boolean;
     _publicInquiry: Boolean;
     _shoCortinasSettings: Boolean;
     _shoSofiMenu: Boolean;
@@ -784,6 +785,7 @@ export class HeaderComponent implements OnInit {
         this.VisitorsSystemPermission();
         this.fastCovidTestSystemPermission();
         this.CardiologyPermission();
+        // this.EmployeesManagePermission();
     }
     startService(){
         this.service.start()
@@ -808,6 +810,16 @@ export class HeaderComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.clinicsUserPermission = Response["d"];
+            });
+    }
+    
+    EmployeesManagePermission() {
+        this.http
+            .post("http://srv-apps/wsrfc/WebService.asmx/EmployeesManagePermission", {
+                _userName: this.loginUserName
+            })
+            .subscribe((Response) => {
+                this._employeesManage = Response["d"];
             });
     }
 

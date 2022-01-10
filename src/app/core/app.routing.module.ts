@@ -70,8 +70,9 @@ import { MotherChildeLinkComponent } from "../mother-childe-link/mother-childe-l
 import { DevManageComponent } from "../dev-manage/dev-manage.component";
 import { SystemManageComponent } from "../nurses-manage-dashboard/system-manage/system-manage.component";
 import { GalitPointsReportComponent } from "../galit-points-report/galit-points-report.component";
-
 import { NmrIframeComponent } from '../nmr-iframe/nmr-iframe.component';
+import { EmployeesManageDashComponent } from '../employees-manage-dash/employees-manage-dash.component';
+import { EmployeesAddUpdateComponent } from '../employees-manage-dash/employees-add-update/employees-add-update.component';
 import { OrdersToAppointmentsComponent } from '../orders-to-appointments/orders-to-appointments.component';
 const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent },
@@ -147,6 +148,8 @@ const routes: Routes = [
   { path: "systemmanage", component: SystemManageComponent },
   { path: "galitpointsreport", component: GalitPointsReportComponent },
   { path: "nmriframe", component: NmrIframeComponent },  
+  { path: "employeesmanagedashboard", component: EmployeesManageDashComponent },  
+  { path: "employeesaddupdate", component: EmployeesAddUpdateComponent },  
   { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
   { path: '', component : LoginComponent}
 ];

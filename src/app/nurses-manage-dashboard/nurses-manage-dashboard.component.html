@@ -1,6 +1,6 @@
 <mat-card dir="rtl" *ngIf="nursesUserPermission && rightPC" id="page-toshow"
     style="background-color: aliceblue;padding-top: 0px;">
-    <h1 class="page-title text-center">מערכת דיווח סיעודית</h1>
+    <h1 class="page-title text-center">מערכת דיווח סיעודית - שם משתמש: {{UserName}}</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col-12">
@@ -258,6 +258,30 @@
             <tr mat-header-row *matHeaderRowDef="bugColumns"></tr>
             <tr mat-row *matRowDef="let row; columns: bugColumns;" [style.background]="row.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'"></tr>
           </table>
+    </div>
+</ng-template>
+
+<ng-template #modalIp let-close="close">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">מחשב IP עדכון</h1>
+    <hr>
+    <p class="text-center">עקב הקמת הרשאות מיוחדות לאנשי צוות בכירים החל משבוע הבא תהיה כניסה רק ממחשבים מיועדים</p>
+    <p class="text-center">של המחשב במשרד {{ipUpdate}} IP נא לעדכן את מספר ה</p>
+    <form mat-dialog-content dir="rtl" style="text-align: right;">
+        <mat-form-field class="example-full-width">
+            <mat-label>מספר IP למחשב במשרד</mat-label>
+            <input matInput [(ngModel)]="ipUpdate" [ngModelOptions]="{standalone: true}" type="text"
+                placeholder="10.221." required />
+        </mat-form-field>
+    </form>
+    <div mat-dialog-actions>
+        <div class="row">
+            <button mat-raised-button color="primary" (click)="ipAddressUpdate()">עדכון</button>
+            <button mat-raised-button color="warn" style="float: right;" mat-dialog-close>מאוחר יותר</button> 
+        </div>
+        
     </div>
 </ng-template>
 
