@@ -1699,7 +1699,12 @@ g text {
     left: 0;
     right: 0;
 }
-
+.pos-botom-fixed-2 {
+    position: absolute;
+    bottom: 150px;
+    left: 0;
+    right: 0;
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
 #loader {
