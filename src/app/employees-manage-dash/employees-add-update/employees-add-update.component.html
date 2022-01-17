@@ -8,7 +8,7 @@
                 <div class="col-12">
                     <label style="font-size: 35px;">{{employeePersonalDetails.controls['FirstName'].value}}
                         {{employeePersonalDetails.controls['LastName'].value}} -
-                        {{employeeWorkDetails.controls['ADUserName'].value}}</label>
+                        {{employeeWorkDetails.controls['ADUserName'].value}} - {{employeePersonalDetails.controls['CellNumber'].value}}</label>
                 </div>
             </div>
         </mat-card>
@@ -71,7 +71,7 @@
                             </li>
                         </div>
                         <div class="full-width row">
-                            <li class="border-me col-4" style="height: 75px;">
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
                                 <div class="col-12 text-right">
                                     <mat-form-field appearance="fill" class="example-full-width">
                                         <span matPrefix>תאריך לידה &nbsp;</span>
@@ -110,7 +110,7 @@
                     <ng-template matStepLabel>פרטי העובד בביה"ח</ng-template>
                     <ol class="list-style">
                         <div class="full-width row">
-                            <li class="border-me col-3" style="height: 75px;">
+                            <li class="border-me col-3" id="employees" style="height: 75px;">
                                 <mat-form-field appearance="fill" class="example-full-width">
                                     <span matPrefix>תחילת עבודה &nbsp;</span>
                                     <input matInput formControlName="StartWorkDate" placeholder="תאריך תחילת עבודה"
@@ -135,7 +135,7 @@
                                     </mat-select>
                                 </div>
                             </li> -->
-                            <li class="border-me col-3" style="height: 75px;">
+                            <li class="border-me col-3" id="employees" style="height: 75px;">
                                 <mat-form-field appearance="fill" class="example-full-width">
                                     <span matPrefix>סיום עבודה &nbsp;</span>
                                     <input matInput formControlName="EndWorkDate" placeholder="תאריך סיום עבודה"
@@ -152,11 +152,6 @@
                             </li>
                         </div>
                         <div class="full-width row">
-                            <!-- <li class="border-me col-3">
-                                <mat-form-field class="example-full-width">
-                                    <input type="text" matInput placeholder="מספר רישיון" formControlName="DocLicence">
-                                </mat-form-field>
-                            </li> -->
                             <li class="border-me col-4">
                                 <div class="col-12 text-right">
                                     <label class="exp-label">סקטור</label>
@@ -192,11 +187,11 @@
                             </li>
                             <li class="border-me col-4" *ngIf="empType == 'doctor'">
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" matInput placeholder="רישיון רופא" formControlName="DocLicence"
+                                    <input type="text" matInput placeholder="מספר רישיון רופא" formControlName="DocLicence"
                                         required>
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-4" *ngIf="empType == 'doctor'" style="height: 75px;">
+                            <li class="border-me col-4" id="employees" *ngIf="empType == 'doctor'" style="height: 75px;">
                                 <mat-form-field appearance="fill" class="example-full-width">
                                     <span matPrefix>קבלת רישיון &nbsp;</span>
                                     <input matInput formControlName="DocStartExperience" placeholder="תאריך קבלת רישיון"

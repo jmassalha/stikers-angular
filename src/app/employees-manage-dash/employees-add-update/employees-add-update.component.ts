@@ -165,7 +165,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
     this.employeeWorkDetails.controls['EndWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['EndWorkDate'].value, 'yyyy-MM-dd'));
     this.employeePersonalDetails.controls['DateOfBirth'].setValue(pipe.transform(this.employeePersonalDetails.controls['DateOfBirth'].value, 'yyyy-MM-dd'));
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/SaveEmployeeDetails", {
+      .post("http://localhost:64964/WebService.asmx/SaveEmployeeDetails", {
         _personalDetails: this.employeePersonalDetails.getRawValue(),
         _workDetails: this.employeeWorkDetails.getRawValue()
       })

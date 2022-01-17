@@ -33,6 +33,10 @@ export interface CompStatus {
   value: string;
   viewValue: string;
 }
+export interface CompType {
+  value: string;
+  viewValue: string;
+}
 export interface DeadLine {
   value: string;
   viewValue: string;
@@ -97,6 +101,12 @@ export class EmailsdashboardComponent implements OnInit {
     { value: '1', viewValue: 'פתוח' },
     { value: '0', viewValue: 'סגור' },
   ];
+  
+  compType: CompType[] = [
+    { value: 'Complaint', viewValue: 'תלונה' },
+    { value: 'Thank', viewValue: 'תודה' },
+    { value: 'Inquiry', viewValue: 'פנייה' },
+  ];
 
   constructor(
     private _snackBar: MatSnackBar,
@@ -118,6 +128,7 @@ export class EmailsdashboardComponent implements OnInit {
       'compName': new FormControl('', null),
       'departmentControl': new FormControl('', null),
       'compStatusControl': new FormControl('', null),
+      'compTypeControl': new FormControl('', null),
       'compDateControl': new FormControl('', null),
       'compDateControl2': new FormControl('', null),
       'DeadLineSearch': new FormControl('', null),
@@ -203,6 +214,7 @@ export class EmailsdashboardComponent implements OnInit {
     this.formSearch.controls['compDateControl2'].setValue("");
     this.formSearch.controls['DeadLineSearch'].setValue("");
     this.formSearch.controls['compStatusControl'].setValue("");
+    this.formSearch.controls['compTypeControl'].setValue("");
     this.searchForm("0");
   }
 
@@ -242,6 +254,7 @@ export class EmailsdashboardComponent implements OnInit {
     let compDateControl = this.formSearch.controls['compDateControl'].value;
     let compDateControl2 = this.formSearch.controls['compDateControl2'].value;
     let compStatusControl = this.formSearch.controls['compStatusControl'].value;
+    let compTypeControl = this.formSearch.controls['compTypeControl'].value;
     let deadLineSearch = this.formSearch.controls['DeadLineSearch'].value;
     if (compStatusControl == "" && compName == "") {
       compStatusControl = '1';
@@ -268,13 +281,17 @@ export class EmailsdashboardComponent implements OnInit {
     } else {
       compDateControl2 = "";
     }
+    if(compTypeControl == undefined){
+      compTypeControl = "";
+    }
     this.loaded = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
+      .post("http://localhost:64964/WebService.asmx/Comp_Emails", {
         _compName: compName,
         _compDate: compDateControl,
         _compDate2: compDateControl2,
         _compStatus: compStatusControl,
+        _compType: compTypeControl,
         _departmentControl: departmentControl,
         _deadLine: deadLineSearch,
         _userName: this.UserName,

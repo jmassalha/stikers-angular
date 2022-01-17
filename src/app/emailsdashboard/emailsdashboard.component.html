@@ -56,7 +56,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-4">
                                     <mat-form-field class="full-width">
                                         <mat-label>SLA</mat-label>
                                         <mat-select formControlName="DeadLineSearch">
@@ -70,7 +70,7 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-4">
                                     <mat-form-field appearance="fill" class="form-group">
                                         <mat-label>סטטוס</mat-label>
                                         <mat-select formControlName="compStatusControl">
@@ -80,6 +80,19 @@
                                             <mat-option *ngFor="let dept of compStatus" [value]="dept.value"
                                                 [style.background]="dept.value == '1' ? 'darkseagreen' : 'firebrick'">
                                                 {{dept.viewValue}}
+                                            </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                                <div class="col-4">
+                                    <mat-form-field appearance="fill" class="form-group">
+                                        <mat-label>סוג פנייה</mat-label>
+                                        <mat-select formControlName="compTypeControl">
+                                            <mat-option [value]="">
+                                                הכל
+                                            </mat-option>
+                                            <mat-option *ngFor="let type of compType" [value]="type.value">
+                                                {{type.viewValue}}
                                             </mat-option>
                                         </mat-select>
                                     </mat-form-field>

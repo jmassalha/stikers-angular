@@ -103,3 +103,7 @@ ol{
   padding: 10px;
   font-weight: bold;
 }
+
+.mat-form-field-wrapper {
+  padding-bottom: 9px;
+}
