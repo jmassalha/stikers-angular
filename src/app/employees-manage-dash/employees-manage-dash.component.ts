@@ -90,7 +90,7 @@ export class EmployeesManageDashComponent implements OnInit {
       employeesWorkPlace = '';
     }
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetEmployeesToUpdate", {
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetEmployeesToUpdate", {
         _empId: empId,
         _empFirstName: empFirstName,
         _empLastName: empLastName,
