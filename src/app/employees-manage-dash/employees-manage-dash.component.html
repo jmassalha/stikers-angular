@@ -38,11 +38,11 @@
                                         <mat-form-field>
                                             <mat-label>אלקטיב</mat-label>
                                             <mat-select formControlName="Elective">
-                                                <mat-option value="'הכל'">הכל</mat-option>
-                                                <mat-option value="כן">
+                                                <mat-option value="0">הכל</mat-option>
+                                                <mat-option value="1">
                                                     כן
                                                 </mat-option>
-                                                <mat-option value="לא">
+                                                <mat-option value="2">
                                                     לא
                                                 </mat-option>
                                             </mat-select>
@@ -54,11 +54,11 @@
                                         <mat-form-field>
                                             <mat-label>פעיל</mat-label>
                                             <mat-select formControlName="On">
-                                                <mat-option value="'הכל'">הכל</mat-option>
-                                                <mat-option value="פעיל">
+                                                <mat-option value="0">הכל</mat-option>
+                                                <mat-option value="1">
                                                     כן
                                                 </mat-option>
-                                                <mat-option value="לא פעיל">
+                                                <mat-option value="2">
                                                     לא
                                                 </mat-option>
                                             </mat-select>
@@ -69,12 +69,12 @@
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>בוגר לימודי רפואה</mat-label>
-                                            <mat-select formControlName="Elective">
-                                                <mat-option value="'הכל'">הכל</mat-option>
-                                                <mat-option value="yes">
+                                            <mat-select formControlName="MedGrad">
+                                                <mat-option value="0">הכל</mat-option>
+                                                <mat-option value="1">
                                                     כן
                                                 </mat-option>
-                                                <mat-option value="no">
+                                                <mat-option value="2">
                                                     לא
                                                 </mat-option>
                                             </mat-select>
@@ -82,8 +82,37 @@
                                     </div>
                                 </div>
                             </div>
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>מספר טלפון</mat-label>
+                                            <input type="tel" matInput autocomplete="off" placeholder="מספר טלפון"
+                                                formControlName="PhoneNumber" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>מחלקה</mat-label>
+                                            <input matInput type="text" autocomplete="off" placeholder="מחלקה"
+                                                formControlName="Department" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>תפקיד</mat-label>
+                                            <input matInput type="text" autocomplete="off" placeholder="תפקיד"
+                                                formControlName="Role" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
                             <button matTooltip="חיפוש" mat-raised-button type="submit"
-                                class="btn btn-primary btn-raised">
+                                class="btn btn-primary btn-raised" (click)="GetEmployeesToUpdate()">
                                 <span class="material-icons">
                                     search
                                 </span>
@@ -103,77 +132,72 @@
         <!-- <mat-progress-bar mode="buffer" id="buffer" *ngIf="Patientsloading"></mat-progress-bar> -->
     </div>
     <div dir="rtl">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8">
+        <div class="row" style="margin-right: 22px;width: 95%;margin-bottom: -8px;">
+            <mat-form-field appearance="standard" style="box-shadow: 0px 0px 5px 0px #000">
+                <mat-label class="filterClass">מסנן</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
+            </mat-form-field>
+        </div>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
-            <ng-container matColumnDef="employee_id">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תעודת זהות
+            <ng-container matColumnDef="EmployeeID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תעודת זהות
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.EmployeeID}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="first_name">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם פרטי
+            <ng-container matColumnDef="FirstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם פרטי
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FirstName}} </td>
             </ng-container>
 
-            <ng-container matColumnDef="last_name">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> שם משפחה
+            <ng-container matColumnDef="LastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם משפחה
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.LastName}}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="gender">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מגדר
-                    פניה </th>
+            <ng-container matColumnDef="Gender">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מגדר </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.Gender}}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="date_of_birth">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תאריך לידה
+            <ng-container matColumnDef="DateOfBirth">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תאריך לידה
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.DateOfBirth}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="cell_number">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> טלפון נייד
+            <ng-container matColumnDef="CellNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> טלפון נייד
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CellNumber}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="elictive">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> אלקטיב
+            <ng-container matColumnDef="Elective">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> אלקטיב
                     לפניה </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> Elective </td>
             </ng-container>
 
-            <ng-container matColumnDef="email">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מייל
+            <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מייל
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.Email}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="function_description">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> תפקיד
+            <ng-container matColumnDef="FunctionDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תפקיד
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FunctionDescription}}
                 </td>
             </ng-container>
 
-            <ng-container matColumnDef="departnent_code">
-                <th mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> מחלקה
+            <ng-container matColumnDef="DepartnentDescripton">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;">
                     {{element.DepartnentDescripton}}
@@ -181,11 +205,12 @@
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-            <tr mat-row *matRowDef="let row; let even=even; columns: displayedColumns;" (click)="addUpdateEmployee(row)">
+            <tr mat-row *matRowDef="let row; let even=even; columns: displayedColumns;"
+                (click)="addUpdateEmployee(row)">
             </tr>
         </table>
-        <button type="button" id="rolesDetailsBtn" mat-fab color="primary" matTooltip="הוספת עובד חדש" (click)="addUpdateEmployee('')"><i
-                class="material-icons">add</i></button>
+        <button type="button" id="rolesDetailsBtn" mat-fab color="primary" matTooltip="הוספת עובד חדש"
+            (click)="addUpdateEmployee('')"><i class="material-icons">add</i></button>
         <div class="text-right" style="padding-bottom: 8%;">
             <mat-paginator style="float: right;" [pageSizeOptions]="[15,25,50,100]" showFirstLastButtons>
             </mat-paginator>

@@ -13,8 +13,6 @@ import { Observable } from 'rxjs';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
-import { EmployeesComponent } from '../employees/employees.component';
 import { isEmpty, map, startWith } from 'rxjs/operators';
 
 
