@@ -114,7 +114,7 @@
                                 <mat-form-field appearance="fill" class="example-full-width">
                                     <span matPrefix>תחילת עבודה &nbsp;</span>
                                     <input matInput formControlName="StartWorkDate" placeholder="תאריך תחילת עבודה"
-                                        [matDatepicker]="picker2" (focus)="picker2.open()">
+                                        [matDatepicker]="picker2" (focus)="picker2.open()" required>
                                     <mat-datepicker-toggle matSuffix [for]="picker2">
                                     </mat-datepicker-toggle>
                                     <mat-datepicker #picker2></mat-datepicker>

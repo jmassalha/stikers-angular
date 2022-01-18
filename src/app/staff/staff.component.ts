@@ -276,7 +276,7 @@ export class StaffComponent implements OnInit {
         debugger
         this.http
             .post("http://srv-ipracticom:8080/WebService.asmx/PoriaStaff", {
-           // .post("http://srv-apps/wsrfc/WebService.asmx/PoriaStaff", {
+           // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaStaff", {
                 _staffName: this.staffForm.value.fullnameVal,
                 _DEPART_ID: this.staffForm.value.DS_DEPART_ID,
                 _STAFF_ROLE: this.staffForm.value.DS_STAFF_ROLE, 

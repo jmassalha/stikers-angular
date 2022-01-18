@@ -57,7 +57,7 @@ export class FormDashboardComponent implements OnInit {
     let formNameControl = this.formSearch.controls['formNameControl'].value;
     let nurseUser = localStorage.getItem('loginUserName');
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllForms", {
         _formNameControl: formNameControl,
         _nurseUser: nurseUser,
       })
@@ -82,7 +82,7 @@ export class FormDashboardComponent implements OnInit {
 
   AlertToFill() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/AlertToFill", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AlertToFill", {
         _formID: "122"
       })
       .subscribe((Response) => {

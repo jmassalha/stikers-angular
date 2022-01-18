@@ -86,7 +86,7 @@ export class DevManageComponent implements OnInit {
 
   submitUpdate() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/SubmitUpdateNursesUsers", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitUpdateNursesUsers", {
         UserNameUpdate: this.UserNameUpdate,
         IpAddress: this.IpAddress,
         IpAddress2: this.IpAddress2,
@@ -105,7 +105,7 @@ export class DevManageComponent implements OnInit {
 
   getNursesUsersToUpdatePermission() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetNursesUsersToUpdatePermission", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNursesUsersToUpdatePermission", {
       })
       .subscribe((Response) => {
         let all_departs_filter = Response["d"];
@@ -115,7 +115,7 @@ export class DevManageComponent implements OnInit {
 
   getUsersToUpdateUser() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetUsersForInquiries", {
       })
       .subscribe((Response) => {
         let all_users_filter = Response["d"];

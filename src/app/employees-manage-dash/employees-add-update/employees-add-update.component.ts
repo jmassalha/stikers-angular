@@ -102,7 +102,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
       email = this.employeePersonalDetails.controls['Email'].value;
     }
     let userName = "";
-    if (email != undefined) {
+    if (email != undefined && email != "") {
       let domain = email.split('@')[1];
       if (domain.toLowerCase() == "pmc.gov.il" || domain.toLowerCase() == "poria.health.gov.il") {
         userName = email.split('@')[0];
@@ -114,7 +114,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   // getRanksList() {
   //   this.http
-  //     .post("http://srv-apps/wsrfc/WebService.asmx/GetRanksList", {
+  //     .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRanksList", {
   //     })
   //     .subscribe((Response) => {
   //       this.RanksList = Response["d"];
@@ -123,7 +123,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   getSektorsList() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetSektorsList", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSektorsList", {
       })
       .subscribe((Response) => {
         this.SektorsList = Response["d"];
@@ -164,19 +164,21 @@ export class EmployeesAddUpdateComponent implements OnInit {
     this.employeeWorkDetails.controls['DocStartExperience'].setValue(pipe.transform(this.employeeWorkDetails.controls['DocStartExperience'].value, 'yyyy-MM-dd'));
     this.employeeWorkDetails.controls['EndWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['EndWorkDate'].value, 'yyyy-MM-dd'));
     this.employeePersonalDetails.controls['DateOfBirth'].setValue(pipe.transform(this.employeePersonalDetails.controls['DateOfBirth'].value, 'yyyy-MM-dd'));
-    this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/SaveEmployeeDetails", {
-        _personalDetails: this.employeePersonalDetails.getRawValue(),
-        _workDetails: this.employeeWorkDetails.getRawValue()
-      })
-      .subscribe((Response) => {
-        if (Response["d"]) {
-          this.openSnackBar("נשמר בהצלחה");
-          this.dialog.closeAll();
-        } else {
-          this.openSnackBar("משהו השתבש, לא נשמר");
-        }
-      });
+    if (!this.employeeWorkDetails.invalid) {
+      this.http
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveEmployeeDetails", {
+          _personalDetails: this.employeePersonalDetails.getRawValue(),
+          _workDetails: this.employeeWorkDetails.getRawValue()
+        })
+        .subscribe((Response) => {
+          if (Response["d"]) {
+            this.openSnackBar("נשמר בהצלחה");
+            this.dialog.closeAll();
+          } else {
+            this.openSnackBar("משהו השתבש, לא נשמר");
+          }
+        });
+    }
   }
 
 }

@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
     cardiologyPermission: boolean = false;
     visitorsUserPermission: boolean = false;
     fastCovidTestPermission: boolean = false;
+    employeesManagePermission: boolean = false;
     loginUserName: string;
     numberOfUnread: number;
     _shoDimot: Boolean;
@@ -67,7 +68,7 @@ export class HeaderComponent implements OnInit {
     getPermission() {
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/getResearchPermission",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/getResearchPermission",
                 {
                     _UserName: localStorage.getItem("loginUserName"),
                 }
@@ -290,6 +291,17 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "adahabre"
         ) {
             this._galitReport = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "owertheim" ||
+            this.loginUserName.toLowerCase() == "dporat" ||
+            this.loginUserName.toLowerCase() == "dfogel" ||
+            this.loginUserName.toLowerCase() == "iditur" ||
+            this.loginUserName.toLowerCase() == "ashoshany" ||
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "adahabre"
+        ) {
+            this.employeesManagePermission = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -805,7 +817,7 @@ export class HeaderComponent implements OnInit {
     ClinicsPricingPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/ClinicsUserPersmission", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/ClinicsUserPersmission", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -815,7 +827,7 @@ export class HeaderComponent implements OnInit {
     
     EmployeesManagePermission() {
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/EmployeesManagePermission", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EmployeesManagePermission", {
                 _userName: this.loginUserName
             })
             .subscribe((Response) => {
@@ -826,7 +838,7 @@ export class HeaderComponent implements OnInit {
     CardiologyPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/CardiologyPermissions", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/CardiologyPermissions", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -837,7 +849,7 @@ export class HeaderComponent implements OnInit {
     VisitorsSystemPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/VisitorsUserPersmission", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/VisitorsUserPersmission", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -848,7 +860,7 @@ export class HeaderComponent implements OnInit {
     fastCovidTestSystemPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/FastCovidTestSystemPermission", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/FastCovidTestSystemPermission", {
                 _userName: userName
             })
             .subscribe((Response) => {
@@ -859,7 +871,7 @@ export class HeaderComponent implements OnInit {
     ifPersonRead() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/IfUserRead", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/IfUserRead", {
                 _userName: userName
             })
             .subscribe((Response) => {

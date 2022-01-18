@@ -221,7 +221,7 @@ export class MrbaotComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetBekoremAmbolatorimApp",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetBekoremAmbolatorimApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,
@@ -382,7 +382,7 @@ export class MrbaotComponent implements OnInit {
         $("#loader").removeClass("d-none");
         //debugger;
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsNames", {})
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsNames", {})
             .subscribe(
                 (Response) => {
                     $("#_departments").empty();

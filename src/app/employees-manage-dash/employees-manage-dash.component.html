@@ -143,11 +143,20 @@
         <!-- <mat-progress-bar mode="buffer" id="buffer" *ngIf="Patientsloading"></mat-progress-bar> -->
     </div>
     <div dir="rtl">
-        <div class="row" style="margin-right: 22px;width: 95%;margin-bottom: -8px;">
-            <mat-form-field appearance="standard" style="box-shadow: 0px 0px 5px 0px #000">
-                <mat-label class="filterClass">מסנן</mat-label>
-                <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
-            </mat-form-field>
+        <div class="row" style="margin-right: 10px;width: 95%;margin-bottom: -8px;">
+            <div class="col-11">
+                <mat-form-field appearance="standard" style="box-shadow: 0px 0px 5px 0px #000;padding-right: 10px;">
+                    <mat-label class="filterClass">מסנן</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
+                </mat-form-field>
+            </div>
+            <div class="col-1">
+                <div class="example-button-container">
+                    <button mat-fab color="accent" aria-label="Excel" (click)="exportexcel()" matTooltip="יצוא לאקסל">
+                        <mat-icon>get_app</mat-icon>
+                    </button>
+                </div>
+            </div>
         </div>
         <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
@@ -227,4 +236,28 @@
             </mat-paginator>
         </div>
     </div>
+    <table id="excel-table" dir="rtl" style="display: none;">
+        <tr>
+            <th>תעודת זהות</th>
+            <th>שם פרטי</th>
+            <th>שם משפחה</th>
+            <th>מגדר</th>
+            <th>תאריך לידה</th>
+            <th>טלפון נייד</th>
+            <th>מייל</th>
+            <th>תפקיד</th>
+            <th>מחלקה</th>
+        </tr>
+        <tr *ngFor="let emp of dataSource.filteredData">
+            <td> {{emp.EmployeeID}} </td>
+            <td> {{emp.FirstName}} </td>
+            <td> {{emp.LastName}} </td>
+            <td> {{emp.Gender}} </td>
+            <td> {{emp.DateOfBirth}} </td>
+            <td> {{emp.CellNumber}} </td>
+            <td> {{emp.Email}} </td>
+            <td> {{emp.FunctionDescription}} </td>
+            <td> {{emp.DepartnentDescripton}} </td>
+        </tr>
+    </table>
 </div>

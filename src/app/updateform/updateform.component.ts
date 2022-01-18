@@ -139,7 +139,7 @@ export class UpdateformComponent implements OnInit {
     let UserName = localStorage.getItem("loginUserName").toLowerCase();
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllUsersForms", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllUsersForms", {
         _userName: UserName,
         _searchWord: searchWord,
         _departmentControl: departmentControl
@@ -160,7 +160,7 @@ export class UpdateformComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetFormsDeparts", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];

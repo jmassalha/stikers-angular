@@ -186,7 +186,7 @@ export class PublicInquiriesChartsComponent implements OnInit {
       let type = this.lineSearchForm.controls['lineType'].value;
       let dept = this.lineSearchForm.controls['lineDepartments'].value;
       this.http
-         .post("http://srv-apps/wsrfc/WebService.asmx/GetLineChart", {
+         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetLineChart", {
             _lineType: type,
             _lineDept: dept
          })
@@ -207,7 +207,7 @@ export class PublicInquiriesChartsComponent implements OnInit {
          this.openSnackBar("נא לבחור מחלקה");
       } else {
          this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetPieChart", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPieChart", {
                _pieyear: year,
                _pieDept: dept,
                _percent: percent
@@ -235,7 +235,7 @@ export class PublicInquiriesChartsComponent implements OnInit {
          this.openSnackBar("נא לבחור מחלקה");
       } else {
          this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetPieChart2", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPieChart2", {
                _pieyear2: year,
                _pieDept2: dept,
                _percent2: percent
@@ -259,7 +259,7 @@ export class PublicInquiriesChartsComponent implements OnInit {
       let year = this.barSearchForm.controls['barYears'].value;
       let dept = this.barSearchForm.controls['barDepartments'].value;
       this.http
-         .post("http://srv-apps/wsrfc/WebService.asmx/GetBarChart", {
+         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBarChart", {
             _baryear: year,
             _barDept: dept
          })

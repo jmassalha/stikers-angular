@@ -135,7 +135,7 @@ export class SendsmsadminComponent implements OnInit {
     ngAfterViewInit(): void {}
     public GetMessagesTemp(){
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesTemp", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMessagesTemp", {
                 
             })
             .subscribe((Response) => {
@@ -172,7 +172,7 @@ export class SendsmsadminComponent implements OnInit {
                     $("#loader").removeClass("d-none");
                 }
                 this.http
-                .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
+                .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSMSOnLineAdmin", {
                     smsText: this.sendSmsForm.value.smsText,
                     smsNumbers: this.sendSmsForm.value.smsNumbers,
                     surveyNumber: 0,

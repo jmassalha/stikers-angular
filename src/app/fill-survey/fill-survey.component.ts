@@ -566,7 +566,7 @@ export class FillSurveyComponent implements OnInit {
           console.log("User confirmed:", confirmed);
           if (confirmed) {
             this.http
-              .post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+              .post("http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm", {
                 _answerValues: survey,
                 _ifContinue: continueForm,
               })
@@ -607,7 +607,7 @@ export class FillSurveyComponent implements OnInit {
     this.withCaseNumber = false;
     if (this.Passport != '') {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/GetRecordAndPatients", {
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRecordAndPatients", {
           _patientPassport: this.Passport,
         }).subscribe((Response) => {
           if (this.Passport != '') {
@@ -628,7 +628,7 @@ export class FillSurveyComponent implements OnInit {
         });
     } else {
       this.http
-        .post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetails", {
           CaseNumber: this.CaseNumber,
         }).subscribe((Response) => {
           if (this.Passport != '') {
@@ -657,7 +657,7 @@ export class FillSurveyComponent implements OnInit {
       NurseID = 0;
     }
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetForm", {
         formFormID: urlID,
         _nurseid: NurseID,
       })
@@ -767,7 +767,7 @@ export class FillSurveyComponent implements OnInit {
   getQuestion(urlID, personalDetails, ifContinue, NurseID) {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetQuestion", {
         questionsFormID: urlID,
         isCaseNumber: this.isCaseNumber,
         nurseid: NurseID

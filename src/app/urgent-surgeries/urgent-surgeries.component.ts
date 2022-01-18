@@ -236,8 +236,8 @@ export class UrgentSurgeriesComponent implements OnInit {
         });
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetUrgentSurgeriesToHold",
-                //"http://srv-apps/wsrfc/WebService.asmx/GetUrgentSurgeriesToHold",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetUrgentSurgeriesToHold",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetUrgentSurgeriesToHold",
                 {
                     SurgeryID: this.SurgeryID,
                 }
@@ -291,8 +291,8 @@ export class UrgentSurgeriesComponent implements OnInit {
         });
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
-                //"http://srv-apps/wsrfc/WebService.asmx/UrgentSurgeriesSubmitNote",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/UrgentSurgeriesSubmitNote",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/UrgentSurgeriesSubmitNote",
                 {
                     _noteForm: this.noteForm.value,
                     ListToHolde: this.ListToHolde,
@@ -353,8 +353,8 @@ export class UrgentSurgeriesComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllEmergencySurgeriesApp", {
-            //.post("http://srv-apps/wsrfc/WebService.asmx/GetAllEmergencySurgeriesApp",{
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllEmergencySurgeriesApp", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllEmergencySurgeriesApp",{
                     _fromDate: _startDate,
                     _toDate: _endDate,
                     _pageIndex: _pageIndex,
@@ -417,8 +417,8 @@ export class UrgentSurgeriesComponent implements OnInit {
         var d = date.split("-");
         date = d[2]+"-"+d[1]+"-"+d[0];
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeriesListForToday", {
-            //.post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeriesListForToday",{
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeriesListForToday", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeriesListForToday",{
                     date: date
                 }
             )

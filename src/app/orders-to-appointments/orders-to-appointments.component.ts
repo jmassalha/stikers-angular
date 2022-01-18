@@ -426,8 +426,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
         // //debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetOrdersToAppointments",
-                //"http://srv-apps/wsrfc/WebService.asmx/GetOrdersToAppointments",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetOrdersToAppointments",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetOrdersToAppointments",
                 {
                     user: localStorage.getItem("loginUserName"),
                     pageSize: this.paginator.pageSize,
@@ -483,7 +483,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         // //debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/selectOutpatientClinic",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/selectOutpatientClinic",
                 {
                     user: localStorage.getItem("loginUserName"),
                 }
@@ -512,7 +512,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         }
         // //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/findPatientByID", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/findPatientByID", {
                 PatientId: event.srcElement.value,
             })
             .subscribe((Response) => {
@@ -620,7 +620,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         }
         // //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/selectUserDetails", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/selectUserDetails", {
                 user: localStorage.getItem("loginUserName"),
             })
             .subscribe((Response) => {
@@ -722,8 +722,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
         //debugger
         this.http
             .post(
-                //"http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
-                "http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
                 {
                     dataToSubmit: this.OrdersToAppointmentsForm.value,
                 }
