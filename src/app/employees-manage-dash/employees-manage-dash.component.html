@@ -1,1 +1,230 @@
-<p>employees-manage-dash works!</p>
+<div class="container">
+    <h1 class="page-title text-center" *ngIf="managerType == 'research'">ניהול עובדי קרן מחקרים</h1>
+    <h1 class="page-title text-center" *ngIf="managerType == 'hr' || managerType == 'admin'">ניהול עובדים</h1>
+    <h1 class="page-title text-center" *ngIf="managerType == 'stager'">ניהול סטאג'רים</h1>
+    <div class="container-fluid trans-80 mb-2">
+        <div class="row search-cont">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form" [formGroup]="searchEmployeesGroup">
+                            <div class="row">
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput type="text" autocomplete="off" placeholder="תעודת זהות"
+                                                formControlName="EmpID" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput type="text" autocomplete="off" placeholder="שם פרטי"
+                                                formControlName="EmpFirstName" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input matInput type="text" autocomplete="off" placeholder="שם משפחה"
+                                                formControlName="EmpLastName" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>אלקטיב</mat-label>
+                                            <mat-select formControlName="Elective">
+                                                <mat-option value="0">הכל</mat-option>
+                                                <mat-option value="1">
+                                                    כן
+                                                </mat-option>
+                                                <mat-option value="2">
+                                                    לא
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div> -->
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>מספר טלפון</mat-label>
+                                            <input type="tel" matInput autocomplete="off" placeholder="מספר טלפון"
+                                                formControlName="PhoneNumber" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>פעיל</mat-label>
+                                            <mat-select formControlName="On">
+                                                <mat-option value="0">הכל</mat-option>
+                                                <mat-option value="1">
+                                                    כן
+                                                </mat-option>
+                                                <mat-option value="2">
+                                                    לא
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>בוגר לימודי רפואה</mat-label>
+                                            <mat-select formControlName="MedGrad">
+                                                <mat-option value="0">הכל</mat-option>
+                                                <mat-option value="1">
+                                                    כן
+                                                </mat-option>
+                                                <mat-option value="2">
+                                                    לא
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <!-- <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>מספר טלפון</mat-label>
+                                            <input type="tel" matInput autocomplete="off" placeholder="מספר טלפון"
+                                                formControlName="PhoneNumber" />
+                                        </mat-form-field>
+                                    </div>
+                                </div> -->
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>מחלקה</mat-label>
+                                            <input matInput type="text" autocomplete="off" placeholder="מחלקה"
+                                                formControlName="Department" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-4">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>תפקיד</mat-label>
+                                            <input matInput type="text" autocomplete="off" placeholder="תפקיד"
+                                                formControlName="Role" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <button matTooltip="חיפוש" mat-raised-button type="submit"
+                                class="btn btn-primary btn-raised" (click)="GetEmployeesToUpdate(managerType)">
+                                <span class="material-icons">
+                                    search
+                                </span>
+                            </button>
+                            &nbsp;&nbsp;
+                            <!-- <button matTooltip="הדפסה" mat-raised-button type="button"
+                                class="btn btn-primary btn-raised">
+                                <span class="material-icons">
+                                    local_printshop
+                                </span>
+                            </button> -->
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- <mat-progress-bar mode="buffer" id="buffer" *ngIf="Patientsloading"></mat-progress-bar> -->
+    </div>
+    <div dir="rtl">
+        <div class="row" style="margin-right: 22px;width: 95%;margin-bottom: -8px;">
+            <mat-form-field appearance="standard" style="box-shadow: 0px 0px 5px 0px #000">
+                <mat-label class="filterClass">מסנן</mat-label>
+                <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
+            </mat-form-field>
+        </div>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+            <ng-container matColumnDef="EmployeeID">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תעודת זהות
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.EmployeeID}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FirstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם פרטי
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FirstName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="LastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם משפחה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.LastName}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="Gender">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מגדר </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.Gender}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DateOfBirth">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תאריך לידה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.DateOfBirth}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="CellNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> טלפון נייד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CellNumber}}</td>
+            </ng-container>
+
+            <!-- <ng-container matColumnDef="Elective">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> אלקטיב
+                    לפניה </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> Elective </td>
+            </ng-container> -->
+
+            <ng-container matColumnDef="Email">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מייל
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.Email}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="FunctionDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תפקיד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FunctionDescription}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DepartnentDescripton">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;">
+                    {{element.DepartnentDescripton}}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; let even=even; columns: displayedColumns;"
+                (click)="addUpdateEmployee(row)">
+            </tr>
+        </table>
+        <button type="button" id="rolesDetailsBtn" mat-fab color="primary" matTooltip="הוספת עובד חדש"
+            (click)="addUpdateEmployee('')"><i class="material-icons">add</i></button>
+        <div class="text-right" style="padding-bottom: 8%;">
+            <mat-paginator style="float: right;" [pageSizeOptions]="[15,25,50,100]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+</div>

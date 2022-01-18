@@ -1,1 +1,218 @@
-<p>employees-add-update works!</p>
+<form dir="rtl" autocomplete="off">
+    <div class="row">
+        <mat-card class="text-center">
+            <button mat-mini-fab color="warn" class="close" matTooltip="סגירה" aria-label="Close" mat-dialog-close>
+                <mat-icon>cancel</mat-icon>
+            </button>
+            <div class="row">
+                <div class="col-12">
+                    <label style="font-size: 35px;">{{employeePersonalDetails.controls['FirstName'].value}}
+                        {{employeePersonalDetails.controls['LastName'].value}} -
+                        {{employeeWorkDetails.controls['ADUserName'].value}} - {{employeePersonalDetails.controls['CellNumber'].value}}</label>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div class="row float-right mt-3">
+        <mat-vertical-stepper>
+            <mat-step [stepControl]="employeePersonalDetails">
+                <form dir="rtl" [formGroup]="employeePersonalDetails" autocomplete="off">
+                    <ng-template matStepLabel>פרטים אישיים</ng-template>
+                    <ol class="list-style">
+                        <div class="full-width row">
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                    <div class="col-12 text-right">
+                                    </div>
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" placeholder="ת.ז" matInput formControlName="EmployeeID">
+                                    </mat-form-field>
+                                </div>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם פרטי" formControlName="FirstName">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם משפחה" formControlName="LastName">
+                                </mat-form-field>
+                            </li>
+                        </div>
+                        <div class="full-width row">
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">מגדר</label>
+                                    <mat-select formControlName="Gender" aria-placeholder="מגדר">
+                                        <mat-option value="Male"> זכר </mat-option>
+                                        <mat-option value="Female"> נקבה </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput (focusout)="getUserName('')" placeholder="מייל"
+                                        formControlName="Email">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מס' טלפון" formControlName="CellNumber">
+                                </mat-form-field>
+                            </li>
+                        </div>
+                        <div class="full-width row">
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
+                                <div class="col-12 text-right">
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <span matPrefix>תאריך לידה &nbsp;</span>
+                                        <input matInput formControlName="DateOfBirth" placeholder="תאריך לידה"
+                                            [matDatepicker]="picker" (focus)="picker.open()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </li>
+                            <!-- <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="עיר" formControlName="CityName">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מיקוד" formControlName="CityCode">
+                                </mat-form-field>
+                            </li> -->
+                        </div>
+
+                    </ol>
+                    <div>
+                        <button mat-raised-button class="btn btn-primary btn-raised" matStepperNext>הבא</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="employeeWorkDetails">
+                <form dir="rtl" [formGroup]="employeeWorkDetails" autocomplete="off">
+                    <ng-template matStepLabel>פרטי העובד בביה"ח</ng-template>
+                    <ol class="list-style">
+                        <div class="full-width row">
+                            <li class="border-me col-3" id="employees" style="height: 75px;">
+                                <mat-form-field appearance="fill" class="example-full-width">
+                                    <span matPrefix>תחילת עבודה &nbsp;</span>
+                                    <input matInput formControlName="StartWorkDate" placeholder="תאריך תחילת עבודה"
+                                        [matDatepicker]="picker2" (focus)="picker2.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="תפקיד" formControlName="Title">
+                                </mat-form-field>
+                            </li>
+                            <!-- <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">דרגה</label>
+                                    <mat-select formControlName="RankID" aria-placeholder="דרגה">
+                                        <mat-option *ngFor="let rank of RanksList" [value]="rank">
+                                            {{rank.RankDescription}}
+                                        </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li> -->
+                            <li class="border-me col-3" id="employees" style="height: 75px;">
+                                <mat-form-field appearance="fill" class="example-full-width">
+                                    <span matPrefix>סיום עבודה &nbsp;</span>
+                                    <input matInput formControlName="EndWorkDate" placeholder="תאריך סיום עבודה"
+                                        [matDatepicker]="picker3" (focus)="picker3.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker3">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="הערות" formControlName="Remarks">
+                                </mat-form-field>
+                            </li>
+                        </div>
+                        <div class="full-width row">
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">סקטור</label>
+                                    <mat-select formControlName="EmployeeSektorID"
+                                        (selectionChange)="sektorSelection($event.value)" aria-placeholder="סקטור">
+                                        <mat-option *ngFor="let sektor of SektorsList"
+                                            [value]="sektor.EmployeeSektorID">{{sektor.EmployeeSektorDescription}}
+                                        </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-2" *ngIf="empType == 'stager'">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">מיקום לימודים</label>
+                                    <mat-select formControlName="InternLearnCountry"
+                                        (selectionChange)="setLearnCountry($event)" aria-placeholder="מיקום לימודים">
+                                        <mat-option value="חו'ל"> חו'ל </mat-option>
+                                        <mat-option value="ארץ"> ארץ </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-3" *ngIf="empType == 'stager'">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="ארץ לימודים"
+                                        formControlName="InternLearnCountryDesc">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3" *ngIf="empType == 'stager'">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="אוניברסיטה"
+                                        formControlName="InternUniversity">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4" *ngIf="empType == 'doctor'">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מספר רישיון רופא" formControlName="DocLicence"
+                                        required>
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4" id="employees" *ngIf="empType == 'doctor'" style="height: 75px;">
+                                <mat-form-field appearance="fill" class="example-full-width">
+                                    <span matPrefix>קבלת רישיון &nbsp;</span>
+                                    <input matInput formControlName="DocStartExperience" placeholder="תאריך קבלת רישיון"
+                                        [matDatepicker]="picker4" (focus)="picker4.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker4">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                            </li>
+                        </div>
+                    </ol>
+                    <div class="button-row">
+                        <button class="submitBtn mb-2 mt-3" [disabled]="employeePersonalDetails.invalid"
+                            (click)="saveEmployee()" color="primary" type="submit" mat-fab>
+                            <span class="material-icons">
+                                save
+                            </span>
+                        </button>
+                    </div>
+                </form>
+            </mat-step>
+        </mat-vertical-stepper>
+    </div>
+</form>

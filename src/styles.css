@@ -71,6 +71,11 @@ textarea{
     padding: 0.1em 0.1em 0 0.1em;
 }
 
+#employees .mat-form-field-flex {
+    border-radius: 4px 4px 0 0;
+    padding: 0.1em 0.1em 0 0.1em;
+}
+
 
 
 .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane,

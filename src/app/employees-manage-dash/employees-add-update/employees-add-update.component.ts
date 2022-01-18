@@ -1,4 +1,19 @@
-import { Component, OnInit } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Router } from '@angular/router';
+import { DatePipe } from '@angular/common';
+import {
+  MatSnackBar,
+  MatSnackBarHorizontalPosition,
+  MatSnackBarVerticalPosition,
+} from '@angular/material/snack-bar';
+import { Observable } from 'rxjs';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
+import { MatChipInputEvent } from '@angular/material/chips';
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { isEmpty, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employees-add-update',
@@ -7,9 +22,161 @@ import { Component, OnInit } from '@angular/core';
 })
 export class EmployeesAddUpdateComponent implements OnInit {
 
-  constructor() { }
+
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
+  employee: any;
+  employeePersonalDetails: FormGroup;
+  employeeWorkDetails: FormGroup;
+  RanksList = [];
+  SektorsList = [];
+  stager: boolean = false;
+  empType: string = "none";
+  UserName = localStorage.getItem("loginUserName").toLowerCase();
+
+  constructor(private _snackBar: MatSnackBar,
+    public dialog: MatDialog,
+    private router: Router,
+    private http: HttpClient,
+    private formBuilder: FormBuilder
+  ) { }
 
   ngOnInit(): void {
+
+    let WorkPlaceID = "2";
+    // if(this.UserName == "dporat" || this.UserName == "dfogel" ||this.UserName == "iditur" || this.UserName == "adahabre" || this.UserName == "owertheim"){
+    //   this.stager = true;
+    // }
+    if (this.stager) {
+      WorkPlaceID = "1";
+    }
+    // this.getRanksList();
+    this.getSektorsList();
+    this.employeePersonalDetails = this.formBuilder.group({
+      RowID: new FormControl(this.employee.RowID, null),
+      EmployeeID: new FormControl(this.employee.EmployeeID, [Validators.required, Validators.pattern("[0-9 ]{1,9}")]),
+      FirstName: new FormControl(this.employee.FirstName, [Validators.required]),
+      LastName: new FormControl(this.employee.LastName, [Validators.required]),
+      Gender: new FormControl(this.employee.Gender, [Validators.required]),
+      Email: new FormControl(this.employee.Email, [Validators.required]),
+      CellNumber: new FormControl(this.employee.CellNumber, [Validators.required, Validators.pattern("[0-9 ]{10}")]),
+      // KupaID: new FormControl(this.employee.KupaID, null),
+      // KupaName: new FormControl(this.employee.KupaName, null),
+      DateOfBirth: new FormControl(this.employee.DateOfBirth, [Validators.required]),
+    });
+    this.employeeWorkDetails = this.formBuilder.group({
+      RowID: new FormControl(this.employee.RowID, null),
+      EmployeeIndex: new FormControl('', null),
+      StartWorkDate: new FormControl(this.employee.StartWorkDate, Validators.required),
+      EmployeeSektorID: new FormControl(this.employee.EmployeeSektorID, null),
+      EmployeeBlossomSektorID: new FormControl('1', null),
+      Title: new FormControl(this.employee.Title, null),
+      FunctionID: new FormControl('18', null),
+      // FunctionDescription: new FormControl(this.employee.FunctionDescription, null),
+      DepartnentCode: new FormControl('00079150', null),
+      // DepartnentDescripton: new FormControl(this.employee.DepartnentDescripton, null),
+      // JobTitleID: new FormControl('NULL', null),
+      RankID: new FormControl('031', null),
+      ADUserName: new FormControl('', null),
+      WorkPlaceID: new FormControl(WorkPlaceID, null),
+      EndWorkDate: new FormControl(this.employee.EndWorkDate, null),
+      Remarks: new FormControl(this.employee.Remarks, null),
+      // UpdateDate: new FormControl(this.employee.UpdateDate, null),
+      // SentToMOHDate: new FormControl(this.employee.SentToMOHDate, null),
+      DocLicence: new FormControl(this.employee.DocLicence, null),
+      DocStartExperience: new FormControl(this.employee.DocStartExperience, null),
+      InternLearnCountry: new FormControl(this.employee.InternLearnCountry, null),
+      InternLearnCountryDesc: new FormControl(this.employee.InternLearnCountryDesc, null),
+      InternUniversity: new FormControl(this.employee.InternUniversity, null),
+    });
+    this.sektorSelection(this.employee.EmployeeSektorID);
+    this.getUserName(this.employee.Email);
+  }
+
+  getEmployeeIndex() {
+    return this.employeeWorkDetails.controls['DepartnentCode'].value + '_' + this.employeeWorkDetails.controls['EmployeeSektorID'].value;
+  }
+
+  getUserName(email) {
+    if (email == "") {
+      email = this.employeePersonalDetails.controls['Email'].value;
+    }
+    let userName = "";
+    if (email != undefined) {
+      let domain = email.split('@')[1];
+      if (domain.toLowerCase() == "pmc.gov.il" || domain.toLowerCase() == "poria.health.gov.il") {
+        userName = email.split('@')[0];
+        this.employeeWorkDetails.controls['ADUserName'].setValue(userName);
+      }
+    }
+    return userName;
+  }
+
+  // getRanksList() {
+  //   this.http
+  //     .post("http://srv-apps/wsrfc/WebService.asmx/GetRanksList", {
+  //     })
+  //     .subscribe((Response) => {
+  //       this.RanksList = Response["d"];
+  //     });
+  // }
+
+  getSektorsList() {
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/GetSektorsList", {
+      })
+      .subscribe((Response) => {
+        this.SektorsList = Response["d"];
+      });
+  }
+
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+
+  setLearnCountry(country) {
+    if (country.value == "ארץ") {
+      this.employeeWorkDetails.controls['InternLearnCountryDesc'].setValue('ישראל');
+    } else {
+      this.employeeWorkDetails.controls['InternLearnCountryDesc'].setValue('');
+    }
+  }
+
+  sektorSelection(sektor) {
+    this.employeeWorkDetails.controls['EmployeeSektorID'].setValue(sektor);
+    if (sektor == "999") {
+      this.empType = "doctor";
+    } else if (sektor == "899") {
+      this.empType = "stager";
+    } else {
+      this.empType = "none";
+    }
+  }
+
+  saveEmployee() {
+    this.employeeWorkDetails.controls['EmployeeIndex'].setValue(this.getEmployeeIndex());
+    let pipe = new DatePipe('en-US');
+    this.employeeWorkDetails.controls['StartWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['StartWorkDate'].value, 'yyyy-MM-dd'));
+    this.employeeWorkDetails.controls['DocStartExperience'].setValue(pipe.transform(this.employeeWorkDetails.controls['DocStartExperience'].value, 'yyyy-MM-dd'));
+    this.employeeWorkDetails.controls['EndWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['EndWorkDate'].value, 'yyyy-MM-dd'));
+    this.employeePersonalDetails.controls['DateOfBirth'].setValue(pipe.transform(this.employeePersonalDetails.controls['DateOfBirth'].value, 'yyyy-MM-dd'));
+    this.http
+      .post("http://srv-apps/wsrfc/WebService.asmx/SaveEmployeeDetails", {
+        _personalDetails: this.employeePersonalDetails.getRawValue(),
+        _workDetails: this.employeeWorkDetails.getRawValue()
+      })
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("נשמר בהצלחה");
+          this.dialog.closeAll();
+        } else {
+          this.openSnackBar("משהו השתבש, לא נשמר");
+        }
+      });
   }
 
 }

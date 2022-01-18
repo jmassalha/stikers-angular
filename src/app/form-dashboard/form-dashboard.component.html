@@ -1,6 +1,4 @@
 <mat-card dir="rtl">
-
-
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -98,3 +96,22 @@
         </div>
     </div>
 </mat-card>
+<ng-template #modalAlert let-close="close">
+    <h1 mat-dialog-title style="text-align: center;">התראה למילוי שאלונים</h1>
+    <hr>
+    <div *ngFor="let person of all_person_arr" dir="rtl">
+        <div class="row text-center">
+            <p>שם מטופל: {{person.PersonalFirstName}}</p>&nbsp;
+            <p>{{person.PersonalLastName}}</p>&nbsp;  -  &nbsp;
+            <p>מספר טלפון: {{person.PersonalPhone}}</p>&nbsp;  -  &nbsp;
+            <p>ת.ז: {{person.PersonalID}}</p>&nbsp;  -  &nbsp;
+            <p>שם שאלון: {{person.FormName}}</p>
+        </div>
+    </div>
+    <div mat-dialog-actions>
+        <div class="row">
+            <button mat-raised-button color="primary" style="float: right;" mat-dialog-close>אישור</button>
+        </div>
+
+    </div>
+</ng-template>
