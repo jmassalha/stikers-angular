@@ -136,6 +136,7 @@ import { NmrIframeComponent } from './nmr-iframe/nmr-iframe.component';
 import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
 import { EmployeesManageDashComponent } from './employees-manage-dash/employees-manage-dash.component';
 import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-add-update/employees-add-update.component';
+import { OnnLineComponent } from './onn-line/onn-line.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -231,7 +232,8 @@ const maskConfig: Partial<IConfig> = {
     NmrIframeComponent,
     OrdersToAppointmentsComponent,
     EmployeesManageDashComponent,
-    EmployeesAddUpdateComponent
+    EmployeesAddUpdateComponent,
+    OnnLineComponent
   ],
   imports: [
     FlatpickrModule.forRoot(),

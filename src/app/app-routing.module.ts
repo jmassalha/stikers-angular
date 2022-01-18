@@ -69,6 +69,7 @@ import { NmrIframeComponent } from './nmr-iframe/nmr-iframe.component';
 import { EmployeesManageDashComponent } from './employees-manage-dash/employees-manage-dash.component';
 import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-add-update/employees-add-update.component';
 import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
+import { OnnLineComponent } from './onn-line/onn-line.component';
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -141,6 +142,7 @@ const routes: Routes = [
     { path: "employeesmanagedashboard", component: EmployeesManageDashComponent },
     { path: "employeesaddupdate", component: EmployeesAddUpdateComponent },
     { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
+    { path: "onnline", component: OnnLineComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

@@ -16,6 +16,9 @@
                         mic
                     </span></button>
             </li> -->
+            <li class="nav-item" *ngIf="_onnline">
+                <a class="nav-link" routerLink="onnline">תפריט מערכת </a>
+            </li>
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -301,6 +304,7 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
+                            
                             <li class="nav-item" *ngIf="_shoCoronavaccine">
                                 <a class="nav-link" routerLink="sarscov2">נוגדנים לקורונה</a>
                             </li>
