@@ -30,7 +30,7 @@ export class EmployeesManageDashComponent implements OnInit {
   GetDepartmentsToUpdateBeds() {
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetEmployeesToUpdate", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {
       })
       .subscribe((Response) => {
         let t = Response["d"];

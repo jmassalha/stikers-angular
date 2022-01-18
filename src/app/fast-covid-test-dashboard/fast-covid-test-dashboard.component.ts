@@ -65,7 +65,7 @@ export class FastCovidTestDashboardComponent implements OnInit {
 
   getAllAntigTestedPatients(){
     this.http
-    .post("http://srv-apps/wsrfc/WebService.asmx/GetAllAntigTestedPatients", {
+    .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllAntigTestedPatients", {
       _searchWord: this.searchCovidTestPatients.controls['searchWord'].value,
       _startdateVal:  this.datePipe.transform(this.searchCovidTestPatients.controls['startdateVal'].value, 'yyyy-MM-dd'),
       _enddateVal: this.datePipe.transform(this.searchCovidTestPatients.controls['enddateVal'].value, 'yyyy-MM-dd'),

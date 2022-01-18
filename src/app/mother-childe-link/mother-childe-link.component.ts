@@ -67,7 +67,7 @@ export class MotherChildeLinkComponent implements OnInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetMotherChildeLink",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetMotherChildeLink",
                 {
                     freeSearch: _freeSearch,
                 }

@@ -524,7 +524,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           debugger;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/addPatientCoronaForm", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/addPatientCoronaForm", {
             PatientCoronaForm: this.addPatientCoronaForm.value
           }).subscribe(function (Response) {
             debugger;
@@ -2583,7 +2583,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetInvoicesByCases", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInvoicesByCases", {
             CaseNumbers: this.invoicesForm.value.caseNumbers,
             hfnia: this.invoicesForm.value.hfnia
           }).subscribe(function (Response) {
@@ -3182,7 +3182,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //debugger
           console.log(event); //debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertCaseNumberToBox", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertCaseNumberToBox", {
             CaseNumber: event.value,
             CartoonID: this.CartoonID
           }).subscribe(function (Response) {
@@ -3216,7 +3216,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } //debugger;
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/RemoveCaseFromBox", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveCaseFromBox", {
             CaseNumber: this.removeCaseForm.value.CaseNumber,
             CartoonID: this.removeCaseForm.value.CartoonID
           }).subscribe(function (Response) {
@@ -3241,10 +3241,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           } ////debugger
-          //http://srv-apps/wsrfc/WebService.asmx/
+          //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetBoxCases", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBoxCases", {
             _freeText: _FreeText,
             BoxID: this.CartoonID
           }).subscribe(function (Response) {
@@ -5149,7 +5149,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //return;
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SaveRelevantOrNotChad", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveRelevantOrNotChad", {
             mRelevantOrNot: this.RelevantForm.value
           }).subscribe(function (Response) {
             var json = jQuery.parseJSON(Response["d"]);
@@ -5163,7 +5163,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDeparts() {
           var _this10 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetChadsDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetChadsDeparts", {}).subscribe(function (Response) {
             //// ////debugger
             _this10.TABLE_DATA.splice(0, _this10.TABLE_DATA.length);
 
@@ -5228,7 +5228,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         key: "saveChad",
         value: function saveChad(_rowID) {
           jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/saveChad", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/saveChad", {
             _chadVal: this.chadVal,
             _chadDate: this.chadDate,
             _chadTool: this.chadTool,
@@ -5453,7 +5453,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           //// ////debugger
           jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetReportTable", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetReportTable", {
             _reportTableName: _tableName,
             _fromDate: _startDate,
             _toDate: _endDate,
@@ -6917,7 +6917,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/CheckIfPatientExist", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/CheckIfPatientExist", {
             freeSearch: _freeSearch
           }).subscribe(function (Response) {
             _this13.mPatientData = Response["d"];
@@ -8670,7 +8670,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           if (departNumber == null || departNumber == "" || departNumber == undefined) {
             this.openSnackBar("עליך לבחור מחלקה");
           } else {
-            this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsServices", {
+            this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsServices", {
               _departmentNumber: departNumber
             }).subscribe(function (Response) {
               var relevantServices = [];
@@ -8732,7 +8732,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.openSnackBar("עליך להקליד מזהה מטופל");
           } else {
             if (this.usersWithPermission(localStorage.getItem("loginUserName").toLowerCase())) {
-              this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPatientDetails", {
+              this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsPatientDetails", {
                 _choose: "1",
                 _passport: passport,
                 _caseNumber: caseNumber
@@ -8801,7 +8801,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 }
               });
             } else {
-              this.http.post("http://srv-apps/wsrfc/WebService.asmx/PrintReciept", {
+              this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/PrintReciept", {
                 _patientPassport: passport
               }).subscribe(function (Response) {
                 _this15.print = true;
@@ -8867,7 +8867,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDepartments() {
           var _this16 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetClinicsPricingDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsPricingDeparts", {}).subscribe(function (Response) {
             var clinicsDeparts = [];
             clinicsDeparts = Response["d"];
             clinicsDeparts.forEach(function (element) {
@@ -8881,7 +8881,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this17 = this;
 
           if (!this.servicesFormGroup.invalid) {
-            this.http.post("http://srv-apps/wsrfc/WebService.asmx/SendTreatmentToReception", {
+            this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendTreatmentToReception", {
               _patientDetails: this.detailsFormGroup.getRawValue(),
               _serviceDetails: this.servicesFormGroup.getRawValue()
             }).subscribe(function (Response) {
@@ -10838,7 +10838,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.EditForm.value.ColonoscopyEnd_Date;
           this.EditForm.value.Cecum_Time; //return;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SaveColonoscopy", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveColonoscopy", {
             mSaveColonoscopy: this.EditForm.value
           }).subscribe(function (Response) {
             //
@@ -10861,7 +10861,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //return;
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SaveRelevantOrNotColonoscopy", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveRelevantOrNotColonoscopy", {
             mRelevantOrNot: this.RelevantForm.value
           }).subscribe(function (Response) {
             //
@@ -11277,7 +11277,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDoctors() {
           var _this22 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetColonoscopyDoctorsList", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetColonoscopyDoctorsList", {}).subscribe(function (Response) {
             //// ////debugger
             _this22.TABLE_DATA.splice(0, _this22.TABLE_DATA.length);
 
@@ -11312,7 +11312,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //;
           debugger;
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/getCOLONOSCOPY", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getCOLONOSCOPY", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -14495,7 +14495,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this24 = this;
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetNamerDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNamerDeparts", {}).subscribe(function (Response) {
             //// //////debugger
             _this24.departsList = [];
             var json = JSON.parse(Response["d"]); // // //////debugger
@@ -14532,7 +14532,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this25 = this;
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetWorkers", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetWorkers", {
             _Depart: valDepart
           }).subscribe(function (Response) {
             //debugger;
@@ -14571,7 +14571,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this26 = this;
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetRequestDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRequestDeparts", {}).subscribe(function (Response) {
             //// //////debugger
             _this26.requestdepartsList = [];
             var json = JSON.parse(Response["d"]); // // //////debugger
@@ -14610,7 +14610,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //;
           ////debugger;
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetAllConsultations", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllConsultations", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -17001,7 +17001,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             return;
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SendSmsToCoronaSurvey", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSmsToCoronaSurvey", {
             _FullName: this.fullnameVal,
             _id: this.idPatient,
             _phoneNumber: this.phoneNumber
@@ -17190,7 +17190,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/Covid_19_SheetApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/Covid_19_SheetApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -18568,7 +18568,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/RunGetLastRequestResult", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RunGetLastRequestResult", {
             _ID: _ID
           }).subscribe(function (Response) {
             var json = JSON.parse(Response["d"]);
@@ -20438,7 +20438,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             return;
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SendSmsToCoronaSurvey", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSmsToCoronaSurvey", {
             _FullName: this.fullnameVal,
             _id: this.idPatient,
             _phoneNumber: this.phoneNumber
@@ -20671,7 +20671,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetAllVaccine", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllVaccine", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -22960,7 +22960,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepart", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCortinasDepart", {
             DepartRow: this.departsForm.value
           }).subscribe(function (Response) {
             _this35.getReport(null);
@@ -22991,7 +22991,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepartRooms", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCortinasDepartRooms", {
             DepartRoomRows: this.roomsForm.value.roomsDetails
           }).subscribe(function (Response) {
             _this36.openSnackBar();
@@ -23021,7 +23021,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SubmitCortinasDepartRoomsBeds", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCortinasDepartRoomsBeds", {
             DepartRoomBedsRows: this.roomsBedsForm.value.roomsBedsDetails
           }).subscribe(function (Response) {
             _this37.openSnackBar();
@@ -23049,7 +23049,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           });
           this.D_NAME = _element.D_NAME;
           this.D_ID = _element.D_ID;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepartRoomsBeds", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCortinasDepartRoomsBeds", {
             _DepartID: _element.D_ID
           }).subscribe(function (Response) {
             //  //debugger
@@ -23118,7 +23118,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           });
           this.D_NAME = _element.D_NAME;
           this.D_ID = _element.D_ID;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepartRooms", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCortinasDepartRooms", {
             _DepartID: _element.D_ID
           }).subscribe(function (Response) {
             //  //debugger
@@ -23247,7 +23247,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasDepart", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCortinasDepart", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText
@@ -24040,7 +24040,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this43 = this;
 
           if (alert.type == null || alert.type == "cancel") alert.type = "insert";else alert.type = "cancel";
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/ChangeCortinasDate", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/ChangeCortinasDate", {
             alert: alert
           }).subscribe(function (Response) {
             //debugger
@@ -24071,7 +24071,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetCortinasAlerts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCortinasAlerts", {}).subscribe(function (Response) {
             ////debugger
             var json = JSON.parse(Response["d"]);
             _this44.AlertWarn = JSON.parse(json["AlertWarn"]);
@@ -25319,7 +25319,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var seconds = taht.addOrEditReportForm.value.Reporting_Date_Time.getSeconds();
           taht.addOrEditReportForm.value.Reporting_Date_Time = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
           debugger;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SubmitCovid19Report", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCovid19Report", {
             mCovid19Report: taht.addOrEditReportForm.value
           }).subscribe(function (Response) {
             //debugger
@@ -25345,7 +25345,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetAllReporting", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllReporting", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -26007,7 +26007,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this47 = this;
 
           $("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/TfosaDashBoardApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardApp", {
             _depart: _Depart
           }).subscribe(function (Response) {
             ////debugger
@@ -26899,7 +26899,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetDimotTableApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -26965,7 +26965,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.loader = true;
           this.getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _Depart, this.fliterVal, this.Shift, this.RequestType); //////debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetDimotApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -28452,7 +28452,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getMedGroups() {
           var _this50 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetTbl_MedGroups", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetTbl_MedGroups", {}).subscribe(function (Response) {
             ////debugger
             _this50.TABLE_DATA.splice(0, _this50.TABLE_DATA.length);
 
@@ -28541,7 +28541,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } // //debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/insertOrUpdateDrug", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug", {
             drugRow: this.drugForm.value
           }).subscribe(function (Response) {
             //debugger
@@ -28653,7 +28653,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/getDrugsTbl", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getDrugsTbl", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -30093,7 +30093,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this55 = this;
 
           ////debugger
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetNamerDrugs", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNamerDrugs", {
             freeSearch: freeSearch,
             pageIndex: pageIndex,
             pageSize: pageSize
@@ -30141,7 +30141,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } // ////////debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/submitConnectDrug", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/submitConnectDrug", {
             drugRow: this.drugForm.value
           }).subscribe(function (Response) {
             ////////debugger
@@ -30263,7 +30263,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } // debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetNICDrugs", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNICDrugs", {
             freeSearch: freeSearch,
             pageSize: pageSize,
             pageIndex: pageIndex,
@@ -32649,7 +32649,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function shareComplaintWithOthers() {
           var _this61 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/AttachCompToUser", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachCompToUser", {
             userId: this.myControl.value,
             compId: this.complainID
           }).subscribe(function (Response) {
@@ -32698,7 +32698,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           if (!this.manageComplaintForm.invalid || !this.emailSenderGroup.invalid) {
-            this.http.post("http://srv-apps/wsrfc/WebService.asmx/UpdateComplaint", {
+            this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateComplaint", {
               _compToUpdate: this.manageComplaintForm.value,
               _emailToInsert: this.emailSenderGroup.value,
               ifUpdate: _ifUpdate,
@@ -32719,7 +32719,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDepatments() {
           var _this63 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInquiryDeparts", {}).subscribe(function (Response) {
             _this63.all_departs_filter = Response["d"];
 
             _this63.all_departs_filter.forEach(function (element) {
@@ -32733,7 +32733,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this64 = this;
 
           var userName = localStorage.getItem("loginUserName").toLowerCase();
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRelevantComplaints", {
             _urlID: urlID,
             _userName: userName
           }).subscribe(function (Response) {
@@ -32766,7 +32766,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this._stepper = true;
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/Manage_Emails", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/Manage_Emails", {
             _compID: urlID,
             _ifSplit: ifSplit
           }).subscribe(function (Response) {
@@ -32810,14 +32810,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             _this65.emailSubjectsArr = _this65.all_email_management[_this65.all_email_management.length - 1];
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInquiryDeparts", {}).subscribe(function (Response) {
             _this65.all_departs_filter = Response["d"];
 
             _this65.all_departs_filter.forEach(function (element) {
               _this65.department.push(element);
             });
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetUsersForInquiries", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetUsersForInquiries", {}).subscribe(function (Response) {
             _this65.all_users_filter = Response["d"];
 
             _this65.all_users_filter.forEach(function (element) {
@@ -33673,7 +33673,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function loadInquiries() {
           var _this66 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SavingEmailsToDB", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SavingEmailsToDB", {}).subscribe(function (Response) {
             _this66.openSnackBar("פניות נטענו בהצלחה");
 
             setTimeout(function () {
@@ -33686,7 +33686,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function changeStatus(e, emailID) {
           var _this67 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/ChangeStatus", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/ChangeStatus", {
             _status: e.checked,
             _emailID: emailID
           }).subscribe(function (Response) {
@@ -33740,7 +33740,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             compDateControl2 = "";
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/Comp_Emails", {
             _compName: compName,
             _compDate: compDateControl,
             _compDate2: compDateControl2,
@@ -33790,7 +33790,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this68.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this68.TABLE_DATA);
             _this68.dataSource.paginator = _this68.paginator;
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInquiryDeparts", {}).subscribe(function (Response) {
             _this68.all_departs_filter = Response["d"];
 
             _this68.all_departs_filter.forEach(function (element) {
@@ -35091,7 +35091,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function GetMessagesGroupType(Type) {
           var _this69 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesGroupType", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMessagesGroupType", {
             Type: Type
           }).subscribe(function (Response) {
             // debugger
@@ -35156,7 +35156,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetGroupMembersMobilesByType", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGroupMembersMobilesByType", {
             mGroupSmsToForm: this.GroupSmsToForm.value
           }).subscribe(function (Response) {
             //localStorage.setItem("GroupRowId", _element.RowID);
@@ -35196,7 +35196,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }); //debugger;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateGroup", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateGroup", {
             _GroupForm: this.GroupForm.value
           }).subscribe(function (Response) {
             _this71.getReport(null);
@@ -35225,7 +35225,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           // debugger;
           this.GroupName = _element.GroupName;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetGroupMembersMobiles", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGroupMembersMobiles", {
             RowID: _element.RowID
           }).subscribe(function (Response) {
             //localStorage.setItem("GroupRowId", _element.RowID);
@@ -35376,11 +35376,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          } //http://srv-apps/wsrfc/WebService.asmx/
-          //http://srv-apps/wsrfc/WebService.asmx/
+          } //http://srv-apps-prod/RCF_WS/WebService.asmx/
+          //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetGroups", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGroups", {
             serachTxt: _FreeText
           }).subscribe(function (Response) {
             //////debugger
@@ -36205,7 +36205,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } //debugger;
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/RemoveMemberFromGroup", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveMemberFromGroup", {
             MemberId: this.removeMemberForm.value.EmployeeID,
             GroupId: this.removeMemberForm.value.GroupId
           }).subscribe(function (Response) {
@@ -36268,10 +36268,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           } //debugger
-          //http://srv-apps/wsrfc/WebService.asmx/
+          //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetGroupEmployeesMember", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGroupEmployeesMember", {
             _FreeText: _FreeText,
             _GroupID: this.GroupID
           }).subscribe(function (Response) {
@@ -36971,7 +36971,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this80 = this;
 
           //debugger;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/AddMemberToGroup", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/AddMemberToGroup", {
             MemberId: _element.RowID,
             GroupId: this.GroupID
           }).subscribe(function (Response) {
@@ -37013,7 +37013,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } //  debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetEmployees", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployees", {
             pageIndex: _pageIndex,
             pageSize: _pageSize,
             serachTxt: _FreeText
@@ -38116,7 +38116,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function newData() {
           var _this82 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/EshbozimAppNew", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/EshbozimAppNew", {
             _fromDate: this.startdateVal,
             _toDate: this.enddateVal,
             _freeText: this.fliterVal,
@@ -38170,7 +38170,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/EshbozimAppNew", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/EshbozimAppNew", {
             _fromDate: this.startdateVal,
             _toDate: this.enddateVal,
             _freeText: this.fliterVal,
@@ -38231,7 +38231,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetEshbozemApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEshbozemApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -40409,7 +40409,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           var mEventsDropDownData = [];
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetDropDownsSelects", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsSelects", {
             mDropDownType: mType
           }).subscribe(function (Response) {
             // //debugger;
@@ -40495,7 +40495,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }); ////debugger;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateEvent", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateEvent", {
             mEventsScheduleRow: this.EventsForm.value
           }).subscribe(function (Response) {
             _this86.getReport(null);
@@ -40643,12 +40643,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          } //http://srv-apps/wsrfc/WebService.asmx/
-          //http://srv-apps/wsrfc/WebService.asmx/
+          } //http://srv-apps-prod/RCF_WS/WebService.asmx/
+          //http://srv-apps-prod/RCF_WS/WebService.asmx/
           //debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetEventsSchedule", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
             pageIndex: pageIndex,
             pageSize: pageSize,
             serachTxt: serachTxt,
@@ -41745,7 +41745,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function deleteReport(reportID) {
           var _this92 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/DeleteReport", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeleteReport", {
             _reportID: reportID
           }).subscribe(function (Response) {
             if (Response["d"] == "success") {
@@ -41790,7 +41790,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.ReportGroup.controls['ReportMachlol'].setValue(this.departmentfilter.value);
 
           if (!this.ReportGroup.invalid) {
-            this.http.post("http://srv-apps/wsrfc/WebService.asmx/AddUpdateReport", {
+            this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/AddUpdateReport", {
               _report: this.ReportGroup.getRawValue(),
               _userName: this.UserName
             }).subscribe(function (Response) {
@@ -41813,7 +41813,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDeparts() {
           var _this94 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNursesDeparts", {}).subscribe(function (Response) {
             _this94.all_departs_filter = Response["d"];
 
             _this94.all_departs_filter.forEach(function (element) {
@@ -41826,7 +41826,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getReportToUpdate() {
           var _this95 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetReportToUpdate", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetReportToUpdate", {
             _reportID: this.reportID
           }).subscribe(function (Response) {
             _this95.all_report_management = Response["d"]; // if(this.all_report_management.UserName == this.UserName){
@@ -41910,7 +41910,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getCategories() {
           var _this96 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCategories", {}).subscribe(function (Response) {
             _this96.all_categories_filter = Response["d"];
             var lastIndex = _this96.all_categories_filter.length - 1;
             _this96.subCategory = _this96.all_categories_filter[lastIndex].SubCategory;
@@ -44005,7 +44005,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               console.log("User confirmed:", confirmed);
 
               if (confirmed) {
-                _this99.http.post("http://srv-apps/wsrfc/WebService.asmx/answerForm", {
+                _this99.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm", {
                   _answerValues: survey,
                   _ifContinue: continueForm
                 }).subscribe(function (Response) {
@@ -44045,7 +44045,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
           this.withCaseNumber = false;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetails", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetails", {
             CaseNumber: this.CaseNumber
           }).subscribe(function (Response) {
             // ***** 30910740
@@ -44066,7 +44066,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             NurseID = 0;
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetForm", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetForm", {
             formFormID: urlID,
             _nurseid: NurseID
           }).subscribe(function (Response) {
@@ -44191,7 +44191,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this102 = this;
 
           var userName = localStorage.getItem("loginUserName").toLowerCase();
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetQuestion", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetQuestion", {
             questionsFormID: urlID,
             isCaseNumber: this.isCaseNumber,
             nurseid: NurseID
@@ -44408,7 +44408,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.answersData.next(this.onlyColumns.controls);
         } // getOption(urlID) {
         // this.http
-        //   .post("http://srv-apps/wsrfc/WebService.asmx/GetOption", {
+        //   .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetOption", {
         //     optionsFormID: urlID,
         //   })
         //   .subscribe((Response) => {
@@ -44974,7 +44974,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           var formNameControl = this.formSearch.controls['formNameControl'].value;
           var nurseUser = localStorage.getItem('loginUserName');
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetAllForms", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllForms", {
             _formNameControl: formNameControl,
             _nurseUser: nurseUser
           }).subscribe(function (Response) {
@@ -45652,7 +45652,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             console.log("User confirmed:", confirmed);
 
             if (confirmed) {
-              _this104.http.post("http://srv-apps/wsrfc/WebService.asmx/LinkPdfToPatientNamer", {
+              _this104.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
                 CaseNumber: element.PatientID,
                 FormID: element.FormID,
                 Catigory: "ZPO_ONLINE",
@@ -45710,7 +45710,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             personalPassport = "";
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetPersonalDetailsForForms", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetailsForForms", {
             _formID: FormID,
             _caseNumber: caseNumber,
             _personalPassport: personalPassport,
@@ -46961,7 +46961,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }, function (reason) {
             _this106.closeResult = "Dismissed ".concat(_this106.getDismissReason(reason));
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetGlucoseByCaseNumber", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseByCaseNumber", {
             CaseNumber: _element.PGR_Case_Number
           }).subscribe(function (Response) {
             //  debugger
@@ -46978,7 +46978,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this107 = this;
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetGlucoseApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseApp", {
             _fromDate: _startDate,
             _toDate: _endDate
           }).subscribe(function (Response) {
@@ -48578,7 +48578,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getPermission() {
           var _this108 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/getResearchPermission", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getResearchPermission", {
             _UserName: localStorage.getItem("loginUserName")
           }).subscribe(function (Response) {
             // ////////debugger
@@ -48802,7 +48802,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this109 = this;
 
           var userName = localStorage.getItem("loginUserName").toLowerCase();
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/ClinicsUserPersmission", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/ClinicsUserPersmission", {
             _userName: userName
           }).subscribe(function (Response) {
             _this109.clinicsUserPermission = Response["d"];
@@ -48814,7 +48814,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this110 = this;
 
           var userName = localStorage.getItem("loginUserName").toLowerCase();
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/NursesUserPersmission", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/NursesUserPersmission", {
             _userName: userName
           }).subscribe(function (Response) {
             _this110.nursesUserPermission = Response["d"];
@@ -48826,7 +48826,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this111 = this;
 
           var userName = localStorage.getItem("loginUserName").toLowerCase();
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/IfUserRead", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/IfUserRead", {
             _userName: userName
           }).subscribe(function (Response) {
             _this111.numberOfUnread = Response["d"];
@@ -49507,7 +49507,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
           this.loader = true; //////debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/RunHearingReportApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RunHearingReportApp", {
             _fromDate: _startDate,
             _toDate: _endDate
           }).subscribe(function (Response) {
@@ -50900,7 +50900,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetInvoicesApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInvoicesApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -53116,7 +53116,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           jquery__WEBPACK_IMPORTED_MODULE_2__("#loader").removeClass("d-none");
           this.loader = true; // ////debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/RunLaborAppNew", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RunLaborAppNew", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _CheckResult: _CheckResult,
@@ -54268,7 +54268,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
 
           if (this.username && this.password) {
-            this.http.post("http://srv-apps/wsrfc/WebService.asmx/Login", {
+            this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/Login", {
               _userName: this.username,
               _mPassword: this.password
             }).subscribe(function (response) {
@@ -55190,7 +55190,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           });
           debugger;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateMaternity", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternity", {
             _maternityForm: this.maternityForm.value
           }).subscribe(function (Response) {
             _this117.getReport(null);
@@ -55220,7 +55220,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           // debugger;
           this.MaternityName = _element.MaternityNumber;
           this.MaternityNumber = _element.MaternityName;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetMaternityPatientMobiles", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMaternityPatientMobiles", {
             RowID: _element.RowID
           }).subscribe(function (Response) {
             //localStorage.setItem("MaternityRowId", _element.RowID);
@@ -55341,11 +55341,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          } //http://srv-apps/wsrfc/WebService.asmx/
-          //http://srv-apps/wsrfc/WebService.asmx/
+          } //http://srv-apps-prod/RCF_WS/WebService.asmx/
+          //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetMaternityTable", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMaternityTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _freeText: _FreeText,
@@ -56610,7 +56610,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.patientForm.value.PatientDOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.PatientDOB, "yyyy-MM-dd", "en-US");
           this.patientForm.value.PatientPregnancyDOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.PatientPregnancyDOB, "yyyy-MM-dd", "en-US"); //debugger;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateMaternityPatients", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients", {
             _patientForm: this.patientForm.value
           }).subscribe(function (Response) {
             _this122.applyFiltermaternitypatients(_this122.fliterValPatient);
@@ -56741,7 +56741,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } //debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/getMaternityPatientsTable", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getMaternityPatientsTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -61839,7 +61839,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }); //////////////debugger
 
             if (this.rows.value[d].newRow == "false") {
-              this.http.post("http://srv-apps/wsrfc/WebService.asmx/DeletePresRowInside", {
+              this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeletePresRowInside", {
                 _rowID: this.DeleteRowId
               }).subscribe(function (Response) {
                 //this.getReport("");
@@ -61867,7 +61867,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getPermission() {
           var _this125 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/selectPermission", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/selectPermission", {
             _UserName: localStorage.getItem("loginUserName")
           }).subscribe(function (Response) {
             // //////////debugger
@@ -61968,7 +61968,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/DeletePresRow", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeletePresRow", {
             _rowID: this.DeletePreRowId
           }).subscribe(function (Response) {
             _this128.getReport("");
@@ -62303,7 +62303,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //return
           //debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
             ParentFrom: ParentFrom,
             tableFrom: tableFrom,
             patientId: this.ID,
@@ -62421,7 +62421,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } ////debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpictionNotToServe", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNotToServe", {
             status: $event,
             patientId: _element.ROW_ID_PRE,
             loginUserName: localStorage.getItem("loginUserName").toLowerCase()
@@ -62481,7 +62481,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //return
           // //////////debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
             ParentFrom: ParentFrom,
             tableFrom: tableFrom,
             patientId: this.ID,
@@ -62686,7 +62686,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this135 = this;
 
           ////////////////////////debugger
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetDropDownsOptions", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsOptions", {}).subscribe(function (Response) {
             var json = JSON.parse(JSON.parse(Response["d"]));
             _this135.Calc_Type = JSON.parse(json["Calc_Type"]);
             _this135.Dosage_Unit = JSON.parse(json["Dosage_Unit"]);
@@ -62714,7 +62714,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetPresRows", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPresRows", {
             ID: _presID
           }).subscribe(function (Response) {
             ////////////debugger
@@ -62877,7 +62877,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             tableLoader = true;
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetDemographData", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographData", {
             _id: _FreeText,
             _pageIndex: _pageIndex,
             _pageSize: _pageSize
@@ -64759,7 +64759,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetBekoremAmbolatorimApp", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBekoremAmbolatorimApp", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -66615,7 +66615,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getHistories() {
           var _this139 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetReportsChangesHistory", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetReportsChangesHistory", {
             _reportID: this.reportID
           }).subscribe(function (Response) {
             var ELEMENT_DATA2 = [];
@@ -66835,7 +66835,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getCategories() {
           var _this141 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetCategories", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCategories", {}).subscribe(function (Response) {
             _this141.all_categories_filter = Response["d"];
           });
         }
@@ -66870,7 +66870,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDeparts() {
           var _this142 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetNursesDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNursesDeparts", {}).subscribe(function (Response) {
             _this142.all_departs_filter = Response["d"];
 
             _this142.all_departs_filter.forEach(function (element) {
@@ -66913,7 +66913,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _reportEndDate = "";
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetReports", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetReports", {
             _reportShift: _reportShift,
             _reportDepartment: _reportDepartment,
             _reportStatus: _reportStatus,
@@ -68067,7 +68067,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text; //debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/PoriaDeparts", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaDeparts", {
             _departName: this.departsForm.value.fullnameVal,
             _departStatus: 1,
             _sheetId: this.departsForm.value.idSheet,
@@ -68239,7 +68239,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaDeparts", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPoriaDeparts", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText
@@ -69125,7 +69125,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function deleteMessage(messageID, ReportID) {
           var _this148 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/DeleteReportMessage", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeleteReportMessage", {
             _messageID: messageID
           }).subscribe(function (Response) {
             if (Response["d"] == "success") {
@@ -69150,7 +69150,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.messanger.controls['MessageDate'].setValue(messageDate);
           this.messanger.controls['MessageTime'].setValue(messageTime);
           this.messanger.controls['UserName'].setValue(UserName);
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetSendReportResponse", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSendReportResponse", {
             _messageClass: this.messanger.value
           }).subscribe(function (Response) {
             _this149.messagesArray = Response["d"];
@@ -70143,7 +70143,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearches", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearches", {
             _ResearchesForm: this.ResearchesForm.value
           }).subscribe(function (Response) {
             _this151.getReport(null);
@@ -70163,7 +70163,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getPermission() {
           var _this152 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/getResearchPermission", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getResearchPermission", {
             _UserName: localStorage.getItem("loginUserName")
           }).subscribe(function (Response) {
             // //////////debugger
@@ -70189,7 +70189,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this153 = this;
 
           debugger;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetResearchesDepart", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetResearchesDepart", {}).subscribe(function (Response) {
             var json = JSON.parse(Response["d"]);
             debugger;
             _this153.Departs = json;
@@ -70308,7 +70308,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetResearchesTable", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetResearchesTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _freeText: _FreeText,
@@ -71450,7 +71450,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           debugger;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearchesPatients", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearchesPatients", {
             _patientForm: this.patientForm.value
           }).subscribe(function (Response) {
             _this157.applyFilterresearchespatients(_this157.fliterValPatient);
@@ -71558,7 +71558,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/getResearchesPatientsTable", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getResearchesPatientsTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -72854,7 +72854,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } // //debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearchesUsers", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearchesUsers", {
             _usersForm: this.usersForm.value
           }).subscribe(function (Response) {
             //debugger
@@ -73017,7 +73017,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/getResearchesUsersTable", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getResearchesUsersTable", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -73860,7 +73860,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.rowElement.R_ROLE_NAME = this.rolesForm.value.fullnameVal;
           this.rowElement.R_ROW_ID = this.rolesForm.value.rowIdVal; // //debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/PoriaRoles", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaRoles", {
             _roleName: this.rolesForm.value.fullnameVal,
             _roleStatus: 1,
             _rowId: this.rolesForm.value.rowIdVal
@@ -73982,7 +73982,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaRoles", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPoriaRoles", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText
@@ -76190,7 +76190,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetAllSarscov2", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllSarscov2", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -77672,10 +77672,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          } //http://srv-apps/wsrfc/WebService.asmx/
+          } //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetAllSarscov2Results", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllSarscov2Results", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -78617,7 +78617,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }); ////debugger;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateBox", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
             boxes: this.BoxForm.value
           }).subscribe(function (Response) {
             _this170.getReport(null);
@@ -78733,11 +78733,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           } //debugger
-          //http://srv-apps/wsrfc/WebService.asmx/
-          //http://srv-apps/wsrfc/WebService.asmx/
+          //http://srv-apps-prod/RCF_WS/WebService.asmx/
+          //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetBoxes", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBoxes", {
             serachTxt: _FreeText,
             pageIndex: _pageIndex,
             pageSize: _pageSize
@@ -79225,7 +79225,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } // //debugger
 
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLine", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSMSOnLine", {
             smsText: this.sendSmsForm.value.smsText,
             smsNumbers: this.sendSmsForm.value.smsNumbers,
             surveyNumber: this.sendSmsForm.value.surveyNumber
@@ -79721,7 +79721,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function GetMessagesTemp() {
           var _this175 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesTemp", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMessagesTemp", {}).subscribe(function (Response) {
             // debugger
             _this175.MessagesTemp = Response["d"]; // debugger
           });
@@ -79757,7 +79757,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
               }
 
-              _this176.http.post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
+              _this176.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSMSOnLineAdmin", {
                 smsText: _this176.sendSmsForm.value.smsText,
                 smsNumbers: _this176.sendSmsForm.value.smsNumbers,
                 surveyNumber: 0,
@@ -80667,7 +80667,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getRoles() {
           var _this177 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetRoles", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRoles", {}).subscribe(function (Response) {
             //// //debugger
             _this177.TABLE_DATA.splice(0, _this177.TABLE_DATA.length);
 
@@ -80715,7 +80715,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDeparts() {
           var _this178 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeparts", {}).subscribe(function (Response) {
             //// //debugger
             _this178.TABLE_DATA.splice(0, _this178.TABLE_DATA.length);
 
@@ -80791,7 +80791,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.rowElement.DS_DEPART_NAME = resultDeparts['name'];
           this.rowElement.DS_ROLE_NAME = resultRoles['name']; // //debugger
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/PoriaStaff", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaStaff", {
             _staffName: this.staffForm.value.fullnameVal,
             _DEPART_ID: this.staffForm.value.DS_DEPART_ID,
             _STAFF_ROLE: this.staffForm.value.DS_STAFF_ROLE,
@@ -80946,7 +80946,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaStaff", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPoriaStaff", {
             _pageIndex: _pageIndex,
             _pageSize: _pageSize,
             _FreeText: _FreeText,
@@ -81773,7 +81773,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //       console.log("deleted");
           //     }
           //   });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/DeleteMessage", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeleteMessage", {
             _messageID: messageID
           }).subscribe(function (Response) {
             _this183.getAndSendMessages(ComplaintID);
@@ -81786,7 +81786,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getRelevantComplaints(urlID) {
           var _this184 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetRelevantComplaints", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRelevantComplaints", {
             _urlID: urlID,
             _userName: this.UserName
           }).subscribe(function (Response) {
@@ -81807,7 +81807,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.messanger.controls['MessageDate'].setValue(messageDate);
           this.messanger.controls['MessageTime'].setValue(messageTime);
           this.messanger.controls['UserName'].setValue(UserName);
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/ComplaintMessanger", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/ComplaintMessanger", {
             _messageClass: this.messanger.value
           }).subscribe(function (Response) {
             _this185.messagesArray = Response["d"];
@@ -82791,7 +82791,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this186 = this;
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetSurgens", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgens", {}).subscribe(function (Response) {
             //// ////debugger
             _this186.SurgensList = [];
             var json = JSON.parse(Response["d"]); // // ////debugger
@@ -82928,7 +82928,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeryExcelFile", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryExcelFile", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _freeText: _filterVal,
@@ -82956,7 +82956,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this187 = this;
 
           debugger;
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/getSurgeryDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getSurgeryDeparts", {}).subscribe(function (Response) {
             var json = JSON.parse(Response["d"]);
             json = JSON.parse(json["SurgeryDeparts"]);
             debugger;
@@ -82999,7 +82999,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           debugger;
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetSurgeries", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeries", {
             _fromDate: _startDate,
             _toDate: _endDate,
             _pageIndex: _pageIndex,
@@ -85188,7 +85188,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           var UserName = localStorage.getItem("loginUserName").toLowerCase();
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetAllUsersForms", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllUsersForms", {
             _userName: UserName,
             _searchWord: searchWord,
             _departmentControl: departmentControl
@@ -85208,7 +85208,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this190.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this190.TABLE_DATA);
             _this190.dataSource.paginator = _this190.paginator;
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetFormsDeparts", {}).subscribe(function (Response) {
             _this190.all_departs_filter = Response["d"];
 
             _this190.all_departs_filter.forEach(function (element) {
@@ -87552,11 +87552,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (!this.surveyForm.invalid && !this.tableFormGroup.invalid) {
             if (this.urlID === 0) {
-              this.http.post("http://srv-apps/wsrfc/WebService.asmx/Forms", {
+              this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/Forms", {
                 _FormValues: survey
               }).subscribe(function (Response) {});
             } else {
-              this.http.post("http://srv-apps/wsrfc/WebService.asmx/UpdateForm", {
+              this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateForm", {
                 updateFormValues: survey
               }).subscribe(function (Response) {});
             }
@@ -87573,7 +87573,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getFormData(urlID) {
           var _this192 = this;
 
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetFormData", {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetFormData", {
             formFormID: urlID
           }).subscribe(function (Response) {
             _this192.filter_form_response = Response["d"];
@@ -87647,7 +87647,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               });
             }
           });
-          this.http.post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {}).subscribe(function (Response) {
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetFormsDeparts", {}).subscribe(function (Response) {
             _this192.all_departs_filter = Response["d"];
 
             _this192.all_departs_filter.forEach(function (element) {

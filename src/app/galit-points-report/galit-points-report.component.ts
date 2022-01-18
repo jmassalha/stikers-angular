@@ -86,7 +86,7 @@ export class GalitPointsReportComponent implements OnInit {
   getGalitReportPatient() {
     this.patientFound = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetGalitReportPatient", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGalitReportPatient", {
       })
       .subscribe((Response) => {
         this.ELEMENT_DATA = Response["d"];

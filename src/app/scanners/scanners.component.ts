@@ -200,8 +200,8 @@ export class ScannersComponent implements OnInit {
         });
         ////debugger;
         this.http
-            //.post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateBox", {
-            .post("http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateBox", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
                 boxes: this.BoxForm.value,
             })
             .subscribe((Response) => {
@@ -401,10 +401,10 @@ export class ScannersComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         //debugger
-        //http://srv-apps/wsrfc/WebService.asmx/
-        //http://srv-apps/wsrfc/WebService.asmx/
+        //http://srv-apps-prod/RCF_WS/WebService.asmx/
+        //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetBoxes", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBoxes", {
                 serachTxt: _FreeText,
                 pageIndex: _pageIndex,
                 pageSize: _pageSize,

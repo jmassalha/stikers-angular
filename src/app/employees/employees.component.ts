@@ -150,7 +150,7 @@ export class EmployeesComponent implements OnInit {
       //debugger;
       this.http
           .post(
-              "http://srv-apps/wsrfc/WebService.asmx/AddMemberToGroup",
+              "http://srv-apps-prod/RCF_WS/WebService.asmx/AddMemberToGroup",
               {
                 MemberId: _element.RowID,
                 GroupId: this.GroupID,
@@ -206,7 +206,7 @@ export class EmployeesComponent implements OnInit {
       //  debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetEmployees",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployees",
                 {
                   pageIndex: _pageIndex,
                   pageSize: _pageSize,

@@ -169,7 +169,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   loadInquiries() {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/SavingEmailsToDB", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SavingEmailsToDB", {
       })
       .subscribe((Response) => {
         this.openSnackBar("פניות נטענו בהצלחה");
@@ -181,7 +181,7 @@ export class EmailsdashboardComponent implements OnInit {
 
   changeStatus(e: any, emailID: string) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/ChangeStatus", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/ChangeStatus", {
         _status: e.checked,
         _emailID: emailID,
       })
@@ -214,7 +214,7 @@ export class EmailsdashboardComponent implements OnInit {
         if (confirmed) {
           this.http
             .post(
-              "http://srv-apps/wsrfc/WebService.asmx/DeleteInquiry",
+              "http://srv-apps-prod/RCF_WS/WebService.asmx/DeleteInquiry",
               {
                 _inquiryID: inquiryID
               }
@@ -270,7 +270,7 @@ export class EmailsdashboardComponent implements OnInit {
     }
     this.loaded = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/Comp_Emails", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/Comp_Emails", {
         _compName: compName,
         _compDate: compDateControl,
         _compDate2: compDateControl2,
@@ -322,7 +322,7 @@ export class EmailsdashboardComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     // this.http
-    //   .post("http://srv-apps/wsrfc/WebService.asmx/GetInquiryDeparts", {
+    //   .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInquiryDeparts", {
     //   })
     //   .subscribe((Response) => {
     //     this.all_departs_filter = Response["d"];
@@ -331,7 +331,7 @@ export class EmailsdashboardComponent implements OnInit {
     //     })
     //   });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetCompDepartments", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCompDepartments", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];

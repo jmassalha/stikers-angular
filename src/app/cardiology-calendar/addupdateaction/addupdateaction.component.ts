@@ -183,7 +183,7 @@ export class AddupdateactionComponent implements OnInit {
     let passport = this.searchPatient.controls['Passport'].value;
     this.searchPatientProgressBar = false;
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetCardiologyPatientDetails", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCardiologyPatientDetails", {
         _passport: passport
       })
       .subscribe((Response) => {
@@ -225,9 +225,9 @@ export class AddupdateactionComponent implements OnInit {
   //   this.actionForm.controls['ArrivalDate'].setValue(this.datePipe.transform(this.actionForm.controls['ArrivalDate'].value, 'yyyy-MM-dd'));
   //   let url = "";
   //   if(this.actionID == '1'){
-  //     url = "http://srv-apps/wsrfc/WebService.asmx/UpdateCardiologyPatientQueue";
+  //     url = "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateCardiologyPatientQueue";
   //   }else{
-  //     url = "http://srv-apps/wsrfc/WebService.asmx/SubmitCardiologyPatientQueue";
+  //     url = "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCardiologyPatientQueue";
   //   }
   //   this.http
   //     .post(url, {
