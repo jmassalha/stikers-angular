@@ -10,6 +10,7 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { EmployeesAddUpdateComponent } from '../employees-manage-dash/employees-add-update/employees-add-update.component';
 import { MatSort } from '@angular/material/sort';
+import * as XLSX from 'xlsx';
 
 @Component({
   selector: 'app-employees-manage-dash',
@@ -27,6 +28,7 @@ export class EmployeesManageDashComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   managerType: string = "";
+  all_employees = [];
 
   constructor(private zone: NgZone,
     private modal: NgbModal,
@@ -52,7 +54,7 @@ export class EmployeesManageDashComponent implements OnInit {
     });
     if (this.UserName == "dporat" || this.UserName == "dfogel" || this.UserName == "iditur") {
       this.managerType = "research";
-    } else if (this.UserName == "jubartal") {
+    } else if (this.UserName == "ashoshany") {
       this.managerType = "stager";
     } else if (this.UserName == "jmassalha") {
       this.managerType = "hr";
@@ -79,24 +81,52 @@ export class EmployeesManageDashComponent implements OnInit {
     let phoneNumber = this.searchEmployeesGroup.controls['PhoneNumber'].value;
     let department = this.searchEmployeesGroup.controls['Department'].value;
     let role = this.searchEmployeesGroup.controls['Role'].value;
-    if (managerType == "research") {
-      employeesToShow = '';
-      employeesWorkPlace = '2';
-    } else if (managerType == "stager") {
-      employeesToShow = '899';
-      employeesWorkPlace = '1';
-    } else if (managerType == "hr") {
-      employeesToShow = '';
-      employeesWorkPlace = '';
-    }
+    // if (managerType == "research") {
+    //   employeesToShow = '';
+    //   employeesWorkPlace = '2';
+    // } else if (managerType == "stager") {
+    //   employeesToShow = '899';
+    //   employeesWorkPlace = '1';
+    // } else if (managerType == "hr") {
+    //   employeesToShow = '';
+    //   employeesWorkPlace = '';
+    // }else{
+    //   employeesToShow = '';
+    //   employeesWorkPlace = '';
+    // }
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {
+        _empId: empId,
+        _empFirstName: empFirstName,
+        _empLastName: empLastName,
+        // _elective: elective,
+        _on: on,
+        _medGrad: medGrad,
+        _phoneNumber: phoneNumber,
+        _department: department,
+        _role: role,
+        _managerType: managerType,
       })
       .subscribe((Response) => {
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
+  }
+
+  fileName = 'Employees_List.xlsx';
+  exportexcel(): void {
+    /* table id is passed over here */
+    let element = document.getElementById('excel-table');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
+
   }
 
   addUpdateEmployee(employee) {

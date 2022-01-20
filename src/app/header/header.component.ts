@@ -27,6 +27,7 @@ export class HeaderComponent implements OnInit {
     cardiologyPermission: boolean = false;
     visitorsUserPermission: boolean = false;
     fastCovidTestPermission: boolean = false;
+    employeesManagePermission: boolean = false;
     loginUserName: string;
     numberOfUnread: number;
     _shoDimot: Boolean;
@@ -300,6 +301,17 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "adahabre"
         ) {
             this._galitReport = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "owertheim" ||
+            this.loginUserName.toLowerCase() == "dporat" ||
+            this.loginUserName.toLowerCase() == "dfogel" ||
+            this.loginUserName.toLowerCase() == "iditur" ||
+            this.loginUserName.toLowerCase() == "ashoshany" ||
+            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "adahabre"
+        ) {
+            this.employeesManagePermission = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
