@@ -51,6 +51,7 @@ export class AddpatientcoronaformComponent implements OnInit {
         } else if (
             localStorage.getItem("loginUserName").toLowerCase() ==
                 "jmassalha" ||
+                localStorage.getItem("loginUserName").toLowerCase()  == ("HROSHROSH").toLowerCase() ||
             localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
             localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
         ) {

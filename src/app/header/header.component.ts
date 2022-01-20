@@ -287,6 +287,7 @@ export class HeaderComponent implements OnInit {
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
+            this.loginUserName.toLowerCase() == ("HROSHROSH").toLowerCase() ||
             this.loginUserName.toLowerCase() == "owertheim"
         ) {
             this._SHowToAdmins = true;
@@ -488,6 +489,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "ssarusi" ||
             this.loginUserName.toLowerCase() == "sabuhanna" ||
             this.loginUserName.toLowerCase() == "relmalem" ||
+            this.loginUserName.toLowerCase() == ("HROSHROSH").toLowerCase() ||
             this.loginUserName.toLowerCase() == "tklinger"
             ||
             this.loginUserName.toLowerCase() == "aamara"
@@ -569,6 +571,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("CSimsolo").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("SYehuda").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("mubadarne").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("FSabbah").toLowerCase() 
         ) {
             this._OrdersToAppointmentsComponent = true;
