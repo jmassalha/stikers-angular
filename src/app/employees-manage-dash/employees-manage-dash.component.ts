@@ -3,7 +3,6 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from '@angular/material/dialog';
-import { DatePipe } from '@angular/common';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
@@ -53,12 +52,12 @@ export class EmployeesManageDashComponent implements OnInit {
       Role: new FormControl('', null),
     });
     if (this.UserName == "dporat" || this.UserName == "dfogel" || this.UserName == "iditur") {
-      this.managerType = "research";
-    } else if (this.UserName == "ashoshany") {
       this.managerType = "stager";
+    } else if (this.UserName == "ashoshany") {
+      this.managerType = "research";
     } else if (this.UserName == "jmassalha") {
       this.managerType = "hr";
-    } else {
+    } else if (this.UserName == "adahabre" || this.UserName == "owertheim"){
       this.managerType = "admin";
     }
     this.GetEmployeesToUpdate(this.managerType);
@@ -132,6 +131,7 @@ export class EmployeesManageDashComponent implements OnInit {
   addUpdateEmployee(employee) {
     let dialogRef = this.dialog.open(EmployeesAddUpdateComponent, { disableClose: true });
     dialogRef.componentInstance.employee = employee;
+    dialogRef.componentInstance.managerType = this.managerType;
     dialogRef.afterClosed().subscribe(result => {
       this.GetEmployeesToUpdate(this.managerType);
     });

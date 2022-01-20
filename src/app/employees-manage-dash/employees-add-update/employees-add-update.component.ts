@@ -9,11 +9,6 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
-import { Observable } from 'rxjs';
-import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
-import { MatChipInputEvent } from '@angular/material/chips';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { isEmpty, map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-employees-add-update',
@@ -30,9 +25,14 @@ export class EmployeesAddUpdateComponent implements OnInit {
   employeeWorkDetails: FormGroup;
   RanksList = [];
   SektorsList = [];
-  stager: boolean = false;
+  FunctionsList = [];
+  EmployeeBlossomSektors = [];
+  DepartmentsList = [];
+  WorkPlacesList = [];
+  managerType;
   empType: string = "none";
   UserName = localStorage.getItem("loginUserName").toLowerCase();
+  EmployeeExists: boolean;
 
   constructor(private _snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -43,14 +43,20 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let WorkPlaceID = "2";
-    // if(this.UserName == "dporat" || this.UserName == "dfogel" ||this.UserName == "iditur" || this.UserName == "adahabre" || this.UserName == "owertheim"){
-    //   this.stager = true;
-    // }
-    if (this.stager) {
+    let RankID = this.employee.RankID;
+    let DepartnentCode = this.employee.DepartnentCode;
+    let WorkPlaceID = this.employee.WorkPlaceID;
+    let functionDefault = this.employee.FunctionID;
+    let employeeBlossomSektorID = this.employee.EmployeeBlossomSektorID;
+    if (this.managerType == "stager") {
+      RankID = "031";
+      DepartnentCode = "00079150";
+      employeeBlossomSektorID = "1";
       WorkPlaceID = "1";
+      functionDefault = "18";
+    } else if (this.managerType == "research") {
+      WorkPlaceID = "2";
     }
-    // this.getRanksList();
     this.getSektorsList();
     this.employeePersonalDetails = this.formBuilder.group({
       RowID: new FormControl(this.employee.RowID, null),
@@ -69,14 +75,14 @@ export class EmployeesAddUpdateComponent implements OnInit {
       EmployeeIndex: new FormControl('', null),
       StartWorkDate: new FormControl(this.employee.StartWorkDate, Validators.required),
       EmployeeSektorID: new FormControl(this.employee.EmployeeSektorID, null),
-      EmployeeBlossomSektorID: new FormControl('1', null),
+      EmployeeBlossomSektorID: new FormControl(employeeBlossomSektorID, null),
       Title: new FormControl(this.employee.Title, null),
-      FunctionID: new FormControl('18', null),
+      FunctionID: new FormControl(functionDefault, null),
       // FunctionDescription: new FormControl(this.employee.FunctionDescription, null),
-      DepartnentCode: new FormControl('00079150', null),
+      DepartnentCode: new FormControl(DepartnentCode, null),
       // DepartnentDescripton: new FormControl(this.employee.DepartnentDescripton, null),
       // JobTitleID: new FormControl('NULL', null),
-      RankID: new FormControl('031', null),
+      RankID: new FormControl(RankID, null),
       ADUserName: new FormControl('', null),
       WorkPlaceID: new FormControl(WorkPlaceID, null),
       EndWorkDate: new FormControl(this.employee.EndWorkDate, null),
@@ -90,6 +96,11 @@ export class EmployeesAddUpdateComponent implements OnInit {
       InternUniversity: new FormControl(this.employee.InternUniversity, null),
     });
     this.sektorSelection(this.employee.EmployeeSektorID);
+    this.getEmployeesFunctionsList();
+    this.getRanksList();
+    this.getWorkPlacesList();
+    this.getEmployeesBlossomSektorList();
+    this.getEmployeeDepartmentList();
     this.getUserName(this.employee.Email);
   }
 
@@ -112,14 +123,32 @@ export class EmployeesAddUpdateComponent implements OnInit {
     return userName;
   }
 
-  // getRanksList() {
-  //   this.http
-  //     .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRanksList", {
-  //     })
-  //     .subscribe((Response) => {
-  //       this.RanksList = Response["d"];
-  //     });
-  // }
+  getRanksList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRanksList", {
+      })
+      .subscribe((Response) => {
+        this.RanksList = Response["d"];
+      });
+  }
+
+  getWorkPlacesList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetWorkPlacesList", {
+      })
+      .subscribe((Response) => {
+        this.WorkPlacesList = Response["d"];
+      });
+  }
+
+  getEmployeeDepartmentList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeeDepartmentList", {
+      })
+      .subscribe((Response) => {
+        this.DepartmentsList = Response["d"];
+      });
+  }
 
   getSektorsList() {
     this.http
@@ -130,12 +159,45 @@ export class EmployeesAddUpdateComponent implements OnInit {
       });
   }
 
+  getEmployeesFunctionsList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesFunctionsList", {
+      })
+      .subscribe((Response) => {
+        this.FunctionsList = Response["d"];
+      });
+  }
+
+  getEmployeesBlossomSektorList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesBlossomSektorList", {
+      })
+      .subscribe((Response) => {
+        this.EmployeeBlossomSektors = Response["d"];
+      });
+  }
+
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
       duration: 5000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  checkIfExists() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/CheckIfEmployeeExists", {
+        _EmployeeID: this.employeePersonalDetails.controls['EmployeeID'].value
+      })
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("העובד קיים במערכת");
+          this.employeePersonalDetails.disable();
+          this.employeeWorkDetails.disable();
+          this.EmployeeExists = true;
+        }
+      });
   }
 
   setLearnCountry(country) {

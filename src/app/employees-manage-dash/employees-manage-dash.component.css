@@ -9,7 +9,7 @@
     margin: 10px 23px 1px 0px;
   }
   .mat-row:nth-child(even){
-    background-color: floralwhite;
+    background-color: white;
   }
    
   .mat-row:nth-child(odd){

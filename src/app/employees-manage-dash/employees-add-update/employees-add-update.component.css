@@ -85,6 +85,9 @@ ol{
 .col-4{
   max-width: 32%;
 }
+.col-2{
+  max-width: 16%;
+}
 .col-3{
   max-width: 24%;
 }
@@ -95,6 +98,9 @@ ol{
 .cdk-overlay-connected-position-bounding-box{
   position: relative;
   z-index: 9999999999999999999;
+}
+.row{
+  display: flex;
 }
 
 .nextBtn{
