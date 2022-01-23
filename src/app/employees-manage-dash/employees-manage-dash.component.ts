@@ -51,15 +51,24 @@ export class EmployeesManageDashComponent implements OnInit {
       Department: new FormControl('', null),
       Role: new FormControl('', null),
     });
-    if (this.UserName == "dporat" || this.UserName == "dfogel" || this.UserName == "iditur") {
+    if (this.UserName == "iditur") {
       this.managerType = "stager";
+    } else if (this.UserName == "dporat" || this.UserName == "dfogel") {
+      this.managerType = "unknown";
     } else if (this.UserName == "ashoshany") {
       this.managerType = "research";
     } else if (this.UserName == "jmassalha") {
       this.managerType = "hr";
-    } else if (this.UserName == "adahabre" || this.UserName == "owertheim"){
+    } else if (this.UserName == "adahabre" || this.UserName == "owertheim") {
       this.managerType = "admin";
     }
+    if (this.managerType != "unknown") {
+      this.GetEmployeesToUpdate(this.managerType);
+    }
+  }
+
+  chooseManagerTypeForMultiple(managerType) {
+    this.managerType = managerType;
     this.GetEmployeesToUpdate(this.managerType);
   }
 

@@ -22,3 +22,17 @@
   .container{
     min-width: 100%;
   }
+  mat-card:hover{
+    cursor: pointer;
+  }
+  mat-card{
+    width: 48%;
+    margin-top: 10%;
+    text-align: center;
+    margin-right: 2%;
+    background: burlywood;
+  }
+  mat-card-content{
+    font-size: 30px;
+    font-weight: bold;
+  }
