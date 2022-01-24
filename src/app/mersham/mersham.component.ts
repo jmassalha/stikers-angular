@@ -1061,7 +1061,7 @@ export class MershamComponent implements OnInit {
         //}
     }
     copyRowPres(element) {
-        //debugger
+        debugger
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
@@ -1122,7 +1122,7 @@ export class MershamComponent implements OnInit {
                     .toLowerCase(),
             })
             .subscribe((Response) => {
-                //////debugger;
+                debugger;
                 this.openSnackBar("נשמר בהצלחה", "success");
                 this.loadModalAfterCopy = true;
                 this.getReport("");

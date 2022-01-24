@@ -211,7 +211,7 @@ export class FastCovid19TestComponent implements OnInit {
             TestData: this.formBuilder.group({
                 IDNum: [
                     "",
-                    [Validators.required, Validators.pattern("[0-9 ]{1,9}")],
+                    [Validators.required],
                 ],
                 IdType: [1, Validators.required],
                 FirstName: ["", Validators.required],
@@ -626,9 +626,9 @@ LastName
     }
 
     onSubmit() {
-        if (!this.is_israeli_id_number()) {
-            this.openSnackBar("תעודת זהות לא תקינה");
-        } else {
+       // if (!this.is_israeli_id_number()) {
+           // this.openSnackBar("תעודת זהות לא תקינה");
+        //} else {
             this.TestsForm.controls.SampleData["controls"][
                 "SamplingTime"
             ].controls.Year.setValue(this.myDate.getFullYear());
@@ -648,7 +648,7 @@ LastName
                 "SamplingTime"
             ].controls.Seconds.setValue(this.myDate.getSeconds());
             this.sendReport();
-        }
+        //}
     }
 
     onClose() {

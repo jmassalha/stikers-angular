@@ -530,6 +530,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.http
             .post(
                 "http://srv-ipracticom:8080/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
+              //  "http://localhost:64964/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
                 {
                     _mobile: this.mobile,
                     _email: this.email,
