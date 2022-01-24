@@ -214,12 +214,14 @@ export class CoronaresultformComponent implements OnInit {
                 CoronaData.L_DOB = this.toShortFormat(
                     new Date(CoronaData.L_DOB)
                 );
-                CoronaData.L_REQUEST_DATE = this.toShortFormat(
-                    new Date(CoronaData.L_REQUEST_DATE)
-                );
-                CoronaData.L_RESULT_DATE = this.toShortFormat(
-                    new Date(CoronaData.L_RESULT_DATE)
-                );
+                CoronaData.L_REQUEST_DATE = CoronaData.L_REQUEST_DATE.split(' ')[0];
+                // this.toShortFormat(
+                //     new Date(CoronaData.L_REQUEST_DATE)
+                // );
+                CoronaData.L_RESULT_DATE = CoronaData.L_REQUEST_DATE.split(' ')[0];
+                // this.toShortFormat(
+                //     new Date(CoronaData.L_RESULT_DATE)
+                // );
                 if (CoronaData.L_RESULTS == "שלילי") {
                     CoronaData.L_RESULTS = "Negative";
                 } else if (CoronaData.L_RESULTS == "חיובי") {
