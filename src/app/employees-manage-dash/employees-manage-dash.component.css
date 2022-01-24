@@ -9,7 +9,7 @@
     margin: 10px 23px 1px 0px;
   }
   .mat-row:nth-child(even){
-    background-color: floralwhite;
+    background-color: white;
   }
    
   .mat-row:nth-child(odd){
@@ -21,4 +21,18 @@
   }
   .container{
     min-width: 100%;
+  }
+  mat-card:hover{
+    cursor: pointer;
+  }
+  mat-card{
+    width: 48%;
+    margin-top: 10%;
+    text-align: center;
+    margin-right: 2%;
+    background: burlywood;
+  }
+  mat-card-content{
+    font-size: 30px;
+    font-weight: bold;
   }
