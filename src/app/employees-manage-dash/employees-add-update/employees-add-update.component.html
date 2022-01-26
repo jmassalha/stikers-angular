@@ -11,7 +11,7 @@
                         {{employeePersonalDetails.controls['LastName'].value}} -
                         {{employeeWorkDetails.controls['ADUserName'].value}} -
                         {{employeePersonalDetails.controls['CellNumber'].value}}</label>
-                    <label style="font-size: 40px;" *ngIf="EmployeeExists">העובד כבר קיים במערכת</label>
+                    <label style="font-size: 40px;color: red;" *ngIf="EmployeeExists">העובד כבר קיים במערכת - ליצור קשר עם מערכות מידע</label>
                 </div>
             </div>
         </mat-card>
