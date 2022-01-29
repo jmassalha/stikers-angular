@@ -1,5 +1,7 @@
 <div class="my-container" id="page-toshow">
-  <div dir="rtl"><h4>שם משתמש: {{UserName}}</h4></div>
+  <div dir="rtl">
+    <h4>שם משתמש: {{UserName}}</h4>
+  </div>
   <button type="button" class="close" matTooltip="סגירה" aria-label="Close" *ngIf="ifAdmin == '1'"
     (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
@@ -11,7 +13,7 @@
 
         </div>
         <div class="col">
-          <h4><b>{{Dept_Name}}</b> {{myDate | date: "dd.MM.yyyy"}}</h4>
+          <h4 style="font-size: 25px;"><b>{{Dept_Name}}</b> {{myDate | date: "dd.MM.yyyy"}}</h4>
         </div>
         <div class="col">
           <button style="float: right;" matTooltip="דף הבית" *ngIf="ifAdmin == '0'" mat-raised-button type="submit"
@@ -79,7 +81,8 @@
           </ng-container>
           <ng-container matColumnDef="kpc" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> חיידק עמיד </th>
-            <td mat-cell *matCellDef="let element"><span [ngStyle]="{'color':element.KpcCount != '0' ? 'red' : '' }">{{element.KpcCount}}</span></td>
+            <td mat-cell *matCellDef="let element"><span
+                [ngStyle]="{'color':element.KpcCount != '0' ? 'red' : '' }">{{element.KpcCount}}</span></td>
           </ng-container>
           <ng-container matColumnDef="complex" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> מורכב </th>
@@ -108,9 +111,9 @@
             <i class="material-icons">assignment_ind</i>
           </button>
           <button matTooltip="לדיווח תקלה במערכת" id="EventBtndisplay" mat-raised-button type="submit"
-                class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
-                <i class="material-icons">info</i>
-            </button>
+            class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
+            <i class="material-icons">info</i>
+          </button>
           <button matTooltip="רענון" id="generalClinicalBtn" mat-raised-button type="submit" class="btn btn-raised"
             style="background: lawngreen;" (click)="ngOnInit()">
             <i class="material-icons">refresh</i>
@@ -121,9 +124,9 @@
           </button> -->
         </div>
         <div class="col text-right" style="display: inline-flex;justify-content: right;">
-          <button mat-raised-button type="submit" class="btn btn-primary btn-raised" id="btnDepts" *ngFor="let dept of arrayOfMedDepts"
-            (click)="getPatientsPerDepart($event,dept.name)">
-            {{dept.name}} : {{dept.number}}
+          <button mat-raised-button type="submit" class="btn btn-primary btn-raised" id="btnDepts"
+            *ngFor="let dept of arrayOfMedDepts" (click)="getPatientsPerDepart($event,dept.name)">
+            <span style="font-size: 25px;">{{dept.name}} : {{dept.number}}</span>
           </button>
           <!-- <button mat-raised-button type="submit" *ngIf="Dept_Name == 'פנימית א'" class="btn btn-primary btn-raised"
             (click)="getPatientsPerDepart($event,'רנורול')">
@@ -145,37 +148,37 @@
       </div>
       <div dir="rtl" class="mb-3 text-center" *ngIf="patientsTable && Dept_Name != 'מיון יולדות (חדר לידה)'">
         <mat-list role="list" id="list_of_types" *ngIf="Dept_Name != 'חדר לידה'">
-          <mat-list-item role="listitem"><button type="button" id="details-btn" (click)="applyFilter($event,'')"
+          <mat-list-item role="listitem"><button type="button" id="details-btn" style="font-size: 20px;" (click)="applyFilter($event,'')"
               mat-raised-button>
               הכל
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="RespiratorsCount == '0' ? 'darkgray': ''" [disabled]="RespiratorsCount == '0'"
+              [style.background]="RespiratorsCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="RespiratorsCount == '0'"
               (click)="applyFilter($event,'מונשם')" mat-raised-button color="primary">
               מונשמים
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="CatheterCount == '0' ? 'darkgray': ''" [disabled]="CatheterCount == '0'"
+              [style.background]="CatheterCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="CatheterCount == '0'"
               (click)="applyFilter($event,'צנתר שתן')" mat-raised-button color="primary">
               צנתר שתן
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="CentralCatheterCount == '0' ? 'darkgray': ''" [disabled]="CentralCatheterCount == '0'"
+              [style.background]="CentralCatheterCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="CentralCatheterCount == '0'"
               (click)="applyFilter($event,'צנתר מרכזי')" mat-raised-button color="primary">
               צנתר מרכזי
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="IsolationCount == '0' ? 'darkgray': ''" [disabled]="IsolationCount == '0'"
+              [style.background]="IsolationCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="IsolationCount == '0'"
               (click)="applyFilter($event,'בידוד')" mat-raised-button color="primary">
               בידוד
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="PhLimitationCount == '0' ? 'darkgray': ''" [disabled]="PhLimitationCount == '0'"
+              [style.background]="PhLimitationCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="PhLimitationCount == '0'"
               (click)="applyFilter($event,'הגבלה פיזית')" mat-raised-button color="primary">
               הגבלה פיזית
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="CoronaStatus == '' ? 'darkgray': ''" [disabled]="CoronaStatus == ''"
+              [style.background]="CoronaStatus == '' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="CoronaStatus == ''"
               (click)="applyFilter($event,'מאומת')" mat-raised-button color="primary">
               סטטוס קורונה
             </button></mat-list-item>
@@ -183,7 +186,8 @@
       </div>
 
       <div class="row">
-        <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" id="patientsTable" *ngIf="patientsTable">
+        <table dir="rtl" mat-table [dataSource]="dataSource2" class="mat-elevation-z8" id="patientsTable"
+          *ngIf="patientsTable">
 
           <ng-container matColumnDef="casenumber">
             <th mat-header-cell *matHeaderCellDef> מספר מקרה </th>
@@ -233,7 +237,7 @@
           <ng-container matColumnDef="displayreports">
             <th mat-header-cell *matHeaderCellDef> דיווח קליני</th>
             <td mat-cell *matCellDef="let element"> <button matTooltip="דיווח למטופל" mat-raised-button type="submit"
-              [ngClass]="element.IfHaveReports == '' ? 'btn btn-primary btn-raised' : 'btn btn-danger btn-raised'" 
+                [ngClass]="element.IfHaveReports == '' ? 'btn btn-primary btn-raised' : 'btn btn-danger btn-raised'"
                 (click)="displayReports(element.PM_CASE_NUMBER,true,Dept_Name,element.PM_FIRST_NAME,element.PM_LAST_NAME,element.PM_PATIENT_GENDER,element.PM_DOB,element.SSP_DESCRIPTION,element.CoronaStatus,'clinical')">
                 <span class="material-icons">
                   <span class="material-icons">
@@ -245,13 +249,14 @@
 
           <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
           <tr mat-row *matRowDef="let row;let even=even; columns: displayedColumns2;" id="rowTable"
-            matTooltip="{{row.SSP_DESCRIPTION}}&#13;{{row.CoronaStatus}}&#13;{{row.kpcType}}" matTooltipClass="my-tooltip"
-            matTooltipPosition="before"></tr>
+            matTooltip="{{row.SSP_DESCRIPTION}}&#13;{{row.CoronaStatus}}&#13;{{row.kpcType}}"
+            matTooltipClass="my-tooltip" matTooltipPosition="before"></tr>
         </table>
       </div>
     </div>
   </form>
   <mat-progress-bar mode="indeterminate" id="buffer" *ngIf="loading"></mat-progress-bar>
   <br>
-  <app-other-departments [deliveryRoomDialog]="deliveryRoomDialog" *ngIf="deliveryRoomDialog != undefined"></app-other-departments>
+  <app-other-departments [deliveryRoomDialog]="deliveryRoomDialog" *ngIf="deliveryRoomDialog != undefined">
+  </app-other-departments>
 </div>

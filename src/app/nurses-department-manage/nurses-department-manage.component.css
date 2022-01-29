@@ -5,6 +5,7 @@
   margin: 0px 220px 0px 0px;
   padding-top: 20px;
 }
+
   @media only screen and (min-width: 1050px) {
 
   .my-container{
@@ -36,7 +37,7 @@
       padding: 0;
       border-bottom-width: 1px;
       border-bottom-style: solid;
-      font-size: 20px;
+      font-size: 23px;
       background-color: floralwhite;
   }
 
@@ -135,7 +136,7 @@
     h4,.btn.btn-primary{
       font-family: 'Math';
       font-weight: bolder;
-      font-size: 18px;
+      font-size: 25px;
     }
     #btnDepts{
       font-family: 'Math';
@@ -156,7 +157,7 @@
     padding: 0;
     border-bottom-width: 1px;
     border-bottom-style: solid;
-    font-size: 14px;
+    font-size: 18px;
   }
   
   .mat-row:nth-child(even){
