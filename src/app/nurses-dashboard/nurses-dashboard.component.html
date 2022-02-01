@@ -8,7 +8,7 @@
         <div class="container-fluid trans-80 mb-2">
             <div class="row search-cont">
                 <div class="col">
-                    <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card w-85-p" style="width: 100%;">
                         <div dir="rtl" class="card-body">
                             <form class="form" [formGroup]="searchReportsGroup">
                                 <div class="row">
@@ -20,19 +20,7 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    <!-- <div class="col-6">
-                                        <div class="form-group lh-37">
-                                            <mat-form-field>
-                                                <mat-label>משמרת</mat-label>
-                                                <mat-select formControlName="ReportShift">
-                                                    <mat-option [value]="''">הכל</mat-option>
-                                                    <mat-option *ngFor="let sh of shift" [value]="sh.value">
-                                                        {{sh.viewValue}}
-                                                    </mat-option>
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </div>
-                                    </div> -->
+                                    
                                     <div class="col-4" *ngIf="reportType == 'administrative'">
                                         <div class="form-group lh-37">
                                             <mat-form-field>
@@ -83,7 +71,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-6'">
                                         <div class="form-group">
                                             <mat-form-field>
                                                 <input matInput formControlName="ReportStartDate"
@@ -95,7 +83,7 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    <div [ngClass]="reportType == 'administrative' ? 'col-4' : 'col-6'">
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-6'">
                                         <div class="form-group">
                                             <mat-form-field>
                                                 <input matInput formControlName="ReportEndDate" (focus)="enddate.open()"
@@ -107,7 +95,20 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    <div class="col-4" *ngIf="reportType == 'administrative'">
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>משמרת</mat-label>
+                                                <mat-select formControlName="ReportShift">
+                                                    <mat-option [value]="''">הכל</mat-option>
+                                                    <mat-option *ngFor="let sh of shift" [value]="sh.value">
+                                                        {{sh.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
                                         <div class="form-group lh-37">
                                             <mat-form-field>
                                                 <mat-label>סטטוס</mat-label>

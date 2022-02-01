@@ -32,6 +32,8 @@ export class EmployeesManageDashComponent implements OnInit {
   all_employees = [];
   DepartmentsList = [];
   FunctionsList = [];
+  SektorsList = [];
+  WorkPlacesList = [];
 
   constructor(private zone: NgZone,
     private modal: NgbModal,
@@ -54,6 +56,8 @@ export class EmployeesManageDashComponent implements OnInit {
       PhoneNumber: new FormControl('', null),
       Department: new FormControl('', null),
       Role: new FormControl('', null),
+      Sektor: new FormControl('', null),
+      WorkPlace: new FormControl('', null),
     });
     if (this.UserName == "iditur") {
       this.managerType = "stager";
@@ -70,6 +74,8 @@ export class EmployeesManageDashComponent implements OnInit {
       this.GetEmployeesToUpdate(this.managerType, false);
       this.getEmployeeDepartmentList();
       this.getEmployeesFunctionsList();
+      this.getSektorsList();
+      this.getWorkPlacesList();
     }
   }
 
@@ -101,6 +107,24 @@ export class EmployeesManageDashComponent implements OnInit {
       });
   }
 
+  getSektorsList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSektorsList", {
+      })
+      .subscribe((Response) => {
+        this.SektorsList = Response["d"];
+      });
+  }
+
+  getWorkPlacesList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetWorkPlacesList", {
+      })
+      .subscribe((Response) => {
+        this.WorkPlacesList = Response["d"];
+      });
+  }
+
   GetEmployeesToUpdate(managerType, toExcel) {
     let employeesToShow = "";
     let employeesWorkPlace = "";
@@ -113,6 +137,8 @@ export class EmployeesManageDashComponent implements OnInit {
     let phoneNumber = this.searchEmployeesGroup.controls['PhoneNumber'].value;
     let department = this.searchEmployeesGroup.controls['Department'].value;
     let role = this.searchEmployeesGroup.controls['Role'].value;
+    let sektor = this.searchEmployeesGroup.controls['Sektor'].value;
+    let workPlace = this.searchEmployeesGroup.controls['WorkPlace'].value;
     // if (managerType == "research") {
     //   employeesToShow = '';
     //   employeesWorkPlace = '2';
@@ -138,6 +164,8 @@ export class EmployeesManageDashComponent implements OnInit {
         _department: department,
         _role: role,
         _managerType: managerType,
+        _sektor: sektor,
+        _workPlace: workPlace,
       })
       .subscribe((Response) => {
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
@@ -156,6 +184,8 @@ export class EmployeesManageDashComponent implements OnInit {
           _department: department,
           _role: role,
           _managerType: managerType,
+          _sektor: sektor,
+          _workPlace: workPlace,
         })
         .subscribe((Response) => {
           this.dataSourceExcel = new MatTableDataSource<any>(Response["d"]);

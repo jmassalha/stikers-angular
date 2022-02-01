@@ -71,11 +71,15 @@ export class NursesManageDashboardComponent implements OnInit {
   rightPC: boolean;
   phoneNumber: any;
   reportSubject: any;
+  actionPriority: any;
+  actionsContent: any;
   ipUpdate: any;
   ClientIP: string;
   bugColumns: string[] = ['date', 'user', 'subject', 'done'];
+  actionColumns: string[] = ['date', 'subject', 'priority', 'done'];
   bugData = [];
-  showBugsTable: boolean = false;
+  newActionsData = [];
+  // showBugsTable: boolean = false;
 
   ngOnInit(): void {
     this.getLocalIP();
@@ -89,7 +93,7 @@ export class NursesManageDashboardComponent implements OnInit {
       that.getEROccupancy('', 'er');
       that.getDeliveryEROccupancy('');
       that.privateIP = this.ClientIP;
-      this.IpAddressMonitoring();
+      // this.IpAddressMonitoring();
     }, 1500);
     // this.ipAddressUpdate();
 
@@ -137,6 +141,16 @@ export class NursesManageDashboardComponent implements OnInit {
         this.bugData = Response["d"];
       });
   }
+  
+  getNewActionsTable() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNewActionsTable", {
+      })
+      .subscribe((Response) => {
+        this.newActionsData = Response["d"];
+      });
+  }
+
   getLocalIP() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetLocalIPAddress", {
@@ -149,9 +163,9 @@ export class NursesManageDashboardComponent implements OnInit {
         });
       });
   }
-  showBugsTablef() {
-    this.showBugsTable = !this.showBugsTable;
-  }
+  // showBugsTablef() {
+  //   this.showBugsTable = !this.showBugsTable;
+  // }
 
   openDialogToFill(departCode, Dept_Name, ifAdmin) {
     let dialogRef = this.dialog.open(NursesDepartmentManageComponent, { disableClose: true });
@@ -179,6 +193,29 @@ export class NursesManageDashboardComponent implements OnInit {
             this.phoneNumber = "";
             this.reportSubject = "";
             this.getBugsTable();
+          } else {
+            this.openSnackBar("משהו השתבש לא נשלח");
+          }
+        });
+    }
+  }
+  
+  submitNewAction() {
+    if ((this.actionsContent == "" || this.actionsContent == undefined) || (this.actionPriority == "" || this.actionPriority == undefined)) {
+      this.openSnackBar("נא למלא שדות חובה");
+    } else {
+      this.http
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/NewActionNursesSystem", {
+          _actionPriority: this.actionPriority,
+          _actionsContent: this.actionsContent,
+          _userName: this.UserName,
+        })
+        .subscribe((Response) => {
+          if (Response["d"]) {
+            this.openSnackBar("נשלח לטיפול");
+            this.actionPriority = "";
+            this.actionsContent = "";
+            this.getNewActionsTable();
           } else {
             this.openSnackBar("משהו השתבש לא נשלח");
           }
@@ -227,6 +264,7 @@ export class NursesManageDashboardComponent implements OnInit {
   bugReport() {
     this.dialog.open(this.modalBug, { width: '60%', disableClose: false });
     this.getBugsTable();
+    this.getNewActionsTable();
   }
   closeModal() {
     this.dialog.closeAll();

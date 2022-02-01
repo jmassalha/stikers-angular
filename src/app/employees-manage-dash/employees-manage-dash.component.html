@@ -102,16 +102,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <!-- <div class="col-4">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>מספר טלפון</mat-label>
-                                            <input type="tel" matInput autocomplete="off" placeholder="מספר טלפון"
-                                                formControlName="PhoneNumber" />
-                                        </mat-form-field>
-                                    </div>
-                                </div> -->
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>מחלקה</mat-label>
@@ -123,7 +114,7 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>תפקיד</mat-label>
@@ -131,6 +122,34 @@
                                                 <mat-option *ngFor="let func of FunctionsList"
                                                     [value]="func.FunctionDescription">
                                                     {{func.FunctionDescription}} </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>סקטור</mat-label>
+                                            <mat-select formControlName="Sektor" aria-placeholder="סקטור">
+                                                <mat-option value="">
+                                                    הכל </mat-option>
+                                                <mat-option *ngFor="let sek of SektorsList"
+                                                    [value]="sek.EmployeeSektorID">
+                                                    {{sek.EmployeeSektorDescription}} </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>מיקום עבודה</mat-label>
+                                            <mat-select formControlName="WorkPlace" aria-placeholder="מיקום עבודה">
+                                                <mat-option value="">
+                                                    הכל </mat-option>
+                                                <mat-option *ngFor="let work of WorkPlacesList"
+                                                    [value]="work.WorkPlaceID">
+                                                    {{work.WorkPlaceDescription}} </mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
