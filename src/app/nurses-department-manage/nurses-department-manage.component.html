@@ -198,6 +198,11 @@
             <th mat-header-cell *matHeaderCellDef> מחלקה רפואית </th>
             <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART}} </td>
           </ng-container>
+          
+          <ng-container matColumnDef="roomnumber">
+            <th mat-header-cell *matHeaderCellDef> חדר </th>
+            <td mat-cell *matCellDef="let element"> {{element.PM_ROOM_NUMBER}} </td>
+          </ng-container>
 
           <ng-container matColumnDef="lastname">
             <th mat-header-cell *matHeaderCellDef> שם משפחה </th>

@@ -276,11 +276,17 @@ export class EmployeesAddUpdateComponent implements OnInit {
       this.http
         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveEmployeeDetails", {
           _personalDetails: this.employeePersonalDetails.getRawValue(),
-          _workDetails: this.employeeWorkDetails.getRawValue()
+          _workDetails: this.employeeWorkDetails.getRawValue(),
+          _userName: this.UserName,
         })
         .subscribe((Response) => {
           if (Response["d"]) {
             this.openSnackBar("נשמר בהצלחה");
+            // this.http
+            //   .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EmployeesUpdateLog", {
+            //     _userName: this.UserName,
+            //   })
+            //   .subscribe((Response) => {});
             this.dialog.closeAll();
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");

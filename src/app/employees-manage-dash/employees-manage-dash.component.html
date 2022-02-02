@@ -278,9 +278,6 @@
             <th>תאריך לידה</th>
             <th>סוג עובד</th>
             <th>מקום עבודה</th>
-            <th>מחלקה</th>
-            <th>סקטור</th>
-            <th>הערות</th>
             <th>תאריך עדכון</th>
             <th>רישיון רופא</th>
             <th>תחילת ניסיון רופא</th>
@@ -288,6 +285,9 @@
             <th>מדינת לימודים</th>
             <th>אונבירסיטת לימודים</th>
             <th>דירוג</th>
+            <th>מחלקה</th>
+            <th>סקטור</th>
+            <th>הערות</th>
 
         </tr>
         <tr *ngFor="let emp of dataSourceExcel.filteredData">
@@ -302,9 +302,6 @@
             <td> {{emp.DateOfBirth}} </td>
             <td> {{emp.FunctionDescription}} </td>
             <td> {{emp.WorkPlace.WorkPlaceDescription}} </td>
-            <td> {{emp.DepartnentDescripton}} </td>
-            <td> {{emp.EmployeeBlossomSektor.EmployeeSektorBlossomDescription}} </td>
-            <td> {{emp.Remarks}} </td>
             <td> {{emp.UpdateDate}} </td>
             <td> {{emp.DocLicence}} </td>
             <td> {{emp.DocStartExperience}} </td>
@@ -312,6 +309,9 @@
             <td> {{emp.InternLearnCountryDesc}} </td>
             <td> {{emp.InternUniversity}} </td>
             <td> {{emp.RankID}} </td>
+            <td> {{emp.DepartnentDescripton}} </td>
+            <td> {{emp.EmployeeBlossomSektor.EmployeeSektorBlossomDescription}} </td>
+            <td> {{emp.Remarks}} </td>
         </tr>
     </table>
 </div>

@@ -93,7 +93,7 @@ export class NursesManageDashboardComponent implements OnInit {
       that.getEROccupancy('', 'er');
       that.getDeliveryEROccupancy('');
       that.privateIP = this.ClientIP;
-      this.IpAddressMonitoring();
+      // this.IpAddressMonitoring();
     }, 1500);
     // this.ipAddressUpdate();
 
@@ -101,7 +101,6 @@ export class NursesManageDashboardComponent implements OnInit {
     //   this.publicIP = data['ip'];
     // });
   }
-
 
   ipAddressUpdate() {
     if (this.ipUpdate == undefined) {
@@ -141,7 +140,7 @@ export class NursesManageDashboardComponent implements OnInit {
         this.bugData = Response["d"];
       });
   }
-  
+
   getNewActionsTable() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNewActionsTable", {
@@ -199,16 +198,20 @@ export class NursesManageDashboardComponent implements OnInit {
         });
     }
   }
-  
-  submitNewAction() {
-    if ((this.actionsContent == "" || this.actionsContent == undefined) || (this.actionPriority == "" || this.actionPriority == undefined)) {
+
+  submitNewAction(value, rowID) {
+    if (((this.actionsContent == "" || this.actionsContent == undefined) || (this.actionPriority == "" || this.actionPriority == undefined)) && rowID == "") {
       this.openSnackBar("נא למלא שדות חובה");
     } else {
+      this.actionsContent == undefined ? this.actionsContent = '' : console.log('');
+      this.actionPriority == undefined ? this.actionPriority = '' : console.log('');
       this.http
         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/NewActionNursesSystem", {
           _actionPriority: this.actionPriority,
           _actionsContent: this.actionsContent,
           _userName: this.UserName,
+          _updatePriority: value,
+          _updateRowID: rowID,
         })
         .subscribe((Response) => {
           if (Response["d"]) {

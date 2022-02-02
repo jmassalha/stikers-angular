@@ -172,7 +172,6 @@ export class FormsansweredComponent implements OnInit {
                     "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
                 )
             );
-    
   }
 
   updateView2() {
