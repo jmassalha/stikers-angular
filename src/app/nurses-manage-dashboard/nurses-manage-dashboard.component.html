@@ -160,14 +160,22 @@
                     </div>
                 </div>
             </div>
-            <button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="submit"
+            <button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="button"
                 class="btn btn-primary btn-raised" (click)="openReportDialog('administrative')">
                 <i class="material-icons">assignment_ind</i>
             </button>
-            <button matTooltipPosition="left" matTooltip="לדיווח תקלה במערכת" id="EventBtndisplay" mat-raised-button
-                type="submit" class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
+            <button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay" mat-raised-button
+                type="button" class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
                 <i class="material-icons">info</i>
             </button>
+            <button *ngIf="UserName == 'adahabre'" matTooltipPosition="left" matTooltip="קריאה למתגברים" id="EventBtndisplay" mat-raised-button
+                type="button" class="btn btn-raised mr-1" style="background-color: limegreen;">
+                <!-- <span class="material-icons">
+                    help
+                </span> -->
+                <img height="35px" width="30px" src="../../assets/images/sos.png">
+            </button>
+            
             <div style="margin-right: 33%;margin-top: 18px;"> נתונים מעודכנים ל: {{ updateDate | date: "dd.MM.yyyy"}} -
                 {{ updateDate | date: "HH:mm"}}</div>
 
