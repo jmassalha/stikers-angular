@@ -37,11 +37,11 @@ export class FormDashboardComponent implements OnInit {
         'formNameControl': new FormControl('', null)
       });
       this.chooseForm = new FormGroup({
-        'SwitchForms': new FormControl('1', null)
+        'SwitchForms': new FormControl('0', null)
       });
       this.getAllForms();
       if (this.UserName == "adahabre" || this.UserName == "sshawahdy" || this.UserName == "arozenwalt" || this.UserName == "kelubenfel" || this.UserName == "gmagril") {
-        this.AlertToFill();
+        // this.AlertToFill();
       }
     }
   }

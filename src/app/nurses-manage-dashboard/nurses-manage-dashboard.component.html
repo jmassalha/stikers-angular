@@ -344,7 +344,8 @@
                         <th mat-header-cell *matHeaderCellDef> עדיפות </th>
                         <td mat-cell *matCellDef="let element" style="font-size: 22px;"
                             [style.color]="element.Action_Priority == 'גבוהה' ? 'white' : 'black'">
-                            <mat-select [(ngModel)]="element.Action_Priority" (selectionChange)="submitNewAction($event.value,element.Row_ID)">
+                            <mat-select [(ngModel)]="element.Action_Priority"
+                                (selectionChange)="submitNewAction($event.value,element.Row_ID)">
                                 <mat-option value="נמוכה">
                                     נמוכה
                                 </mat-option>
@@ -362,7 +363,9 @@
                         <th mat-header-cell *matHeaderCellDef> סטטוס </th>
                         <td mat-cell *matCellDef="let element" style="font-size: 22px;"
                             [style.background]="element.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'">
-                            {{element.Bug_Done}} </td>
+                            <span *ngIf="element.Bug_Done == 'טופל'">טופל</span><span
+                                *ngIf="element.Bug_Done == 'בטיפול'">בהמתנה</span>
+                        </td>
                     </ng-container>
 
                     <tr mat-header-row *matHeaderRowDef="actionColumns"></tr>
