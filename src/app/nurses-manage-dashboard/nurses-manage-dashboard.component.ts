@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
+import { NursesReinforcementComponent } from '../nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
 import { DatePipe } from '@angular/common';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -93,7 +94,7 @@ export class NursesManageDashboardComponent implements OnInit {
       that.getEROccupancy('', 'er');
       that.getDeliveryEROccupancy('');
       that.privateIP = this.ClientIP;
-      this.IpAddressMonitoring();
+      // this.IpAddressMonitoring();
     }, 1500);
     // this.ipAddressUpdate();
 
@@ -237,6 +238,24 @@ export class NursesManageDashboardComponent implements OnInit {
   openReportDialog(report_type) {
     let dialogRef = this.dialog.open(NursesDashboardComponent, { disableClose: true });
     dialogRef.componentInstance.reportType = report_type;
+    dialogRef.afterClosed()
+      .subscribe((data) => {
+        if (!data) {
+          return;
+        }
+        this.ELEMENT_DATA = data;
+
+        $("#loader").removeClass("d-none");
+        setTimeout(function () {
+          $("#loader").addClass("d-none");
+          window.print();
+        }, 1500);
+      })
+  }
+  
+  openReinforcementtDialog(report_type) {
+    let dialogRef = this.dialog.open(NursesReinforcementComponent, { disableClose: true });
+    // dialogRef.componentInstance.reportType = report_type;
     dialogRef.afterClosed()
       .subscribe((data) => {
         if (!data) {
