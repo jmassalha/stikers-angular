@@ -1,4 +1,4 @@
-<div dir="rtl" style="padding-bottom: 10%;">
+<div dir="rtl" style="padding-bottom: 2%;">
     <div class="row">
         <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
             <span aria-hidden="true">&times;</span>
@@ -7,7 +7,8 @@
 
     <div class="row" style="display: block;">
         <div class="row">
-            <h3 class="mr-2">מבקש התגבור :</h3><h5 class="mr-3">{{Reinf_nurse.name}} - {{Reinf_nurse.number}}</h5>
+            <h3 class="mr-2">מבקש התגבור :</h3>
+            <h5 class="mr-3">{{Reinf_nurse.name}} - {{Reinf_nurse.number}}</h5>
         </div>
         <div class="row">
             <div class="col-12">
@@ -61,14 +62,15 @@
             <mat-paginator #paginator1 style="float: right;" [pageSizeOptions]="[5,15,25,50]" showFirstLastButtons>
             </mat-paginator>
         </div>
-        
+
     </div>
 
     <hr>
 
     <div class="row" style="display: block;">
         <div class="row">
-            <h3 class="mr-2">מתגבר :</h3><h5 class="mr-3">{{Reinf_emp.name}} - {{Reinf_emp.number}}</h5>
+            <h3 class="mr-2">מתגבר :</h3>
+            <h5 class="mr-3">{{Reinf_emp.name}} - {{Reinf_emp.number}}</h5>
         </div>
         <div class="row">
             <div class="col-12">
@@ -123,5 +125,10 @@
             </mat-paginator>
         </div>
     </div>
-
+    <button matTooltip="שליחת SMS" mat-raised-button type="button" id="sendBtn" class="btn btn-primary btn-raised"
+        (click)="sendSms()">
+        <span class="material-icons">
+            send
+        </span>
+    </button>
 </div>

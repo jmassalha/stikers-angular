@@ -191,7 +191,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
         _EmployeeID: this.employeePersonalDetails.controls['EmployeeID'].value
       })
       .subscribe((Response) => {
-        if (Response["d"]) {
+        if (Response["d"].EmployeeID != null) {
           this.openSnackBar("העובד קיים במערכת - ליצור קשר עם מערכות מידע");
           this.EmployeeExists = true;
           this.employee = Response["d"];

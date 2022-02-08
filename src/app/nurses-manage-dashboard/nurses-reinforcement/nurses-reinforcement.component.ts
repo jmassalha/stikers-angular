@@ -76,13 +76,13 @@ export class NursesReinforcementComponent implements OnInit {
     });
   }
 
-  chooseReinfNurse(nurse){
-    this.Reinf_nurse.name = nurse.FirstName+' '+nurse.LastName;
+  chooseReinfNurse(nurse) {
+    this.Reinf_nurse.name = nurse.FirstName + ' ' + nurse.LastName;
     this.Reinf_nurse.number = nurse.CellNumber;
   }
-  
-  chooseReinfEmployee(employee){
-    this.Reinf_emp.name = employee.FirstName+' '+employee.LastName;
+
+  chooseReinfEmployee(employee) {
+    this.Reinf_emp.name = employee.FirstName + ' ' + employee.LastName;
     this.Reinf_emp.number = employee.CellNumber;
   }
 
@@ -152,6 +152,21 @@ export class NursesReinforcementComponent implements OnInit {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);
         this.dataSource2.paginator = this.paginator2;
         this.dataSource2.sort = this.sort2;
+      });
+  }
+
+  sendSms() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/", {
+        _nurse_reinf: this.Reinf_nurse,
+        _emp_reinf: this.Reinf_emp
+      })
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("נשלח בהצלחה");
+        } else {
+          this.openSnackBar("תקלה, לא נשלח");
+        }
       });
   }
 
