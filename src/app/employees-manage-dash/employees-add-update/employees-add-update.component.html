@@ -11,7 +11,7 @@
                         {{employeePersonalDetails.controls['LastName'].value}} -
                         {{employeeWorkDetails.controls['ADUserName'].value}} -
                         {{employeePersonalDetails.controls['CellNumber'].value}}</label>
-                    <label style="font-size: 40px;" *ngIf="EmployeeExists">העובד כבר קיים במערכת</label>
+                    <label style="font-size: 40px;color: red;" *ngIf="EmployeeExists">העובד כבר קיים במערכת - ליצור קשר עם מערכות מידע</label>
                 </div>
             </div>
         </mat-card>
@@ -111,10 +111,10 @@
             </mat-step>
             <mat-step [stepControl]="employeeWorkDetails">
                 <form dir="rtl" [formGroup]="employeeWorkDetails" autocomplete="off">
-                    <ng-template matStepLabel>פרטי העובד בביה"ח</ng-template>
+                    <ng-template matStepLabel>פרטי העובד במרכז הרפואי</ng-template>
                     <ol class="list-style">
                         <div class="full-width row">
-                            <li class="border-me col-3" id="employees" style="height: 75px;">
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
                                 <mat-form-field appearance="fill" class="example-full-width">
                                     <span matPrefix>תחילת עבודה &nbsp;</span>
                                     <input matInput formControlName="StartWorkDate" placeholder="תאריך תחילת עבודה"
@@ -124,7 +124,7 @@
                                     <mat-datepicker #picker2></mat-datepicker>
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-3" id="employees" style="height: 75px;">
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
                                 <mat-form-field appearance="fill" class="example-full-width">
                                     <span matPrefix>סיום עבודה &nbsp;</span>
                                     <input matInput formControlName="EndWorkDate" placeholder="תאריך סיום עבודה"
@@ -134,16 +134,16 @@
                                     <mat-datepicker #picker3></mat-datepicker>
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-3">
+                            <li class="border-me col-4">
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="תפקיד" formControlName="Title">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-3">
+                            <!-- <li class="border-me col-3">
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="הערות" formControlName="Remarks">
                                 </mat-form-field>
-                            </li>
+                            </li> -->
                         </div>
                         <div class="full-width row">
                             <li class="border-me col-3">
@@ -174,7 +174,7 @@
                                 </div>
                             </li>
                             <li class="border-me col-2"
-                                *ngIf="empType == 'stager' && managerType == 'stager' || managerType == 'admin'">
+                                *ngIf="empType == 'stager' && (managerType == 'stager' || managerType == 'admin')">
                                 <div class="col-12 text-right">
                                     <label class="exp-label">מיקום לימודים</label>
                                     <mat-select formControlName="InternLearnCountry"
@@ -185,14 +185,14 @@
                                 </div>
                             </li>
                             <li class="border-me col-3"
-                                *ngIf="empType == 'stager' && managerType == 'stager' || managerType == 'admin'">
+                                *ngIf="empType == 'stager' && (managerType == 'stager' || managerType == 'admin')">
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="ארץ לימודים"
                                         formControlName="InternLearnCountryDesc">
                                 </mat-form-field>
                             </li>
                             <li class="border-me col-4"
-                                *ngIf="empType == 'stager' && managerType == 'stager' || managerType == 'admin'">
+                                *ngIf="empType == 'stager' && (managerType == 'stager' || managerType == 'admin')">
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="אוניברסיטה"
                                         formControlName="InternUniversity">
@@ -270,6 +270,11 @@
                                             {{dept.DepartnentDescripton}} </mat-option>
                                     </mat-select>
                                 </div>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="הערות" formControlName="Remarks">
+                                </mat-form-field>
                             </li>
                         </div>
                         <!-- <div class="full-width row">

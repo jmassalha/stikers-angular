@@ -102,36 +102,61 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <!-- <div class="col-4">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>מספר טלפון</mat-label>
-                                            <input type="tel" matInput autocomplete="off" placeholder="מספר טלפון"
-                                                formControlName="PhoneNumber" />
-                                        </mat-form-field>
-                                    </div>
-                                </div> -->
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>מחלקה</mat-label>
-                                            <input matInput type="text" autocomplete="off" placeholder="מחלקה"
-                                                formControlName="Department" />
+                                            <mat-select formControlName="Department" aria-placeholder="מחלקה">
+                                                <mat-option *ngFor="let dept of DepartmentsList"
+                                                    [value]="dept.DepartnentDescripton">
+                                                    {{dept.DepartnentDescripton}} </mat-option>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group lh-37">
                                         <mat-form-field>
                                             <mat-label>תפקיד</mat-label>
-                                            <input matInput type="text" autocomplete="off" placeholder="תפקיד"
-                                                formControlName="Role" />
+                                            <mat-select formControlName="Role" aria-placeholder="תיאור תפקיד">
+                                                <mat-option *ngFor="let func of FunctionsList"
+                                                    [value]="func.FunctionDescription">
+                                                    {{func.FunctionDescription}} </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>סקטור</mat-label>
+                                            <mat-select formControlName="Sektor" aria-placeholder="סקטור">
+                                                <mat-option value="">
+                                                    הכל </mat-option>
+                                                <mat-option *ngFor="let sek of SektorsList"
+                                                    [value]="sek.EmployeeSektorID">
+                                                    {{sek.EmployeeSektorDescription}} </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>מיקום עבודה</mat-label>
+                                            <mat-select formControlName="WorkPlace" aria-placeholder="מיקום עבודה">
+                                                <mat-option value="">
+                                                    הכל </mat-option>
+                                                <mat-option *ngFor="let work of WorkPlacesList"
+                                                    [value]="work.WorkPlaceID">
+                                                    {{work.WorkPlaceDescription}} </mat-option>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
                             </div>
                             <button matTooltip="חיפוש" mat-raised-button type="submit"
-                                class="btn btn-primary btn-raised" (click)="GetEmployeesToUpdate(managerType)">
+                                class="btn btn-primary btn-raised" (click)="GetEmployeesToUpdate(managerType,false)">
                                 <span class="material-icons">
                                     search
                                 </span>
@@ -160,7 +185,8 @@
             </div>
             <div class="col-1">
                 <div class="example-button-container">
-                    <button mat-fab color="accent" aria-label="Excel" (click)="exportexcel()" matTooltip="יצוא לאקסל">
+                    <button mat-fab color="accent" aria-label="Excel" (click)="GetEmployeesToUpdate(managerType, true)"
+                        matTooltip="יצוא לאקסל">
                         <mat-icon>get_app</mat-icon>
                     </button>
                 </div>
@@ -187,6 +213,27 @@
                 </td>
             </ng-container>
 
+            <ng-container matColumnDef="DepartnentDescripton">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;">
+                    {{element.DepartnentDescripton}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="FunctionDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תפקיד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FunctionDescription}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CellNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> טלפון נייד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CellNumber}}</td>
+            </ng-container>
+
             <ng-container matColumnDef="Gender">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> מגדר </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"><span
@@ -200,37 +247,10 @@
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.DateOfBirth}}</td>
             </ng-container>
 
-            <ng-container matColumnDef="CellNumber">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> טלפון נייד
-                </th>
-                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CellNumber}}</td>
-            </ng-container>
-
-            <!-- <ng-container matColumnDef="Elective">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> אלקטיב
-                    לפניה </th>
-                <td mat-cell *matCellDef="let element" style="justify-content: center;"> Elective </td>
-            </ng-container> -->
-
             <ng-container matColumnDef="Email">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> מייל
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.Email}}</td>
-            </ng-container>
-
-            <ng-container matColumnDef="FunctionDescription">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> תפקיד
-                </th>
-                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FunctionDescription}}
-                </td>
-            </ng-container>
-
-            <ng-container matColumnDef="DepartnentDescripton">
-                <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה
-                </th>
-                <td mat-cell *matCellDef="let element" style="justify-content: center;">
-                    {{element.DepartnentDescripton}}
-                </td>
             </ng-container>
 
             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
@@ -250,23 +270,48 @@
             <th>תעודת זהות</th>
             <th>שם פרטי</th>
             <th>שם משפחה</th>
-            <th>מגדר</th>
-            <th>תאריך לידה</th>
             <th>טלפון נייד</th>
             <th>מייל</th>
-            <th>תפקיד</th>
+            <th>מגדר</th>
+            <th>תאריך תחילת עבודה</th>
+            <th>תאריך סיום עבודה</th>
+            <th>תאריך לידה</th>
+            <th>סוג עובד</th>
+            <th>מקום עבודה</th>
+            <th>תאריך עדכון</th>
+            <th>רישיון רופא</th>
+            <th>תחילת ניסיון רופא</th>
+            <th>מיקום לימודים</th>
+            <th>מדינת לימודים</th>
+            <th>אונבירסיטת לימודים</th>
+            <th>דירוג</th>
             <th>מחלקה</th>
+            <th>סקטור</th>
+            <th>הערות</th>
+
         </tr>
-        <tr *ngFor="let emp of dataSource.filteredData">
+        <tr *ngFor="let emp of dataSourceExcel.filteredData">
             <td> {{emp.EmployeeID}} </td>
             <td> {{emp.FirstName}} </td>
             <td> {{emp.LastName}} </td>
-            <td> {{emp.Gender}} </td>
-            <td> {{emp.DateOfBirth}} </td>
             <td> {{emp.CellNumber}} </td>
             <td> {{emp.Email}} </td>
+            <td> {{emp.Gender}} </td>
+            <td> {{emp.StartWorkDate}} </td>
+            <td> {{emp.EndWorkDate}} </td>
+            <td> {{emp.DateOfBirth}} </td>
             <td> {{emp.FunctionDescription}} </td>
+            <td> {{emp.WorkPlace.WorkPlaceDescription}} </td>
+            <td> {{emp.UpdateDate}} </td>
+            <td> {{emp.DocLicence}} </td>
+            <td> {{emp.DocStartExperience}} </td>
+            <td> {{emp.InternLearnCountry}} </td>
+            <td> {{emp.InternLearnCountryDesc}} </td>
+            <td> {{emp.InternUniversity}} </td>
+            <td> {{emp.RankID}} </td>
             <td> {{emp.DepartnentDescripton}} </td>
+            <td> {{emp.EmployeeBlossomSektor.EmployeeSektorBlossomDescription}} </td>
+            <td> {{emp.Remarks}} </td>
         </tr>
     </table>
 </div>

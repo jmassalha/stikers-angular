@@ -87,7 +87,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'lastname', 'firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
+  displayedColumns2: string[] = ['casenumber', 'departmentmedical','roomnumber', 'lastname', 'firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
   dataSource2 = new MatTableDataSource<any>();
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
 

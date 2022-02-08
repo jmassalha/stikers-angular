@@ -1,0 +1,127 @@
+<div dir="rtl" style="padding-bottom: 10%;">
+    <div class="row">
+        <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+    </div>
+
+    <div class="row" style="display: block;">
+        <div class="row">
+            <h3 class="mr-2">מבקש התגבור :</h3><h5 class="mr-3">{{Reinf_nurse.name}} - {{Reinf_nurse.number}}</h5>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="standard">
+                    <mat-label class="filterClass">מסנן</mat-label>
+                    <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
+                </mat-form-field>
+            </div>
+        </div>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+
+            <ng-container matColumnDef="FirstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם פרטי
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FirstName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="LastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם משפחה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.LastName}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DepartnentDescripton">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;">
+                    {{element.DepartnentDescripton}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CellNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> טלפון נייד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CellNumber}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="FunctionDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תפקיד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FunctionDescription}}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="chooseReinfNurse(row)">
+            </tr>
+        </table>
+        <div class="text-right" style="padding-bottom: 8%;">
+            <mat-paginator #paginator1 style="float: right;" [pageSizeOptions]="[5,15,25,50]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+        
+    </div>
+
+    <hr>
+
+    <div class="row" style="display: block;">
+        <div class="row">
+            <h3 class="mr-2">מתגבר :</h3><h5 class="mr-3">{{Reinf_emp.name}} - {{Reinf_emp.number}}</h5>
+        </div>
+        <div class="row">
+            <div class="col-12">
+                <mat-form-field appearance="standard">
+                    <mat-label class="filterClass">מסנן</mat-label>
+                    <input matInput (keyup)="applyFilter2($event)" placeholder="הקלד מסנן" #input>
+                </mat-form-field>
+            </div>
+        </div>
+        <table mat-table [dataSource]="dataSource2" matSort class="mat-elevation-z8">
+
+            <ng-container matColumnDef="FirstName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם פרטי
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FirstName}} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="LastName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם משפחה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.LastName}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="DepartnentDescripton">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;">
+                    {{element.DepartnentDescripton}}
+                </td>
+            </ng-container>
+
+            <ng-container matColumnDef="CellNumber">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> טלפון נייד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.CellNumber}}</td>
+            </ng-container>
+
+            <ng-container matColumnDef="FunctionDescription">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> תפקיד
+                </th>
+                <td mat-cell *matCellDef="let element" style="justify-content: center;"> {{element.FunctionDescription}}
+                </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns2"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns2;" (click)="chooseReinfEmployee(row)">
+            </tr>
+        </table>
+        <div class="text-right" style="padding-bottom: 8%;">
+            <mat-paginator #paginator2 style="float: right;" [pageSizeOptions]="[5,15,25,50]" showFirstLastButtons>
+            </mat-paginator>
+        </div>
+    </div>
+
+</div>

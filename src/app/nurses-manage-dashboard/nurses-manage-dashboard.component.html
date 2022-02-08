@@ -160,14 +160,22 @@
                     </div>
                 </div>
             </div>
-            <button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="submit"
+            <button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="button"
                 class="btn btn-primary btn-raised" (click)="openReportDialog('administrative')">
                 <i class="material-icons">assignment_ind</i>
             </button>
-            <button matTooltipPosition="left" matTooltip="לדיווח תקלה במערכת" id="EventBtndisplay" mat-raised-button
-                type="submit" class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
+            <button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay" mat-raised-button
+                type="button" class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
                 <i class="material-icons">info</i>
             </button>
+            <button *ngIf="UserName == 'adahabre'" matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button
+                type="button" class="btn btn-raised mr-1" style="background-color: limegreen;" (click)="openReinforcementtDialog('')">
+                <!-- <span class="material-icons">
+                    help
+                </span> -->
+                <img height="35px" width="30px" src="../../assets/images/sos.png">
+            </button>
+            
             <div style="margin-right: 33%;margin-top: 18px;"> נתונים מעודכנים ל: {{ updateDate | date: "dd.MM.yyyy"}} -
                 {{ updateDate | date: "HH:mm"}}</div>
 
@@ -185,10 +193,9 @@
             <div class="row" style="margin-bottom: 10px;display: flex;">
                 <div class="col-4" *ngFor="let item of all_departments_array"
                     style="margin-bottom: 5px;height: 75px;cursor: pointer;">
-                    <!-- && item.OccupancyPerDepart != '0' -->
-                    <mat-card *ngIf="item.Dept_Name"
-                        (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')" style="height: 100%;"
-                        class="card dash-cards m-2 p-2 text-center">
+                    <!--  && item.OccupancyPerDepart != '0' -->
+                    <mat-card *ngIf="item.Dept_Name" (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
+                        style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
                                 *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
                                 *ngIf="item.Dept_Name == 'טפול נמרץ פגים ובילוד בחולה'">טיפול נמרץ פגים</span>
@@ -206,6 +213,26 @@
                             </span>
                         </div>
                     </mat-card>
+                    <!-- <mat-card *ngIf="item.Dept_Name != null"
+                        (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')" style="height: 100%;"
+                        class="card dash-cards m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
+                                *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
+                                *ngIf="item.Dept_Name == 'טפול נמרץ פגים ובילוד בחולה'">טיפול נמרץ פגים</span>
+                            <span
+                                *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
+                        </div>
+                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name">
+                            <span class="coronaNumber" *ngIf="item.CoronaNumber !== '0' && item.CoronaNumber !== null" style="color: red;">מטופלי
+                                קורונה:
+                                {{item.CoronaNumber}}
+                            </span>
+                            סה"כ: {{item.OccupancyPerDepart}}
+                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה:
+                                {{item.PercentOccupancy}}%
+                            </span>
+                        </div>
+                    </mat-card> -->
                 </div>
             </div>
         </div>
@@ -218,53 +245,145 @@
     </button>
     <h1 mat-dialog-title style="text-align: center;">דיווח תקלה</h1>
     <hr>
-    <form mat-dialog-content dir="rtl" style="text-align: right;">
-        <mat-form-field class="example-full-width">
-            <mat-label>מספר טלפון לחזרה</mat-label>
-            <input matInput [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" type="number"
-                placeholder=".......05" required />
-        </mat-form-field>
-        <mat-form-field class="example-full-width">
-            <mat-label>מהות התקלה</mat-label>
-            <textarea matInput rows="6" [(ngModel)]="reportSubject" [ngModelOptions]="{standalone: true}" cols="15"
-                required></textarea>
-        </mat-form-field>
-    </form>
-    <div mat-dialog-actions>
-        <div class="row">
-            <button mat-raised-button color="primary" (click)="submitBugReport()" mat-dialog-close>שליחה</button>
-            <button mat-raised-button color="primary" style="float: right;" (click)="showBugsTablef()">הצג
-                תקלות</button>
-        </div>
+    <mat-tab-group mat-align-tabs="start" dir="rtl">
+        <mat-tab label="תקלות">
+            <form mat-dialog-content dir="rtl" style="text-align: right;margin-top: 20px;">
+                <mat-form-field class="example-full-width">
+                    <mat-label>מספר טלפון לחזרה</mat-label>
+                    <input matInput [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" type="number"
+                        placeholder=".......05" required />
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>מהות התקלה</mat-label>
+                    <textarea matInput rows="6" [(ngModel)]="reportSubject" [ngModelOptions]="{standalone: true}"
+                        cols="15" required></textarea>
+                </mat-form-field>
+            </form>
+            <div mat-dialog-actions>
+                <div class="row">
+                    <button mat-raised-button color="primary" (click)="submitBugReport()"
+                        mat-dialog-close>שליחה</button>
+                    <!-- <button mat-raised-button color="primary" style="float: right;" (click)="showBugsTablef()">הצג
+                        תקלות</button> -->
+                </div>
+            </div>
+            <div class="row mt-5">
+                <table mat-table [dataSource]="bugData" dir="rtl" class="mat-elevation-z8">
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> תאריך התקלה </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Bug_Date}} </td>
+                    </ng-container>
 
-    </div>
-    <div class="row mt-5" *ngIf="showBugsTable">
-        <table mat-table [dataSource]="bugData" dir="rtl" class="mat-elevation-z8">
-            <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef> תאריך התקלה </th>
-                <td mat-cell *matCellDef="let element"> {{element.Bug_Date}} </td>
-            </ng-container>
+                    <ng-container matColumnDef="user">
+                        <th mat-header-cell *matHeaderCellDef> שם משתמש </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Bug_User}} </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="user">
-                <th mat-header-cell *matHeaderCellDef> שם משתמש </th>
-                <td mat-cell *matCellDef="let element"> {{element.Bug_User}} </td>
-            </ng-container>
+                    <ng-container matColumnDef="subject">
+                        <th mat-header-cell *matHeaderCellDef> תוכן התקלה </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Bug_Subject}} </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="subject">
-                <th mat-header-cell *matHeaderCellDef> תוכן התקלה </th>
-                <td mat-cell *matCellDef="let element"> {{element.Bug_Subject}} </td>
-            </ng-container>
+                    <ng-container matColumnDef="done">
+                        <th mat-header-cell *matHeaderCellDef> סטטוס </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Bug_Done}} </td>
+                    </ng-container>
 
-            <ng-container matColumnDef="done">
-                <th mat-header-cell *matHeaderCellDef> סטטוס </th>
-                <td mat-cell *matCellDef="let element"> {{element.Bug_Done}} </td>
-            </ng-container>
+                    <tr mat-header-row *matHeaderRowDef="bugColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: bugColumns;"
+                        [style.background]="row.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'"></tr>
+                </table>
+            </div>
+        </mat-tab>
+        <mat-tab label="שושי'ם">
+            <form mat-dialog-content dir="rtl" style="text-align: right;margin-top: 20px;">
+                <mat-form-field class="example-full-width">
+                    <mat-label>עדיפות</mat-label>
+                    <mat-select [(ngModel)]="actionPriority" [ngModelOptions]="{standalone: true}">
+                        <mat-option style="text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;" [value]="'הכל'">הכל</mat-option>
+                        <mat-option style="background: aliceblue;text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;" value="נמוכה">
+                            נמוכה
+                        </mat-option>
+                        <mat-option style="background: antiquewhite;text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;" value="ממוצעת">
+                            ממוצעת
+                        </mat-option>
+                        <mat-option style="background: brown;text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;" value="גבוהה">
+                            גבוהה
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>תוכן</mat-label>
+                    <textarea matInput rows="6" [(ngModel)]="actionsContent" [ngModelOptions]="{standalone: true}"
+                        cols="15" required></textarea>
+                </mat-form-field>
+            </form>
+            <div mat-dialog-actions>
+                <div class="row">
+                    <button mat-raised-button color="primary" (click)="submitNewAction('','')"
+                        mat-dialog-close>שליחה</button>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <table mat-table [dataSource]="newActionsData" dir="rtl" class="mat-elevation-z8">
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> תאריך </th>
+                        <td mat-cell *matCellDef="let element" style="font-size: 22px;"
+                            [style.color]="element.Action_Priority == 'גבוהה' ? 'white' : 'black'"> {{element.Bug_Date}}
+                        </td>
+                    </ng-container>
 
-            <tr mat-header-row *matHeaderRowDef="bugColumns"></tr>
-            <tr mat-row *matRowDef="let row; columns: bugColumns;"
-                [style.background]="row.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'"></tr>
-        </table>
-    </div>
+                    <ng-container matColumnDef="subject">
+                        <th mat-header-cell *matHeaderCellDef> תוכן </th>
+                        <td mat-cell *matCellDef="let element" style="font-size: 22px;"
+                            [style.color]="element.Action_Priority == 'גבוהה' ? 'white' : 'black'">
+                            {{element.Bug_Subject}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="priority">
+                        <th mat-header-cell *matHeaderCellDef> עדיפות </th>
+                        <td mat-cell *matCellDef="let element" style="font-size: 22px;"
+                            [style.color]="element.Action_Priority == 'גבוהה' ? 'white' : 'black'">
+                            <mat-select [(ngModel)]="element.Action_Priority"
+                                (selectionChange)="submitNewAction($event.value,element.Row_ID)">
+                                <mat-option value="נמוכה">
+                                    נמוכה
+                                </mat-option>
+                                <mat-option value="ממוצעת">
+                                    ממוצעת
+                                </mat-option>
+                                <mat-option value="גבוהה">
+                                    גבוהה
+                                </mat-option>
+                            </mat-select>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="done">
+                        <th mat-header-cell *matHeaderCellDef> סטטוס </th>
+                        <td mat-cell *matCellDef="let element" style="font-size: 22px;"
+                            [style.background]="element.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'">
+                            <span *ngIf="element.Bug_Done == 'טופל'">טופל</span><span
+                                *ngIf="element.Bug_Done == 'בטיפול'">בהמתנה</span>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="actionColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: actionColumns;" style="font-weight: bold;"
+                        [style.background]="row.Action_Priority == 'גבוהה' ? 'brown' : row.Action_Priority == 'ממוצעת' ? 'antiquewhite': 'aliceblue'">
+                    </tr>
+                </table>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
 </ng-template>
 
 <ng-template #modalIp let-close="close">

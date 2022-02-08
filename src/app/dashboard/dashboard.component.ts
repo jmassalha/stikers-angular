@@ -79,7 +79,7 @@ export class DashboardComponent implements OnInit {
                 let currentDate = new Date();
                 let day = user.DateOfBirth.split("-")[1];
                 let month = user.DateOfBirth.split("-")[0];
-                if (day == currentDate.getDate().toString() && month == (currentDate.getMonth() + 1).toString()) {
+                if (parseInt(day) == currentDate.getDate() && parseInt(month) == (currentDate.getMonth() + 1)) {
                     this.birthdayUser = true;
                 }
             });

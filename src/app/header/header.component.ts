@@ -304,10 +304,10 @@ export class HeaderComponent implements OnInit {
         }
         if (
             this.loginUserName.toLowerCase() == "owertheim" ||
-            this.loginUserName.toLowerCase() == "dporat" ||
-            this.loginUserName.toLowerCase() == "dfogel" ||
-            this.loginUserName.toLowerCase() == "iditur" ||
-            this.loginUserName.toLowerCase() == "ashoshany" ||
+            // this.loginUserName.toLowerCase() == "dporat" ||
+            // this.loginUserName.toLowerCase() == "dfogel" ||
+            // this.loginUserName.toLowerCase() == "iditur" ||
+            // this.loginUserName.toLowerCase() == "ashoshany" ||
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "adahabre"
         ) {

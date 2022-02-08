@@ -106,7 +106,7 @@
                                     </span>
                                 </button>
                                 &nbsp;&nbsp;&nbsp;
-                                <button mat-raised-button type="submit" (click)="searchForm('0')"
+                                <button mat-raised-button type="submit" (click)="searchForm('0',false)"
                                     class="btn btn-primary btn-raised">
                                     <span class="material-icons">
                                         search
@@ -127,13 +127,20 @@
                 refresh
             </span> טען מיילים חדשים</button> -->
         <button class="btn btn-raised" mat-raised-button style="margin-right: 5px;background-color: lawngreen;"
-            (click)="searchForm('0')"><span class="material-icons">
+            (click)="searchForm('0',false)"><span class="material-icons">
                 refresh
             </span> רענון פניות</button>
-        <button class="btn btn-primary" mat-raised-button style="margin-right: 5px;" (click)="searchForm('1')"><span
-                class="material-icons">
+        <button class="btn btn-primary" mat-raised-button style="margin-right: 5px;"
+            (click)="searchForm('1',false)"><span class="material-icons">
                 mark_as_unread
             </span> סמן פניות כנקראו</button>
+        <button class="btn btn-accent" mat-raised-button style="margin-right: 5px;background: gold;"
+            (click)="searchForm('0',true)"><span class="material-icons">
+                get_app
+            </span> הורדה לאקסל</button>
+        <!-- <button mat-fab color="accent" aria-label="Excel" (click)="searchForm('0',true)" matTooltip="יצוא לאקסל">
+            <mat-icon>get_app</mat-icon>
+        </button> -->
     </div>
     <mat-progress-bar mode="indeterminate" *ngIf="!loaded"></mat-progress-bar>
     <div dir="rtl">
@@ -257,4 +264,42 @@
 
         </div>
     </div>
+    <table id="excel-table" dir="rtl" style="display: none;">
+        <tr>
+            <th>מספר פניה</th>
+            <th>תאריך פניה</th>
+            <th>שם פונה</th>
+            <th>מספר טלפון</th>
+            <th>תעודת זהות</th>
+            <th>סוג פניה</th>
+            <th>מקור הפניה</th>
+            <th>סוג פונה</th>
+            <th>מחלקה</th>
+            <th>סקטור</th>
+            <th>נושא הפניה</th>
+            <th>תוכן הפניה</th>
+            <th>הערה</th>
+            <th>תשובה</th>
+            <th>עובד רלוונטי</th>
+            <th>פעולה מתקנת</th>            
+        </tr>
+        <tr *ngFor="let comp of dataSourceExcel.filteredData">
+            <td> {{comp.Row_ID}} </td>
+            <td> {{comp.EmailManagementList[0].Comp_Date}} </td>
+            <td> {{comp.CompName}} </td>
+            <td> {{comp.CompPhone}} </td>
+            <td> {{comp.EmailManagementList[0].PersonID}} </td>
+            <td> {{comp.EmailManagementList[0].Comp_Type}} </td>
+            <td> {{comp.EmailManagementList[0].Comp_Source}} </td>
+            <td> {{comp.EmailManagementList[0].Comp_Pesron_Relat}} </td>
+            <td> {{comp.EmailManagementList[0].Comp_Department}} </td>
+            <td> {{comp.EmailManagementList[0].Comp_Sektor}} </td>
+            <td> {{comp.CompSubject}} </td>
+            <td> {{comp.ContentToShow}} </td>
+            <td> {{comp.EmailManagementList[0].Comp_Note}} </td>
+            <td> {{comp.EmailManagementList[0].Comp_Answer}} </td>
+            <td> {{comp.EmailManagementList[0].RelevantEmployee1}} </td>
+            <td> {{comp.EmailManagementList[0].ImprovementNote}} </td>
+        </tr>
+    </table>
 </div>

@@ -6,6 +6,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
 import { OtherDepartmentsComponent } from '../nurses-manage-dashboard/other-departments/other-departments.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
+import { NursesReinforcementComponent } from '../nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
 import { DatePipe } from '@angular/common';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
@@ -71,11 +72,15 @@ export class NursesManageDashboardComponent implements OnInit {
   rightPC: boolean;
   phoneNumber: any;
   reportSubject: any;
+  actionPriority: any;
+  actionsContent: any;
   ipUpdate: any;
   ClientIP: string;
   bugColumns: string[] = ['date', 'user', 'subject', 'done'];
+  actionColumns: string[] = ['date', 'subject', 'priority', 'done'];
   bugData = [];
-  showBugsTable: boolean = false;
+  newActionsData = [];
+  // showBugsTable: boolean = false;
 
   ngOnInit(): void {
     this.getLocalIP();
@@ -91,13 +96,12 @@ export class NursesManageDashboardComponent implements OnInit {
       that.privateIP = this.ClientIP;
       // this.IpAddressMonitoring();
     }, 1500);
-    this.ipAddressUpdate();
+    // this.ipAddressUpdate();
 
     // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
     //   this.publicIP = data['ip'];
     // });
   }
-
 
   ipAddressUpdate() {
     if (this.ipUpdate == undefined) {
@@ -137,6 +141,16 @@ export class NursesManageDashboardComponent implements OnInit {
         this.bugData = Response["d"];
       });
   }
+
+  getNewActionsTable() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNewActionsTable", {
+      })
+      .subscribe((Response) => {
+        this.newActionsData = Response["d"];
+      });
+  }
+
   getLocalIP() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetLocalIPAddress", {
@@ -149,9 +163,9 @@ export class NursesManageDashboardComponent implements OnInit {
         });
       });
   }
-  showBugsTablef() {
-    this.showBugsTable = !this.showBugsTable;
-  }
+  // showBugsTablef() {
+  //   this.showBugsTable = !this.showBugsTable;
+  // }
 
   openDialogToFill(departCode, Dept_Name, ifAdmin) {
     let dialogRef = this.dialog.open(NursesDepartmentManageComponent, { disableClose: true });
@@ -186,6 +200,33 @@ export class NursesManageDashboardComponent implements OnInit {
     }
   }
 
+  submitNewAction(value, rowID) {
+    if (((this.actionsContent == "" || this.actionsContent == undefined) || (this.actionPriority == "" || this.actionPriority == undefined)) && rowID == "") {
+      this.openSnackBar("נא למלא שדות חובה");
+    } else {
+      this.actionsContent == undefined ? this.actionsContent = '' : console.log('');
+      this.actionPriority == undefined ? this.actionPriority = '' : console.log('');
+      this.http
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/NewActionNursesSystem", {
+          _actionPriority: this.actionPriority,
+          _actionsContent: this.actionsContent,
+          _userName: this.UserName,
+          _updatePriority: value,
+          _updateRowID: rowID,
+        })
+        .subscribe((Response) => {
+          if (Response["d"]) {
+            this.openSnackBar("נשלח לטיפול");
+            this.actionPriority = "";
+            this.actionsContent = "";
+            this.getNewActionsTable();
+          } else {
+            this.openSnackBar("משהו השתבש לא נשלח");
+          }
+        });
+    }
+  }
+
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
       duration: 5000,
@@ -197,6 +238,24 @@ export class NursesManageDashboardComponent implements OnInit {
   openReportDialog(report_type) {
     let dialogRef = this.dialog.open(NursesDashboardComponent, { disableClose: true });
     dialogRef.componentInstance.reportType = report_type;
+    dialogRef.afterClosed()
+      .subscribe((data) => {
+        if (!data) {
+          return;
+        }
+        this.ELEMENT_DATA = data;
+
+        $("#loader").removeClass("d-none");
+        setTimeout(function () {
+          $("#loader").addClass("d-none");
+          window.print();
+        }, 1500);
+      })
+  }
+  
+  openReinforcementtDialog(report_type) {
+    let dialogRef = this.dialog.open(NursesReinforcementComponent, { disableClose: true });
+    // dialogRef.componentInstance.reportType = report_type;
     dialogRef.afterClosed()
       .subscribe((data) => {
         if (!data) {
@@ -227,6 +286,7 @@ export class NursesManageDashboardComponent implements OnInit {
   bugReport() {
     this.dialog.open(this.modalBug, { width: '60%', disableClose: false });
     this.getBugsTable();
+    this.getNewActionsTable();
   }
   closeModal() {
     this.dialog.closeAll();

@@ -13,6 +13,7 @@ import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 import { animate, state, style, transition, trigger } from '@angular/animations';
+import * as XLSX from 'xlsx';
 
 export interface Email {
   EmailID: string;
@@ -88,6 +89,7 @@ export class EmailsdashboardComponent implements OnInit {
   todaysDate = Date.now;
 
   TABLE_DATA: Email[] = [];
+  TABLE_DATAExcel: any[] = [];
   displayedColumns: string[] = [
     'delete', 'FormID', 'FormName', 'formDepartment', 'FormDate', 'update', 'add', 'showAll', 'status'
   ];
@@ -96,12 +98,13 @@ export class EmailsdashboardComponent implements OnInit {
   // ];
   expandedElement: Email | null;
   dataSource = new MatTableDataSource(this.TABLE_DATA);
+  dataSourceExcel = new MatTableDataSource(this.TABLE_DATAExcel);
 
   compStatus: CompStatus[] = [
     { value: '1', viewValue: 'פתוח' },
     { value: '0', viewValue: 'סגור' },
   ];
-  
+
   compType: CompType[] = [
     { value: 'Complaint', viewValue: 'תלונה' },
     { value: 'Thank', viewValue: 'תודה' },
@@ -136,7 +139,7 @@ export class EmailsdashboardComponent implements OnInit {
     this.tableEmails = new FormGroup({
       'slideT': new FormControl('', null),
     });
-    this.searchForm("0");
+    this.searchForm("0", false);
     this.filteredOptions2 = this.departmentfilter.valueChanges
       .pipe(
         startWith(''),
@@ -158,7 +161,7 @@ export class EmailsdashboardComponent implements OnInit {
     dialogRef.componentInstance.urlID = id;
     dialogRef.componentInstance.fakeID = fakeID;
     dialogRef.afterClosed().subscribe(result => {
-      this.searchForm('0');
+      this.searchForm('0', false);
     });
   }
 
@@ -166,7 +169,7 @@ export class EmailsdashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(StatusComplaintComponent);
     dialogRef.componentInstance.urlID = id;
     dialogRef.afterClosed().subscribe(result => {
-      this.searchForm('0');
+      this.searchForm('0', false);
     });
   }
 
@@ -215,7 +218,7 @@ export class EmailsdashboardComponent implements OnInit {
     this.formSearch.controls['DeadLineSearch'].setValue("");
     this.formSearch.controls['compStatusControl'].setValue("");
     this.formSearch.controls['compTypeControl'].setValue("");
-    this.searchForm("0");
+    this.searchForm("0", false);
   }
 
   deleteInquiry(inquiryID) {
@@ -248,7 +251,23 @@ export class EmailsdashboardComponent implements OnInit {
       );
   }
 
-  searchForm(isRead) {
+
+  fileName = 'PublicInquiries_Report.xlsx';
+  exportexcel(): void {
+    /* table id is passed over here */
+    let element = document.getElementById('excel-table');
+    const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+    /* generate workbook and add the worksheet */
+    const wb: XLSX.WorkBook = XLSX.utils.book_new();
+    XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+    /* save to file */
+    XLSX.writeFile(wb, this.fileName);
+
+  }
+
+  searchForm(isRead, toExcel) {
     let compName = this.formSearch.controls['compName'].value;
     let departmentControl = this.departmentfilter.value;
     let compDateControl = this.formSearch.controls['compDateControl'].value;
@@ -281,7 +300,7 @@ export class EmailsdashboardComponent implements OnInit {
     } else {
       compDateControl2 = "";
     }
-    if(compTypeControl == undefined){
+    if (compTypeControl == undefined) {
       compTypeControl = "";
     }
     this.loaded = false;
@@ -338,25 +357,37 @@ export class EmailsdashboardComponent implements OnInit {
         this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
         this.dataSource.paginator = this.paginator;
       });
-    // this.http
-    //   .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInquiryDeparts", {
-    //   })
-    //   .subscribe((Response) => {
-    //     this.all_departs_filter = Response["d"];
-    //     this.all_departs_filter.forEach(element => {
-    //       this.department.push(element.Depart_Name);
-    //     })
-    //   });
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCompDepartments", {
       })
       .subscribe((Response) => {
+        this.compDepts = [];
         this.all_departs_filter = Response["d"];
         this.all_departs_filter.forEach(element => {
           this.compDepts.push(element.Dept_Name);
         })
       });
-
+    if (toExcel) {
+      this.http
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/ExportToExcel", {
+          _compName: compName,
+          _compDate: compDateControl,
+          _compDate2: compDateControl2,
+          _compStatus: compStatusControl,
+          _compType: compTypeControl,
+          _departmentControl: departmentControl,
+          _deadLine: deadLineSearch,
+          _userName: this.UserName,
+          _isRead: isRead
+        }).subscribe((Response) => {
+          this.TABLE_DATAExcel = Response["d"];
+          this.dataSourceExcel = new MatTableDataSource<any>(this.TABLE_DATAExcel);
+          let that = this;
+          setTimeout(() => {
+            that.exportexcel();
+          }, 1500);
+        });
+    }
   }
 
   onsubmit() {

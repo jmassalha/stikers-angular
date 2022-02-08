@@ -137,6 +137,7 @@ import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-t
 import { EmployeesManageDashComponent } from './employees-manage-dash/employees-manage-dash.component';
 import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-add-update/employees-add-update.component';
 import { OnnLineComponent } from './onn-line/onn-line.component';
+import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -233,7 +234,8 @@ const maskConfig: Partial<IConfig> = {
     OrdersToAppointmentsComponent,
     EmployeesManageDashComponent,
     EmployeesAddUpdateComponent,
-    OnnLineComponent
+    OnnLineComponent,
+    NursesReinforcementComponent
   ],
   imports: [
     FlatpickrModule.forRoot(),

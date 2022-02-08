@@ -172,7 +172,6 @@ export class FormsansweredComponent implements OnInit {
                     "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
                 )
             );
-    
   }
 
   updateView2() {
@@ -219,7 +218,7 @@ export class FormsansweredComponent implements OnInit {
         }
         this.TABLE_DATA = [];
         for (var i = 0; i < this.all_forms_filter.length; i++) {
-          if (this.all_forms_filter[i].CaseNumber != '1') {
+          if (this.all_forms_filter[i].Patient_ID != '') {
             this.TABLE_DATA.push({
               FormID: this.all_forms_filter[i].formID,
               PatientID: this.all_forms_filter[i].CaseNumber,
