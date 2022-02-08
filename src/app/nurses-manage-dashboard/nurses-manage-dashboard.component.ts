@@ -94,7 +94,9 @@ export class NursesManageDashboardComponent implements OnInit {
       that.getEROccupancy('', 'er');
       that.getDeliveryEROccupancy('');
       that.privateIP = this.ClientIP;
-      // this.IpAddressMonitoring();
+      if (this.UserName != 'adahabre') {
+        this.IpAddressMonitoring();
+      }
     }, 1500);
     // this.ipAddressUpdate();
 
@@ -252,7 +254,7 @@ export class NursesManageDashboardComponent implements OnInit {
         }, 1500);
       })
   }
-  
+
   openReinforcementtDialog(report_type) {
     let dialogRef = this.dialog.open(NursesReinforcementComponent, { disableClose: true });
     // dialogRef.componentInstance.reportType = report_type;
