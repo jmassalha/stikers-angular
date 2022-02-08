@@ -493,6 +493,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "bpinian" ||
             this.loginUserName.toLowerCase() == "smazliah" ||
             this.loginUserName.toLowerCase() == ("HROSHROSH").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("MKATAN").toLowerCase() ||
             this.loginUserName.toLowerCase() == "tklinger"
             ||
             this.loginUserName.toLowerCase() == "aamara"
@@ -612,6 +613,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "egrifat" ||
             this.loginUserName.toLowerCase() == "rhalfon" ||
             this.loginUserName.toLowerCase() == "relmalem" ||
+            this.loginUserName.toLowerCase() == ("MKATAN").toLowerCase() ||
             this.loginUserName.toLowerCase() == "tklinger"
 
         ) {
@@ -701,6 +703,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "relmalem" ||
+            this.loginUserName.toLowerCase() == ("MKATAN").toLowerCase() ||
             this.loginUserName.toLowerCase() == "tklinger"
         ) {
             this._shoCoronavaccine = true;

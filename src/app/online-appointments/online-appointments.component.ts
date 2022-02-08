@@ -6,6 +6,7 @@ import {
     AfterViewInit,
     Input,
     TemplateRef,
+    ChangeDetectorRef,
 } from "@angular/core";
 import { DatePipe } from '@angular/common';
 import {
@@ -46,6 +47,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { Subject } from "rxjs";
 
 export interface EventDay {
     Depart: string;
@@ -77,6 +79,7 @@ export class OnlineAppointmentsComponent implements OnInit {
     @ViewChild("modalContent", { static: true }) modalContent: TemplateRef<any>;
     view: CalendarView = CalendarView.Month;
     TABLE_DATA: EventDepartDay[] = [];
+    refresh: Subject<any> = new Subject();
     dataSource = new MatTableDataSource<EventDepartDay>(this.TABLE_DATA);    
     resultsLength = 0;
     displayedColumns: string[] = [
@@ -106,11 +109,20 @@ export class OnlineAppointmentsComponent implements OnInit {
         private _snackBar: MatSnackBar,
         private router: Router,
         private http: HttpClient,
-        private datePipe: DatePipe
-    ) {}
+        private datePipe: DatePipe,
+        private cdr: ChangeDetectorRef
+    ) {
+
+       
+    }
 
     ngOnInit(): void {
-        this.getEvents();
+        setTimeout(() => {
+            this.getEvents();
+            this.refresh.next();    
+            this.cdr.detectChanges();
+        }, 1500);
+        
     }
     getEvents() {
         $("#loader").removeClass("d-none");
@@ -120,8 +132,10 @@ export class OnlineAppointmentsComponent implements OnInit {
                 {}
             )
             .subscribe((Response) => {
+                this.events = [];
+                var obj: Array<any> = [];
                 this.EventsDay = Response["d"] as EventDay[];
-                //debugger
+               // debugger
                 for (var i = 0; i < this.EventsDay.length; i++) {
                     let event = {
                         title:
@@ -136,8 +150,12 @@ export class OnlineAppointmentsComponent implements OnInit {
                         depart: this.EventsDay[i].Depart,
                     };
                     //debugger
-                    this.events.push(event);
+                    obj.push(event);
+                
                 }
+                this.events = obj;
+                this.refresh.next();
+                debugger;
                 $("#loader").addClass("d-none");
             });
     }
