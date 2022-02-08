@@ -230,6 +230,7 @@ export class CortinasdepartsComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCortinasDepartRoomsBeds",
+               // "http://localhost:64964/WebService.asmx/SubmitCortinasDepartRoomsBeds",
                 {
                     DepartRoomBedsRows: this.roomsBedsForm.value
                         .roomsBedsDetails,
