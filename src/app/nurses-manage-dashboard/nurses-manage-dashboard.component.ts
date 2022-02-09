@@ -80,6 +80,7 @@ export class NursesManageDashboardComponent implements OnInit {
   actionColumns: string[] = ['date', 'subject', 'priority', 'done'];
   bugData = [];
   newActionsData = [];
+  onlyDisplay: boolean = false;
   // showBugsTable: boolean = false;
 
   ngOnInit(): void {
@@ -97,12 +98,20 @@ export class NursesManageDashboardComponent implements OnInit {
       if (this.UserName != 'adahabre') {
         this.IpAddressMonitoring();
       }
+      this.onlyDisplayUsers();
+
     }, 1500);
     // this.ipAddressUpdate();
 
     // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
     //   this.publicIP = data['ip'];
     // });
+  }
+
+  onlyDisplayUsers() {
+    if (this.UserName == 'etalor') {
+      this.onlyDisplay = true;
+    }
   }
 
   ipAddressUpdate() {

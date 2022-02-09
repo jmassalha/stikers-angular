@@ -1,7 +1,7 @@
 <mat-card dir="rtl" *ngIf="nursesUserPermission && rightPC" id="page-toshow"
     style="background-color: aliceblue;padding-top: 0px;">
     <h1 class="page-title text-center">מערכת דיווח סיעודית - שם משתמש: {{UserName}}</h1>
-    <div class="container-fluid">
+    <div class="container-fluid" >
         <div class="row">
             <div class="col-12">
                 <div dir="rtl" class="card w-85-p">
@@ -135,13 +135,13 @@
                                     <div class="row mb-1">
                                         <div class="col-6">
                                             <mat-card class="other-cards pb-4"
-                                                (click)="getOtherDepartmentDetails('DeliveryRoom')">
+                                                (click)="!onlyDisplay && getOtherDepartmentDetails('DeliveryRoom')">
                                                 <h5 style="margin: -12px;">לאחר לידה</h5>
                                             </mat-card>
                                         </div>
                                         <div class="col-6">
                                             <mat-card class="other-cards pb-4"
-                                                (click)="getOtherDepartmentDetails('SurgeryRoom')">
+                                                (click)="!onlyDisplay && getOtherDepartmentDetails('SurgeryRoom')">
                                                 <h5 style="margin: -12px;">חדר ניתוח</h5>
                                             </mat-card>
                                         </div>
@@ -149,7 +149,7 @@
                                     <div class="row">
                                         <div class="col-12">
                                             <mat-card class="other-cards pb-4"
-                                                (click)="getOtherDepartmentDetails('ICUDepart')">
+                                                (click)="!onlyDisplay && getOtherDepartmentDetails('ICUDepart')">
                                                 <h5 style="margin: -12px;">מחלקה לרפואה דחופה</h5>
                                             </mat-card>
                                         </div>
@@ -161,11 +161,11 @@
                 </div>
             </div>
             <button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="button"
-                class="btn btn-primary btn-raised" (click)="openReportDialog('administrative')">
+                class="btn btn-primary btn-raised" (click)="!onlyDisplay && openReportDialog('administrative')">
                 <i class="material-icons">assignment_ind</i>
             </button>
             <button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay" mat-raised-button
-                type="button" class="btn btn-raised mr-1" style="background-color: grey;" (click)="bugReport()">
+                type="button" class="btn btn-raised mr-1" style="background-color: grey;" (click)="!onlyDisplay && bugReport()">
                 <i class="material-icons">info</i>
             </button>
             <button *ngIf="UserName == 'adahabre' || UserName == 'owertheim'" matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button
@@ -194,7 +194,7 @@
                 <div class="col-4" *ngFor="let item of all_departments_array"
                     style="margin-bottom: 5px;height: 75px;cursor: pointer;">
                     <!--  && item.OccupancyPerDepart != '0' -->
-                    <mat-card *ngIf="item.Dept_Name" (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
+                    <mat-card *ngIf="item.Dept_Name" (click)="!onlyDisplay && openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
                         style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
                                 *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span

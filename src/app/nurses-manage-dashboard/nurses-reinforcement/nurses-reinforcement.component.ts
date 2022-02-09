@@ -33,12 +33,16 @@ export class NursesReinforcementComponent implements OnInit {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   Reinf_nurse: any = {
     name: '',
-    number: ''
+    number: '',
+    type: 'מבקש תגבור'
   }
   Reinf_emp: any = {
     name: '',
-    number: ''
+    number: '',
+    type: 'מתגבר'
   }
+  HighlightRow : Number;  
+  HighlightRow2 : Number;  
 
   constructor(public dialog: MatDialog,
     private http: HttpClient,
@@ -70,20 +74,22 @@ export class NursesReinforcementComponent implements OnInit {
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
-      duration: 5000,
+      duration: 3000,
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
   }
 
-  chooseReinfNurse(nurse) {
+  chooseReinfNurse(nurse,i) {
     this.Reinf_nurse.name = nurse.FirstName + ' ' + nurse.LastName;
     this.Reinf_nurse.number = nurse.CellNumber;
+    this.HighlightRow = i;
   }
 
-  chooseReinfEmployee(employee) {
+  chooseReinfEmployee(employee,i) {
     this.Reinf_emp.name = employee.FirstName + ' ' + employee.LastName;
     this.Reinf_emp.number = employee.CellNumber;
+    this.HighlightRow2 = i;
   }
 
   GetNursesList() {
@@ -156,18 +162,24 @@ export class NursesReinforcementComponent implements OnInit {
   }
 
   sendSms() {
-    this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/", {
-        _nurse_reinf: this.Reinf_nurse,
-        _emp_reinf: this.Reinf_emp
-      })
-      .subscribe((Response) => {
-        if (Response["d"]) {
-          this.openSnackBar("נשלח בהצלחה");
-        } else {
-          this.openSnackBar("תקלה, לא נשלח");
-        }
-      });
+    if (this.Reinf_nurse.name == "") {
+      this.openSnackBar(" שכחת לבחור" + this.Reinf_nurse.type);
+    } else if (this.Reinf_emp.name == "") {
+      this.openSnackBar(" שכחת לבחור" + this.Reinf_emp.type);
+    } else {
+      this.http
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/", {
+          _nurse_reinf: this.Reinf_nurse,
+          _emp_reinf: this.Reinf_emp
+        })
+        .subscribe((Response) => {
+          if (Response["d"]) {
+            this.openSnackBar("נשלח בהצלחה");
+          } else {
+            this.openSnackBar("תקלה, לא נשלח");
+          }
+        });
+    }
   }
 
 
