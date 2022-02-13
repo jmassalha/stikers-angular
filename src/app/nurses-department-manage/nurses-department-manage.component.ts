@@ -256,11 +256,11 @@ export class NursesDepartmentManageComponent implements OnInit {
             this.getDepartDetails();
           }, 5000);
         } else {
-          this.RespiratorsCount = this.ELEMENT_DATA[0].RespiratorsCount;
-          this.CatheterCount = this.ELEMENT_DATA[0].CatheterCount;
-          this.CentralCatheterCount = this.ELEMENT_DATA[0].CentralCatheterCount;
-          this.IsolationCount = this.ELEMENT_DATA[0].IsolationCount;
-          this.PhLimitationCount = this.ELEMENT_DATA[0].PhLimitationCount;
+          // this.RespiratorsCount = this.ELEMENT_DATA[0].RespiratorsCount;
+          // this.CatheterCount = this.ELEMENT_DATA[0].CatheterCount;
+          // this.CentralCatheterCount = this.ELEMENT_DATA[0].CentralCatheterCount;
+          // this.IsolationCount = this.ELEMENT_DATA[0].IsolationCount;
+          // this.PhLimitationCount = this.ELEMENT_DATA[0].PhLimitationCount;
           this.loading = false;
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
         }
@@ -289,10 +289,18 @@ export class NursesDepartmentManageComponent implements OnInit {
           medDepart.number = this.dataSource2.filteredData.filter((obj) => obj.PM_MOVE_DEPART === element).length;
           this.arrayOfMedDepts.push(medDepart);
         });
+        
         let coronaExists = this.dataSource2.filteredData.filter((obj) => obj.CoronaStatus === 'מאומת קורונה').length;
+        this.RespiratorsCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מונשם')).length.toString();
+        this.CatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('שתן')).length.toString();
+        this.CentralCatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מרכזי')).length.toString();
+        this.IsolationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('בידוד')).length.toString();
+        this.PhLimitationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('פיזית')).length.toString();
+        
         if (coronaExists > 0) {
           this.CoronaStatus = '1'
         }
+        
         if (subDepart != '') {
           this.patientsTable = true;
           this.applyFilter(event, subDepart);

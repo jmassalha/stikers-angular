@@ -168,8 +168,8 @@
                 type="button" class="btn btn-raised mr-1" style="background-color: grey;" (click)="!onlyDisplay && bugReport()">
                 <i class="material-icons">info</i>
             </button>
-            <button *ngIf="UserName == 'adahabre' || UserName == 'owertheim'" matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button
-                type="button" class="btn btn-raised mr-1" style="background-color: limegreen;" (click)="openReinforcementtDialog('')">
+            <button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button
+                type="button" class="btn btn-raised mr-1" style="background-color: limegreen;" (click)="!onlyDisplay && openReinforcementtDialog('')">
                 <!-- <span class="material-icons">
                     help
                 </span> -->
@@ -310,8 +310,8 @@
                         </mat-option>
                         <mat-option style="background: antiquewhite;text-align: center;
                         font-size: 20px;
-                        font-weight: bold;" value="ממוצעת">
-                            ממוצעת
+                        font-weight: bold;" value="בינוני">
+                            בינוני
                         </mat-option>
                         <mat-option style="background: brown;text-align: center;
                         font-size: 20px;
@@ -357,8 +357,8 @@
                                 <mat-option value="נמוכה">
                                     נמוכה
                                 </mat-option>
-                                <mat-option value="ממוצעת">
-                                    ממוצעת
+                                <mat-option value="בינוני">
+                                    בינוני
                                 </mat-option>
                                 <mat-option value="גבוהה">
                                     גבוהה
@@ -378,7 +378,7 @@
 
                     <tr mat-header-row *matHeaderRowDef="actionColumns"></tr>
                     <tr mat-row *matRowDef="let row; columns: actionColumns;" style="font-weight: bold;"
-                        [style.background]="row.Action_Priority == 'גבוהה' ? 'brown' : row.Action_Priority == 'ממוצעת' ? 'antiquewhite': 'aliceblue'">
+                        [style.background]="row.Action_Priority == 'גבוהה' ? 'brown' : row.Action_Priority == 'בינוני' ? 'antiquewhite': 'aliceblue'">
                     </tr>
                 </table>
             </div>

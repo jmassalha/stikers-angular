@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
 import { MatTableDataSource } from '@angular/material/table';
+import { ConfirmationDialogService } from 'src/app/confirmation-dialog/confirmation-dialog.service';
 
 @Component({
   selector: 'app-nurses-reinforcement',
@@ -34,20 +35,26 @@ export class NursesReinforcementComponent implements OnInit {
   Reinf_nurse: any = {
     name: '',
     number: '',
+    dept: '',
+    id: '',
     type: 'מבקש תגבור'
   }
   Reinf_emp: any = {
     name: '',
     number: '',
+    dept: '',
+    id: '',
     type: 'מתגבר'
   }
-  HighlightRow : Number;  
-  HighlightRow2 : Number;  
+  HighlightRow: Number;
+  HighlightRow2: Number;
+  // phoneNumber: any;
 
   constructor(public dialog: MatDialog,
     private http: HttpClient,
     private _snackBar: MatSnackBar,
-    private datePipe: DatePipe) { }
+    private datePipe: DatePipe,
+    private confirmationDialogService: ConfirmationDialogService,) { }
 
   ngOnInit(): void {
     this.GetNursesList();
@@ -80,15 +87,19 @@ export class NursesReinforcementComponent implements OnInit {
     });
   }
 
-  chooseReinfNurse(nurse,i) {
+  chooseReinfNurse(nurse, i) {
     this.Reinf_nurse.name = nurse.FirstName + ' ' + nurse.LastName;
     this.Reinf_nurse.number = nurse.CellNumber;
+    this.Reinf_nurse.dept = nurse.DepartnentDescripton;
+    this.Reinf_nurse.id = nurse.EmployeeID;
     this.HighlightRow = i;
   }
 
-  chooseReinfEmployee(employee,i) {
+  chooseReinfEmployee(employee, i) {
     this.Reinf_emp.name = employee.FirstName + ' ' + employee.LastName;
     this.Reinf_emp.number = employee.CellNumber;
+    this.Reinf_emp.dept = employee.DepartnentDescripton;
+    this.Reinf_emp.id = employee.EmployeeID;
     this.HighlightRow2 = i;
   }
 
@@ -166,21 +177,38 @@ export class NursesReinforcementComponent implements OnInit {
       this.openSnackBar(" שכחת לבחור" + this.Reinf_nurse.type);
     } else if (this.Reinf_emp.name == "") {
       this.openSnackBar(" שכחת לבחור" + this.Reinf_emp.type);
+    } else if (this.Reinf_emp.number.length != 10 || this.Reinf_nurse.number.length != 10) {
+      this.openSnackBar("אחד ממספרי הטלפון לא תקין, לא ניתן לשלוח");
     } else {
-      this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/", {
-          _nurse_reinf: this.Reinf_nurse,
-          _emp_reinf: this.Reinf_emp
-        })
-        .subscribe((Response) => {
-          if (Response["d"]) {
-            this.openSnackBar("נשלח בהצלחה");
+      this.confirmationDialogService
+        .confirm("נא לאשר..", "אתה עומד לשלוח סמס ...? ")
+        .then((confirmed) => {
+          console.log("User confirmed:", confirmed);
+          if (confirmed) {
+            this.http
+              .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSmsNursesRienforcement", {
+                _nurse_reinf: this.Reinf_nurse,
+                _emp_reinf: this.Reinf_emp
+              })
+              .subscribe((Response) => {
+                if (Response["d"]) {
+                  this.openSnackBar("נשלח בהצלחה");
+                  this.dialog.closeAll();
+                } else {
+                  this.openSnackBar("תקלה, לא נשלח");
+                }
+              });
           } else {
-            this.openSnackBar("תקלה, לא נשלח");
           }
-        });
+        })
+        .catch(() =>
+          console.log(
+            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+          )
+        );
     }
   }
+
 
 
 }

@@ -8,7 +8,7 @@
     <div class="row" style="display: block;">
         <div class="row">
             <h3 class="mr-2">{{Reinf_nurse.type}} :</h3>
-            <h5 class="mr-3">{{Reinf_nurse.name}} - {{Reinf_nurse.number}}</h5>
+            <h3 class="mr-3" *ngIf="Reinf_nurse.name != ''">{{Reinf_nurse.name}} - {{Reinf_nurse.number}}</h3>
         </div>
         <div class="row">
             <div class="col-12">
@@ -70,7 +70,7 @@
     <div class="row" style="display: block;">
         <div class="row">
             <h3 class="mr-2">{{Reinf_emp.type}} :</h3>
-            <h5 class="mr-3">{{Reinf_emp.name}} - {{Reinf_emp.number}}</h5>
+            <h3 class="mr-3" *ngIf="Reinf_emp.name != ''">{{Reinf_emp.name}} - {{Reinf_emp.number}}</h3>
         </div>
         <div class="row">
             <div class="col-12">
@@ -125,6 +125,11 @@
             </mat-paginator>
         </div>
     </div>
+    <!-- <mat-form-field class="example-full-width">
+        <mat-label>מספר טלפון שחסר</mat-label>
+        <input matInput [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" type="number"
+            placeholder=".......05" required />
+    </mat-form-field> -->
     <button matTooltip="שליחת SMS" mat-raised-button type="button" id="sendBtn" class="btn btn-primary btn-raised"
         (click)="sendSms()">
         <span class="material-icons">
