@@ -155,7 +155,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         this.Sdate = new FormControl(date);
         this.Edate = new FormControl(new Date());
         this.startdateVal = this.Sdate.value;
-        // this.enddateVal = this.Edate.value;
+        this.enddateVal = this.Edate.value;
         this.OrdersToAppointmentsForm = this.formBuilder.group({
             Notes: ["", Validators.required],
             OrderRealDateTime: ["", Validators.required],
@@ -412,11 +412,11 @@ export class OrdersToAppointmentsComponent implements OnInit {
             "yyyy-MM-dd",
             "en-US"
         );
-        // this.enddateVal = formatDate(
-        //     this.enddateVal,
-        //     "yyyy-MM-dd",
-        //     "en-US"
-        // );
+        this.enddateVal = formatDate(
+            this.enddateVal,
+            "yyyy-MM-dd",
+            "en-US"
+        );
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
             // //////////debugger
@@ -434,7 +434,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
                     pageIndex: this.paginator.pageIndex,
                     FromDate: this.startdateVal,
                     Status: this.statusOrder,
-                    ToDate: "", //this.enddateVal,
+                    ToDate: this.enddateVal,
                 }
             )
             .subscribe((Response) => {
