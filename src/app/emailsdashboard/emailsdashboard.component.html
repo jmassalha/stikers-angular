@@ -156,7 +156,7 @@
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                         color="warn" (click)="deleteInquiry(element.EmailID)"
-                        *ngIf="UserName == 'matias' || UserName == 'miruach'"><span class="material-icons">
+                        *ngIf="UserName == 'matias' || UserName == 'miruach' || UserName == 'mbilya'"><span class="material-icons">
                             delete
                         </span></button> </td>
             </ng-container>
@@ -197,7 +197,7 @@
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                         color="accent" (click)="openDialogToManageEmail(element.EmailID,1)"
-                        *ngIf="UserName == 'matias' || UserName == 'miruach'"><span class="material-icons">
+                        *ngIf="UserName == 'matias' || UserName == 'miruach' || UserName == 'mbilya'"><span class="material-icons">
                             event_note
                         </span></button> </td>
             </ng-container>
@@ -208,7 +208,7 @@
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;"> <button mat-raised-button
                         color="accent" (click)="openDialogToManageEmail(element.EmailID,0)"
-                        *ngIf="UserName == 'matias' || UserName == 'miruach'"><span class="material-icons">
+                        *ngIf="UserName == 'matias' || UserName == 'miruach' || UserName == 'mbilya'"><span class="material-icons">
                             add
                         </span></button> </td>
             </ng-container>
@@ -231,7 +231,7 @@
                 </th>
                 <td mat-cell *matCellDef="let element" style="justify-content: center;">
                     <mat-slide-toggle [checked]="element.Status" (change)="changeStatus($event,element.EmailID)"
-                        *ngIf="UserName == 'matias' || UserName == 'miruach'" matTooltip="פתיחת/סגירת פניה">
+                        *ngIf="UserName == 'matias' || UserName == 'miruach' || UserName == 'mbilya'" matTooltip="פתיחת/סגירת פניה">
                     </mat-slide-toggle>
                 </td>
             </ng-container>
@@ -254,7 +254,7 @@
             <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
         </table>
         <button (click)="openDialogToManageEmail(0,0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"
-            *ngIf="UserName == 'matias' || UserName == 'miruach'" matTooltip="הוספת פנייה חדשה"><i
+            *ngIf="UserName == 'matias' || UserName == 'miruach' || UserName == 'mbilya'" matTooltip="הוספת פנייה חדשה"><i
                 class="material-icons">add</i></button>
         <mat-paginator [pageSizeOptions]="[30,50,70,100]" showFirstLastButtons></mat-paginator>
         <div class="row">

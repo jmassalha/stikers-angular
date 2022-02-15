@@ -57,23 +57,23 @@
           </ng-container>
           <ng-container matColumnDef="respirators" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> מונשמים </th>
-            <td mat-cell *matCellDef="let element"> {{element.RespiratorsCount}} </td>
+            <td mat-cell *matCellDef="let element"> {{RespiratorsCount}} </td>
           </ng-container>
           <ng-container matColumnDef="catheter" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> צנתר שתן </th>
-            <td mat-cell *matCellDef="let element"> {{element.CatheterCount}} </td>
+            <td mat-cell *matCellDef="let element"> {{CatheterCount}} </td>
           </ng-container>
           <ng-container matColumnDef="centralcatheter" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> צנתר מרכזי </th>
-            <td mat-cell *matCellDef="let element"> {{element.CentralCatheterCount}} </td>
+            <td mat-cell *matCellDef="let element"> {{CentralCatheterCount}} </td>
           </ng-container>
           <ng-container matColumnDef="isolation" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> בידוד </th>
-            <td mat-cell *matCellDef="let element"> {{element.IsolationCount}} </td>
+            <td mat-cell *matCellDef="let element"> {{IsolationCount}} </td>
           </ng-container>
           <ng-container matColumnDef="phlimitation" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> הגבלה פיזית </th>
-            <td mat-cell *matCellDef="let element"> {{element.PhLimitationCount}} </td>
+            <td mat-cell *matCellDef="let element"> {{PhLimitationCount}} </td>
           </ng-container>
           <ng-container matColumnDef="death" *ngIf="Dept_Name != 'מיון יולדות (חדר לידה)'">
             <th mat-header-cell *matHeaderCellDef> פטירה </th>

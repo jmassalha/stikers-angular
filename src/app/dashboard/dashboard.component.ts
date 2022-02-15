@@ -56,7 +56,7 @@ export class DashboardComponent implements OnInit {
             this.router.navigate(["login"]);
         }
         this.getDataFormServer("");
-        this.getEmployeesToUpdateDept();
+        this.getEmployeesBirthDates();
     }
     // public getData(){
     //     this.Departmints["departs"].forEach((element, key) => {
@@ -66,8 +66,7 @@ export class DashboardComponent implements OnInit {
     //         this.getDataFormServer(key, element.Code);
     //     });
     // }
-    // getEmployeesToUpdateDept
-    getEmployeesToUpdateDept() {
+    getEmployeesBirthDates() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesBirthDates", {

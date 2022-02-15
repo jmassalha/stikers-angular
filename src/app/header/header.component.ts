@@ -13,10 +13,10 @@ import { VoiceRecognitionService } from '../header/service/voice-recognition.ser
 })
 export class HeaderComponent implements OnInit {
     panelOpenState = false;
-    
+
 
     constructor(private router: Router,
-        public service : VoiceRecognitionService,
+        public service: VoiceRecognitionService,
         private http: HttpClient) {
         this.getPermission();
         this.service.init();
@@ -451,6 +451,7 @@ export class HeaderComponent implements OnInit {
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "adahabre" ||
             this.loginUserName.toLowerCase() == "eonn" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
@@ -489,6 +490,8 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "ssarusi" ||
             this.loginUserName.toLowerCase() == "sabuhanna" ||
             this.loginUserName.toLowerCase() == "relmalem" ||
+            this.loginUserName.toLowerCase() == "bpinian" ||
+            this.loginUserName.toLowerCase() == "smazliah" ||
             this.loginUserName.toLowerCase() == ("HROSHROSH").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("MKATAN").toLowerCase() ||
             this.loginUserName.toLowerCase() == "tklinger"
@@ -573,7 +576,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == ("SYehuda").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("RBarKochva").toLowerCase() ||
             this.loginUserName.toLowerCase() == ("mubadarne").toLowerCase() ||
-            this.loginUserName.toLowerCase() == ("FSabbah").toLowerCase() 
+            this.loginUserName.toLowerCase() == ("FSabbah").toLowerCase()
         ) {
             this._OrdersToAppointmentsComponent = true;
         }
@@ -814,13 +817,13 @@ export class HeaderComponent implements OnInit {
         this.CardiologyPermission();
         // this.EmployeesManagePermission();
     }
-    startService(){
+    startService() {
         this.service.start()
-      }
-    
-      stopService(){
+    }
+
+    stopService() {
         this.service.stop()
-      }
+    }
     logout($event): void {
         ////debugger
         localStorage.clear();
@@ -839,7 +842,7 @@ export class HeaderComponent implements OnInit {
                 this.clinicsUserPermission = Response["d"];
             });
     }
-    
+
     EmployeesManagePermission() {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EmployeesManagePermission", {
