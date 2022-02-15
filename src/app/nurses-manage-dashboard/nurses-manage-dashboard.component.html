@@ -1,7 +1,7 @@
 <mat-card dir="rtl" *ngIf="nursesUserPermission && rightPC" id="page-toshow"
     style="background-color: aliceblue;padding-top: 0px;">
     <h1 class="page-title text-center">מערכת דיווח סיעודית - שם משתמש: {{UserName}}</h1>
-    <div class="container-fluid" >
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div dir="rtl" class="card w-85-p">
@@ -165,17 +165,19 @@
                 <i class="material-icons">assignment_ind</i>
             </button>
             <button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay" mat-raised-button
-                type="button" class="btn btn-raised mr-1" style="background-color: grey;" (click)="!onlyDisplay && bugReport()">
+                type="button" class="btn btn-raised mr-1" style="background-color: grey;"
+                (click)="!onlyDisplay && bugReport()">
                 <i class="material-icons">info</i>
             </button>
             <button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button
-                type="button" class="btn btn-raised mr-1" style="background-color: limegreen;" (click)="!onlyDisplay && openReinforcementtDialog('')">
+                type="button" class="btn btn-raised mr-1" style="background-color: limegreen;"
+                (click)="!onlyDisplay && openReinforcementtDialog('')">
                 <!-- <span class="material-icons">
                     help
                 </span> -->
                 <img height="35px" width="30px" src="../../assets/images/sos.png">
             </button>
-            
+
             <div style="margin-right: 33%;margin-top: 18px;"> נתונים מעודכנים ל: {{ updateDate | date: "dd.MM.yyyy"}} -
                 {{ updateDate | date: "HH:mm"}}</div>
 
@@ -190,11 +192,12 @@
     <mat-spinner class="loader" *ngIf="!loaded"></mat-spinner>
     <div class="survey-options">
         <div class="poll-options">
-            <div class="row" style="margin-bottom: 10px;display: flex;">
-                <div class="col-4" *ngFor="let item of all_departments_array"
-                    style="margin-bottom: 5px;height: 75px;cursor: pointer;">
+            <div class="row nurses" style="margin-bottom: 10px;display: flex;">
+                <div class="col-4" *ngFor="let item of all_nursing_departments_array"
+                    style="margin-bottom: 5px;height: 75px;">
                     <!--  && item.OccupancyPerDepart != '0' -->
-                    <mat-card *ngIf="item.Dept_Name" (click)="!onlyDisplay && openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
+                    <mat-card *ngIf="item.Dept_Name"
+                        (click)="!onlyDisplay && openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
                         style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
                                 *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
@@ -213,28 +216,21 @@
                             </span>
                         </div>
                     </mat-card>
-                    <!-- <mat-card *ngIf="item.Dept_Name != null"
-                        (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')" style="height: 100%;"
-                        class="card dash-cards m-2 p-2 text-center">
-                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
-                                *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
-                                *ngIf="item.Dept_Name == 'טפול נמרץ פגים ובילוד בחולה'">טיפול נמרץ פגים</span>
-                            <span
-                                *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
-                        </div>
-                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name">
-                            <span class="coronaNumber" *ngIf="item.CoronaNumber !== '0' && item.CoronaNumber !== null" style="color: red;">מטופלי
-                                קורונה:
-                                {{item.CoronaNumber}}
-                            </span>
-                            סה"כ: {{item.OccupancyPerDepart}}
-                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה:
-                                {{item.PercentOccupancy}}%
-                            </span>
-                        </div>
-                    </mat-card> -->
                 </div>
             </div>
+            <!-- <div class="row medics">
+                <div class="col-1 pl-1 pr-1" *ngFor="let item of all_medical_departments_array"
+                    style="height: 75px;">
+                    <mat-card style="height: 100%;margin-top: 10px;" class="card-med dash-cards text-center">
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;">
+                            {{item.Dept_Number}}
+                        </div>
+                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name">
+                            סה"כ: {{item.OccupancyPerDepart}}
+                        </div>
+                    </mat-card>
+                </div>
+            </div> -->
         </div>
     </div>
 </mat-card>

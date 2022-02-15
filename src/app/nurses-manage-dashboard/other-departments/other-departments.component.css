@@ -107,6 +107,34 @@
 
 @media only screen and (min-width: 100px) {
 
+  /* .mat-column-casenumber{
+    width: 75px !important;
+  }
+  .mat-column-area{
+    width: 10px !important;
+  }
+  .mat-column-fullname{
+    width: 100px !important;
+  }
+  .mat-column-departname{
+    width: 8px !important;
+  }
+  .mat-column-room{
+    width: 8px !important;
+  }
+  .mat-column-starttime{
+    width: 8px !important;
+  }
+  .mat-column-endtime{
+    width: 8px !important;
+  }
+  .mat-column-date{
+    width: 5px !important;
+  }
+  .mat-column-status{
+    width: 75px !important;
+  } */
+
   th.mat-header-cell, td.mat-cell, td.mat-footer-cell {
     padding: 0;
     border-bottom-width: 1px;

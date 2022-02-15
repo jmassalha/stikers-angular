@@ -1,6 +1,3 @@
-/* .col-4 :hover{
-    cursor: pointer;
-} */
 
 .card-body,.other-cards,.card.dash-cards{
   font-weight: bolder;
@@ -10,6 +7,10 @@
 .mat-radio-button {
     margin-left: 16px;
   }
+  
+.row.medics{
+  padding-bottom: 50px;
+}
 
   @media only screen and (max-width: 480px) {
     .mat-radio-button {
@@ -44,10 +45,12 @@
     background-color: floralwhite;
     box-shadow: 7px 9px 12px -3px;
   }
+  .card-med{
+    background-color: burlywood;
+  }
 
   .pb-4{
     box-shadow: 7px 9px 12px -3px;
-    cursor: pointer;
     background-color: floralwhite;
   }
 
@@ -88,10 +91,12 @@
 
   .card.dash-cards:hover{
     background-color: darkgrey;
+    cursor: pointer;
   }
 
 .other-cards:hover{
   background-color: darkgrey;
+  cursor: pointer;
 }
 
 

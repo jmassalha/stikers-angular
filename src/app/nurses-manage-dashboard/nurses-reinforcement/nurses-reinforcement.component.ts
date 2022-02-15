@@ -180,6 +180,8 @@ export class NursesReinforcementComponent implements OnInit {
     } else if (this.Reinf_emp.number.length != 10 || this.Reinf_nurse.number.length != 10) {
       this.openSnackBar("אחד ממספרי הטלפון לא תקין, לא ניתן לשלוח");
     } else {
+      this.Reinf_emp.name = this.Reinf_emp.name.replace(/['"]+/g, '');
+      this.Reinf_nurse.name = this.Reinf_nurse.name.replace(/['"]+/g, '');
       this.confirmationDialogService
         .confirm("נא לאשר..", "אתה עומד לשלוח סמס ...? ")
         .then((confirmed) => {
