@@ -66,6 +66,7 @@ export class DashboardComponent implements OnInit {
     //         this.getDataFormServer(key, element.Code);
     //     });
     // }
+
     getEmployeesBirthDates() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http

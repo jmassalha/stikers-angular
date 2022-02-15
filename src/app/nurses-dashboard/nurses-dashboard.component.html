@@ -175,7 +175,7 @@
 
     <div id="page-toshow" class="padding-top-0">
         <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup"
-            *ngIf="caseNumber != '' || showNewReport"
+            *ngIf="caseNumber != '' || reportType == 'administrative'"
             [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
             <div class="modal-header text-right">
                 <div class="row mt-3">
