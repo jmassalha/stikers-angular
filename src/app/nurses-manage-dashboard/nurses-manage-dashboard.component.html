@@ -160,31 +160,40 @@
                     </div>
                 </div>
             </div>
-            <button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="button"
-                class="btn btn-primary btn-raised" (click)="!onlyDisplay && openReportDialog('administrative')">
-                <i class="material-icons">assignment_ind</i>
-            </button>
-            <button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay" mat-raised-button
-                type="button" class="btn btn-raised mr-1" style="background-color: grey;"
-                (click)="!onlyDisplay && bugReport()">
-                <i class="material-icons">info</i>
-            </button>
-            <button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button
-                type="button" class="btn btn-raised mr-1" style="background-color: limegreen;"
-                (click)="!onlyDisplay && openReinforcementtDialog('')">
-                <!-- <span class="material-icons">
-                    help
-                </span> -->
-                <img height="35px" width="30px" src="../../assets/images/sos.png">
-            </button>
-
-            <div style="margin-right: 33%;margin-top: 18px;"> נתונים מעודכנים ל: {{ updateDate | date: "dd.MM.yyyy"}} -
-                {{ updateDate | date: "HH:mm"}}</div>
 
             <!-- <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'jubartal'" mat-raised-button
                 type="submit" class="btn btn-raised" (click)="test()">
                 <i class="material-icons">face</i>
             </button> -->
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <ul style="display: flex;margin-bottom: 0px;">
+                    <li><button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="button"
+                            class="btn btn-primary btn-raised"
+                            (click)="!onlyDisplay && openReportDialog('administrative')">
+                            <i class="material-icons">assignment_ind</i>
+                        </button></li>
+                    <li><button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay"
+                            mat-raised-button type="button" class="btn btn-raised mr-1" style="background-color: grey;"
+                            (click)="!onlyDisplay && bugReport()">
+                            <i class="material-icons">info</i>
+                        </button></li>
+                    <li><button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay"
+                            mat-raised-button type="button" class="btn btn-raised mr-1"
+                            style="background-color: limegreen;" (click)="!onlyDisplay && openReinforcementtDialog('')">
+                            <img height="35px" width="30px" src="../../assets/images/sos.png">
+                        </button></li>
+                </ul>
+            </div>
+            <div class="col-4 text-center">
+                <h3 class="labelName" style="margin-top: 5px;">תפוסה סיעודית</h3>
+            </div>
+            <div class="col-4 text-center">
+                <h6 style="font-size: 15px;margin-top: 20px;"> נתונים מעודכנים ל: {{ updateDate | date:
+                    "dd.MM.yyyy"}} -
+                    {{ updateDate | date: "HH:mm"}}</h6>
+            </div>
         </div>
     </div>
     <hr id="dashLine">
@@ -195,7 +204,6 @@
             <div class="row nurses" style="margin-bottom: 10px;display: flex;">
                 <div class="col-4" *ngFor="let item of all_nursing_departments_array"
                     style="margin-bottom: 5px;height: 75px;">
-                    <!--  && item.OccupancyPerDepart != '0' -->
                     <mat-card *ngIf="item.Dept_Name"
                         (click)="!onlyDisplay && openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
                         style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
@@ -218,19 +226,25 @@
                     </mat-card>
                 </div>
             </div>
-            <!-- <div class="row medics">
-                <div class="col-1 pl-1 pr-1" *ngFor="let item of all_medical_departments_array"
-                    style="height: 75px;">
-                    <mat-card style="height: 100%;margin-top: 10px;" class="card-med dash-cards text-center">
-                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;">
-                            {{item.Dept_Number}}
+            <div class="row" style="justify-content: center;border-style: double;">
+                <h3 class="labelName">תפוסה רפואית</h3>
+            </div>
+            <div class="row medics">
+                <div class="col-2 mt-2" *ngFor="let item of all_medical_departments_array">
+                    <mat-card style="height: 90%;" class="card-med dash-cards text-center">
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;font-weight: bold;">
+                            {{item.Dept_Name}}
                         </div>
-                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name">
+                        <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                            *ngIf="item.Dept_Name">
                             סה"כ: {{item.OccupancyPerDepart}}
+                            <span>תפוסה:
+                                {{item.PercentOccupancy}}%
+                            </span>
                         </div>
                     </mat-card>
                 </div>
-            </div> -->
+            </div>
         </div>
     </div>
 </mat-card>

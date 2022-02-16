@@ -46,13 +46,21 @@
     box-shadow: 7px 9px 12px -3px;
   }
   .card-med{
-    background-color: burlywood;
+    background-color: aliceblue;
+    box-shadow: 7px 9px 12px -3px;
+    padding-bottom: 10px;
+  }
+
+  mat-card{
+    padding: 0px;
   }
 
   .pb-4{
     box-shadow: 7px 9px 12px -3px;
     background-color: floralwhite;
+    margin-top: 25px;
   }
+  
 
   .col-4{
     /* border-right: 3px solid;

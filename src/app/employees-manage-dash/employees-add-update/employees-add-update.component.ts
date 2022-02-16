@@ -123,6 +123,12 @@ export class EmployeesAddUpdateComponent implements OnInit {
     return userName;
   }
 
+  duplicateToNewEmployee(){
+    this.employeePersonalDetails.reset();
+    this.employeeWorkDetails.controls['ADUserName'].reset();
+    this.employeeWorkDetails.controls['RowID'].reset();
+  }
+
   getRanksList() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRanksList", {
@@ -282,11 +288,6 @@ export class EmployeesAddUpdateComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"]) {
             this.openSnackBar("נשמר בהצלחה");
-            // this.http
-            //   .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EmployeesUpdateLog", {
-            //     _userName: this.UserName,
-            //   })
-            //   .subscribe((Response) => {});
             this.dialog.closeAll();
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");
