@@ -432,6 +432,18 @@
         <span class="mr-3">כניסה מותרת רק ממחשב מורשה</span>
     </h1>
 </ng-template>
+<ng-template #modalContent3 let-close="close">
+    <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
+        warning
+    </span>
+    <h1 class="text-center">
+        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit" class="btn btn-primary btn-raised float-left"
+            [routerLink]="['']" (click)="closeModal()">
+            <i class="material-icons">home</i>
+        </button>
+        <span class="mr-3">&#8734; 😨  ייתכן ואין לך הרשאת צפייה במידע זה &#8734;</span>
+    </h1>
+</ng-template>
 <ng-template #modalContent2 let-close="close">
     <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
         warning

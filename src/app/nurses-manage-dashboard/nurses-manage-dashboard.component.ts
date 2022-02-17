@@ -39,6 +39,7 @@ export class NursesManageDashboardComponent implements OnInit {
   // private ipRegex = new RegExp(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/);
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   @ViewChild('modalContent2', { static: true }) modalContent2: TemplateRef<any>;
+  @ViewChild('modalContent3', { static: true }) modalContent3: TemplateRef<any>;
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
   @ViewChild('modalIp', { static: true }) modalIp: TemplateRef<any>;
 
@@ -294,6 +295,9 @@ export class NursesManageDashboardComponent implements OnInit {
   handleEvent2() {
     this.dialog.open(this.modalContent2, { width: '60%', disableClose: true });
   }
+  handleEvent3() {
+    this.dialog.open(this.modalContent3, { width: '60%', disableClose: true });
+  }
 
   bugReport() {
     this.dialog.open(this.modalBug, { width: '60%', disableClose: false });
@@ -344,13 +348,13 @@ export class NursesManageDashboardComponent implements OnInit {
             if (_ipAddress == "" && _ipAddress2 == "" && _ipAddress3 == "" && _ipAddress4 == "" && _ipAddress5 == "" && _ipAddress6 == "" && _ipAddress7 == "" && _tabletAddress == "") {
               this.rightPC = true;
             } else {
-              if (this.privateIP == _ipAddress /*Personal Pc*/ || 
-                this.privateIP == _ipAddress2 /*General Nurse Room*/ || 
-                this.privateIP == _ipAddress3 /* Hadas Pc*/ || 
-                this.privateIP == _ipAddress4 /* General Con Room*/ || 
-                this.privateIP == _ipAddress5 /*DR Onn Con Room*/ || 
-                this.privateIP == _ipAddress6 /*Tablet1 From Chrome*/ || 
-                this.privateIP == _ipAddress7 /*Tablet2 From Chrome*/ || 
+              if (this.privateIP == _ipAddress /*Personal Pc*/ ||
+                this.privateIP == _ipAddress2 /*General Nurse Room*/ ||
+                this.privateIP == _ipAddress3 /* Hadas Pc*/ ||
+                this.privateIP == _ipAddress4 /* General Con Room*/ ||
+                this.privateIP == _ipAddress5 /*DR Onn Con Room*/ ||
+                this.privateIP == _ipAddress6 /*Tablet1 From Chrome*/ ||
+                this.privateIP == _ipAddress7 /*Tablet2 From Chrome*/ ||
                 (_tabletAddress == "" && this.privateIP.substring(0, 6) == "10.222")/*Tablet From Capsule*/) {
                 this.rightPC = true;
               } else {
@@ -379,6 +383,8 @@ export class NursesManageDashboardComponent implements OnInit {
               that.Dept_Number = that.all_nursing_departments_array[0].Dept_Number;
               that.Dept_Name = that.all_nursing_departments_array[0].Dept_Name;
               that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');
+            } else if (that.all_nursing_departments_array.length == 0) {
+              that.handleEvent3();
             }
           }
         }, 1500);
