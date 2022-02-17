@@ -33,6 +33,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   empType: string = "none";
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   EmployeeExists: boolean;
+  myDate = new Date();
 
   constructor(private _snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -64,7 +65,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
       FirstName: new FormControl(this.employee.FirstName, [Validators.required]),
       LastName: new FormControl(this.employee.LastName, [Validators.required]),
       Gender: new FormControl(this.employee.Gender, [Validators.required]),
-      Email: new FormControl(this.employee.Email, [Validators.required]),
+      Email: new FormControl(this.employee.Email, null),
       CellNumber: new FormControl(this.employee.CellNumber, [Validators.required, Validators.pattern("[0-9 ]{10}")]),
       // KupaID: new FormControl(this.employee.KupaID, null),
       // KupaName: new FormControl(this.employee.KupaName, null),
@@ -127,6 +128,9 @@ export class EmployeesAddUpdateComponent implements OnInit {
     this.employeePersonalDetails.reset();
     this.employeeWorkDetails.controls['ADUserName'].reset();
     this.employeeWorkDetails.controls['RowID'].reset();
+    this.employeeWorkDetails.controls['DocStartExperience'].reset();
+    this.employeeWorkDetails.controls['DocLicence'].reset();
+    this.employeeWorkDetails.controls['StartWorkDate'].setValue(this.myDate); //set to today
   }
 
   getRanksList() {

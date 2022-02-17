@@ -47,19 +47,20 @@ export class FastCovidTestDashboardComponent implements OnInit {
 
   ngOnInit(): void {
 
-    let dateIn = new Date();
-    dateIn.setDate(dateIn.getDate() - 1);
-    this.Sdate = new FormControl(dateIn);
-    this.Edate = new FormControl(new Date());
-    this.startdateVal = this.Sdate.value;
-    this.enddateVal = this.Edate.value;
-    this.searchCovidTestPatients = new FormGroup({
-      searchWord: new FormControl('',null),
-      startdateVal: new FormControl(this.startdateVal,null),
-      enddateVal: new FormControl(this.enddateVal,null),
-    });
-    this.getAllAntigTestedPatients();
-
+    if(localStorage.getItem("loginState") == "true"){
+      let dateIn = new Date();
+      dateIn.setDate(dateIn.getDate() - 1);
+      this.Sdate = new FormControl(dateIn);
+      this.Edate = new FormControl(new Date());
+      this.startdateVal = this.Sdate.value;
+      this.enddateVal = this.Edate.value;
+      this.searchCovidTestPatients = new FormGroup({
+        searchWord: new FormControl('',null),
+        startdateVal: new FormControl(this.startdateVal,null),
+        enddateVal: new FormControl(this.enddateVal,null),
+      });
+      this.getAllAntigTestedPatients();
+    }
   }
 
 
