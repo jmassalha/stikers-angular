@@ -81,13 +81,7 @@
 </div>
 <hr />
 <br />
-<div class="container-fluid text-right">
-    <div class="row" style="flex-flow: column-reverse">
-        <div class="colde d-nonea" id="totalBarChart"></div>
-    </div>
-</div>
-<br />
-<hr />
+
 <div class="container-fluid">
     <div class="row">
         <div dir="rtl" class="col">
@@ -141,34 +135,75 @@
                                 {{ element.PGR_Patient_Age }}
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="PGR_Taking_Date">
+                        
+                        <ng-container matColumnDef="PGR_Taking_Date_MAX">
                             <th mat-header-cell *matHeaderCellDef>
-                                תאריך צותאה
+                                תאריך ושעת תוצאה ערך מקסימאלי או מינימאלי
                             </th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.PGR_Taking_Date }}
+                                {{ element.PGR_Taking_Date_MAX }} {{ element.PGR_Taking_Time_MAX }}
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="PGR_Taking_Time">
-                            <th mat-header-cell *matHeaderCellDef>שעת תוצאה</th>
+
+                        <ng-container matColumnDef="PGR_Rate_Value_MAX">
+                            <th mat-header-cell *matHeaderCellDef>ערך תוצאה מקסימאלי  או מינימאלי</th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.PGR_Taking_Time }}
+                                {{ element.PGR_Rate_Value_MAX }}
                             </td>
                         </ng-container>
+
+                        <ng-container matColumnDef="PGR_Taking_Date">
+                            <th mat-header-cell *matHeaderCellDef>
+                                תאריך ושעת תוצאה אחרונה
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PGR_Taking_Date }} {{ element.PGR_Taking_Time }}
+                            </td>
+                        </ng-container>
+
                         <ng-container matColumnDef="PGR_Rate_Value">
-                            <th mat-header-cell *matHeaderCellDef>ערך תוצאה</th>
+                            <th mat-header-cell *matHeaderCellDef>ערך תוצאה אחרונה</th>
                             <td mat-cell *matCellDef="let element">
                                 {{ element.PGR_Rate_Value }}
                             </td>
                         </ng-container>
-                        <ng-container matColumnDef="WorkerName">
-                            <th mat-header-cell *matHeaderCellDef>מכתב ייעוץ</th>
+                        <ng-container matColumnDef="ReciveDoc">
+                            <th mat-header-cell *matHeaderCellDef>מכתב קבלה</th>
                             <td mat-cell *matCellDef="let element">
-                                {{ element.WorkerName }}
+                                <button                                    
+                                (click)="openText(
+                                    HistoryTextDetailsModal,
+                                    'HistoryTextDetails',
+                                    element
+                                )"
+                                    mat-mini-fab
+                                    color="primary"
+                                >
+                                    <mat-icon>description</mat-icon>
+                                </button>                                
+                            </td>
+                        </ng-container>                        
+                        <ng-container matColumnDef="WorkerName">
+                            <th mat-header-cell *matHeaderCellDef>היסטורית ייעוצים</th>
+                            <td mat-cell *matCellDef="let element">
+                                <button
+                                    *ngIf="element.WorkerName =='1'"
+                                    (click)="
+                                    openCons(
+                                            HistoryConsoleDetailsModal,
+                                            'HistoryConsoleDetails',
+                                            element
+                                        )
+                                    "
+                                    mat-mini-fab
+                                    color="primary"
+                                >
+                                    <mat-icon>connect_without_contact</mat-icon>
+                                </button>                                
                             </td>
                         </ng-container>                        
                         <ng-container matColumnDef="RowClick">
-                            <th mat-header-cell *matHeaderCellDef>היסטוריה</th>
+                            <th mat-header-cell *matHeaderCellDef>היסטורית בדיקות</th>
                             <td mat-cell *matCellDef="let element">
                                 <button
                                     (click)="
@@ -208,7 +243,7 @@
     </div>
 </div>
 <ng-template #HistoryDetailsModal let-modal>
-    <div class="card">
+    <div dir="rtl"  class="card">
         <div class="card-header">
             <h3 class="card-title text-center">היסטוריית בדיקות למקרה: <b>{{selectedCaseNumber}}</b></h3>
         </div>
@@ -267,3 +302,60 @@
         ></tr>
     </table>
 </ng-template>
+<ng-template #HistoryTextDetailsModal let-modal>
+    <div dir="rtl"  class="card">
+        <div class="card-header">
+            <h3 class="card-title text-center">סיכום למקרה: <b>{{selectedCaseNumber}}</b></h3>
+        </div>
+        <div class="card-body">
+            <p class="content-text" *ngFor="let txt of Content; let i = index;">
+                {{txt.Content}}
+            </p>
+        </div>
+    </div>
+    
+</ng-template>
+<ng-template #HistoryConsoleDetailsModal let-modal>
+    <div dir="rtl"  class="card">
+        <div class="card-header">
+            <h3 class="card-title text-center">היסטוריית ייעוצים למקרה: <b>{{selectedCaseNumber}}</b></h3>
+        </div>
+        <div class="card-body"></div>
+    </div>
+    <table dir="rtl" mat-table [dataSource]="dataSourceConsoleByCase">
+        <ng-container matColumnDef="ConsoleDate">
+            <th mat-header-cell *matHeaderCellDef>תאריך ייעוץ</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.ConsoleDate }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="ConsoleDateTime">
+            <th mat-header-cell *matHeaderCellDef>שעת ייעוץ</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.ConsoleDateTime }}
+            </td>
+        </ng-container>
+        <ng-container matColumnDef="ConsoleUserName">
+            <th mat-header-cell *matHeaderCellDef>שם יועץ</th>
+            <td mat-cell *matCellDef="let element">
+                {{ element.ConsoleUserName }}
+            </td>
+        </ng-container>
+        
+        <tr
+            mat-header-row
+            *matHeaderRowDef="displayedConsoleColumnsByCase"
+        ></tr>
+        <tr
+            mat-row
+            *matRowDef="let row; columns: displayedConsoleColumnsByCase"
+        ></tr>
+    </table>
+</ng-template>
+<div class="container-fluid text-right">
+    <div class="row" style="flex-flow: column-reverse">
+        <div class="colde d-nonea" id="totalBarChart"></div>
+    </div>
+</div>
+<br />
+<hr />
