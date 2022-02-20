@@ -53,7 +53,7 @@ export class GlucoseComponent implements OnInit {
         // 'ROW_ID',
         //"PGR_Sample_Number",
         "PGR_Case_Number",
-      //  "PGR_Patient_Number",
+        //  "PGR_Patient_Number",
         "PGR_Patient_Depart_Request",
         "PGR_Patient_First_Name",
         "PGR_Patient_Last_Name",
@@ -67,7 +67,6 @@ export class GlucoseComponent implements OnInit {
         "RowClick",
     ];
     displayedConsoleColumnsByCase: string[] = [
-       
         "ConsoleDate",
         "ConsoleDateTime",
         "ConsoleUserName",
@@ -86,13 +85,14 @@ export class GlucoseComponent implements OnInit {
     modalOptions: NgbModalOptions;
     Content: ReciveDocHos[] = [];
     TABLE_DATA: Glucose[] = [];
+    TABLE_DATA_ALL: Glucose[] = [];
     TABLE_DATA_REL_TO_CASENUMBER: Glucose[] = [];
     TABLE_DATA_REL_TO_CONSOLE: GlucoseConsole[] = [];
-    dataSource = new MatTableDataSource(this.TABLE_DATA);
+    dataSource = new MatTableDataSource(this.TABLE_DATA_ALL);
     dataSourceByCase = new MatTableDataSource(
         this.TABLE_DATA_REL_TO_CASENUMBER
     );
-    
+
     dataSourceConsoleByCase = new MatTableDataSource(
         this.TABLE_DATA_REL_TO_CONSOLE
     );
@@ -121,7 +121,8 @@ export class GlucoseComponent implements OnInit {
         this.Edate = new FormControl(new Date());
         this.startdateVal = this.Sdate.value;
         this.enddateVal = this.Edate.value;
-        this.dataSource = new MatTableDataSource(this.TABLE_DATA);
+        //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
+        this.dataSource = new MatTableDataSource(this.TABLE_DATA_ALL);
 
         if (
             localStorage.getItem("loginState") != "true" ||
@@ -187,7 +188,7 @@ export class GlucoseComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseByCaseNumber",
-               // "http://localhost:64964/WebService.asmx/GetGlucoseByCaseNumber",
+                // "http://localhost:64964/WebService.asmx/GetGlucoseByCaseNumber",
                 {
                     CaseNumber: _element.PGR_Case_Number,
                 }
@@ -223,18 +224,44 @@ export class GlucoseComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDocPerCaseNumber",
-               // "http://localhost:64964/WebService.asmx/GetDocPerCaseNumber",
+                // "http://localhost:64964/WebService.asmx/GetDocPerCaseNumber",
                 {
                     CaseNumber: _element.PGR_Case_Number,
                 }
             )
             .subscribe((Response) => {
-                debugger
-                this.selectedCaseNumber = _element.PGR_Case_Number
+                debugger;
+                this.selectedCaseNumber = _element.PGR_Case_Number;
                 this.Content = [];
                 this.Content = Response["d"];
                 $("#loader").addClass("d-none");
             });
+    }
+    filterArray($event) {
+        /*this.dataSource = new MatTableDataSource<any>(
+            this.TABLE_DATA_ALL
+        );*/
+
+        
+        switch (parseInt($event.value)) {
+            case 2:
+                this.TABLE_DATA =  this.TABLE_DATA_ALL.filter(function(data) {
+                    return data.WorkerName == "0";
+                });
+                break;
+            case 1:
+                this.TABLE_DATA =  this.TABLE_DATA_ALL.filter(function(data) {
+                    return data.WorkerName == "1";
+                });
+                break;
+            default:
+                this.TABLE_DATA =  this.TABLE_DATA_ALL
+                break;
+        }
+        this.dataSource = new MatTableDataSource<any>(
+            this.TABLE_DATA
+        );
+        //debugger;
     }
     openCons(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
@@ -256,13 +283,13 @@ export class GlucoseComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetConsGlucoseByCaseNumber",
-               // "http://localhost:64964/WebService.asmx/GetConsGlucoseByCaseNumber",
+                // "http://localhost:64964/WebService.asmx/GetConsGlucoseByCaseNumber",
                 {
                     CaseNumber: _element.PGR_Case_Number,
                 }
             )
             .subscribe((Response) => {
-                  //debugger
+                //debugger
                 this.selectedCaseNumber = _element.PGR_Case_Number;
                 this.TABLE_DATA_REL_TO_CONSOLE = [];
                 this.TABLE_DATA_REL_TO_CONSOLE = Response["d"];
@@ -276,7 +303,7 @@ export class GlucoseComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseApp", {
-           // .post("http://localhost:64964/WebService.asmx/GetGlucoseApp", {
+                // .post("http://localhost:64964/WebService.asmx/GetGlucoseApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
             })
@@ -284,13 +311,13 @@ export class GlucoseComponent implements OnInit {
                 (Response) => {
                     $("#_departments").empty();
                     //debugger
-                    this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
+                    this.TABLE_DATA_ALL.splice(0, this.TABLE_DATA_ALL.length);
                     var json = JSON.parse(Response["d"]);
                     let tableData = JSON.parse(json["tableData"]);
                     //////debugger;
 
                     this.dataSource = new MatTableDataSource<any>(
-                        this.TABLE_DATA
+                        this.TABLE_DATA_ALL
                     );
                     this._fun.drawCharToDom(
                         "bar" /*'סה"כ בדיקות', 'סה"כ בדיקות בטווח',*/,
@@ -316,27 +343,35 @@ export class GlucoseComponent implements OnInit {
                         //var d =  tableData.items[i].CS_SURVEY_Q2_2.split(" ");
                         //var s =  tableData.items[i].CS_SURVEY_Q4_4.split(" ");
                         //////debugger
-                        this.TABLE_DATA.push({
-                            PGR_Patient_First_Name: tableData.items[i].PGR_Patient_First_Name,
-                            PGR_Patient_Last_Name: tableData.items[i].PGR_Patient_Last_Name,
+                        this.TABLE_DATA_ALL.push({
+                            PGR_Patient_First_Name:
+                                tableData.items[i].PGR_Patient_First_Name,
+                            PGR_Patient_Last_Name:
+                                tableData.items[i].PGR_Patient_Last_Name,
                             PGR_Patient_Age: tableData.items[i].PGR_Patient_Age,
-                            PGR_Patient_Depart_Request: tableData.items[i].PGR_Patient_Depart_Request,
+                            PGR_Patient_Depart_Request:
+                                tableData.items[i].PGR_Patient_Depart_Request,
                             PGR_Taking_Date: tableData.items[i].PGR_Taking_Date,
                             PGR_Taking_Time: tableData.items[i].PGR_Taking_Time,
                             PGR_Rate_Value: tableData.items[i].PGR_Rate_Value,
-                            PGR_Taking_Date_MAX: tableData.items[i].PGR_Taking_Date_MAX,
-                            PGR_Taking_Time_MAX: tableData.items[i].PGR_Taking_Time_MAX,
-                            PGR_Rate_Value_MAX: tableData.items[i].PGR_Rate_Value_MAX,
-                            PGR_Sample_Number: tableData.items[i].PGR_Sample_Number,
+                            PGR_Taking_Date_MAX:
+                                tableData.items[i].PGR_Taking_Date_MAX,
+                            PGR_Taking_Time_MAX:
+                                tableData.items[i].PGR_Taking_Time_MAX,
+                            PGR_Rate_Value_MAX:
+                                tableData.items[i].PGR_Rate_Value_MAX,
+                            PGR_Sample_Number:
+                                tableData.items[i].PGR_Sample_Number,
                             PGR_Case_Number: tableData.items[i].PGR_Case_Number,
-                            PGR_Patient_Number: tableData.items[i].PGR_Patient_Number,
+                            PGR_Patient_Number:
+                                tableData.items[i].PGR_Patient_Number,
                             WorkerName: tableData.items[i].WorkerName,
                         });
                     }
 
                     // ////debugger
                     this.dataSource = new MatTableDataSource<any>(
-                        this.TABLE_DATA
+                        this.TABLE_DATA_ALL
                     );
                     this.resultsLength = parseInt(json["iTotalDisplayRecords"]);
                     setTimeout(() => {
