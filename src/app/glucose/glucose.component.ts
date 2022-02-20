@@ -186,8 +186,8 @@ export class GlucoseComponent implements OnInit {
         );
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseByCaseNumber",
-                "http://localhost:64964/WebService.asmx/GetGlucoseByCaseNumber",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseByCaseNumber",
+               // "http://localhost:64964/WebService.asmx/GetGlucoseByCaseNumber",
                 {
                     CaseNumber: _element.PGR_Case_Number,
                 }
@@ -222,8 +222,8 @@ export class GlucoseComponent implements OnInit {
         );
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetDocPerCaseNumber",
-                "http://localhost:64964/WebService.asmx/GetDocPerCaseNumber",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDocPerCaseNumber",
+               // "http://localhost:64964/WebService.asmx/GetDocPerCaseNumber",
                 {
                     CaseNumber: _element.PGR_Case_Number,
                 }
@@ -255,8 +255,8 @@ export class GlucoseComponent implements OnInit {
         );
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetConsGlucoseByCaseNumber",
-                "http://localhost:64964/WebService.asmx/GetConsGlucoseByCaseNumber",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetConsGlucoseByCaseNumber",
+               // "http://localhost:64964/WebService.asmx/GetConsGlucoseByCaseNumber",
                 {
                     CaseNumber: _element.PGR_Case_Number,
                 }
@@ -275,8 +275,8 @@ export class GlucoseComponent implements OnInit {
     public getDataFormServer(_startDate: string, _endDate: string) {
         $("#loader").removeClass("d-none");
         this.http
-            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseApp", {
-            .post("http://localhost:64964/WebService.asmx/GetGlucoseApp", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseApp", {
+           // .post("http://localhost:64964/WebService.asmx/GetGlucoseApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
             })
