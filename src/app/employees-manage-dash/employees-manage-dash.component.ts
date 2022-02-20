@@ -46,36 +46,38 @@ export class EmployeesManageDashComponent implements OnInit {
   searchEmployeesGroup: FormGroup;
 
   ngOnInit(): void {
-    this.searchEmployeesGroup = this.formBuilder.group({
-      EmpID: new FormControl('', null),
-      EmpFirstName: new FormControl('', null),
-      EmpLastName: new FormControl('', null),
-      // Elective: new FormControl('0', null),
-      On: new FormControl('1', null),
-      MedGrad: new FormControl('0', null),
-      PhoneNumber: new FormControl('', null),
-      Department: new FormControl('', null),
-      Role: new FormControl('', null),
-      Sektor: new FormControl('', null),
-      WorkPlace: new FormControl('', null),
-    });
-    if (this.UserName == "iditur") {
-      this.managerType = "stager";
-    } else if (this.UserName == "dporat" || this.UserName == "dfogel") {
-      this.managerType = "unknown";
-    } else if (this.UserName == "ashoshany") {
-      this.managerType = "research";
-    } else if (this.UserName == "jmassalha") {
-      this.managerType = "hr";
-    } else if (this.UserName == "adahabre" || this.UserName == "owertheim") {
-      this.managerType = "admin";
-    }
-    if (this.managerType != "unknown") {
-      this.GetEmployeesToUpdate(this.managerType, false);
-      this.getEmployeeDepartmentList();
-      this.getEmployeesFunctionsList();
-      this.getSektorsList();
-      this.getWorkPlacesList();
+    if (localStorage.getItem("loginState") == "true") {
+      this.searchEmployeesGroup = this.formBuilder.group({
+        EmpID: new FormControl('', null),
+        EmpFirstName: new FormControl('', null),
+        EmpLastName: new FormControl('', null),
+        // Elective: new FormControl('0', null),
+        On: new FormControl('1', null),
+        MedGrad: new FormControl('0', null),
+        PhoneNumber: new FormControl('', null),
+        Department: new FormControl('', null),
+        Role: new FormControl('', null),
+        Sektor: new FormControl('', null),
+        WorkPlace: new FormControl('', null),
+      });
+      if (this.UserName == "iditur" || this.UserName == "dfogel") {
+        this.managerType = "stager";
+      } else if (this.UserName == "dporat") {
+        this.managerType = "unknown";
+      } else if (this.UserName == "ashoshany") {
+        this.managerType = "research";
+      } else if (this.UserName == "jmassalha") {
+        this.managerType = "hr";
+      } else if (this.UserName == "adahabre" || this.UserName == "owertheim") {
+        this.managerType = "admin";
+      }
+      if (this.managerType != "unknown") {
+        this.GetEmployeesToUpdate(this.managerType, false);
+        this.getEmployeeDepartmentList();
+        this.getEmployeesFunctionsList();
+        this.getSektorsList();
+        this.getWorkPlacesList();
+      }
     }
   }
 

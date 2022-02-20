@@ -93,6 +93,21 @@
                                     <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 4 </th>
                                     <td mat-cell *matCellDef="let element"> {{element.IpAddress4}} </td>
                                 </ng-container>
+                                
+                                <ng-container matColumnDef="pc5">
+                                    <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 5 </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.IpAddress5}} </td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="pc6">
+                                    <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 6 </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.IpAddress6}} </td>
+                                </ng-container>
+                                
+                                <ng-container matColumnDef="pc7">
+                                    <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 7 </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.IpAddress7}} </td>
+                                </ng-container>
 
                                 <ng-container matColumnDef="tablet">
                                     <th mat-header-cell *matHeaderCellDef> הרשאה לטאבלט </th>
@@ -137,6 +152,18 @@
         <mat-form-field class="example-full-width">
             <mat-label>מחשב 4:</mat-label>
             <input matInput [(ngModel)]="IpAddress4" [ngModelOptions]="{standalone: true}" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>מחשב 5:</mat-label>
+            <input matInput [(ngModel)]="IpAddress5" [ngModelOptions]="{standalone: true}" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>מחשב 6:</mat-label>
+            <input matInput [(ngModel)]="IpAddress6" [ngModelOptions]="{standalone: true}" />
+        </mat-form-field>
+        <mat-form-field class="example-full-width">
+            <mat-label>מחשב 7:</mat-label>
+            <input matInput [(ngModel)]="IpAddress7" [ngModelOptions]="{standalone: true}" />
         </mat-form-field>
         <mat-form-field class="example-full-width">
             <mat-label>טאבלט:</mat-label>

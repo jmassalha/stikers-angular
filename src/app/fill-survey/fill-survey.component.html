@@ -80,7 +80,8 @@
                         <div class="d-block" *ngFor="let optionCtrl of questionCtrl.Options; let j = index">
                           <!-- <div class="d-block" *ngIf="optionCtrl.QuestionIDFK == questionCtrl.QuestionID"> -->
                           <mat-radio-button style="float: right;" value="{{optionCtrl.OptionValue}}">
-                            {{optionCtrl.OptionValue}}</mat-radio-button>
+                            <span style="white-space: break-spaces;">{{optionCtrl.OptionValue}}</span>
+                          </mat-radio-button>
                           <!-- </div> -->
                         </div>
                       </mat-radio-group>
@@ -93,7 +94,8 @@
                           <mat-checkbox class="example-margin" formControlName="answerContent" style="float: right;"
                             value="{{optionCtrl.OptionValue}}"
                             (change)="myModel($event,optionCtrl.OptionValue,questionCtrl.QuestionID)">
-                            {{optionCtrl.OptionValue}}</mat-checkbox>
+                            <span style="white-space: break-spaces;">{{optionCtrl.OptionValue}}</span>
+                          </mat-checkbox>
                           <!-- </div> -->
                         </div>
                       </mat-radio-group>

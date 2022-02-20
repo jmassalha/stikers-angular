@@ -269,6 +269,7 @@ export class NursesDashboardComponent implements OnInit {
   panelOpenState: boolean = false;
   Patientsloading: boolean = false;
   offsetFlag = true;
+  showNewReport: boolean = false;
 
   ngOnInit(): void {
     if (this.caseNumber != "" && this.caseNumber != undefined) {
@@ -446,6 +447,30 @@ export class NursesDashboardComponent implements OnInit {
     dialogRef.componentInstance.Dept_Name = Dept_Name;
     dialogRef.componentInstance.firstName = firstName;
     dialogRef.componentInstance.lastName = lastName;
+  }
+
+  showNewReportButton(patient) {
+    this.showNewReport = true;
+    console.log(patient);
+    this.ReportGroup = this.formBuilder.group({
+      Row_ID: ['0', null],
+      ReportTitle: ['', null],
+      ReportMachlol: [patient.ReportMachlol, null],
+      ReportCategory: ['', null],
+      ReportSubCategory: ['', null],
+      Important: [false, null],
+      ReportStatus: ['', null],
+      ReportShift: [{ value: this.automaticShift, disabled: true }, null],
+      ReportText: ['', null],
+      toContinue: [false, null],
+      Diagnosis: [patient.Diagnosis, null],
+      PatientName: [patient.PatientName, null],
+      PatientNurseStatus: [patient.PatientNurseStatus, null],
+    });
+    this.dob = patient.Patient_DobGender;
+    this.gender = "";
+    this.firstName = patient.PatientName;
+    this.caseNumber = patient.Patient_CaseNumber;
   }
 
   // displayHistoryDialog(reportid) {

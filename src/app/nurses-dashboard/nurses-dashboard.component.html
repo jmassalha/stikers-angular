@@ -1,11 +1,11 @@
-<div  class="container" #pagetoshow id="pagetoshow">
+<div class="container" #pagetoshow id="pagetoshow">
     <div class="row" style="justify-content: right;">
         <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
             <span>&times;</span>
         </button>
         <h3 *ngIf="reportType == 'administrative'">דווח מינהלי</h3>
         <h3 *ngIf="reportType == 'clinical'">דווח קליני</h3>
-        <div class="container-fluid trans-80 mb-2">
+        <div class="container-fluid mb-2">
             <div class="row search-cont">
                 <div class="col">
                     <div dir="rtl" class="card w-85-p" style="width: 100%;">
@@ -20,7 +20,7 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    
+
                                     <div class="col-4" *ngIf="reportType == 'administrative'">
                                         <div class="form-group lh-37">
                                             <mat-form-field>
@@ -345,6 +345,7 @@
                     <mat-panel-description>
                         <span style="font-size: 22px;font-weight: bold;">{{patient[0].PatientName}}</span>
                         <mat-icon>account_circle</mat-icon>
+                        <!-- <mat-icon (click)="showNewReportButton(patient[0])">account_circle</mat-icon> -->
                     </mat-panel-description>
                 </mat-expansion-panel-header>
 
@@ -517,8 +518,8 @@
         <span class="material-icons" matTooltip="לראש העמוד" id="takeMeToTheTop" (click)="takeMeToTheTop()">
             upgrade
         </span>
-        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" *ngIf="currentItemsToShow.length > 0" [pageSize]="15"
-            [pageSizeOptions]="[15, 25, 50, 100]">
+        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length"
+            *ngIf="currentItemsToShow.length > 0" [pageSize]="15" [pageSizeOptions]="[15, 25, 50, 100]">
         </mat-paginator>
     </div>
 </div>

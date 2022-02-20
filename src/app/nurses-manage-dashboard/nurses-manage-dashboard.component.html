@@ -1,7 +1,7 @@
 <mat-card dir="rtl" *ngIf="nursesUserPermission && rightPC" id="page-toshow"
     style="background-color: aliceblue;padding-top: 0px;">
     <h1 class="page-title text-center">מערכת דיווח סיעודית - שם משתמש: {{UserName}}</h1>
-    <div class="container-fluid" >
+    <div class="container-fluid">
         <div class="row">
             <div class="col-12">
                 <div dir="rtl" class="card w-85-p">
@@ -160,29 +160,40 @@
                     </div>
                 </div>
             </div>
-            <button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="button"
-                class="btn btn-primary btn-raised" (click)="!onlyDisplay && openReportDialog('administrative')">
-                <i class="material-icons">assignment_ind</i>
-            </button>
-            <button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay" mat-raised-button
-                type="button" class="btn btn-raised mr-1" style="background-color: grey;" (click)="!onlyDisplay && bugReport()">
-                <i class="material-icons">info</i>
-            </button>
-            <button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button
-                type="button" class="btn btn-raised mr-1" style="background-color: limegreen;" (click)="!onlyDisplay && openReinforcementtDialog('')">
-                <!-- <span class="material-icons">
-                    help
-                </span> -->
-                <img height="35px" width="30px" src="../../assets/images/sos.png">
-            </button>
-            
-            <div style="margin-right: 33%;margin-top: 18px;"> נתונים מעודכנים ל: {{ updateDate | date: "dd.MM.yyyy"}} -
-                {{ updateDate | date: "HH:mm"}}</div>
 
             <!-- <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'jubartal'" mat-raised-button
                 type="submit" class="btn btn-raised" (click)="test()">
                 <i class="material-icons">face</i>
             </button> -->
+        </div>
+        <div class="row">
+            <div class="col-4">
+                <ul style="display: flex;margin-bottom: 0px;">
+                    <li><button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="button"
+                            class="btn btn-primary btn-raised"
+                            (click)="!onlyDisplay && openReportDialog('administrative')">
+                            <i class="material-icons">assignment_ind</i>
+                        </button></li>
+                    <li><button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay"
+                            mat-raised-button type="button" class="btn btn-raised mr-1" style="background-color: grey;"
+                            (click)="!onlyDisplay && bugReport()">
+                            <i class="material-icons">info</i>
+                        </button></li>
+                    <li><button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay"
+                            mat-raised-button type="button" class="btn btn-raised mr-1"
+                            style="background-color: limegreen;" (click)="!onlyDisplay && openReinforcementtDialog('')">
+                            <img height="35px" width="30px" src="../../assets/images/sos.png">
+                        </button></li>
+                </ul>
+            </div>
+            <div class="col-4 text-center">
+                <h3 class="labelName" style="margin-top: 5px;">תפוסה סיעודית</h3>
+            </div>
+            <div class="col-4 text-center">
+                <h6 style="font-size: 15px;margin-top: 20px;"> נתונים מעודכנים ל: {{ updateDate | date:
+                    "dd.MM.yyyy"}} -
+                    {{ updateDate | date: "HH:mm"}}</h6>
+            </div>
         </div>
     </div>
     <hr id="dashLine">
@@ -190,11 +201,11 @@
     <mat-spinner class="loader" *ngIf="!loaded"></mat-spinner>
     <div class="survey-options">
         <div class="poll-options">
-            <div class="row" style="margin-bottom: 10px;display: flex;">
-                <div class="col-4" *ngFor="let item of all_departments_array"
-                    style="margin-bottom: 5px;height: 75px;cursor: pointer;">
-                    <!--  && item.OccupancyPerDepart != '0' -->
-                    <mat-card *ngIf="item.Dept_Name" (click)="!onlyDisplay && openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
+            <div class="row nurses" style="margin-bottom: 10px;display: flex;">
+                <div class="col-4" *ngFor="let item of all_nursing_departments_array"
+                    style="margin-bottom: 5px;height: 75px;">
+                    <mat-card *ngIf="item.Dept_Name"
+                        (click)="!onlyDisplay && openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
                         style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
                         <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
                                 *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
@@ -213,26 +224,25 @@
                             </span>
                         </div>
                     </mat-card>
-                    <!-- <mat-card *ngIf="item.Dept_Name != null"
-                        (click)="openDialogToFill(item.Dept_Number,item.Dept_Name,'1')" style="height: 100%;"
-                        class="card dash-cards m-2 p-2 text-center">
-                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
-                                *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
-                                *ngIf="item.Dept_Name == 'טפול נמרץ פגים ובילוד בחולה'">טיפול נמרץ פגים</span>
-                            <span
-                                *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
+                </div>
+            </div>
+            <div class="row" style="justify-content: center;border-style: double;">
+                <h3 class="labelName">תפוסה רפואית</h3>
+            </div>
+            <div class="row medics">
+                <div class="col-2 mt-2" *ngFor="let item of all_medical_departments_array">
+                    <mat-card style="height: 90%;" class="card-med dash-cards text-center">
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;font-weight: bold;">
+                            {{item.Dept_Name}}
                         </div>
-                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name">
-                            <span class="coronaNumber" *ngIf="item.CoronaNumber !== '0' && item.CoronaNumber !== null" style="color: red;">מטופלי
-                                קורונה:
-                                {{item.CoronaNumber}}
-                            </span>
+                        <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                            *ngIf="item.Dept_Name">
                             סה"כ: {{item.OccupancyPerDepart}}
-                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה:
+                            <span>תפוסה:
                                 {{item.PercentOccupancy}}%
                             </span>
                         </div>
-                    </mat-card> -->
+                    </mat-card>
                 </div>
             </div>
         </div>
@@ -420,6 +430,18 @@
             <i class="material-icons">home</i>
         </button>
         <span class="mr-3">כניסה מותרת רק ממחשב מורשה</span>
+    </h1>
+</ng-template>
+<ng-template #modalContent3 let-close="close">
+    <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
+        warning
+    </span>
+    <h1 class="text-center">
+        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit" class="btn btn-primary btn-raised float-left"
+            [routerLink]="['']" (click)="closeModal()">
+            <i class="material-icons">home</i>
+        </button>
+        <span class="mr-3">&#8734; 😨  ייתכן ואין לך הרשאת צפייה במידע זה &#8734;</span>
     </h1>
 </ng-template>
 <ng-template #modalContent2 let-close="close">

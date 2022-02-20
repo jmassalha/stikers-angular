@@ -7,7 +7,7 @@
         </div>
 
         <a href="#" title="Example tile shortcut" class="tile-box tile-box-alt btn-info">
-            <div class="row">
+            <div class="row" style="display: flex;">
                 <div class="tile-header" style="width: 50%;">
                     <h2>תפוסה: {{aobjTotal}}</h2>
                 </div>
@@ -15,7 +15,7 @@
                     <h2>מונשמים: {{resporatoryCount}}</h2>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="display: flex;">
                 <div class="tile-content-wrapper" style="width: 50%;border-left: 2px solid white;border-radius: 5%;">
                     <div class="chart-alt-10 easyPieChart" id="real-precent">
                         <circle-progress [percent]="Departmints.total" [radius]="100" [space]="-12"

@@ -21,7 +21,8 @@ export class NursesManageDashboardComponent implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
-  all_departments_array = [];
+  all_nursing_departments_array = [];
+  all_medical_departments_array = [];
   ER_Occupancy = [];
   Delivery_ER_Occupancy = [];
   searchWord: string;
@@ -38,6 +39,7 @@ export class NursesManageDashboardComponent implements OnInit {
   // private ipRegex = new RegExp(/([0-9]{1,3}(\.[0-9]{1,3}){3}|[a-f0-9]{1,4}(:[a-f0-9]{1,4}){7})/);
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   @ViewChild('modalContent2', { static: true }) modalContent2: TemplateRef<any>;
+  @ViewChild('modalContent3', { static: true }) modalContent3: TemplateRef<any>;
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
   @ViewChild('modalIp', { static: true }) modalIp: TemplateRef<any>;
 
@@ -293,6 +295,9 @@ export class NursesManageDashboardComponent implements OnInit {
   handleEvent2() {
     this.dialog.open(this.modalContent2, { width: '60%', disableClose: true });
   }
+  handleEvent3() {
+    this.dialog.open(this.modalContent3, { width: '60%', disableClose: true });
+  }
 
   bugReport() {
     this.dialog.open(this.modalBug, { width: '60%', disableClose: false });
@@ -310,20 +315,28 @@ export class NursesManageDashboardComponent implements OnInit {
         _userName: this.UserName
       })
       .subscribe((Response) => {
-        this.all_departments_array = Response["d"];
+        let all_departs = Response["d"];
+        this.all_nursing_departments_array = all_departs.filter(word => word.Depart_Type == "Nursing");
+        this.all_medical_departments_array = all_departs.filter(word => word.Depart_Type == "Medical");
         let _ipAddress;
         let _ipAddress2;
         let _ipAddress3;
         let _ipAddress4;
+        let _ipAddress5;
+        let _ipAddress6;
+        let _ipAddress7;
         let _tabletAddress;
         let _adminNurse;
-        if (this.all_departments_array.length > 0) {
-          _ipAddress = this.all_departments_array[0].IpAddress;
-          _ipAddress2 = this.all_departments_array[0].IpAddress2;
-          _ipAddress3 = this.all_departments_array[0].IpAddress3;
-          _ipAddress4 = this.all_departments_array[0].IpAddress4;
-          _tabletAddress = this.all_departments_array[0].TabletAddress;
-          _adminNurse = this.all_departments_array[0].AdminNurse;
+        if (this.all_nursing_departments_array.length > 0) {
+          _ipAddress = this.all_nursing_departments_array[0].IpAddress;
+          _ipAddress2 = this.all_nursing_departments_array[0].IpAddress2;
+          _ipAddress3 = this.all_nursing_departments_array[0].IpAddress3;
+          _ipAddress4 = this.all_nursing_departments_array[0].IpAddress4;
+          _ipAddress5 = this.all_nursing_departments_array[0].IpAddress5;
+          _ipAddress6 = this.all_nursing_departments_array[0].IpAddress6;
+          _ipAddress7 = this.all_nursing_departments_array[0].IpAddress7;
+          _tabletAddress = this.all_nursing_departments_array[0].TabletAddress;
+          _adminNurse = this.all_nursing_departments_array[0].AdminNurse;
         }
         if (this.UserName == "clalit") {
           this.rightPC = false;
@@ -332,10 +345,17 @@ export class NursesManageDashboardComponent implements OnInit {
           if (_adminNurse) {
             this.nursesUserPermission = true;
             // If the user is a system admin give access else check if the machine is set to this user in database
-            if (_ipAddress == "" && _ipAddress2 == "" && _ipAddress3 == "" && _ipAddress4 == "" && _tabletAddress == "") {
+            if (_ipAddress == "" && _ipAddress2 == "" && _ipAddress3 == "" && _ipAddress4 == "" && _ipAddress5 == "" && _ipAddress6 == "" && _ipAddress7 == "" && _tabletAddress == "") {
               this.rightPC = true;
             } else {
-              if (this.privateIP == _ipAddress || this.privateIP == _ipAddress2 || this.privateIP == _ipAddress3 || this.privateIP == _ipAddress4 || (_tabletAddress == "" && this.privateIP.substring(0, 6) == "10.222")) {
+              if (this.privateIP == _ipAddress /*Personal Pc*/ ||
+                this.privateIP == _ipAddress2 /*General Nurse Room*/ ||
+                this.privateIP == _ipAddress3 /* Hadas Pc*/ ||
+                this.privateIP == _ipAddress4 /* General Con Room*/ ||
+                this.privateIP == _ipAddress5 /*DR Onn Con Room*/ ||
+                this.privateIP == _ipAddress6 /*Tablet1 From Chrome*/ ||
+                this.privateIP == _ipAddress7 /*Tablet2 From Chrome*/ ||
+                (_tabletAddress == "" && this.privateIP.substring(0, 6) == "10.222")/*Tablet From Capsule*/) {
                 this.rightPC = true;
               } else {
                 this.rightPC = false;
@@ -359,17 +379,19 @@ export class NursesManageDashboardComponent implements OnInit {
               }
             }, 300000);
           } else {
-            if (that.all_departments_array.length == 1) {
-              that.Dept_Number = that.all_departments_array[0].Dept_Number;
-              that.Dept_Name = that.all_departments_array[0].Dept_Name;
+            if (that.all_nursing_departments_array.length == 1) {
+              that.Dept_Number = that.all_nursing_departments_array[0].Dept_Number;
+              that.Dept_Name = that.all_nursing_departments_array[0].Dept_Name;
               that.openDialogToFill(that.Dept_Number, that.Dept_Name, '0');
+            } else if (that.all_nursing_departments_array.length == 0) {
+              that.handleEvent3();
             }
           }
         }, 1500);
         this.loaded = true;
-        if (this.all_departments_array.length > 0) {
-          let numberOfPatients = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfPatients;
-          let numberOfBeds = this.all_departments_array[this.all_departments_array.length - 1].hospitalNumberOfBeds;
+        if (this.all_nursing_departments_array.length > 0) {
+          let numberOfPatients = this.all_nursing_departments_array[this.all_nursing_departments_array.length - 1].hospitalNumberOfPatients;
+          let numberOfBeds = this.all_nursing_departments_array[this.all_nursing_departments_array.length - 1].hospitalNumberOfBeds;
           this.getDataFormServer("", numberOfPatients, numberOfBeds);
         }
       });

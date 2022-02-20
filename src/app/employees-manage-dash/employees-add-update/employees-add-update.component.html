@@ -5,13 +5,22 @@
                 <mat-icon>cancel</mat-icon>
             </button>
             <div class="row">
-                <div class="col-12">
+                <div class="col-10">
                     <label style="font-size: 35px;"
                         *ngIf="!EmployeeExists">{{employeePersonalDetails.controls['FirstName'].value}}
                         {{employeePersonalDetails.controls['LastName'].value}} -
                         {{employeeWorkDetails.controls['ADUserName'].value}} -
                         {{employeePersonalDetails.controls['CellNumber'].value}}</label>
-                    <label style="font-size: 40px;color: red;" *ngIf="EmployeeExists">העובד כבר קיים במערכת - ליצור קשר עם מערכות מידע</label>
+                    <label style="font-size: 40px;color: red;" *ngIf="EmployeeExists">העובד כבר קיים במערכת - ליצור קשר
+                        עם מערכות מידע</label>
+                </div>
+                <div class="col-2">
+                    <button class="submitBtn" (click)="duplicateToNewEmployee()" matTooltip="שכפול" color="primary"
+                        type="submit" mat-fab>
+                        <span class="material-icons">
+                            file_copy
+                        </span>
+                    </button>
                 </div>
             </div>
         </mat-card>
@@ -194,8 +203,7 @@
                                 </mat-form-field>
                             </li>
                             <!-- [ngClass]="empType == 'doctor' && managerType == 'research' || managerType == 'admin' ? 'border-me col-3' : 'border-me col-4'" -->
-                            <li class="border-me col-3"
-                                *ngIf="empType == 'doctor' && managerType != 'stager'">
+                            <li class="border-me col-3" *ngIf="empType == 'doctor' && managerType != 'stager'">
                                 <mat-form-field class="example-full-width">
                                     <input *ngIf="managerType == 'admin'" type="text" matInput
                                         placeholder="מספר רישיון רופא" formControlName="DocLicence">
@@ -204,8 +212,7 @@
                                 </mat-form-field>
                             </li>
                             <li class="border-me col-3" id="employees"
-                                *ngIf="empType == 'doctor' && managerType != 'stager'"
-                                style="height: 75px;">
+                                *ngIf="empType == 'doctor' && managerType != 'stager'" style="height: 75px;">
                                 <mat-form-field appearance="fill" class="example-full-width">
                                     <span matPrefix>קבלת רישיון &nbsp;</span>
                                     <input matInput *ngIf="managerType == 'admin'" formControlName="DocStartExperience"
@@ -277,8 +284,9 @@
                         </div> -->
                     </ol>
                     <div class="button-row">
-                        <button class="submitBtn mb-2 mt-3" [disabled]="employeePersonalDetails.invalid"
-                            (click)="saveEmployee()" color="primary" type="submit" mat-fab>
+                        <button class="submitBtn mb-2 mt-3" matTooltip="שמירה"
+                            [disabled]="employeePersonalDetails.invalid" (click)="saveEmployee()" color="primary"
+                            type="submit" mat-fab>
                             <span class="material-icons">
                                 save
                             </span>
