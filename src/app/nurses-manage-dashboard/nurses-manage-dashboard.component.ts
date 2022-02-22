@@ -376,6 +376,7 @@ export class NursesManageDashboardComponent implements OnInit {
                 this.getEROccupancy("", "er");
                 this.getDeliveryEROccupancy("");
                 this.updateDate = new Date();
+                this.orderMedsArray(this.all_medical_departments_array);
               }
             }, 300000);
           } else {
@@ -407,6 +408,10 @@ export class NursesManageDashboardComponent implements OnInit {
   //     window.location.reload();
   //   }
   // }
+  
+  orderMedsArray(medsArray){
+    
+  }
 
   getOtherDepartmentDetails(otherDepartName) {
     let dialogRef = this.dialog.open(OtherDepartmentsComponent, {});
