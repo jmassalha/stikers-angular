@@ -787,7 +787,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
-            this.loginUserName.toLowerCase() == ("RSHARLIN").toLowerCase() ||
+            this.loginUserName.toLowerCase() == ("rsharlin").toLowerCase() ||
             this.loginUserName.toLowerCase() == "sabuhanna"
         ) {
             this._sendSMSADMIN = true;
