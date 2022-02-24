@@ -316,7 +316,7 @@
                     </div>
                 </div>
                 <div class="col-2 mt-2">
-                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:25:30">
+                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:25:29">
                         <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
                             <div class="list-style text-center"
                                 style="font-size: 23px;color: darkblue;font-weight: bold;">
@@ -330,37 +330,18 @@
                                 </span>
                             </div>
                         </mat-card>
+
                     </div>
-                </div>
-                <div class="col-2 mt-2">
-                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:30:35">
-                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
+                    <div class="row">
+                        <mat-card style="height: 90%;margin-bottom: 10px;background-color: cornflowerblue;" class="card-med dash-cards text-center">
                             <div class="list-style text-center"
                                 style="font-size: 23px;color: darkblue;font-weight: bold;">
-                                {{item.Dept_Name}}
+                                סה"כ תפוסות
                             </div>
-                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
-                                *ngIf="item.Dept_Name">
-                                סה"כ: {{item.OccupancyPerDepart}}
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;">
+                                סה"כ: {{allMedsDeptsStats.occupancy}}
                                 <span>תפוסה:
-                                    {{item.PercentOccupancy}}%
-                                </span>
-                            </div>
-                        </mat-card>
-                    </div>
-                </div>
-                <div class="col-2 mt-2">
-                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:35:40">
-                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
-                            <div class="list-style text-center"
-                                style="font-size: 23px;color: darkblue;font-weight: bold;">
-                                {{item.Dept_Name}}
-                            </div>
-                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
-                                *ngIf="item.Dept_Name">
-                                סה"כ: {{item.OccupancyPerDepart}}
-                                <span>תפוסה:
-                                    {{item.PercentOccupancy}}%
+                                    {{allMedsDeptsStats.percent | number : '.2-2'}}%
                                 </span>
                             </div>
                         </mat-card>
@@ -579,11 +560,7 @@
             [routerLink]="['']" (click)="closeModal()">
             <i class="material-icons">home</i>
         </button>
-        <span class="mr-3">&#8734; 😨 ייתכן ואין לך הרשאת צפייה במידע זה &#8734;</span><span>אולי רענון מסך
-            יעזור</span><button matTooltip="רענן מסך" mat-raised-button style="background: lawngreen;" type="button"
-            class="btn btn-raised" (click)="ngOnInit()">
-            <i class="material-icons">refresh</i>
-        </button>
+        <span class="mr-3">&#8734; 😨 ייתכן ואין לך הרשאת צפייה במידע זה &#8734;</span>
     </h1>
 </ng-template>
 <ng-template #modalContent2 let-close="close">

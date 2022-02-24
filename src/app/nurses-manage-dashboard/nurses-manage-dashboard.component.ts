@@ -69,6 +69,10 @@ export class NursesManageDashboardComponent implements OnInit {
   deliveryOccLoaded: boolean;
   allErOccupancy: int;
   allDeliveryErOccupancy: int;
+  allMedsDeptsStats = {
+    occupancy: 0,
+    percent: 0
+  };
   ELEMENT_DATA = [];
   userIP = ''
   rightPC: boolean;
@@ -318,6 +322,10 @@ export class NursesManageDashboardComponent implements OnInit {
         let all_departs = Response["d"];
         this.all_nursing_departments_array = all_departs.filter(word => word.Depart_Type == "Nursing");
         this.all_medical_departments_array = all_departs.filter(word => word.Depart_Type == "Medical");
+        for(let i=0 ; i<this.all_medical_departments_array.length ; i++){
+          this.allMedsDeptsStats.occupancy += parseInt(this.all_medical_departments_array[i].OccupancyPerDepart);
+        }
+        this.allMedsDeptsStats.percent = (this.allMedsDeptsStats.occupancy / 355)*100;
         let _ipAddress;
         let _ipAddress2;
         let _ipAddress3;

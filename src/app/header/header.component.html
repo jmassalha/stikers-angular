@@ -1,9 +1,7 @@
 <nav dir="rtl" class="navbar navbar-expand-lg navbar-light bg-primary">
     <button class="btn bmd-btn-icon" type="button" id="menu-btn">
         <i class="material-icons closeMe"> close </i>
-        <i class="material-icons open" *ngIf="!personReadInquiry"> menu </i>
-        <i class="material-icons open" *ngIf="personReadInquiry"> menu
-        </i>
+        <i class="material-icons open"> menu </i>
     </button>
     <div dir="rtl" class="text-right" id="app-menu">
         <ul class="navbar-nav mr-auto">
@@ -304,7 +302,7 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
-                            
+
                             <li class="nav-item" *ngIf="_shoCoronavaccine">
                                 <a class="nav-link" routerLink="sarscov2">נוגדנים לקורונה</a>
                             </li>
