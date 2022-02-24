@@ -109,7 +109,9 @@ export class SendsmsadminComponent implements OnInit {
              localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase() ||
              localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase() ||
              localStorage.getItem("loginUserName").toLowerCase() == ("MRuach").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("LCerem").toLowerCase()  
+             localStorage.getItem("loginUserName").toLowerCase() == ("LCerem").toLowerCase()  ||
+             localStorage.getItem("loginUserName").toLowerCase()  == ("rsharlin").toLowerCase()
+
         ) {
         } else {
             this.router.navigate(["login"]);
