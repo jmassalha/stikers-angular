@@ -450,7 +450,6 @@ export class NursesDashboardComponent implements OnInit {
 
   showNewReportButton(patient) {
     this.showNewReport = true;
-    console.log(patient);
     this.ReportGroup = this.formBuilder.group({
       Row_ID: ['0', null],
       ReportTitle: ['', null],

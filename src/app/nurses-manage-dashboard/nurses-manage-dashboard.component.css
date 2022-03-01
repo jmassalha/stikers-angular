@@ -12,6 +12,13 @@
   padding-bottom: 50px;
 }
 
+.card-img {
+  background-size: contain;
+  background-repeat: no-repeat;
+  background-position: center center;
+  height: 150px;
+}
+
   @media only screen and (max-width: 480px) {
     .mat-radio-button {
         inline-size: auto;
