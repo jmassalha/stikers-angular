@@ -1,0 +1,48 @@
+<nav dir="rtl" class="navbar navbar-expand-lg navbar-light bg-primary">
+    <button class="btn bmd-btn-icon" type="button" id="menu-btn">
+        <i class="material-icons closeMe"> close </i>
+        <i class="material-icons open"> menu </i>
+    </button>
+    <!-- <div dir="rtl" class="text-right" id="app-menu">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item">
+                <a class="nav-link" routerLink="dashboard">Dashboard</a>
+            </li>
+            <li *ngFor="let Link of Links; let i = index;">
+                <a *ngIf="Link.Children.length == 0" class="nav-link" [routerLink]="Link.LinkId">{{Link.LinkDescription}}</a>
+                <ng-template ngFor let-LinkChild [ngForOf]="Link.Children">
+                    <mat-accordion>
+                        <mat-expansion-panel>
+                            <mat-expansion-panel-header>
+                                <mat-panel-title>  {{Link.LinkDescription}} </mat-panel-title>
+                                <mat-panel-description> </mat-panel-description>
+                            </mat-expansion-panel-header>
+                            <ul>
+                                <li>
+                                    <a class="nav-link" [routerLink]="LinkChild.LinkId">{{LinkChild.LinkDescription}}</a>
+                                </li>
+                            </ul>
+                        </mat-expansion-panel>
+                    </mat-accordion>
+                </ng-template>
+            </li>
+            <li class="nav-item">
+                <button class="full-width clearCach" mat-raised-button (click)="logout($event)">
+                    Logout
+                </button>
+            </li>
+        </ul>
+    </div> -->
+    
+    <!-- <div class="TreeContainer"> -->
+        <div dir="rtl" class="text-right" id="app-menu">
+            <ul class="navbar-nav mr-auto">
+                <tree-item [data]="Links"></tree-item>
+            </ul>
+        </div>
+        
+    <!-- </div> -->
+    <div id="logo">
+        <img alt="Poriya" src="assets/images/logo.png" title="Poriya" />
+    </div>
+</nav>

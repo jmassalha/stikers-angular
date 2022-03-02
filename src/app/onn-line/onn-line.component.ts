@@ -34,6 +34,15 @@ export interface Link {
     SubToLinkId: string;
 }
 
+export interface OutpatientClinic {
+    RowId: string;
+    LinkId: string;
+    LinkDescription: string;
+    LinkStatus: string;
+    Level: string;
+    SubToLinkId: string;
+    SubToLinkDescription: string;
+}
 @Component({
     selector: "app-onn-line",
     templateUrl: "./onn-line.component.html",
@@ -49,23 +58,27 @@ export class OnnLineComponent implements OnInit {
     Level = "";
     SubToLinkId = "";
     TABLE_DATA: Link[] = [];
+    AllLinks: Link[] = [];
+    FilterdLinks: Link[] = [];
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     modalOptions: NgbModalOptions;
     resultsLength = 0;
     pageSize = 10;
     LinksStatus = "-1";
     displayedColumns: string[] = [
-        "RowId",
-        "LinkId",
+       // "RowId",
+        //"LinkId",
         "LinkDescription",
-        "Level",
+       // "Level",
         "SubToLinkId",
         "LinkStatus",
+        "EditLink",
         "ListOfUsers",
         "AddUser",
     ];
 
     LinksForm: FormGroup;
+    LinksSearchForm: FormGroup;
     constructor(
         private _snackBar: MatSnackBar,
         private router: Router,
@@ -75,19 +88,117 @@ export class OnnLineComponent implements OnInit {
         private formBuilder: FormBuilder
     ) {}
 
-    ngOnInit(): void {}
-    onSubmit() {}
-    open(content, _type, _element) {}
+    ngOnInit(): void {
+        this.LinksSearchForm = this.formBuilder.group({
+            FreeText: ["", null],
+            Status: ["-1", null],
+        });
+        this.getLinks();
+       // this.getLinksToLinked();
+    }
+    onSubmit() {
+        if(!this.LinksForm.valid){
+            return;
+        }
+        $("#loader").removeClass("d-none");
+        this.http
+            .post(
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateLink",
+                "http://localhost:64964/WebService.asmx/insertOrUpdateLink",
+                {
+                    mLink: this.LinksForm.value,
+                }
+            )
+            .subscribe((Response) => {  
+                this.modalService.dismissAll();              
+                this.getLinks();
+            });
+        
+    }
+    editLink(content, _type, _element){
+        this.LinksForm = this.formBuilder.group({
+            LinkId: [_element.LinkId, null],
+            LinkDescription: [_element.LinkDescription, Validators.required],
+            LinkStatus: [_element.LinkStatus, Validators.required],
+            Level: [_element.Level, null],
+            SubToLinkId: [_element.SubToLinkId, null],
+            RowId: [_element.RowId, false],
+        });
+        this.modalService.open(content, this.modalOptions).result.then(
+            (result) => {
+                if ("Save" == result) {
+                    // ////debugger;
+                    //this.saveChad(_element.ROW_ID);
+                }
+            },
+            (reason) => {}
+        );
+    }
+    open(content, _type, _element) {
+        this.LinksForm = this.formBuilder.group({
+            LinkId: ["", null],
+            LinkDescription: ["", Validators.required],
+            LinkStatus: ["1", Validators.required],
+            Level: ["", null],
+            SubToLinkId: ["", Validators.required],
+            RowId: ["0", false],
+        });
+        this.modalService.open(content, this.modalOptions).result.then(
+            (result) => {
+                if ("Save" == result) {
+                    // ////debugger;
+                    //this.saveChad(_element.ROW_ID);
+                }
+            },
+            (reason) => {}
+        );
+    }
     addUser(content, _type, _element) {}
     ListOfPerUsers(content, _type, _element) {}
     getPaginatorData(event: PageEvent) {
-        //console.log(this.paginator.pageIndex);
-
         this.getLinks();
     }
     changeStatus(event) {
-        ////debugger
         this.LinksStatus = event.value;
     }
-    getLinks() {}
+
+    onSubmitSearch() {}
+    getLinksToLinked() {
+        
+        this.http
+            .post(
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/selectOnnLineLinks",
+                "http://localhost:64964/WebService.asmx/selectOnnLineLinks",
+                {
+                    freeText: "",
+                    status: "",
+                }
+            )
+            .subscribe((Response) => {
+                
+                this.AllLinks = Response["d"];
+               // debugger
+            });
+    }
+    getLinks() {
+        $("#loader").removeClass("d-none");
+        this.http
+            .post(
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/selectOnnLineLinks",
+                "http://localhost:64964/WebService.asmx/selectOnnLineLinks",
+                {
+                    freeText: this.LinksSearchForm.value.FreeText,
+                    status: this.LinksSearchForm.value.Status,
+                }
+            )
+            .subscribe((Response) => {
+                this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
+                this.TABLE_DATA = Response["d"];
+                this.dataSource = new MatTableDataSource(this.TABLE_DATA);
+                this.getLinksToLinked();
+                setTimeout(function () {
+                    $("#loader").addClass("d-none");
+                });
+            });
+    }
 }

@@ -118,6 +118,7 @@ import { FastCovidTestDashboardComponent } from './fast-covid-test-dashboard/fas
 import { AddResponseFillDialog } from './fill-report/fill-report.component';
 import { UrgentSurgeriesComponent } from './urgent-surgeries/urgent-surgeries.component';
 import { OnlineAppointmentsComponent } from './online-appointments/online-appointments.component';
+import { TreeItemComponent } from './new-header/tree-item.component';
 import localeHe from '@angular/common/locales/he';
 //import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 registerLocaleData(localeHe);
@@ -138,7 +139,8 @@ import { EmployeesManageDashComponent } from './employees-manage-dash/employees-
 import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-add-update/employees-add-update.component';
 import { OnnLineComponent } from './onn-line/onn-line.component';
 import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
-
+import { NewHeaderComponent } from './new-header/new-header.component';
+//import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -149,6 +151,7 @@ const maskConfig: Partial<IConfig> = {
     ScannersComponent,
     DialogContentExampleDialog,
     AppComponent,
+   // DragDropModule,
     LoginComponent,
     DashboardComponent,
     HeaderComponent,
@@ -167,6 +170,7 @@ const maskConfig: Partial<IConfig> = {
     StaffComponent,
     SendsmsComponent,
     CoronaresultformComponent,
+    TreeItemComponent,
     GlucoseComponent,
     MershamComponent,
     DrugsComponent,
@@ -235,7 +239,8 @@ const maskConfig: Partial<IConfig> = {
     EmployeesManageDashComponent,
     EmployeesAddUpdateComponent,
     OnnLineComponent,
-    NursesReinforcementComponent
+    NursesReinforcementComponent,
+    NewHeaderComponent
   ],
   imports: [
     FlatpickrModule.forRoot(),

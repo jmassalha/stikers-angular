@@ -566,11 +566,14 @@ export class FillSurveyComponent implements OnInit {
           console.log("User confirmed:", confirmed);
           if (confirmed) {
             this.http
-              .post("http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm", {
+             .post("http://srv-ipracticom:8080/WebService.asmx/answerForm", {
+              //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm", {
+              //.post("http://localhost:64964/WebService.asmx/answerForm", {
                 _answerValues: survey,
                 _ifContinue: continueForm,
               })
               .subscribe((Response) => {
+                debugger;
                 this.openSnackBar("!נשמר בהצלחה");
               });
             this.dialog.closeAll();

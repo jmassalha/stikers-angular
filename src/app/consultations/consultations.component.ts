@@ -207,7 +207,7 @@ export class ConsultationsComponent implements OnInit {
     public stepSecond = 1;
     public color: ThemePalette = "primary";
     barChart: string = "BarChart";
-    barChartC: string = "ColumnChart";
+    barChartC: string = "BarChart";
     titleDepartsChart: string = "יעוצים לפי מחלקה";
     titleWorkersChart: string = "יעוצים לפי רופא";
     departsList: Departs[] = [];
@@ -554,9 +554,9 @@ DepartsDataRequestAvgAllNotPara
             },
         };
         this.optionsBarsV = {
-            bars: "vertical",
+           // bars: "vertical",
             hAxis: {
-                direction: -1,
+               // direction: -1,
                 slantedText: true,
                 slantedTextAngle: 90,
                 showTextEvery: 1,
