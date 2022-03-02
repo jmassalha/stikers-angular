@@ -179,10 +179,12 @@
                             (click)="!onlyDisplay && bugReport()">
                             <i class="material-icons">info</i>
                         </button></li>
-                    <li><button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay"
+                    <li><button matTooltipPosition="left" matTooltip="יישומים" id="EventBtndisplay"
                             mat-raised-button type="button" class="btn btn-raised mr-1"
-                            style="background-color: limegreen;" (click)="!onlyDisplay && openReinforcementtDialog('')">
-                            <img height="35px" width="30px" src="../../assets/images/sos.png">
+                            style="background-color: goldenrod;" (click)="!onlyDisplay && otherApps()">
+                            <span class="material-icons">
+                                apps
+                            </span>
                         </button></li>
                 </ul>
             </div>
@@ -316,7 +318,7 @@
                     </div>
                 </div>
                 <div class="col-2 mt-2">
-                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:25:30">
+                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:25:29">
                         <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
                             <div class="list-style text-center"
                                 style="font-size: 23px;color: darkblue;font-weight: bold;">
@@ -330,37 +332,19 @@
                                 </span>
                             </div>
                         </mat-card>
+
                     </div>
-                </div>
-                <div class="col-2 mt-2">
-                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:30:35">
-                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
+                    <div class="row">
+                        <mat-card style="height: 90%;margin-bottom: 10px;background-color: cornflowerblue;"
+                            class="card-med dash-cards text-center">
                             <div class="list-style text-center"
                                 style="font-size: 23px;color: darkblue;font-weight: bold;">
-                                {{item.Dept_Name}}
+                                סה"כ תפוסות
                             </div>
-                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
-                                *ngIf="item.Dept_Name">
-                                סה"כ: {{item.OccupancyPerDepart}}
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;">
+                                סה"כ: {{allMedsDeptsStats.occupancy}}
                                 <span>תפוסה:
-                                    {{item.PercentOccupancy}}%
-                                </span>
-                            </div>
-                        </mat-card>
-                    </div>
-                </div>
-                <div class="col-2 mt-2">
-                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:35:40">
-                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
-                            <div class="list-style text-center"
-                                style="font-size: 23px;color: darkblue;font-weight: bold;">
-                                {{item.Dept_Name}}
-                            </div>
-                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
-                                *ngIf="item.Dept_Name">
-                                סה"כ: {{item.OccupancyPerDepart}}
-                                <span>תפוסה:
-                                    {{item.PercentOccupancy}}%
+                                    {{allMedsDeptsStats.percent | number : '.2-2'}}%
                                 </span>
                             </div>
                         </mat-card>
@@ -534,6 +518,36 @@
     </mat-tab-group>
 </ng-template>
 
+<ng-template #modalOtherApps let-close="close">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">יישומים</h1>
+    <hr>
+    <mat-card class="card-img"
+        style="background-color: limegreen;width: 20%;" (click)="!onlyDisplay && openReinforcementtDialog('')">
+        <div class="card-img" style="background-image:url('../../assets/images/sos.png')"></div>
+        <!-- <button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button type="button"
+            class="btn btn-raised mr-1" style="background-color: limegreen;"
+            (click)="!onlyDisplay && openReinforcementtDialog('')">
+            <span class="material-icons">
+                sms
+            </span>
+        </button> -->
+    </mat-card>
+    <mat-card style="width: 20%;">Test 1</mat-card>
+    <mat-card style="width: 20%;">Test 2</mat-card>
+    <mat-card style="width: 20%;">Test 3</mat-card>
+    <mat-card style="width: 20%;">Test 4</mat-card>
+    <!-- <div mat-dialog-actions>
+        <div class="row">
+            <button mat-raised-button color="primary" (click)="ipAddressUpdate()">עדכון</button>
+            <button mat-raised-button color="warn" style="float: right;" mat-dialog-close>מאוחר יותר</button>
+        </div>
+
+    </div> -->
+</ng-template>
+
 <ng-template #modalIp let-close="close">
     <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
@@ -579,11 +593,8 @@
             [routerLink]="['']" (click)="closeModal()">
             <i class="material-icons">home</i>
         </button>
-        <span class="mr-3">&#8734; 😨 ייתכן ואין לך הרשאת צפייה במידע זה &#8734;</span><span>אולי רענון מסך
-            יעזור</span><button matTooltip="רענן מסך" mat-raised-button style="background: lawngreen;" type="button"
-            class="btn btn-raised" (click)="ngOnInit()">
-            <i class="material-icons">refresh</i>
-        </button>
+        <span class="mr-3" *ngIf="UserName == 'amabushkar'">&#8734; 😋 אמירה הכניסה רק באישור מיוחד &#8734;</span>
+        <span class="mr-3" *ngIf="UserName != 'amabushkar'">&#8734; 😨 ייתכן ואין לך הרשאת צפייה במידע זה &#8734;</span>
     </h1>
 </ng-template>
 <ng-template #modalContent2 let-close="close">

@@ -29,7 +29,7 @@ export class NursesManageDashboardComponent implements OnInit {
   hospitalBedsInUse: string;
   resparotriesCount: string;
   updateSubscription: any;
-  UserName = localStorage.getItem("loginUserName").toLowerCase();
+  UserName:string = "";
   nursesUserPermission: boolean = false;
   privateIP;
   publicIP;
@@ -42,6 +42,7 @@ export class NursesManageDashboardComponent implements OnInit {
   @ViewChild('modalContent3', { static: true }) modalContent3: TemplateRef<any>;
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
   @ViewChild('modalIp', { static: true }) modalIp: TemplateRef<any>;
+  @ViewChild('modalOtherApps', { static: true }) modalOtherApps: TemplateRef<any>;
 
   constructor(
     private zone: NgZone,
@@ -69,6 +70,10 @@ export class NursesManageDashboardComponent implements OnInit {
   deliveryOccLoaded: boolean;
   allErOccupancy: int;
   allDeliveryErOccupancy: int;
+  allMedsDeptsStats = {
+    occupancy: 0,
+    percent: 0
+  };
   ELEMENT_DATA = [];
   userIP = ''
   rightPC: boolean;
@@ -86,28 +91,33 @@ export class NursesManageDashboardComponent implements OnInit {
   // showBugsTable: boolean = false;
 
   ngOnInit(): void {
-    this.getLocalIP();
-    let that = this;
-    setTimeout(() => {
-      that.loaded = false;
-      that.occLoaded = false;
-      that.rightPC = false;
-      that.searchWord = "";
-      that.getAllDeparts();
-      that.getEROccupancy('', 'er');
-      that.getDeliveryEROccupancy('');
-      that.privateIP = this.ClientIP;
-      if (this.UserName != 'adahabre') {
-        this.IpAddressMonitoring();
-      }
-      this.onlyDisplayUsers();
+    if (localStorage.getItem("loginState") == "true") {
+      this.UserName = localStorage.getItem("loginUserName").toLowerCase();
+      this.getLocalIP();
+      let that = this;
+      setTimeout(() => {
+        that.loaded = false;
+        that.occLoaded = false;
+        that.rightPC = false;
+        that.searchWord = "";
+        that.getAllDeparts();
+        that.getEROccupancy('', 'er');
+        that.getDeliveryEROccupancy('');
+        that.privateIP = this.ClientIP;
+        if (this.UserName != 'adahabre') {
+          this.IpAddressMonitoring();
+        }
+        this.onlyDisplayUsers();
 
-    }, 1500);
-    // this.ipAddressUpdate();
+      }, 1500);
+      // this.ipAddressUpdate();
 
-    // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
-    //   this.publicIP = data['ip'];
-    // });
+      // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
+      //   this.publicIP = data['ip'];
+      // });
+    }else{
+      this.handleEvent3();
+    }
   }
 
   onlyDisplayUsers() {
@@ -304,6 +314,11 @@ export class NursesManageDashboardComponent implements OnInit {
     this.getBugsTable();
     this.getNewActionsTable();
   }
+
+  otherApps() {
+    this.dialog.open(this.modalOtherApps, { width: '60%', disableClose: false });
+  }
+
   closeModal() {
     this.dialog.closeAll();
   }
@@ -318,6 +333,14 @@ export class NursesManageDashboardComponent implements OnInit {
         let all_departs = Response["d"];
         this.all_nursing_departments_array = all_departs.filter(word => word.Depart_Type == "Nursing");
         this.all_medical_departments_array = all_departs.filter(word => word.Depart_Type == "Medical");
+        this.allMedsDeptsStats = {
+          occupancy: 0,
+          percent: 0
+        }
+        for (let i = 0; i < this.all_medical_departments_array.length; i++) {
+          this.allMedsDeptsStats.occupancy += parseInt(this.all_medical_departments_array[i].OccupancyPerDepart);
+        }
+        this.allMedsDeptsStats.percent = (this.allMedsDeptsStats.occupancy / 355) * 100;
         let _ipAddress;
         let _ipAddress2;
         let _ipAddress3;
@@ -408,9 +431,9 @@ export class NursesManageDashboardComponent implements OnInit {
   //     window.location.reload();
   //   }
   // }
-  
-  orderMedsArray(medsArray){
-    
+
+  orderMedsArray(medsArray) {
+
   }
 
   getOtherDepartmentDetails(otherDepartName) {

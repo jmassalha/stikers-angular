@@ -669,6 +669,7 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "iatlas" ||
             this.loginUserName.toLowerCase() == "bouganim" ||
             this.loginUserName.toLowerCase() == "tbouganim" ||
+            this.loginUserName.toLowerCase() == "tataha" ||
             this.loginUserName.toLowerCase() == "nmansour"
         ) {
             // //debugger
