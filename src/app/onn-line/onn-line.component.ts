@@ -25,6 +25,8 @@ import {
     Validators,
 } from "@angular/forms";
 import * as Fun from "../public.functions";
+import { CdkDragDrop, CdkDragEnter, CdkDragExit, moveItemInArray } from "@angular/cdk/drag-drop";
+import { Item } from "./models/item";
 export interface Link {
     RowId: string;
     LinkId: string;
@@ -58,6 +60,10 @@ export class OnnLineComponent implements OnInit {
     Level = "";
     SubToLinkId = "";
     TABLE_DATA: Link[] = [];
+    public get connectedDropListsIds(): string[] {
+        // We reverse ids here to respect items nesting hierarchy
+        return [];// this.getIdsRecursive(this.TABLE_DATA).reverse();
+    }
     AllLinks: Link[] = [];
     FilterdLinks: Link[] = [];
     dataSource = new MatTableDataSource(this.TABLE_DATA);
@@ -201,4 +207,41 @@ export class OnnLineComponent implements OnInit {
                 });
             });
     }
+    public onDragDrop(event: CdkDragDrop<Item>) {
+        event.container.element.nativeElement.classList.remove('active');
+        if (this.canBeDropped(event)) {
+          const movingItem: Item = event.item.data;
+          event.container.data.Children.push(movingItem);
+          event.previousContainer.data.Children = event.previousContainer.data.Children.filter((child) => child.RowId !== movingItem.RowId);
+        } else {
+          moveItemInArray(
+            event.container.data.Children,
+            event.previousIndex,
+            event.currentIndex
+          );
+        }
+      }
+    
+      private getIdsRecursive(item: Item): string[] {
+        let ids = [item.RowId];
+        item.Children.forEach((childItem) => { ids = ids.concat(this.getIdsRecursive(childItem)) });
+        return ids;
+      }
+    
+      private canBeDropped(event: CdkDragDrop<Item, Item>): boolean {
+        const movingItem: Item = event.item.data;
+    
+        return event.previousContainer.id !== event.container.id
+          && this.isNotSelfDrop(event)
+          && !this.hasChild(movingItem, event.container.data);
+      }
+    
+      private isNotSelfDrop(event: CdkDragDrop<Item> | CdkDragEnter<Item> | CdkDragExit<Item>): boolean {
+        return event.container.data.RowId !== event.item.data.RowId;
+      }
+    
+      private hasChild(parentItem: Item, childItem: Item): boolean {
+        const hasChild = parentItem.Children.some((item) => item.RowId === childItem.RowId);
+        return hasChild ? true : parentItem.Children.some((item) => this.hasChild(item, childItem));
+      }
 }

@@ -239,6 +239,10 @@
       <div class="item-box" *ngFor="let item of dataSource" cdkDrag>{{item.LinkDescription}}</div>
     </div>
 </div> -->
+<!-- <list-item [item]="TABLE_DATA"
+    [connectedDropListsIds]="connectedDropListsIds"
+    (itemDrop)="onDragDrop($event)">
+  </list-item> -->
 <ng-template #LinksDetailsModal let-modal>
     <form
         dir="rtl"
