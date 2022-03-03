@@ -1,32 +1,36 @@
 <div id="page-toshow">
-    <h1 class="page-title text-center">בקשה לזימון תורים</h1>
+    <h1 class="page-title text-center">תפריט מערכת ONN-LINE</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body">
-                        <form class="form">
+                        <form [formGroup]="LinksSearchForm"
+                        (ngSubmit)="onSubmitSearch()" class="form">
                             <div class="row">
                                 
                                 <div class="col">
                                     <div class="form-group">
                                         <mat-form-field>
-                                            <mat-label>סטטוס</mat-label>
-                                            <mat-select
-                                                (selectionChange)="
-                                                    changeStatus($event)
-                                                "
-                                                [value]="LinksStatus"
-                                            >
-                                                <mat-option value="-1">
-                                                    הכל
-                                                </mat-option>
-                                                <mat-option value="1">
-                                                    פעיל
-                                                </mat-option>
-                                                <mat-option value="0">
-                                                    לא פעיל
-                                                </mat-option>
+                                            <mat-label>חפש</mat-label>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                class="form-control"
+                                                type="text"
+                                                formControlName="FreeText"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <mat-label>מצב</mat-label>
+                                            <mat-select formControlName="Status">
+                                                <mat-option value="-1">הכל </mat-option>
+                                                <mat-option value="1"> פעיל </mat-option>
+                                                <mat-option value="0"> לא פעיל </mat-option>
                                             </mat-select>
                                         </mat-form-field>
                                     </div>
@@ -87,7 +91,7 @@
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.LinkDescription }}
                                 </td>
-                            </ng-container>                            
+                            </ng-container>
                             <ng-container matColumnDef="Level">
                                 <th mat-header-cell *matHeaderCellDef>
                                     רמת קישור
@@ -99,24 +103,23 @@
 
                             <ng-container matColumnDef="SubToLinkId">
                                 <th mat-header-cell *matHeaderCellDef>
-                                    בן לקישור
+                                    בן ל
                                 </th>
                                 <td mat-cell *matCellDef="let element">
-                                    {{ element.SubToLinkId }}
+                                    {{ element.SubToLinkDescription }}
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="LinkStatus">
                                 <th mat-header-cell *matHeaderCellDef>סטטוס</th>
                                 <td mat-cell *matCellDef="let element">
                                     {{
-                                        element.LinkStatus === "0"
-                                            ? "פעיל"                                            
+                                        element.LinkStatus == "1"
+                                            ? "פעיל"
                                             : "לא פעיל"
                                     }}
                                 </td>
                             </ng-container>
-                            
-                            
+
                             <ng-container matColumnDef="ListOfUsers">
                                 <th
                                     mat-header-cell
@@ -140,6 +143,33 @@
                                             color="primary"
                                         >
                                             <mat-icon>list</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="EditLink">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                עריכה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                editLink(
+                                                    LinksDetailsModal,
+                                                    'EditLinkDetails',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>edit</mat-icon>
                                         </button>
                                     </div>
                                 </td>
@@ -182,20 +212,19 @@
                         </table>
                     </div>
                     <!-- PAGINATION -->
-                    <mat-paginator
+                    <!-- <mat-paginator
                         [length]="resultsLength"
                         [pageSizeOptions]="[5, 10, 20, 50, 100]"
                         [pageSize]="pageSize"
                         showFirstLastButtons
                         (page)="getPaginatorData($event)"
-                    ></mat-paginator>
+                    ></mat-paginator> -->
                 </div>
             </div>
         </div>
     </div>
 </div>
 <button
-    
     type="button"
     id="addBtn"
     (click)="open(LinksDetailsModal, 'rowDetails', '')"
@@ -204,6 +233,16 @@
 >
     <i class="material-icons">add</i>
 </button>
+<!-- <div class="drag-container">
+    <div cdkDropList #pendingList="cdkDropList" [cdkDropListData]="dataSource" [cdkDropListConnectedTo]="[doneList,reviewList]"
+      class="item-list" (cdkDropListDropped)="drop($event)">
+      <div class="item-box" *ngFor="let item of dataSource" cdkDrag>{{item.LinkDescription}}</div>
+    </div>
+</div> -->
+<!-- <list-item [item]="TABLE_DATA"
+    [connectedDropListsIds]="connectedDropListsIds"
+    (itemDrop)="onDragDrop($event)">
+  </list-item> -->
 <ng-template #LinksDetailsModal let-modal>
     <form
         dir="rtl"
@@ -224,20 +263,84 @@
                 (click)="modal.dismiss('Cross click')"
             >
                 <span aria-hidden="true">&times;</span>
-            </button>            
+            </button>
         </div>
         <div class="modal-body text-right" dir="rtl">
-                      
-                   
-            
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>קישור</mat-label>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                type="text"
+                                formControlName="LinkId"
+                                
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>תיאור קישור</mat-label>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                type="text"
+                                formControlName="LinkDescription"
+                                
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>רמת קישור</mat-label>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                class="form-control"
+                                type="text"
+                                formControlName="Level"
+                                
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>בן ל</mat-label>
+                            <mat-select formControlName="SubToLinkId">                                
+                                <mat-option value="0"> ללא אב </mat-option>                           
+                                <mat-option *ngFor="let opt of AllLinks; let i = index;" [value]="opt.RowId"> {{opt.LinkDescription}} </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col">
+                    <div class="form-group">
+                        <mat-form-field>
+                            <mat-label>מצב</mat-label>
+                            <mat-select formControlName="LinkStatus">
+                                <mat-option value="1"> פעיל </mat-option>
+                                <mat-option value="0"> לא פעיל </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
         </div>
-        <div class="modal-footer text-left">                      
-            <button  type="submit" class="btn btn-outline-dark">
-                שמור
-            </button>
+        <div class="modal-footer text-left">
+            <button type="submit" class="btn btn-outline-dark">שמור</button>
         </div>
     </form>
 </ng-template>
-<ng-template #AdduserDetailsModal let-modal>
-   
-</ng-template>
+<ng-template #AdduserDetailsModal let-modal> </ng-template>

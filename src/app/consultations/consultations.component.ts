@@ -207,7 +207,7 @@ export class ConsultationsComponent implements OnInit {
     public stepSecond = 1;
     public color: ThemePalette = "primary";
     barChart: string = "BarChart";
-    barChartC: string = "ColumnChart";
+    barChartC: string = "BarChart";
     titleDepartsChart: string = "יעוצים לפי מחלקה";
     titleWorkersChart: string = "יעוצים לפי רופא";
     departsList: Departs[] = [];
@@ -314,7 +314,7 @@ export class ConsultationsComponent implements OnInit {
     DepartsDataDoingAvg: any = [["", 0, "", 0]];
     DepartsDoingAvgColumns: any = [
         "מחלקה מבצעת",
-        "זמן ממוצע למתן יעוץ",
+        "",
         { role: "style" },
         { role: "annotation" },
     ];
@@ -380,11 +380,11 @@ export class ConsultationsComponent implements OnInit {
         { role: "annotation" },
     ];
 
-    titleDepartDoingTotalAll: any = 'סה"כ יעוץ לפי מחלקה מזמינה בשעות';
+    titleDepartDoingTotalAll: any = 'סה"כ יעוץ לפי מחלקה מזמינה';
     DepartsDataDoingTotalAll: any = [["", 0, "", 0]];
     DepartsDoingTotalColumnsAll: any = [
         "מחלקה מזמינה",
-        "זמן ממוצע לקבלת היעוץ",
+        "",
         { role: "style" },
         { role: "annotation" },
     ];
@@ -393,7 +393,7 @@ export class ConsultationsComponent implements OnInit {
     DepartsDataDoingAvgAll: any = [["", 0, "", 0]];
     DepartsDoingAvgColumnsAll: any = [
         "מחלקה מבצעת",
-        "זמן ממוצע למתן יעוץ",
+        "",
         { role: "style" },
         { role: "annotation" },
     ];
@@ -545,25 +545,31 @@ DepartsDataRequestAvgAllNotPara
         let clickedIndex = $event.index;
         this.selectedIndexTab = clickedIndex;
         this.optionsBars = {
+            
+            height: 1200,
             hAxis: {
-                viewWindow: {
-                    min: 0,
-                    //max: 100
-                },
+                showTextEvery: 1,
+                //gridlines: { count: 50 }
                 //ticks: [0, 25, 50, 75, 100] // display labels every 25
+            },
+            vAxis: {
+                showTextEvery: 1,
+                gridlines: { count: 50 }
             },
         };
         this.optionsBarsV = {
-            bars: "vertical",
+            height: 1200,
+           // bars: "vertical",
             hAxis: {
-                direction: -1,
-                slantedText: true,
-                slantedTextAngle: 90,
+               // direction: -1,
+                // slantedText: true,
+                // slantedTextAngle: 90,
                 showTextEvery: 1,
+                
             },
             vAxis: {
-                minValue: 0,
-                viewWindow: { min: 0 },
+                showTextEvery: 1,
+                gridlines: { count: 50 }
             },
         };
         // //debugger;
