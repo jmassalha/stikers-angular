@@ -150,7 +150,7 @@ export class FormsansweredComponent implements OnInit {
                 if (confirmed) {
                   this.http
                   .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-                //  .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
+                //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
                     CaseNumber: element.PatientID,
                     FormID: element.FormID,
                     Catigory: "ZPO_ONLINE",

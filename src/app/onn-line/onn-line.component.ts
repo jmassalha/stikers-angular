@@ -110,7 +110,7 @@ export class OnnLineComponent implements OnInit {
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateLink",
-                "http://localhost:64964/WebService.asmx/insertOrUpdateLink",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateLink",
                 {
                     mLink: this.LinksForm.value,
                 }
@@ -174,7 +174,7 @@ export class OnnLineComponent implements OnInit {
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/selectOnnLineLinks",
-                "http://localhost:64964/WebService.asmx/selectOnnLineLinks",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/selectOnnLineLinks",
                 {
                     freeText: "",
                     status: "",
@@ -191,7 +191,7 @@ export class OnnLineComponent implements OnInit {
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/selectOnnLineLinks",
-                "http://localhost:64964/WebService.asmx/selectOnnLineLinks",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/selectOnnLineLinks",
                 {
                     freeText: this.LinksSearchForm.value.FreeText,
                     status: this.LinksSearchForm.value.Status,

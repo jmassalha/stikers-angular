@@ -55,7 +55,7 @@ export class NewHeaderComponent implements OnInit {
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetOnnLineLinks",
-                "http://localhost:64964/WebService.asmx/GetOnnLineLinks",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetOnnLineLinks",
                 {
                     user: localStorage.getItem("loginUserName") ,
                 }
