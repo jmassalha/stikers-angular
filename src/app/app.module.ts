@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule,Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { Injectable, NgModule } from '@angular/core';
@@ -27,7 +27,6 @@ import { FooterComponent } from './footer/footer.component';
 import { ChadsComponent } from './chads/chads.component'; 
 import {MatListModule} from '@angular/material/list';
 import { DataTablesModule } from 'angular-datatables';
-import { NgxPopper } from 'angular-popper';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatChipsModule} from '@angular/material/chips';
 import { ChartsModule } from 'ng2-charts';
@@ -140,13 +139,28 @@ import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-a
 import { OnnLineComponent } from './onn-line/onn-line.component';
 import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
 import { NewHeaderComponent } from './new-header/new-header.component';
+import { HospitalBIDashboardComponent } from './hospital-bi-dashboard/hospital-bi-dashboard.component';
+import { CoreModule } from './@core/core.module';
+import { ThemeModule } from './@theme/theme.module';
+import { NgxChartsModule }from '@swimlane/ngx-charts';
+import {
+  NbChatModule,
+  NbDatepickerModule,
+  NbDialogModule,
+  NbMenuModule,
+  NbSidebarModule,
+  NbToastrModule,
+  NbWindowModule,
+} from '@nebular/theme';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
 
+
+
 @NgModule({
-  declarations: [    
+  declarations: [
     CasenumbersComponent,
     ScannersComponent,
     DialogContentExampleDialog,
@@ -240,15 +254,36 @@ const maskConfig: Partial<IConfig> = {
     EmployeesAddUpdateComponent,
     OnnLineComponent,
     NursesReinforcementComponent,
-    NewHeaderComponent
+    NewHeaderComponent,
+    HospitalBIDashboardComponent
   ],
   imports: [
+    NgxChartsModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    AppRoutingModule,
+    NbSidebarModule.forRoot(),
+    NbMenuModule.forRoot(),
+    NbDatepickerModule.forRoot(),
+    NbDialogModule.forRoot(),
+    NbWindowModule.forRoot(),
+    NbToastrModule.forRoot(),
+    NbChatModule.forRoot({
+      messageGoogleMapKey: 'AIzaSyA_wNuCzia92MAmdLRzmqitRGvCF7wCZPY',
+    }),
+    CoreModule.forRoot(),
+    ThemeModule.forRoot(),
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
     //NgbModal,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
     NgxBarCodePutModule,
     GoogleChartsModule,
     NgxMatNativeDateModule,    
@@ -305,7 +340,6 @@ const maskConfig: Partial<IConfig> = {
     MatSnackBarModule,
     FormsModule,
     AppRoutingModule,
-    NgxPopper,
     MatCheckboxModule,
     MatListModule,
     MatRadioModule,
@@ -314,8 +348,7 @@ const maskConfig: Partial<IConfig> = {
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },DatePipe
-    
-      ,ConfirmationDialogService
+    ,ConfirmationDialogService
     , NgbActiveModal],
   bootstrap: [AppComponent],
   exports: [
