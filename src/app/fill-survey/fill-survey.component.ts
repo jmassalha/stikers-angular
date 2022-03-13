@@ -566,23 +566,32 @@ export class FillSurveyComponent implements OnInit {
           console.log("User confirmed:", confirmed);
           if (confirmed) {
             this.http
-              //  .post("http://srv-ipracticom:8080/WebService.asmx/answerForm", {
               .post("http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm", {
-                // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm", {
                 _answerValues: survey,
                 _ifContinue: continueForm,
               })
               .subscribe((Response) => {
                 if (Response["d"]) {
                   this.openSnackBar("!נשמר בהצלחה");
+                  this.http
+                    .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
+                      CaseNumber: this.CaseNumber,
+                      FormID: survey.FormID,
+                      Catigory: "ZPO_ONLINE",
+                      Row_ID: "",
+                    })
+                    .subscribe((Response) => {
+                      if (Response["d"] == "success") {
+                        this.openSnackBar("! נשמר בהצלחה לתיק מטופל בנמר");
+                      } else {
+                        this.openSnackBar("! משהו לא תקין");
+                      }
+                    });
                 } else {
                   this.openSnackBar("משהו השתבש, לא נשמר");
                 }
               });
             this.dialog.closeAll();
-            // this.router.navigate(['formdashboard']).then(() => {
-            //   window.location.reload();
-            // });
           } else {
           }
         })
@@ -610,6 +619,7 @@ export class FillSurveyComponent implements OnInit {
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.Passport = this.caseNumberForm.controls['Passport'].value;
+
     this.withCaseNumber = false;
     if (this.Passport != '') {
       this.http
@@ -626,6 +636,8 @@ export class FillSurveyComponent implements OnInit {
             this.mPersonalDetails.PersonID = passPatient[0].PatientPersonID;
             this.mPersonalDetails.PhoneNumber = passPatient[0].PatientPhoneNumber;
             this.mPersonalDetails.Gender = passPatient[0].PatientGender;
+            this.CaseNumber = passPatient[0].caseNumber;
+            this.caseNumberForm.controls['CaseNumber'].setValue(passPatient[0].caseNumber);
           } else {
             this.mPersonalDetails = Response["d"];
           }

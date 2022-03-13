@@ -73,11 +73,7 @@ import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-r
 import { OnnLineComponent } from './onn-line/onn-line.component';
 import { HospitalBIDashboardComponent } from "./hospital-bi-dashboard/hospital-bi-dashboard.component";
 const routes: Routes = [
-    {
-        path: 'pages',
-        loadChildren: () => import('./pages/pages.module')
-          .then(m => m.PagesModule),
-      },
+    
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
     { path: "chads", component: ChadsComponent },
