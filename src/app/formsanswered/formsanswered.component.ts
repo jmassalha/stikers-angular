@@ -153,8 +153,8 @@ export class FormsansweredComponent implements OnInit {
             patientIDPr = element.PatientPassport
           }
           this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
-              //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
+            .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
+              // .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
               CaseNumber: patientIDPr,
               FormID: element.FormID,
               Catigory: "ZPO_ONLINE",
