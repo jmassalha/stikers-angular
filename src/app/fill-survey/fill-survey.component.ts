@@ -13,8 +13,8 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ZXingScannerComponent } from '@zxing/ngx-scanner';
-import { BarcodeFormat } from '@zxing/library';
+// import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+// import { BarcodeFormat } from '@zxing/library';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
@@ -181,12 +181,12 @@ export class FillSurveyComponent implements OnInit {
   deviceCurrent: MediaDeviceInfo;
   deviceSelected: string;
 
-  formatsEnabled: BarcodeFormat[] = [
-    BarcodeFormat.CODE_128,
-    BarcodeFormat.DATA_MATRIX,
-    BarcodeFormat.EAN_13,
-    BarcodeFormat.QR_CODE,
-  ];
+  // formatsEnabled: BarcodeFormat[] = [
+  //   BarcodeFormat.CODE_128,
+  //   BarcodeFormat.DATA_MATRIX,
+  //   BarcodeFormat.EAN_13,
+  //   BarcodeFormat.QR_CODE,
+  // ];
 
   hasDevices: boolean;
   hasPermission: boolean;

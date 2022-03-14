@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
+// import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -140,7 +140,7 @@ import { OnnLineComponent } from './onn-line/onn-line.component';
 import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
 import { NewHeaderComponent } from './new-header/new-header.component';
 import { HospitalBIDashboardComponent } from './hospital-bi-dashboard/hospital-bi-dashboard.component';
-
+import { RouterModule } from '@angular/router';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -249,6 +249,11 @@ const maskConfig: Partial<IConfig> = {
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
+    RouterModule,
+    AppRoutingModule,
+    MatButtonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
     HttpClientModule,
     AppRoutingModule,
     FlatpickrModule.forRoot(),
@@ -299,7 +304,7 @@ const maskConfig: Partial<IConfig> = {
     DataTablesModule,
     MatStepperModule,
     MatChipsModule,
-    ZXingScannerModule,
+    // ZXingScannerModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
     MatSlideToggleModule,

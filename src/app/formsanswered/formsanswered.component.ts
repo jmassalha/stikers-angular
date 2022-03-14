@@ -215,7 +215,6 @@ export class FormsansweredComponent implements OnInit {
         _personalPassport: personalPassport,
         _fillDate: FillDate,
         _employeeUserName: EmployeeUserName,
-        Search: true,
       })
       .subscribe((Response) => {
         this.all_forms_filter = Response["d"];
