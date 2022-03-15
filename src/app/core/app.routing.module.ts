@@ -75,7 +75,9 @@ import { EmployeesManageDashComponent } from '../employees-manage-dash/employees
 import { EmployeesAddUpdateComponent } from '../employees-manage-dash/employees-add-update/employees-add-update.component';
 import { OrdersToAppointmentsComponent } from '../orders-to-appointments/orders-to-appointments.component';
 import { NursesReinforcementComponent } from '../nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
+import { HospitalBIDashboardComponent } from '../hospital-bi-dashboard/hospital-bi-dashboard.component';
 const routes: Routes = [
+  
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
   { path: 'login', component: LoginComponent },
@@ -153,6 +155,7 @@ const routes: Routes = [
   { path: "employeesaddupdate", component: EmployeesAddUpdateComponent },  
   { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
   { path: "reinforcement", component: NursesReinforcementComponent },
+  { path: "BIDashboard", component: HospitalBIDashboardComponent },
   { path: '', component : LoginComponent}
 ];
  

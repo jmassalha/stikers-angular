@@ -28,6 +28,7 @@ export class HeaderComponent implements OnInit {
     visitorsUserPermission: boolean = false;
     fastCovidTestPermission: boolean = false;
     employeesManagePermission: boolean = false;
+    _BiSystemPermission: boolean = false;
     loginUserName: string;
     numberOfUnread: number;
     _shoDimot: Boolean;
@@ -189,6 +190,12 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "ocohen"
         ) {
             this._shoCaseinvoises = true;
+        }
+        if (
+            this.loginUserName.toLowerCase() == "adahabre" ||
+            this.loginUserName.toLowerCase() == "owertheim"
+        ) {
+            this._BiSystemPermission = true;
         }
         if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -844,6 +851,7 @@ export class HeaderComponent implements OnInit {
                 this.clinicsUserPermission = Response["d"];
             });
     }
+    
 
     EmployeesManagePermission() {
         this.http

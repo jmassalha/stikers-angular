@@ -133,7 +133,7 @@ export class FormsansweredComponent implements OnInit {
     const filterValue = (event.target as HTMLInputElement).value;
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
+
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
       duration: 5000,
@@ -142,37 +142,41 @@ export class FormsansweredComponent implements OnInit {
     });
   }
 
-  saveFormToNamer(element){
+  saveFormToNamer(element) {
     this.confirmationDialogService
-            .confirm("נא לאשר..", "האם אתה בטוח ...? ")
-            .then((confirmed) => {
-                console.log("User confirmed:", confirmed);
-                if (confirmed) {
-                  this.http
-                  .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-                //  .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
-                    CaseNumber: element.PatientID,
-                    FormID: element.FormID,
-                    Catigory: "ZPO_ONLINE",
-                    Row_ID: element.Row_ID,
-                  })
-                  .subscribe((Response) => {
-                    //need to check if saved completed
-                    if(Response["d"] == "success"){
-                      this.openSnackBar("! נשמר בהצלחה לתיק מטופל בנמר");
-                      this.searchForm();
-                    }else{
-                      this.openSnackBar("! משהו לא תקין");
-                    }
-                  });
-                } else {
-                }
+      .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+      .then((confirmed) => {
+        console.log("User confirmed:", confirmed);
+        if (confirmed) {
+          let patientIDPr = element.PatientID;
+          if(patientIDPr == "0"){
+            patientIDPr = element.PatientPassport
+          }
+          this.http
+            .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
+              // .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
+              CaseNumber: patientIDPr,
+              FormID: element.FormID,
+              Catigory: "ZPO_ONLINE",
+              Row_ID: element.Row_ID,
             })
-            .catch(() =>
-                console.log(
-                    "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
-                )
-            );
+            .subscribe((Response) => {
+              //need to check if saved completed
+              if (Response["d"] == "success") {
+                this.openSnackBar("! נשמר בהצלחה לתיק מטופל בנמר");
+                this.searchForm();
+              } else {
+                this.openSnackBar("! משהו לא תקין");
+              }
+            });
+        } else {
+        }
+      })
+      .catch(() =>
+        console.log(
+          "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+        )
+      );
   }
 
   updateView2() {
@@ -181,7 +185,7 @@ export class FormsansweredComponent implements OnInit {
     this.answersData.next(this.onlyColumns.controls);
   }
 
-  onClose(){
+  onClose() {
     this.dialog.close();
   }
 
@@ -246,7 +250,7 @@ export class FormsansweredComponent implements OnInit {
               PatientName: this.all_forms_filter[i].Patient_Name,
               DateOfFillForm: this.all_forms_filter[i].DateOfFillForm.split(' ')[0],
               PatientBirthday: "",
-              PatientPassport: this.all_forms_filter[i].Patient_ID,
+              PatientPassport: this.all_forms_filter[i].PersonalID,
               PatientPhone: "",
               Row_ID: "",
               PatientEmail: "",

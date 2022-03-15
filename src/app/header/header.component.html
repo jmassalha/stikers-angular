@@ -17,6 +17,9 @@
             <li class="nav-item" *ngIf="_onnline">
                 <a class="nav-link" routerLink="onnline">תפריט מערכת </a>
             </li>
+            <li class="nav-item" *ngIf="_BiSystemPermission">
+                <a class="nav-link" routerLink="BIDashboard">דאשבורד בית חולים</a>
+            </li>
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>

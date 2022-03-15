@@ -13,8 +13,8 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { ZXingScannerComponent } from '@zxing/ngx-scanner';
-import { BarcodeFormat } from '@zxing/library';
+// import { ZXingScannerComponent } from '@zxing/ngx-scanner';
+// import { BarcodeFormat } from '@zxing/library';
 import { switchMap, takeUntil, pairwise } from 'rxjs/operators';
 import { DomSanitizer } from '@angular/platform-browser';
 import { DatePipe } from '@angular/common';
@@ -181,12 +181,12 @@ export class FillSurveyComponent implements OnInit {
   deviceCurrent: MediaDeviceInfo;
   deviceSelected: string;
 
-  formatsEnabled: BarcodeFormat[] = [
-    BarcodeFormat.CODE_128,
-    BarcodeFormat.DATA_MATRIX,
-    BarcodeFormat.EAN_13,
-    BarcodeFormat.QR_CODE,
-  ];
+  // formatsEnabled: BarcodeFormat[] = [
+  //   BarcodeFormat.CODE_128,
+  //   BarcodeFormat.DATA_MATRIX,
+  //   BarcodeFormat.EAN_13,
+  //   BarcodeFormat.QR_CODE,
+  // ];
 
   hasDevices: boolean;
   hasPermission: boolean;
@@ -566,20 +566,32 @@ export class FillSurveyComponent implements OnInit {
           console.log("User confirmed:", confirmed);
           if (confirmed) {
             this.http
-             .post("http://srv-ipracticom:8080/WebService.asmx/answerForm", {
-              //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm", {
-              //.post("http://localhost:64964/WebService.asmx/answerForm", {
+              .post("http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm", {
                 _answerValues: survey,
                 _ifContinue: continueForm,
               })
               .subscribe((Response) => {
-                debugger;
-                this.openSnackBar("!נשמר בהצלחה");
+                if (Response["d"]) {
+                  this.openSnackBar("!נשמר בהצלחה");
+                  this.http
+                    .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
+                      CaseNumber: this.CaseNumber,
+                      FormID: survey.FormID,
+                      Catigory: "ZPO_ONLINE",
+                      Row_ID: "",
+                    })
+                    .subscribe((Response) => {
+                      if (Response["d"] == "success") {
+                        this.openSnackBar("! נשמר בהצלחה לתיק מטופל בנמר");
+                      } else {
+                        this.openSnackBar("! משהו לא תקין");
+                      }
+                    });
+                } else {
+                  this.openSnackBar("משהו השתבש, לא נשמר");
+                }
               });
             this.dialog.closeAll();
-            this.router.navigate(['formdashboard']).then(() => {
-              window.location.reload();
-            });
           } else {
           }
         })
@@ -607,6 +619,7 @@ export class FillSurveyComponent implements OnInit {
   searchCaseNumber() {
     this.CaseNumber = this.caseNumberForm.controls['CaseNumber'].value;
     this.Passport = this.caseNumberForm.controls['Passport'].value;
+
     this.withCaseNumber = false;
     if (this.Passport != '') {
       this.http
@@ -623,6 +636,8 @@ export class FillSurveyComponent implements OnInit {
             this.mPersonalDetails.PersonID = passPatient[0].PatientPersonID;
             this.mPersonalDetails.PhoneNumber = passPatient[0].PatientPhoneNumber;
             this.mPersonalDetails.Gender = passPatient[0].PatientGender;
+            this.CaseNumber = passPatient[0].caseNumber;
+            this.caseNumberForm.controls['CaseNumber'].setValue(passPatient[0].caseNumber);
           } else {
             this.mPersonalDetails = Response["d"];
           }

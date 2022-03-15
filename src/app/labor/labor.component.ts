@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild, AfterViewInit } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import {} from "googlemaps";
+// import {} from "googlemaps";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatRadioChange } from "@angular/material/radio";
 import { MatSort } from "@angular/material/sort";

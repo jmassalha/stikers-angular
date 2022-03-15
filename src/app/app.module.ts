@@ -1,4 +1,4 @@
-import { BrowserModule } from '@angular/platform-browser';
+import { BrowserModule,Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HttpClientModule } from '@angular/common/http';
 import { Injectable, NgModule } from '@angular/core';
@@ -9,7 +9,7 @@ import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
 import { NgbModule, NgbActiveModal } from '@ng-bootstrap/ng-bootstrap';
-import { ZXingScannerModule } from '@zxing/ngx-scanner';
+// import { ZXingScannerModule } from '@zxing/ngx-scanner';
 import { MatButtonModule } from '@angular/material/button';
 import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular/material/core';
 import { MatDatepickerModule } from '@angular/material/datepicker';
@@ -27,7 +27,6 @@ import { FooterComponent } from './footer/footer.component';
 import { ChadsComponent } from './chads/chads.component'; 
 import {MatListModule} from '@angular/material/list';
 import { DataTablesModule } from 'angular-datatables';
-import { NgxPopper } from 'angular-popper';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatChipsModule} from '@angular/material/chips';
 import { ChartsModule } from 'ng2-charts';
@@ -139,13 +138,17 @@ import { EmployeesManageDashComponent } from './employees-manage-dash/employees-
 import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-add-update/employees-add-update.component';
 import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
 import { NewHeaderComponent } from './new-header/new-header.component';
+import { HospitalBIDashboardComponent } from './hospital-bi-dashboard/hospital-bi-dashboard.component';
+import { RouterModule } from '@angular/router';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
 
+
+
 @NgModule({
-  declarations: [    
+  declarations: [
     CasenumbersComponent,
     ScannersComponent,
     DialogContentExampleDialog,
@@ -238,15 +241,29 @@ const maskConfig: Partial<IConfig> = {
     EmployeesManageDashComponent,
     EmployeesAddUpdateComponent,
     NursesReinforcementComponent,
-    NewHeaderComponent
+    NewHeaderComponent,
+    HospitalBIDashboardComponent
   ],
   imports: [
+    BrowserModule,
+    BrowserAnimationsModule,
+    RouterModule,
+    AppRoutingModule,
+    MatButtonModule,
+    BrowserModule,
+    BrowserAnimationsModule,
+    HttpClientModule,
+    AppRoutingModule,
     FlatpickrModule.forRoot(),
     CalendarModule.forRoot({
       provide: DateAdapter,
       useFactory: adapterFactory,
     }),
     //NgbModal,
+    BrowserModule,
+    BrowserAnimationsModule,
+    AppRoutingModule,
+    ReactiveFormsModule,
     NgxBarCodePutModule,
     GoogleChartsModule,
     NgxMatNativeDateModule,    
@@ -285,7 +302,7 @@ const maskConfig: Partial<IConfig> = {
     DataTablesModule,
     MatStepperModule,
     MatChipsModule,
-    ZXingScannerModule,
+    // ZXingScannerModule,
     BrowserAnimationsModule,
     MatPaginatorModule,
     MatSlideToggleModule,
@@ -303,7 +320,6 @@ const maskConfig: Partial<IConfig> = {
     MatSnackBarModule,
     FormsModule,
     AppRoutingModule,
-    NgxPopper,
     MatCheckboxModule,
     MatListModule,
     MatRadioModule,
@@ -312,8 +328,7 @@ const maskConfig: Partial<IConfig> = {
   ],
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },DatePipe
-    
-      ,ConfirmationDialogService
+    ,ConfirmationDialogService
     , NgbActiveModal],
   bootstrap: [AppComponent],
   exports: [

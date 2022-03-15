@@ -2,7 +2,7 @@ import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, OnInit, Input, ViewChild } from '@angular/core';
 import { FormControl, FormGroup } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatSort } from '@angular/material/sort';
@@ -51,6 +51,7 @@ export class NursesReinforcementComponent implements OnInit {
   // phoneNumber: any;
 
   constructor(public dialog: MatDialog,
+    public dialogRef: MatDialogRef<NursesReinforcementComponent>,
     private http: HttpClient,
     private _snackBar: MatSnackBar,
     private datePipe: DatePipe,
@@ -66,7 +67,7 @@ export class NursesReinforcementComponent implements OnInit {
   }
 
   closeModal() {
-    this.dialog.closeAll();
+    this.dialogRef.close();
   }
 
   applyFilter(event: Event) {
