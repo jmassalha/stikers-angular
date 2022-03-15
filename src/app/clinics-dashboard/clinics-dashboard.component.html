@@ -44,7 +44,7 @@
             <mat-progress-bar mode="buffer" *ngIf="!searchPatientProgressBar"></mat-progress-bar>
         </div>
     </div>
-    
+
     <div class="col"></div>
     <div dir="rtl" class="container-fluid pb-60" *ngIf="newPatient">
         <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
@@ -101,8 +101,8 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns3;"> </tr>
         </table>
-        <button (click)="openClinicManagementModel(patientRecords[0],0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"><i
-            class="material-icons">add</i></button>
+        <button (click)="openClinicManagementModel(patientRecords[0],0)" type="button" id="rolesDetailsBtn" mat-fab
+            color="primary"><i class="material-icons">add</i></button>
     </div>
     <br>
 </div>

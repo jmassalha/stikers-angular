@@ -79,6 +79,7 @@ export class ManageClinicPriceComponent implements OnInit {
       DepartCode: ['', Validators.required],
     });
     this.searchPatientDetails();
+
   }
 
   openSnackBar(message) {
@@ -94,7 +95,7 @@ export class ManageClinicPriceComponent implements OnInit {
     if (this.ifEdit == 1) {
       passport = this.PatientElement.PersonID;
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPatientDetailsFromClinicsDB", {
+        .post("http://localhost:64964/WebService.asmx/GetPatientDetailsFromClinicsDB", {
           _patientPassport: passport
         })
         .subscribe((Response) => {
@@ -145,64 +146,73 @@ export class ManageClinicPriceComponent implements OnInit {
     this.getDepartments();
   }
 
+  plusService(event,value) {
+    console.log(event);
+    this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity = "";
+  }
+
+  minusService(event) {
+    console.log(event);
+  }
+
+  selectedDept() {
+    this.searchServices();
+  }
+
   searchServices() {
     this.searchingProgress = true;
     let departNumber = this.servicesFormGroup.controls['DepartNumber'].value;
     let patientRowID = this.PatientElement.Row_ID;
     let recordVersion = this.versionSelection;
-    if (departNumber == null || departNumber == "" || departNumber == undefined) {
-      this.openSnackBar("עליך לבחור מחלקה");
-    } else {
-      this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsServices", {
-          _departmentNumber: departNumber,
-          _patientRowID: patientRowID,
-          _recordVersion: recordVersion,
-          _ifEdit: this.ifEdit,
-        })
-        .subscribe((Response) => {
-          let relevantServices = [];
-          relevantServices = Response["d"];
-          var PatientsServicesList: any = this.fb.array([]);
-          var ServiceItem;
-          let ELEMENT_DATA = [];
-          this.deptChosen = true;
-          let departCode;
-          this.resultsLength = relevantServices.length;
-          for (let i = 0; i < relevantServices.length; i++) {
-            departCode = relevantServices[0].DepartCode;
-            ServiceItem = this.fb.group({
-              ServiceId: [i, null],
-              ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
-              ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
-              ServicePrice: [{ value: relevantServices[i].ServicePrice, disabled: true }, null],
-              ServiceQuantity: [relevantServices[i].ServiceQuantity, Validators.required],
-            });
-            let serialNumber = {
-              value: i,
-              name: relevantServices[i].ServiceName,
-              number: relevantServices[i].ServiceNumber,
-            }
-            ELEMENT_DATA.push(serialNumber);
-            PatientsServicesList.push(ServiceItem);
-          }
-          this.dataSource.paginator = this.paginator;
-          this.servicesFormGroup = this.fb.group({
-            DepartNumber: departNumber,
-            DepartCode: departCode,
-            PatientsServicesList: PatientsServicesList
+    this.http
+      .post("http://localhost:64964/WebService.asmx/GetClinicsServices", {
+        _departmentNumber: departNumber,
+        _patientRowID: patientRowID,
+        _recordVersion: recordVersion,
+        _ifEdit: this.ifEdit,
+      })
+      .subscribe((Response) => {
+        let relevantServices = [];
+        relevantServices = Response["d"];
+        var PatientsServicesList: any = this.fb.array([]);
+        var ServiceItem;
+        let ELEMENT_DATA = [];
+        this.deptChosen = true;
+        let departCode;
+        this.resultsLength = relevantServices.length;
+        for (let i = 0; i < relevantServices.length; i++) {
+          departCode = relevantServices[0].DepartCode;
+          ServiceItem = this.fb.group({
+            ServiceId: [i, null],
+            ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
+            ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
+            ServicePrice: [{ value: relevantServices[i].ServicePrice, disabled: true }, null],
+            ServiceQuantity: [relevantServices[i].ServiceQuantity, Validators.required],
           });
-          this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
-          this.dataSource.paginator = this.paginator;
-          this.searchingProgress = false;
+          let serialNumber = {
+            value: i,
+            name: relevantServices[i].ServiceName,
+            number: relevantServices[i].ServiceNumber,
+          }
+          ELEMENT_DATA.push(serialNumber);
+          PatientsServicesList.push(ServiceItem);
+        }
+        this.dataSource.paginator = this.paginator;
+        this.servicesFormGroup = this.fb.group({
+          DepartNumber: departNumber,
+          DepartCode: departCode,
+          PatientsServicesList: PatientsServicesList
         });
-    }
+        this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
+        this.dataSource.paginator = this.paginator;
+        this.searchingProgress = false;
+      });
 
   }
 
   getDepartments() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsPricingDeparts", {
+      .post("http://localhost:64964/WebService.asmx/GetClinicsPricingDeparts", {
       })
       .subscribe((Response) => {
         let clinicsDeparts = [];
@@ -214,27 +224,33 @@ export class ManageClinicPriceComponent implements OnInit {
   }
 
   onSubmit() {
-    if (!this.servicesFormGroup.invalid) {
-      this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendTreatmentToReception", {
-          _patientDetails: this.detailsFormGroup.getRawValue(),
-          _serviceDetails: this.servicesFormGroup.getRawValue(),
-          _ifEdit: this.ifEdit,
-        })
-        .subscribe((Response) => {
-          let message = Response["d"];
-          if (message == "Success") {
-            this.openSnackBar("הצעת טיפול נשלחה בהצלחה");
-            this.dialog.closeAll();
-          } else if (message == "noServices") {
-            this.openSnackBar("לא נשמר, לא נבחרו שירותים עבור המטופל");
-          } else {
-            this.openSnackBar("משהו השתבש, לא נשלח");
-          }
-        });
+    let departNumber = this.servicesFormGroup.controls['DepartNumber'].value;
+    if (departNumber == '' || departNumber == undefined || departNumber == null) {
+      this.openSnackBar("עליך לבחור מחלקה");
     } else {
-      this.openSnackBar("לא בחרת שירותים עבור המטופל");
+      if (!this.servicesFormGroup.invalid) {
+        this.http
+          .post("http://localhost:64964/WebService.asmx/SendTreatmentToReception", {
+            _patientDetails: this.detailsFormGroup.getRawValue(),
+            _serviceDetails: this.servicesFormGroup.getRawValue(),
+            _ifEdit: this.ifEdit,
+          })
+          .subscribe((Response) => {
+            let message = Response["d"];
+            if (message == "Success") {
+              this.openSnackBar("הצעת טיפול נשלחה בהצלחה");
+              this.dialog.closeAll();
+            } else if (message == "noServices") {
+              this.openSnackBar("לא נשמר, לא נבחרו שירותים עבור המטופל");
+            } else {
+              this.openSnackBar("משהו השתבש, לא נשלח");
+            }
+          });
+      } else {
+        this.openSnackBar("לא בחרת שירותים עבור המטופל");
+      }
     }
+
     // this.dialog.closeAll();
   }
 

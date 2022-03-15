@@ -71,23 +71,23 @@
                 <form [formGroup]="servicesFormGroup">
                     <ng-template matStepLabel>סוג שירות</ng-template>
                     <div class="row">
-                        <div class="col-8">
+                        <div class="col-12">
                             <mat-form-field appearance="fill">
                                 <mat-label>מחלקה</mat-label>
-                                <mat-select formControlName="DepartNumber">
+                                <mat-select formControlName="DepartNumber" (selectionChange)="selectedDept()">
                                     <mat-option *ngFor="let dept of departments" [value]="dept.DepartNumber">
                                         {{dept.DepartName}}
                                     </mat-option>
                                 </mat-select>
                             </mat-form-field>
                         </div>
-                        <div class="col-4 text-right">
+                        <!-- <div class="col-4 text-right">
                             <div class="example-button-container">
                                 <button mat-fab color="primary" (click)="searchServices()">
                                     <mat-icon>search</mat-icon>
                                 </button>
                             </div>
-                        </div>
+                        </div> -->
                         <mat-progress-bar mode="indeterminate" *ngIf="searchingProgress"></mat-progress-bar>
                     </div>
                     <div class="row" *ngIf="deptChosen">
@@ -114,7 +114,7 @@
                                         </th>
                                         <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
                                             <mat-form-field class="text-center" style="width: 400px;">
-                                                <textarea matInput rows="4">{{ element.name }}</textarea>
+                                                <textarea matInput rows="1" formControlName="ServiceName"></textarea>
                                             </mat-form-field>
                                         </td>
                                     </ng-container>
@@ -124,8 +124,14 @@
                                         <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
                                             <mat-form-field class="text-center">
                                                 <mat-label>כמות</mat-label>
+                                                <span matPrefix class="material-icons" (click)="plusService($event,element.value)">
+                                                    keyboard_arrow_up
+                                                </span>
                                                 <input matInput placeholder="0" min="0"
                                                     formControlName="ServiceQuantity" type="number">
+                                                <span matSuffix class="material-icons" (click)="minusService($event)">
+                                                    keyboard_arrow_down
+                                                </span>
                                             </mat-form-field>
                                         </td>
                                     </ng-container>
@@ -141,14 +147,16 @@
                             </div>
                         </div>
                     </div>
-
                     <div>
                         <mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
                         <button mat-raised-button matStepperPrevious>חזרה</button>
                         <button mat-raised-button matStepperNext>הבא</button>
                     </div>
+                    <div class="row">
+
+                    </div>
                 </form>
-                
+
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>סיום</ng-template>

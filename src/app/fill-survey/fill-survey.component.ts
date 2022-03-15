@@ -574,7 +574,8 @@ export class FillSurveyComponent implements OnInit {
                 if (Response["d"]) {
                   this.openSnackBar("!נשמר בהצלחה");
                   this.http
-                    .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
+                   // .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
+                     .post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
                       CaseNumber: this.CaseNumber,
                       FormID: survey.FormID,
                       Catigory: "ZPO_ONLINE",
