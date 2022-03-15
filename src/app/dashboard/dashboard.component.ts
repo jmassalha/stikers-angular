@@ -88,7 +88,8 @@ export class DashboardComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardApp",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardApp",
+                "http://localhost:64964/WebService.asmx/TfosaDashBoardApp",
                 {
                     _depart: _Depart,
                 }
@@ -119,6 +120,7 @@ export class DashboardComponent implements OnInit {
                     });
 
                     this.Departmints["departs"] = aaobj;
+                    debugger
                     this.Departmints["total"] = parseInt(
                         ((aobjTotal.total / parseInt(totalReal)) * 100).toFixed(
                             0

@@ -145,7 +145,6 @@ const routes: Routes = [
     { path: "employeesmanagedashboard", component: EmployeesManageDashComponent },
     { path: "employeesaddupdate", component: EmployeesAddUpdateComponent },
     { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
-    { path: "onnline", component: OnnLineComponent },
     { path: "reinforcement", component: NursesReinforcementComponent },
     { path: "BIDashboard", component: HospitalBIDashboardComponent },
     { path: "", component: LoginComponent },

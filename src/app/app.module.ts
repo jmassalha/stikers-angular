@@ -136,7 +136,6 @@ import { NmrIframeComponent } from './nmr-iframe/nmr-iframe.component';
 import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
 import { EmployeesManageDashComponent } from './employees-manage-dash/employees-manage-dash.component';
 import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-add-update/employees-add-update.component';
-import { OnnLineComponent } from './onn-line/onn-line.component';
 import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
 import { NewHeaderComponent } from './new-header/new-header.component';
 import { HospitalBIDashboardComponent } from './hospital-bi-dashboard/hospital-bi-dashboard.component';
@@ -241,7 +240,6 @@ const maskConfig: Partial<IConfig> = {
     OrdersToAppointmentsComponent,
     EmployeesManageDashComponent,
     EmployeesAddUpdateComponent,
-    OnnLineComponent,
     NursesReinforcementComponent,
     NewHeaderComponent,
     HospitalBIDashboardComponent

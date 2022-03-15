@@ -28,7 +28,6 @@ export class HeaderComponent implements OnInit {
     visitorsUserPermission: boolean = false;
     fastCovidTestPermission: boolean = false;
     employeesManagePermission: boolean = false;
-    _BiSystemPermission: boolean = false;
     loginUserName: string;
     numberOfUnread: number;
     _shoDimot: Boolean;
@@ -192,12 +191,6 @@ export class HeaderComponent implements OnInit {
             this._shoCaseinvoises = true;
         }
         if (
-            this.loginUserName.toLowerCase() == "adahabre" ||
-            this.loginUserName.toLowerCase() == "owertheim"
-        ) {
-            this._BiSystemPermission = true;
-        }
-        if (
             this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
@@ -206,9 +199,9 @@ export class HeaderComponent implements OnInit {
             this._onnline = true;
         }
         if (
-            this.loginUserName.toLowerCase() == "jmassalha" ||
+            this.loginUserName.toLowerCase() == "jmassalha" || 
             this.loginUserName.toLowerCase() == "samer" ||
-            this.loginUserName.toLowerCase() == "owertheim" ||
+            this.loginUserName.toLowerCase() == "owertheim" || 
             this.loginUserName.toLowerCase() == "adahabre" ||
             this.loginUserName.toLowerCase() == "sabuhanna" ||
             this.loginUserName.toLowerCase() == ("rsharlin").toLowerCase() || //רJKH13579-
@@ -851,7 +844,6 @@ export class HeaderComponent implements OnInit {
                 this.clinicsUserPermission = Response["d"];
             });
     }
-    
 
     EmployeesManagePermission() {
         this.http
