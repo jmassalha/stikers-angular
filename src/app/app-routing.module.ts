@@ -70,11 +70,8 @@ import { EmployeesManageDashComponent } from './employees-manage-dash/employees-
 import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-add-update/employees-add-update.component';
 import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
 import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
-<<<<<<< HEAD
-=======
 import { OnnLineComponent } from './onn-line/onn-line.component';
 import { HospitalBIDashboardComponent } from "./hospital-bi-dashboard/hospital-bi-dashboard.component";
->>>>>>> 9fe34a49ac1bae2722c26a856f326d2e6797ada1
 const routes: Routes = [
     
     { path: "dashboard", component: DashboardComponent },
