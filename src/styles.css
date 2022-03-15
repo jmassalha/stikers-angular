@@ -15,6 +15,10 @@ footer {
     color: black;
     font-weight: bold;
   }
+  .navbar-light .navbar-nav .nav-link {
+   
+    color: #fff !important;
+}
 .green-snackbar {
     background: green;
     color: white;
