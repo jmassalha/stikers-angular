@@ -5,7 +5,7 @@ import { HttpClient } from '@angular/common/http';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 
 
@@ -40,16 +40,22 @@ export class ManageClinicPriceComponent implements OnInit {
   detailsFormGroup: FormGroup;
   servicesFormGroup: FormGroup;
 
-  applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
-    this.dataSource.filter = filterValue.trim().toLowerCase();
+  applyFilter(event: Event, clicked) {
+    if (clicked == '' || clicked == undefined) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = clicked.trim().toLowerCase();
+    }
+
   }
 
   constructor(public dialog: MatDialog,
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private http: HttpClient,
-    private _snackBar: MatSnackBar) { }
+    private _snackBar: MatSnackBar,
+    private dialogR: MatDialogRef<ManageClinicPriceComponent>) { }
   resultsLength: any;
   PatientElement: any;
   ifEdit: number;
@@ -61,6 +67,7 @@ export class ManageClinicPriceComponent implements OnInit {
   searchingProgress: boolean = false;
   print: boolean = false;
   userDR: boolean = false;
+  displayArr = this.fb.array([]);
   UserName = localStorage.getItem("loginUserName").toLowerCase();
 
   ngOnInit(): void {
@@ -95,7 +102,7 @@ export class ManageClinicPriceComponent implements OnInit {
     if (this.ifEdit == 1) {
       passport = this.PatientElement.PersonID;
       this.http
-        .post("http://localhost:64964/WebService.asmx/GetPatientDetailsFromClinicsDB", {
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPatientDetailsFromClinicsDB", {
           _patientPassport: passport
         })
         .subscribe((Response) => {
@@ -120,7 +127,19 @@ export class ManageClinicPriceComponent implements OnInit {
           this.detailsFormGroup.controls['Address'].disable();
 
           this.servicesFormGroup.controls['DepartNumber'].setValue(mPersonalDetails.PatientVersionsList[0].DepartNumber);
-          // this.searchServices();
+          this.searchServices();
+          // adding services from existing patient to display array for updating
+          for (let i = 0; i < mPersonalDetails.PatientVersionsList.length; i++) {
+            let element = {
+              Row_ID: mPersonalDetails.PatientVersionsList[i].Row_ID,
+              value: mPersonalDetails.PatientVersionsList[i].value,
+              number: mPersonalDetails.PatientVersionsList[i].ServiceNumber,
+              name: mPersonalDetails.PatientVersionsList[i].ServiceName,
+              price: mPersonalDetails.PatientVersionsList[i].ServicePrice,
+              ServiceQuantity: mPersonalDetails.PatientVersionsList[i].ServiceQuantity,
+            }
+            this.addSelectedServices(element);
+          }
         });
     } else {
       let mPersonalDetails = this.PatientElement;
@@ -146,14 +165,15 @@ export class ManageClinicPriceComponent implements OnInit {
     this.getDepartments();
   }
 
-  plusService(event,value) {
-    console.log(event);
-    this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity = "";
-  }
+  // plusService(value) {
+  //   let servVal = parseInt(this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity) + 1;
+  //   this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity = servVal.toString();
+  // }
 
-  minusService(event) {
-    console.log(event);
-  }
+  // minusService(value) {
+  //   let servVal = parseInt(this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity) - 1;
+  //   this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity = servVal.toString();
+  // }
 
   selectedDept() {
     this.searchServices();
@@ -165,7 +185,7 @@ export class ManageClinicPriceComponent implements OnInit {
     let patientRowID = this.PatientElement.Row_ID;
     let recordVersion = this.versionSelection;
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetClinicsServices", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsServices", {
         _departmentNumber: departNumber,
         _patientRowID: patientRowID,
         _recordVersion: recordVersion,
@@ -187,12 +207,14 @@ export class ManageClinicPriceComponent implements OnInit {
             ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
             ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
             ServicePrice: [{ value: relevantServices[i].ServicePrice, disabled: true }, null],
-            ServiceQuantity: [relevantServices[i].ServiceQuantity, Validators.required],
+            ServiceQuantity: [relevantServices[i].ServiceQuantity, null],
           });
           let serialNumber = {
             value: i,
             name: relevantServices[i].ServiceName,
             number: relevantServices[i].ServiceNumber,
+            quantity: relevantServices[i].ServiceQuantity,
+            price: relevantServices[i].ServicePrice,
           }
           ELEMENT_DATA.push(serialNumber);
           PatientsServicesList.push(ServiceItem);
@@ -207,30 +229,60 @@ export class ManageClinicPriceComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
         this.searchingProgress = false;
       });
-
   }
 
-  getDepartments() {
-    this.http
-      .post("http://localhost:64964/WebService.asmx/GetClinicsPricingDeparts", {
-      })
-      .subscribe((Response) => {
-        let clinicsDeparts = [];
-        clinicsDeparts = Response["d"];
-        clinicsDeparts.forEach(element => {
-          this.departments.push(element);
-        })
-      });
+  get selectedServices() {
+    return this.displayArr as FormArray;
+  }
+
+  updateServiceQuantity(element) {
+    this.displayArr.removeAt(element.value);
+  }
+
+  closeModal() {
+    this.dialogR.close(false);
+  }
+
+  // adding the selected service to the temp display array
+  addSelectedServices(element) {
+    let duplicateVal = this.displayArr.controls.filter(s => s.value.ServiceNumber == element.number);
+    if (duplicateVal.length > 0) {
+      let index = this.displayArr.value.findIndex(x => x.ServiceNumber == element.number);
+      this.displayArr.removeAt(index);
+    }
+    let quantity = "";
+    let value = "";
+    if (element.hasOwnProperty('Row_ID')) {
+      value = "";
+      quantity = element.ServiceQuantity;
+    } else {
+      value = element.value;
+      quantity = this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceQuantity;
+    }
+    let serviceCtrl = this.fb.group({
+      ServiceId: [element.value, null],
+      ServiceNumber: [element.number, null],
+      ServiceName: [element.name, null],
+      ServicePrice: [element.price, null],
+      ServiceQuantity: [quantity, null],
+    });
+    if (serviceCtrl.controls['ServiceQuantity'].value > 0) {
+      this.selectedServices.push(serviceCtrl);
+    } else {
+      this.selectedServices.removeAt(element.value);
+    }
   }
 
   onSubmit() {
     let departNumber = this.servicesFormGroup.controls['DepartNumber'].value;
+    // assign the new array of selected services to the form array
+    this.servicesFormGroup.controls.PatientsServicesList = this.displayArr;
     if (departNumber == '' || departNumber == undefined || departNumber == null) {
       this.openSnackBar("עליך לבחור מחלקה");
     } else {
       if (!this.servicesFormGroup.invalid) {
         this.http
-          .post("http://localhost:64964/WebService.asmx/SendTreatmentToReception", {
+          .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendTreatmentToReception", {
             _patientDetails: this.detailsFormGroup.getRawValue(),
             _serviceDetails: this.servicesFormGroup.getRawValue(),
             _ifEdit: this.ifEdit,
@@ -239,7 +291,7 @@ export class ManageClinicPriceComponent implements OnInit {
             let message = Response["d"];
             if (message == "Success") {
               this.openSnackBar("הצעת טיפול נשלחה בהצלחה");
-              this.dialog.closeAll();
+              this.dialogR.close(true);
             } else if (message == "noServices") {
               this.openSnackBar("לא נשמר, לא נבחרו שירותים עבור המטופל");
             } else {
@@ -252,6 +304,19 @@ export class ManageClinicPriceComponent implements OnInit {
     }
 
     // this.dialog.closeAll();
+  }
+
+  getDepartments() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsPricingDeparts", {
+      })
+      .subscribe((Response) => {
+        let clinicsDeparts = [];
+        clinicsDeparts = Response["d"];
+        clinicsDeparts.forEach(element => {
+          this.departments.push(element);
+        })
+      });
   }
 
 

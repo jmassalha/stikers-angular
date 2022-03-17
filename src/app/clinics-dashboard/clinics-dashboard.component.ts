@@ -127,7 +127,6 @@ export class ClinicsDashboardComponent implements OnInit {
 
   printClinicPrice(element, ifEdit) {
     if (this.selectV == "") {
-      this.openSnackBar("נבחרה גרסה מספר 1");
       this.selectV = element.RecordVersion[0];
     }
     if (ifEdit == "1") {
@@ -205,13 +204,13 @@ export class ClinicsDashboardComponent implements OnInit {
     if (this.selectV == "" && element.Row_ID != null && ifEdit == 1) {
       this.openSnackBar("עליך לבחור גרסה");
     } else {
-      let dialogRef = this.dialog.open(ManageClinicPriceComponent);
+      let dialogRef = this.dialog.open(ManageClinicPriceComponent, { disableClose: true });
       dialogRef.componentInstance.PatientElement = element;
       dialogRef.componentInstance.ifEdit = ifEdit;
       dialogRef.componentInstance.versionSelection = this.selectV;
       dialogRef.afterClosed().subscribe(result => {
         // this.printClinicPrice(element);
-        let printAfter = true;
+        let printAfter = result;
         this.getPatients(printAfter, ifEdit);
         // if (element.RecordVersion == undefined) {
         //   this.selectV = "1";
@@ -227,50 +226,55 @@ export class ClinicsDashboardComponent implements OnInit {
 
   getPatients(printAfter, ifEdit) {
     let passport = this.searchPatient.controls['Passport'].value;
-    this.searchPatientProgressBar = false;
-    this.http
-      .post("http://localhost:64964/WebService.asmx/GetRecordAndPatients", {
-        _patientPassport: passport
-      })
-      .subscribe((Response) => {
-        let ELEMENT_DATA = [];
-        this.searchPatientProgressBar = true;
-        this.patientRecords = Response["d"];
-        if (this.patientRecords[0].Row_ID == null && this.patientRecords[0].PatientPersonID != null) {
-          this.newPatient = false;
-          this.openClinicManagementModel(this.patientRecords[0], 0);
-        } else {
-          if (this.patientRecords[0].PatientPersonID == null) {
-            this.openSnackBar("מספר תעודת זהות לא נמצא");
-            this.patientFound = false;
-            this.newPatient = false;
-          } else {
-            for (let i = 0; i < this.patientRecords.length; i++) {
-              let versionsArr = [];
-              let patientItem;
-              for (let j = 0; j < this.patientRecords[i].PatientVersionsList.length; j++) {
-                versionsArr.push(this.patientRecords[i].PatientVersionsList[j].NumberOfVersions);
-              }
-              patientItem = {
-                RecordTime: this.patientRecords[i].RecordTime,
-                RecordDate: this.datePipe.transform(this.patientRecords[i].RecordDate, 'dd/MM/yyyy'),
-                Row_ID: this.patientRecords[i].Row_ID,
-                FirstName: this.patientRecords[i].PatientFirstName,
-                LastName: this.patientRecords[i].PatientLastName,
-                PersonID: this.patientRecords[i].PatientPersonID,
-                RecordVersion: versionsArr,
-                TotalPrice: this.patientRecords[i].TotalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
-              }
-              ELEMENT_DATA.push(patientItem);
-            }
-            if (printAfter == true) {
-              this.printClinicPrice(ELEMENT_DATA[0], ifEdit);
-            }
-            this.dataSource3 = new MatTableDataSource<Patient>(ELEMENT_DATA);
-            this.newPatient = true;
-          }
-        }
 
-      });
+    // if for search then execute, if closing modal dont
+    if (printAfter) {
+      this.searchPatientProgressBar = false;
+      this.http
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRecordAndPatients", {
+          _patientPassport: passport
+        })
+        .subscribe((Response) => {
+          let ELEMENT_DATA = [];
+          this.searchPatientProgressBar = true;
+          this.patientRecords = Response["d"];
+          if (this.patientRecords[0].Row_ID == null && this.patientRecords[0].PatientPersonID != null) {
+            this.newPatient = false;
+            this.openClinicManagementModel(this.patientRecords[0], 0);
+          } else {
+            if (this.patientRecords[0].PatientPersonID == null) {
+              this.openSnackBar("מספר תעודת זהות לא נמצא");
+              this.patientFound = false;
+              this.newPatient = false;
+            } else {
+              for (let i = 0; i < this.patientRecords.length; i++) {
+                let versionsArr = [];
+                let patientItem;
+                for (let j = 0; j < this.patientRecords[i].PatientVersionsList.length; j++) {
+                  versionsArr.push(this.patientRecords[i].PatientVersionsList[j].NumberOfVersions);
+                }
+                patientItem = {
+                  RecordTime: this.patientRecords[i].RecordTime,
+                  RecordDate: this.datePipe.transform(this.patientRecords[i].RecordDate, 'dd/MM/yyyy'),
+                  Row_ID: this.patientRecords[i].Row_ID,
+                  FirstName: this.patientRecords[i].PatientFirstName,
+                  LastName: this.patientRecords[i].PatientLastName,
+                  PersonID: this.patientRecords[i].PatientPersonID,
+                  RecordVersion: versionsArr,
+                  TotalPrice: this.patientRecords[i].TotalPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
+                }
+                ELEMENT_DATA.push(patientItem);
+              }
+              if (printAfter == true) {
+                this.printClinicPrice(ELEMENT_DATA[0], ifEdit);
+              }
+              this.dataSource3 = new MatTableDataSource<Patient>(ELEMENT_DATA);
+              this.newPatient = true;
+            }
+          }
+
+        });
+    }
+
   }
 }

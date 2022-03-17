@@ -180,7 +180,7 @@ export class FormsansweredComponent implements OnInit {
                             "http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer",
                             {
                                 //.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-                                // .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
+                                // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
                                 CaseNumber: patientIDPr,
                                 FormID: element.FormID,
                                 Catigory: "ZPO_ONLINE",
@@ -193,11 +193,10 @@ export class FormsansweredComponent implements OnInit {
                                     "http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",
                                     {
                                         //.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-                                        // .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
+                                        // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
                                         CaseNumber: patientIDPr,
                                         FormID: element.FormID,
                                         Catigory: "ZPO_ONLINE",
-                                        Row_ID: element.Row_ID,
                                         fileSource: Response["d"],
                                     }
                                 )
@@ -263,6 +262,7 @@ export class FormsansweredComponent implements OnInit {
                     _personalPassport: personalPassport,
                     _fillDate: FillDate,
                     _employeeUserName: EmployeeUserName,
+                    Row_ID: "",
                 }
             )
             .subscribe((Response) => {

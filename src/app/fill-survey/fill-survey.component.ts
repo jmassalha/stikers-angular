@@ -604,27 +604,25 @@ export class FillSurveyComponent implements OnInit {
                                 }
                             )
                             .subscribe((Response) => {
-                                if (Response["d"]) {
+                                if (Response["d"] != -1) {
                                     this.openSnackBar("!נשמר בהצלחה");
                                     this.http
-                                        //.post("http://localhost:64964/WebService.asmx/createPdfOnServer", {
-                                       .post("http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer", {
+                                        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/createPdfOnServer", {
+                                    //    .post("http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer", {
                                                 CaseNumber: this.CaseNumber,
                                                 FormID: survey.FormID,
                                                 Catigory: "ZPO_ONLINE",
-                                                Row_ID: "",
+                                                Row_ID: Response["d"],
                                             }
                                         )
                                         .subscribe((Response) => {
-                                            debugger;
                                             this.http
-                                                //.post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
-                                                .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",{
+                                                .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
+                                                // .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",{
                                                         CaseNumber:
                                                             this.CaseNumber,
                                                         FormID: survey.FormID,
                                                         Catigory: "ZPO_ONLINE",
-                                                        Row_ID: "",
                                                         fileSource:
                                                             Response["d"],
                                                     }
