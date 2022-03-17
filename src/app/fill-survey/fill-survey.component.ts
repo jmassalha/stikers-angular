@@ -607,8 +607,8 @@ export class FillSurveyComponent implements OnInit {
                                 if (Response["d"] != -1) {
                                     this.openSnackBar("!נשמר בהצלחה");
                                     this.http
-                                        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/createPdfOnServer", {
-                                    //    .post("http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer", {
+                                        // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/createPdfOnServer", {
+                                       .post("http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer", {
                                                 CaseNumber: this.CaseNumber,
                                                 FormID: survey.FormID,
                                                 Catigory: "ZPO_ONLINE",
@@ -617,8 +617,8 @@ export class FillSurveyComponent implements OnInit {
                                         )
                                         .subscribe((Response) => {
                                             this.http
-                                                .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
-                                                // .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",{
+                                                // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
+                                                .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",{
                                                         CaseNumber:
                                                             this.CaseNumber,
                                                         FormID: survey.FormID,
