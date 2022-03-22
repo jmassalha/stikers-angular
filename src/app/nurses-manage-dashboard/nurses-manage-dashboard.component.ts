@@ -294,6 +294,18 @@ export class NursesManageDashboardComponent implements OnInit {
       })
   }
 
+  openShiftsWebsite(){
+    window.open("https://p18.mishmarot.com/?csubDomain=poria", "_blank");
+  }
+  
+  openAranWebsite(){
+    window.open("http://posapci.poria.health.gov.il:8681/sap(bD1oZSZjPTkzMw==)/bc/bsp/sap/zbsp_miun/poria_aran.htm", "_blank");
+  }
+  
+  openTelBook(){
+    window.open("http://srv-apps/pb/", "_blank");
+  }
+
   // NursesSystemPermission() {
   //   let userName = localStorage.getItem("loginUserName").toLowerCase();
   //   return this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/NursesUserPersmission", { _userName: userName, withCredentials: true }).subscribe(response => { response["d"]; this.nursesUserPermission = response["d"] });

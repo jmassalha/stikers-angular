@@ -179,9 +179,9 @@
                             (click)="!onlyDisplay && bugReport()">
                             <i class="material-icons">info</i>
                         </button></li>
-                    <li><button matTooltipPosition="left" matTooltip="יישומים" id="EventBtndisplay"
-                            mat-raised-button type="button" class="btn btn-raised mr-1"
-                            style="background-color: goldenrod;" (click)="!onlyDisplay && otherApps()">
+                    <li><button matTooltipPosition="left" matTooltip="יישומים" id="EventBtndisplay" mat-raised-button
+                            type="button" class="btn btn-raised mr-1" style="background-color: goldenrod;"
+                            (click)="!onlyDisplay && otherApps()">
                             <span class="material-icons">
                                 apps
                             </span>
@@ -524,28 +524,23 @@
     </button>
     <h1 mat-dialog-title style="text-align: center;">יישומים</h1>
     <hr>
-    <mat-card class="card-img"
-        style="background-color: limegreen;width: 100%;" (click)="!onlyDisplay && openReinforcementtDialog('')">
-        <div class="card-img" style="background-image:url('../../assets/images/sos.png')"></div>
-        <!-- <button matTooltipPosition="left" matTooltip="בקשה לתגבור" id="EventBtndisplay" mat-raised-button type="button"
-            class="btn btn-raised mr-1" style="background-color: limegreen;"
-            (click)="!onlyDisplay && openReinforcementtDialog('')">
-            <span class="material-icons">
-                sms
-            </span>
-        </button> -->
+    <mat-card class="card-img" style="background-color: white;width: 25%;"
+        (click)="!onlyDisplay && openReinforcementtDialog('')">
+        <div class="card-img" style="background-image:url('../../assets/images/sos.png')"><span class="tooltiptext">מסך
+                תגבור</span></div>
     </mat-card>
-    <!-- <mat-card style="width: 20%;">Test 1</mat-card>
-    <mat-card style="width: 20%;">Test 2</mat-card>
-    <mat-card style="width: 20%;">Test 3</mat-card>
-    <mat-card style="width: 20%;">Test 4</mat-card> -->
-    <!-- <div mat-dialog-actions>
-        <div class="row">
-            <button mat-raised-button color="primary" (click)="ipAddressUpdate()">עדכון</button>
-            <button mat-raised-button color="warn" style="float: right;" mat-dialog-close>מאוחר יותר</button>
-        </div>
-
-    </div> -->
+    <mat-card class="card-img" style="background-color: white;width: 25%;" (click)="openShiftsWebsite()">
+        <div class="card-img" style="background-image:url('https://p18.mishmarot.com/images/logo_1.png')"><span
+                class="tooltiptext">אתר משמרות</span></div>
+    </mat-card>
+    <mat-card class="card-img" style="background-color: white;width: 25%;" (click)="openAranWebsite()">
+        <div class="card-img" style="background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')"><span
+                class="tooltiptext">אתר מטה חירום</span></div>
+    </mat-card>
+    <mat-card class="card-img" style="background-color: white;width: 25%;" (click)="openTelBook()">
+        <div class="card-img" style="background-image:url('https://thumbs.dreamstime.com/z/telephone-icon-design-communication-contact-well-organized-fully-editable-vector-any-use-like-print-media-web-stock-images-179894485.jpg')"><span
+                class="tooltiptext">ספר טלפונים</span></div>
+    </mat-card>
 </ng-template>
 
 <ng-template #modalIp let-close="close">

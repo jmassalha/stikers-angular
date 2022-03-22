@@ -268,9 +268,7 @@ export class ManageClinicPriceComponent implements OnInit {
     });
     if (serviceCtrl.controls['ServiceQuantity'].value > 0) {
       this.selectedServices.push(serviceCtrl);
-    } else {
-      this.selectedServices.removeAt(element.value);
-    }
+    } 
   }
 
   onSubmit() {
