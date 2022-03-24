@@ -18,6 +18,7 @@
     font-weight: bold;
     text-align: center;
     overflow-wrap: break-word;
+    border: 1px solid black;
   }
   [dir="rtl"] td.mat-cell:first-of-type{
     padding: 10px !important;
@@ -40,5 +41,6 @@
       font-weight: bold;
       background-color: white;
       text-align: center;
+      border: 1px solid black;
     }
  }

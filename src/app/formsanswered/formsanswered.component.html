@@ -121,7 +121,7 @@
                             zoom_out_map
                         </span>
                     </button>
-                    <button style="margin-right: 3px;" matTooltip="שמירה לתיק מטופל בנמר" mat-raised-button
+                    <button style="margin-right: 3px;" *ngIf="UserName == 'adahabre'" matTooltip="שמירה לתיק מטופל בנמר" mat-raised-button
                         color="primary" (click)="saveFormToNamer(element)">
                         <span class="material-icons">
                             save

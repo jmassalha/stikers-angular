@@ -31,6 +31,7 @@ import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-d
 
 export interface Patient {
     FormID: string;
+    PersonFormID: string;
     PatientID: string;
     PatientName: string;
     PatientPassport: string;
@@ -84,6 +85,7 @@ export class FormsansweredComponent implements OnInit {
     department = [];
     _tableArr = [];
     todaysDate = Date.now;
+    UserName = localStorage.getItem("loginUserName").toLowerCase();
 
     formSearchPatient: FormGroup;
     formSearchEmployee: FormGroup;
@@ -113,7 +115,7 @@ export class FormsansweredComponent implements OnInit {
         private _sanitizer: DomSanitizer,
         private _snackBar: MatSnackBar,
         private formBuilder: FormBuilder
-    ) {}
+    ) { }
 
     onlyColumns: FormArray = this.formBuilder.array([]);
     TablesColsRows: FormArray = this.formBuilder.array([
@@ -180,11 +182,11 @@ export class FormsansweredComponent implements OnInit {
                             "http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer",
                             {
                                 //.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-                                // .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
+                                // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
                                 CaseNumber: patientIDPr,
                                 FormID: element.FormID,
                                 Catigory: "ZPO_ONLINE",
-                                Row_ID: element.Row_ID,
+                                Row_ID: element.PersonFormID,
                             }
                         )
                         .subscribe((Response) => {
@@ -193,11 +195,10 @@ export class FormsansweredComponent implements OnInit {
                                     "http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",
                                     {
                                         //.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-                                        // .post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
+                                        // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
                                         CaseNumber: patientIDPr,
                                         FormID: element.FormID,
                                         Catigory: "ZPO_ONLINE",
-                                        Row_ID: element.Row_ID,
                                         fileSource: Response["d"],
                                     }
                                 )
@@ -207,7 +208,6 @@ export class FormsansweredComponent implements OnInit {
                                         this.openSnackBar(
                                             "! נשמר בהצלחה לתיק מטופל בנמר"
                                         );
-                                        this.searchForm();
                                     } else {
                                         this.openSnackBar("! משהו לא תקין");
                                     }
@@ -263,6 +263,7 @@ export class FormsansweredComponent implements OnInit {
                     _personalPassport: personalPassport,
                     _fillDate: FillDate,
                     _employeeUserName: EmployeeUserName,
+                    Row_ID: "",
                 }
             )
             .subscribe((Response) => {
@@ -315,6 +316,8 @@ export class FormsansweredComponent implements OnInit {
                             NurseInCharge:
                                 this.all_forms_filter[i].PatientsList[0]
                                     .NurseFullName,
+                            PersonFormID:
+                                this.all_forms_filter[i].PersonFormID,
                             FormName: this.all_forms_filter[i].FormName,
                             Signature:
                                 this._sanitizer.bypassSecurityTrustResourceUrl(
@@ -345,6 +348,8 @@ export class FormsansweredComponent implements OnInit {
                                 this.all_forms_filter[i].FirstName +
                                 " " +
                                 this.all_forms_filter[i].LastName,
+                            PersonFormID:
+                                this.all_forms_filter[i].PersonFormID,
                             FormName: this.all_forms_filter[i].FormName,
                             Signature:
                                 this._sanitizer.bypassSecurityTrustResourceUrl(

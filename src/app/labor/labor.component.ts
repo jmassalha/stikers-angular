@@ -477,7 +477,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
            ////debugger
         this.http
             .post(
-               // "http://localhost:64964/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
                 "http://srv-ipracticom:8080/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
               //  "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
                 {
