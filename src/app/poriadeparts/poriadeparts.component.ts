@@ -29,6 +29,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Depart {
     D_ROW_ID: number;
@@ -77,7 +78,16 @@ export class PoriadepartsComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         private formBuilder: FormBuilder
-    ) {}
+        ,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("poriadeparts");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     @Input()
     foo: string = "bar";
     startdateVal: string;
@@ -121,28 +131,11 @@ export class PoriadepartsComponent implements OnInit {
             rowIdVal: ["", false],
         });
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
-                localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-                localStorage.getItem("loginUserName").toLowerCase() == "mbilya" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+       
         this.getReport(this);
     }
     openLink(element: any){
-      //  debugger
+      //  //debugger
         window.open("https://poria.is-great.org/clicktothank/?id="+element.D_SHEET_ID, "_blank");
     }
     openSnackBar() {
@@ -156,7 +149,7 @@ export class PoriadepartsComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.departsForm.invalid) {
             return;
@@ -177,7 +170,7 @@ export class PoriadepartsComponent implements OnInit {
             this.active_sheet = "1";
         }
         this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text;
-        //debugger
+        ////debugger
         this.http
             .post("http://srv-ipracticom:8080/WebService.asmx/PoriaDeparts", {
                 _departName: this.departsForm.value.fullnameVal,
@@ -190,7 +183,7 @@ export class PoriadepartsComponent implements OnInit {
             })
             .subscribe((Response) => {
                 var json = Response["d"].split(", ");;
-                //debugger       
+                ////debugger       
                 if(" UPDATE" != json[3]){
                     this.rowElement.D_NAME = json[0];
                     this.rowElement.D_SHEET_ID = json[1];
@@ -209,8 +202,8 @@ export class PoriadepartsComponent implements OnInit {
               
                  
                 //var vars = json.split
-               // //debugger;
-                // //debugger 888888
+               // ////debugger;
+                // ////debugger 888888
                 this.openSnackBar();
             });
         // display form values on success
@@ -225,13 +218,13 @@ export class PoriadepartsComponent implements OnInit {
         }
     }
     editRow(content, _type, _element) {
-        ////debugger
+        //////debugger
         this.rowElement = _element;
         this.fullnameVal = _element.D_NAME;
         this.rowIdVal = _element.D_ROW_ID;
         this.idSheet = _element.D_SHEET_ID;
         this.active_sheet = _element.D_SEND_SMS;
-        //debugger
+        ////debugger
         if(this.active_sheet == "0" || this.active_sheet == null || this.active_sheet == "לא" || this.active_sheet == "" ){
             this.active_sheet_bool = false;
         }else{
@@ -254,9 +247,9 @@ export class PoriadepartsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -266,7 +259,7 @@ export class PoriadepartsComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
     }
     applyFilter(filterValue: string) {
@@ -283,7 +276,7 @@ export class PoriadepartsComponent implements OnInit {
 
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         
         this.rowElement = {
             D_ROW_ID: 0,
@@ -310,9 +303,9 @@ export class PoriadepartsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -349,7 +342,7 @@ export class PoriadepartsComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -366,9 +359,9 @@ export class PoriadepartsComponent implements OnInit {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let DepartsData = JSON.parse(json["aaData"]);
-                ////debugger
+                //////debugger
                 for (var i = 0; i < DepartsData.length; i++) {
-                    ////debugger
+                    //////debugger
                     if( DepartsData[i].D_SEND_SMS == "0"){
                         DepartsData[i].D_SEND_SMS = "לא";
                     }else{
@@ -385,11 +378,11 @@ export class PoriadepartsComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

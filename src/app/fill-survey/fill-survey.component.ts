@@ -616,7 +616,7 @@ export class FillSurveyComponent implements OnInit {
                                             }
                                         )
                                         .subscribe((Response) => {
-                                            debugger;
+                                            //debugger;
                                             this.http
                                                 //.post("http://localhost:64964/WebService.asmx/LinkPdfToPatientNamer", {
                                                 .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",{

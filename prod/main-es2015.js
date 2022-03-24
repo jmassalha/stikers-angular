@@ -418,18 +418,18 @@ class AddpatientcoronaformComponent {
         this.addPatientCoronaForm.value.L_REQUEST_DATE = Object(_angular_common__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(this.addPatientCoronaForm.value.L_REQUEST_DATE, "yyyy-MM-dd", "en-US");
         this.addPatientCoronaForm.value.L_RESULT_DATE = Object(_angular_common__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(this.addPatientCoronaForm.value.L_RESULT_DATE, "yyyy-MM-dd", "en-US");
         this.addPatientCoronaForm.value.L_DOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(this.addPatientCoronaForm.value.L_DOB, "yyyy-MM-dd", "en-US");
-        debugger;
+        //debugger;
         // stop here if form is invalid
         if (this.addPatientCoronaForm.invalid) {
             return;
         }
-        debugger;
+        //debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/addPatientCoronaForm", {
             PatientCoronaForm: this.addPatientCoronaForm.value,
         })
             .subscribe((Response) => {
-            debugger;
+            //debugger;
             var json = Response["d"];
             if (Response["d"] == "1") {
                 this.openSnackBar("נשמר בהצלחה", "success");
@@ -746,7 +746,7 @@ class AppComponent {
     }
     ngOnInit() {
         //this.showHeaderAndFooter = false;
-        //debugger
+        ////debugger
     }
 }
 AppComponent.ɵfac = function AppComponent_Factory(t) { return new (t || AppComponent)(_angular_core__WEBPACK_IMPORTED_MODULE_0__["ɵɵdirectiveInject"](_angular_router__WEBPACK_IMPORTED_MODULE_1__["Router"])); };
@@ -1650,7 +1650,7 @@ class CaseinvoisesComponent {
     }
     getInvoicesByCases() {
         if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         }
         this.http
@@ -1659,7 +1659,7 @@ class CaseinvoisesComponent {
             hfnia: this.invoicesForm.value.hfnia
         })
             .subscribe((Response) => {
-            //debugger
+            ////debugger
             this.InvoiceDetailsArray = Response["d"];
             setTimeout(() => {
                 jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
@@ -1935,7 +1935,7 @@ class CasenumbersComponent {
         }, 100);
     }
     ngOnInit() {
-        //debugger
+        ////debugger
         this.loader = false;
         this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
         if (localStorage.getItem("loginState") != "true" ||
@@ -1953,7 +1953,7 @@ class CasenumbersComponent {
         this.getTableFromServer("");
     }
     editRow(content, _type, _element) {
-        // debugger
+        // //debugger
         this.removeCaseForm = this.formBuilder.group({
             CaseNumber: [_element.CaseNumber, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
             CartoonID: [_element.BoxID, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
@@ -1961,9 +1961,9 @@ class CasenumbersComponent {
         this.activeModal = this.modalServiceBoxCase.open(content, this.modalOptions);
     }
     onDetected(event) {
-        //debugger
+        ////debugger
         console.log(event);
-        //debugger
+        ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertCaseNumberToBox", {
             CaseNumber: event.value,
@@ -1985,13 +1985,13 @@ class CasenumbersComponent {
         });
     }
     onRemoveSubmit() {
-        // debugger
+        // //debugger
         // stop here if form is invalid
         if (this.removeCaseForm.invalid) {
             // console.log(this.removeCaseForm.controls.errors);
             return;
         }
-        //debugger;
+        ////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveCaseFromBox", {
             CaseNumber: this.removeCaseForm.value.CaseNumber,
@@ -2009,11 +2009,11 @@ class CasenumbersComponent {
     getTableFromServer(_FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
-        ////debugger
+        //////debugger
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBoxCases", {
@@ -2022,9 +2022,9 @@ class CasenumbersComponent {
         })
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-            ////debugger
+            //////debugger
             this.TABLE_DATA = Response["d"];
-            //debugger
+            ////debugger
             if (this.TABLE_DATA[0]["BoxID"] == null) {
                 this.TABLE_DATA = [];
                 this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
@@ -2035,7 +2035,7 @@ class CasenumbersComponent {
                 this.resultsLength = this.TABLE_DATA.length;
             }
             setTimeout(function () {
-                //////debugger
+                ////////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
                 }
@@ -2935,7 +2935,7 @@ class ChadsComponent {
         //console.log(this.paginator.pageIndex);
     }
     openRelevant(content, _type, _element) {
-        //  //debugger
+        //  ////debugger
         this.patientNumber = _element.PatiantNumber;
         this.caseNumber = _element.Case_Number;
         var _Boolean = false;
@@ -2952,7 +2952,7 @@ class ChadsComponent {
         this.modalService.open(content, this.modalOptions).result.then(result => {
             this.closeResult = `Closed with: ${result}`;
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 // this.saveChad(_element.ROW_ID);
             }
         }, reason => {
@@ -2966,7 +2966,7 @@ class ChadsComponent {
         else {
             this.RelevantForm.value.RelevantOrNotCheck = '1';
         }
-        ////debugger;
+        //////debugger;
         //return;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveRelevantOrNotChad", {
@@ -2982,35 +2982,35 @@ class ChadsComponent {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetChadsDeparts", {})
             .subscribe(Response => {
-            //// ////debugger
+            //// //////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
-            // // ////debugger
+            // // //////debugger
             var _d = JSON.parse(json["Departs"]);
             for (var depart in _d) {
-                //// ////debugger
+                //// //////debugger
                 var _sD = { id: depart, name: _d[depart] };
                 this.departs.push(_sD);
             } /*
             $(_d).each(function(i,k){
-                // ////debugger
+                // //////debugger
                 //var _sD: Depart = {id: i, name: k};
 
                 //this.departs.push(_sD);
             })*/
-            //// ////debugger
+            //// //////debugger
         });
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        // ////debugger
+        // //////debugger
         this.chadVal = "";
         this.chadDate = "";
         this.chadTool = "";
         this.modalService.open(content, this.modalOptions).result.then(result => {
             this.closeResult = `Closed with: ${result}`;
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 this.saveChad(_element.ROW_ID);
             }
         }, reason => {
@@ -3042,14 +3042,14 @@ class ChadsComponent {
             _ROW_ID: _rowID
         })
             .subscribe(Response => {
-            // ////debugger;
+            // //////debugger;
             setTimeout(() => {
                 //this.dataSource.paginator = this.paginator
                 jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
             });
             //this.dataSource.paginator = this.paginator;
         }, error => {
-            // ////debugger;
+            // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
         });
     }
@@ -3080,7 +3080,7 @@ class ChadsComponent {
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
             var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)";
-            //// ////debugger;
+            //// //////debugger;
             backgroundColorArray.push(backgound);
             backgroundColorArrayOpacity.push(backgoundOpacity);
         }
@@ -3090,14 +3090,14 @@ class ChadsComponent {
         let optionCall;
         let totalDataLength = _data.length;
         let bgArray = this.getBackgroundArray(totalDataLength);
-        //// ////debugger;
+        //// //////debugger;
         if (_dataType == "multiBar") {
             jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).empty();
             jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-            //  // ////debugger
+            //  // //////debugger
             var canvas = (document.getElementById(_chartId));
             var ctxIn = canvas.getContext("2d");
-            ////debugger
+            //////debugger
             var barChartData = {
                 labels: _dataLable,
                 datasets: [{
@@ -3112,7 +3112,7 @@ class ChadsComponent {
                         data: _data[1]
                     }]
             };
-            // ////debugger
+            // //////debugger
             var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_7__(ctxIn, {
                 type: 'bar',
                 data: barChartData,
@@ -3149,7 +3149,7 @@ class ChadsComponent {
                         label: function (tooltipItem, data) {
                             //get the concerned dataset
                             var dataset = data.datasets[tooltipItem.datasetIndex];
-                            // // ////debugger;
+                            // // //////debugger;
                             var total = 0;
                             for (var t = 0; t < dataset.data.length; t++) {
                                 total += parseInt(dataset.data[t]);
@@ -3201,7 +3201,7 @@ class ChadsComponent {
         }
         jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).empty();
         jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-        //  // ////debugger
+        //  // //////debugger
         var canvas = (document.getElementById(_chartId));
         var ctxIn = canvas.getContext("2d");
         var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_7__(ctxIn, {
@@ -3234,19 +3234,19 @@ class ChadsComponent {
         }
     }
     quart_change(event) {
-        ////debugger;
+        //////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
     }
     radioChange(event) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
     }
     getDataFormServer(_tableName, _startDate, _endDate, _pageIndex, _pageSize, _filterVal, _goodOrNot, _AntiCoagTreat, _DepartmentID, _Relevant) {
-        //// ////debugger
+        //// //////debugger
         jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetReportTable", {
@@ -3262,11 +3262,11 @@ class ChadsComponent {
             _Relevant: _Relevant,
         })
             .subscribe(Response => {
-            //// ////debugger
+            //// //////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let chads = JSON.parse(json["aaData"]);
-            // ////debugger
+            // //////debugger
             for (var i = 0; i < chads.length; i++) {
                 if (chads[i].AntiCoag_Treat == "2" ||
                     chads[i].AntiCoag_Treat == 2) {
@@ -3293,7 +3293,7 @@ class ChadsComponent {
                 // }else{
                 //     this.isShow = true;
                 // }
-                //// ////debugger;
+                //// //////debugger;
                 var TkeenIN = "לא תקין";
                 if (chads[i].CHADS2_Value != '') {
                     TkeenIN = "תקין";
@@ -3338,7 +3338,7 @@ class ChadsComponent {
                     RelevantDoc: chads[i].RelevantDoc
                 });
             }
-            // // ////debugger
+            // // //////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_4__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             this.ChadWithOutValByDocNameDoctorsNames = JSON.parse(json["ChadWithOutValByDocNameDoctorsNames"]);
@@ -3346,7 +3346,7 @@ class ChadsComponent {
             this.totalRowsChadWithVal = json["totalRowsChadWithVal"];
             this.totalRowsChadWithOutVal = json["totalRowsChadWithOutVal"];
             this.ChadDeparts = JSON.parse(json["ChadDeparts"]);
-            ////debugger
+            //////debugger
             this.ChadDepartsGoods = JSON.parse(json["ChadDepartsGoods"]);
             this.ChadDepartsNotGoods = JSON.parse(json["ChadDepartsNotGoods"]);
             if (this.selectedIndexTab == 1) {
@@ -3360,14 +3360,14 @@ class ChadsComponent {
             /* */
             //this.paginator. = parseInt(json["iTotalRecords"]);
             //this.dataSource.sort = this.sort;
-            // // ////debugger
+            // // //////debugger
             setTimeout(() => {
                 //this.dataSource.paginator = this.paginator
                 jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
             });
             //this.dataSource.paginator = this.paginator;
         }, error => {
-            // // ////debugger;
+            // // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
         });
     }
@@ -3999,7 +3999,7 @@ class CheckpatientinsmartclosetComponent {
     getTableFromServer(_freeSearch) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         }
@@ -6085,7 +6085,7 @@ Cecum_Time
         let clickedIndex = $event.index;
         this.selectedIndexTab = clickedIndex;
         if (clickedIndex == 1 && this.doctors != null) {
-            //debugger
+            ////debugger
             //let totalDataLength = 2;
             //let bgArray = this.getBackgroundArray(totalDataLength);
             this.titleC = "איתור פוליפים";
@@ -6184,7 +6184,7 @@ Cecum_Time
             // colors: ["#e0440e", "#e6693e"],
             //is3D: true,
             };
-            debugger;
+            //debugger;
             /*
             this.drawCharToDom(
                 "multiBar",
@@ -6342,7 +6342,7 @@ Cecum_Time
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
             var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)";
-            //// ////debugger;
+            //// //////debugger;
             backgroundColorArray.push(backgound);
             backgroundColorArrayOpacity.push(backgoundOpacity);
         }
@@ -6352,14 +6352,14 @@ Cecum_Time
         let optionCall;
         let totalDataLength = _data.length;
         let bgArray = this.getBackgroundArray(totalDataLength);
-        //// ////debugger;
+        //// //////debugger;
         if (_dataType == "multiBar") {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).empty();
             jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-            //  // ////debugger
+            //  // //////debugger
             var canvas = (document.getElementById(_chartId));
             var ctxIn = canvas.getContext("2d");
-            ////debugger
+            //////debugger
             var barChartData = {
                 labels: _dataLable,
                 datasets: [
@@ -6383,7 +6383,7 @@ Cecum_Time
                     },
                 ],
             };
-            // ////debugger
+            // //////debugger
             var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_6__(ctxIn, {
                 type: "bar",
                 data: barChartData,
@@ -6426,7 +6426,7 @@ Cecum_Time
                         label: function (tooltipItem, data) {
                             //get the concerned dataset
                             var dataset = data.datasets[tooltipItem.datasetIndex];
-                            // // ////debugger;
+                            // // //////debugger;
                             var total = 0;
                             for (var t = 0; t < dataset.data.length; t++) {
                                 total += parseInt(dataset.data[t]);
@@ -6482,7 +6482,7 @@ Cecum_Time
         }
         jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).empty();
         jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-        //  // ////debugger
+        //  // //////debugger
         var canvas = (document.getElementById(_chartId));
         var ctxIn = canvas.getContext("2d");
         var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_6__(ctxIn, {
@@ -6506,28 +6506,28 @@ Cecum_Time
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetColonoscopyDoctorsList", {})
             .subscribe((Response) => {
-            //// ////debugger
+            //// //////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
-            // // ////debugger
+            // // //////debugger
             var _d = JSON.parse(json["DoctorsList"]);
             for (var doctor in _d) {
-                //// ////debugger
+                //// //////debugger
                 var _sD = { id: doctor, name: doctor };
                 this.doctorsList.push(_sD);
             } /*
                 $(_d).each(function(i,k){
-                    // ////debugger
+                    // //////debugger
                     //var _sD: Depart = {id: i, name: k};
 
                     //this.departs.push(_sD);
                 })*/
-            //// ////debugger
+            //// //////debugger
         });
     }
     getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _filterVal, _goodOrNot, _Relevant, _Doctor, _Cectom, _sixmin, age, case_type) {
         //;
-        debugger;
+        //debugger;
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getCOLONOSCOPY", {
@@ -6561,7 +6561,7 @@ Cecum_Time
             this.totalWithoutEndTime = JSON.parse(json["totalWithoutEndTime"]);
             this.totalWith6min = JSON.parse(json["totalWith6min"]);
             this.totalWithout6min = JSON.parse(json["totalWithout6min"]);
-            //debugger
+            ////debugger
             let COLONOSCOPY = JSON.parse(json["aaData"]);
             for (var i = 0; i < COLONOSCOPY.length; i++) {
                 if (COLONOSCOPY[i].MeasurementStatus != "1") {
@@ -8141,7 +8141,7 @@ class ConsultationsComponent {
                 viewWindow: { min: 0 },
             },
         };
-        // //debugger;
+        // ////debugger;
         this.DepartsDataChart = [["", 0, "", 0]];
         this.WorkersDataChart = [["", 0, "", 0]];
         this.DepartsDataDoingTotal = [["", 0, "", 0]];
@@ -8151,7 +8151,7 @@ class ConsultationsComponent {
         this.DepartsDataRequestTotal = [["", 0, "", 0]];
         this.DepartsDataRequestAvg = [["", 0, "", 0]];
         //var t = this.shuffle(this.colors);
-        //debugger;
+        ////debugger;
         if (clickedIndex == 1 && this.MulBarsRequestDepart != null) {
             this.DepartsDataRequestTotal = [];
             this.DepartsDataRequestAvg = [];
@@ -8168,7 +8168,7 @@ class ConsultationsComponent {
                     "color: " + this.colors[s],
                     parseFloat(this.MulBarsRequestDepartAvgTime[s]),
                 ];
-                // //debugger
+                // ////debugger
                 this.DepartsDataRequestTotal.push(_d);
                 this.DepartsDataRequestAvg.push(_s);
             }
@@ -8193,7 +8193,7 @@ class ConsultationsComponent {
                     "color: " + this.colors[s],
                     parseFloat(this.MulBarsRequestDepartAvgTimeAll[s]),
                 ];
-                // //debugger
+                // ////debugger
                 this.DepartsDataRequestTotalAll.push(_d);
                 this.DepartsDataRequestAvgAll.push(_s);
             }
@@ -8202,7 +8202,7 @@ class ConsultationsComponent {
                 this.DepartsDataRequestAvgAll = [["", 0, "", 0]];
             }
         }
-        //debugger
+        ////debugger
         if (clickedIndex == 1 && this.MulBarsDoingDepart != null) {
             this.DepartsDataDoingTotal = [];
             this.DepartsDataDoingAvg = [];
@@ -8219,7 +8219,7 @@ class ConsultationsComponent {
                     "color: " + this.colors[s],
                     parseFloat(this.MulBarsDoingDepartAvgTime[s]),
                 ];
-                ////debugger
+                //////debugger
                 this.DepartsDataDoingTotal.push(_d);
                 this.DepartsDataDoingAvg.push(_s);
             }
@@ -8228,7 +8228,7 @@ class ConsultationsComponent {
                 this.DepartsDataDoingAvg = [["", 0, "", 0]];
             }
         }
-        debugger;
+        //debugger;
         if (clickedIndex == 1 && this.MulBarsDoingDepartAll != null) {
             this.DepartsDataDoingTotalAll = [];
             this.DepartsDataDoingAvgAll = [];
@@ -8245,7 +8245,7 @@ class ConsultationsComponent {
                     "color: " + this.colors[s],
                     parseFloat(this.MulBarsDoingDepartAvgTimeAll[s]),
                 ];
-                ////debugger
+                //////debugger
                 this.DepartsDataDoingTotalAll.push(_d);
                 this.DepartsDataDoingAvgAll.push(_s);
             }
@@ -8270,7 +8270,7 @@ class ConsultationsComponent {
                     "color: " + this.colors[s],
                     parseFloat(this.MulBarsRequestDepartAvgTimeAllNotPara[s]),
                 ];
-                ////debugger
+                //////debugger
                 this.DepartsDataRequestTotalAllNotPara.push(_d);
                 this.DepartsDataRequestAvgAllNotPara.push(_s);
             }
@@ -8295,7 +8295,7 @@ class ConsultationsComponent {
                     "color: " + this.colors[s],
                     parseFloat(this.MulBarsRequestDepartAvgTimeNotPara[s]),
                 ];
-                ////debugger
+                //////debugger
                 this.DepartsDataRequestTotalNotPara.push(_d);
                 this.DepartsDataRequestAvgNotPara.push(_s);
             }
@@ -8306,7 +8306,7 @@ class ConsultationsComponent {
         }
         if (clickedIndex == 1 && this.Departs != null) {
             this.DepartsDataChart = [];
-            // //debugger;
+            // ////debugger;
             var s = 0;
             for (const [key, value] of Object.entries(this.Departs)) {
                 if (value != "") {
@@ -8385,7 +8385,7 @@ class ConsultationsComponent {
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
             var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)";
-            //// //////debugger;
+            //// ////////debugger;
             backgroundColorArray.push(backgound);
             backgroundColorArrayOpacity.push(backgoundOpacity);
         }
@@ -8395,14 +8395,14 @@ class ConsultationsComponent {
         let optionCall;
         let totalDataLength = _data.length;
         let bgArray = this.getBackgroundArray(totalDataLength);
-        //// //////debugger;
+        //// ////////debugger;
         if (_dataType == "multiBar") {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).empty();
             jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-            //  // //////debugger
+            //  // ////////debugger
             var canvas = (document.getElementById(_chartId));
             var ctxIn = canvas.getContext("2d");
-            //////debugger
+            ////////debugger
             var barChartData = {
                 labels: _dataLable,
                 datasets: [
@@ -8426,7 +8426,7 @@ class ConsultationsComponent {
                     },
                 ],
             };
-            // //////debugger
+            // ////////debugger
             var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_6__(ctxIn, {
                 type: "bar",
                 data: barChartData,
@@ -8469,7 +8469,7 @@ class ConsultationsComponent {
                         label: function (tooltipItem, data) {
                             //get the concerned dataset
                             var dataset = data.datasets[tooltipItem.datasetIndex];
-                            // // //////debugger;
+                            // // ////////debugger;
                             var total = 0;
                             for (var t = 0; t < dataset.data.length; t++) {
                                 total += parseFloat(dataset.data[t]);
@@ -8525,7 +8525,7 @@ class ConsultationsComponent {
         }
         jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).empty();
         jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-        //  // //////debugger
+        //  // ////////debugger
         var canvas = (document.getElementById(_chartId));
         var ctxIn = canvas.getContext("2d");
         var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_6__(ctxIn, {
@@ -8550,25 +8550,25 @@ class ConsultationsComponent {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNamerDeparts", {})
             .subscribe((Response) => {
-            //// //////debugger
+            //// ////////debugger
             this.departsList = [];
             var json = JSON.parse(Response["d"]);
-            // // //////debugger
+            // // ////////debugger
             var _d = JSON.parse(json["departsList"]);
             for (const [key, value] of Object.entries(_d)) {
-                ////debugger
+                //////debugger
                 var _sD = { id: key, name: value.toString() };
                 this.departsList.push(_sD);
             }
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             /*
               $(_d).each(function(i,k){
-                  // //////debugger
+                  // ////////debugger
                   //var _sD: Depart = {id: i, name: k};
 
                   //this.departs.push(_sD);
               })*/
-            //// //////debugger
+            //// ////////debugger
         });
     }
     getWorkers(valDepart) {
@@ -8578,25 +8578,25 @@ class ConsultationsComponent {
             _Depart: valDepart,
         })
             .subscribe((Response) => {
-            //debugger;
+            ////debugger;
             this.workersList = [];
             var json = JSON.parse(Response["d"]);
-            // // //////debugger
+            // // ////////debugger
             var _w = JSON.parse(json["WorkersList"]);
             for (const [key, value] of Object.entries(_w)) {
-                ////debugger
+                //////debugger
                 var _sD = { id: key, name: value.toString() };
                 this.workersList.push(_sD);
             }
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             /*
               $(_d).each(function(i,k){
-                  // //////debugger
+                  // ////////debugger
                   //var _sD: Depart = {id: i, name: k};
 
                   //this.departs.push(_sD);
               })*/
-            //// //////debugger
+            //// ////////debugger
         });
     }
     getRequest() {
@@ -8604,30 +8604,30 @@ class ConsultationsComponent {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRequestDeparts", {})
             .subscribe((Response) => {
-            //// //////debugger
+            //// ////////debugger
             this.requestdepartsList = [];
             var json = JSON.parse(Response["d"]);
-            // // //////debugger
+            // // ////////debugger
             var _r = JSON.parse(json["seodedepartsList"]);
             for (const [key, value] of Object.entries(_r)) {
-                ////debugger
+                //////debugger
                 var _sD = { id: key, name: value.toString() };
                 this.requestdepartsList.push(_sD);
             }
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             /*
               $(_d).each(function(i,k){
-                  // //////debugger
+                  // ////////debugger
                   //var _sD: Depart = {id: i, name: k};
 
                   //this.departs.push(_sD);
               })*/
-            //// //////debugger
+            //// ////////debugger
         });
     }
     getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _filterVal, _Depart, _Workers, _Request) {
         //;
-        ////debugger;
+        //////debugger;
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllConsultations", {
@@ -8643,7 +8643,7 @@ class ConsultationsComponent {
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
-            //debugger;
+            ////debugger;
             this.Departs = JSON.parse(json["Departs"]);
             this.MulBarsRequestDepart = JSON.parse(json["MulBarsRequestDepart"]);
             this.MulBarsRequestDepartTotalRows = JSON.parse(json["MulBarsRequestDepartTotalRows"]);
@@ -8666,8 +8666,8 @@ class ConsultationsComponent {
             this.DepartsDoingTotal = JSON.parse(json["DepartsDoingTotal"]);
             this.WorkersDoingTotal = JSON.parse(json["WorkersDoingTotal"]);
             this.Workers = JSON.parse(json["Workers"]);
-            //debugger;
-            ////debugger
+            ////debugger;
+            //////debugger
             let Consultations = JSON.parse(json["aaData"]);
             for (var i = 0; i < Consultations.length; i++) {
                 if (Consultations[i].MeasurementStatus != "1") {
@@ -9856,7 +9856,7 @@ class CoronaformComponent {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
     }
     openSnackBar() {
@@ -9881,7 +9881,7 @@ class CoronaformComponent {
             _phoneNumber: this.phoneNumber,
         })
             .subscribe((Response) => {
-            // //debugger 888888
+            // ////debugger 888888
             this.openSnackBar();
         });
         // display form values on success
@@ -9901,15 +9901,15 @@ class CoronaformComponent {
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        // //debugger
+        // ////debugger
         this.fullnameVal = "";
         this.idPatient = "";
         this.phoneNumber = "";
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -9928,7 +9928,7 @@ class CoronaformComponent {
         }
     }
     toShortFormat(d) {
-        ////debugger;
+        //////debugger;
         let monthNames = [
             "01",
             "02",
@@ -9947,7 +9947,7 @@ class CoronaformComponent {
         let monthIndex = d.getMonth();
         let monthName = monthNames[monthIndex];
         let year = d.getFullYear();
-        ////debugger
+        //////debugger
         return `${day}/${monthName}/${year}`;
     }
     ngAfterViewInit() { }
@@ -9958,7 +9958,7 @@ class CoronaformComponent {
         }
     }
     printRowForm(row) {
-        // //debugger
+        // ////debugger
         var cRow = row;
         var dateB = cRow.CS_SURVEY_DATE;
         var dateC = cRow.CS_SURVEY_Q2_2;
@@ -9966,22 +9966,22 @@ class CoronaformComponent {
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
             row.CS_SURVEY_Q2_2 = "";
-            //debugger
+            ////debugger
         }*/
         if (cRow.CS_SURVEY_Q2_2 != "" &&
             cRow.CS_SURVEY_Q2_2 != "Invalid Date") {
             cRow.CS_SURVEY_Q2_2 = this.toShortFormat(new Date(cRow.CS_SURVEY_Q2_2));
-            ////debugger
+            //////debugger
         }
         /*  if (row.CS_SURVEY_Q4_4 == "Invalid Date") {
             row.CS_SURVEY_Q4_4 = "";
-            //debugger
+            ////debugger
         }*/
         if (cRow.CS_SURVEY_Q4_4 != "") {
             cRow.CS_SURVEY_Q4_4 = this.toShortFormat(new Date(cRow.CS_SURVEY_Q4_4));
         }
         //   row.CS_SURVEY_Q2_2 = this.toShortFormat(dateCovid);
-        ////debugger
+        //////debugger
         var f = cRow.CS_SURVEY_DATE.split("T");
         cRow.CS_TIME = f[1].substring(0, 5);
         cRow.CS_SURVEY_DATE = this.toShortFormat(new Date(f[0]));
@@ -10001,7 +10001,7 @@ class CoronaformComponent {
             cRow.CS_SURVEY_Q2_1 == "نعم") {
             this.Checked_Yes_CS_SURVEY_Q2_1 = true;
             this.Checked_No_CS_SURVEY_Q2_1 = false;
-            //  //debugger
+            //  ////debugger
         }
         else {
             this.Checked_No_CS_SURVEY_Q2_1 = true;
@@ -10040,7 +10040,7 @@ class CoronaformComponent {
             this.Checked_No_CS_SURVEY_Q4_2 = true;
             this.Checked_Yes_CS_SURVEY_Q4_2 = false;
         }
-        ////debugger
+        //////debugger
         if (cRow.CS_SURVEY_Q4_3 == "Yes" ||
             cRow.CS_SURVEY_Q4_3 == "Да" ||
             cRow.CS_SURVEY_Q4_3 == "כן" ||
@@ -10063,7 +10063,7 @@ class CoronaformComponent {
     getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -10079,12 +10079,12 @@ class CoronaformComponent {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let CoronaData = JSON.parse(json["aaData"]);
-            ////debugger
+            //////debugger
             for (var i = 0; i < CoronaData.length; i++) {
                 var t = CoronaData[i].CS_SURVEY_DATE.split("T");
                 var d = CoronaData[i].CS_SURVEY_Q2_2.split(" ");
                 var s = CoronaData[i].CS_SURVEY_Q4_4.split(" ");
-                ////debugger
+                //////debugger
                 this.TABLE_DATA.push({
                     CS_ROW_ID: CoronaData[i].CS_ROW_ID,
                     CS_SMS_ID: CoronaData[i].CS_SMS_ID,
@@ -10120,11 +10120,11 @@ class CoronaformComponent {
                     CS_DATETIME: t[1],
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -10759,7 +10759,7 @@ class CoronaresultformComponent {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
     }
     openSnackBar() {
@@ -10784,7 +10784,7 @@ class CoronaresultformComponent {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     toShortFormat(d) {
-        ////debugger;
+        //////debugger;
         let monthNames = [
             "01",
             "02",
@@ -10799,7 +10799,7 @@ class CoronaresultformComponent {
             "11",
             "12",
         ];
-        ////debugger;
+        //////debugger;
         let dayNames = [
             "01",
             "02",
@@ -10837,14 +10837,14 @@ class CoronaresultformComponent {
         let monthIndex = d.getMonth();
         let monthName = monthNames[monthIndex];
         let year = d.getFullYear();
-        ////debugger
+        //////debugger
         return `${day}/${monthName}/${year}`;
     }
     ngAfterViewInit() { }
     getTableFromServer(_ID) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
@@ -10855,7 +10855,7 @@ class CoronaresultformComponent {
             .subscribe((Response) => {
             var json = JSON.parse(Response["d"]);
             let CoronaData = JSON.parse(json["ITEMSMAP"]);
-            //  //debugger;
+            //  ////debugger;
             CoronaData.L_DOB = this.toShortFormat(new Date(CoronaData.L_DOB));
             CoronaData.L_REQUEST_DATE = this.toShortFormat(new Date(CoronaData.L_REQUEST_DATE));
             CoronaData.L_RESULT_DATE = this.toShortFormat(new Date(CoronaData.L_RESULT_DATE));
@@ -11817,7 +11817,7 @@ class CoronavaccineComponent {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
         this.getTableFromServer(this.startdateVal, this.enddateVal, this.paginator.pageIndex, 50, this.fliterVal);
         window.onafterprint = function () {
@@ -11846,7 +11846,7 @@ class CoronavaccineComponent {
             _phoneNumber: this.phoneNumber,
         })
             .subscribe((Response) => {
-            // //debugger 888888
+            // ////debugger 888888
             this.openSnackBar();
         });
         // display form values on success
@@ -11866,15 +11866,15 @@ class CoronavaccineComponent {
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        // //debugger
+        // ////debugger
         this.fullnameVal = "";
         this.idPatient = "";
         this.phoneNumber = "";
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -11893,7 +11893,7 @@ class CoronavaccineComponent {
         }
     }
     toShortFormat(d) {
-        ////debugger;
+        //////debugger;
         let monthNames = [
             "01",
             "02",
@@ -11912,7 +11912,7 @@ class CoronavaccineComponent {
         let monthIndex = d.getMonth();
         let monthName = monthNames[monthIndex];
         let year = d.getFullYear();
-        ////debugger
+        //////debugger
         return `${day}/${monthName}/${year}`;
     }
     ngAfterViewInit() { }
@@ -11924,7 +11924,7 @@ class CoronavaccineComponent {
     }
     releaseRow(row) { }
     printRowForm(row) {
-        // debugger
+        // //debugger
         this.viccatnNumber = row.VaccinationForm;
         if (row.VaccinationForm == "1") {
             this.VaccinationForm_1 = true;
@@ -11934,7 +11934,7 @@ class CoronavaccineComponent {
             this.VaccinationForm_1 = false;
             this.VaccinationForm_2 = true;
         }
-        // //debugger
+        // ////debugger
         this.rowFormData = row;
         if (this.rowFormData.ChronicLungDisease == "1") {
             this.ChronicLungDisease = true;
@@ -12055,21 +12055,21 @@ class CoronavaccineComponent {
             ],
             Covid19afterthefirst: [this.rowFormData.Covid19afterthefirst, null],
         });
-        //debugger
+        ////debugger
         var row = this.WorkerForm.value;
         for (var i = 0; i < Object.values(row).length; i++) {
-            //debugger
+            ////debugger
             if (Object.values(row)[i] == "1") {
                 this.showRed = true;
-                debugger;
+                //debugger;
                 break;
             }
         }
-        //debugger
+        ////debugger
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
             row.CS_SURVEY_Q2_2 = "";
-            //debugger
+            ////debugger
         }*/
         setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
@@ -12079,7 +12079,7 @@ class CoronavaccineComponent {
     getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -12096,9 +12096,9 @@ class CoronavaccineComponent {
             var json = JSON.parse(Response["d"]);
             let json_2 = JSON.parse(json);
             let CoronaData = JSON.parse(json_2["aaData"]);
-            // debugger;
+            // //debugger;
             for (var i = 0; i < CoronaData.length; i++) {
-                ////debugger
+                //////debugger
                 this.TABLE_DATA.push({
                     EmployeeID: CoronaData[i].EmployeeID,
                     EmployeePhone: CoronaData[i].EmployeePhone,
@@ -12162,11 +12162,11 @@ class CoronavaccineComponent {
                     pregnancyWeek: CoronaData[i].pregnancyWeek,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(JSON.parse(json_2["iTotalRecords"]));
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -13238,7 +13238,7 @@ class CortinasdepartsComponent {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.departsForm.invalid) {
             return;
@@ -13263,7 +13263,7 @@ class CortinasdepartsComponent {
     }
     onSubmitRooms() {
         this.submitted = true;
-        //debugger;
+        ////debugger;
         // stop here if form is invalid
         if (this.roomsForm.invalid) {
             return;
@@ -13288,8 +13288,8 @@ class CortinasdepartsComponent {
     }
     onSubmitBeds() {
         this.submitted = true;
-        //debugger;
-        //debugger
+        ////debugger;
+        ////debugger
         // return;
         // stop here if form is invalid
         if (this.roomsBedsForm.invalid) {
@@ -13315,11 +13315,11 @@ class CortinasdepartsComponent {
         //this.modalService.dismissAll();
     }
     showBeds(content, _type, _element) {
-        //debugger
+        ////debugger
         this.beds = null;
         this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
         setTimeout(function () {
-            ////debugger
+            //////debugger
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
         this.D_NAME = _element.D_NAME;
@@ -13329,7 +13329,7 @@ class CortinasdepartsComponent {
             _DepartID: _element.D_ID,
         })
             .subscribe((Response) => {
-            //  //debugger
+            //  ////debugger
             var json = JSON.parse(Response["d"]);
             let DepartsRoomsBedsData = JSON.parse(json["Beds"]);
             this.beds = DepartsRoomsBedsData;
@@ -13341,13 +13341,13 @@ class CortinasdepartsComponent {
             var now = "0", last = "0";
             for (var t = 0; t < DepartsRoomsBedsData.length; t++) {
                 now = DepartsRoomsBedsData[t].B_R_ID;
-                //debugger
+                ////debugger
                 if (parseInt(now) != parseInt(last)) {
                     this.beds[t].GROUP_CLASS = "group-border";
                     last = DepartsRoomsBedsData[t].B_R_ID;
                 }
             }
-            ////debugger
+            //////debugger
             this.roomsBedsForm = this.formBuilder.group({
                 roomsBedsDetails: this.formBuilder.array(DepartsRoomsBedsData.map((x) => this.formBuilder.group({
                     B_ID: [x.B_ID, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -13365,17 +13365,17 @@ class CortinasdepartsComponent {
                     B_ROOM_NUMBER: [x.B_ROOM_NUMBER, false],
                 }))),
             });
-            // //debugger
+            // ////debugger
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             });
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -13386,7 +13386,7 @@ class CortinasdepartsComponent {
         this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
         this.rooms = null;
         setTimeout(function () {
-            ////debugger
+            //////debugger
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
         this.D_NAME = _element.D_NAME;
@@ -13396,10 +13396,10 @@ class CortinasdepartsComponent {
             _DepartID: _element.D_ID,
         })
             .subscribe((Response) => {
-            //  //debugger
+            //  ////debugger
             var json = JSON.parse(Response["d"]);
             let DepartsRoomsData = JSON.parse(json["Rooms"]);
-            ////debugger
+            //////debugger
             this.rooms = DepartsRoomsData;
             this.roomsForm = this.formBuilder.group({
                 roomsDetails: this.formBuilder.array(DepartsRoomsData.map((x) => this.formBuilder.group({
@@ -13413,17 +13413,17 @@ class CortinasdepartsComponent {
                     R_STATUS: [x.R_STATUS, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
                 }))),
             });
-            // //debugger
+            // ////debugger
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             });
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -13445,9 +13445,9 @@ class CortinasdepartsComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -13455,7 +13455,7 @@ class CortinasdepartsComponent {
         });
     }
     getReport($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
     }
     applyFilter(filterValue) {
@@ -13466,7 +13466,7 @@ class CortinasdepartsComponent {
     open(content, _type, _element) {
         this.D_NAME = "";
         this.D_ID = "חדשה";
-        //debugger;
+        ////debugger;
         this.departsForm = this.formBuilder.group({
             D_NAME: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             D_PERIOD_TO_REPLACE: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -13476,9 +13476,9 @@ class CortinasdepartsComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -13504,7 +13504,7 @@ class CortinasdepartsComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -13515,11 +13515,11 @@ class CortinasdepartsComponent {
             _FreeText: _FreeText,
         })
             .subscribe((Response) => {
-            ////debugger
+            //////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let DepartsData = JSON.parse(json["aaData"]);
-            ////debugger
+            //////debugger
             for (var i = 0; i < DepartsData.length; i++) {
                 this.TABLE_DATA.push({
                     D_ID: DepartsData[i].D_ID,
@@ -13529,11 +13529,11 @@ class CortinasdepartsComponent {
                     D_ROOMS_NUMBER: DepartsData[i].D_ROOMS_NUMBER,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -13882,7 +13882,7 @@ class CortinasnotificationComponent {
         this.getReport(this);
     }
     getReport($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer();
     }
     ChangeCortinasDate(alert) {
@@ -13895,7 +13895,7 @@ class CortinasnotificationComponent {
             alert: alert
         })
             .subscribe((Response) => {
-            //debugger
+            ////debugger
             this.openSnackBar();
         });
     }
@@ -13911,20 +13911,20 @@ class CortinasnotificationComponent {
     getTableFromServer() {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         }
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCortinasAlerts", {})
             .subscribe((Response) => {
-            ////debugger
+            //////debugger
             var json = JSON.parse(Response["d"]);
             this.AlertWarn = JSON.parse(json["AlertWarn"]);
             this.AlertYellow = JSON.parse(json["AlertYellow"]);
             this.AlertGreen = JSON.parse(json["AlertGreen"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
                 }
@@ -14515,7 +14515,7 @@ class Covid19reportComponent {
         this.getReport("");
     }
     getReport($event) {
-        //debugger
+        ////debugger
         if (this.startdateVal && this.enddateVal)
             this.getTableFromServer(this.startdateVal, this.enddateVal, this.paginator.pageIndex, 10, this.fliterVal);
     }
@@ -14560,11 +14560,11 @@ class Covid19reportComponent {
             Site_Desc: ['PORIA', _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
         });
         //$('#free_text').text(_element.FreeText);
-        // //debugger
+        // ////debugger
         this.modalService.open(content, this.modalOptions).result.then((result) => {
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => { });
@@ -14588,7 +14588,7 @@ class Covid19reportComponent {
         }
     }
     editRowForm(content, _type, row) {
-        //debugger
+        ////debugger
         var cRow = row;
         switch (cRow.Reporting_Type_Code) {
             case "1":
@@ -14606,7 +14606,7 @@ class Covid19reportComponent {
         var dateArray = reggie.exec(dateString);
         var dateObject = new Date((+dateArray[1]), (+dateArray[2]) - 1, // Careful, month starts at 0!
         (+dateArray[3]), (+dateArray[4]), (+dateArray[5]), (+dateArray[6]));
-        debugger;
+        //debugger;
         this.addOrEditReportForm = this.formBuilder.group({
             RowId: [cRow.RowId, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
             Reporting_Date_Time: [
@@ -14632,9 +14632,9 @@ class Covid19reportComponent {
             Site_Desc: ['PORIA', _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => { });
@@ -14679,14 +14679,14 @@ class Covid19reportComponent {
         // current seconds
         let seconds = taht.addOrEditReportForm.value.Reporting_Date_Time.getSeconds();
         taht.addOrEditReportForm.value.Reporting_Date_Time = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
-        debugger;
+        //debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCovid19Report", {
             mCovid19Report: taht.addOrEditReportForm.value,
         })
             .subscribe((Response) => {
-            //debugger
-            // //debugger 888888
+            ////debugger
+            // ////debugger 888888
             this.openSnackBar();
             this.getReport("");
         });
@@ -14697,7 +14697,7 @@ class Covid19reportComponent {
     getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
@@ -14712,9 +14712,9 @@ class Covid19reportComponent {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(JSON.parse(Response["d"]));
             let CoronaData = JSON.parse(json["aaData"]);
-            ////debugger
+            //////debugger
             for (var i = 0; i < CoronaData.length; i++) {
-                ////debugger
+                //////debugger
                 let Edit = false;
                 if (CoronaData[i].RowStatus == "פעיל") {
                     Edit = true;
@@ -14739,11 +14739,11 @@ class Covid19reportComponent {
                     Edit: Edit,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
                 }
@@ -15012,7 +15012,7 @@ class DashboardComponent {
                         .find("svg")
                         .append($("#extra-precent").find("path"));
                 }
-                ////debugger
+                //////debugger
                 return "";
             },
         };
@@ -15037,7 +15037,7 @@ class DashboardComponent {
     // public getData(){
     //     this.Departmints["departs"].forEach((element, key) => {
     //         this.Departmints["departs"][key].Used = "";
-    //        // //debugger
+    //        // ////debugger
     //         //$(document).find("._Departmints li:nth("+key+") .append-dots").append($(this._dotsLoader));
     //         this.getDataFormServer(key, element.Code);
     //     });
@@ -15049,20 +15049,20 @@ class DashboardComponent {
             _depart: _Depart,
         })
             .subscribe((Response) => {
-            ////debugger
+            //////debugger
             //var json = JSON.parse(Response["d"]);
             var obj = JSON.parse(Response["d"]);
             var aobjTotal = JSON.parse(obj["total"]);
             var aobj = JSON.parse(obj["DepartObjects"]);
             var totalReal = JSON.parse(obj["totalReal"]);
             var aaobj = JSON.parse("[" + aobj[0] + "]");
-            ////debugger
+            //////debugger
             aobjTotal = JSON.parse(aobjTotal);
-            //debugger
+            ////debugger
             aaobj.forEach((element, index) => {
-                ////debugger
+                //////debugger
                 if (element.BedsReal != "0") {
-                    //  //debugger
+                    //  ////debugger
                     for (var i = index + 1; i < aaobj.length; i++) {
                         if (aaobj[i].BedsReal == "0") {
                             element.Used =
@@ -15075,7 +15075,7 @@ class DashboardComponent {
                     }
                 }
                 else {
-                    //debugger
+                    ////debugger
                 }
             });
             this.Departmints["departs"] = aaobj;
@@ -15509,7 +15509,7 @@ class DimotComponent {
         _tableUtil__WEBPACK_IMPORTED_MODULE_7__["TableUtil"].exportToExcel("dimotTable");
     }
     radioChange(event) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -15522,7 +15522,7 @@ class DimotComponent {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event) {
-        //////debugger;
+        ////////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -15545,7 +15545,7 @@ class DimotComponent {
     getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _Depart, _FreeText, _Shift, _RequestType) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
@@ -15587,11 +15587,11 @@ class DimotComponent {
                     //D_DOC_ANSWER: DimotData[i].D_DOC_ANSWER
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
                 }
@@ -15599,14 +15599,14 @@ class DimotComponent {
         });
     }
     getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _Depart, _Shift, _RequestType) {
-        // //debugger
+        // ////debugger
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.loader = true;
         this.getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _Depart, this.fliterVal, this.Shift, this.RequestType);
-        //////debugger
+        ////////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
             _fromDate: _startDate,
@@ -15618,7 +15618,7 @@ class DimotComponent {
             _requestType: this.RequestType
         })
             .subscribe(Response => {
-            ////debugger
+            //////debugger
             var json = JSON.parse(Response["d"]);
             var _monthsDoingLabels = JSON.parse(json["_monthsDoingLabels"]);
             var _doingTechRang = JSON.parse(json["_doingTechRang"]);
@@ -15656,7 +15656,7 @@ class DimotComponent {
             });
             //this.dataSource.paginator = this.paginator;
         }, error => {
-            // ////debugger;
+            // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             this.loader = false;
         });
@@ -16352,15 +16352,15 @@ class DrugsComponent {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetTbl_MedGroups", {})
             .subscribe((Response) => {
-            ////debugger
+            //////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             json = JSON.parse(json);
-            // // //debugger
+            // // ////debugger
             var _d = JSON.parse(json["GroupOptions"]);
             var i = 0;
             for (var s = 0; s < _d.length; s++) {
-                //  //debugger
+                //  ////debugger
                 var _sD = {
                     id: _d[s].GroupID,
                     name: _d[s].GroupName,
@@ -16403,19 +16403,19 @@ class DrugsComponent {
         this.submitted = true;
         var resultDeparts = this.search(this.drugForm.value.MedGroupID, this.groups_submit);
         this.drugForm.value.MedGroup = resultDeparts["name"];
-        //debugger
+        ////debugger
         //return
         // stop here if form is invalid
         if (this.drugForm.invalid) {
             return;
         }
-        // //debugger
+        // ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug", {
             drugRow: this.drugForm.value,
         })
             .subscribe((Response) => {
-            //debugger
+            ////debugger
             this.getReport(null);
             this.openSnackBar();
         });
@@ -16442,9 +16442,9 @@ class DrugsComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -16452,12 +16452,12 @@ class DrugsComponent {
         });
     }
     getReport($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.GroupID);
     }
     applyFilter(filterValue) {
         this.fliterVal = filterValue;
-        // //debugger
+        // ////debugger
         this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.GroupID);
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
@@ -16475,9 +16475,9 @@ class DrugsComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -16501,10 +16501,10 @@ class DrugsComponent {
         this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.GroupID);
     }
     getTableFromServer(_pageIndex, _pageSize, _FreeText, _GroupID) {
-        // //debugger
+        // ////debugger
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -16520,9 +16520,9 @@ class DrugsComponent {
             var json = JSON.parse(Response["d"]);
             json = JSON.parse(json);
             let drugData = JSON.parse(json["aaData"]);
-            ////debugger
+            //////debugger
             for (var i = 0; i < drugData.length; i++) {
-                ////debugger
+                //////debugger
                 /*var  resultDeparts= this.search(drugData[i].DS_DEPART_ID, this.departs);*/
                 this.TABLE_DATA.push({
                     MedID: drugData[i].MedID,
@@ -16532,11 +16532,11 @@ class DrugsComponent {
                     MedStatus: drugData[i].MedStatus,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(JSON.parse(json["iTotalRecords"]));
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -17232,7 +17232,7 @@ class DrugsnicComponent {
         this.getNamerDrugs(this.searchDrugVal, 0, 10);
     }
     getNamerDrugs(freeSearch, pageIndex, pageSize) {
-        ////debugger
+        //////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNamerDrugs", {
             freeSearch: freeSearch,
@@ -17240,14 +17240,14 @@ class DrugsnicComponent {
             pageSize: pageSize,
         })
             .subscribe((Response) => {
-            //////debugger;
+            ////////debugger;
             this.TABLE_DATA_Drugs.splice(0, this.TABLE_DATA_Drugs.length);
             var json = Response["d"];
             this.TABLE_DATA_Drugs = json;
-            // ////////debugger
+            // //////////debugger
             this.dataSourceDrug = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA_Drugs);
             this.resultsLengthDrug = parseInt(json[0]["TotalRows"]);
-            ////debugger
+            //////debugger
         });
     }
     search(nameKey, myArray) {
@@ -17267,18 +17267,18 @@ class DrugsnicComponent {
         });
     }
     onSubmit() {
-        //debugger
+        ////debugger
         this.submitted = true;
         if (this.drugForm.invalid) {
             return;
         }
-        // ////////debugger
+        // //////////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/submitConnectDrug", {
             drugRow: this.drugForm.value,
         })
             .subscribe((Response) => {
-            ////////debugger
+            //////////debugger
             this.getReport(null);
             this.openSnackBar();
         });
@@ -17287,7 +17287,7 @@ class DrugsnicComponent {
         this.modalService.dismissAll();
     }
     chossenDrug(_element) {
-        //debugger
+        ////debugger
         this.drugForm = this.formBuilder.group({
             UpdateRemarks: [this.currenrRowToConnect.UpdateRemarks, false],
             RowId: [this.currenrRowToConnect.Row_ID, false],
@@ -17302,9 +17302,9 @@ class DrugsnicComponent {
     opendrugsTable(content, _type, _element) {
         this.modalService_2.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////////debugger
+            ////////////debugger
             if ("Save" == result) {
-                // ////////debugger;
+                // //////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -17324,9 +17324,9 @@ class DrugsnicComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////////debugger
+            ////////////debugger
             if ("Save" == result) {
-                // ////////debugger;
+                // //////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -17334,12 +17334,12 @@ class DrugsnicComponent {
         });
     }
     getReport($event) {
-        //////////debugger
+        ////////////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.startdateVal, this.enddateVal);
     }
     applyFilter(filterValue) {
         this.fliterVal = filterValue;
-        // ////////debugger
+        // //////////debugger
         this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.startdateVal, this.enddateVal);
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
@@ -17360,20 +17360,20 @@ class DrugsnicComponent {
         this.getTableFromServer(event.pageIndex, event.pageSize, this.fliterVal, this.startdateVal, this.enddateVal);
     }
     getPaginatorDataDrug(event) {
-        ////debugger
+        //////debugger
         //console.log(this.paginator.pageIndex);
         this.getNamerDrugs(this.searchDrugVal, event.pageIndex, event.pageSize);
     }
     getTableFromServer(pageIndex, pageSize, freeSearch, startdateVal, enddateVal) {
-        // ////////debugger
-        //////debugger;
+        // //////////debugger
+        ////////debugger;
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////////debugger
+            // //////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
-        // debugger
+        // //debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNICDrugs", {
             freeSearch: freeSearch,
@@ -17385,22 +17385,22 @@ class DrugsnicComponent {
         })
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-            // debugger
+            // //debugger
             var json = Response["d"];
             if (json[0]["TotalRows"] != null) {
                 this.TABLE_DATA = json;
-                // ////////debugger
+                // //////////debugger
                 this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
                 this.resultsLength = parseInt(json[0]["TotalRows"]);
             }
             else {
                 this.TABLE_DATA = [];
-                // ////////debugger
+                // //////////debugger
                 this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
                 this.resultsLength = 0;
             }
             setTimeout(function () {
-                //////////debugger
+                ////////////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -19817,12 +19817,12 @@ class EmergencycallgroupsComponent {
         this.submitted = false;
         this.perm = false;
         this.NotAllOrNull = false;
-        // //debugger
+        // ////debugger
         this.activeModal = activeModal;
     }
     ngOnInit() {
         this.SendSmsToemergencymembersModal;
-        debugger;
+        //debugger;
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.GroupName = "";
         this.GroupNumber = "";
@@ -19880,9 +19880,9 @@ class EmergencycallgroupsComponent {
             Type: Type
         })
             .subscribe((Response) => {
-            // debugger
+            // //debugger
             this.Groups = Response["d"];
-            // debugger
+            // //debugger
         });
     }
     radioChange($event) {
@@ -19910,7 +19910,7 @@ class EmergencycallgroupsComponent {
             this.NotAllOrNull = false;
         }
         else {
-            // debugger
+            // //debugger
             this.GroupSmsToForm = this.formBuilder.group({
                 GroupSmsTo: [$event.source.value, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
                 GroupSms: [[], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -19929,7 +19929,7 @@ class EmergencycallgroupsComponent {
         });
     }
     onSubmitSmsTo() {
-        debugger;
+        //debugger;
         if (this.GroupSmsToForm.invalid) {
             return;
         }
@@ -19949,10 +19949,10 @@ class EmergencycallgroupsComponent {
                 textAreaVal += Poria_Group[i]["FirstName"] + " ";
                 textAreaVal += Poria_Group[i]["LastName"] + "\r\n";
             }
-            //debugger
+            ////debugger
             localStorage.setItem("smsType", "SMSEmergencyCall");
             localStorage.setItem("textAreaVal", textAreaVal);
-            debugger;
+            //debugger;
             let that = this;
             setTimeout(function () {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
@@ -19962,15 +19962,15 @@ class EmergencycallgroupsComponent {
     }
     onSubmit() {
         this.submitted = true;
-        //////debugger
+        ////////debugger
         if (this.GroupForm.invalid) {
             return;
         }
-        ////debugger
+        //////debugger
         setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
-        //debugger;
+        ////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateGroup", {
             _GroupForm: this.GroupForm.value,
@@ -19987,12 +19987,12 @@ class EmergencycallgroupsComponent {
         this.modalService.dismissAll();
     }
     showemergencymembers(content, _type, _element) {
-        // debugger;
+        // //debugger;
         localStorage.setItem("GroupID", _element.RowID);
         this.modalService.open(content, this.modalOptions);
     }
     SendSmsToemergencymembers(content, _type, _element) {
-        // debugger;
+        // //debugger;
         this.GroupName = _element.GroupName;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGroupMembersMobiles", {
@@ -20007,7 +20007,7 @@ class EmergencycallgroupsComponent {
                 textAreaVal += Poria_Group[i]["FirstName"] + " ";
                 textAreaVal += Poria_Group[i]["LastName"] + "\r\n";
             }
-            // debugger
+            // //debugger
             localStorage.setItem("smsType", "SMSEmergencyCall");
             localStorage.setItem("textAreaVal", textAreaVal);
             this.modalService.open(content, this.modalOptions);
@@ -20039,7 +20039,7 @@ class EmergencycallgroupsComponent {
     }
     editRow(content, _type, _element) {
         this.GroupName = _element.GroupName;
-        //debugger;
+        ////debugger;
         this.GroupForm = this.formBuilder.group({
             GroupName: [_element.GroupName, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             GroupStatus: [_element.GroupStatus + "", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -20051,9 +20051,9 @@ class EmergencycallgroupsComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////debugger
+            ////////debugger
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -20061,7 +20061,7 @@ class EmergencycallgroupsComponent {
         });
     }
     getReport($event) {
-        //////debugger
+        ////////debugger
         this.getTableFromServer(this.fliterVal);
     }
     applyFilter(filterValue) {
@@ -20072,9 +20072,9 @@ class EmergencycallgroupsComponent {
     openSmsTo(content, _type, _element) {
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////debugger
+            ////////debugger
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -20084,7 +20084,7 @@ class EmergencycallgroupsComponent {
     open(content, _type, _element) {
         this.GroupNumber = "";
         this.GroupName = "חדש";
-        ////debugger;
+        //////debugger;
         this.GroupForm = this.formBuilder.group({
             GroupName: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             GroupStatus: ["1", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -20096,9 +20096,9 @@ class EmergencycallgroupsComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////debugger
+            ////////debugger
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -20124,7 +20124,7 @@ class EmergencycallgroupsComponent {
     getTableFromServer(_FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -20135,14 +20135,14 @@ class EmergencycallgroupsComponent {
             serachTxt: _FreeText,
         })
             .subscribe((Response) => {
-            //////debugger
+            ////////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             this.TABLE_DATA = Response["d"];
-            // ////debugger
+            // //////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = this.TABLE_DATA.length;
             setTimeout(function () {
-                //////debugger
+                ////////debugger
                 //if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 // }
@@ -20503,7 +20503,7 @@ class EmergencymembersComponent {
         this.activeModal = activeModal;
     }
     ngOnInit() {
-        // debugger
+        // //debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
@@ -20534,13 +20534,13 @@ class EmergencymembersComponent {
         });
     }
     onRemoveSubmit() {
-        //debugger
+        ////debugger
         // stop here if form is invalid
         if (this.removeMemberForm.invalid) {
             // console.log(this.removeMemberForm.controls.errors);
             return;
         }
-        //debugger;
+        ////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveMemberFromGroup", {
             MemberId: this.removeMemberForm.value.EmployeeID,
@@ -20559,7 +20559,7 @@ class EmergencymembersComponent {
         this.applyFilterGroupMember(this.fliterValGroupMember);
     }
     editRow(content, _type, _element) {
-        // debugger
+        // //debugger
         this.removeMemberForm = this.formBuilder.group({
             EmployeeID: [_element.EmployeeID, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
             GroupId: [_element.GroupID, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
@@ -20567,7 +20567,7 @@ class EmergencymembersComponent {
         this.activeModal = this.modalServiceGroupMember.open(content, this.modalOptions);
     }
     getReportGroupMember($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.fliterValGroupMember);
     }
     applyFilterGroupMember(filterValue) {
@@ -20585,11 +20585,11 @@ class EmergencymembersComponent {
     getTableFromServer(_FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
-        //debugger
+        ////debugger
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGroupEmployeesMember", {
@@ -20598,13 +20598,13 @@ class EmergencymembersComponent {
         })
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-            //debugger
+            ////debugger
             this.TABLE_DATA = Response["d"];
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = this.TABLE_DATA.length;
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
                 }
@@ -20918,7 +20918,7 @@ class EmployeesComponent {
         this.activeModal = activeModal;
     }
     ngOnInit() {
-        // debugger
+        // //debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
@@ -20949,7 +20949,7 @@ class EmployeesComponent {
         });
     }
     addToGroup(_element) {
-        //debugger;
+        ////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AddMemberToGroup", {
             MemberId: _element.RowID,
@@ -20962,7 +20962,7 @@ class EmployeesComponent {
         });
     }
     getReportEmlpoyeess($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterValEmlpoyees);
     }
     applyFiltermaternitypatients(filterValue) {
@@ -20977,11 +20977,11 @@ class EmployeesComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         }
-        //  debugger
+        //  //debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployees", {
             pageIndex: _pageIndex,
@@ -20990,13 +20990,13 @@ class EmployeesComponent {
         })
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-            //debugger
+            ////debugger
             this.TABLE_DATA = Response["d"];
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(this.TABLE_DATA[0].totalRows);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
                 }
@@ -21519,7 +21519,7 @@ class EshbozComponent {
         //console.log(this.paginator.pageIndex);
     }
     radioChange(event) {
-        //////debugger
+        ////////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -21533,7 +21533,7 @@ class EshbozComponent {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event) {
-        ////////debugger;
+        //////////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -21551,9 +21551,9 @@ class EshbozComponent {
             let sDate = new Date(this.enddateVal);
             let eDate = new Date(this.startdateVal);
             let diffTime = sDate.getTime() - eDate.getTime();
-            // ////debugger
+            // //////debugger
             this.DaysToCalc = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            //////debugger
+            ////////debugger
             this.getDataFormServer(this.startdateVal, this.enddateVal, 0, 10, this.fliterVal, this.Depart);
             this.getDataCharts(this.startdateVal, this.enddateVal, 0, 10, this.fliterVal, this.Depart);
         }
@@ -21574,10 +21574,10 @@ class EshbozComponent {
         })
             .subscribe((Response) => {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#_departments").empty();
-            ////////debugger
+            //////////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
-            //debugger
+            ////debugger
             this.depart = JSON.parse(json["DepartName"]);
             this.eshpoz = JSON.parse(json["DepartEshpozim"]);
             this.kabalot = JSON.parse(json["DepartKblot"]);
@@ -21606,10 +21606,10 @@ class EshbozComponent {
             _surgeryType = "ALL";
         }
         if (_Depart == undefined || _Depart == null) {
-            //////debugger;
+            ////////debugger;
             _Depart = ["-1"];
         }
-        ////debugger;
+        //////debugger;
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EshbozimAppNew", {
@@ -21619,10 +21619,10 @@ class EshbozComponent {
             _depart: this.Depart,
         })
             .subscribe((Response) => {
-            ////////debugger
+            //////////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
-            //debugger
+            ////debugger
             this.depart = JSON.parse(json["DepartName"]);
             this.eshpoz = JSON.parse(json["DepartEshpozim"]);
             this.kabalot = JSON.parse(json["DepartKblot"]);
@@ -21651,7 +21651,7 @@ class EshbozComponent {
             });
             //this.dataSource.paginator = this.paginator;
         }, (error) => {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
         });
     }
@@ -21663,7 +21663,7 @@ class EshbozComponent {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        ////debugger
+        //////debugger
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEshbozemApp", {
@@ -22694,7 +22694,7 @@ class EventsscheduleComponent {
         this.startdateVal = "";
         this.enddateVal = "";
         this.submitted = false;
-        // ////debugger
+        // //////debugger
         this.activeModal = activeModal;
     }
     ngOnInit() {
@@ -22737,7 +22737,7 @@ class EventsscheduleComponent {
         this.eventprioritys = this.getDropDownLists("PriorityDrop");
         this.eventStatuss = this.getDropDownLists("StatusDrop");
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
-        ////debugger;
+        //////debugger;
     }
     getDropDownLists(mType) {
         let mEventsDropDownData = [];
@@ -22747,24 +22747,24 @@ class EventsscheduleComponent {
             mDropDownType: mType,
         })
             .subscribe((Response) => {
-            // //debugger;
+            // ////debugger;
             mEventsDropDownData = Response;
             switch (mType) {
                 case "DeskDrop":
                     this.desks = mEventsDropDownData["d"];
-                    ////debugger
+                    //////debugger
                     break;
                 case "CatDrop":
                     this.catss = mEventsDropDownData["d"];
-                    // //debugger
+                    // ////debugger
                     break;
                 case "PriorityDrop":
                     this.eventprioritys = mEventsDropDownData["d"];
-                    //  //debugger
+                    //  ////debugger
                     break;
                 case "StatusDrop":
                     this.eventStatuss = mEventsDropDownData["d"];
-                    //  //debugger
+                    //  ////debugger
                     break;
             }
         });
@@ -22803,19 +22803,19 @@ class EventsscheduleComponent {
     }
     onSubmit() {
         this.submitted = true;
-        //debugger
+        ////debugger
         this.EventsForm.value.EventDateTime = this.EventsForm.value.EventDateTime.setMinutes(this.EventsForm.value.EventDateTime.getMinutes() -
             this.EventsForm.value.EventDateTime.getTimezoneOffset());
         this.EventsForm.value.EventDateTime = new Date(this.EventsForm.value.EventDateTime);
-        // debugger;
+        // //debugger;
         if (this.EventsForm.invalid) {
             return;
         }
-        //////debugger
+        ////////debugger
         setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
-        ////debugger;
+        //////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateEvent", {
             mEventsScheduleRow: this.EventsForm.value,
@@ -22835,7 +22835,7 @@ class EventsscheduleComponent {
         this.modalService.dismissAll();
     }
     deleteFunction() {
-        //debugger
+        ////debugger
         this.confirmationDialogService
             .confirm("נא לאשר..", "האם אתה בטוח ...? ")
             .then((confirmed) => {
@@ -22851,13 +22851,13 @@ class EventsscheduleComponent {
     }
     editRow(content, _type, _element) {
         this.EventsName = _element.EventsName;
-        ////debugger;
+        //////debugger;
         var dateString = _element.EventDateTime;
         var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
         var dateArray = reggie.exec(dateString);
         var dateObject = new Date(+dateArray[1], +dateArray[2] - 1, // Careful, month starts at 0!
         +dateArray[3], +dateArray[4], +dateArray[5], +dateArray[6]);
-        // //debugger
+        // ////debugger
         this.EventsForm = this.formBuilder.group({
             EventName: [_element.EventName, null],
             EventDeskID: [_element.EventDeskID, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -22875,9 +22875,9 @@ class EventsscheduleComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////////debugger
+            //////////debugger
             if ("Save" == result) {
-                // //////debugger;
+                // ////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -22885,7 +22885,7 @@ class EventsscheduleComponent {
         });
     }
     getReport($event) {
-        ////////debugger
+        //////////debugger
         this.getTableFromServer(this.pageIndex, this.pageSize, this.fliterVal, this.EventStatusID, this.EventPriorityID, this.CatID, this.DeskID, this.startdateVal, this.enddateVal);
     }
     applyFilter(filterValue) {
@@ -22896,7 +22896,7 @@ class EventsscheduleComponent {
     open(content, _type, _element) {
         this.EventsNumber = "";
         this.EventsName = "חדש";
-        //////debugger;
+        ////////debugger;
         this.EventsForm = this.formBuilder.group({
             EventName: ["", null],
             EventDeskID: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -22912,12 +22912,12 @@ class EventsscheduleComponent {
             RowID: ["0", false],
             RowStatus: ["1", false],
         });
-        debugger;
+        //debugger;
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////////debugger
+            //////////debugger
             if ("Save" == result) {
-                // //////debugger;
+                // ////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -22938,19 +22938,19 @@ class EventsscheduleComponent {
     ngAfterViewInit() { }
     getPaginatorData(event) {
         //console.log(this.paginator.pageIndex);
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.EventStatusID, this.EventPriorityID, this.CatID, this.DeskID, this.startdateVal, this.enddateVal);
     }
     getTableFromServer(pageIndex, pageSize, serachTxt, EventStatusID, EventPriorityID, EventCatID, EventDeskID, startdateVal, enddateVal) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //////debugger
+            // ////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
-        //debugger
+        ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
             pageIndex: pageIndex,
@@ -22964,14 +22964,14 @@ class EventsscheduleComponent {
             EventDateTo: enddateVal,
         })
             .subscribe((Response) => {
-            //debugger
+            ////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             this.TABLE_DATA = Response["d"];
-            // //////debugger
+            // ////////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = this.TABLE_DATA.length;
             setTimeout(function () {
-                ////////debugger
+                //////////debugger
                 //if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 // }
@@ -26422,13 +26422,13 @@ class GlucoseComponent {
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        //debugger
+        ////debugger
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -26439,7 +26439,7 @@ class GlucoseComponent {
             CaseNumber: _element.PGR_Case_Number,
         })
             .subscribe((Response) => {
-            //  debugger
+            //  //debugger
             this.selectedCaseNumber = _element.PGR_Case_Number;
             this.TABLE_DATA_REL_TO_CASENUMBER = [];
             this.TABLE_DATA_REL_TO_CASENUMBER = Response["d"];
@@ -26456,11 +26456,11 @@ class GlucoseComponent {
         })
             .subscribe((Response) => {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty();
-            //  //debugger
+            //  ////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let tableData = JSON.parse(json["tableData"]);
-            ////debugger;
+            //////debugger;
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](this.TABLE_DATA);
             this._fun.drawCharToDom("bar" /*'סה"כ בדיקות', 'סה"כ בדיקות בטווח',*/, [
                 'סה"כ בדיקות מתחת ל- 60',
@@ -26477,7 +26477,7 @@ class GlucoseComponent {
                 //var t =  tableData.items[i].CS_SURVEY_DATE.split("T");
                 //var d =  tableData.items[i].CS_SURVEY_Q2_2.split(" ");
                 //var s =  tableData.items[i].CS_SURVEY_Q4_4.split(" ");
-                ////debugger
+                //////debugger
                 this.TABLE_DATA.push({
                     PGR_Patient_First_Name: tableData.items[i].PGR_Patient_First_Name,
                     PGR_Patient_Last_Name: tableData.items[i].PGR_Patient_Last_Name,
@@ -26492,7 +26492,7 @@ class GlucoseComponent {
                     WorkerName: tableData.items[i].WorkerName,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalDisplayRecords"]);
             setTimeout(() => {
@@ -26501,7 +26501,7 @@ class GlucoseComponent {
             });
             //this.dataSource.paginator = this.paginator;
         }, (error) => {
-            // //debugger;
+            // ////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
         });
     }
@@ -27258,7 +27258,7 @@ class HeaderComponent {
             _UserName: localStorage.getItem("loginUserName"),
         })
             .subscribe((Response) => {
-            // ////////debugger
+            // //////////debugger
             var json = JSON.parse(Response["d"]);
             switch (json) {
                 case 1:
@@ -27521,11 +27521,11 @@ class HeaderComponent {
             this.loginUserName.toLowerCase() == "jbaram" ||
             this.loginUserName.toLowerCase() == "sganem" ||
             this.loginUserName.toLowerCase() == "nmansour") {
-            // //debugger
+            // ////debugger
             this._shoMersham = true;
         }
         else {
-            //  //debugger
+            //  ////debugger
             this._shoMersham = false;
         }
         if (this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -27556,11 +27556,11 @@ class HeaderComponent {
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "jubartal") {
-            // //debugger
+            // ////debugger
             this._shoDrugs = true;
         }
         else {
-            //  //debugger
+            //  ////debugger
             this._shoDrugs = false;
         }
         if (this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -27568,11 +27568,11 @@ class HeaderComponent {
             this.loginUserName.toLowerCase() == "samer" ||
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "mbilya") {
-            // //debugger
+            // ////debugger
             this._shoSettings = true;
         }
         else {
-            //  //debugger
+            //  ////debugger
             this._shoSettings = false;
         }
         if (this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -27581,11 +27581,11 @@ class HeaderComponent {
             || this.loginUserName.toLowerCase() == "edinisman"
             || this.loginUserName.toLowerCase() == "whanout"
             || this.loginUserName.toLowerCase() == "dsalameh") {
-            // //debugger
+            // ////debugger
             this._shocovid19report = true;
         }
         else {
-            //  //debugger
+            //  ////debugger
             this._shocovid19report = false;
         }
         if (this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -27598,11 +27598,11 @@ class HeaderComponent {
                 "mubadarne" ||
             this.loginUserName.toLowerCase() ==
                 "muhbadarne") {
-            // //debugger
+            // ////debugger
             this._shoGlucose = true;
         }
         else {
-            //  //debugger
+            //  ////debugger
             this._shoGlucose = false;
         }
         if (this.loginUserName.toLowerCase() == "jmassalha" ||
@@ -27626,11 +27626,11 @@ class HeaderComponent {
             this._sendSMSADMIN = false;
         }
         jquery__WEBPACK_IMPORTED_MODULE_1__(document).on("click", "[routerlink], .nav-link", function () {
-            // //debugger;
+            // ////debugger;
             localStorage.setItem("ReseachRowId", "0");
             jquery__WEBPACK_IMPORTED_MODULE_1__("#app-menu").removeClass("show");
             jquery__WEBPACK_IMPORTED_MODULE_1__("#menu-btn").removeClass("show");
-            // debugger
+            // //debugger
             if (jquery__WEBPACK_IMPORTED_MODULE_1__(this).attr('routerlink') == 'mersham') {
                 jquery__WEBPACK_IMPORTED_MODULE_1__('body').addClass('bg-blue-light');
             }
@@ -27639,7 +27639,7 @@ class HeaderComponent {
             }
         });
         jquery__WEBPACK_IMPORTED_MODULE_1__("#menu-btn").click(function () {
-            ////debugger;
+            //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_1__(this).toggleClass("show");
             jquery__WEBPACK_IMPORTED_MODULE_1__("#app-menu").toggleClass("show");
         });
@@ -27648,7 +27648,7 @@ class HeaderComponent {
         this.NursesSystemPermission();
     }
     logout($event) {
-        ////debugger
+        //////debugger
         localStorage.clear();
         jquery__WEBPACK_IMPORTED_MODULE_1__("#app-menu").removeClass("show");
         jquery__WEBPACK_IMPORTED_MODULE_1__("#menu-btn").removeClass("show");
@@ -28010,7 +28010,7 @@ class HearingComponent {
         //console.log(this.paginator.pageIndex);
     }
     radioChange(event) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -28023,7 +28023,7 @@ class HearingComponent {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event) {
-        //////debugger;
+        ////////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -28038,20 +28038,20 @@ class HearingComponent {
             this.getDataFormServer(this.startdateVal, this.enddateVal);
     }
     getDataFormServer(_startDate, _endDate) {
-        // //debugger
+        // ////debugger
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
         jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         this.loader = true;
-        //////debugger
+        ////////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/RunHearingReportApp", {
             _fromDate: _startDate,
             _toDate: _endDate
         })
             .subscribe(Response => {
-            ////debugger
+            //////debugger
             var json = JSON.parse(Response["d"]);
             this.dataTable = json;
             setTimeout(() => {
@@ -28062,7 +28062,7 @@ class HearingComponent {
             });
             //this.dataSource.paginator = this.paginator;
         }, error => {
-            // ////debugger;
+            // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
             this.loader = false;
         });
@@ -28761,7 +28761,7 @@ class InvoicesComponent {
     getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _filterVal, _PatientType) {
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
-        ////////debugger
+        //////////debugger
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInvoicesApp", {
@@ -28779,7 +28779,7 @@ class InvoicesComponent {
             });
             //this.dataSource.paginator = this.paginator;
         }, error => {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
         });
     }
@@ -29674,11 +29674,11 @@ class LaborComponent {
         this.markers = [];
         this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_1__["MatTableDataSource"](this.dataTable);
         this.dataSourcePatient = new _angular_material_table__WEBPACK_IMPORTED_MODULE_1__["MatTableDataSource"](this.dataTablePatient);
-        // ////debugger;
+        // //////debugger;
     }
     ngOnInit() {
         // this.maps.load().then(() => {
-        //     //////debugger
+        //     ////////debugger
         //     this.geoCoder = new google.maps.Geocoder();
         //     //this.getAddress("haifa");
         // });
@@ -29705,7 +29705,7 @@ class LaborComponent {
         this.Edate = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](new Date());
         this.startdateVal = this.Sdate.value;
         this.enddateVal = this.Edate.value;
-        //////debugger
+        ////////debugger
         if (localStorage.getItem("loginState") != "true" ||
             localStorage.getItem("loginUserName") == "") {
             this.router.navigate(["login"]);
@@ -29768,7 +29768,7 @@ class LaborComponent {
         this.dataSourcePatient = new _angular_material_table__WEBPACK_IMPORTED_MODULE_1__["MatTableDataSource"](this.dataTablePatient);
         //console.log(this.paginator.pageIndex);
         /*$(document).on("click", "#CheckBefore", function (e) {
-           ////debugger
+           //////debugger
             if ($(document).find('[name="mobile"]').val() == "" ||
             $(document).find('[name="email"]').val() == "" ||
             $(document).find('[name="passprot"]').val() == "") {
@@ -29784,12 +29784,12 @@ class LaborComponent {
         console.log(`clicked the marker: ${label || index}`);
     }
     getAddress(_address) {
-        //////debugger
+        ////////debugger
         const address = _address;
         this.geoCoder.geocode({ address: address }, (results, status) => {
-            //////debugger
+            ////////debugger
             if (status === "OK") {
-                // ////debugger
+                // //////debugger
                 /* this.markers.push({
                     lat: results[0].geometry.location.lat(),
                     lng: results[0].geometry.location.lng(),
@@ -29797,7 +29797,7 @@ class LaborComponent {
                     address: results[0].formatted_address,
                     draggable: false
                 });*/
-                //////debugger
+                ////////debugger
             }
             else {
                 // alert(
@@ -29815,7 +29815,7 @@ class LaborComponent {
         this._Element = _element;
         this._Type = _type;
         this._Content = content;
-        //debugger
+        ////debugger
         this.mobile = _element.L_MOBILE;
         this.email = _element.L_EMAIL;
         this.passprot = _element.L_PASSPORT;
@@ -29826,7 +29826,7 @@ class LaborComponent {
             this.dob = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](new Date(parseInt(dArr[2]), parseInt(dArr[1]) - 1, parseInt(dArr[0]))).value;
         }
         this.modalService.open(content, this.modalOptions).result.then((result) => {
-            ////debugger;
+            //////debugger;
             this.closeResult = `Closed with: ${result}`;
             if (this.mobile == "" ||
                 this.email == "" ||
@@ -29838,7 +29838,7 @@ class LaborComponent {
             if ("Save" == result && this.mobile != "" &&
                 this.email != "" &&
                 this.passprot != "") {
-                // ////debugger;
+                // //////debugger;
                 _element.L_PASSWORD = this.sendAttach(_element.L_ROW_ID);
                 _element.L_MOBILE = this.mobile;
                 _element.L_EMAIL = this.email;
@@ -29878,7 +29878,7 @@ class LaborComponent {
                     "-" +
                     date.getFullYear();
                 _element.L_DOB = str;
-                //debugger
+                ////debugger
                 var date = new Date();
                 var m = "";
                 var d = "";
@@ -29920,7 +29920,7 @@ class LaborComponent {
                 _element.L_SEND_DATE = str;
             }
         }, (reason) => {
-            //debugger
+            ////debugger
             this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
         });
         setTimeout(function () {
@@ -29983,7 +29983,7 @@ class LaborComponent {
             m +
             "-" +
             d;
-        //debugger
+        ////debugger
         this.http
             .post("http://srv-ipracticom:8080/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB", {
             _mobile: this.mobile,
@@ -29993,7 +29993,7 @@ class LaborComponent {
             _rowId: _rowID,
         })
             .subscribe((Response) => {
-            ////debugger;
+            //////debugger;
             setTimeout(() => {
                 //this.dataSource.paginator = this.paginator
                 this.openSnackBar("נשלח בהצלחה", "success");
@@ -30002,13 +30002,13 @@ class LaborComponent {
             //this.dataSource.paginator = this.paginator;
             return this._Element['L_PASSWORD'] = Response['d'].toString();
         }, (error) => {
-            // ////debugger;
+            // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_2__("#loader").addClass("d-none");
         });
     }
     mapClicked($event) { }
     radioChange(event) {
-        //////debugger
+        ////////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -30028,21 +30028,21 @@ class LaborComponent {
         }
     }
     quart_change(event) {
-        ////////debugger;
+        //////////debugger;
         //this._fun.quart_change(event);
         //this.startdateVal = this._fun.Sdate.value;
         //this.enddateVal = this._fun.Edate.value;
         this.CheckResult = event.value;
     }
     check_change(event) {
-        ////////debugger;
+        //////////debugger;
         //this._fun.quart_change(event);
         //this.startdateVal = this._fun.Sdate.value;
         //this.enddateVal = this._fun.Edate.value;
         this.CheckType = event.value;
     }
     check_change_status(event) {
-        ////////debugger;
+        //////////debugger;
         //this._fun.quart_change(event);
         //this.startdateVal = this._fun.Sdate.value;
         //this.enddateVal = this._fun.Edate.value;
@@ -30060,17 +30060,17 @@ class LaborComponent {
     getPaginatorData(event) {
         console.log(this.TableTowPaginator.pageIndex);
         if (this.startdateVal && this.enddateVal) {
-            ////debugger;
+            //////debugger;
         }
     }
     getDataFormServer(_startDate, _endDate, _CheckResult, _CheckType, _CheckTypeStatus) {
-        // ////debugger
+        // //////debugger
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
         jquery__WEBPACK_IMPORTED_MODULE_2__("#loader").removeClass("d-none");
         this.loader = true;
-        // ////debugger
+        // //////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/RunLaborAppNew", {
             _fromDate: _startDate,
@@ -30080,12 +30080,12 @@ class LaborComponent {
             _CheckTypeStatus: _CheckTypeStatus,
         })
             .subscribe((Response) => {
-            // ////debugger;
+            // //////debugger;
             var json = JSON.parse(Response["d"]);
             var itemsIn = JSON.parse(json.ITEMS);
             var itemsInMap = JSON.parse(json.ITEMSMAP);
             var itemsInPatient = JSON.parse(json.ITEMSPATIENT);
-            ////debugger;
+            //////debugger;
             var counterM = JSON.parse(json.counterM);
             var counterB = JSON.parse(json.counterB);
             var counterW = JSON.parse(json.counterW);
@@ -30122,7 +30122,7 @@ class LaborComponent {
                 this.dataSourcePatient.paginator = this.TableOnePaginator;
             });
         }, (error) => {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_2__("#loader").addClass("d-none");
             this.loader = false;
         });
@@ -31057,7 +31057,7 @@ class MaternityComponent {
         this.activeOrNot = "";
         this.submitted = false;
         this.perm = false;
-        // //debugger
+        // ////debugger
         this.activeModal = activeModal;
     }
     ngOnInit() {
@@ -31102,15 +31102,15 @@ class MaternityComponent {
     }
     onSubmit() {
         this.submitted = true;
-        //////debugger
+        ////////debugger
         if (this.maternityForm.invalid) {
             return;
         }
-        ////debugger
+        //////debugger
         setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
-        debugger;
+        //debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternity", {
             _maternityForm: this.maternityForm.value,
@@ -31127,12 +31127,12 @@ class MaternityComponent {
         this.modalService.dismissAll();
     }
     showPatient(content, _type, _element) {
-        // debugger;
+        // //debugger;
         localStorage.setItem("MaternityRowId", _element.RowID);
         this.modalService.open(content, this.modalOptions);
     }
     SendSmsToPatient(content, _type, _element) {
-        // debugger;
+        // //debugger;
         this.MaternityName = _element.MaternityNumber;
         this.MaternityNumber = _element.MaternityName;
         this.http
@@ -31149,7 +31149,7 @@ class MaternityComponent {
                 textAreaVal += Poria_Maternity[i]["PatientFirstName"] + " ";
                 textAreaVal += Poria_Maternity[i]["PatientLastName"] + "\r\n";
             }
-            // debugger
+            // //debugger
             localStorage.setItem("smsType", "SMSMaternity");
             localStorage.setItem("textAreaVal", textAreaVal);
             this.modalService.open(content, this.modalOptions);
@@ -31161,7 +31161,7 @@ class MaternityComponent {
     editRow(content, _type, _element) {
         this.MaternityName = _element.MaternityName;
         this.MaternityNumber = _element.MaternityNumber;
-        //debugger;
+        ////debugger;
         this.maternityForm = this.formBuilder.group({
             MaternityNumber: [_element.MaternityNumber, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             MaternityName: [_element.MaternityName, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -31178,9 +31178,9 @@ class MaternityComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////debugger
+            ////////debugger
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -31188,7 +31188,7 @@ class MaternityComponent {
         });
     }
     getReport($event) {
-        //////debugger
+        ////////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.activeOrNot);
     }
     applyFilter(filterValue) {
@@ -31199,7 +31199,7 @@ class MaternityComponent {
     open(content, _type, _element) {
         this.MaternityNumber = "";
         this.MaternityName = "חדש";
-        ////debugger;
+        //////debugger;
         this.maternityForm = this.formBuilder.group({
             MaternityNumber: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             MaternityName: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -31213,9 +31213,9 @@ class MaternityComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////debugger
+            ////////debugger
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -31241,7 +31241,7 @@ class MaternityComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText, _activeOrNot) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -31255,11 +31255,11 @@ class MaternityComponent {
             _activeOrNot: _activeOrNot,
         })
             .subscribe((Response) => {
-            //////debugger
+            ////////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let Poria_Maternity = JSON.parse(json["Maternity"]);
-            //  //debugger
+            //  ////debugger
             for (var i = 0; i < Poria_Maternity.length; i++) {
                 this.TABLE_DATA.push({
                     RowID: Poria_Maternity[i].RowID,
@@ -31273,11 +31273,11 @@ class MaternityComponent {
                     ProjectCost: Poria_Maternity[i].ProjectCost,
                 });
             }
-            // ////debugger
+            // //////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["totalRows"]);
             setTimeout(function () {
-                //////debugger
+                ////////debugger
                 //if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 // }
@@ -31847,7 +31847,7 @@ class MaternitypatientsComponent {
         this.activeModal = activeModal;
     }
     ngOnInit() {
-        // debugger
+        // //debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
@@ -31879,7 +31879,7 @@ class MaternitypatientsComponent {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.patientForm.invalid) {
             // console.log(this.patientForm.controls.errors);
@@ -31887,7 +31887,7 @@ class MaternitypatientsComponent {
         }
         this.patientForm.value.PatientDOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.PatientDOB, "yyyy-MM-dd", "en-US");
         this.patientForm.value.PatientPregnancyDOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.PatientPregnancyDOB, "yyyy-MM-dd", "en-US");
-        //debugger;
+        ////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients", {
             _patientForm: this.patientForm.value,
@@ -31914,7 +31914,7 @@ class MaternitypatientsComponent {
         else {
             this.UserEmailStatus = false;
         }
-        //debugger
+        ////debugger
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
@@ -31944,7 +31944,7 @@ class MaternitypatientsComponent {
         this.activeModal = this.modalServicematernitypatients.open(content, this.modalOptions);
     }
     getReportmaternitypatients($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterValPatient, this.StatusPatient);
     }
     applyFiltermaternitypatients(filterValue) {
@@ -32000,7 +32000,7 @@ class MaternitypatientsComponent {
     computeEGA(iDueDateYear, iDueDateMonth, iDueDateDay) {
         var dToday = new Date();
         var dDueDate = new Date(iDueDateYear, iDueDateMonth - 1, iDueDateDay);
-        //  debugger
+        //  //debugger
         var iDaysUntilDueDate = (dDueDate.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24);
         var iTotalDaysInPregnancy = 40 * 7;
         var iGestationalAgeInDays = iTotalDaysInPregnancy - iDaysUntilDueDate;
@@ -32014,11 +32014,11 @@ class MaternitypatientsComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText, _Status) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
-        //debugger
+        ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getMaternityPatientsTable", {
             _pageIndex: _pageIndex,
@@ -32029,11 +32029,11 @@ class MaternitypatientsComponent {
         })
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-            //debugger
+            ////debugger
             var json = JSON.parse(Response["d"]);
             let patientData = JSON.parse(json["Patients"]);
             for (var i = 0; i < patientData.length; i++) {
-                ////debugger
+                //////debugger
                 var date = patientData[i].PatientPregnancyDOB.split("-");
                 var PatientPregnancyWeekAtInsert = this.computeEGA(date[0], date[1], date[2]);
                 this.TABLE_DATA.push({
@@ -32056,11 +32056,11 @@ class MaternitypatientsComponent {
                     PatientNote: patientData[i].PatientNote,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -34492,7 +34492,7 @@ class MershamComponent {
         //this.cdRef.detectChanges();
     }
     ClearMershmData() {
-        ////////debugger
+        //////////debugger
         this.rows = this.formBuilder.array([]);
         this.PrespictionFormRow = this.formBuilder.group({
             SrcPresRows: this.rows,
@@ -34521,12 +34521,12 @@ class MershamComponent {
             statusRowVal: [false, false],
             statusNotToDo: [false, false],
         });
-        //////debugger
+        ////////debugger
         this.updateView();
-        //////debugger
+        ////////debugger
     }
     checkIfCarboplatin($event) {
-        // ////////debugger
+        // //////////debugger
         this.Carboplatin = false;
         var Boolean = false;
         for (var i = 0; i < this.rows.value.length; i++) {
@@ -34562,9 +34562,9 @@ class MershamComponent {
         this.calcPres();
     }
     calcPres() {
-        debugger;
+        //debugger;
         for (var i = 0; i < this.rows.value.length; i++) {
-            ////////////////debugger
+            //////////////////debugger
             var arr = this.rows.value[i].MedListVal.split("___");
             var d = this.MedList.findIndex((obj) => {
                 return obj.value === arr[0];
@@ -34574,7 +34574,7 @@ class MershamComponent {
             }
             if (this.rows.value[i].groupID != "" &&
                 this.rows.value[i].groupID != null) {
-                ////////////////debugger
+                //////////////////debugger
                 if (this.rows.value[i].MenonValVal == "")
                     this.rows.value[i].MenonValVal = 0;
                 switch (this.rows.value[i].groupID) {
@@ -34610,7 +34610,7 @@ class MershamComponent {
                         //         this.PrespictionForm.value.levelVal
                         //     )) *
                         // this.calcByGender;
-                        debugger;
+                        //debugger;
                         this.rows.controls[i]["controls"].MenonCalcVal.setValue((parseFloat(this.PrespictionForm.value.targetAUCVal) *
                             (AgeX + 25)).toFixed(1));
                         break;
@@ -34624,7 +34624,7 @@ class MershamComponent {
         this.tableDataSrcPresPrint = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.tableDataPresPrint);
     }
     openSnackBar(AlertTxt, Type) {
-        // //////debugger
+        // ////////debugger
         this._snackBar.open(AlertTxt, "", {
             duration: 2500,
             direction: "rtl",
@@ -34634,12 +34634,12 @@ class MershamComponent {
         });
     }
     delete(c, type) {
-        //  ////////////////debugger
+        //  //////////////////debugger
         if (type == "true") {
             var d = this.rows.value.findIndex((obj) => {
                 return obj.rowIdPreVal === this.DeleteRowId;
             });
-            //////////////debugger
+            ////////////////debugger
             if (this.rows.value[d].newRow == "false") {
                 this.http
                     .post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeletePresRowInside", {
@@ -34664,7 +34664,7 @@ class MershamComponent {
             this.DeleteRowId = "";
         }
         c("close modal");
-        // //////////////////debugger
+        // ////////////////////debugger
         // this.modalService._modalStack._windowCmpts[1].dismiss()
     }
     getPermission() {
@@ -34673,7 +34673,7 @@ class MershamComponent {
             _UserName: localStorage.getItem("loginUserName"),
         })
             .subscribe((Response) => {
-            // //////////debugger
+            // ////////////debugger
             var json = JSON.parse(Response["d"]);
             switch (json) {
                 case 0:
@@ -34732,9 +34732,9 @@ class MershamComponent {
         };
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////////////////////////////debugger
+            //////////////////////////////debugger
             if ("Save" == result) {
-                // //////////////////////////debugger;
+                // ////////////////////////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -34743,17 +34743,17 @@ class MershamComponent {
         this.modalOptions = {};
     }
     deletePerRow(content, _type, _element) {
-        //  //////////////debugger
-        //////////////////debugger
+        //  ////////////////debugger
+        ////////////////////debugger
         this.DeletePreRowId = _element.PerscriptionID;
         this.modalOptions = {
             windowClass: "custom-class",
         };
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////////////////////////////debugger
+            //////////////////////////////debugger
             if ("Save" == result) {
-                // //////////////////////////debugger;
+                // ////////////////////////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -34780,7 +34780,7 @@ class MershamComponent {
         });
     }
     printRowInside() {
-        //////////debugger
+        ////////////debugger
         this.editRow(null, null, this.rowElementPres, "false");
         setTimeout(function () {
             var head = document.head || document.getElementsByTagName("head")[0];
@@ -34817,7 +34817,7 @@ class MershamComponent {
         this.loadModalAfterClose = true;
     }
     checkMyValue(ele, rowIdx) {
-        // //debugger
+        // ////debugger
         var MenonCalcVal = this.rows.value[rowIdx].MenonCalcVal;
         var _f5ivePre = (parseFloat(this.rows.value[rowIdx].MenonCalcVal) * 5) / 100;
         if (parseFloat(ele) - _f5ivePre > parseFloat(MenonCalcVal)) {
@@ -34836,10 +34836,10 @@ class MershamComponent {
             this.rows.controls[rowIdx]["controls"]["noteVal"].setValidators(null);
             this.rows.controls[rowIdx]["controls"]["noteVal"].updateValueAndValidity();
         }
-        ////debugger
+        //////debugger
     }
     editRow(content, _type, _element, openModal) {
-        debugger;
+        //debugger;
         this.FIRST_NAME_In = _element.PatientFirstName;
         this.LAST_NAME_In = _element.PatientLastName;
         this.MID_NAME_In = _element.FatherName;
@@ -34852,7 +34852,7 @@ class MershamComponent {
         this.Seode_Depart_In = _element.Seode_Depart;
         this.ROW_ID_PRE = _element.PerscriptionID;
         this.rowElementPres = _element;
-        //////////////////debugger;
+        ////////////////////debugger;
         // this.PrespictionFormRow = this.formBuilder.group({
         //     noteVal: ["", false],
         //     Dosage_UnitVal: ["", false],
@@ -34879,7 +34879,7 @@ class MershamComponent {
             this.isButtonVisible = true;
             this.showCopyBtn = true;
             this.isCanceldVisible = false;
-            // debugger
+            // //debugger
             if (!_element.hideOrShow) {
                 this.dis = _status = true;
             }
@@ -34889,7 +34889,7 @@ class MershamComponent {
             this.showCopyBtn = true;
             this.isButtonVisible = false;
             this.isCanceldVisible = false;
-            ////////////////////debugger
+            //////////////////////debugger
         }
         else {
             this.showCopyBtn = false;
@@ -34911,14 +34911,14 @@ class MershamComponent {
             _requerd_sen = null;
             _requerd_drug = _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required;
         }
-        ////////////////////debugger
+        //////////////////////debugger
         /*
         DateAdministrationMed
         RegistrationDate
         */
         var dateIN = null;
         var dateT = null;
-        //////debugger
+        ////////debugger
         if (_element.DateAdministrationMed != "" &&
             typeof _element.DateAdministrationMed != "object") {
             var dArr = _element.DateAdministrationMed.split("-");
@@ -34949,7 +34949,7 @@ class MershamComponent {
         this.printForm.MedicationSensitivityVal =
             _element.MedicationSensitivity;
         this.printForm.statusRowVal = _status;
-        // //////////debugger
+        // ////////////debugger
         this.PrespictionForm = this.formBuilder.group({
             weightVal: [
                 { value: _element.Weight, disabled: this.dis },
@@ -35016,16 +35016,16 @@ class MershamComponent {
             statusNotToDo: [{ value: _statusNotToDo, disabled: false }, false],
         });
         this.PresRowIdVal = _element.PerscriptionID;
-        ////////////////////debugger
+        //////////////////////debugger
         this.getPresFromServer(_element.PerscriptionID);
         if (openModal == "true") {
             this.modalService
                 .open(content, { windowClass: "width-1010" })
                 .result.then((result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////////////////////////debugger
+                //////////////////////////////debugger
                 if ("Save" == result) {
-                    // //////////////////////////debugger;
+                    // ////////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             }, (reason) => {
@@ -35039,30 +35039,30 @@ class MershamComponent {
         //}
     }
     copyRowPres(element) {
-        //debugger
+        ////debugger
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
         this.PrespictionForm.enable();
         this.rows.enable();
-        // ////////debugger
+        // //////////debugger
         // return
         for (var i = 0; i < this.rows.value.length; i++) {
             this.rows.value[i]["Days_ProtocolVal"] =
                 this.rows.value[i]["Days_ProtocolVal"].join(",");
         }
-        //debugger
+        ////debugger
         var copyParent = this.PrespictionForm.value;
         var copyrows = this.rows.value;
         copyParent.statusRowVal = "false";
         copyParent.rowIdVal = "-100";
         var dateNow = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"](new Date()).value;
-        //////debugger
+        ////////debugger
         copyParent.regesterdateIN = dateNow;
         copyParent.takedateIN = null;
-        //////debugger
+        ////////debugger
         for (var i = 0; i < copyrows.length; i++) {
-            //////////debugger;
+            ////////////debugger;
             copyrows[i].newRow = "true";
             copyrows[i].rowIdPreVal = -1 * i;
         }
@@ -35076,9 +35076,9 @@ class MershamComponent {
         }
         var ParentFrom = copyParent;
         var tableFrom = copyrows;
-        ////debugger
+        //////debugger
         //return
-        //debugger
+        ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
             ParentFrom: ParentFrom,
@@ -35089,7 +35089,7 @@ class MershamComponent {
                 .toLowerCase(),
         })
             .subscribe((Response) => {
-            //////debugger;
+            ////////debugger;
             this.openSnackBar("נשמר בהצלחה", "success");
             this.loadModalAfterCopy = true;
             this.getReport("");
@@ -35105,7 +35105,7 @@ class MershamComponent {
     }
     applyFilterSearch(value, index, element) {
         this.elementRef.nativeElement = document.getElementById("singleSelect" + index);
-        // ////debugger
+        // //////debugger
         this.filterdDataArray = [];
         this.search(value, index);
     }
@@ -35118,12 +35118,12 @@ class MershamComponent {
             }
         }
         this.ArrayDrus[index] = this.filterdDataArray;
-        //////////////////debugger
+        ////////////////////debugger
     }
     editRowPre(content, _type, _element) {
-        debugger;
+        //debugger;
         this.EDIT_ROW = true;
-        ////////////////////debugger
+        //////////////////////debugger
         // this.PrespictionFormRow = this.formBuilder.group({
         //     noteVal: [{value:_element.noteVal, disabled: this.dis}, false],
         //     Dosage_UnitVal: [{value:_element.Dosage_UnitVal, disabled: this.dis}, false],
@@ -35139,12 +35139,12 @@ class MershamComponent {
         //     MedListVal: [{value:_element.MedListVal, disabled: this.dis}, false],
         //     rowIdPreVal: [{value:_element.rowIdPreVal, disabled: this.dis}, false],
         // });
-        //debugger
+        ////debugger
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////////////////////////////debugger
+            //////////////////////////////debugger
             if ("Save" == result) {
-                // //////////////////////////debugger;
+                // ////////////////////////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -35152,7 +35152,7 @@ class MershamComponent {
         });
     }
     changeActiveNo($event) {
-        //////////////debugger;
+        ////////////////debugger;
         if ($event.checked) {
             this.Sensitivity = "1";
             this.PrespictionForm.controls.MedicationSensitivityVal.setValidators(null);
@@ -35172,13 +35172,13 @@ class MershamComponent {
         }
     }
     changeActiveAndSave($event, _element) {
-        // //debugger
+        // ////debugger
         if ($event.checked) {
             $event = "1";
         }
         else {
             $event = "0";
-        } ////debugger
+        } //////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNotToServe", {
             status: $event,
@@ -35196,12 +35196,12 @@ class MershamComponent {
         });
     }
     onSubmit() {
-        ////debugger
-        ////////////////////debugger
+        //////debugger
+        //////////////////////debugger
         this.submitted = true;
-        ////////////////////////////debugger
+        //////////////////////////////debugger
         // stop here if form is invalid
-        ////debugger
+        //////debugger
         if (this.PrespictionForm.invalid || this.rows.invalid) {
             this.openSnackBar("נא למלא את כל השדות המסומנים באדום", "error-font-gib");
             return;
@@ -35232,9 +35232,9 @@ class MershamComponent {
                 this.rows.value[i]["Days_ProtocolVal"].join(",");
         }
         var tableFrom = this.rows.value;
-        ////debugger
+        //////debugger
         //return
-        // //////////debugger
+        // ////////////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
             ParentFrom: ParentFrom,
@@ -35259,7 +35259,7 @@ class MershamComponent {
         // return "";
     }
     getReport($event) {
-        ////////////////////////debugger
+        //////////////////////////debugger
         if (this.fliterVal.trim() != "")
             this.getTableFromServer(this.paginator.pageIndex, 50, this.fliterVal);
     }
@@ -35277,25 +35277,25 @@ class MershamComponent {
         if (this.weightVal == "NaN") {
             this.weightVal = "0";
         }
-        ////////////debugger
+        //////////////debugger
         this.PrespictionForm.removeControl("areaVal");
         this.PrespictionForm.addControl("areaVal", new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"](""));
-        ////////////////////debugger
+        //////////////////////debugger
         this.areaVal = Math.sqrt((parseFloat(this.heightVal) * parseFloat(this.weightVal)) / 3600).toFixed(1);
         this.PrespictionForm.removeControl("areaVal");
         this.PrespictionForm.addControl("areaVal", new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"]({ value: this.areaVal, disabled: false }));
-        //  //////debugger
+        //  ////////debugger
         // if(this.areaVal)
         this.PrespictionForm.controls.areaVal.setValue(this.areaVal);
         // else
         //   this.PrespictionForm.controls.areaVal.setValue(0);
-        //////////debugger
+        ////////////debugger
         this.calcPres();
     }
     open(content, _type, _element) {
         this.ArrayDrus = [];
         this.getDropDownFromServer();
-        ////////////////////debugger
+        //////////////////////debugger
         this.ROW_ID_PRE = "";
         this.PresRowIdVal = "";
         this.rows = this.formBuilder.array([]);
@@ -35324,7 +35324,7 @@ class MershamComponent {
         else {
             _statusNotToDo = false;
         }
-        //debugger
+        ////debugger
         this.SensitivityBool = false;
         this.PrespictionForm = this.formBuilder.group({
             weightVal: [null, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -35350,12 +35350,12 @@ class MershamComponent {
             statusRowVal: [_status, false],
             statusNotToDo: [_statusNotToDo, false],
         });
-        ////////////////////debugger
+        //////////////////////debugger
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////////////////////////debugger
+            ////////////////////////////debugger
             if ("Save" == result) {
-                // ////////////////////////debugger;
+                // //////////////////////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -35365,7 +35365,7 @@ class MershamComponent {
     openRow(content, _type, _element) {
         this.EDIT_ROW = false;
         this.ROW_ID_IN_TABLE = this.rows.length;
-        ////////////////debugger
+        //////////////////debugger
         //this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
         const row = this.formBuilder.group({
             noteVal: ["", false],
@@ -35393,9 +35393,9 @@ class MershamComponent {
         // this.modalService.open(content, this.modalOptions).result.then(
         //     (result) => {
         //         this.closeResult = `Closed with: ${result}`;
-        //         //////////////////////////debugger
+        //         ////////////////////////////debugger
         //         if ("Save" == result) {
-        //             // ////////////////////////debugger;
+        //             // //////////////////////////debugger;
         //             //this.saveChad(_element.ROW_ID);
         //         }
         //     },
@@ -35420,7 +35420,7 @@ class MershamComponent {
         this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal);
     }
     getDropDownFromServer() {
-        ////////////////////////debugger
+        //////////////////////////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsOptions", {})
             .subscribe((Response) => {
@@ -35434,15 +35434,15 @@ class MershamComponent {
             this.MedList = this.MedListConst = JSON.parse(json["MedList"]);
             this.Days_Protocol = JSON.parse(json["Days_Protocol"]);
             this.Notes = JSON.parse(json["Notes"]);
-            ////////////////////////debugger
+            //////////////////////////debugger
         });
     }
     getPresFromServer(_presID) {
         this.getDropDownFromServer();
-        ////////////////////////debugger
+        //////////////////////////debugger
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////////////////////////debugger
+            // //////////////////////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -35451,7 +35451,7 @@ class MershamComponent {
             ID: _presID,
         })
             .subscribe((Response) => {
-            ////////////debugger
+            //////////////debugger
             this.rows = this.formBuilder.array([]);
             this.PrespictionFormRow = this.formBuilder.group({
                 SrcPresRows: this.rows,
@@ -35464,7 +35464,7 @@ class MershamComponent {
             this.drugs = [];
             this.tableDataPresPrint = [];
             for (var i = 0; i < Medicine_Prescriptions.length; i++) {
-                // //////////////////debugger
+                // ////////////////////debugger
                 /*
                  */
                 var clc = "";
@@ -35478,7 +35478,7 @@ class MershamComponent {
                 if (d > -1) {
                     groupID = this.MedList[d].groupID;
                 }
-                //  //////////////////debugger
+                //  ////////////////////debugger
                 const row = this.formBuilder.group({
                     noteVal: [
                         {
@@ -35571,7 +35571,7 @@ class MershamComponent {
                     newRow: ["false", false],
                 });
                 this.ArrayDrus.push(this.MedListConst);
-                ////debugger
+                //////debugger
                 this.tableDataPresPrint.push({
                     noteVal: Medicine_Prescriptions[i].ChangeNotes,
                     Dosage_UnitVal: Medicine_Prescriptions[i].DosingUnit,
@@ -35588,7 +35588,7 @@ class MershamComponent {
                     rowIdPreVal: Medicine_Prescriptions[i].MedicinID,
                     newRow: false,
                 });
-                //debugger
+                ////debugger
                 if (clc != "" &&
                     clc != "0" &&
                     clc != "0.00" &&
@@ -35605,9 +35605,9 @@ class MershamComponent {
             this.updateView();
             this.tableDataSrcPresPrint = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.tableDataPresPrint);
             // this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
-            //////////////////debugger;
+            ////////////////////debugger;
             setTimeout(function () {
-                //////////////////////////debugger
+                ////////////////////////////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -35619,10 +35619,10 @@ class MershamComponent {
     }
     getTableFromServer(_pageIndex, _pageSize, _FreeText) {
         this.getDropDownFromServer();
-        ////////////////////////debugger
+        //////////////////////////debugger
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////////////////////////debugger
+            // //////////////////////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -35640,7 +35640,7 @@ class MershamComponent {
             var json = JSON.parse(JSON.parse(Response["d"]));
             let DataPrecpiction = JSON.parse(json["Prescriptions"]);
             let Patient = JSON.parse(json["Patient"]);
-            ////////////////////////debugger
+            //////////////////////////debugger
             this.DemographData = Patient;
             if (this.DemographData[0]) {
                 this.FIRST_NAME_In = this.FIRST_NAME =
@@ -35669,15 +35669,15 @@ class MershamComponent {
                     .find("#prespictionsDetailsBtn")
                     .prop("disabled", true);
             }
-            //////////////////////////debugger
+            ////////////////////////////debugger
             for (var i = 0; i < DataPrecpiction.length; i++) {
-                ////debugger;
+                //////debugger;
                 var ShowRow = false;
                 if (DataPrecpiction[i].Status == "נעול") {
                     ShowRow = true;
                 }
                 else if (this.prem) {
-                    // //debugger
+                    // ////debugger
                     ShowRow = true;
                 }
                 else {
@@ -35727,16 +35727,16 @@ class MershamComponent {
                         this.showDeleteBtn = false;
                 }
             }
-            // ////////////////////////debugger
+            // //////////////////////////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             var loadModalAfterCopy = this.loadModalAfterCopy;
             var that = this;
             this.loadModalAfterCopy = false;
             setTimeout(function () {
-                //////////////////////////debugger
+                ////////////////////////////debugger
                 if (that.loadModalAfterClose) {
-                    //////debugger
+                    ////////debugger
                     var rowToLoad = jquery__WEBPACK_IMPORTED_MODULE_5__(document).find("#formTable tbody>tr>td:contains(" +
                         that.ROW_ID_PRE +
                         ")");
@@ -36591,7 +36591,7 @@ class MrbaotComponent {
         //console.log(this.paginator.pageIndex);
     }
     radioChange(event) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -36604,7 +36604,7 @@ class MrbaotComponent {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event) {
-        ////debugger;
+        //////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -36632,7 +36632,7 @@ class MrbaotComponent {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        ////////debugger
+        //////////debugger
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBekoremAmbolatorimApp", {
@@ -36646,7 +36646,7 @@ class MrbaotComponent {
         })
             .subscribe((Response) => {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty();
-            // //////debugger
+            // ////////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             this._fun.drawCharToDom("bar", JSON.parse(json["DepartSeodeName"]), JSON.parse(json["DepartCounterBekorem"]), "bekoremCount", "canvbekoremCount", 'סה"כ', "");
@@ -36659,7 +36659,7 @@ class MrbaotComponent {
             var _monthsLabels = JSON.parse(json["_monthsLabels"]);
             var _monthsNowVal = JSON.parse(json["_monthsNowVal"]);
             var _monthsPastVal = JSON.parse(json["_monthsPastVal"]);
-            ////////debugger
+            //////////debugger
             var DepartName = JSON.parse(json["DepartName"]);
             var DepartSeodeName = JSON.parse(json["DepartSeodeName"]);
             var DepartNameSeodeRoomNew = JSON.parse(json["DepartNameSeodeRoomNew"]);
@@ -36684,7 +36684,7 @@ class MrbaotComponent {
             var DepartCounterBekoremNewPast = JSON.parse(json["DepartCounterBekoremNewPast"]);
             var DepartNameNotNewPast = JSON.parse(json["DepartNameNotNewPast"]);
             var DepartCounterBekoremNotNewPast = JSON.parse(json["DepartCounterBekoremNotNewPast"]);
-            debugger;
+            //debugger;
             this._fun.drawCharToDom("line", _monthsLabels, [_monthsNowVal, _monthsPastVal], "totalLineChart", "canvsLineChart", _yearStart.toString(), (_yearStart - 1).toString());
             let _div = jquery__WEBPACK_IMPORTED_MODULE_4__('<div class="card text-right" dir="rtl"></div>');
             let _header = jquery__WEBPACK_IMPORTED_MODULE_4__('<div class="card-header"><h1 class="row"><span class="col-4" style="float: right;"><span class="depname"></span></span><span style="float: right;" class="col-2 text-center">מס ביקורים ' +
@@ -36760,7 +36760,7 @@ class MrbaotComponent {
                 }
                 _div.append(_rowClone);
                 totAll += parseInt(DepartCounterBekorem[i]);
-                //debugger
+                ////debugger
                 if (DepartSeodeName[i] == "מר-קרד-כ" ||
                     DepartSeodeName[i] == "מר-המט" ||
                     DepartSeodeName[i] == "מכ-או-כ" ||
@@ -36774,7 +36774,7 @@ SeodeRoomNamePast
 SeodeRoomCounterPast
 SeodeRoomDepartPast
                     */
-                    debugger;
+                    //debugger;
                     for (var sIn = 0; sIn < SeodeRoomNameNow.length; sIn++) {
                         var _rowClone2;
                         if (DepartSeodeName[i] == "מכ-או-כ") {
@@ -36881,12 +36881,12 @@ SeodeRoomDepartPast
                     }
                 }
             }
-            // //////debugger;
+            // ////////debugger;
             totAllPast = 0;
             for (i = 0; i < DepartNamePast.length; i++) {
                 totAllPast += parseInt(DepartCounterBekoremPast[i]);
             }
-            //////debugger;
+            ////////debugger;
             this._fun.drawCharToDom("bar", [(_yearStart - 1).toString(), _yearStart.toString()], [totAllPast, totAll], "totalBarChart", "canvstotalBarChart", 'סה"כ', "");
             _footer.find(".fnew").text(derpCounterForYear);
             _footer.find(".fpast").text(totAllPast);
@@ -36900,7 +36900,7 @@ SeodeRoomDepartPast
             });
             //this.dataSource.paginator = this.paginator;
         }, (error) => {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
         });
     }
@@ -38392,7 +38392,7 @@ class PoriadepartsComponent {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.departsForm.invalid) {
             return;
@@ -38414,7 +38414,7 @@ class PoriadepartsComponent {
             this.active_sheet = "1";
         }
         this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text;
-        //debugger
+        ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaDeparts", {
             _departName: this.departsForm.value.fullnameVal,
@@ -38427,7 +38427,7 @@ class PoriadepartsComponent {
             .subscribe((Response) => {
             var json = Response["d"].split(", ");
             ;
-            //debugger       
+            ////debugger       
             if (" UPDATE" != json[3]) {
                 this.rowElement.D_NAME = json[0];
                 this.rowElement.D_SHEET_ID = json[1];
@@ -38445,8 +38445,8 @@ class PoriadepartsComponent {
                 this.resultsLength = this.resultsLength + 1;
             }
             //var vars = json.split
-            // //debugger;
-            // //debugger 888888
+            // ////debugger;
+            // ////debugger 888888
             this.openSnackBar();
         });
         // display form values on success
@@ -38462,13 +38462,13 @@ class PoriadepartsComponent {
         }
     }
     editRow(content, _type, _element) {
-        ////debugger
+        //////debugger
         this.rowElement = _element;
         this.fullnameVal = _element.D_NAME;
         this.rowIdVal = _element.D_ROW_ID;
         this.idSheet = _element.D_SHEET_ID;
         this.active_sheet = _element.D_SEND_SMS;
-        //debugger
+        ////debugger
         if (this.active_sheet == "0" || this.active_sheet == null || this.active_sheet == "לא" || this.active_sheet == "") {
             this.active_sheet_bool = false;
         }
@@ -38491,9 +38491,9 @@ class PoriadepartsComponent {
         }
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -38501,7 +38501,7 @@ class PoriadepartsComponent {
         });
     }
     getReport($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
     }
     applyFilter(filterValue) {
@@ -38511,7 +38511,7 @@ class PoriadepartsComponent {
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         this.rowElement = {
             D_ROW_ID: 0,
             D_SHEET_ID: '-1',
@@ -38532,9 +38532,9 @@ class PoriadepartsComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -38560,7 +38560,7 @@ class PoriadepartsComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -38574,9 +38574,9 @@ class PoriadepartsComponent {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let DepartsData = JSON.parse(json["aaData"]);
-            ////debugger
+            //////debugger
             for (var i = 0; i < DepartsData.length; i++) {
-                ////debugger
+                //////debugger
                 if (DepartsData[i].D_SEND_SMS == "0") {
                     DepartsData[i].D_SEND_SMS = "לא";
                 }
@@ -38592,11 +38592,11 @@ class PoriadepartsComponent {
                     D_SMS_TEXT: DepartsData[i].D_SMS_TEXT,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -38772,7 +38772,7 @@ class Functions {
         }
     }
     radioChange(event) {
-        ////debugger
+        //////debugger
         this._selectedYear = event.value;
         this.Sdate = new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](new Date(event.value, 0, 1));
         this.Edate = new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](new Date(event.value, 11, 31));
@@ -38780,7 +38780,7 @@ class Functions {
         this.enddateVal = this.Edate.value;
     }
     quart_change(event) {
-        //////debugger;
+        ////////debugger;
         switch (event.value) {
             case "all":
                 this.Sdate = new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](new Date(this._selectedYear, 0, 1));
@@ -38823,7 +38823,7 @@ class Functions {
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
             var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.2)";
-            //////debugger;
+            ////////debugger;
             backgroundColorArray.push(backgound);
             backgroundColorArrayOpacity.push(backgoundOpacity);
         }
@@ -38835,7 +38835,7 @@ class Functions {
         let bgArray = this.getBackgroundArray(totalDataLength);
         let _yearStart = new Date(this.startdateVal).getFullYear();
         let _yearEnd = _yearStart - 1;
-        // ////debugger;
+        // //////debugger;
         if (_dataType == "line") {
             $("#" + _wrapperId).empty();
             $("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
@@ -38902,7 +38902,7 @@ class Functions {
                             label: function (tooltipItem, data) {
                                 //get the concerned dataset
                                 var dataset = data.datasets[tooltipItem.datasetIndex];
-                                // ////debugger;
+                                // //////debugger;
                                 var total = 0;
                                 for (var t = 0; t < dataset.data.length; t++) {
                                     total += parseInt(dataset.data[t]);
@@ -38956,7 +38956,7 @@ class Functions {
             $("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
             var canvas = (document.getElementById(_chartId));
             var ctxIn = canvas.getContext("2d");
-            //////debugger
+            ////////debugger
             var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_1__(ctxIn, {
                 type: _dataType,
                 data: {
@@ -39562,7 +39562,7 @@ class ResearchesComponent {
         this.activeOrNot = "";
         this.submitted = false;
         this.perm = false;
-        // //debugger
+        // ////debugger
         this.activeModal = activeModal;
         this.ResearchesUsersForm = this.formBuilder.group({
             roomsDetails: this.formBuilder.array([]),
@@ -39595,7 +39595,7 @@ class ResearchesComponent {
         });
         setTimeout(() => {
             console.log("sleep");
-            ////debugger
+            //////debugger
             if (localStorage.getItem("loginUserName").toLowerCase() ==
                 "jmassalha" ||
                 localStorage.getItem("loginUserName").toLowerCase() ==
@@ -39625,7 +39625,7 @@ class ResearchesComponent {
             this.getReport(this);
             // And any other code that should run only after 5s
         }, 1000);
-        // //debugger
+        // ////debugger
     }
     openSnackBar() {
         this._snackBar.open("נשמר בהצלחה", "", {
@@ -39638,14 +39638,14 @@ class ResearchesComponent {
     }
     onSubmit() {
         this.submitted = true;
-        //////debugger
+        ////////debugger
         // stop here if form is invalid
         this.ResearchesForm.value.ResearchStartDate = Object(_angular_common__WEBPACK_IMPORTED_MODULE_2__["formatDate"])(this.ResearchesForm.value.ResearchStartDate, "yyyy-MM-dd", "en-US");
         this.ResearchesForm.value.ResearchEndDate = Object(_angular_common__WEBPACK_IMPORTED_MODULE_2__["formatDate"])(this.ResearchesForm.value.ResearchEndDate, "yyyy-MM-dd", "en-US");
         if (this.ResearchesForm.invalid) {
             return;
         }
-        ////debugger
+        //////debugger
         setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
         });
@@ -39670,8 +39670,8 @@ class ResearchesComponent {
             _UserName: localStorage.getItem("loginUserName"),
         })
             .subscribe((Response) => {
-            // //////////debugger
-            ////debugger
+            // ////////////debugger
+            //////debugger
             var json = JSON.parse(Response["d"]);
             switch (json) {
                 case 1:
@@ -39687,12 +39687,12 @@ class ResearchesComponent {
         });
     }
     getDropDownFromServer() {
-        debugger;
+        //debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetResearchesDepart", {})
             .subscribe((Response) => {
             var json = JSON.parse(Response["d"]);
-            debugger;
+            //debugger;
             this.Departs = json;
         });
     }
@@ -39707,7 +39707,7 @@ class ResearchesComponent {
     editRow(content, _type, _element) {
         this.ResearchName = _element.ResearchName;
         this.ResearchNumber = _element.ResearchNumber;
-        //debugger;
+        ////debugger;
         this.ResearchesForm = this.formBuilder.group({
             ResearchNumber: [_element.ResearchNumber, _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
             ResearchName: [_element.ResearchName, _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
@@ -39726,9 +39726,9 @@ class ResearchesComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////debugger
+            ////////debugger
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -39736,7 +39736,7 @@ class ResearchesComponent {
         });
     }
     getReport($event) {
-        //////debugger
+        ////////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.activeOrNot);
     }
     applyFilter(filterValue) {
@@ -39747,7 +39747,7 @@ class ResearchesComponent {
     open(content, _type, _element) {
         this.ResearchNumber = "";
         this.ResearchName = "חדש";
-        ////debugger;
+        //////debugger;
         this.ResearchesForm = this.formBuilder.group({
             ResearchNumber: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
             ResearchName: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
@@ -39763,9 +39763,9 @@ class ResearchesComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////debugger
+            ////////debugger
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -39791,7 +39791,7 @@ class ResearchesComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText, _activeOrNot) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
         }
@@ -39805,11 +39805,11 @@ class ResearchesComponent {
             _userName: localStorage.getItem("loginUserName"),
         })
             .subscribe((Response) => {
-            //////debugger
+            ////////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let Poria_Researches = JSON.parse(json["Researches"]);
-            //  //debugger
+            //  ////debugger
             for (var i = 0; i < Poria_Researches.length; i++) {
                 this.TABLE_DATA.push({
                     RowID: Poria_Researches[i].RowID,
@@ -39825,11 +39825,11 @@ class ResearchesComponent {
                     ResearchDepart: Poria_Researches[i].ResearchDepart,
                 });
             }
-            // ////debugger
+            // //////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_4__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["totalRows"]);
             setTimeout(function () {
-                //////debugger
+                ////////debugger
                 //if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
                 // }
@@ -40370,7 +40370,7 @@ class ResearchespatientsComponent {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         this.patientForm.value.StartDate = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.StartDate, "yyyy-MM-dd", "en-US");
         this.patientForm.value.EndDate = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.EndDate, "yyyy-MM-dd", "en-US");
         // stop here if form is invalid
@@ -40378,7 +40378,7 @@ class ResearchespatientsComponent {
             // console.log(this.patientForm.controls.errors);
             return;
         }
-        debugger;
+        //debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearchesPatients", {
             _patientForm: this.patientForm.value,
@@ -40405,7 +40405,7 @@ class ResearchespatientsComponent {
         else {
             this.UserEmailStatus = false;
         }
-        //debugger
+        ////debugger
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
@@ -40430,7 +40430,7 @@ class ResearchespatientsComponent {
         this.activeModal = this.modalServiceresearchespatients.open(content, this.modalOptions);
     }
     getReportresearchespatients($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterValPatient, this.StatusPatient);
     }
     applyFilterresearchespatients(filterValue) {
@@ -40440,7 +40440,7 @@ class ResearchespatientsComponent {
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.patientForm = this.formBuilder.group({
@@ -40485,7 +40485,7 @@ class ResearchespatientsComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText, _Status) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -40499,11 +40499,11 @@ class ResearchespatientsComponent {
         })
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-            //debugger
+            ////debugger
             var json = JSON.parse(Response["d"]);
             let patientData = JSON.parse(json["Patients"]);
             for (var i = 0; i < patientData.length; i++) {
-                ////debugger
+                //////debugger
                 this.TABLE_DATA.push({
                     RowID: patientData[i].RowID,
                     PatientId: patientData[i].PatientId,
@@ -40519,11 +40519,11 @@ class ResearchespatientsComponent {
                     EndDate: patientData[i].EndDate,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -41106,7 +41106,7 @@ class ResearchesusersComponent {
         });
     }
     ngOnInit() {
-        debugger;
+        //debugger;
         this.hideInputs = false;
         if (this.ReseachRowId == "0" ||
             this.ReseachRowId == undefined ||
@@ -41149,18 +41149,18 @@ class ResearchesusersComponent {
     }
     onSubmit() {
         this.submitted = true;
-        debugger;
+        //debugger;
         // stop here if form is invalid
         if (this.usersForm.invalid) {
             return;
         }
-        // //debugger
+        // ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearchesUsers", {
             _usersForm: this.usersForm.value,
         })
             .subscribe((Response) => {
-            //debugger
+            ////debugger
             this.applyFilterresearchesusers(this.fliterValUser);
             this.openSnackBar();
         });
@@ -41168,7 +41168,7 @@ class ResearchesusersComponent {
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.usersForm.value, null, 4));
         //this.modalServiceresearchesusers.dismiss();
         this.activeModal.close();
-        // debugger
+        // //debugger
         //this.activeModal.close();
         //this.modalReferenceUsers.close('');
     }
@@ -41201,7 +41201,7 @@ class ResearchesusersComponent {
         else {
             this.UserEmailStatus = false;
         }
-        //debugger
+        ////debugger
         if (this.ReseachRowId == "0" ||
             this.ReseachRowId == undefined ||
             this.ReseachRowId == null) {
@@ -41244,7 +41244,7 @@ class ResearchesusersComponent {
         this.activeModal = this.modalServiceresearchesusers.open(content, this.modalOptions);
     }
     getReportUsers($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterValUser, this.StatusUser);
     }
     applyFilterresearchesusers(filterValue) {
@@ -41254,7 +41254,7 @@ class ResearchesusersComponent {
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         if (this.ReseachRowId == "0" ||
@@ -41290,7 +41290,7 @@ class ResearchesusersComponent {
                 ReseachRowId: [this.ReseachRowId, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             });
         }
-        //debugger
+        ////debugger
         this.activeModal = this.modalServiceresearchesusers.open(content, this.modalOptions);
     }
     getDismissReason(reason) {
@@ -41312,7 +41312,7 @@ class ResearchesusersComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText, _Status) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -41326,11 +41326,11 @@ class ResearchesusersComponent {
         })
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-            //debugger
+            ////debugger
             var json = JSON.parse(Response["d"]);
             let userssData = JSON.parse(json["Users"]);
             for (var i = 0; i < userssData.length; i++) {
-                ////debugger
+                //////debugger
                 this.TABLE_DATA.push({
                     RowID: userssData[i].RowID,
                     UserName: userssData[i].UserName,
@@ -41344,11 +41344,11 @@ class ResearchesusersComponent {
                     UserEmail: userssData[i].UserEmail,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -41746,14 +41746,14 @@ class RolesComponent {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.rolesForm.invalid) {
             return;
         }
         this.rowElement.R_ROLE_NAME = this.rolesForm.value.fullnameVal;
         this.rowElement.R_ROW_ID = this.rolesForm.value.rowIdVal;
-        // //debugger
+        // ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaRoles", {
             _roleName: this.rolesForm.value.fullnameVal,
@@ -41762,7 +41762,7 @@ class RolesComponent {
         })
             .subscribe((Response) => {
             var json = Response["d"].split(", ");
-            //debugger
+            ////debugger
             if (" UPDATE" != json[2]) {
                 this.rowElement.R_ROLE_NAME = json[0];
                 this.rowElement.R_ROW_ID = json[1];
@@ -41771,8 +41771,8 @@ class RolesComponent {
                 this.resultsLength = this.resultsLength + 1;
             }
             //var vars = json.split
-            // //debugger;
-            // //debugger 888888
+            // ////debugger;
+            // ////debugger 888888
             this.openSnackBar();
         });
         // display form values on success
@@ -41780,7 +41780,7 @@ class RolesComponent {
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
-        ////debugger
+        //////debugger
         this.rowElement = _element;
         this.fullnameVal = _element.R_ROLE_NAME;
         this.rowIdVal = _element.R_ROW_ID;
@@ -41790,9 +41790,9 @@ class RolesComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -41800,7 +41800,7 @@ class RolesComponent {
         });
     }
     getReport($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
     }
     applyFilter(filterValue) {
@@ -41810,7 +41810,7 @@ class RolesComponent {
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         this.rowElement = {
             R_ROW_ID: 0,
             R_ROLE_NAME: "",
@@ -41824,9 +41824,9 @@ class RolesComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -41852,7 +41852,7 @@ class RolesComponent {
     getTableFromServer(_pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -41866,20 +41866,20 @@ class RolesComponent {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let RolesData = JSON.parse(json["aaData"]);
-            ////debugger
+            //////debugger
             for (var i = 0; i < RolesData.length; i++) {
-                ////debugger
+                //////debugger
                 this.TABLE_DATA.push({
                     R_ROW_ID: RolesData[i].R_ROW_ID,
                     R_ROLE_NAME: RolesData[i].R_ROLE_NAME,
                     R_ROW_STATUS: RolesData[i].R_ROW_STATUS,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -42867,7 +42867,7 @@ class Sarscov2Component {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
         this.getTableFromServer(this.startdateVal, this.enddateVal, this.paginator.pageIndex, 50, this.fliterVal);
     }
@@ -42924,7 +42924,7 @@ class Sarscov2Component {
         else {
             this.DoseCompany = false;
         }
-        debugger;
+        //debugger;
         this.sarsForm = this.fb.group({
             PatientID: [
                 { value: this.rowFormData.PatientID, disabled: true },
@@ -43024,9 +43024,9 @@ class Sarscov2Component {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -43045,7 +43045,7 @@ class Sarscov2Component {
         }
     }
     toShortFormat(d) {
-        ////debugger;
+        //////debugger;
         let monthNames = [
             "01",
             "02",
@@ -43064,7 +43064,7 @@ class Sarscov2Component {
         let monthIndex = d.getMonth();
         let monthName = monthNames[monthIndex];
         let year = d.getFullYear();
-        ////debugger
+        //////debugger
         return `${day}/${monthName}/${year}`;
     }
     ngAfterViewInit() { }
@@ -43076,12 +43076,12 @@ class Sarscov2Component {
     }
     releaseRow(row) { }
     printRowForm() {
-        // debugger
-        //debugger
+        // //debugger
+        ////debugger
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
             row.CS_SURVEY_Q2_2 = "";
-            //debugger
+            ////debugger
         }*/
         setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
@@ -43091,7 +43091,7 @@ class Sarscov2Component {
     getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -43108,9 +43108,9 @@ class Sarscov2Component {
             var json = JSON.parse(Response["d"]);
             let json_2 = JSON.parse(json);
             let SarsData = JSON.parse(json_2["aaData"]);
-            // debugger;
+            // //debugger;
             for (var i = 0; i < SarsData.length; i++) {
-                debugger;
+                //debugger;
                 this.TABLE_DATA.push({
                     PatientID: SarsData[i].PatientID,
                     EmployeePhone: SarsData[i].EmployeePhone,
@@ -43142,11 +43142,11 @@ class Sarscov2Component {
                     AreYouDealingWithAnyStateOfImmunosuppression: SarsData[i].AreYouDealingWithAnyStateOfImmunosuppression,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(JSON.parse(json_2["iTotalRecords"]));
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -43876,7 +43876,7 @@ class SarsresultsComponent {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     ////debugger
+        //     //////debugger
         // })
         this.getTableFromServer(this.startdateVal, this.enddateVal, this.paginator.pageIndex, 50, this.fliterVal);
     }
@@ -43893,7 +43893,7 @@ class SarsresultsComponent {
     }
     open(content, _type, _element) {
         this.rowFormData = _element;
-        //debugger;
+        ////debugger;
         this.SarsResultsForm = this.fb.group({
             L_MOBILE: [this.rowFormData.L_MOBILE, _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
             L_EMAIL: [this.rowFormData.L_EMAIL, _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
@@ -43902,9 +43902,9 @@ class SarsresultsComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            //////debugger
+            ////////debugger
             if ("Save" == result) {
-                // ////debugger;
+                // //////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -43931,7 +43931,7 @@ class SarsresultsComponent {
     getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _FreeText) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -43947,11 +43947,11 @@ class SarsresultsComponent {
             .subscribe((Response) => {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
-            // //debugger
+            // ////debugger
             let SarsData = JSON.parse(json["aaData"]);
-            //debugger;
+            ////debugger;
             for (var i = 0; i < SarsData.length; i++) {
-                ////debugger
+                //////debugger
                 var dateIn = SarsData[i].L_DOB.split('/');
                 this.TABLE_DATA.push({
                     L_ROW_ID: SarsData[i].L_ROW_ID,
@@ -43977,11 +43977,11 @@ class SarsresultsComponent {
                     L_PASSWORD: SarsData[i].L_PASSWORD,
                 });
             }
-            // ////debugger
+            // //////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(JSON.parse(json["iTotalRecords"]));
             setTimeout(function () {
-                //////debugger
+                ////////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -43990,20 +43990,20 @@ class SarsresultsComponent {
     }
     onSubmit() {
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-        //debugger;
+        ////debugger;
         // stop here if form is invalid
         this.SarsResultsForm.value.L_DOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.SarsResultsForm.value.L_DOB, "yyyy-MM-dd", "en-US");
         if (this.SarsResultsForm.invalid) {
             return;
         }
         //http://srv-ipracticom:8080/WebService.asmx
-        ////debugger
+        //////debugger
         this.http
             .post("http://srv-ipracticom:8080/WebService.asmx/SarsResultsFormSubmit", {
             sarsResultForm: this.SarsResultsForm.value,
         })
             .subscribe((Response) => {
-            //////debugger;
+            ////////debugger;
             setTimeout(() => {
                 //this.dataSource.paginator = this.paginator
                 this.openSnackBar("נשלח בהצלחה", "success");
@@ -44013,7 +44013,7 @@ class SarsresultsComponent {
             //this.dataSource.paginator = this.paginator;
             this.modalService.dismissAll();
         }, (error) => {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
         });
     }
@@ -44383,12 +44383,12 @@ class ScannersComponent {
         this.submitted = false;
         this.perm = false;
         this.NotAllOrNull = false;
-        // ////debugger
+        // //////debugger
         this.activeModal = activeModal;
     }
     ngOnInit() {
         this.SendSmsToemergencymembersModal;
-        //debugger;
+        ////debugger;
         jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         this.GroupName = "";
         this.GroupNumber = "";
@@ -44426,15 +44426,15 @@ class ScannersComponent {
     }
     onSubmit() {
         this.submitted = true;
-        //debugger
+        ////debugger
         if (this.BoxForm.invalid) {
             return;
         }
-        //////debugger
+        ////////debugger
         setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         });
-        ////debugger;
+        //////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
             boxes: this.BoxForm.value,
@@ -44451,7 +44451,7 @@ class ScannersComponent {
         this.modalService.dismissAll();
     }
     showcasenumbers(content, _type, _element) {
-        // //debugger;
+        // ////debugger;
         localStorage.setItem("CartoonID", _element.RowID);
         this.modalService.open(content, this.modalOptions);
     }
@@ -44460,7 +44460,7 @@ class ScannersComponent {
     }
     editRow(content, _type, _element) {
         this.GroupName = _element.GroupName;
-        ////debugger;
+        //////debugger;
         this.BoxForm = this.formBuilder.group({
             BoxID: [_element.BoxID, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             User: [
@@ -44471,9 +44471,9 @@ class ScannersComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////////debugger
+            //////////debugger
             if ("Save" == result) {
-                // //////debugger;
+                // ////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -44481,7 +44481,7 @@ class ScannersComponent {
         });
     }
     getReport($event) {
-        ////////debugger
+        //////////debugger
         this.getTableFromServer(this.fliterVal, 0, 10);
     }
     applyFilter(filterValue) {
@@ -44492,7 +44492,7 @@ class ScannersComponent {
     open(content, _type, _element) {
         this.GroupNumber = "";
         this.GroupName = "חדש";
-        //////debugger;
+        ////////debugger;
         this.BoxForm = this.formBuilder.group({
             BoxID: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
             User: [
@@ -44503,9 +44503,9 @@ class ScannersComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////////debugger
+            //////////debugger
             if ("Save" == result) {
-                // //////debugger;
+                // ////////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -44531,11 +44531,11 @@ class ScannersComponent {
     getTableFromServer(_FreeText, _pageIndex, _pageSize) {
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //////debugger
+            // ////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
-        //debugger
+        ////debugger
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
@@ -44545,10 +44545,10 @@ class ScannersComponent {
             pageSize: _pageSize,
         })
             .subscribe((Response) => {
-            ////////debugger
+            //////////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             this.TABLE_DATA = Response["d"];
-            //debugger
+            ////debugger
             if (this.TABLE_DATA[0]["BoxID"] == null) {
                 this.TABLE_DATA = [];
                 this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
@@ -44559,7 +44559,7 @@ class ScannersComponent {
                 this.resultsLength = this.TABLE_DATA[0]["Total"];
             }
             setTimeout(function () {
-                ////////debugger
+                //////////debugger
                 //if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 // }
@@ -44784,7 +44784,7 @@ class SendsmsComponent {
     }
     ngAfterViewInit() { }
     sendSms() {
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.sendSmsForm.invalid) {
             return;
@@ -44792,11 +44792,11 @@ class SendsmsComponent {
         this.submitted = true;
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
         }
-        // //debugger
+        // ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSMSOnLine", {
             smsText: this.sendSmsForm.value.smsText,
@@ -44811,7 +44811,7 @@ class SendsmsComponent {
                 surveyNumber: ["1", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required],
             });
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
                 }
@@ -45004,15 +45004,15 @@ class SendsmsadminComponent {
         this.smsType = "SMSOnLineAdmin";
         this.textAreaVal = "";
         this.activeModal = activeModal;
-        debugger;
+        //debugger;
         if (localStorage.getItem("textAreaVal") && localStorage.getItem("textAreaVal") != "") {
-            debugger;
+            //debugger;
             this.smsType = localStorage.getItem("smsType"); //"SMSMaternity"
             this.emergencyCall = true;
             this.GetMessagesTemp();
             this.textAreaVal = localStorage.getItem("textAreaVal");
             localStorage.setItem("textAreaVal", "");
-            debugger;
+            //debugger;
         }
         else {
             this.emergencyCall = false;
@@ -45089,13 +45089,13 @@ class SendsmsadminComponent {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMessagesTemp", {})
             .subscribe((Response) => {
-            // debugger
+            // //debugger
             this.MessagesTemp = Response["d"];
-            // debugger
+            // //debugger
         });
     }
     sendSms() {
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.sendSmsForm.invalid) {
             return;
@@ -45115,7 +45115,7 @@ class SendsmsadminComponent {
             console.log('User confirmed:', confirmed);
             if (confirmed) {
                 if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-                    // //debugger
+                    // ////debugger
                     tableLoader = true;
                     jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
                 }
@@ -45136,7 +45136,7 @@ class SendsmsadminComponent {
                     localStorage.setItem("textAreaVal", "");
                     this.parentFun.emit();
                     setTimeout(function () {
-                        ////debugger
+                        //////debugger
                         if (tableLoader) {
                             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
                         }
@@ -45593,14 +45593,14 @@ class StaffComponent {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRoles", {})
             .subscribe((Response) => {
-            //// //debugger
+            //// ////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
-            // // //debugger
+            // // ////debugger
             var _d = JSON.parse(json["Roles"]);
             var i = 0;
             for (var role in _d) {
-                //// //debugger
+                //// ////debugger
                 var _sD = { id: role, name: _d[role] };
                 this.roles.push(_sD);
                 if (i == 0) {
@@ -45625,14 +45625,14 @@ class StaffComponent {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeparts", {})
             .subscribe((Response) => {
-            //// //debugger
+            //// ////debugger
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
-            // // //debugger
+            // // ////debugger
             var _d = JSON.parse(json["Departs"]);
             var i = 0;
             for (var depart in _d) {
-                //// //debugger
+                //// ////debugger
                 var _sD = { id: depart, name: _d[depart] };
                 this.departs.push(_sD);
                 if (i == 0) {
@@ -45645,12 +45645,12 @@ class StaffComponent {
                 i++;
             } /*
             $(_d).each(function(i,k){
-                // //debugger
+                // ////debugger
                 //var _sD: Depart = {id: i, name: k};
 
                 //this.departs.push(_sD);
             })*/
-            //// //debugger
+            //// ////debugger
         });
     }
     openSnackBar() {
@@ -45664,7 +45664,7 @@ class StaffComponent {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.staffForm.invalid) {
             return;
@@ -45679,7 +45679,7 @@ class StaffComponent {
         var resultRoles = this.search(this.staffForm.value.DS_STAFF_ROLE, this.roles);
         this.rowElement.DS_DEPART_NAME = resultDeparts['name'];
         this.rowElement.DS_ROLE_NAME = resultRoles['name'];
-        // //debugger
+        // ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaStaff", {
             _staffName: this.staffForm.value.fullnameVal,
@@ -45693,7 +45693,7 @@ class StaffComponent {
             .subscribe((Response) => {
             var json = Response["d"].split(", ");
             if (" UPDATE" != json[7]) {
-                //debugger;
+                ////debugger;
                 this.departs;
                 this.rowElement.DS_STAFF_NAME = json[0];
                 this.rowElement.DS_STAFF_ROLE = json[2];
@@ -45711,8 +45711,8 @@ class StaffComponent {
                 this.resultsLength = this.resultsLength + 1;
             }
             //var vars = json.split
-            // //debugger;
-            // //debugger 888888
+            // ////debugger;
+            // ////debugger 888888
             this.openSnackBar();
         });
         // display form values on success
@@ -45720,7 +45720,7 @@ class StaffComponent {
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
-        // //debugger
+        // ////debugger
         this.rowElement = _element;
         this.fullnameVal = _element.DS_STAFF_NAME;
         this.rowIdVal = _element.DS_ROW_ID;
@@ -45734,9 +45734,9 @@ class StaffComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -45744,18 +45744,18 @@ class StaffComponent {
         });
     }
     getReport($event) {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.DepartmentID, this.RoleID);
     }
     applyFilter(filterValue) {
         this.fliterVal = filterValue;
-        //debugger
+        ////debugger
         this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.DepartmentID, this.RoleID);
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         this.rowElement = {
             DS_ROW_ID: 0,
             DS_DEPART_ID: 0,
@@ -45779,9 +45779,9 @@ class StaffComponent {
         });
         this.modalService.open(content, this.modalOptions).result.then((result) => {
             this.closeResult = `Closed with: ${result}`;
-            ////debugger
+            //////debugger
             if ("Save" == result) {
-                // //debugger;
+                // ////debugger;
                 //this.saveChad(_element.ROW_ID);
             }
         }, (reason) => {
@@ -45805,10 +45805,10 @@ class StaffComponent {
         this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.DepartmentID, this.RoleID);
     }
     getTableFromServer(_pageIndex, _pageSize, _FreeText, _Depart, _Role) {
-        //debugger
+        ////debugger
         let tableLoader = false;
         if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
         }
@@ -45824,9 +45824,9 @@ class StaffComponent {
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             let StaffData = JSON.parse(json["aaData"]);
-            ////debugger
+            //////debugger
             for (var i = 0; i < StaffData.length; i++) {
-                ////debugger
+                //////debugger
                 var resultDeparts = this.search(StaffData[i].DS_DEPART_ID, this.departs);
                 var resultRoles = this.search(StaffData[i].DS_STAFF_ROLE, this.roles);
                 this.TABLE_DATA.push({
@@ -45841,11 +45841,11 @@ class StaffComponent {
                     DS_STAFF_ROW_ID: StaffData[i].DS_STAFF_ROW_ID,
                 });
             }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-                ////debugger
+                //////debugger
                 if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
                 }
@@ -46751,9 +46751,9 @@ class SurgeryComponent {
             href = href.replace('//', '\\\\');
             href = href.replace('/', '\\');
             href = href.replace('http:', '');
-            //debugger;
+            ////debugger;
             var win = window.open('', "_blank");
-            win.document.write('<script>window.location("' + href + '");//debugger</script>');
+            win.document.write('<script>window.location("' + href + '");////debugger</script>');
         });
         //console.log(this.paginator.pageIndex);
     }
@@ -46762,29 +46762,29 @@ class SurgeryComponent {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgens", {})
             .subscribe((Response) => {
-            //// ////debugger
+            //// //////debugger
             this.SurgensList = [];
             var json = JSON.parse(Response["d"]);
-            // // ////debugger
+            // // //////debugger
             var _d = JSON.parse(json["surgensList"]);
             for (const [key, value] of Object.entries(_d)) {
-                //  debugger
+                //  //debugger
                 var _sD = { id: key, name: value.toString() };
                 this.SurgensList.push(_sD);
             }
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             /*
               $(_d).each(function(i,k){
-                  // ////debugger
+                  // //////debugger
                   //var _sD: Depart = {id: i, name: k};
 
                   //this.departs.push(_sD);
               })*/
-            //// ////debugger
+            //// //////debugger
         });
     }
     radioChange(event) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -46817,8 +46817,8 @@ class SurgeryComponent {
         }
     }
     quart_change(event) {
-        ////debugger;
         //////debugger;
+        ////////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -46851,7 +46851,7 @@ class SurgeryComponent {
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
-        ////debugger
+        //////debugger
         for (var i = 0; i < this.SurgeryType.length; i++) {
             if (this.SurgeryType[i]) {
                 _counter++;
@@ -46861,7 +46861,7 @@ class SurgeryComponent {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        ////debugger
+        //////debugger
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryExcelFile", {
@@ -46874,7 +46874,7 @@ class SurgeryComponent {
         })
             .subscribe(Response => {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty();
-            //debugger
+            ////debugger
             jquery__WEBPACK_IMPORTED_MODULE_4__(document)
                 .find("#download").remove();
             jquery__WEBPACK_IMPORTED_MODULE_4__("body").append('<a id="download" class="d-no1ne" trget="_blank" href="' +
@@ -46887,35 +46887,35 @@ class SurgeryComponent {
             });
             //this.dataSource.paginator = this.paginator;
         }, error => {
-            // //debugger;
+            // ////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
         });
     }
     getDropDownFromServer() {
-        debugger;
+        //debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getSurgeryDeparts", {})
             .subscribe((Response) => {
             var json = JSON.parse(Response["d"]);
             json = JSON.parse(json["SurgeryDeparts"]);
-            debugger;
+            //debugger;
             this.Departs = json;
         });
     }
     getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _filterVal, _surgeryShift, _Depart, _SurgenType, _Surgen) {
         if (_Depart == undefined || _Depart == null) {
-            ////debugger;
+            //////debugger;
             _Depart = ["-1"];
         }
         if (_SurgenType == undefined || _SurgenType == null) {
-            ////debugger;
+            //////debugger;
             _SurgenType = ["-1"];
         }
         let _surgeryType = "";
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
-        //debugger
+        ////debugger
         for (var i = 0; i < this.SurgeryType.length; i++) {
             if (this.SurgeryType[i]) {
                 _counter++;
@@ -46925,7 +46925,7 @@ class SurgeryComponent {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        debugger;
+        //debugger;
         jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeries", {
@@ -46942,13 +46942,13 @@ class SurgeryComponent {
         })
             .subscribe(Response => {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty();
-            debugger;
+            //debugger;
             this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
             var json = JSON.parse(Response["d"]);
             //let surgeries = JSON.parse(json["aaData"]);
-            //debugger
+            ////debugger
             //  for(var i = 0; i < surgeries.length; i++) {
-            //    ////debugger;
+            //    //////debugger;
             //    this.TABLE_DATA.push({
             //       S_ID:surgeries[i].S_ID,
             //       S_SURGERY_NUMBER:surgeries[i].S_SURGERY_NUMBER,
@@ -46973,13 +46973,13 @@ class SurgeryComponent {
             //       S_ROW_ID:surgeries[i].S_ROW_ID
             //    });
             //  }
-            // //debugger
+            // ////debugger
             this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
             this.resultsLength = parseInt(json["iTotalRecords"]);
             let _CharMonthLable = JSON.parse(json["_CharMonthLable"]);
             let _CharMonthVal = JSON.parse(json["_CharMonthVal"]);
             let _CharPastMonthVal = JSON.parse(json["_CharPastMonthVal"]);
-            ////debugger;
+            //////debugger;
             /*LineChart*/
             this._fun.drawCharToDom("line", _CharMonthLable, [_CharMonthVal, _CharPastMonthVal], "LineChart", "canvsLineChart", _yearStart.toString(), (_yearStart - 1).toString());
             this._fun.drawCharToDom("bar", JSON.parse(json["DepartName"]), JSON.parse(json["DepartCounterSurgery"]), "surgeryCount", "canvsurgeryCount", 'סה"כ', "");
@@ -47063,7 +47063,7 @@ class SurgeryComponent {
             }
             let allNow = JSON.parse(json["TotalNowSurgery"]);
             let allPast = JSON.parse(json["TotalSurgeryPast"]);
-            ////debugger
+            //////debugger
             this._fun.drawCharToDom("bar", [_yearStart.toString(), (_yearStart - 1).toString()], [allNow[0], allPast[0]], "totalBarChart", "canvstotalBarChart", 'סה"כ', "");
             _footer
                 .empty()
@@ -47077,14 +47077,14 @@ class SurgeryComponent {
             //this.drawCharToDom('bar', JSON.parse(json["SurgeryName"]), JSON.parse(json["SurgeryCounter"]), 'departSurgery', 'canvdepartSurgery');
             //this.paginator. = parseInt(json["iTotalRecords"]);
             //this.dataSource.sort = this.sort;
-            // //debugger
+            // ////debugger
             setTimeout(() => {
                 //this.dataSource.paginator = this.paginator
                 jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             });
             //this.dataSource.paginator = this.paginator;
         }, error => {
-            // //debugger;
+            // ////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
         });
     }

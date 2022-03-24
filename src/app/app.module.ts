@@ -140,6 +140,7 @@ import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-r
 import { NewHeaderComponent } from './new-header/new-header.component';
 import { HospitalBIDashboardComponent } from './hospital-bi-dashboard/hospital-bi-dashboard.component';
 import { RouterModule } from '@angular/router';
+import { MenuPerm } from './menu-perm';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -329,6 +330,7 @@ const maskConfig: Partial<IConfig> = {
   providers: [
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },DatePipe
     ,ConfirmationDialogService
+    ,MenuPerm
     , NgbActiveModal],
   bootstrap: [AppComponent],
   exports: [

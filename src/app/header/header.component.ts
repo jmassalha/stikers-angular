@@ -75,7 +75,7 @@ export class HeaderComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                // ////////debugger
+                // //////////debugger
                 var json = JSON.parse(Response["d"]);
                 switch (json) {
                     case 1:
@@ -672,10 +672,10 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "tataha" ||
             this.loginUserName.toLowerCase() == "nmansour"
         ) {
-            // //debugger
+            // ////debugger
             this._shoMersham = true;
         } else {
-            //  //debugger
+            //  ////debugger
             this._shoMersham = false;
         }
 
@@ -719,10 +719,10 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "jubartal"
         ) {
-            // //debugger
+            // ////debugger
             this._shoDrugs = true;
         } else {
-            //  //debugger
+            //  ////debugger
             this._shoDrugs = false;
         }
         if (
@@ -732,10 +732,10 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "mbilya"
         ) {
-            // //debugger
+            // ////debugger
             this._shoSettings = true;
         } else {
-            //  //debugger
+            //  ////debugger
             this._shoSettings = false;
         }
 
@@ -748,10 +748,10 @@ export class HeaderComponent implements OnInit {
             || this.loginUserName.toLowerCase() == "whanout"
             || this.loginUserName.toLowerCase() == "dsalameh"
         ) {
-            // //debugger
+            // ////debugger
             this._shocovid19report = true;
         } else {
-            //  //debugger
+            //  ////debugger
             this._shocovid19report = false;
         }
         if (
@@ -766,10 +766,10 @@ export class HeaderComponent implements OnInit {
             this.loginUserName.toLowerCase() ==
             "muhbadarne"
         ) {
-            // //debugger
+            // ////debugger
             this._shoGlucose = true;
         } else {
-            //  //debugger
+            //  ////debugger
             this._shoGlucose = false;
         }
         if (
@@ -796,11 +796,11 @@ export class HeaderComponent implements OnInit {
             this._sendSMSADMIN = false;
         }
         $(document).on("click", "[routerlink], .nav-link", function () {
-            // //debugger;
+            // ////debugger;
             localStorage.setItem("ReseachRowId", "0");
             $("#app-menu").removeClass("show");
             $("#menu-btn").removeClass("show");
-            // debugger
+            // //debugger
             if ($(this).attr('routerlink') == 'mersham') {
                 $('body').addClass('bg-blue-light');
             } else {
@@ -808,7 +808,7 @@ export class HeaderComponent implements OnInit {
             }
         });
         $("#menu-btn").click(function () {
-            ////debugger;
+            //////debugger;
             $(this).toggleClass("show");
             $("#app-menu").toggleClass("show");
         });
@@ -827,7 +827,7 @@ export class HeaderComponent implements OnInit {
         this.service.stop()
     }
     logout($event): void {
-        ////debugger
+        //////debugger
         localStorage.clear();
         $("#app-menu").removeClass("show");
         $("#menu-btn").removeClass("show");

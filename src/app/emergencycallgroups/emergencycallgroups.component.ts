@@ -32,6 +32,7 @@ import {
     Validators,
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { MenuPerm } from "../menu-perm";
 export interface Poria_Group {
     RowID: number;
     GroupNumber: string;
@@ -111,9 +112,17 @@ export class EmergencycallgroupsComponent implements OnInit {
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
         private confirmationDialogService: ConfirmationDialogService,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private mMenuPerm: MenuPerm
     ) {
-        // //debugger
+        mMenuPerm.setRoutName("emergencycallgroups");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
+        // ////debugger
         this.activeModal = activeModal;
     }
     @Input()
@@ -122,7 +131,7 @@ export class EmergencycallgroupsComponent implements OnInit {
 
     ngOnInit(): void {
         this.SendSmsToemergencymembersModal
-        debugger
+        //debugger
         $("#loader").removeClass("d-none");
         this.GroupName = "";
         this.GroupNumber = "";
@@ -143,42 +152,7 @@ export class EmergencycallgroupsComponent implements OnInit {
             RowID: ["0", false],
         });
         console.log("sleep");
-        if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-            || localStorage.getItem("loginUserName").toLowerCase() == "waraidy"||
-            localStorage.getItem("loginUserName").toLowerCase() == "mmadmon" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "jubartal" ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("kmandel").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("NCaspi").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("BMonastirsky").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("NAli").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("EMansour").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("IAharon").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("KLibai").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("TLivnat").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("OHaccoun").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("AAsheri").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("KMassalha").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("ANujedat").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("NSela").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("MRuach").toLowerCase() 
-            || localStorage.getItem("loginUserName").toLowerCase() == ("LCerem").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("ZAvraham").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase()           
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum1").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum2").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum3").toLowerCase()
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         /**/
         this.getReport(this);
     }
@@ -188,9 +162,9 @@ export class EmergencycallgroupsComponent implements OnInit {
                 Type: Type
             })
             .subscribe((Response) => {
-               // debugger
+               // //debugger
                 this.Groups = Response["d"];
-               // debugger
+               // //debugger
             });
     }
     radioChange($event: MatRadioChange) {
@@ -216,7 +190,7 @@ export class EmergencycallgroupsComponent implements OnInit {
             });
             this.NotAllOrNull = false;
         }else{
-           // debugger
+           // //debugger
             this.GroupSmsToForm = this.formBuilder.group({
                 GroupSmsTo: [$event.source.value, Validators.required],
                 GroupSms: [[], Validators.required],
@@ -236,7 +210,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         });
     }
     onSubmitSmsTo() {
-        debugger
+        //debugger
         if (this.GroupSmsToForm.invalid) {
             return;
         }
@@ -262,11 +236,11 @@ export class EmergencycallgroupsComponent implements OnInit {
                 }
                 
 
-                 //debugger
+                 ////debugger
 
                 localStorage.setItem("smsType", "SMSEmergencyCall");
                 localStorage.setItem("textAreaVal", textAreaVal);
-                debugger
+                //debugger
                 let that = this;
                 setTimeout(function () {
                     $("#loader").addClass("d-none");
@@ -278,16 +252,16 @@ export class EmergencycallgroupsComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        //////debugger
+        ////////debugger
 
         if (this.GroupForm.invalid) {
             return;
         }
-        ////debugger
+        //////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
-        //debugger;
+        ////debugger;
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateGroup",
@@ -308,13 +282,13 @@ export class EmergencycallgroupsComponent implements OnInit {
     }
 
     showemergencymembers(content, _type, _element) {
-        // debugger;
+        // //debugger;
         localStorage.setItem("GroupID", _element.RowID);
         this.modalService.open(content, this.modalOptions);
     }
 
     SendSmsToemergencymembers(content, _type, _element) {
-        // debugger;
+        // //debugger;
         this.GroupName = _element.GroupName;
         this.http
             .post(
@@ -333,7 +307,7 @@ export class EmergencycallgroupsComponent implements OnInit {
                     textAreaVal += Poria_Group[i]["FirstName"] + " ";
                     textAreaVal += Poria_Group[i]["LastName"] + "\r\n";
                 }
-                // debugger
+                // //debugger
 
                 localStorage.setItem("smsType", "SMSEmergencyCall");
                 localStorage.setItem("textAreaVal", textAreaVal);
@@ -368,7 +342,7 @@ export class EmergencycallgroupsComponent implements OnInit {
     }
     editRow(content, _type, _element) {
         this.GroupName = _element.GroupName;
-        //debugger;
+        ////debugger;
         this.GroupForm = this.formBuilder.group({
             GroupName: [_element.GroupName, Validators.required],
             GroupStatus: [_element.GroupStatus + "", Validators.required],
@@ -381,9 +355,9 @@ export class EmergencycallgroupsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) { 
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -393,7 +367,7 @@ export class EmergencycallgroupsComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        //////debugger
+        ////////debugger
         this.getTableFromServer(this.fliterVal);
     }
     applyFilter(filterValue: string) {
@@ -408,9 +382,9 @@ export class EmergencycallgroupsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -422,7 +396,7 @@ export class EmergencycallgroupsComponent implements OnInit {
     open(content, _type, _element) {
         this.GroupNumber = "";
         this.GroupName = "חדש";
-        ////debugger;
+        //////debugger;
         this.GroupForm = this.formBuilder.group({
             GroupName: ["", Validators.required],
             GroupStatus: ["1", Validators.required],
@@ -435,9 +409,9 @@ export class EmergencycallgroupsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -466,7 +440,7 @@ export class EmergencycallgroupsComponent implements OnInit {
     public getTableFromServer(_FreeText: string) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -477,15 +451,15 @@ export class EmergencycallgroupsComponent implements OnInit {
                 serachTxt: _FreeText,
             })
             .subscribe((Response) => {
-                //////debugger
+                ////////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 this.TABLE_DATA = Response["d"];
 
-                // ////debugger
+                // //////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = this.TABLE_DATA.length;
                 setTimeout(function () {
-                    //////debugger
+                    ////////debugger
                     //if (tableLoader) {
                     $("#loader").addClass("d-none");
                     // }

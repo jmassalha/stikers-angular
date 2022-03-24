@@ -11,6 +11,8 @@ import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
 import { map, startWith } from 'rxjs/operators';
 import { ManageClinicPriceComponent } from '../manage-clinic-price/manage-clinic-price.component';
+import { MenuPerm } from '../menu-perm';
+import { Router } from '@angular/router';
 export interface Department {
   Row_ID: string;
   DepartName: string;
@@ -70,8 +72,17 @@ export class ClinicsDashboardComponent implements OnInit {
     private fb: FormBuilder,
     private datePipe: DatePipe,
     private http: HttpClient,
-    private _snackBar: MatSnackBar
-  ) { }
+    private router: Router,
+    private _snackBar: MatSnackBar,
+    private mMenuPerm: MenuPerm
+) {
+    mMenuPerm.setRoutName("clinicspricing");
+    setTimeout(() => {
+        if(!mMenuPerm.getHasPerm()){
+            localStorage.clear();
+            this.router.navigate(["login"]);
+        }
+    }, 2000); }
 
   // myControl = new FormControl();
   departments: Department[] = [];

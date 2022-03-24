@@ -25,6 +25,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 export interface TableRow {
     SurgeryID?: string;
     PatientId?: string;
@@ -115,7 +116,16 @@ export class UrgentSurgeriesComponent implements OnInit {
         public fb: FormBuilder,
         private formBuilder: FormBuilder,
         private datePipe: DatePipe
+        ,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("urgentsurgeries");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         this.noteForm = this.fb.group({
             SurgeryID: ["", null],
             CaseNumber: ["", null],
@@ -138,24 +148,11 @@ export class UrgentSurgeriesComponent implements OnInit {
         this.Edate = new FormControl(new Date());
         this.startdateVal = this.Sdate.value;
         this.enddateVal = this.Edate.value;
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() == "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            //this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+ 
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     ////debugger
+        //     //////debugger
         // })
         this.getTableFromServer(
             this.startdateVal,
@@ -198,7 +195,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         var index = this.ListToHolde.findIndex(x => x.SurgeryIdToHolde == element.SurgeryID); 
         // here you can check specific property for an object whether it exist in your array or not
         var mrowListToHolde = {} as rowListToHolde;
-        //debugger
+        ////debugger
         mrowListToHolde.SurgeryIdToHolde =  element.SurgeryID;
         mrowListToHolde.PatientNumberToHolde = element.PatientNumber ;
         mrowListToHolde.SurgeryCodeToHolde = element.SurgeryCode ;
@@ -226,7 +223,7 @@ export class UrgentSurgeriesComponent implements OnInit {
         if (_element.UserAdded == null || _element.UserAdded == "") {
             type = "new";
         }
-        ////debugger
+        //////debugger
         this.noteForm = this.fb.group({
             SurgeryID: [_element.SurgeryID, null],
             CaseNumber: [_element.CaseNumber, null],
@@ -247,9 +244,9 @@ export class UrgentSurgeriesComponent implements OnInit {
                 this.modalService.open(content, this.modalOptions).result.then(
                     (result) => {
                         this.closeResult = `Closed with: ${result}`;
-                        //////debugger
+                        ////////debugger
                         if ("Save" == result) {
-                            // ////debugger;
+                            // //////debugger;
                             //this.saveChad(_element.ROW_ID);
                         }
                     },
@@ -268,9 +265,9 @@ export class UrgentSurgeriesComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -285,7 +282,7 @@ export class UrgentSurgeriesComponent implements OnInit {
                 this.openSnackBarError();
             return;
         }
-        //////debugger
+        ////////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
@@ -348,7 +345,7 @@ export class UrgentSurgeriesComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -367,7 +364,7 @@ export class UrgentSurgeriesComponent implements OnInit {
                 var json = JSON.parse(Response["d"]);
                 let json_2 = JSON.parse(json);
                 let SarsData = JSON.parse(json_2["aaData"]);
-                // //debugger;
+                // ////debugger;
                 for (var i = 0; i < SarsData.length; i++) {
                     this.TABLE_DATA.push({
                         SurgeryID: SarsData[i].SurgeryID,
@@ -389,13 +386,13 @@ export class UrgentSurgeriesComponent implements OnInit {
                     });
                 }
 
-                // ////debugger
+                // //////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
                     JSON.parse(json_2["iTotalRecords"])
                 );
                 setTimeout(function () {
-                    //////debugger
+                    ////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -403,14 +400,14 @@ export class UrgentSurgeriesComponent implements OnInit {
             });
     }
     public deleteFromList(index: any){
-       // //debugger
+       // ////debugger
          this.ListToHolde.splice(index, index+1);
          
     }
     public GetSurgeriesListForToday(date: any) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -427,7 +424,7 @@ export class UrgentSurgeriesComponent implements OnInit {
                 var json = JSON.parse(Response["d"]);
                // let json_2 = JSON.parse(json);
                 let SarsData = JSON.parse(json["aaData"]);
-                // //debugger;
+                // ////debugger;
                 for (var i = 0; i < SarsData.length; i++) {
                     this.TABLE_DATA_FOR_TODY.push({
                         SurgeryID: SarsData[i].SurgeryID,
@@ -442,7 +439,7 @@ export class UrgentSurgeriesComponent implements OnInit {
                 }
                 this.dataSourceForToday = new MatTableDataSource<any>(this.TABLE_DATA_FOR_TODY);               
                 setTimeout(function () {
-                    //////debugger
+                    ////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

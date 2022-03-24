@@ -49,19 +49,14 @@ export class DashboardComponent implements OnInit {
             .attr('x', 50)
             .attr('y', 150)
             .attr('fill', '#938F8F');
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        }
+
         this.getDataFormServer("");
         this.getEmployeesBirthDates();
     }
     // public getData(){
     //     this.Departmints["departs"].forEach((element, key) => {
     //         this.Departmints["departs"][key].Used = "";
-    //        // //debugger
+    //        // ////debugger
     //         //$(document).find("._Departmints li:nth("+key+") .append-dots").append($(this._dotsLoader));
     //         this.getDataFormServer(key, element.Code);
     //     });
@@ -120,7 +115,7 @@ export class DashboardComponent implements OnInit {
                     });
 
                     this.Departmints["departs"] = aaobj;
-                    debugger
+                    //debugger
                     this.Departmints["total"] = parseInt(
                         ((aobjTotal.total / parseInt(totalReal)) * 100).toFixed(
                             0

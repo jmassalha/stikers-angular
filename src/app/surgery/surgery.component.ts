@@ -138,24 +138,17 @@ export class SurgeryComponent implements OnInit {
         //this.Depart[0] = "-1";
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else {
-            ///$("#chadTable").DataTable();
-        }
+       
         $(document).on('click', '#download', function(e){
             e.preventDefault();
             var href = $(this).attr('href');
             href = href.replace('//', '\\\\');
             href = href.replace('/', '\\');
             href = href.replace('http:', '');
-            //debugger;
+            ////debugger;
             var win = window.open('', "_blank");
             
-            win.document.write('<script>window.location("'+href+'");//debugger</script>');       
+            win.document.write('<script>window.location("'+href+'");////debugger</script>');       
 
             
         })
@@ -166,15 +159,15 @@ export class SurgeryComponent implements OnInit {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgens", {})
             .subscribe((Response) => {
-                //// ////debugger
+                //// //////debugger
                 this.SurgensList = [];
 
                 var json = JSON.parse(Response["d"]);
-                // // ////debugger
+                // // //////debugger
                 var _d = JSON.parse(json["surgensList"]);
 
                 for (const [key, value] of Object.entries(_d)) {
-                  //  debugger
+                  //  //debugger
                     var _sD: Surgens = { id: key, name: value.toString() };
 
                     this.SurgensList.push(_sD);
@@ -183,16 +176,16 @@ export class SurgeryComponent implements OnInit {
                 $("#loader").addClass("d-none");
                 /*
                   $(_d).each(function(i,k){
-                      // ////debugger
+                      // //////debugger
                       //var _sD: Depart = {id: i, name: k};
 
                       //this.departs.push(_sD);
                   })*/
-                //// ////debugger
+                //// //////debugger
             });
     }
     radioChange(event: MatRadioChange) {
-         ////debugger
+         //////debugger
          this._fun.radioChange(event);
          this.startdateVal = this._fun.Sdate.value;
          this.enddateVal = this._fun.Edate.value;
@@ -223,8 +216,8 @@ export class SurgeryComponent implements OnInit {
         }
     }
     quart_change(event: MatRadioChange) {
-        ////debugger;
         //////debugger;
+        ////////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -302,7 +295,7 @@ export class SurgeryComponent implements OnInit {
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
-        ////debugger
+        //////debugger
         for (var i = 0; i < this.SurgeryType.length; i++) {
             if (this.SurgeryType[i]) {
                 _counter++;
@@ -312,7 +305,7 @@ export class SurgeryComponent implements OnInit {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        ////debugger
+        //////debugger
         $("#loader").removeClass("d-none");
         this.http
             .post(
@@ -329,7 +322,7 @@ export class SurgeryComponent implements OnInit {
             .subscribe(
                 Response => {
                     $("#_departments").empty();
-                    //debugger
+                    ////debugger
                     $(document)
                             .find("#download").remove();
                     $("body").append(
@@ -346,13 +339,13 @@ export class SurgeryComponent implements OnInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 error => {
-                    // //debugger;
+                    // ////debugger;
                     $("#loader").addClass("d-none");
                 }
             );
     }
     public getDropDownFromServer() {
-        debugger
+        //debugger
 
         this.http
             .post(
@@ -362,7 +355,7 @@ export class SurgeryComponent implements OnInit {
             .subscribe((Response) => {
                 var json = JSON.parse(Response["d"]);
                 json = JSON.parse(json["SurgeryDeparts"]);
-                debugger
+                //debugger
                 this.Departs = json;
             });
     }
@@ -378,18 +371,18 @@ export class SurgeryComponent implements OnInit {
         _Surgen: string,
     ) {
         if(_Depart == undefined || _Depart == null){
-            ////debugger;
+            //////debugger;
             _Depart = ["-1"];
         }
         if(_SurgenType == undefined || _SurgenType == null){
-            ////debugger;
+            //////debugger;
             _SurgenType = ["-1"];
         }
         let _surgeryType = "";
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
-        //debugger
+        ////debugger
         for (var i = 0; i < this.SurgeryType.length; i++) {
             if (this.SurgeryType[i]) {
                 _counter++;
@@ -399,7 +392,7 @@ export class SurgeryComponent implements OnInit {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        debugger
+        //debugger
         $("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeries", {
@@ -417,13 +410,13 @@ export class SurgeryComponent implements OnInit {
             .subscribe(
                 Response => {
                     $("#_departments").empty();
-                    debugger
+                    //debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                     var json = JSON.parse(Response["d"]);
                     //let surgeries = JSON.parse(json["aaData"]);
-                    //debugger
+                    ////debugger
                     //  for(var i = 0; i < surgeries.length; i++) {
-                    //    ////debugger;
+                    //    //////debugger;
                     //    this.TABLE_DATA.push({
                     //       S_ID:surgeries[i].S_ID,
                     //       S_SURGERY_NUMBER:surgeries[i].S_SURGERY_NUMBER,
@@ -449,7 +442,7 @@ export class SurgeryComponent implements OnInit {
                     //    });
                     //  }
 
-                    // //debugger
+                    // ////debugger
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA
                     );
@@ -459,7 +452,7 @@ export class SurgeryComponent implements OnInit {
                     let _CharPastMonthVal = JSON.parse(
                         json["_CharPastMonthVal"]
                     );
-                    ////debugger;
+                    //////debugger;
                     /*LineChart*/
                     this._fun.drawCharToDom(
                         "line",
@@ -606,7 +599,7 @@ export class SurgeryComponent implements OnInit {
 
                     let allNow = JSON.parse(json["TotalNowSurgery"]);
                     let allPast = JSON.parse(json["TotalSurgeryPast"]);
-                    ////debugger
+                    //////debugger
                     this._fun.drawCharToDom(
                         "bar",
                         [_yearStart.toString(), (_yearStart - 1).toString()],
@@ -631,7 +624,7 @@ export class SurgeryComponent implements OnInit {
                     //this.drawCharToDom('bar', JSON.parse(json["SurgeryName"]), JSON.parse(json["SurgeryCounter"]), 'departSurgery', 'canvdepartSurgery');
                     //this.paginator. = parseInt(json["iTotalRecords"]);
                     //this.dataSource.sort = this.sort;
-                    // //debugger
+                    // ////debugger
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
@@ -639,7 +632,7 @@ export class SurgeryComponent implements OnInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 error => {
-                    // //debugger;
+                    // ////debugger;
                     $("#loader").addClass("d-none");
                 }
             );

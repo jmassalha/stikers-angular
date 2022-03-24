@@ -58,12 +58,12 @@
     padding: 10px 15px;
     transition: 0.5s right;
     display: block;
-    width: 300px;
+    min-width: 300px;
     height: calc(100% - 43px);
     position: fixed;
     overflow-y: auto;
     background: #095daf;
-    right: -310px;
+    right: -810px;
     top: 43px;
     box-shadow: -1px 2px 4px 0px #000;
 

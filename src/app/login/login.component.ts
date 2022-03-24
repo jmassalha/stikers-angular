@@ -3,6 +3,7 @@ import { Router } from "@angular/router";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { HttpClient } from "@angular/common/http";
 import * as $ from "jquery";
+import { MenuPerm } from "../menu-perm";
 @Component({
     selector: "app-login",
     templateUrl: "./login.component.html",
@@ -12,7 +13,8 @@ export class LoginComponent implements OnInit {
     constructor(
         private snackBar: MatSnackBar,
         private http: HttpClient,
-        private router: Router
+        private router: Router,
+        private mMenuPerm: MenuPerm
     ) {}
     username: string;
     password: string;
@@ -42,6 +44,8 @@ export class LoginComponent implements OnInit {
                         $("#loader").addClass("d-none");
                         var arrRes = (response["d"]).split(' -');
                         if (arrRes[0].replace('"','') == "TRUE") {
+                            
+                            this.mMenuPerm.setUserName(this.username);
                             localStorage.setItem("loginState", "true");
                             localStorage.setItem("Depart", arrRes[1].trim().replace('"',''));
                             localStorage.setItem(

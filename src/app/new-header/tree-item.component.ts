@@ -8,6 +8,6 @@ export class TreeItemComponent implements OnInit {
     public data: any = {};
     ngOnInit(): void {
         console.log(this.data);
-        //debugger;
+        ////debugger;
     }
 }

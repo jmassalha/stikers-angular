@@ -34,6 +34,7 @@ import {
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
 import { SelectionModel } from "@angular/cdk/collections";
+import { MenuPerm } from "../menu-perm";
 export interface Boxes {
     RowID: number;
     BoxID: number;
@@ -92,9 +93,17 @@ export class ScannersComponent implements OnInit {
         private formBuilder: FormBuilder,
         private confirmationDialogService: ConfirmationDialogService,
         activeModal: NgbActiveModal,
-        private cdr: ChangeDetectorRef
+        private cdr: ChangeDetectorRef,
+        private mMenuPerm: MenuPerm
     ) {
-        // ////debugger
+        mMenuPerm.setRoutName("scanners");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
+        // //////debugger
         this.activeModal = activeModal;
     }
     @Input()
@@ -108,7 +117,7 @@ export class ScannersComponent implements OnInit {
         return numSelected === numRows;
     }
     masterToggle() {
-        //debugger
+        ////debugger
         // this.isAllSelected()
         //     ? this.selection.clear()
         //     : this.dataSource.data.forEach((row) => this.selection.select(row));
@@ -126,7 +135,7 @@ export class ScannersComponent implements OnInit {
     ngOnInit(): void {
         this.selectedOn = false;
         this.SendSmsToemergencymembersModal;
-        //debugger;
+        ////debugger;
         $("#loader").removeClass("d-none");
         this.GroupName = "";
         this.GroupNumber = "";
@@ -140,23 +149,7 @@ export class ScannersComponent implements OnInit {
             RowID: ["0", false],
         });
         console.log("sleep");
-        if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase()   == "salmalem" ||
-            localStorage.getItem("loginUserName").toLowerCase()   == "skarasenti" ||
-            localStorage.getItem("loginUserName").toLowerCase()   == "yhameiry" ||
-            localStorage.getItem("loginUserName").toLowerCase()   == "saamar" ||
-            localStorage.getItem("loginUserName").toLowerCase()   == "mshema" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "lfisher" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "malkobi" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         this.getReport(this);
     }
 
@@ -189,23 +182,23 @@ export class ScannersComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        //debugger
+        ////debugger
 
         if (this.BoxForm.invalid) {
             return;
         }
-        //////debugger
+        ////////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
-        ////debugger;
+        //////debugger;
         this.http
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
                 boxes: this.BoxForm.value,
             })
             .subscribe((Response) => {
-                //debugger
+                ////debugger
                 if(!Response["d"]){
                     this.getReport(null);
                     this.openSnackBar();
@@ -230,7 +223,7 @@ export class ScannersComponent implements OnInit {
             .then((confirmed) => {
                 console.log("User confirmed:", confirmed);
                 if (confirmed) {
-                    debugger
+                    //debugger
                     var BoxIds = "";
                     for(var i = 0; i < this.selection["_selected"].length; i ++){
                         BoxIds += this.selection["_selected"][i].RowID+ ",";
@@ -279,7 +272,7 @@ export class ScannersComponent implements OnInit {
             });
     }
     showcasenumbers(content, _type, _element) {
-        // //debugger;
+        // ////debugger;
 
         localStorage.setItem("Print", "false");
         localStorage.setItem("CartoonID", _element.RowID);
@@ -288,9 +281,9 @@ export class ScannersComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                // debugger
+                // //debugger
                 if ("Save" == result) {
-                    // //////debugger;
+                    // ////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -302,7 +295,7 @@ export class ScannersComponent implements OnInit {
     }
 
     printcasenumbers(content, _type, _element) {
-        // //debugger;
+        // ////debugger;
         localStorage.setItem("Print", "true");
         localStorage.setItem("CartoonID", _element.RowID);
         localStorage.setItem("CartoonUNID", _element.BoxID);
@@ -318,7 +311,7 @@ export class ScannersComponent implements OnInit {
     }
     editRow(content, _type, _element) {
         this.GroupName = _element.GroupName;
-        ////debugger;
+        //////debugger;
         this.BoxForm = this.formBuilder.group({
             BoxID: [_element.BoxID, Validators.required],
             User: [localStorage.getItem("loginUserName"), Validators.required],
@@ -327,9 +320,9 @@ export class ScannersComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////debugger
+                //////////debugger
                 if ("Save" == result) {
-                    // //////debugger;
+                    // ////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -339,7 +332,7 @@ export class ScannersComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////////debugger
+        //////////debugger
         this.getTableFromServer(this.fliterVal, 0, 100);
     }
     applyFilter(filterValue: string) {
@@ -353,7 +346,7 @@ export class ScannersComponent implements OnInit {
     open(content, _type, _element) {
         this.GroupNumber = "";
         this.GroupName = "חדש";
-        //////debugger;
+        ////////debugger;
         this.BoxForm = this.formBuilder.group({
             BoxID: ["", Validators.required],
             User: [localStorage.getItem("loginUserName"), Validators.required],
@@ -362,9 +355,9 @@ export class ScannersComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////debugger
+                //////////debugger
                 if ("Save" == result) {
-                    // //////debugger;
+                    // ////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -396,11 +389,11 @@ export class ScannersComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////debugger
+            // ////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //debugger
+        ////debugger
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
@@ -410,10 +403,10 @@ export class ScannersComponent implements OnInit {
                 pageSize: _pageSize,
             })
             .subscribe((Response) => {
-                ////////debugger
+                //////////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 this.TABLE_DATA = Response["d"];
-                //debugger
+                ////debugger
                 if (this.TABLE_DATA[0]["BoxID"] == null) {
                     this.TABLE_DATA = [];
 
@@ -429,7 +422,7 @@ export class ScannersComponent implements OnInit {
                 }
 
                 setTimeout(function () {
-                    ////////debugger
+                    //////////debugger
                     //if (tableLoader) {
                     $("#loader").addClass("d-none");
                     // }

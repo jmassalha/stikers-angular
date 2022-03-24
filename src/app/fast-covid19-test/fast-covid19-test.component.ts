@@ -482,10 +482,10 @@ Year
 Month
 Day
 Tel1*/
-               // debugger;
-              //  debugger
+               // //debugger;
+              //  //debugger
                 setTimeout(function () {
-                    ////////////debugger
+                    //////////////debugger
                     
                         $("#loader").addClass("d-none");
                     
@@ -525,7 +525,7 @@ LastName
                             date,
                             "dd.MM.yyyy"
                         );
-                        //debugger
+                        ////debugger
                         $("#loader_2").removeClass("d-none");
                         this.http
                             .post(
@@ -535,7 +535,7 @@ LastName
                                 }
                             )
                             .subscribe((Response) => {
-                                //  debugger
+                                //  //debugger
                                 if (Response["d"]) {
                                     var json = JSON.parse(Response["d"]);
                                     var FastCoronaTestResponse =

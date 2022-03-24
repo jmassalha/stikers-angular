@@ -31,6 +31,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 export interface Poria_Maternity {
     RowID: number;
     MaternityNumber: string;
@@ -110,9 +111,18 @@ export class MaternityComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private mMenuPerm: MenuPerm
     ) {
-        // //debugger
+        mMenuPerm.setRoutName("maternity");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
+        /*maternity*/
+        // ////debugger
         this.activeModal = activeModal;
     }
     @Input()
@@ -138,20 +148,7 @@ export class MaternityComponent implements OnInit {
             RowID: ["0", false],
         });
         console.log("sleep");
-        if (
-            localStorage.getItem("loginUserName").toLowerCase() == "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("skewan").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("HMizrahi").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == "raharon"
-            
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         this.getReport(this);
     }
     openSnackBar() {
@@ -165,16 +162,16 @@ export class MaternityComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        //////debugger
+        ////////debugger
 
         if (this.maternityForm.invalid) {
             return;
         }
-        ////debugger
+        //////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
-        debugger;
+        //debugger;
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternity",
@@ -195,13 +192,13 @@ export class MaternityComponent implements OnInit {
     }
 
     showPatient(content, _type, _element) {
-       // debugger;
+       // //debugger;
         localStorage.setItem("MaternityRowId", _element.RowID);
         this.modalService.open(content, this.modalOptions);
     }
 
     SendSmsToPatient(content, _type, _element) {
-       // debugger;
+       // //debugger;
         this.MaternityName = _element.MaternityNumber;
         this.MaternityNumber = _element.MaternityName;
         this.http
@@ -219,7 +216,7 @@ export class MaternityComponent implements OnInit {
                     textAreaVal += Poria_Maternity[i]["PatientFirstName"] + " ";
                     textAreaVal += Poria_Maternity[i]["PatientLastName"] + "\r\n";
                 }
-               // debugger
+               // //debugger
                localStorage.setItem("smsType", "SMSMaternity");
                 localStorage.setItem("textAreaVal", textAreaVal);
                 this.modalService.open(content, this.modalOptions);
@@ -233,7 +230,7 @@ export class MaternityComponent implements OnInit {
     editRow(content, _type, _element) {
         this.MaternityName = _element.MaternityName;
         this.MaternityNumber = _element.MaternityNumber;
-        //debugger;
+        ////debugger;
         this.maternityForm = this.formBuilder.group({
             MaternityNumber: [_element.MaternityNumber, Validators.required],
             MaternityName: [_element.MaternityName, Validators.required],
@@ -251,9 +248,9 @@ export class MaternityComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -263,7 +260,7 @@ export class MaternityComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        //////debugger
+        ////////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -287,7 +284,7 @@ export class MaternityComponent implements OnInit {
     open(content, _type, _element) {
         this.MaternityNumber = "";
         this.MaternityName = "חדש";
-        ////debugger;
+        //////debugger;
         this.maternityForm = this.formBuilder.group({
             MaternityNumber: ["", Validators.required],
             MaternityName: ["", Validators.required],
@@ -302,9 +299,9 @@ export class MaternityComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -343,7 +340,7 @@ export class MaternityComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -357,11 +354,11 @@ export class MaternityComponent implements OnInit {
                 _activeOrNot: _activeOrNot,
             })
             .subscribe((Response) => {
-                //////debugger
+                ////////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let Poria_Maternity = JSON.parse(json["Maternity"]);
-                //  //debugger
+                //  ////debugger
                 for (var i = 0; i < Poria_Maternity.length; i++) {
                     this.TABLE_DATA.push({
                         RowID: Poria_Maternity[i].RowID,
@@ -380,11 +377,11 @@ export class MaternityComponent implements OnInit {
                     });
                 }
 
-                // ////debugger
+                // //////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["totalRows"]);
                 setTimeout(function () {
-                    //////debugger
+                    ////////debugger
                     //if (tableLoader) {
                     $("#loader").addClass("d-none");
                     // }

@@ -33,6 +33,7 @@ import {
     Validators,
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { MenuPerm } from "../menu-perm";
 export interface EventsDropDownData {
     RowID: string;
     DropDownValue: string;
@@ -109,9 +110,17 @@ export class EventsscheduleComponent implements OnInit {
         private formBuilder: FormBuilder,
         public datepipe: DatePipe,
         private confirmationDialogService: ConfirmationDialogService,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private mMenuPerm: MenuPerm
     ) {
-        // ////debugger
+        mMenuPerm.setRoutName("eventsschedule");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
+        // //////debugger
         this.activeModal = activeModal;
     }
     @Input()
@@ -140,55 +149,7 @@ export class EventsscheduleComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
         console.log("sleep");
-        if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "adahabre" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim"
-            || localStorage.getItem("loginUserName").toLowerCase() == ("x_dshaull").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("IDitur").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("RYousef").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("DGolani").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("NSela").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MRuach").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("VZamir").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MAtias").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("SSabach").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("SBADER").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("ZLevi").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("KYedidia").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("OGolovkin").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("yhalif").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("ZAvraham").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MMadmon").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("jubartal").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("BMonastirsky").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("EMansour").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("HSeffada").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("dvainshtei").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("NAli").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("kMandel").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("NCaspi").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("TLivnat").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("OHaccoun").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("WAraidy").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("KLibai").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("IAharon").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MJourno").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum1").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum2").toLowerCase()
-            || localStorage.getItem("loginUserName").toLowerCase() == ("MCherum3").toLowerCase()
-
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+       
         
         //$("#loader").addClass("d-none");
         this.desks = this.getDropDownLists("DeskDrop");
@@ -201,7 +162,7 @@ export class EventsscheduleComponent implements OnInit {
             $("#loader").addClass("d-none");
         }, 1500)
         
-        ////debugger;
+        //////debugger;
     }
     getDropDownLists(mType): EventsDropDownData[] {
         let mEventsDropDownData: EventsDropDownData[] = [];
@@ -213,25 +174,25 @@ export class EventsscheduleComponent implements OnInit {
                 mUser: localStorage.getItem("loginUserName").toLowerCase()
             })
             .subscribe((Response: EventsDropDownData[]) => {
-                // //debugger;
+                // ////debugger;
                 mEventsDropDownData = Response;
                 switch (mType) {
                     case "DeskDrop":
 
                         this.desks = mEventsDropDownData["d"];
-                        ////debugger
+                        //////debugger
                         break;
                     case "CatDrop":
                         this.catss = mEventsDropDownData["d"];
-                        // //debugger
+                        // ////debugger
                         break;
                     case "PriorityDrop":
                         this.eventprioritys = mEventsDropDownData["d"];
-                        //  //debugger
+                        //  ////debugger
                         break;
                     case "StatusDrop":
                         this.eventStatuss = mEventsDropDownData["d"];
-                        //  //debugger
+                        //  ////debugger
                         break;
                 }
             });
@@ -276,21 +237,21 @@ export class EventsscheduleComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        //debugger
+        ////debugger
         this.EventsForm.value.EventDateTime = this.EventsForm.value.EventDateTime.setMinutes(
             this.EventsForm.value.EventDateTime.getMinutes() -
                 this.EventsForm.value.EventDateTime.getTimezoneOffset()
         );
         this.EventsForm.value.EventDateTime = new Date(this.EventsForm.value.EventDateTime);
-       // debugger;
+       // //debugger;
         if (this.EventsForm.invalid) {
             return;
         }
-        //////debugger
+        ////////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
-        ////debugger;
+        //////debugger;
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateEvent",
@@ -314,7 +275,7 @@ export class EventsscheduleComponent implements OnInit {
         this.modalService.dismissAll();
     }
     deleteFunction() {
-        //debugger
+        ////debugger
         this.confirmationDialogService
             .confirm("נא לאשר..", "האם אתה בטוח ...? ")
             .then((confirmed) => {
@@ -333,7 +294,7 @@ export class EventsscheduleComponent implements OnInit {
     }
     editRow(content, _type, _element) {
         this.EventsName = _element.EventsName;
-        ////debugger;
+        //////debugger;
         var dateString = _element.EventDateTime;
         var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
         var dateArray = reggie.exec(dateString);
@@ -345,7 +306,7 @@ export class EventsscheduleComponent implements OnInit {
             +dateArray[5],
             +dateArray[6]
         );
-        // //debugger
+        // ////debugger
         this.EventsForm = this.formBuilder.group({
             EventName: [_element.EventName, null],
             EventDeskID: [_element.EventDeskID, Validators.required],
@@ -364,9 +325,9 @@ export class EventsscheduleComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////debugger
+                //////////debugger
                 if ("Save" == result) {
-                    // //////debugger;
+                    // ////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -376,7 +337,7 @@ export class EventsscheduleComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////////debugger
+        //////////debugger
         this.getTableFromServer(
             this.pageIndex,
             this.pageSize,
@@ -410,7 +371,7 @@ export class EventsscheduleComponent implements OnInit {
     open(content, _type, _element) {
         this.EventsNumber = "";
         this.EventsName = "חדש";
-        //////debugger;
+        ////////debugger;
         this.EventsForm = this.formBuilder.group({
             EventName: ["", null],
             EventDeskID: ["", Validators.required],
@@ -426,13 +387,13 @@ export class EventsscheduleComponent implements OnInit {
             RowID: ["0", false],
             RowStatus: ["1", false],
         });
-        debugger;
+        //debugger;
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////debugger
+                //////////debugger
                 if ("Save" == result) {
-                    // //////debugger;
+                    // ////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -454,7 +415,7 @@ export class EventsscheduleComponent implements OnInit {
     ngAfterViewInit(): void {}
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
-        ////debugger
+        //////debugger
 
         this.getTableFromServer(
             this.paginator.pageIndex,
@@ -482,13 +443,13 @@ export class EventsscheduleComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////debugger
+            // ////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
-        //debugger
+        ////debugger
         this.http
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
@@ -504,15 +465,15 @@ export class EventsscheduleComponent implements OnInit {
                 mUser: localStorage.getItem("loginUserName").toLowerCase()
             })
             .subscribe((Response) => {
-                //debugger
+                ////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 this.TABLE_DATA = Response["d"];
 
-                // //////debugger
+                // ////////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = this.TABLE_DATA.length;
                 setTimeout(function () {
-                    ////////debugger
+                    //////////debugger
                     //if (tableLoader) {
                     $("#loader").addClass("d-none");
                     // }

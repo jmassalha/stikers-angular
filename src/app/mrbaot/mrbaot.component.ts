@@ -122,18 +122,11 @@ export class MrbaotComponent implements OnInit {
         this.Depart = "-1";
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else {
-            ///$("#chadTable").DataTable();
-        }
+        
         //console.log(this.paginator.pageIndex);
     }
     radioChange(event: MatRadioChange) {
-        //////debugger
+        ////////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -154,7 +147,7 @@ export class MrbaotComponent implements OnInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event: MatRadioChange) {
-        //////debugger;
+        ////////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -208,7 +201,7 @@ export class MrbaotComponent implements OnInit {
         _Depart: string,
         _PatientType: string
     ) {
-        //debugger
+        ////debugger
         let _surgeryType = "";
         let _counter = 0;
         this._yearStart = new Date(_startDate).getFullYear();
@@ -217,7 +210,7 @@ export class MrbaotComponent implements OnInit {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        //////////debugger
+        ////////////debugger
         $("#loader").removeClass("d-none");
         this.http
             .post(
@@ -320,7 +313,7 @@ export class MrbaotComponent implements OnInit {
                             var totPast = "0";
                             var totNew = "0";
                             var totNotNew = "0";
-                            //debugger
+                            ////debugger
                             if (index >= 0) {
                                 totPast =
                                     json["DepartCountPast"][index]["Counter"];
@@ -368,25 +361,25 @@ export class MrbaotComponent implements OnInit {
                             $("#loader").addClass("d-none");
                         });
                     }
-                    // debugger;
+                    // //debugger;
 
                     //this.dataSource.paginator = this.paginator;
                 },
                 (error) => {
-                    // ////////debugger;
+                    // //////////debugger;
                     $("#loader").addClass("d-none");
                 }
             );
     }
     public getClinicsNames() {
         $("#loader").removeClass("d-none");
-        //debugger;
+        ////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsNames", {})
             .subscribe(
                 (Response) => {
                     $("#_departments").empty();
-                    debugger
+                    //debugger
 
                     this.ClinicsNames = Response["d"];
 
@@ -397,7 +390,7 @@ export class MrbaotComponent implements OnInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 (error) => {
-                    //debugger;
+                    ////debugger;
                     $("#loader").addClass("d-none");
                 }
             );
