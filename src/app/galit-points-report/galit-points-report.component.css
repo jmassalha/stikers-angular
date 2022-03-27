@@ -13,7 +13,7 @@
     font-size: 14px;
     width: 100%;
   }
-  td.mat-cell{
+  #printmycontent td.mat-cell{
     padding: 10px !important;
     font-weight: bold;
     text-align: center;

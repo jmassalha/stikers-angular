@@ -411,7 +411,7 @@ export class NursesManageDashboardComponent implements OnInit {
                 this.getEROccupancy("", "er");
                 this.getDeliveryEROccupancy("");
                 this.updateDate = new Date();
-                this.orderMedsArray(this.all_medical_departments_array);
+                // this.orderMedsArray(this.all_medical_departments_array);
               }
             }, 300000);
           } else {
@@ -434,15 +434,15 @@ export class NursesManageDashboardComponent implements OnInit {
   }
 
 
-  // test() {
-  //   if (this.UserName.toLowerCase() == 'jubartal') {
-  //     localStorage.setItem("loginUserName", "nibrahim");
-  //     window.location.reload();
-  //   } else {
-  //     localStorage.setItem("loginUserName", "jubartal");
-  //     window.location.reload();
-  //   }
-  // }
+  test() {
+    if (this.UserName.toLowerCase() == 'jubartal') {
+      localStorage.setItem("loginUserName", "nibrahim");
+      window.location.reload();
+    } else {
+      localStorage.setItem("loginUserName", "jubartal");
+      window.location.reload();
+    }
+  }
 
   orderMedsArray(medsArray) {
 
