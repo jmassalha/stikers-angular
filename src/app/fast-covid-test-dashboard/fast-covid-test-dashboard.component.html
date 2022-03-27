@@ -142,7 +142,26 @@
                         *matCellDef="let element"
                         style="justify-content: center; text-align: center"
                     >
-                        {{ element.IdNumber }}
+                    <span *ngIf="element.IdType != '2' ">{{ element.IdNumber }}</span>
+                    </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="IdNumber2">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        דרכון
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center; text-align: center"
+                    >
+                        <span *ngIf="element.IdType == '2' ">{{ element.IdNumber }}</span>
                     </mat-cell>
                 </ng-container>
 

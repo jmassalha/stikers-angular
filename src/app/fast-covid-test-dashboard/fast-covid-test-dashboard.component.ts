@@ -41,7 +41,7 @@ export class FastCovidTestDashboardComponent implements OnInit {
   Sdate;
   Edate;
   displayedColumns: string[] = [
-    'SampleDate', 'IdNumber', 'FullName', 'Result', 'QrCode', 'Print'
+    'SampleDate', 'IdNumber', 'IdNumber2', 'FullName', 'Result', 'QrCode', 'Print'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -78,6 +78,7 @@ export class FastCovidTestDashboardComponent implements OnInit {
       for (var i = 0; i < this.all_Patients_array.length; i++) {
         var json = JSON.parse(this.all_Patients_array[i].TestData.ImgQrCode);
         var FastCoronaTestResponse = json["FastCoronaTestResponse"];
+        //debugger
         if(FastCoronaTestResponse["FastTest"]["QRCode"]){
           var img = "data:image/png;base64," +FastCoronaTestResponse["FastTest"]["QRCode"];
         }else{
@@ -90,6 +91,7 @@ export class FastCovidTestDashboardComponent implements OnInit {
           IdNumber: this.all_Patients_array[i].TestData.IDNum,
           FullName: this.all_Patients_array[i].TestData.LastName+' '+this.all_Patients_array[i].TestData.FirstName,
           Result: this.all_Patients_array[i].TestData.Result,
+          IdType: this.all_Patients_array[i].TestData.IdType,
           QrCode: img,
           SampleTime: this.all_Patients_array[i].SampleData.SamplingTime.Hour+":"+this.all_Patients_array[i].SampleData.SamplingTime.Minutes          
         });

@@ -203,19 +203,16 @@ export class FastCovid19TestComponent implements OnInit {
     QRImage: any;
     ifQRCodeReady: boolean;
 
-    ngOnInit(): void {        
-
+    ngOnInit(): void {
         this.getUserFullName();
         this.TestsForm = this.formBuilder.group({
             TransactionID: [this.myId, null],
             TestData: this.formBuilder.group({
-                IDNum: [
-                    "",
-                    [Validators.required],
-                ],
+                IDNum: ["", [Validators.required]],
                 IdType: [1, Validators.required],
                 FirstName: ["", Validators.required],
                 LastName: ["", Validators.required],
+                EMail: ["", null],
                 Gender: ["M", null],
                 ResultTestCorona: [, Validators.required],
                 Result: ["", null],
@@ -400,9 +397,12 @@ export class FastCovid19TestComponent implements OnInit {
 
     getUserFullName() {
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetUserFullName", {
-                _userName: this.UserName,
-            })
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetUserFullName",
+                {
+                    _userName: this.UserName,
+                }
+            )
             .subscribe((Response) => {
                 this.userFullName =
                     Response["d"].FirstName + " " + Response["d"].LastName;
@@ -431,47 +431,44 @@ export class FastCovid19TestComponent implements OnInit {
         this.QRImage = "data:image/png;base64," + img;
         this.ifQRCodeReady = true;
     }
-    
-    getDetailsFromNamer(event){
+
+    getDetailsFromNamer(event) {
         let val = event.srcElement.value;
-        if(val == '')
-            return;
+        if (val == "") return;
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/selectDetailsFromNamer", {
-                patientId: val,
-            })
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/selectDetailsFromNamer",
+                {
+                    patientId: val,
+                }
+            )
             .subscribe((Response) => {
                 var json = Response["d"];
-                console.log(json)
-                if(json.FirstName != null){
-                    if(json.Gender == '1')
-                        json.Gender = 'M';
-                    else
-                        json.Gender = 'F';
-                    var dateDOB = (json.DOB).toString().split('-');
+                console.log(json);
+                if (json.FirstName != null) {
+                    if (json.Gender == "1") json.Gender = "M";
+                    else json.Gender = "F";
+                    var dateDOB = json.DOB.toString().split("-");
                     this.TestsForm.patchValue({
-                        
                         TestData: {
-                            FirstName : json.FirstName, 
-                            LastName : json.LastName, 
-                            Gender : json.Gender, 
+                            FirstName: json.FirstName,
+                            LastName: json.LastName,
+                            Gender: json.Gender,
                             BirthDate: {
-                                Year : dateDOB[0], 
-                                Month : dateDOB[1], 
-                                Day : dateDOB[2], 
-                            }
+                                Year: dateDOB[0],
+                                Month: dateDOB[1],
+                                Day: dateDOB[2],
+                            },
                         },
-                        SampleData : {
-                            Tel1: json.PhoneNumber.replace('-', '')
-                        }
-                        
+                        SampleData: {
+                            Tel1: json.PhoneNumber.replace("-", ""),
+                        },
+
                         // formControlName2: myValue2 (can be omitted)
-                      });
-                    
-                   
+                    });
                 }
-                console.log(this.TestsForm.value)
+                console.log(this.TestsForm.value);
                 /*this.TestsForm
 TestData
 FirstName
@@ -482,16 +479,14 @@ Year
 Month
 Day
 Tel1*/
-               // //debugger;
-              //  //debugger
+                // //debugger;
+                //  //debugger
                 setTimeout(function () {
                     //////////////debugger
-                    
-                        $("#loader").addClass("d-none");
-                    
+
+                    $("#loader").addClass("d-none");
                 });
             });
-        
     }
     sendReport() {
         if (!this.TestsForm.invalid) {
@@ -530,6 +525,7 @@ LastName
                         this.http
                             .post(
                                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SavePatientFastTestResult",
+                                // "http://localhost:64964/WebService.asmx/SavePatientFastTestResult",
                                 {
                                     resultClass: this.TestsForm.getRawValue(),
                                 }
@@ -538,20 +534,31 @@ LastName
                                 //  //debugger
                                 if (Response["d"]) {
                                     var json = JSON.parse(Response["d"]);
-                                    var FastCoronaTestResponse =
-                                        json["FastCoronaTestResponse"];
-                                    if (
-                                        FastCoronaTestResponse["FastTest"][
-                                            "QRCode"
-                                        ]
-                                    ) {
-                                        this.createQRFromApi(
-                                            FastCoronaTestResponse["FastTest"][
-                                                "QRCode"
-                                            ]
-                                        );
-                                    } else {
+                                    if (json != "") {
+                                        this.http
+                                            .post(
+                                                "http://srv-ipracticom:8080/WebService.asmx/checkIsHaveQRCode",
+                                                // "http://localhost:64964/WebService.asmx/checkIsHaveQRCode",
+                                                {
+                                                    newId: json,
+                                                }
+                                            )
+                                            .subscribe((Response) => {});
                                     }
+                                    // var FastCoronaTestResponse =
+                                    //     json["FastCoronaTestResponse"];
+                                    // if (
+                                    //     FastCoronaTestResponse["FastTest"][
+                                    //         "QRCode"
+                                    //     ]
+                                    // ) {
+                                    //     this.createQRFromApi(
+                                    //         FastCoronaTestResponse["FastTest"][
+                                    //             "QRCode"
+                                    //         ]
+                                    //     );
+                                    // } else {
+                                    // }
 
                                     $("#loader_2").addClass("d-none");
                                     // window.location.reload();
@@ -602,7 +609,10 @@ LastName
     }
     getCityCodes() {
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCityCodes", {})
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetCityCodes",
+                {}
+            )
             .subscribe((Response) => {
                 this.all_cities_filter = Response["d"];
                 this.all_cities_filter.forEach((element) => {
@@ -616,7 +626,10 @@ LastName
 
     getCategories() {
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCategories", {})
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetCategories",
+                {}
+            )
             .subscribe((Response) => {
                 this.all_categories_filter = Response["d"];
                 let lastIndex = this.all_categories_filter.length - 1;
@@ -626,28 +639,28 @@ LastName
     }
 
     onSubmit() {
-       // if (!this.is_israeli_id_number()) {
-           // this.openSnackBar("תעודת זהות לא תקינה");
+        // if (!this.is_israeli_id_number()) {
+        // this.openSnackBar("תעודת זהות לא תקינה");
         //} else {
-            this.TestsForm.controls.SampleData["controls"][
-                "SamplingTime"
-            ].controls.Year.setValue(this.myDate.getFullYear());
-            this.TestsForm.controls.SampleData["controls"][
-                "SamplingTime"
-            ].controls.Month.setValue(this.myDate.getMonth() + 1);
-            this.TestsForm.controls.SampleData["controls"][
-                "SamplingTime"
-            ].controls.Day.setValue(this.myDate.getDate());
-            this.TestsForm.controls.SampleData["controls"][
-                "SamplingTime"
-            ].controls.Hour.setValue(this.myDate.getHours());
-            this.TestsForm.controls.SampleData["controls"][
-                "SamplingTime"
-            ].controls.Minutes.setValue(this.myDate.getMinutes());
-            this.TestsForm.controls.SampleData["controls"][
-                "SamplingTime"
-            ].controls.Seconds.setValue(this.myDate.getSeconds());
-            this.sendReport();
+        this.TestsForm.controls.SampleData["controls"][
+            "SamplingTime"
+        ].controls.Year.setValue(this.myDate.getFullYear());
+        this.TestsForm.controls.SampleData["controls"][
+            "SamplingTime"
+        ].controls.Month.setValue(this.myDate.getMonth() + 1);
+        this.TestsForm.controls.SampleData["controls"][
+            "SamplingTime"
+        ].controls.Day.setValue(this.myDate.getDate());
+        this.TestsForm.controls.SampleData["controls"][
+            "SamplingTime"
+        ].controls.Hour.setValue(this.myDate.getHours());
+        this.TestsForm.controls.SampleData["controls"][
+            "SamplingTime"
+        ].controls.Minutes.setValue(this.myDate.getMinutes());
+        this.TestsForm.controls.SampleData["controls"][
+            "SamplingTime"
+        ].controls.Seconds.setValue(this.myDate.getSeconds());
+        this.sendReport();
         //}
     }
 
