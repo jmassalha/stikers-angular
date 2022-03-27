@@ -38,6 +38,8 @@ import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { registerLocaleData } from '@angular/common';
 import localeHe from '@angular/common/locales/he';
+import { MenuPerm } from '../menu-perm';
+import { Router } from '@angular/router';
 
 const colors: any = {
   red: '#ad2121',
@@ -126,7 +128,17 @@ export class CardiologyCalendarComponent implements OnInit {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef) { }
+    private cdr: ChangeDetectorRef,    
+    private router: Router,
+    private mMenuPerm: MenuPerm
+) {
+    mMenuPerm.setRoutName("cardiologycalendar");
+    setTimeout(() => {
+        if(!mMenuPerm.getHasPerm()){
+            localStorage.clear();
+            this.router.navigate(["login"]);
+        }
+    }, 2000); }
 
   ngOnInit(): void {
     if (this.UserName != null) {

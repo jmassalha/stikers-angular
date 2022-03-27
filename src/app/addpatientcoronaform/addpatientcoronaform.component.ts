@@ -25,6 +25,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 @Component({
     selector: "app-addpatientcoronaform",
     templateUrl: "./addpatientcoronaform.component.html",
@@ -39,26 +40,20 @@ export class AddpatientcoronaformComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("addpatientcoronaform");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
+    }
 
     ngOnInit(): void {
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase()  == ("HROSHROSH").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         this.addPatientCoronaForm = this.formBuilder.group({
             L_CASE_NUMBER: ["", Validators.required],
             L_REQUEST_DATE: ["", Validators.required],
@@ -117,12 +112,12 @@ export class AddpatientcoronaformComponent implements OnInit {
             "yyyy-MM-dd",
             "en-US"
         );
-        debugger;
+        //debugger;
         // stop here if form is invalid
         if (this.addPatientCoronaForm.invalid) {
             return;
         }
-        debugger;
+        //debugger;
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/addPatientCoronaForm",
@@ -131,7 +126,7 @@ export class AddpatientcoronaformComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                debugger;
+                //debugger;
                 var json = Response["d"];
                 if (Response["d"] == "1") {
                     this.openSnackBar("נשמר בהצלחה", "success");

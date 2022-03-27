@@ -29,6 +29,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Depart {
     D_ID: number;
@@ -97,8 +98,16 @@ export class CortinasdepartsComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("cortinasdeparts");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         this.roomsForm = this.formBuilder.group({
             roomsDetails: this.formBuilder.array([]),
         });
@@ -122,30 +131,7 @@ export class CortinasdepartsComponent implements OnInit {
             D_ID: ["0", false],
         });
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "sharush" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" 
-                ||
-            localStorage.getItem("loginUserName").toLowerCase() == "tklinger"
-                ||
-            localStorage.getItem("loginUserName").toLowerCase() == "lyizhak" 
-            ||          localStorage.getItem("loginUserName").toLowerCase() == ("MESHEK").toLowerCase()
-            ||          localStorage.getItem("loginUserName").toLowerCase() == ("rtbol").toLowerCase()
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         this.getReport(this);
     }
     openSnackBar() {
@@ -159,7 +145,7 @@ export class CortinasdepartsComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.departsForm.invalid) {
             return;
@@ -187,7 +173,7 @@ export class CortinasdepartsComponent implements OnInit {
     }
     onSubmitRooms() {
         this.submitted = true;
-        //debugger;
+        ////debugger;
         // stop here if form is invalid
         if (this.roomsForm.invalid) {
             return;
@@ -216,9 +202,9 @@ export class CortinasdepartsComponent implements OnInit {
 
     onSubmitBeds() {
         this.submitted = true;
-        //debugger;
+        ////debugger;
 
-        //debugger
+        ////debugger
         // return;
         // stop here if form is invalid
         if (this.roomsBedsForm.invalid) {
@@ -249,11 +235,11 @@ export class CortinasdepartsComponent implements OnInit {
     }
 
     showBeds(content, _type, _element) {
-        //debugger
+        ////debugger
         this.beds = null;
         this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
         setTimeout(function () {
-            ////debugger
+            //////debugger
 
             $("#loader").removeClass("d-none");
         });
@@ -267,7 +253,7 @@ export class CortinasdepartsComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                //  //debugger
+                //  ////debugger
 
                 var json = JSON.parse(Response["d"]);
                 let DepartsRoomsBedsData = JSON.parse(json["Beds"]);
@@ -282,14 +268,14 @@ export class CortinasdepartsComponent implements OnInit {
 
                 for (var t = 0; t < DepartsRoomsBedsData.length; t++) {
                     now = DepartsRoomsBedsData[t].B_R_ID;
-                    //debugger
+                    ////debugger
                     if( parseInt(now)  != parseInt(last) ){
 
                         this.beds[t].GROUP_CLASS = "group-border";
                         last = DepartsRoomsBedsData[t].B_R_ID;
                     }
                 }
-                ////debugger
+                //////debugger
                 this.roomsBedsForm = this.formBuilder.group({
                     roomsBedsDetails: this.formBuilder.array(
                         DepartsRoomsBedsData.map((x) =>
@@ -314,10 +300,10 @@ export class CortinasdepartsComponent implements OnInit {
                     ),
                 });
 
-                // //debugger
+                // ////debugger
 
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
 
                     $("#loader").addClass("d-none");
                 });
@@ -325,9 +311,9 @@ export class CortinasdepartsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -340,7 +326,7 @@ export class CortinasdepartsComponent implements OnInit {
         this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
         this.rooms = null;
         setTimeout(function () {
-            ////debugger
+            //////debugger
 
             $("#loader").removeClass("d-none");
         });
@@ -354,11 +340,11 @@ export class CortinasdepartsComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                //  //debugger
+                //  ////debugger
 
                 var json = JSON.parse(Response["d"]);
                 let DepartsRoomsData = JSON.parse(json["Rooms"]);
-                ////debugger
+                //////debugger
                 this.rooms = DepartsRoomsData;
                 this.roomsForm = this.formBuilder.group({
                     roomsDetails: this.formBuilder.array(
@@ -377,10 +363,10 @@ export class CortinasdepartsComponent implements OnInit {
                     ),
                 });
 
-                // //debugger
+                // ////debugger
 
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
 
                     $("#loader").addClass("d-none");
                 });
@@ -388,9 +374,9 @@ export class CortinasdepartsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -415,9 +401,9 @@ export class CortinasdepartsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -427,7 +413,7 @@ export class CortinasdepartsComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
     }
     applyFilter(filterValue: string) {
@@ -445,7 +431,7 @@ export class CortinasdepartsComponent implements OnInit {
     open(content, _type, _element) {
         this.D_NAME = "";
         this.D_ID = "חדשה";
-        //debugger;
+        ////debugger;
         this.departsForm = this.formBuilder.group({
             D_NAME: ["", Validators.required],
             D_PERIOD_TO_REPLACE: ["", Validators.required],
@@ -456,9 +442,9 @@ export class CortinasdepartsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -495,7 +481,7 @@ export class CortinasdepartsComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -506,11 +492,11 @@ export class CortinasdepartsComponent implements OnInit {
                 _FreeText: _FreeText,
             })
             .subscribe((Response) => {
-                ////debugger
+                //////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let DepartsData = JSON.parse(json["aaData"]);
-                ////debugger
+                //////debugger
                 for (var i = 0; i < DepartsData.length; i++) {
                     this.TABLE_DATA.push({
                         D_ID: DepartsData[i].D_ID,
@@ -521,11 +507,11 @@ export class CortinasdepartsComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

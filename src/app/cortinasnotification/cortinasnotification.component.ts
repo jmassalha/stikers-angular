@@ -29,6 +29,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Alert {
     B_ID: number;
@@ -58,8 +59,16 @@ export class CortinasnotificationComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("consultations");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
 
     ngOnInit(): void {
       this.AlertWarn = [];
@@ -68,7 +77,7 @@ export class CortinasnotificationComponent implements OnInit {
         this.getReport(this);
     }
     getReport($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer();
     }
     ChangeCortinasDate(alert){
@@ -84,7 +93,7 @@ export class CortinasnotificationComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                //debugger
+                ////debugger
                 this.openSnackBar();
             });
     }
@@ -100,7 +109,7 @@ export class CortinasnotificationComponent implements OnInit {
     public getTableFromServer() {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -110,13 +119,13 @@ export class CortinasnotificationComponent implements OnInit {
                 {}
             )
             .subscribe((Response) => {
-                ////debugger
+                //////debugger
                 var json = JSON.parse(Response["d"]);
                 this.AlertWarn = JSON.parse(json["AlertWarn"]);
                 this.AlertYellow = JSON.parse(json["AlertYellow"]);
                 this.AlertGreen = JSON.parse(json["AlertGreen"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

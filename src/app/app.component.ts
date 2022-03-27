@@ -12,6 +12,7 @@ import {
 import { Router, NavigationStart } from "@angular/router";
 import { Observable, Observer, fromEvent, merge } from "rxjs";
 import { map } from "rxjs/operators";
+import { MenuPerm } from "./menu-perm";
 @Component({
     selector: "app-root",
     templateUrl: "./app.component.html",
@@ -43,8 +44,11 @@ export class AppComponent {
     constructor(
         private zone: NgZone,
         private router: Router,
+        
+        private mMenuPerm: MenuPerm,
         private _snackBar: MatSnackBar
     ) {
+        mMenuPerm.setUserName(localStorage.getItem("loginUserName"));
         // on route change to '/login', set the variable showHead to false
         router.events.forEach((event) => {
             if (event instanceof NavigationStart) {

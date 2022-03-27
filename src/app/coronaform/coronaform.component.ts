@@ -21,6 +21,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Covid {
     CS_ROW_ID: number;
@@ -102,8 +103,16 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("coronaform");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     startdateVal: string;
     enddateVal: string;
     Sdate: FormControl;
@@ -138,46 +147,11 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
             idPatient: ["", Validators.required],
             phoneNumber: ["", Validators.required],
         });
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "szidan" ||
-            
-            localStorage.getItem("loginUserName").toLowerCase() == "yshoa" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "sahadar" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "hyakobi" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "atekali" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "yradia" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "zevensaban" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "nstepman" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "sgamliel" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "sabuhanna"||
-            localStorage.getItem("loginUserName").toLowerCase() == "rnakhle"||
-            localStorage.getItem("loginUserName").toLowerCase() == "aibrahim"||
-            localStorage.getItem("loginUserName").toLowerCase() == "mkheer"||
-            localStorage.getItem("loginUserName").toLowerCase() == "ssarusi"||
-             localStorage.getItem("loginUserName").toLowerCase() == "eliberty" ||
-             localStorage.getItem("loginUserName").toLowerCase() == "relmalem" ||
-             localStorage.getItem("loginUserName").toLowerCase() == "tnapso" 
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
     }
     openSnackBar() {
@@ -206,7 +180,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
                 }
             )
             .subscribe((Response) => {
-                // //debugger 888888
+                // ////debugger 888888
                 this.openSnackBar()
             });
         // display form values on success
@@ -239,16 +213,16 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
 
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        // //debugger
+        // ////debugger
         this.fullnameVal = "";
         this.idPatient = "";
         this.phoneNumber = "";
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -267,7 +241,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
         }
     }
     toShortFormat(d: Date) {
-        ////debugger;
+        //////debugger;
         let monthNames = [
             "01",
             "02",
@@ -289,7 +263,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
         let monthName = monthNames[monthIndex];
 
         let year = d.getFullYear();
-        ////debugger
+        //////debugger
         return `${day}/${monthName}/${year}`;
     }
 
@@ -307,7 +281,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
         }
     }
     public printRowForm(row): void {
-        // //debugger
+        // ////debugger
         var cRow = row;
         var dateB = cRow.CS_SURVEY_DATE;
         var dateC = cRow.CS_SURVEY_Q2_2;
@@ -315,7 +289,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
         $("#loader").removeClass("d-none");
         /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
             row.CS_SURVEY_Q2_2 = "";
-            //debugger
+            ////debugger
         }*/
         if (
             cRow.CS_SURVEY_Q2_2 != "" &&
@@ -324,11 +298,11 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
             cRow.CS_SURVEY_Q2_2 = this.toShortFormat(
                 new Date(cRow.CS_SURVEY_Q2_2)
             );
-            ////debugger
+            //////debugger
         }
         /*  if (row.CS_SURVEY_Q4_4 == "Invalid Date") {
             row.CS_SURVEY_Q4_4 = "";
-            //debugger
+            ////debugger
         }*/
         if (cRow.CS_SURVEY_Q4_4 != "") {
             cRow.CS_SURVEY_Q4_4 = this.toShortFormat(
@@ -338,7 +312,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
 
         //   row.CS_SURVEY_Q2_2 = this.toShortFormat(dateCovid);
 
-        ////debugger
+        //////debugger
 
         var f = cRow.CS_SURVEY_DATE.split("T");
         cRow.CS_TIME = f[1].substring(0, 5);
@@ -364,7 +338,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
         ) {
             this.Checked_Yes_CS_SURVEY_Q2_1 = true;
             this.Checked_No_CS_SURVEY_Q2_1 = false;
-            //  //debugger
+            //  ////debugger
         } else {
             this.Checked_No_CS_SURVEY_Q2_1 = true;
             this.Checked_Yes_CS_SURVEY_Q2_1 = false;
@@ -405,7 +379,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
             this.Checked_No_CS_SURVEY_Q4_2 = true;
             this.Checked_Yes_CS_SURVEY_Q4_2 = false;
         }
-        ////debugger
+        //////debugger
         if (
             cRow.CS_SURVEY_Q4_3 == "Yes" ||
             cRow.CS_SURVEY_Q4_3 == "Да" ||
@@ -435,7 +409,7 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -454,12 +428,12 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let CoronaData = JSON.parse(json["aaData"]);
-                ////debugger
+                //////debugger
                 for (var i = 0; i < CoronaData.length; i++) {
                     var t = CoronaData[i].CS_SURVEY_DATE.split("T");
                     var d = CoronaData[i].CS_SURVEY_Q2_2.split(" ");
                     var s = CoronaData[i].CS_SURVEY_Q4_4.split(" ");
-                    ////debugger
+                    //////debugger
                     this.TABLE_DATA.push({
                         CS_ROW_ID: CoronaData[i].CS_ROW_ID,
                         CS_SMS_ID: CoronaData[i].CS_SMS_ID,
@@ -496,11 +470,11 @@ export class CoronaformComponent implements OnInit, AfterViewInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

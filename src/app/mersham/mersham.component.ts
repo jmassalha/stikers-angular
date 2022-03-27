@@ -35,6 +35,7 @@ import {
 } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
 import { formatDate } from "@angular/common";
+import { MenuPerm } from "../menu-perm";
 
 export interface Demograph {
     FIRST_NAME: string;
@@ -269,8 +270,16 @@ export class MershamComponent implements OnInit {
         private modalService: NgbModal,
         private elementRef: ElementRef,
         //private cdRef:ChangeDetectorRef,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("mersham");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         let that = this;
         window.onbeforeprint = function () {
             console.log("This will be called before the user prints.");
@@ -409,27 +418,12 @@ export class MershamComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         this.loadModalAfterCopy = false;
-        this.loadModalAfterClose = false;
-        // if (
-        //     localStorage.getItem("loginState") != "true" ||
-        //     localStorage.getItem("loginUserName") == ""
-        // ) {
-        //     this.router.navigate(["login"]);
-        // } else if (
-        //     localStorage.getItem("loginUserName").toLowerCase() ==
-        //         "jmassalha" ||
-        //     localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-        //     localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        // ) {
-        // } else {
-        //     this.router.navigate(["login"]);
-        //     ///$("#chadTable").DataTable();
-        // }
+        this.loadModalAfterClose = false;        
         this.getDropDownFromServer();
         //this.cdRef.detectChanges();
     }
     ClearMershmData() {
-        ////////debugger
+        //////////debugger
         this.rows = this.formBuilder.array([]);
         this.PrespictionFormRow = this.formBuilder.group({
             SrcPresRows: this.rows,
@@ -458,12 +452,12 @@ export class MershamComponent implements OnInit {
             statusRowVal: [false, false],
             statusNotToDo: [false, false],
         });
-        //////debugger
+        ////////debugger
         this.updateView();
-        //////debugger
+        ////////debugger
     }
     checkIfCarboplatin($event) {
-        // ////////debugger
+        // //////////debugger
 
         this.Carboplatin = false;
         var Boolean = false;
@@ -500,9 +494,9 @@ export class MershamComponent implements OnInit {
         this.calcPres();
     }
     calcPres() {
-        debugger;
+        //debugger;
         for (var i = 0; i < this.rows.value.length; i++) {
-            ////////////////debugger
+            //////////////////debugger
             var arr = this.rows.value[i].MedListVal.split("___");
             var d = this.MedList.findIndex((obj) => {
                 return obj.value === arr[0];
@@ -514,7 +508,7 @@ export class MershamComponent implements OnInit {
                 this.rows.value[i].groupID != "" &&
                 this.rows.value[i].groupID != null
             ) {
-                ////////////////debugger
+                //////////////////debugger
                 if (this.rows.value[i].MenonValVal == "")
                     this.rows.value[i].MenonValVal = 0;
                 switch (this.rows.value[i].groupID) {
@@ -566,7 +560,7 @@ export class MershamComponent implements OnInit {
                         //     )) *
                         // this.calcByGender;
                         
-                        debugger;
+                        //debugger;
                         this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
                                 parseFloat(
@@ -591,7 +585,7 @@ export class MershamComponent implements OnInit {
         );
     }
     openSnackBar(AlertTxt, Type) {
-        // //////debugger
+        // ////////debugger
         this._snackBar.open(AlertTxt, "", {
             duration: 2500,
             direction: "rtl",
@@ -601,12 +595,12 @@ export class MershamComponent implements OnInit {
         });
     }
     delete(c, type) {
-        //  ////////////////debugger
+        //  //////////////////debugger
         if (type == "true") {
             var d = this.rows.value.findIndex((obj) => {
                 return obj.rowIdPreVal === this.DeleteRowId;
             });
-            //////////////debugger
+            ////////////////debugger
             if (this.rows.value[d].newRow == "false") {
                 this.http
                     .post(
@@ -636,7 +630,7 @@ export class MershamComponent implements OnInit {
             this.DeleteRowId = "";
         }
         c("close modal");
-        // //////////////////debugger
+        // ////////////////////debugger
         // this.modalService._modalStack._windowCmpts[1].dismiss()
     }
     getPermission() {
@@ -645,7 +639,7 @@ export class MershamComponent implements OnInit {
                 _UserName: localStorage.getItem("loginUserName"),
             })
             .subscribe((Response) => {
-                // //////////debugger
+                // ////////////debugger
                 var json = JSON.parse(Response["d"]);
                 switch (json) {
                     case 0:
@@ -705,9 +699,9 @@ export class MershamComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////////////////////////debugger
+                //////////////////////////////debugger
                 if ("Save" == result) {
-                    // //////////////////////////debugger;
+                    // ////////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -719,8 +713,8 @@ export class MershamComponent implements OnInit {
     }
 
     deletePerRow(content, _type, _element) {
-        //  //////////////debugger
-        //////////////////debugger
+        //  ////////////////debugger
+        ////////////////////debugger
         this.DeletePreRowId = _element.PerscriptionID;
         this.modalOptions = {
             windowClass: "custom-class",
@@ -728,9 +722,9 @@ export class MershamComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////////////////////////debugger
+                //////////////////////////////debugger
                 if ("Save" == result) {
-                    // //////////////////////////debugger;
+                    // ////////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -761,7 +755,7 @@ export class MershamComponent implements OnInit {
     }
 
     printRowInside() {
-        //////////debugger
+        ////////////debugger
         this.editRow(null, null, this.rowElementPres, "false");
         setTimeout(function () {
             var head =
@@ -807,7 +801,7 @@ export class MershamComponent implements OnInit {
         this.loadModalAfterClose = true;
     }
     checkMyValue(ele, rowIdx) {
-        // //debugger
+        // ////debugger
         var MenonCalcVal = this.rows.value[rowIdx].MenonCalcVal;
         var _f5ivePre =
             (parseFloat(this.rows.value[rowIdx].MenonCalcVal) * 5) / 100;
@@ -833,10 +827,10 @@ export class MershamComponent implements OnInit {
                 "noteVal"
             ].updateValueAndValidity();
         }
-        ////debugger
+        //////debugger
     }
     editRow(content, _type, _element, openModal) {
-        debugger;
+        //debugger;
         this.FIRST_NAME_In = _element.PatientFirstName;
         this.LAST_NAME_In = _element.PatientLastName;
         this.MID_NAME_In = _element.FatherName;
@@ -850,7 +844,7 @@ export class MershamComponent implements OnInit {
 
         this.ROW_ID_PRE = _element.PerscriptionID;
         this.rowElementPres = _element;
-        //////////////////debugger;
+        ////////////////////debugger;
         // this.PrespictionFormRow = this.formBuilder.group({
         //     noteVal: ["", false],
         //     Dosage_UnitVal: ["", false],
@@ -877,7 +871,7 @@ export class MershamComponent implements OnInit {
             this.isButtonVisible = true;
             this.showCopyBtn = true;
             this.isCanceldVisible = false;
-            // debugger
+            // //debugger
             if (!_element.hideOrShow) {
                 this.dis = _status = true;
             }
@@ -886,7 +880,7 @@ export class MershamComponent implements OnInit {
             this.showCopyBtn = true;
             this.isButtonVisible = false;
             this.isCanceldVisible = false;
-            ////////////////////debugger
+            //////////////////////debugger
         } else {
             this.showCopyBtn = false;
             this.dis = true;
@@ -906,14 +900,14 @@ export class MershamComponent implements OnInit {
             _requerd_sen = null;
             _requerd_drug = Validators.required;
         }
-        ////////////////////debugger
+        //////////////////////debugger
         /*
         DateAdministrationMed
         RegistrationDate
         */
         var dateIN = null;
         var dateT = null;
-        //////debugger
+        ////////debugger
         if (
             _element.DateAdministrationMed != "" &&
             typeof _element.DateAdministrationMed != "object"
@@ -962,7 +956,7 @@ export class MershamComponent implements OnInit {
         this.printForm.MedicationSensitivityVal =
             _element.MedicationSensitivity;
         this.printForm.statusRowVal = _status;
-        // //////////debugger
+        // ////////////debugger
         this.PrespictionForm = this.formBuilder.group({
             weightVal: [
                 { value: _element.Weight, disabled: this.dis },
@@ -1031,7 +1025,7 @@ export class MershamComponent implements OnInit {
             statusNotToDo: [{ value: _statusNotToDo, disabled: false }, false],
         });
         this.PresRowIdVal = _element.PerscriptionID;
-        ////////////////////debugger
+        //////////////////////debugger
 
         this.getPresFromServer(_element.PerscriptionID);
         if (openModal == "true") {
@@ -1041,9 +1035,9 @@ export class MershamComponent implements OnInit {
                 .result.then(
                     (result) => {
                         this.closeResult = `Closed with: ${result}`;
-                        ////////////////////////////debugger
+                        //////////////////////////////debugger
                         if ("Save" == result) {
-                            // //////////////////////////debugger;
+                            // ////////////////////////////debugger;
                             //this.saveChad(_element.ROW_ID);
                         }
                     },
@@ -1061,31 +1055,31 @@ export class MershamComponent implements OnInit {
         //}
     }
     copyRowPres(element) {
-        debugger
+        //debugger
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
         this.PrespictionForm.enable();
         this.rows.enable();
-        // ////////debugger
+        // //////////debugger
         // return
         for (var i = 0; i < this.rows.value.length; i++) {
             this.rows.value[i]["Days_ProtocolVal"] =
                 this.rows.value[i]["Days_ProtocolVal"].join(",");
         }
-        //debugger
+        ////debugger
         var copyParent = this.PrespictionForm.value;
         var copyrows = this.rows.value;
 
         copyParent.statusRowVal = "false";
         copyParent.rowIdVal = "-100";
         var dateNow = new FormControl(new Date()).value;
-        //////debugger
+        ////////debugger
         copyParent.regesterdateIN = dateNow;
         copyParent.takedateIN = null;
-        //////debugger
+        ////////debugger
         for (var i = 0; i < copyrows.length; i++) {
-            //////////debugger;
+            ////////////debugger;
             copyrows[i].newRow = "true";
             copyrows[i].rowIdPreVal = -1 * i;
         }
@@ -1109,9 +1103,9 @@ export class MershamComponent implements OnInit {
         if(this.ID == ""){
             this.ID = this.ID_In;
         }
-        debugger
-        //return
         //debugger
+        //return
+        ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
                 ParentFrom: ParentFrom,
@@ -1122,7 +1116,7 @@ export class MershamComponent implements OnInit {
                     .toLowerCase(),
             })
             .subscribe((Response) => {
-                debugger;
+                //debugger;
                 this.openSnackBar("נשמר בהצלחה", "success");
                 this.loadModalAfterCopy = true;
                 this.getReport("");
@@ -1140,7 +1134,7 @@ export class MershamComponent implements OnInit {
         this.elementRef.nativeElement = document.getElementById(
             "singleSelect" + index
         );
-        // ////debugger
+        // //////debugger
         this.filterdDataArray = [];
         this.search(value, index);
     }
@@ -1153,13 +1147,13 @@ export class MershamComponent implements OnInit {
             }
         }
         this.ArrayDrus[index] = this.filterdDataArray;
-        //////////////////debugger
+        ////////////////////debugger
     }
 
     editRowPre(content, _type, _element) {
-        debugger;
+        //debugger;
         this.EDIT_ROW = true;
-        ////////////////////debugger
+        //////////////////////debugger
         // this.PrespictionFormRow = this.formBuilder.group({
         //     noteVal: [{value:_element.noteVal, disabled: this.dis}, false],
         //     Dosage_UnitVal: [{value:_element.Dosage_UnitVal, disabled: this.dis}, false],
@@ -1175,13 +1169,13 @@ export class MershamComponent implements OnInit {
         //     MedListVal: [{value:_element.MedListVal, disabled: this.dis}, false],
         //     rowIdPreVal: [{value:_element.rowIdPreVal, disabled: this.dis}, false],
         // });
-        //debugger
+        ////debugger
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////////////////////////debugger
+                //////////////////////////////debugger
                 if ("Save" == result) {
-                    // //////////////////////////debugger;
+                    // ////////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -1192,7 +1186,7 @@ export class MershamComponent implements OnInit {
     }
 
     changeActiveNo($event) {
-        //////////////debugger;
+        ////////////////debugger;
         if ($event.checked) {
             this.Sensitivity = "1";
             this.PrespictionForm.controls.MedicationSensitivityVal.setValidators(
@@ -1214,12 +1208,12 @@ export class MershamComponent implements OnInit {
         }
     }
     changeActiveAndSave($event, _element) {
-        // //debugger
+        // ////debugger
         if ($event.checked) {
             $event = "1";
         } else {
             $event = "0";
-        } ////debugger
+        } //////debugger
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNotToServe",
@@ -1240,12 +1234,12 @@ export class MershamComponent implements OnInit {
             });
     }
     onSubmit() {
-        ////debugger
-        ////////////////////debugger
+        //////debugger
+        //////////////////////debugger
         this.submitted = true;
-        ////////////////////////////debugger
+        //////////////////////////////debugger
         // stop here if form is invalid
-        ////debugger
+        //////debugger
         if (this.PrespictionForm.invalid || this.rows.invalid) {
             this.openSnackBar(
                 "נא למלא את כל השדות המסומנים באדום",
@@ -1291,7 +1285,7 @@ export class MershamComponent implements OnInit {
             this.ID = this.ID_In;
         }
         //return
-        // //////////debugger
+        // ////////////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
                 ParentFrom: ParentFrom,
@@ -1317,7 +1311,7 @@ export class MershamComponent implements OnInit {
         // return "";
     }
     getReport($event: any): void {
-        ////////////////////////debugger
+        //////////////////////////debugger
         if (this.fliterVal.trim() != "")
             this.getTableFromServer(
                 this.paginator.pageIndex,
@@ -1349,10 +1343,10 @@ export class MershamComponent implements OnInit {
         if (this.weightVal == "NaN") {
             this.weightVal = "0";
         }
-        ////////////debugger
+        //////////////debugger
         this.PrespictionForm.removeControl("areaVal");
         this.PrespictionForm.addControl("areaVal", new FormControl(""));
-        ////////////////////debugger
+        //////////////////////debugger
         this.areaVal = Math.sqrt(
             (parseFloat(this.heightVal) * parseFloat(this.weightVal)) / 3600
         ).toFixed(1);
@@ -1362,18 +1356,18 @@ export class MershamComponent implements OnInit {
             "areaVal",
             new FormControl({ value: this.areaVal, disabled: false })
         );
-        //  //////debugger
+        //  ////////debugger
         // if(this.areaVal)
         this.PrespictionForm.controls.areaVal.setValue(this.areaVal);
         // else
         //   this.PrespictionForm.controls.areaVal.setValue(0);
-        //////////debugger
+        ////////////debugger
         this.calcPres();
     }
     open(content, _type, _element) {
         this.ArrayDrus = [];
         this.getDropDownFromServer();
-        ////////////////////debugger
+        //////////////////////debugger
         this.ROW_ID_PRE = "";
         this.PresRowIdVal = "";
         this.rows = this.formBuilder.array([]);
@@ -1403,7 +1397,7 @@ export class MershamComponent implements OnInit {
         } else {
             _statusNotToDo = false;
         }
-        //debugger
+        ////debugger
         this.SensitivityBool = false;
         this.PrespictionForm = this.formBuilder.group({
             weightVal: [null, Validators.required],
@@ -1433,13 +1427,13 @@ export class MershamComponent implements OnInit {
                 backdrop : 'static',
                 keyboard : false
         };
-        ////////////////////debugger
+        //////////////////////debugger
         this.modalService.open(content, ngbModalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////////////////////////debugger
+                ////////////////////////////debugger
                 if ("Save" == result) {
-                    // ////////////////////////debugger;
+                    // //////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -1451,7 +1445,7 @@ export class MershamComponent implements OnInit {
     openRow(content, _type, _element) {
         this.EDIT_ROW = false;
         this.ROW_ID_IN_TABLE = this.rows.length;
-        ////////////////debugger
+        //////////////////debugger
         //this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
         const row = this.formBuilder.group({
             noteVal: ["", false],
@@ -1481,9 +1475,9 @@ export class MershamComponent implements OnInit {
         // this.modalService.open(content, this.modalOptions).result.then(
         //     (result) => {
         //         this.closeResult = `Closed with: ${result}`;
-        //         //////////////////////////debugger
+        //         ////////////////////////////debugger
         //         if ("Save" == result) {
-        //             // ////////////////////////debugger;
+        //             // //////////////////////////debugger;
         //             //this.saveChad(_element.ROW_ID);
         //         }
         //     },
@@ -1511,7 +1505,7 @@ export class MershamComponent implements OnInit {
     }
 
     public getDropDownFromServer() {
-        ////////////////////////debugger
+        //////////////////////////debugger
 
         this.http
             .post(
@@ -1531,16 +1525,16 @@ export class MershamComponent implements OnInit {
                 this.MedList = this.MedListConst = JSON.parse(json["MedList"]);
                 this.Days_Protocol = JSON.parse(json["Days_Protocol"]);
                 this.Notes = JSON.parse(json["Notes"]);
-                ////////////////////////debugger
+                //////////////////////////debugger
             });
     }
 
     public getPresFromServer(_presID: string) {
         this.getDropDownFromServer();
-        ////////////////////////debugger
+        //////////////////////////debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////////////////////////debugger
+            // //////////////////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -1549,7 +1543,7 @@ export class MershamComponent implements OnInit {
                 ID: _presID,
             })
             .subscribe((Response) => {
-                ////////////debugger
+                //////////////debugger
                 this.rows = this.formBuilder.array([]);
                 this.PrespictionFormRow = this.formBuilder.group({
                     SrcPresRows: this.rows,
@@ -1564,7 +1558,7 @@ export class MershamComponent implements OnInit {
                 this.drugs = [];
                 this.tableDataPresPrint = [];
                 for (var i = 0; i < Medicine_Prescriptions.length; i++) {
-                    // //////////////////debugger
+                    // ////////////////////debugger
                     /*
                      */
                     var clc = "";
@@ -1585,7 +1579,7 @@ export class MershamComponent implements OnInit {
                         groupID = this.MedList[d].groupID;
                     }
 
-                    //  //////////////////debugger
+                    //  ////////////////////debugger
                     const row = this.formBuilder.group({
                         noteVal: [
                             {
@@ -1682,7 +1676,7 @@ export class MershamComponent implements OnInit {
 
                     this.ArrayDrus.push(this.MedListConst);
 
-                    ////debugger
+                    //////debugger
                     this.tableDataPresPrint.push({
                         noteVal: Medicine_Prescriptions[i].ChangeNotes,
                         Dosage_UnitVal: Medicine_Prescriptions[i].DosingUnit,
@@ -1704,7 +1698,7 @@ export class MershamComponent implements OnInit {
                         rowIdPreVal: Medicine_Prescriptions[i].MedicinID,
                         newRow: false,
                     });
-                    //debugger
+                    ////debugger
                     if (
                         clc != "" &&
                         clc != "0" &&
@@ -1730,9 +1724,9 @@ export class MershamComponent implements OnInit {
                     this.tableDataPresPrint
                 );
                 // this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
-                //////////////////debugger;
+                ////////////////////debugger;
                 setTimeout(function () {
-                    //////////////////////////debugger
+                    ////////////////////////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -1749,10 +1743,10 @@ export class MershamComponent implements OnInit {
         _FreeText: string
     ) {
         this.getDropDownFromServer();
-        ////////////////////////debugger
+        //////////////////////////debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////////////////////////debugger
+            // //////////////////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         } else {
@@ -1769,7 +1763,7 @@ export class MershamComponent implements OnInit {
                 var json = JSON.parse(JSON.parse(Response["d"]));
                 let DataPrecpiction = JSON.parse(json["Prescriptions"]);
                 let Patient = JSON.parse(json["Patient"]);
-                ////////////////////////debugger
+                //////////////////////////debugger
                 this.DemographData = Patient;
                 if (this.DemographData[0]) {
                     this.FIRST_NAME_In = this.FIRST_NAME =
@@ -1799,14 +1793,14 @@ export class MershamComponent implements OnInit {
                         .prop("disabled", true);
                 }
 
-                //////////////////////////debugger
+                ////////////////////////////debugger
                 for (var i = 0; i < DataPrecpiction.length; i++) {
-                    ////debugger;
+                    //////debugger;
                     var ShowRow = false;
                     if (DataPrecpiction[i].Status == "נעול") {
                         ShowRow = true;
                     } else if (this.prem) {
-                        // //debugger
+                        // ////debugger
                         ShowRow = true;
                     } else {
                         ShowRow = false;
@@ -1863,16 +1857,16 @@ export class MershamComponent implements OnInit {
                     }
                 }
 
-                // ////////////////////////debugger
+                // //////////////////////////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 var loadModalAfterCopy = this.loadModalAfterCopy;
                 var that = this;
                 this.loadModalAfterCopy = false;
                 setTimeout(function () {
-                    //////////////////////////debugger
+                    ////////////////////////////debugger
                     if (that.loadModalAfterClose) {
-                        //////debugger
+                        ////////debugger
                         var rowToLoad = $(document).find(
                             "#formTable tbody>tr>td:contains(" +
                                 that.ROW_ID_PRE +

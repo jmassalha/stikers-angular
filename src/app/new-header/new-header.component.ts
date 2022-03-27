@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import * as $ from "jquery";
-import { VoiceRecognitionService } from "../header/service/voice-recognition.service";
 
 export interface Link {
   RowId: string;
@@ -25,11 +24,11 @@ export class NewHeaderComponent implements OnInit {
     Links: Link[] = [];
     ngOnInit(): void {
         $(document).on("click", "[routerlink], .nav-link", function () {
-            // //debugger;
+            // ////debugger;
             localStorage.setItem("ReseachRowId", "0");
             $("#app-menu").removeClass("show");
             $("#menu-btn").removeClass("show");
-            // debugger
+            // //debugger
             if ($(this).attr("routerlink") == "mersham") {
                 $("body").addClass("bg-blue-light");
             } else {
@@ -37,14 +36,14 @@ export class NewHeaderComponent implements OnInit {
             }
         });
         $("#menu-btn").click(function () {
-            ////debugger;
+            //////debugger;
             $(this).toggleClass("show");
             $("#app-menu").toggleClass("show");
         });
         this.getMenuLinks();
     }
     logout($event): void {
-        ////debugger
+        //////debugger
         localStorage.clear();
         $("#app-menu").removeClass("show");
         $("#menu-btn").removeClass("show");
@@ -54,7 +53,7 @@ export class NewHeaderComponent implements OnInit {
       $("#loader").removeClass("d-none");
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetOnnLineLinks",
+                //"http://localhost:64964/WebService.asmx/GetOnnLineLinks",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetOnnLineLinks",
                 {
                     user: localStorage.getItem("loginUserName") ,
@@ -63,7 +62,8 @@ export class NewHeaderComponent implements OnInit {
             .subscribe((Response) => {
               //debugger
               this.Links = Response["d"];
-              //debugger
+              console.log(this.Links)
+              ////debugger
                 setTimeout(function () {
                     $("#loader").addClass("d-none");
                 });

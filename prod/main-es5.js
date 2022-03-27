@@ -517,17 +517,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.addPatientCoronaForm.value.L_REQUEST_DATE = Object(_angular_common__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(this.addPatientCoronaForm.value.L_REQUEST_DATE, "yyyy-MM-dd", "en-US");
           this.addPatientCoronaForm.value.L_RESULT_DATE = Object(_angular_common__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(this.addPatientCoronaForm.value.L_RESULT_DATE, "yyyy-MM-dd", "en-US");
           this.addPatientCoronaForm.value.L_DOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_1__["formatDate"])(this.addPatientCoronaForm.value.L_DOB, "yyyy-MM-dd", "en-US");
-          debugger; // stop here if form is invalid
+          //debugger; // stop here if form is invalid
 
           if (this.addPatientCoronaForm.invalid) {
             return;
           }
 
-          debugger;
+          //debugger;
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/addPatientCoronaForm", {
             PatientCoronaForm: this.addPatientCoronaForm.value
           }).subscribe(function (Response) {
-            debugger;
+            //debugger;
             var json = Response["d"];
 
             if (Response["d"] == "1") {
@@ -1140,7 +1140,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(AppComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {//this.showHeaderAndFooter = false;
-          //debugger
+          ////debugger
         }
       }]);
 
@@ -2579,7 +2579,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this3 = this;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
           }
 
@@ -2587,7 +2587,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             CaseNumbers: this.invoicesForm.value.caseNumbers,
             hfnia: this.invoicesForm.value.hfnia
           }).subscribe(function (Response) {
-            //debugger
+            ////debugger
             _this3.InvoiceDetailsArray = Response["d"];
             setTimeout(function () {
               jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
@@ -3152,7 +3152,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(CasenumbersComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          //debugger
+          ////debugger
           this.loader = false;
           this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](this.TABLE_DATA);
 
@@ -3167,7 +3167,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "editRow",
         value: function editRow(content, _type, _element) {
-          // debugger
+          // //debugger
           this.removeCaseForm = this.formBuilder.group({
             CaseNumber: [_element.CaseNumber, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
             CartoonID: [_element.BoxID, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required]
@@ -3179,8 +3179,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onDetected(event) {
           var _this4 = this;
 
-          //debugger
-          console.log(event); //debugger
+          ////debugger
+          console.log(event); ////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertCaseNumberToBox", {
             CaseNumber: event.value,
@@ -3208,12 +3208,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onRemoveSubmit() {
           var _this5 = this;
 
-          // debugger
+          // //debugger
           // stop here if form is invalid
           if (this.removeCaseForm.invalid) {
             // console.log(this.removeCaseForm.controls.errors);
             return;
-          } //debugger;
+          } ////debugger;
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveCaseFromBox", {
@@ -3237,10 +3237,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          } ////debugger
+          } //////debugger
           //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
 
@@ -3248,10 +3248,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _freeText: _FreeText,
             BoxID: this.CartoonID
           }).subscribe(function (Response) {
-            _this6.TABLE_DATA.splice(0, _this6.TABLE_DATA.length); ////debugger
+            _this6.TABLE_DATA.splice(0, _this6.TABLE_DATA.length); //////debugger
 
 
-            _this6.TABLE_DATA = Response["d"]; //debugger
+            _this6.TABLE_DATA = Response["d"]; ////debugger
 
             if (_this6.TABLE_DATA[0]["BoxID"] == null) {
               _this6.TABLE_DATA = [];
@@ -3263,7 +3263,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
 
             setTimeout(function () {
-              //////debugger
+              ////////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
               }
@@ -5110,7 +5110,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function openRelevant(content, _type, _element) {
           var _this8 = this;
 
-          //  //debugger
+          //  ////debugger
           this.patientNumber = _element.PatiantNumber;
           this.caseNumber = _element.Case_Number;
           var _Boolean = false;
@@ -5129,7 +5129,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
             _this8.closeResult = "Closed with: ".concat(result);
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               // this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -5145,7 +5145,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.RelevantForm.value.RelevantOrNotCheck = '0';
           } else {
             this.RelevantForm.value.RelevantOrNotCheck = '1';
-          } ////debugger;
+          } //////debugger;
           //return;
 
 
@@ -5164,15 +5164,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this10 = this;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetChadsDeparts", {}).subscribe(function (Response) {
-            //// ////debugger
+            //// //////debugger
             _this10.TABLE_DATA.splice(0, _this10.TABLE_DATA.length);
 
-            var json = JSON.parse(Response["d"]); // // ////debugger
+            var json = JSON.parse(Response["d"]); // // //////debugger
 
             var _d = JSON.parse(json["Departs"]);
 
             for (var depart in _d) {
-              //// ////debugger
+              //// //////debugger
               var _sD = {
                 id: depart,
                 name: _d[depart]
@@ -5182,11 +5182,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
             /*
             $(_d).each(function(i,k){
-              // ////debugger
+              // //////debugger
               //var _sD: Depart = {id: i, name: k};
                 //this.departs.push(_sD);
             })*/
-            //// ////debugger
+            //// //////debugger
 
           });
         }
@@ -5196,7 +5196,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this11 = this;
 
           //$('#free_text').text(_element.FreeText);
-          // ////debugger
+          // //////debugger
           this.chadVal = "";
           this.chadDate = "";
           this.chadTool = "";
@@ -5204,7 +5204,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this11.closeResult = "Closed with: ".concat(result);
 
             if ("Save" == result) {
-              // ////debugger;
+              // //////debugger;
               _this11.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -5234,13 +5234,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _chadTool: this.chadTool,
             _ROW_ID: _rowID
           }).subscribe(function (Response) {
-            // ////debugger;
+            // //////debugger;
             setTimeout(function () {
               //this.dataSource.paginator = this.paginator
               jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // ////debugger;
+            // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
           });
         }
@@ -5281,7 +5281,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             var s = Math.floor(Math.random() * 255 + 1);
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
-            var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)"; //// ////debugger;
+            var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)"; //// //////debugger;
 
             backgroundColorArray.push(backgound);
             backgroundColorArrayOpacity.push(backgoundOpacity);
@@ -5294,14 +5294,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function drawCharToDom(_dataType, _dataLable, _data, _wrapperId, _chartId) {
           var optionCall;
           var totalDataLength = _data.length;
-          var bgArray = this.getBackgroundArray(totalDataLength); //// ////debugger;
+          var bgArray = this.getBackgroundArray(totalDataLength); //// //////debugger;
 
           if (_dataType == "multiBar") {
             jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).empty();
-            jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // ////debugger
+            jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // //////debugger
 
             var canvas = document.getElementById(_chartId);
-            var ctxIn = canvas.getContext("2d"); ////debugger
+            var ctxIn = canvas.getContext("2d"); //////debugger
 
             var barChartData = {
               labels: _dataLable,
@@ -5316,7 +5316,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 stack: 'Stack 2',
                 data: _data[1]
               }]
-            }; // ////debugger
+            }; // //////debugger
 
             var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_7__(ctxIn, {
               type: 'bar',
@@ -5349,7 +5349,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 callbacks: {
                   label: function label(tooltipItem, data) {
                     //get the concerned dataset
-                    var dataset = data.datasets[tooltipItem.datasetIndex]; // // ////debugger;
+                    var dataset = data.datasets[tooltipItem.datasetIndex]; // // //////debugger;
 
                     var total = 0;
 
@@ -5397,7 +5397,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).empty();
-          jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // ////debugger
+          jquery__WEBPACK_IMPORTED_MODULE_6__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // //////debugger
 
           var canvas = document.getElementById(_chartId);
           var ctxIn = canvas.getContext("2d");
@@ -5431,7 +5431,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "quart_change",
         value: function quart_change(event) {
-          ////debugger;
+          //////debugger;
           this._fun.quart_change(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -5440,7 +5440,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "radioChange",
         value: function radioChange(event) {
-          ////debugger
+          //////debugger
           this._fun.radioChange(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -5451,7 +5451,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDataFormServer(_tableName, _startDate, _endDate, _pageIndex, _pageSize, _filterVal, _goodOrNot, _AntiCoagTreat, _DepartmentID, _Relevant) {
           var _this12 = this;
 
-          //// ////debugger
+          //// //////debugger
           jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetReportTable", {
             _reportTableName: _tableName,
@@ -5465,11 +5465,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _DepartmentID: _DepartmentID,
             _Relevant: _Relevant
           }).subscribe(function (Response) {
-            //// ////debugger
+            //// //////debugger
             _this12.TABLE_DATA.splice(0, _this12.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var chads = JSON.parse(json["aaData"]); // ////debugger
+            var chads = JSON.parse(json["aaData"]); // //////debugger
 
             for (var i = 0; i < chads.length; i++) {
               if (chads[i].AntiCoag_Treat == "2" || chads[i].AntiCoag_Treat == 2) {
@@ -5492,7 +5492,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               // }else{
               //     this.isShow = true;
               // }
-              //// ////debugger;
+              //// //////debugger;
 
 
               var TkeenIN = "לא תקין";
@@ -5540,7 +5540,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 RelevantDate: chads[i].RelevantDate,
                 RelevantDoc: chads[i].RelevantDoc
               });
-            } // // ////debugger
+            } // // //////debugger
 
 
             _this12.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_4__["MatTableDataSource"](_this12.TABLE_DATA);
@@ -5549,7 +5549,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this12.ChadWithOutValByDocName = JSON.parse(json["ChadWithOutValByDocName"]);
             _this12.totalRowsChadWithVal = json["totalRowsChadWithVal"];
             _this12.totalRowsChadWithOutVal = json["totalRowsChadWithOutVal"];
-            _this12.ChadDeparts = JSON.parse(json["ChadDeparts"]); ////debugger
+            _this12.ChadDeparts = JSON.parse(json["ChadDeparts"]); //////debugger
 
             _this12.ChadDepartsGoods = JSON.parse(json["ChadDepartsGoods"]);
             _this12.ChadDepartsNotGoods = JSON.parse(json["ChadDepartsNotGoods"]);
@@ -5564,7 +5564,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             /* */
             //this.paginator. = parseInt(json["iTotalRecords"]);
             //this.dataSource.sort = this.sort;
-            // // ////debugger
+            // // //////debugger
 
 
             setTimeout(function () {
@@ -5572,7 +5572,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // // ////debugger;
+            // // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none");
           });
         }
@@ -6912,7 +6912,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
           }
@@ -10878,7 +10878,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.selectedIndexTab = clickedIndex;
 
           if (clickedIndex == 1 && this.doctors != null) {
-            //debugger
+            ////debugger
             //let totalDataLength = 2;
             //let bgArray = this.getBackgroundArray(totalDataLength);
             this.titleC = "איתור פוליפים";
@@ -10955,7 +10955,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.optionsB = {// colors: ["#e0440e", "#e6693e"],
               //is3D: true,
             };
-            debugger;
+            //debugger;
             /*
             this.drawCharToDom(
                 "multiBar",
@@ -11126,7 +11126,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             var s = Math.floor(Math.random() * 255 + 1);
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
-            var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)"; //// ////debugger;
+            var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)"; //// //////debugger;
 
             backgroundColorArray.push(backgound);
             backgroundColorArrayOpacity.push(backgoundOpacity);
@@ -11139,14 +11139,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function drawCharToDom(_dataType, _dataLable, _data, _wrapperId, _chartId) {
           var optionCall;
           var totalDataLength = _data.length;
-          var bgArray = this.getBackgroundArray(totalDataLength); //// ////debugger;
+          var bgArray = this.getBackgroundArray(totalDataLength); //// //////debugger;
 
           if (_dataType == "multiBar") {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).empty();
-            jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // ////debugger
+            jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // //////debugger
 
             var canvas = document.getElementById(_chartId);
-            var ctxIn = canvas.getContext("2d"); ////debugger
+            var ctxIn = canvas.getContext("2d"); //////debugger
 
             var barChartData = {
               labels: _dataLable,
@@ -11166,7 +11166,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 stack: "Stack 3",
                 data: _data[2]
               }]
-            }; // ////debugger
+            }; // //////debugger
 
             var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_6__(ctxIn, {
               type: "bar",
@@ -11201,7 +11201,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 callbacks: {
                   label: function label(tooltipItem, data) {
                     //get the concerned dataset
-                    var dataset = data.datasets[tooltipItem.datasetIndex]; // // ////debugger;
+                    var dataset = data.datasets[tooltipItem.datasetIndex]; // // //////debugger;
 
                     var total = 0;
 
@@ -11253,7 +11253,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).empty();
-          jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // ////debugger
+          jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // //////debugger
 
           var canvas = document.getElementById(_chartId);
           var ctxIn = canvas.getContext("2d");
@@ -11278,15 +11278,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this22 = this;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetColonoscopyDoctorsList", {}).subscribe(function (Response) {
-            //// ////debugger
+            //// //////debugger
             _this22.TABLE_DATA.splice(0, _this22.TABLE_DATA.length);
 
-            var json = JSON.parse(Response["d"]); // // ////debugger
+            var json = JSON.parse(Response["d"]); // // //////debugger
 
             var _d = JSON.parse(json["DoctorsList"]);
 
             for (var doctor in _d) {
-              //// ////debugger
+              //// //////debugger
               var _sD = {
                 id: doctor,
                 name: doctor
@@ -11296,11 +11296,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
             /*
               $(_d).each(function(i,k){
-                  // ////debugger
+                  // //////debugger
                   //var _sD: Depart = {id: i, name: k};
                     //this.departs.push(_sD);
               })*/
-            //// ////debugger
+            //// //////debugger
 
           });
         }
@@ -11310,7 +11310,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this23 = this;
 
           //;
-          debugger;
+          //debugger;
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getCOLONOSCOPY", {
             _fromDate: _startDate,
@@ -11342,7 +11342,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this23.totalWithEndTime = JSON.parse(json["totalWithEndTime"]);
             _this23.totalWithoutEndTime = JSON.parse(json["totalWithoutEndTime"]);
             _this23.totalWith6min = JSON.parse(json["totalWith6min"]);
-            _this23.totalWithout6min = JSON.parse(json["totalWithout6min"]); //debugger
+            _this23.totalWithout6min = JSON.parse(json["totalWithout6min"]); ////debugger
 
             var COLONOSCOPY = JSON.parse(json["aaData"]);
 
@@ -14121,7 +14121,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 min: 0
               }
             }
-          }; // //debugger;
+          }; // ////debugger;
 
           this.DepartsDataChart = [["", 0, "", 0]];
           this.WorkersDataChart = [["", 0, "", 0]];
@@ -14131,7 +14131,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.DepartsDataDoingAvgAll = [["", 0, "", 0]];
           this.DepartsDataRequestTotal = [["", 0, "", 0]];
           this.DepartsDataRequestAvg = [["", 0, "", 0]]; //var t = this.shuffle(this.colors);
-          //debugger;
+          ////debugger;
 
           if (clickedIndex == 1 && this.MulBarsRequestDepart != null) {
             this.DepartsDataRequestTotal = [];
@@ -14139,7 +14139,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             for (var s = 0; s < this.MulBarsRequestDepart.length; s++) {
               var _d = [this.MulBarsRequestDepart[s], parseFloat(this.MulBarsRequestDepartTotalRows[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartTotalRows[s])];
-              var _s = [this.MulBarsRequestDepart[s], parseFloat(this.MulBarsRequestDepartAvgTime[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartAvgTime[s])]; // //debugger
+              var _s = [this.MulBarsRequestDepart[s], parseFloat(this.MulBarsRequestDepartAvgTime[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartAvgTime[s])]; // ////debugger
 
               this.DepartsDataRequestTotal.push(_d);
               this.DepartsDataRequestAvg.push(_s);
@@ -14157,7 +14157,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             for (var s = 0; s < this.MulBarsRequestDepartAll.length; s++) {
               var _d = [this.MulBarsRequestDepartAll[s], parseFloat(this.MulBarsRequestDepartTotalRowsAll[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartTotalRowsAll[s])];
-              var _s = [this.MulBarsRequestDepartAll[s], parseFloat(this.MulBarsRequestDepartAvgTimeAll[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartAvgTimeAll[s])]; // //debugger
+              var _s = [this.MulBarsRequestDepartAll[s], parseFloat(this.MulBarsRequestDepartAvgTimeAll[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartAvgTimeAll[s])]; // ////debugger
 
               this.DepartsDataRequestTotalAll.push(_d);
               this.DepartsDataRequestAvgAll.push(_s);
@@ -14167,7 +14167,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               this.DepartsDataRequestTotalAll = [["", 0, "", 0]];
               this.DepartsDataRequestAvgAll = [["", 0, "", 0]];
             }
-          } //debugger
+          } ////debugger
 
 
           if (clickedIndex == 1 && this.MulBarsDoingDepart != null) {
@@ -14176,7 +14176,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             for (var s = 0; s < this.MulBarsDoingDepart.length; s++) {
               var _d = [this.MulBarsDoingDepart[s], parseFloat(this.MulBarsDoingDepartTotalRows[s]), "color: " + this.colors[s], parseFloat(this.MulBarsDoingDepartTotalRows[s])];
-              var _s = [this.MulBarsDoingDepart[s], parseFloat(this.MulBarsDoingDepartAvgTime[s]), "color: " + this.colors[s], parseFloat(this.MulBarsDoingDepartAvgTime[s])]; ////debugger
+              var _s = [this.MulBarsDoingDepart[s], parseFloat(this.MulBarsDoingDepartAvgTime[s]), "color: " + this.colors[s], parseFloat(this.MulBarsDoingDepartAvgTime[s])]; //////debugger
 
               this.DepartsDataDoingTotal.push(_d);
               this.DepartsDataDoingAvg.push(_s);
@@ -14188,7 +14188,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
           }
 
-          debugger;
+          //debugger;
 
           if (clickedIndex == 1 && this.MulBarsDoingDepartAll != null) {
             this.DepartsDataDoingTotalAll = [];
@@ -14196,7 +14196,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             for (var s = 0; s < this.MulBarsDoingDepartAll.length; s++) {
               var _d = [this.MulBarsDoingDepartAll[s], parseFloat(this.MulBarsDoingDepartTotalRowsAll[s]), "color: " + this.colors[s], parseFloat(this.MulBarsDoingDepartTotalRowsAll[s])];
-              var _s = [this.MulBarsDoingDepartAll[s], parseFloat(this.MulBarsDoingDepartAvgTimeAll[s]), "color: " + this.colors[s], parseFloat(this.MulBarsDoingDepartAvgTimeAll[s])]; ////debugger
+              var _s = [this.MulBarsDoingDepartAll[s], parseFloat(this.MulBarsDoingDepartAvgTimeAll[s]), "color: " + this.colors[s], parseFloat(this.MulBarsDoingDepartAvgTimeAll[s])]; //////debugger
 
               this.DepartsDataDoingTotalAll.push(_d);
               this.DepartsDataDoingAvgAll.push(_s);
@@ -14214,7 +14214,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             for (var s = 0; s < this.MulBarsRequestDepartAllNotPara.length; s++) {
               var _d = [this.MulBarsRequestDepartAllNotPara[s], parseFloat(this.MulBarsRequestDepartTotalRowsAllNotPara[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartTotalRowsAllNotPara[s])];
-              var _s = [this.MulBarsRequestDepartAllNotPara[s], parseFloat(this.MulBarsRequestDepartAvgTimeAllNotPara[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartAvgTimeAllNotPara[s])]; ////debugger
+              var _s = [this.MulBarsRequestDepartAllNotPara[s], parseFloat(this.MulBarsRequestDepartAvgTimeAllNotPara[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartAvgTimeAllNotPara[s])]; //////debugger
 
               this.DepartsDataRequestTotalAllNotPara.push(_d);
               this.DepartsDataRequestAvgAllNotPara.push(_s);
@@ -14232,7 +14232,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             for (var s = 0; s < this.MulBarsRequestDepartNotPara.length; s++) {
               var _d = [this.MulBarsRequestDepartNotPara[s], parseFloat(this.MulBarsRequestDepartTotalRowsNotPara[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartTotalRowsNotPara[s])];
-              var _s = [this.MulBarsRequestDepartNotPara[s], parseFloat(this.MulBarsRequestDepartAvgTimeNotPara[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartAvgTimeNotPara[s])]; ////debugger
+              var _s = [this.MulBarsRequestDepartNotPara[s], parseFloat(this.MulBarsRequestDepartAvgTimeNotPara[s]), "color: " + this.colors[s], parseFloat(this.MulBarsRequestDepartAvgTimeNotPara[s])]; //////debugger
 
               this.DepartsDataRequestTotalNotPara.push(_d);
               this.DepartsDataRequestAvgNotPara.push(_s);
@@ -14245,7 +14245,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           if (clickedIndex == 1 && this.Departs != null) {
-            this.DepartsDataChart = []; // //debugger;
+            this.DepartsDataChart = []; // ////debugger;
 
             var s = 0;
 
@@ -14343,7 +14343,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             var s = Math.floor(Math.random() * 255 + 1);
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
-            var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)"; //// //////debugger;
+            var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)"; //// ////////debugger;
 
             backgroundColorArray.push(backgound);
             backgroundColorArrayOpacity.push(backgoundOpacity);
@@ -14356,14 +14356,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function drawCharToDom(_dataType, _dataLable, _data, _wrapperId, _chartId) {
           var optionCall;
           var totalDataLength = _data.length;
-          var bgArray = this.getBackgroundArray(totalDataLength); //// //////debugger;
+          var bgArray = this.getBackgroundArray(totalDataLength); //// ////////debugger;
 
           if (_dataType == "multiBar") {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).empty();
-            jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // //////debugger
+            jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // ////////debugger
 
             var canvas = document.getElementById(_chartId);
-            var ctxIn = canvas.getContext("2d"); //////debugger
+            var ctxIn = canvas.getContext("2d"); ////////debugger
 
             var barChartData = {
               labels: _dataLable,
@@ -14383,7 +14383,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 stack: "Stack 3",
                 data: _data[2]
               }]
-            }; // //////debugger
+            }; // ////////debugger
 
             var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_6__(ctxIn, {
               type: "bar",
@@ -14418,7 +14418,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 callbacks: {
                   label: function label(tooltipItem, data) {
                     //get the concerned dataset
-                    var dataset = data.datasets[tooltipItem.datasetIndex]; // // //////debugger;
+                    var dataset = data.datasets[tooltipItem.datasetIndex]; // // ////////debugger;
 
                     var total = 0;
 
@@ -14470,7 +14470,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).empty();
-          jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // //////debugger
+          jquery__WEBPACK_IMPORTED_MODULE_5__("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>'); //  // ////////debugger
 
           var canvas = document.getElementById(_chartId);
           var ctxIn = canvas.getContext("2d");
@@ -14496,9 +14496,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNamerDeparts", {}).subscribe(function (Response) {
-            //// //////debugger
+            //// ////////debugger
             _this24.departsList = [];
-            var json = JSON.parse(Response["d"]); // // //////debugger
+            var json = JSON.parse(Response["d"]); // // ////////debugger
 
             var _d = JSON.parse(json["departsList"]);
 
@@ -14507,7 +14507,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   key = _Object$entries3$_i[0],
                   value = _Object$entries3$_i[1];
 
-              ////debugger
+              //////debugger
               var _sD = {
                 id: key,
                 name: value.toString()
@@ -14519,11 +14519,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             /*
               $(_d).each(function(i,k){
-                  // //////debugger
+                  // ////////debugger
                   //var _sD: Depart = {id: i, name: k};
                     //this.departs.push(_sD);
               })*/
-            //// //////debugger
+            //// ////////debugger
           });
         }
       }, {
@@ -14535,9 +14535,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetWorkers", {
             _Depart: valDepart
           }).subscribe(function (Response) {
-            //debugger;
+            ////debugger;
             _this25.workersList = [];
-            var json = JSON.parse(Response["d"]); // // //////debugger
+            var json = JSON.parse(Response["d"]); // // ////////debugger
 
             var _w = JSON.parse(json["WorkersList"]);
 
@@ -14546,7 +14546,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   key = _Object$entries4$_i[0],
                   value = _Object$entries4$_i[1];
 
-              ////debugger
+              //////debugger
               var _sD = {
                 id: key,
                 name: value.toString()
@@ -14558,11 +14558,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             /*
               $(_d).each(function(i,k){
-                  // //////debugger
+                  // ////////debugger
                   //var _sD: Depart = {id: i, name: k};
                     //this.departs.push(_sD);
               })*/
-            //// //////debugger
+            //// ////////debugger
           });
         }
       }, {
@@ -14572,9 +14572,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRequestDeparts", {}).subscribe(function (Response) {
-            //// //////debugger
+            //// ////////debugger
             _this26.requestdepartsList = [];
-            var json = JSON.parse(Response["d"]); // // //////debugger
+            var json = JSON.parse(Response["d"]); // // ////////debugger
 
             var _r = JSON.parse(json["seodedepartsList"]);
 
@@ -14583,7 +14583,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   key = _Object$entries5$_i[0],
                   value = _Object$entries5$_i[1];
 
-              ////debugger
+              //////debugger
               var _sD = {
                 id: key,
                 name: value.toString()
@@ -14595,11 +14595,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             /*
               $(_d).each(function(i,k){
-                  // //////debugger
+                  // ////////debugger
                   //var _sD: Depart = {id: i, name: k};
                     //this.departs.push(_sD);
               })*/
-            //// //////debugger
+            //// ////////debugger
           });
         }
       }, {
@@ -14608,7 +14608,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this27 = this;
 
           //;
-          ////debugger;
+          //////debugger;
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllConsultations", {
             _fromDate: _startDate,
@@ -14622,7 +14622,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }).subscribe(function (Response) {
             _this27.TABLE_DATA.splice(0, _this27.TABLE_DATA.length);
 
-            var json = JSON.parse(Response["d"]); //debugger;
+            var json = JSON.parse(Response["d"]); ////debugger;
 
             _this27.Departs = JSON.parse(json["Departs"]);
             _this27.MulBarsRequestDepart = JSON.parse(json["MulBarsRequestDepart"]);
@@ -14645,8 +14645,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this27.MulBarsDoingDepartTotalRowsAll = JSON.parse(json["MulBarsDoingDepartTotalRowsAll"]);
             _this27.DepartsDoingTotal = JSON.parse(json["DepartsDoingTotal"]);
             _this27.WorkersDoingTotal = JSON.parse(json["WorkersDoingTotal"]);
-            _this27.Workers = JSON.parse(json["Workers"]); //debugger;
-            ////debugger
+            _this27.Workers = JSON.parse(json["Workers"]); ////debugger;
+            //////debugger
 
             var Consultations = JSON.parse(json["aaData"]);
 
@@ -16975,7 +16975,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
           //console.log(this.paginator.pageIndex);
           // $(document).on('submit', '#sendForm', function(e){
-          //     //debugger
+          //     ////debugger
           // })
 
         }
@@ -17006,7 +17006,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _id: this.idPatient,
             _phoneNumber: this.phoneNumber
           }).subscribe(function (Response) {
-            // //debugger 888888
+            // ////debugger 888888
             _this28.openSnackBar();
           }); // display form values on success
           //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
@@ -17034,14 +17034,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this29 = this;
 
           //$('#free_text').text(_element.FreeText);
-          // //debugger
+          // ////debugger
           this.fullnameVal = "";
           this.idPatient = "";
           this.phoneNumber = "";
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this29.closeResult = "Closed with: ".concat(result); ////debugger
+            _this29.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -17062,12 +17062,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "toShortFormat",
         value: function toShortFormat(d) {
-          ////debugger;
+          //////debugger;
           var monthNames = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
           var day = d.getDate();
           var monthIndex = d.getMonth();
           var monthName = monthNames[monthIndex];
-          var year = d.getFullYear(); ////debugger
+          var year = d.getFullYear(); //////debugger
 
           return "".concat(day, "/").concat(monthName, "/").concat(year);
         }
@@ -17085,7 +17085,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "printRowForm",
         value: function printRowForm(row) {
-          // //debugger
+          // ////debugger
           var cRow = row;
           var dateB = cRow.CS_SURVEY_DATE;
           var dateC = cRow.CS_SURVEY_Q2_2;
@@ -17093,22 +17093,22 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
               row.CS_SURVEY_Q2_2 = "";
-              //debugger
+              ////debugger
           }*/
 
           if (cRow.CS_SURVEY_Q2_2 != "" && cRow.CS_SURVEY_Q2_2 != "Invalid Date") {
-            cRow.CS_SURVEY_Q2_2 = this.toShortFormat(new Date(cRow.CS_SURVEY_Q2_2)); ////debugger
+            cRow.CS_SURVEY_Q2_2 = this.toShortFormat(new Date(cRow.CS_SURVEY_Q2_2)); //////debugger
           }
           /*  if (row.CS_SURVEY_Q4_4 == "Invalid Date") {
               row.CS_SURVEY_Q4_4 = "";
-              //debugger
+              ////debugger
           }*/
 
 
           if (cRow.CS_SURVEY_Q4_4 != "") {
             cRow.CS_SURVEY_Q4_4 = this.toShortFormat(new Date(cRow.CS_SURVEY_Q4_4));
           } //   row.CS_SURVEY_Q2_2 = this.toShortFormat(dateCovid);
-          ////debugger
+          //////debugger
 
 
           var f = cRow.CS_SURVEY_DATE.split("T");
@@ -17130,7 +17130,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (cRow.CS_SURVEY_Q2_1 == "Yes" || cRow.CS_SURVEY_Q2_1 == "Да" || cRow.CS_SURVEY_Q2_1 == "כן" || cRow.CS_SURVEY_Q2_1 == "نعم") {
             this.Checked_Yes_CS_SURVEY_Q2_1 = true;
-            this.Checked_No_CS_SURVEY_Q2_1 = false; //  //debugger
+            this.Checked_No_CS_SURVEY_Q2_1 = false; //  ////debugger
           } else {
             this.Checked_No_CS_SURVEY_Q2_1 = true;
             this.Checked_Yes_CS_SURVEY_Q2_1 = false;
@@ -17158,7 +17158,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } else {
             this.Checked_No_CS_SURVEY_Q4_2 = true;
             this.Checked_Yes_CS_SURVEY_Q4_2 = false;
-          } ////debugger
+          } //////debugger
 
 
           if (cRow.CS_SURVEY_Q4_3 == "Yes" || cRow.CS_SURVEY_Q4_3 == "Да" || cRow.CS_SURVEY_Q4_3 == "כן" || cRow.CS_SURVEY_Q4_3 == "نعم") {
@@ -17185,7 +17185,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -17200,12 +17200,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this30.TABLE_DATA.splice(0, _this30.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var CoronaData = JSON.parse(json["aaData"]); ////debugger
+            var CoronaData = JSON.parse(json["aaData"]); //////debugger
 
             for (var i = 0; i < CoronaData.length; i++) {
               var t = CoronaData[i].CS_SURVEY_DATE.split("T");
               var d = CoronaData[i].CS_SURVEY_Q2_2.split(" ");
-              var s = CoronaData[i].CS_SURVEY_Q4_4.split(" "); ////debugger
+              var s = CoronaData[i].CS_SURVEY_Q4_4.split(" "); //////debugger
 
               _this30.TABLE_DATA.push({
                 CS_ROW_ID: CoronaData[i].CS_ROW_ID,
@@ -17241,13 +17241,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 CS_DATE: t[0],
                 CS_DATETIME: t[1]
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this30.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this30.TABLE_DATA);
             _this30.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -18506,7 +18506,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
           //console.log(this.paginator.pageIndex);
           // $(document).on('submit', '#sendForm', function(e){
-          //     //debugger
+          //     ////debugger
           // })
 
         }
@@ -18541,14 +18541,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "toShortFormat",
         value: function toShortFormat(d) {
-          ////debugger;
-          var monthNames = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]; ////debugger;
+          //////debugger;
+          var monthNames = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"]; //////debugger;
 
           var dayNames = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12", "13", "14", "15", "16", "17", "18", "19", "20", "21", "22", "23", "24", "25", "26", "27", "28", "29", "30", "31"];
           var day = dayNames[d.getDate() - 1];
           var monthIndex = d.getMonth();
           var monthName = monthNames[monthIndex];
-          var year = d.getFullYear(); ////debugger
+          var year = d.getFullYear(); //////debugger
 
           return "".concat(day, "/").concat(monthName, "/").concat(year);
         }
@@ -18563,7 +18563,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           }
@@ -18572,7 +18572,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _ID: _ID
           }).subscribe(function (Response) {
             var json = JSON.parse(Response["d"]);
-            var CoronaData = JSON.parse(json["ITEMSMAP"]); //  //debugger;
+            var CoronaData = JSON.parse(json["ITEMSMAP"]); //  ////debugger;
 
             CoronaData.L_DOB = _this31.toShortFormat(new Date(CoronaData.L_DOB));
             CoronaData.L_REQUEST_DATE = _this31.toShortFormat(new Date(CoronaData.L_REQUEST_DATE));
@@ -20406,7 +20406,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
           //console.log(this.paginator.pageIndex);
           // $(document).on('submit', '#sendForm', function(e){
-          //     //debugger
+          //     ////debugger
           // })
 
 
@@ -20443,7 +20443,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _id: this.idPatient,
             _phoneNumber: this.phoneNumber
           }).subscribe(function (Response) {
-            // //debugger 888888
+            // ////debugger 888888
             _this32.openSnackBar();
           }); // display form values on success
           //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.registerForm.value, null, 4));
@@ -20471,14 +20471,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this33 = this;
 
           //$('#free_text').text(_element.FreeText);
-          // //debugger
+          // ////debugger
           this.fullnameVal = "";
           this.idPatient = "";
           this.phoneNumber = "";
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this33.closeResult = "Closed with: ".concat(result); ////debugger
+            _this33.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -20499,12 +20499,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "toShortFormat",
         value: function toShortFormat(d) {
-          ////debugger;
+          //////debugger;
           var monthNames = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
           var day = d.getDate();
           var monthIndex = d.getMonth();
           var monthName = monthNames[monthIndex];
-          var year = d.getFullYear(); ////debugger
+          var year = d.getFullYear(); //////debugger
 
           return "".concat(day, "/").concat(monthName, "/").concat(year);
         }
@@ -20525,7 +20525,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "printRowForm",
         value: function printRowForm(row) {
-          // debugger
+          // //debugger
           this.viccatnNumber = row.VaccinationForm;
 
           if (row.VaccinationForm == "1") {
@@ -20534,7 +20534,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } else {
             this.VaccinationForm_1 = false;
             this.VaccinationForm_2 = true;
-          } // //debugger
+          } // ////debugger
 
 
           this.rowFormData = row;
@@ -20633,24 +20633,24 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             MedicalTreatmentAfterFirstVaccination: [this.rowFormData.MedicalTreatmentAfterFirstVaccination, null],
             MedicalTreatmentAfterFirstVaccinationNote: [this.rowFormData.MedicalTreatmentAfterFirstVaccinationNote, null],
             Covid19afterthefirst: [this.rowFormData.Covid19afterthefirst, null]
-          }); //debugger
+          }); ////debugger
 
           var row = this.WorkerForm.value;
 
           for (var i = 0; i < Object.values(row).length; i++) {
-            //debugger
+            ////debugger
             if (Object.values(row)[i] == "1") {
               this.showRed = true;
-              debugger;
+              //debugger;
               break;
             }
-          } //debugger
+          } ////debugger
 
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
               row.CS_SURVEY_Q2_2 = "";
-              //debugger
+              ////debugger
           }*/
 
           setTimeout(function () {
@@ -20666,7 +20666,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -20682,10 +20682,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             var json = JSON.parse(Response["d"]);
             var json_2 = JSON.parse(json);
-            var CoronaData = JSON.parse(json_2["aaData"]); // debugger;
+            var CoronaData = JSON.parse(json_2["aaData"]); // //debugger;
 
             for (var i = 0; i < CoronaData.length; i++) {
-              ////debugger
+              //////debugger
               _this34.TABLE_DATA.push({
                 EmployeeID: CoronaData[i].EmployeeID,
                 EmployeePhone: CoronaData[i].EmployeePhone,
@@ -20747,13 +20747,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 Covid19afterthefirst: CoronaData[i].Covid19afterthefirst,
                 pregnancyWeek: CoronaData[i].pregnancyWeek
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this34.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this34.TABLE_DATA);
             _this34.resultsLength = parseInt(JSON.parse(json_2["iTotalRecords"]));
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -22950,7 +22950,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this35 = this;
 
-          this.submitted = true; ////debugger
+          this.submitted = true; //////debugger
           // stop here if form is invalid
 
           if (this.departsForm.invalid) {
@@ -22980,7 +22980,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmitRooms() {
           var _this36 = this;
 
-          this.submitted = true; //debugger;
+          this.submitted = true; ////debugger;
           // stop here if form is invalid
 
           if (this.roomsForm.invalid) {
@@ -23009,8 +23009,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmitBeds() {
           var _this37 = this;
 
-          this.submitted = true; //debugger;
-          //debugger
+          this.submitted = true; ////debugger;
+          ////debugger
           // return;
           // stop here if form is invalid
 
@@ -23040,11 +23040,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function showBeds(content, _type, _element) {
           var _this38 = this;
 
-          //debugger
+          ////debugger
           this.beds = null;
           this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
           setTimeout(function () {
-            ////debugger
+            //////debugger
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           });
           this.D_NAME = _element.D_NAME;
@@ -23052,7 +23052,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCortinasDepartRoomsBeds", {
             _DepartID: _element.D_ID
           }).subscribe(function (Response) {
-            //  //debugger
+            //  ////debugger
             var json = JSON.parse(Response["d"]);
             var DepartsRoomsBedsData = JSON.parse(json["Beds"]);
             _this38.beds = DepartsRoomsBedsData;
@@ -23066,13 +23066,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 last = "0";
 
             for (var t = 0; t < DepartsRoomsBedsData.length; t++) {
-              now = DepartsRoomsBedsData[t].B_R_ID; //debugger
+              now = DepartsRoomsBedsData[t].B_R_ID; ////debugger
 
               if (parseInt(now) != parseInt(last)) {
                 _this38.beds[t].GROUP_CLASS = "group-border";
                 last = DepartsRoomsBedsData[t].B_R_ID;
               }
-            } ////debugger
+            } //////debugger
 
 
             _this38.roomsBedsForm = _this38.formBuilder.group({
@@ -23088,17 +23088,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   B_ROOM_NUMBER: [x.B_ROOM_NUMBER, false]
                 });
               }))
-            }); // //debugger
+            }); // ////debugger
 
             setTimeout(function () {
-              ////debugger
+              //////debugger
               jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             });
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this38.closeResult = "Closed with: ".concat(result); ////debugger
+            _this38.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -23113,7 +23113,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
           this.rooms = null;
           setTimeout(function () {
-            ////debugger
+            //////debugger
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           });
           this.D_NAME = _element.D_NAME;
@@ -23121,9 +23121,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCortinasDepartRooms", {
             _DepartID: _element.D_ID
           }).subscribe(function (Response) {
-            //  //debugger
+            //  ////debugger
             var json = JSON.parse(Response["d"]);
-            var DepartsRoomsData = JSON.parse(json["Rooms"]); ////debugger
+            var DepartsRoomsData = JSON.parse(json["Rooms"]); //////debugger
 
             _this39.rooms = DepartsRoomsData;
             _this39.roomsForm = _this39.formBuilder.group({
@@ -23136,17 +23136,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   R_STATUS: [x.R_STATUS, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required]
                 });
               }))
-            }); // //debugger
+            }); // ////debugger
 
             setTimeout(function () {
-              ////debugger
+              //////debugger
               jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             });
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this39.closeResult = "Closed with: ".concat(result); ////debugger
+            _this39.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -23168,9 +23168,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             D_ID: [_element.D_ID, false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this40.closeResult = "Closed with: ".concat(result); ////debugger
+            _this40.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -23180,7 +23180,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
         }
       }, {
@@ -23195,7 +23195,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this41 = this;
 
           this.D_NAME = "";
-          this.D_ID = "חדשה"; //debugger;
+          this.D_ID = "חדשה"; ////debugger;
 
           this.departsForm = this.formBuilder.group({
             D_NAME: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -23205,9 +23205,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             D_ID: ["0", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this41.closeResult = "Closed with: ".concat(result); ////debugger
+            _this41.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -23242,7 +23242,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -23252,11 +23252,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _pageSize: _pageSize,
             _FreeText: _FreeText
           }).subscribe(function (Response) {
-            ////debugger
+            //////debugger
             _this42.TABLE_DATA.splice(0, _this42.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var DepartsData = JSON.parse(json["aaData"]); ////debugger
+            var DepartsData = JSON.parse(json["aaData"]); //////debugger
 
             for (var i = 0; i < DepartsData.length; i++) {
               _this42.TABLE_DATA.push({
@@ -23266,13 +23266,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 D_STATUS: DepartsData[i].D_STATUS,
                 D_ROOMS_NUMBER: DepartsData[i].D_ROOMS_NUMBER
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this42.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this42.TABLE_DATA);
             _this42.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -24031,7 +24031,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer();
         }
       }, {
@@ -24043,7 +24043,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/ChangeCortinasDate", {
             alert: alert
           }).subscribe(function (Response) {
-            //debugger
+            ////debugger
             _this43.openSnackBar();
           });
         }
@@ -24066,19 +24066,19 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
           }
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCortinasAlerts", {}).subscribe(function (Response) {
-            ////debugger
+            //////debugger
             var json = JSON.parse(Response["d"]);
             _this44.AlertWarn = JSON.parse(json["AlertWarn"]);
             _this44.AlertYellow = JSON.parse(json["AlertYellow"]);
             _this44.AlertGreen = JSON.parse(json["AlertGreen"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
               }
@@ -25137,7 +25137,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          //debugger
+          ////debugger
           if (this.startdateVal && this.enddateVal) this.getTableFromServer(this.startdateVal, this.enddateVal, this.paginator.pageIndex, 10, this.fliterVal);
         }
       }, {
@@ -25192,11 +25192,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             Site_Code: ['469', _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
             Site_Desc: ['PORIA', _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required]
           }); //$('#free_text').text(_element.FreeText);
-          // //debugger
+          // ////debugger
 
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            ////debugger
-            if ("Save" == result) {// //debugger;
+            //////debugger
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {});
@@ -25226,7 +25226,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "editRowForm",
         value: function editRowForm(content, _type, row) {
-          //debugger
+          ////debugger
           var cRow = row;
 
           switch (cRow.Reporting_Type_Code) {
@@ -25248,7 +25248,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var dateArray = reggie.exec(dateString);
           var dateObject = new Date(+dateArray[1], +dateArray[2] - 1, // Careful, month starts at 0!
           +dateArray[3], +dateArray[4], +dateArray[5], +dateArray[6]);
-          debugger;
+          //debugger;
           this.addOrEditReportForm = this.formBuilder.group({
             RowId: [cRow.RowId, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
             Reporting_Date_Time: [dateObject, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
@@ -25265,8 +25265,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             Site_Desc: ['PORIA', _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            ////debugger
-            if ("Save" == result) {// //debugger;
+            //////debugger
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {});
@@ -25318,12 +25318,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           var seconds = taht.addOrEditReportForm.value.Reporting_Date_Time.getSeconds();
           taht.addOrEditReportForm.value.Reporting_Date_Time = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
-          debugger;
+          //debugger;
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCovid19Report", {
             mCovid19Report: taht.addOrEditReportForm.value
           }).subscribe(function (Response) {
-            //debugger
-            // //debugger 888888
+            ////debugger
+            // ////debugger 888888
             _this45.openSnackBar();
 
             _this45.getReport("");
@@ -25340,7 +25340,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           }
@@ -25354,10 +25354,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this46.TABLE_DATA.splice(0, _this46.TABLE_DATA.length);
 
             var json = JSON.parse(JSON.parse(Response["d"]));
-            var CoronaData = JSON.parse(json["aaData"]); ////debugger
+            var CoronaData = JSON.parse(json["aaData"]); //////debugger
 
             for (var i = 0; i < CoronaData.length; i++) {
-              ////debugger
+              //////debugger
               var Edit = false;
 
               if (CoronaData[i].RowStatus == "פעיל") {
@@ -25383,13 +25383,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 RowStatus: CoronaData[i].RowStatus,
                 Edit: Edit
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this46.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](_this46.TABLE_DATA);
             _this46.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
               }
@@ -25970,7 +25970,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           subtitleFormat: function subtitleFormat(percent) {
             if (percent > 100) {
               $("#real-precent").find("svg").append($("#extra-precent").find("path"));
-            } ////debugger
+            } //////debugger
 
 
             return "";
@@ -25995,7 +25995,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         } // public getData(){
         //     this.Departmints["departs"].forEach((element, key) => {
         //         this.Departmints["departs"][key].Used = "";
-        //        // //debugger
+        //        // ////debugger
         //         //$(document).find("._Departmints li:nth("+key+") .append-dots").append($(this._dotsLoader));
         //         this.getDataFormServer(key, element.Code);
         //     });
@@ -26010,20 +26010,20 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardApp", {
             _depart: _Depart
           }).subscribe(function (Response) {
-            ////debugger
+            //////debugger
             //var json = JSON.parse(Response["d"]);
             var obj = JSON.parse(Response["d"]);
             var aobjTotal = JSON.parse(obj["total"]);
             var aobj = JSON.parse(obj["DepartObjects"]);
             var totalReal = JSON.parse(obj["totalReal"]);
-            var aaobj = JSON.parse("[" + aobj[0] + "]"); ////debugger
+            var aaobj = JSON.parse("[" + aobj[0] + "]"); //////debugger
 
-            aobjTotal = JSON.parse(aobjTotal); //debugger
+            aobjTotal = JSON.parse(aobjTotal); ////debugger
 
             aaobj.forEach(function (element, index) {
-              ////debugger
+              //////debugger
               if (element.BedsReal != "0") {
-                //  //debugger
+                //  ////debugger
                 for (var i = index + 1; i < aaobj.length; i++) {
                   if (aaobj[i].BedsReal == "0") {
                     element.Used = parseInt(element.Used) + parseInt(aaobj[i].Used);
@@ -26031,7 +26031,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                     break;
                   }
                 }
-              } else {//debugger
+              } else {////debugger
               }
             });
             _this47.Departmints["departs"] = aaobj;
@@ -26840,7 +26840,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "radioChange",
         value: function radioChange(event) {
-          ////debugger
+          //////debugger
           this._fun.radioChange(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -26859,7 +26859,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "quart_change",
         value: function quart_change(event) {
-          //////debugger;
+          ////////debugger;
           this._fun.quart_change(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -26894,7 +26894,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           }
@@ -26936,13 +26936,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 D_TIME_UNTIL_DONIG_IN_DAYS: DimotData[i].D_TIME_UNTIL_DONIG_IN_DAYS //D_DOC_ANSWER: DimotData[i].D_DOC_ANSWER
 
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this48.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this48.TABLE_DATA);
             _this48.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
               }
@@ -26954,7 +26954,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _Depart, _Shift, _RequestType) {
           var _this49 = this;
 
-          // //debugger
+          // ////debugger
           var _counter = 0;
 
           var _yearStart = new Date(_startDate).getFullYear();
@@ -26963,7 +26963,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           this.loader = true;
-          this.getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _Depart, this.fliterVal, this.Shift, this.RequestType); //////debugger
+          this.getTableFromServer(_startDate, _endDate, _pageIndex, _pageSize, _Depart, this.fliterVal, this.Shift, this.RequestType); ////////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
             _fromDate: _startDate,
@@ -26974,7 +26974,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _shift: this.Shift,
             _requestType: this.RequestType
           }).subscribe(function (Response) {
-            ////debugger
+            //////debugger
             var json = JSON.parse(Response["d"]);
 
             var _monthsDoingLabels = JSON.parse(json["_monthsDoingLabels"]);
@@ -27038,7 +27038,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               _this49.loader = false;
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // ////debugger;
+            // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             _this49.loader = false;
           });
@@ -28453,18 +28453,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this50 = this;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetTbl_MedGroups", {}).subscribe(function (Response) {
-            ////debugger
+            //////debugger
             _this50.TABLE_DATA.splice(0, _this50.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            json = JSON.parse(json); // // //debugger
+            json = JSON.parse(json); // // ////debugger
 
             var _d = JSON.parse(json["GroupOptions"]);
 
             var i = 0;
 
             for (var s = 0; s < _d.length; s++) {
-              //  //debugger
+              //  ////debugger
               var _sD = {
                 id: _d[s].GroupID,
                 name: _d[s].GroupName
@@ -28532,19 +28532,19 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           this.submitted = true;
           var resultDeparts = this.search(this.drugForm.value.MedGroupID, this.groups_submit);
-          this.drugForm.value.MedGroup = resultDeparts["name"]; //debugger
+          this.drugForm.value.MedGroup = resultDeparts["name"]; ////debugger
           //return
           // stop here if form is invalid
 
           if (this.drugForm.invalid) {
             return;
-          } // //debugger
+          } // ////debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug", {
             drugRow: this.drugForm.value
           }).subscribe(function (Response) {
-            //debugger
+            ////debugger
             _this51.getReport(null);
 
             _this51.openSnackBar();
@@ -28574,9 +28574,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             NewRow: ["false", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this52.closeResult = "Closed with: ".concat(result); ////debugger
+            _this52.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -28586,13 +28586,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.GroupID);
         }
       }, {
         key: "applyFilter",
         value: function applyFilter(filterValue) {
-          this.fliterVal = filterValue; // //debugger
+          this.fliterVal = filterValue; // ////debugger
 
           this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.GroupID); //this.dataSource.filter = filterValue.trim().toLowerCase();
         }
@@ -28610,9 +28610,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             NewRow: ["true", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this53.closeResult = "Closed with: ".concat(result); ////debugger
+            _this53.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -28644,11 +28644,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getTableFromServer(_pageIndex, _pageSize, _FreeText, _GroupID) {
           var _this54 = this;
 
-          // //debugger
+          // ////debugger
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -28663,10 +28663,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             var json = JSON.parse(Response["d"]);
             json = JSON.parse(json);
-            var drugData = JSON.parse(json["aaData"]); ////debugger
+            var drugData = JSON.parse(json["aaData"]); //////debugger
 
             for (var i = 0; i < drugData.length; i++) {
-              ////debugger
+              //////debugger
 
               /*var  resultDeparts= this.search(drugData[i].DS_DEPART_ID, this.departs);*/
               _this54.TABLE_DATA.push({
@@ -28676,13 +28676,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 MedGroupID: drugData[i].MedGroupID,
                 MedStatus: drugData[i].MedStatus
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this54.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this54.TABLE_DATA);
             _this54.resultsLength = parseInt(JSON.parse(json["iTotalRecords"]));
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -30092,20 +30092,20 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getNamerDrugs(freeSearch, pageIndex, pageSize) {
           var _this55 = this;
 
-          ////debugger
+          //////debugger
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNamerDrugs", {
             freeSearch: freeSearch,
             pageIndex: pageIndex,
             pageSize: pageSize
           }).subscribe(function (Response) {
-            //////debugger;
+            ////////debugger;
             _this55.TABLE_DATA_Drugs.splice(0, _this55.TABLE_DATA_Drugs.length);
 
             var json = Response["d"];
-            _this55.TABLE_DATA_Drugs = json; // ////////debugger
+            _this55.TABLE_DATA_Drugs = json; // //////////debugger
 
             _this55.dataSourceDrug = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this55.TABLE_DATA_Drugs);
-            _this55.resultsLengthDrug = parseInt(json[0]["TotalRows"]); ////debugger
+            _this55.resultsLengthDrug = parseInt(json[0]["TotalRows"]); //////debugger
           });
         }
       }, {
@@ -30133,18 +30133,18 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this56 = this;
 
-          //debugger
+          ////debugger
           this.submitted = true;
 
           if (this.drugForm.invalid) {
             return;
-          } // ////////debugger
+          } // //////////debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/submitConnectDrug", {
             drugRow: this.drugForm.value
           }).subscribe(function (Response) {
-            ////////debugger
+            //////////debugger
             _this56.getReport(null);
 
             _this56.openSnackBar();
@@ -30156,7 +30156,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "chossenDrug",
         value: function chossenDrug(_element) {
-          //debugger
+          ////debugger
           this.drugForm = this.formBuilder.group({
             UpdateRemarks: [this.currenrRowToConnect.UpdateRemarks, false],
             RowId: [this.currenrRowToConnect.Row_ID, false],
@@ -30173,9 +30173,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this57 = this;
 
           this.modalService_2.open(content, this.modalOptions).result.then(function (result) {
-            _this57.closeResult = "Closed with: ".concat(result); //////////debugger
+            _this57.closeResult = "Closed with: ".concat(result); ////////////debugger
 
-            if ("Save" == result) {// ////////debugger;
+            if ("Save" == result) {// //////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -30198,9 +30198,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             AddDrugsOrInstructions: [_element.AddDrugsOrInstructions, false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this58.closeResult = "Closed with: ".concat(result); //////////debugger
+            _this58.closeResult = "Closed with: ".concat(result); ////////////debugger
 
-            if ("Save" == result) {// ////////debugger;
+            if ("Save" == result) {// //////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -30210,13 +30210,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          //////////debugger
+          ////////////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.startdateVal, this.enddateVal);
         }
       }, {
         key: "applyFilter",
         value: function applyFilter(filterValue) {
-          this.fliterVal = filterValue; // ////////debugger
+          this.fliterVal = filterValue; // //////////debugger
 
           this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.startdateVal, this.enddateVal); //this.dataSource.filter = filterValue.trim().toLowerCase();
         }
@@ -30243,7 +30243,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getPaginatorDataDrug",
         value: function getPaginatorDataDrug(event) {
-          ////debugger
+          //////debugger
           //console.log(this.paginator.pageIndex);
           this.getNamerDrugs(this.searchDrugVal, event.pageIndex, event.pageSize);
         }
@@ -30252,15 +30252,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getTableFromServer(pageIndex, pageSize, freeSearch, startdateVal, enddateVal) {
           var _this59 = this;
 
-          // ////////debugger
-          //////debugger;
+          // //////////debugger
+          ////////debugger;
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////////debugger
+            // //////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          } // debugger
+          } // //debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNICDrugs", {
@@ -30271,25 +30271,25 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             ToDate: this.enddateVal,
             Linked: this.linked
           }).subscribe(function (Response) {
-            _this59.TABLE_DATA.splice(0, _this59.TABLE_DATA.length); // debugger
+            _this59.TABLE_DATA.splice(0, _this59.TABLE_DATA.length); // //debugger
 
 
             var json = Response["d"];
 
             if (json[0]["TotalRows"] != null) {
-              _this59.TABLE_DATA = json; // ////////debugger
+              _this59.TABLE_DATA = json; // //////////debugger
 
               _this59.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this59.TABLE_DATA);
               _this59.resultsLength = parseInt(json[0]["TotalRows"]);
             } else {
-              _this59.TABLE_DATA = []; // ////////debugger
+              _this59.TABLE_DATA = []; // //////////debugger
 
               _this59.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this59.TABLE_DATA);
               _this59.resultsLength = 0;
             }
 
             setTimeout(function () {
-              //////////debugger
+              ////////////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -35052,7 +35052,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.activeOrNot = "";
         this.submitted = false;
         this.perm = false;
-        this.NotAllOrNull = false; // //debugger
+        this.NotAllOrNull = false; // ////debugger
 
         this.activeModal = activeModal;
       }
@@ -35061,7 +35061,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         key: "ngOnInit",
         value: function ngOnInit() {
           this.SendSmsToemergencymembersModal;
-          debugger;
+          //debugger;
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           this.GroupName = "";
           this.GroupNumber = "";
@@ -35094,8 +35094,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMessagesGroupType", {
             Type: Type
           }).subscribe(function (Response) {
-            // debugger
-            _this69.Groups = Response["d"]; // debugger
+            // //debugger
+            _this69.Groups = Response["d"]; // //debugger
           });
         }
       }, {
@@ -35122,7 +35122,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             });
             this.NotAllOrNull = false;
           } else {
-            // debugger
+            // //debugger
             this.GroupSmsToForm = this.formBuilder.group({
               GroupSmsTo: [$event.source.value, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
               GroupSms: [[], _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required]
@@ -35147,7 +35147,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmitSmsTo() {
           var _this70 = this;
 
-          debugger;
+          //debugger;
 
           if (this.GroupSmsToForm.invalid) {
             return;
@@ -35167,12 +35167,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               textAreaVal += Poria_Group[i]["CellNumber"] + " - ";
               textAreaVal += Poria_Group[i]["FirstName"] + " ";
               textAreaVal += Poria_Group[i]["LastName"] + "\r\n";
-            } //debugger
+            } ////debugger
 
 
             localStorage.setItem("smsType", "SMSEmergencyCall");
             localStorage.setItem("textAreaVal", textAreaVal);
-            debugger;
+            //debugger;
             var that = _this70;
             setTimeout(function () {
               jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
@@ -35185,16 +35185,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this71 = this;
 
-          this.submitted = true; //////debugger
+          this.submitted = true; ////////debugger
 
           if (this.GroupForm.invalid) {
             return;
-          } ////debugger
+          } //////debugger
 
 
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          }); //debugger;
+          }); ////debugger;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateGroup", {
             _GroupForm: this.GroupForm.value
@@ -35214,7 +35214,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "showemergencymembers",
         value: function showemergencymembers(content, _type, _element) {
-          // debugger;
+          // //debugger;
           localStorage.setItem("GroupID", _element.RowID);
           this.modalService.open(content, this.modalOptions);
         }
@@ -35223,7 +35223,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function SendSmsToemergencymembers(content, _type, _element) {
           var _this72 = this;
 
-          // debugger;
+          // //debugger;
           this.GroupName = _element.GroupName;
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGroupMembersMobiles", {
             RowID: _element.RowID
@@ -35236,7 +35236,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               textAreaVal += Poria_Group[i]["CellNumber"] + " - ";
               textAreaVal += Poria_Group[i]["FirstName"] + " ";
               textAreaVal += Poria_Group[i]["LastName"] + "\r\n";
-            } // debugger
+            } // //debugger
 
 
             localStorage.setItem("smsType", "SMSEmergencyCall");
@@ -35276,7 +35276,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function editRow(content, _type, _element) {
           var _this74 = this;
 
-          this.GroupName = _element.GroupName; //debugger;
+          this.GroupName = _element.GroupName; ////debugger;
 
           this.GroupForm = this.formBuilder.group({
             GroupName: [_element.GroupName, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -35285,9 +35285,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: [_element.RowID, false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this74.closeResult = "Closed with: ".concat(result); //////debugger
+            _this74.closeResult = "Closed with: ".concat(result); ////////debugger
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -35297,7 +35297,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          //////debugger
+          ////////debugger
           this.getTableFromServer(this.fliterVal);
         }
       }, {
@@ -35312,9 +35312,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this75 = this;
 
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this75.closeResult = "Closed with: ".concat(result); //////debugger
+            _this75.closeResult = "Closed with: ".concat(result); ////////debugger
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -35327,7 +35327,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this76 = this;
 
           this.GroupNumber = "";
-          this.GroupName = "חדש"; ////debugger;
+          this.GroupName = "חדש"; //////debugger;
 
           this.GroupForm = this.formBuilder.group({
             GroupName: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -35336,9 +35336,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: ["0", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this76.closeResult = "Closed with: ".concat(result); //////debugger
+            _this76.closeResult = "Closed with: ".concat(result); ////////debugger
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -35373,7 +35373,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           } //http://srv-apps-prod/RCF_WS/WebService.asmx/
@@ -35383,15 +35383,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGroups", {
             serachTxt: _FreeText
           }).subscribe(function (Response) {
-            //////debugger
+            ////////debugger
             _this77.TABLE_DATA.splice(0, _this77.TABLE_DATA.length);
 
-            _this77.TABLE_DATA = Response["d"]; // ////debugger
+            _this77.TABLE_DATA = Response["d"]; // //////debugger
 
             _this77.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this77.TABLE_DATA);
             _this77.resultsLength = _this77.TABLE_DATA.length;
             setTimeout(function () {
-              //////debugger
+              ////////debugger
               //if (tableLoader) {
               jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none"); // }
             });
@@ -36165,7 +36165,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(EmergencymembersComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          // debugger
+          // //debugger
           this.UserSmsStatus = false;
           this.UserEmailStatus = false;
           this.fullnameVal = "";
@@ -36197,12 +36197,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onRemoveSubmit() {
           var _this78 = this;
 
-          //debugger
+          ////debugger
           // stop here if form is invalid
           if (this.removeMemberForm.invalid) {
             // console.log(this.removeMemberForm.controls.errors);
             return;
-          } //debugger;
+          } ////debugger;
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveMemberFromGroup", {
@@ -36226,7 +36226,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "editRow",
         value: function editRow(content, _type, _element) {
-          // debugger
+          // //debugger
           this.removeMemberForm = this.formBuilder.group({
             EmployeeID: [_element.EmployeeID, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required],
             GroupId: [_element.GroupID, _angular_forms__WEBPACK_IMPORTED_MODULE_5__["Validators"].required]
@@ -36236,7 +36236,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReportGroupMember",
         value: function getReportGroupMember($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.fliterValGroupMember);
         }
       }, {
@@ -36264,10 +36264,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          } //debugger
+          } ////debugger
           //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
 
@@ -36275,15 +36275,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _FreeText: _FreeText,
             _GroupID: this.GroupID
           }).subscribe(function (Response) {
-            _this79.TABLE_DATA.splice(0, _this79.TABLE_DATA.length); //debugger
+            _this79.TABLE_DATA.splice(0, _this79.TABLE_DATA.length); ////debugger
 
 
-            _this79.TABLE_DATA = Response["d"]; // //debugger
+            _this79.TABLE_DATA = Response["d"]; // ////debugger
 
             _this79.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this79.TABLE_DATA);
             _this79.resultsLength = _this79.TABLE_DATA.length;
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
               }
@@ -36938,7 +36938,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(EmployeesComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          // debugger
+          // //debugger
           this.UserSmsStatus = false;
           this.UserEmailStatus = false;
           this.fullnameVal = "";
@@ -36970,7 +36970,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function addToGroup(_element) {
           var _this80 = this;
 
-          //debugger;
+          ////debugger;
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/AddMemberToGroup", {
             MemberId: _element.RowID,
             GroupId: this.GroupID
@@ -36984,7 +36984,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReportEmlpoyeess",
         value: function getReportEmlpoyeess($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterValEmlpoyees);
         }
       }, {
@@ -37007,10 +37007,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          } //  debugger
+          } //  //debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployees", {
@@ -37018,15 +37018,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             pageSize: _pageSize,
             serachTxt: _FreeText
           }).subscribe(function (Response) {
-            _this81.TABLE_DATA.splice(0, _this81.TABLE_DATA.length); //debugger
+            _this81.TABLE_DATA.splice(0, _this81.TABLE_DATA.length); ////debugger
 
 
-            _this81.TABLE_DATA = Response["d"]; // //debugger
+            _this81.TABLE_DATA = Response["d"]; // ////debugger
 
             _this81.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this81.TABLE_DATA);
             _this81.resultsLength = parseInt(_this81.TABLE_DATA[0].totalRows);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
               }
@@ -38051,7 +38051,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "radioChange",
         value: function radioChange(event) {
-          //////debugger
+          ////////debugger
           this._fun.radioChange(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -38071,7 +38071,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "quart_change",
         value: function quart_change(event) {
-          ////////debugger;
+          //////////debugger;
           this._fun.quart_change(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -38095,9 +38095,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           if (this.startdateVal && this.enddateVal) {
             var sDate = new Date(this.enddateVal);
             var eDate = new Date(this.startdateVal);
-            var diffTime = sDate.getTime() - eDate.getTime(); // ////debugger
+            var diffTime = sDate.getTime() - eDate.getTime(); // //////debugger
 
-            this.DaysToCalc = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); //////debugger
+            this.DaysToCalc = Math.ceil(diffTime / (1000 * 60 * 60 * 24)); ////////debugger
 
             this.getDataFormServer(this.startdateVal, this.enddateVal, 0, 10, this.fliterVal, this.Depart);
             this.getDataCharts(this.startdateVal, this.enddateVal, 0, 10, this.fliterVal, this.Depart);
@@ -38122,11 +38122,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _freeText: this.fliterVal,
             _depart: this.Depart
           }).subscribe(function (Response) {
-            jquery__WEBPACK_IMPORTED_MODULE_5__("#_departments").empty(); ////////debugger
+            jquery__WEBPACK_IMPORTED_MODULE_5__("#_departments").empty(); //////////debugger
 
             _this82.TABLE_DATA.splice(0, _this82.TABLE_DATA.length);
 
-            var json = JSON.parse(Response["d"]); //debugger
+            var json = JSON.parse(Response["d"]); ////debugger
 
             _this82.depart = JSON.parse(json["DepartName"]);
             _this82.eshpoz = JSON.parse(json["DepartEshpozim"]);
@@ -38164,9 +38164,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           if (_Depart == undefined || _Depart == null) {
-            //////debugger;
+            ////////debugger;
             _Depart = ["-1"];
-          } ////debugger;
+          } //////debugger;
 
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
@@ -38176,10 +38176,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _freeText: this.fliterVal,
             _depart: this.Depart
           }).subscribe(function (Response) {
-            ////////debugger
+            //////////debugger
             _this83.TABLE_DATA.splice(0, _this83.TABLE_DATA.length);
 
-            var json = JSON.parse(Response["d"]); //debugger
+            var json = JSON.parse(Response["d"]); ////debugger
 
             _this83.depart = JSON.parse(json["DepartName"]);
             _this83.eshpoz = JSON.parse(json["DepartEshpozim"]);
@@ -38209,7 +38209,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
           });
         }
@@ -38227,7 +38227,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (_counter == 4) {
             _surgeryType = "ALL";
-          } ////debugger
+          } //////debugger
 
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
@@ -40360,7 +40360,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.EventStatusID = "";
         this.startdateVal = "";
         this.enddateVal = "";
-        this.submitted = false; // ////debugger
+        this.submitted = false; // //////debugger
 
         this.activeModal = activeModal;
       }
@@ -40400,7 +40400,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.catss = this.getDropDownLists("CatDrop");
           this.eventprioritys = this.getDropDownLists("PriorityDrop");
           this.eventStatuss = this.getDropDownLists("StatusDrop");
-          jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none"); ////debugger;
+          jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none"); //////debugger;
         }
       }, {
         key: "getDropDownLists",
@@ -40412,27 +40412,27 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsSelects", {
             mDropDownType: mType
           }).subscribe(function (Response) {
-            // //debugger;
+            // ////debugger;
             mEventsDropDownData = Response;
 
             switch (mType) {
               case "DeskDrop":
-                _this85.desks = mEventsDropDownData["d"]; ////debugger
+                _this85.desks = mEventsDropDownData["d"]; //////debugger
 
                 break;
 
               case "CatDrop":
-                _this85.catss = mEventsDropDownData["d"]; // //debugger
+                _this85.catss = mEventsDropDownData["d"]; // ////debugger
 
                 break;
 
               case "PriorityDrop":
-                _this85.eventprioritys = mEventsDropDownData["d"]; //  //debugger
+                _this85.eventprioritys = mEventsDropDownData["d"]; //  ////debugger
 
                 break;
 
               case "StatusDrop":
-                _this85.eventStatuss = mEventsDropDownData["d"]; //  //debugger
+                _this85.eventStatuss = mEventsDropDownData["d"]; //  ////debugger
 
                 break;
             }
@@ -40481,19 +40481,19 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this86 = this;
 
-          this.submitted = true; //debugger
+          this.submitted = true; ////debugger
 
           this.EventsForm.value.EventDateTime = this.EventsForm.value.EventDateTime.setMinutes(this.EventsForm.value.EventDateTime.getMinutes() - this.EventsForm.value.EventDateTime.getTimezoneOffset());
-          this.EventsForm.value.EventDateTime = new Date(this.EventsForm.value.EventDateTime); // debugger;
+          this.EventsForm.value.EventDateTime = new Date(this.EventsForm.value.EventDateTime); // //debugger;
 
           if (this.EventsForm.invalid) {
             return;
-          } //////debugger
+          } ////////debugger
 
 
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          }); ////debugger;
+          }); //////debugger;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateEvent", {
             mEventsScheduleRow: this.EventsForm.value
@@ -40520,7 +40520,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function deleteFunction() {
           var _this87 = this;
 
-          //debugger
+          ////debugger
           this.confirmationDialogService.confirm("נא לאשר..", "האם אתה בטוח ...? ").then(function (confirmed) {
             console.log("User confirmed:", confirmed);
 
@@ -40538,13 +40538,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function editRow(content, _type, _element) {
           var _this88 = this;
 
-          this.EventsName = _element.EventsName; ////debugger;
+          this.EventsName = _element.EventsName; //////debugger;
 
           var dateString = _element.EventDateTime;
           var reggie = /(\d{4})-(\d{2})-(\d{2}) (\d{2}):(\d{2}):(\d{2})/;
           var dateArray = reggie.exec(dateString);
           var dateObject = new Date(+dateArray[1], +dateArray[2] - 1, // Careful, month starts at 0!
-          +dateArray[3], +dateArray[4], +dateArray[5], +dateArray[6]); // //debugger
+          +dateArray[3], +dateArray[4], +dateArray[5], +dateArray[6]); // ////debugger
 
           this.EventsForm = this.formBuilder.group({
             EventName: [_element.EventName, null],
@@ -40559,9 +40559,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowStatus: ["1", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this88.closeResult = "Closed with: ".concat(result); ////////debugger
+            _this88.closeResult = "Closed with: ".concat(result); //////////debugger
 
-            if ("Save" == result) {// //////debugger;
+            if ("Save" == result) {// ////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -40571,7 +40571,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////////debugger
+          //////////debugger
           this.getTableFromServer(this.pageIndex, this.pageSize, this.fliterVal, this.EventStatusID, this.EventPriorityID, this.CatID, this.DeskID, this.startdateVal, this.enddateVal);
         }
       }, {
@@ -40586,7 +40586,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this89 = this;
 
           this.EventsNumber = "";
-          this.EventsName = "חדש"; //////debugger;
+          this.EventsName = "חדש"; ////////debugger;
 
           this.EventsForm = this.formBuilder.group({
             EventName: ["", null],
@@ -40600,11 +40600,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: ["0", false],
             RowStatus: ["1", false]
           });
-          debugger;
+          //debugger;
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this89.closeResult = "Closed with: ".concat(result); ////////debugger
+            _this89.closeResult = "Closed with: ".concat(result); //////////debugger
 
-            if ("Save" == result) {// //////debugger;
+            if ("Save" == result) {// ////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -40629,7 +40629,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         key: "getPaginatorData",
         value: function getPaginatorData(event) {
           //console.log(this.paginator.pageIndex);
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.EventStatusID, this.EventPriorityID, this.CatID, this.DeskID, this.startdateVal, this.enddateVal);
         }
       }, {
@@ -40640,12 +40640,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //////debugger
+            // ////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           } //http://srv-apps-prod/RCF_WS/WebService.asmx/
           //http://srv-apps-prod/RCF_WS/WebService.asmx/
-          //debugger
+          ////debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
@@ -40659,15 +40659,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             EventDateFrom: startdateVal,
             EventDateTo: enddateVal
           }).subscribe(function (Response) {
-            //debugger
+            ////debugger
             _this90.TABLE_DATA.splice(0, _this90.TABLE_DATA.length);
 
-            _this90.TABLE_DATA = Response["d"]; // //////debugger
+            _this90.TABLE_DATA = Response["d"]; // ////////debugger
 
             _this90.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this90.TABLE_DATA);
             _this90.resultsLength = _this90.TABLE_DATA.length;
             setTimeout(function () {
-              ////////debugger
+              //////////debugger
               //if (tableLoader) {
               jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none"); // }
             });
@@ -46950,12 +46950,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this106 = this;
 
           //$('#free_text').text(_element.FreeText);
-          //debugger
+          ////debugger
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this106.closeResult = "Closed with: ".concat(result); ////debugger
+            _this106.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -46964,7 +46964,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGlucoseByCaseNumber", {
             CaseNumber: _element.PGR_Case_Number
           }).subscribe(function (Response) {
-            //  debugger
+            //  //debugger
             _this106.selectedCaseNumber = _element.PGR_Case_Number;
             _this106.TABLE_DATA_REL_TO_CASENUMBER = [];
             _this106.TABLE_DATA_REL_TO_CASENUMBER = Response["d"];
@@ -46982,12 +46982,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _fromDate: _startDate,
             _toDate: _endDate
           }).subscribe(function (Response) {
-            jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty(); //  //debugger
+            jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty(); //  ////debugger
 
             _this107.TABLE_DATA.splice(0, _this107.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var tableData = JSON.parse(json["tableData"]); ////debugger;
+            var tableData = JSON.parse(json["tableData"]); //////debugger;
 
             _this107.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](_this107.TABLE_DATA);
 
@@ -47002,7 +47002,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               //var t =  tableData.items[i].CS_SURVEY_DATE.split("T");
               //var d =  tableData.items[i].CS_SURVEY_Q2_2.split(" ");
               //var s =  tableData.items[i].CS_SURVEY_Q4_4.split(" ");
-              ////debugger
+              //////debugger
               _this107.TABLE_DATA.push({
                 PGR_Patient_First_Name: tableData.items[i].PGR_Patient_First_Name,
                 PGR_Patient_Last_Name: tableData.items[i].PGR_Patient_Last_Name,
@@ -47016,7 +47016,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 PGR_Patient_Number: tableData.items[i].PGR_Patient_Number,
                 WorkerName: tableData.items[i].WorkerName
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this107.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_2__["MatTableDataSource"](_this107.TABLE_DATA);
@@ -47026,7 +47026,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // //debugger;
+            // ////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
           });
         }
@@ -48581,7 +48581,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getResearchPermission", {
             _UserName: localStorage.getItem("loginUserName")
           }).subscribe(function (Response) {
-            // ////////debugger
+            // //////////debugger
             var json = JSON.parse(Response["d"]);
 
             switch (json) {
@@ -48701,10 +48701,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           if (this.loginUserName.toLowerCase() == "jmassalha" || this.loginUserName.toLowerCase() == "eonn" || this.loginUserName.toLowerCase() == "samer" || this.loginUserName.toLowerCase() == "owertheim" || this.loginUserName.toLowerCase() == "jubartal" || this.loginUserName.toLowerCase() == "nsuheil" || this.loginUserName.toLowerCase() == "mcohen" || this.loginUserName.toLowerCase() == "rnave" || this.loginUserName.toLowerCase() == "lbernstein" || this.loginUserName.toLowerCase() == "lshavit" || this.loginUserName.toLowerCase() == "kyanai" || this.loginUserName.toLowerCase() == "edinisman" || this.loginUserName.toLowerCase() == "emassalha" || this.loginUserName.toLowerCase() == "dsalameh" || this.loginUserName.toLowerCase() == "whanout" || this.loginUserName.toLowerCase() == "zprassolov" || this.loginUserName.toLowerCase() == "kailabouni" || this.loginUserName.toLowerCase() == "rhakim" || this.loginUserName.toLowerCase() == "rzraik" || this.loginUserName.toLowerCase() == "syeganeh" || this.loginUserName.toLowerCase() == "iatlas" || this.loginUserName.toLowerCase() == "jbaram" || this.loginUserName.toLowerCase() == "sganem" || this.loginUserName.toLowerCase() == "nmansour") {
-            // //debugger
+            // ////debugger
             this._shoMersham = true;
           } else {
-            //  //debugger
+            //  ////debugger
             this._shoMersham = false;
           }
 
@@ -48723,34 +48723,34 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           if (this.loginUserName.toLowerCase() == "jmassalha" || this.loginUserName.toLowerCase() == "eonn" || this.loginUserName.toLowerCase() == "samer" || this.loginUserName.toLowerCase() == "owertheim" || this.loginUserName.toLowerCase() == "jubartal") {
-            // //debugger
+            // ////debugger
             this._shoDrugs = true;
           } else {
-            //  //debugger
+            //  ////debugger
             this._shoDrugs = false;
           }
 
           if (this.loginUserName.toLowerCase() == "jmassalha" || this.loginUserName.toLowerCase() == "eonn" || this.loginUserName.toLowerCase() == "samer" || this.loginUserName.toLowerCase() == "owertheim" || this.loginUserName.toLowerCase() == "mbilya") {
-            // //debugger
+            // ////debugger
             this._shoSettings = true;
           } else {
-            //  //debugger
+            //  ////debugger
             this._shoSettings = false;
           }
 
           if (this.loginUserName.toLowerCase() == "jmassalha" || this.loginUserName.toLowerCase() == "samer" || this.loginUserName.toLowerCase() == "owertheim" || this.loginUserName.toLowerCase() == "edinisman" || this.loginUserName.toLowerCase() == "whanout" || this.loginUserName.toLowerCase() == "dsalameh") {
-            // //debugger
+            // ////debugger
             this._shocovid19report = true;
           } else {
-            //  //debugger
+            //  ////debugger
             this._shocovid19report = false;
           }
 
           if (this.loginUserName.toLowerCase() == "jmassalha" || this.loginUserName.toLowerCase() == "eonn" || this.loginUserName.toLowerCase() == "samer" || this.loginUserName.toLowerCase() == "owertheim" || this.loginUserName.toLowerCase() == "lshavit" || this.loginUserName.toLowerCase() == "mbadarni" || this.loginUserName.toLowerCase() == "mubadarne" || this.loginUserName.toLowerCase() == "muhbadarne") {
-            // //debugger
+            // ////debugger
             this._shoGlucose = true;
           } else {
-            //  //debugger
+            //  ////debugger
             this._shoGlucose = false;
           }
 
@@ -48767,10 +48767,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           jquery__WEBPACK_IMPORTED_MODULE_1__(document).on("click", "[routerlink], .nav-link", function () {
-            // //debugger;
+            // ////debugger;
             localStorage.setItem("ReseachRowId", "0");
             jquery__WEBPACK_IMPORTED_MODULE_1__("#app-menu").removeClass("show");
-            jquery__WEBPACK_IMPORTED_MODULE_1__("#menu-btn").removeClass("show"); // debugger
+            jquery__WEBPACK_IMPORTED_MODULE_1__("#menu-btn").removeClass("show"); // //debugger
 
             if (jquery__WEBPACK_IMPORTED_MODULE_1__(this).attr('routerlink') == 'mersham') {
               jquery__WEBPACK_IMPORTED_MODULE_1__('body').addClass('bg-blue-light');
@@ -48779,7 +48779,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
           });
           jquery__WEBPACK_IMPORTED_MODULE_1__("#menu-btn").click(function () {
-            ////debugger;
+            //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_1__(this).toggleClass("show");
             jquery__WEBPACK_IMPORTED_MODULE_1__("#app-menu").toggleClass("show");
           });
@@ -48790,7 +48790,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "logout",
         value: function logout($event) {
-          ////debugger
+          //////debugger
           localStorage.clear();
           jquery__WEBPACK_IMPORTED_MODULE_1__("#app-menu").removeClass("show");
           jquery__WEBPACK_IMPORTED_MODULE_1__("#menu-btn").removeClass("show");
@@ -49454,7 +49454,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "radioChange",
         value: function radioChange(event) {
-          ////debugger
+          //////debugger
           this._fun.radioChange(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -49473,7 +49473,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "quart_change",
         value: function quart_change(event) {
-          //////debugger;
+          ////////debugger;
           this._fun.quart_change(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -49497,7 +49497,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDataFormServer(_startDate, _endDate) {
           var _this112 = this;
 
-          // //debugger
+          // ////debugger
           var _counter = 0;
 
           var _yearStart = new Date(_startDate).getFullYear();
@@ -49505,13 +49505,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _yearEnd = new Date(_endDate).getFullYear();
 
           jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
-          this.loader = true; //////debugger
+          this.loader = true; ////////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RunHearingReportApp", {
             _fromDate: _startDate,
             _toDate: _endDate
           }).subscribe(function (Response) {
-            ////debugger
+            //////debugger
             var json = JSON.parse(Response["d"]);
             _this112.dataTable = json;
             setTimeout(function () {
@@ -49521,7 +49521,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               _this112.loader = false;
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // ////debugger;
+            // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
             _this112.loader = false;
           });
@@ -50896,7 +50896,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _filterVal, _PatientType) {
           var _yearStart = new Date(_startDate).getFullYear();
 
-          var _yearEnd = new Date(_endDate).getFullYear(); ////////debugger
+          var _yearEnd = new Date(_endDate).getFullYear(); //////////debugger
 
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
@@ -50913,7 +50913,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
           });
         }
@@ -52729,14 +52729,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this._fun = new _public_functions__WEBPACK_IMPORTED_MODULE_3__["Functions"]();
         this.markers = [];
         this.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_1__["MatTableDataSource"](this.dataTable);
-        this.dataSourcePatient = new _angular_material_table__WEBPACK_IMPORTED_MODULE_1__["MatTableDataSource"](this.dataTablePatient); // ////debugger;
+        this.dataSourcePatient = new _angular_material_table__WEBPACK_IMPORTED_MODULE_1__["MatTableDataSource"](this.dataTablePatient); // //////debugger;
       }
 
       _createClass(LaborComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
           // this.maps.load().then(() => {
-          //     //////debugger
+          //     ////////debugger
           //     this.geoCoder = new google.maps.Geocoder();
           //     //this.getAddress("haifa");
           // });
@@ -52765,7 +52765,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.Sdate = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](new Date());
           this.Edate = new _angular_forms__WEBPACK_IMPORTED_MODULE_4__["FormControl"](new Date());
           this.startdateVal = this.Sdate.value;
-          this.enddateVal = this.Edate.value; //////debugger
+          this.enddateVal = this.Edate.value; ////////debugger
 
           if (localStorage.getItem("loginState") != "true" || localStorage.getItem("loginUserName") == "") {
             this.router.navigate(["login"]);
@@ -52777,7 +52777,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.dataSourcePatient = new _angular_material_table__WEBPACK_IMPORTED_MODULE_1__["MatTableDataSource"](this.dataTablePatient); //console.log(this.paginator.pageIndex);
 
           /*$(document).on("click", "#CheckBefore", function (e) {
-             ////debugger
+             //////debugger
               if ($(document).find('[name="mobile"]').val() == "" ||
               $(document).find('[name="email"]').val() == "" ||
               $(document).find('[name="passprot"]').val() == "") {
@@ -52799,13 +52799,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getAddress",
         value: function getAddress(_address) {
-          //////debugger
+          ////////debugger
           var address = _address;
           this.geoCoder.geocode({
             address: address
           }, function (results, status) {
-            //////debugger
-            if (status === "OK") {// ////debugger
+            ////////debugger
+            if (status === "OK") {// //////debugger
 
               /* this.markers.push({
                   lat: results[0].geometry.location.lat(),
@@ -52814,7 +52814,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   address: results[0].formatted_address,
                   draggable: false
               });*/
-              //////debugger
+              ////////debugger
             } else {// alert(
                 //     "Geocode was not successful for the following reason: " +
                 //         status
@@ -52834,7 +52834,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //$('#free_text').text(_element.FreeText);
           this._Element = _element;
           this._Type = _type;
-          this._Content = content; //debugger
+          this._Content = content; ////debugger
 
           this.mobile = _element.L_MOBILE;
           this.email = _element.L_EMAIL;
@@ -52849,7 +52849,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            ////debugger;
+            //////debugger;
             _this113.closeResult = "Closed with: ".concat(result);
 
             if (_this113.mobile == "" || _this113.email == "" || _this113.passprot == "") {
@@ -52861,7 +52861,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
 
             if ("Save" == result && _this113.mobile != "" && _this113.email != "" && _this113.passprot != "") {
-              // ////debugger;
+              // //////debugger;
               _element.L_PASSWORD = _this113.sendAttach(_element.L_ROW_ID);
               _element.L_MOBILE = _this113.mobile;
               _element.L_EMAIL = _this113.email;
@@ -52897,7 +52897,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               }
 
               var str = d + "-" + m + "-" + date.getFullYear();
-              _element.L_DOB = str; //debugger
+              _element.L_DOB = str; ////debugger
 
               var date = new Date();
               var m = "";
@@ -52933,7 +52933,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               _element.L_SEND_DATE = str;
             }
           }, function (reason) {
-            //debugger
+            ////debugger
             _this113.closeResult = "Dismissed ".concat(_this113.getDismissReason(reason));
           });
           setTimeout(function () {
@@ -52998,7 +52998,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             mm = date.getMinutes().toString();
           }
 
-          var str = date.getFullYear() + "-" + m + "-" + d; //debugger
+          var str = date.getFullYear() + "-" + m + "-" + d; ////debugger
 
           this.http.post("http://srv-ipracticom:8080/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB", {
             _mobile: this.mobile,
@@ -53007,7 +53007,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _dob: str,
             _rowId: _rowID
           }).subscribe(function (Response) {
-            ////debugger;
+            //////debugger;
             setTimeout(function () {
               //this.dataSource.paginator = this.paginator
               _this114.openSnackBar("נשלח בהצלחה", "success");
@@ -53017,7 +53017,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             return _this114._Element['L_PASSWORD'] = Response['d'].toString();
           }, function (error) {
-            // ////debugger;
+            // //////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_2__("#loader").addClass("d-none");
           });
         }
@@ -53027,7 +53027,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "radioChange",
         value: function radioChange(event) {
-          //////debugger
+          ////////debugger
           this._fun.radioChange(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -53056,7 +53056,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "quart_change",
         value: function quart_change(event) {
-          ////////debugger;
+          //////////debugger;
           //this._fun.quart_change(event);
           //this.startdateVal = this._fun.Sdate.value;
           //this.enddateVal = this._fun.Edate.value;
@@ -53065,7 +53065,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "check_change",
         value: function check_change(event) {
-          ////////debugger;
+          //////////debugger;
           //this._fun.quart_change(event);
           //this.startdateVal = this._fun.Sdate.value;
           //this.enddateVal = this._fun.Edate.value;
@@ -53074,7 +53074,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "check_change_status",
         value: function check_change_status(event) {
-          ////////debugger;
+          //////////debugger;
           //this._fun.quart_change(event);
           //this.startdateVal = this._fun.Sdate.value;
           //this.enddateVal = this._fun.Edate.value;
@@ -53098,7 +53098,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getPaginatorData(event) {
           console.log(this.TableTowPaginator.pageIndex);
 
-          if (this.startdateVal && this.enddateVal) {////debugger;
+          if (this.startdateVal && this.enddateVal) {//////debugger;
           }
         }
       }, {
@@ -53106,7 +53106,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDataFormServer(_startDate, _endDate, _CheckResult, _CheckType, _CheckTypeStatus) {
           var _this115 = this;
 
-          // ////debugger
+          // //////debugger
           var _counter = 0;
 
           var _yearStart = new Date(_startDate).getFullYear();
@@ -53114,7 +53114,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _yearEnd = new Date(_endDate).getFullYear();
 
           jquery__WEBPACK_IMPORTED_MODULE_2__("#loader").removeClass("d-none");
-          this.loader = true; // ////debugger
+          this.loader = true; // //////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/RunLaborAppNew", {
             _fromDate: _startDate,
@@ -53123,11 +53123,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _CheckType: _CheckType,
             _CheckTypeStatus: _CheckTypeStatus
           }).subscribe(function (Response) {
-            // ////debugger;
+            // //////debugger;
             var json = JSON.parse(Response["d"]);
             var itemsIn = JSON.parse(json.ITEMS);
             var itemsInMap = JSON.parse(json.ITEMSMAP);
-            var itemsInPatient = JSON.parse(json.ITEMSPATIENT); ////debugger;
+            var itemsInPatient = JSON.parse(json.ITEMSPATIENT); //////debugger;
 
             var counterM = JSON.parse(json.counterM);
             var counterB = JSON.parse(json.counterB);
@@ -53163,7 +53163,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               _this115.dataSourcePatient.paginator = _this115.TableOnePaginator;
             });
           }, function (error) {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_2__("#loader").addClass("d-none");
             _this115.loader = false;
           });
@@ -55133,7 +55133,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.fliterVal = "";
         this.activeOrNot = "";
         this.submitted = false;
-        this.perm = false; // //debugger
+        this.perm = false; // ////debugger
 
         this.activeModal = activeModal;
       }
@@ -55179,17 +55179,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this117 = this;
 
-          this.submitted = true; //////debugger
+          this.submitted = true; ////////debugger
 
           if (this.maternityForm.invalid) {
             return;
-          } ////debugger
+          } //////debugger
 
 
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           });
-          debugger;
+          //debugger;
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternity", {
             _maternityForm: this.maternityForm.value
           }).subscribe(function (Response) {
@@ -55208,7 +55208,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "showPatient",
         value: function showPatient(content, _type, _element) {
-          // debugger;
+          // //debugger;
           localStorage.setItem("MaternityRowId", _element.RowID);
           this.modalService.open(content, this.modalOptions);
         }
@@ -55217,7 +55217,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function SendSmsToPatient(content, _type, _element) {
           var _this118 = this;
 
-          // debugger;
+          // //debugger;
           this.MaternityName = _element.MaternityNumber;
           this.MaternityNumber = _element.MaternityName;
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMaternityPatientMobiles", {
@@ -55232,7 +55232,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               textAreaVal += Poria_Maternity[i]["PatientMobile"] + " - ";
               textAreaVal += Poria_Maternity[i]["PatientFirstName"] + " ";
               textAreaVal += Poria_Maternity[i]["PatientLastName"] + "\r\n";
-            } // debugger
+            } // //debugger
 
 
             localStorage.setItem("smsType", "SMSMaternity");
@@ -55252,7 +55252,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this119 = this;
 
           this.MaternityName = _element.MaternityName;
-          this.MaternityNumber = _element.MaternityNumber; //debugger;
+          this.MaternityNumber = _element.MaternityNumber; ////debugger;
 
           this.maternityForm = this.formBuilder.group({
             MaternityNumber: [_element.MaternityNumber, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -55263,9 +55263,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: [_element.RowID, false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this119.closeResult = "Closed with: ".concat(result); //////debugger
+            _this119.closeResult = "Closed with: ".concat(result); ////////debugger
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -55275,7 +55275,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          //////debugger
+          ////////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.activeOrNot);
         }
       }, {
@@ -55290,7 +55290,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this120 = this;
 
           this.MaternityNumber = "";
-          this.MaternityName = "חדש"; ////debugger;
+          this.MaternityName = "חדש"; //////debugger;
 
           this.maternityForm = this.formBuilder.group({
             MaternityNumber: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -55301,9 +55301,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: ["0", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this120.closeResult = "Closed with: ".concat(result); //////debugger
+            _this120.closeResult = "Closed with: ".concat(result); ////////debugger
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -55338,7 +55338,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           } //http://srv-apps-prod/RCF_WS/WebService.asmx/
@@ -55351,11 +55351,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _freeText: _FreeText,
             _activeOrNot: _activeOrNot
           }).subscribe(function (Response) {
-            //////debugger
+            ////////debugger
             _this121.TABLE_DATA.splice(0, _this121.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var Poria_Maternity = JSON.parse(json["Maternity"]); //  //debugger
+            var Poria_Maternity = JSON.parse(json["Maternity"]); //  ////debugger
 
             for (var i = 0; i < Poria_Maternity.length; i++) {
               _this121.TABLE_DATA.push({
@@ -55369,13 +55369,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 MaternityStatus: Poria_Maternity[i].MaternityStatus,
                 ProjectCost: Poria_Maternity[i].ProjectCost
               });
-            } // ////debugger
+            } // //////debugger
 
 
             _this121.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this121.TABLE_DATA);
             _this121.resultsLength = parseInt(json["totalRows"]);
             setTimeout(function () {
-              //////debugger
+              ////////debugger
               //if (tableLoader) {
               jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none"); // }
             });
@@ -56567,7 +56567,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(MaternitypatientsComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          // debugger
+          // //debugger
           this.UserSmsStatus = false;
           this.UserEmailStatus = false;
           this.fullnameVal = "";
@@ -56599,7 +56599,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this122 = this;
 
-          this.submitted = true; ////debugger
+          this.submitted = true; //////debugger
           // stop here if form is invalid
 
           if (this.patientForm.invalid) {
@@ -56608,7 +56608,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           this.patientForm.value.PatientDOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.PatientDOB, "yyyy-MM-dd", "en-US");
-          this.patientForm.value.PatientPregnancyDOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.PatientPregnancyDOB, "yyyy-MM-dd", "en-US"); //debugger;
+          this.patientForm.value.PatientPregnancyDOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.PatientPregnancyDOB, "yyyy-MM-dd", "en-US"); ////debugger;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients", {
             _patientForm: this.patientForm.value
@@ -56635,7 +56635,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.UserEmailStatus = true;
           } else {
             this.UserEmailStatus = false;
-          } //debugger
+          } ////debugger
 
 
           this.patientForm = this.formBuilder.group({
@@ -56660,7 +56660,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReportmaternitypatients",
         value: function getReportmaternitypatients($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterValPatient, this.StatusPatient);
         }
       }, {
@@ -56715,7 +56715,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         key: "computeEGA",
         value: function computeEGA(iDueDateYear, iDueDateMonth, iDueDateDay) {
           var dToday = new Date();
-          var dDueDate = new Date(iDueDateYear, iDueDateMonth - 1, iDueDateDay); //  debugger
+          var dDueDate = new Date(iDueDateYear, iDueDateMonth - 1, iDueDateDay); //  //debugger
 
           var iDaysUntilDueDate = (dDueDate.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24);
           var iTotalDaysInPregnancy = 40 * 7;
@@ -56735,10 +56735,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          } //debugger
+          } ////debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getMaternityPatientsTable", {
@@ -56748,14 +56748,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _Status: _Status,
             _MaternityID: this.MaternityRowId
           }).subscribe(function (Response) {
-            _this123.TABLE_DATA.splice(0, _this123.TABLE_DATA.length); //debugger
+            _this123.TABLE_DATA.splice(0, _this123.TABLE_DATA.length); ////debugger
 
 
             var json = JSON.parse(Response["d"]);
             var patientData = JSON.parse(json["Patients"]);
 
             for (var i = 0; i < patientData.length; i++) {
-              ////debugger
+              //////debugger
               var date = patientData[i].PatientPregnancyDOB.split("-");
 
               var PatientPregnancyWeekAtInsert = _this123.computeEGA(date[0], date[1], date[2]);
@@ -56779,13 +56779,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 PatientPregnancyWeekAtInsert: PatientPregnancyWeekAtInsert,
                 PatientNote: patientData[i].PatientNote
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this123.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this123.TABLE_DATA);
             _this123.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -61681,7 +61681,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "ClearMershmData",
         value: function ClearMershmData() {
-          ////////debugger
+          //////////debugger
           this.rows = this.formBuilder.array([]);
           this.PrespictionFormRow = this.formBuilder.group({
             SrcPresRows: this.rows
@@ -61706,14 +61706,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             MedicationSensitivityVal: ["", [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern("[A-Za-z0-9 ]*")]],
             statusRowVal: [false, false],
             statusNotToDo: [false, false]
-          }); //////debugger
+          }); ////////debugger
 
-          this.updateView(); //////debugger
+          this.updateView(); ////////debugger
         }
       }, {
         key: "checkIfCarboplatin",
         value: function checkIfCarboplatin($event) {
-          // ////////debugger
+          // //////////debugger
           this.Carboplatin = false;
           var Boolean = false;
 
@@ -61751,10 +61751,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "calcPres",
         value: function calcPres() {
-          debugger;
+          //debugger;
 
           for (var i = 0; i < this.rows.value.length; i++) {
-            ////////////////debugger
+            //////////////////debugger
             var arr = this.rows.value[i].MedListVal.split("___");
             var d = this.MedList.findIndex(function (obj) {
               return obj.value === arr[0];
@@ -61765,7 +61765,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
 
             if (this.rows.value[i].groupID != "" && this.rows.value[i].groupID != null) {
-              ////////////////debugger
+              //////////////////debugger
               if (this.rows.value[i].MenonValVal == "") this.rows.value[i].MenonValVal = 0;
 
               switch (this.rows.value[i].groupID) {
@@ -61801,7 +61801,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   //     )) *
                   // this.calcByGender;
 
-                  debugger;
+                  //debugger;
                   this.rows.controls[i]["controls"].MenonCalcVal.setValue((parseFloat(this.PrespictionForm.value.targetAUCVal) * (AgeX + 25)).toFixed(1));
                   break;
 
@@ -61818,7 +61818,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "openSnackBar",
         value: function openSnackBar(AlertTxt, Type) {
-          // //////debugger
+          // ////////debugger
           this._snackBar.open(AlertTxt, "", {
             duration: 2500,
             direction: "rtl",
@@ -61832,11 +61832,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function _delete(c, type) {
           var _this124 = this;
 
-          //  ////////////////debugger
+          //  //////////////////debugger
           if (type == "true") {
             var d = this.rows.value.findIndex(function (obj) {
               return obj.rowIdPreVal === _this124.DeleteRowId;
-            }); //////////////debugger
+            }); ////////////////debugger
 
             if (this.rows.value[d].newRow == "false") {
               this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeletePresRowInside", {
@@ -61859,7 +61859,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.DeleteRowId = "";
           }
 
-          c("close modal"); // //////////////////debugger
+          c("close modal"); // ////////////////////debugger
           // this.modalService._modalStack._windowCmpts[1].dismiss()
         }
       }, {
@@ -61870,7 +61870,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/selectPermission", {
             _UserName: localStorage.getItem("loginUserName")
           }).subscribe(function (Response) {
-            // //////////debugger
+            // ////////////debugger
             var json = JSON.parse(Response["d"]);
 
             switch (json) {
@@ -61925,9 +61925,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             windowClass: "custom-class"
           };
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this126.closeResult = "Closed with: ".concat(result); ////////////////////////////debugger
+            _this126.closeResult = "Closed with: ".concat(result); //////////////////////////////debugger
 
-            if ("Save" == result) {// //////////////////////////debugger;
+            if ("Save" == result) {// ////////////////////////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -61940,16 +61940,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function deletePerRow(content, _type, _element) {
           var _this127 = this;
 
-          //  //////////////debugger
-          //////////////////debugger
+          //  ////////////////debugger
+          ////////////////////debugger
           this.DeletePreRowId = _element.PerscriptionID;
           this.modalOptions = {
             windowClass: "custom-class"
           };
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this127.closeResult = "Closed with: ".concat(result); ////////////////////////////debugger
+            _this127.closeResult = "Closed with: ".concat(result); //////////////////////////////debugger
 
-            if ("Save" == result) {// //////////////////////////debugger;
+            if ("Save" == result) {// ////////////////////////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -61984,7 +61984,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "printRowInside",
         value: function printRowInside() {
-          //////////debugger
+          ////////////debugger
           this.editRow(null, null, this.rowElementPres, "false");
           setTimeout(function () {
             var head = document.head || document.getElementsByTagName("head")[0];
@@ -62028,7 +62028,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "checkMyValue",
         value: function checkMyValue(ele, rowIdx) {
-          // //debugger
+          // ////debugger
           var MenonCalcVal = this.rows.value[rowIdx].MenonCalcVal;
 
           var _f5ivePre = parseFloat(this.rows.value[rowIdx].MenonCalcVal) * 5 / 100;
@@ -62042,7 +62042,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } else {
             this.rows.controls[rowIdx]["controls"]["noteVal"].setValidators(null);
             this.rows.controls[rowIdx]["controls"]["noteVal"].updateValueAndValidity();
-          } ////debugger
+          } //////debugger
 
         }
       }, {
@@ -62050,7 +62050,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function editRow(content, _type, _element, openModal) {
           var _this129 = this;
 
-          debugger;
+          //debugger;
           this.FIRST_NAME_In = _element.PatientFirstName;
           this.LAST_NAME_In = _element.PatientLastName;
           this.MID_NAME_In = _element.FatherName;
@@ -62062,7 +62062,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.Depart_In = _element.Depart;
           this.Seode_Depart_In = _element.Seode_Depart;
           this.ROW_ID_PRE = _element.PerscriptionID;
-          this.rowElementPres = _element; //////////////////debugger;
+          this.rowElementPres = _element; ////////////////////debugger;
           // this.PrespictionFormRow = this.formBuilder.group({
           //     noteVal: ["", false],
           //     Dosage_UnitVal: ["", false],
@@ -62090,7 +62090,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.dis = _status = false;
             this.isButtonVisible = true;
             this.showCopyBtn = true;
-            this.isCanceldVisible = false; // debugger
+            this.isCanceldVisible = false; // //debugger
 
             if (!_element.hideOrShow) {
               this.dis = _status = true;
@@ -62099,7 +62099,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.dis = _status = true;
             this.showCopyBtn = true;
             this.isButtonVisible = false;
-            this.isCanceldVisible = false; ////////////////////debugger
+            this.isCanceldVisible = false; //////////////////////debugger
           } else {
             this.showCopyBtn = false;
             this.dis = true;
@@ -62121,7 +62121,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           } else {
             _requerd_sen = null;
             _requerd_drug = _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required;
-          } ////////////////////debugger
+          } //////////////////////debugger
 
           /*
           DateAdministrationMed
@@ -62130,7 +62130,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
 
           var dateIN = null;
-          var dateT = null; //////debugger
+          var dateT = null; ////////debugger
 
           if (_element.DateAdministrationMed != "" && typeof _element.DateAdministrationMed != "object") {
             var dArr = _element.DateAdministrationMed.split("-");
@@ -62163,7 +62163,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.printForm.regesterdateIN = this.formatDate(dateIN);
           this.printForm.SensitivityVal = this.SensitivityBool;
           this.printForm.MedicationSensitivityVal = _element.MedicationSensitivity;
-          this.printForm.statusRowVal = _status; // //////////debugger
+          this.printForm.statusRowVal = _status; // ////////////debugger
 
           this.PrespictionForm = this.formBuilder.group({
             weightVal: [{
@@ -62231,7 +62231,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               disabled: false
             }, false]
           });
-          this.PresRowIdVal = _element.PerscriptionID; ////////////////////debugger
+          this.PresRowIdVal = _element.PerscriptionID; //////////////////////debugger
 
           this.getPresFromServer(_element.PerscriptionID);
 
@@ -62239,9 +62239,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.modalService.open(content, {
               windowClass: "width-1010"
             }).result.then(function (result) {
-              _this129.closeResult = "Closed with: ".concat(result); ////////////////////////////debugger
+              _this129.closeResult = "Closed with: ".concat(result); //////////////////////////////debugger
 
-              if ("Save" == result) {// //////////////////////////debugger;
+              if ("Save" == result) {// ////////////////////////////debugger;
                 //this.saveChad(_element.ROW_ID);
               }
             }, function (reason) {
@@ -62260,31 +62260,31 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function copyRowPres(element) {
           var _this130 = this;
 
-          //debugger
+          ////debugger
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
 
           this.PrespictionForm.enable();
-          this.rows.enable(); // ////////debugger
+          this.rows.enable(); // //////////debugger
           // return
 
           for (var i = 0; i < this.rows.value.length; i++) {
             this.rows.value[i]["Days_ProtocolVal"] = this.rows.value[i]["Days_ProtocolVal"].join(",");
-          } //debugger
+          } ////debugger
 
 
           var copyParent = this.PrespictionForm.value;
           var copyrows = this.rows.value;
           copyParent.statusRowVal = "false";
           copyParent.rowIdVal = "-100";
-          var dateNow = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"](new Date()).value; //////debugger
+          var dateNow = new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"](new Date()).value; ////////debugger
 
           copyParent.regesterdateIN = dateNow;
-          copyParent.takedateIN = null; //////debugger
+          copyParent.takedateIN = null; ////////debugger
 
           for (var i = 0; i < copyrows.length; i++) {
-            //////////debugger;
+            ////////////debugger;
             copyrows[i].newRow = "true";
             copyrows[i].rowIdPreVal = -1 * i;
           }
@@ -62299,9 +62299,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           var ParentFrom = copyParent;
-          var tableFrom = copyrows; ////debugger
+          var tableFrom = copyrows; //////debugger
           //return
-          //debugger
+          ////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
             ParentFrom: ParentFrom,
@@ -62309,7 +62309,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             patientId: this.ID,
             loginUserName: localStorage.getItem("loginUserName").toLowerCase()
           }).subscribe(function (Response) {
-            //////debugger;
+            ////////debugger;
             _this130.openSnackBar("נשמר בהצלחה", "success");
 
             _this130.loadModalAfterCopy = true;
@@ -62331,7 +62331,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "applyFilterSearch",
         value: function applyFilterSearch(value, index, element) {
-          this.elementRef.nativeElement = document.getElementById("singleSelect" + index); // ////debugger
+          this.elementRef.nativeElement = document.getElementById("singleSelect" + index); // //////debugger
 
           this.filterdDataArray = [];
           this.search(value, index);
@@ -62349,15 +62349,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
           }
 
-          this.ArrayDrus[index] = this.filterdDataArray; //////////////////debugger
+          this.ArrayDrus[index] = this.filterdDataArray; ////////////////////debugger
         }
       }, {
         key: "editRowPre",
         value: function editRowPre(content, _type, _element) {
           var _this131 = this;
 
-          debugger;
-          this.EDIT_ROW = true; ////////////////////debugger
+          //debugger;
+          this.EDIT_ROW = true; //////////////////////debugger
           // this.PrespictionFormRow = this.formBuilder.group({
           //     noteVal: [{value:_element.noteVal, disabled: this.dis}, false],
           //     Dosage_UnitVal: [{value:_element.Dosage_UnitVal, disabled: this.dis}, false],
@@ -62373,12 +62373,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //     MedListVal: [{value:_element.MedListVal, disabled: this.dis}, false],
           //     rowIdPreVal: [{value:_element.rowIdPreVal, disabled: this.dis}, false],
           // });
-          //debugger
+          ////debugger
 
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this131.closeResult = "Closed with: ".concat(result); ////////////////////////////debugger
+            _this131.closeResult = "Closed with: ".concat(result); //////////////////////////////debugger
 
-            if ("Save" == result) {// //////////////////////////debugger;
+            if ("Save" == result) {// ////////////////////////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -62388,7 +62388,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "changeActiveNo",
         value: function changeActiveNo($event) {
-          //////////////debugger;
+          ////////////////debugger;
           if ($event.checked) {
             this.Sensitivity = "1";
             this.PrespictionForm.controls.MedicationSensitivityVal.setValidators(null);
@@ -62413,12 +62413,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function changeActiveAndSave($event, _element) {
           var _this132 = this;
 
-          // //debugger
+          // ////debugger
           if ($event.checked) {
             $event = "1";
           } else {
             $event = "0";
-          } ////debugger
+          } //////debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNotToServe", {
@@ -62439,11 +62439,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this133 = this;
 
-          ////debugger
-          ////////////////////debugger
-          this.submitted = true; ////////////////////////////debugger
+          //////debugger
+          //////////////////////debugger
+          this.submitted = true; //////////////////////////////debugger
           // stop here if form is invalid
-          ////debugger
+          //////debugger
 
           if (this.PrespictionForm.invalid || this.rows.invalid) {
             this.openSnackBar("נא למלא את כל השדות המסומנים באדום", "error-font-gib");
@@ -62477,9 +62477,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.rows.value[i]["Days_ProtocolVal"] = this.rows.value[i]["Days_ProtocolVal"].join(",");
           }
 
-          var tableFrom = this.rows.value; ////debugger
+          var tableFrom = this.rows.value; //////debugger
           //return
-          // //////////debugger
+          // ////////////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
             ParentFrom: ParentFrom,
@@ -62505,7 +62505,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////////////////////////debugger
+          //////////////////////////debugger
           if (this.fliterVal.trim() != "") this.getTableFromServer(this.paginator.pageIndex, 50, this.fliterVal);
         }
       }, {
@@ -62526,23 +62526,23 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (this.weightVal == "NaN") {
             this.weightVal = "0";
-          } ////////////debugger
+          } //////////////debugger
 
 
           this.PrespictionForm.removeControl("areaVal");
-          this.PrespictionForm.addControl("areaVal", new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"]("")); ////////////////////debugger
+          this.PrespictionForm.addControl("areaVal", new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"]("")); //////////////////////debugger
 
           this.areaVal = Math.sqrt(parseFloat(this.heightVal) * parseFloat(this.weightVal) / 3600).toFixed(1);
           this.PrespictionForm.removeControl("areaVal");
           this.PrespictionForm.addControl("areaVal", new _angular_forms__WEBPACK_IMPORTED_MODULE_6__["FormControl"]({
             value: this.areaVal,
             disabled: false
-          })); //  //////debugger
+          })); //  ////////debugger
           // if(this.areaVal)
 
           this.PrespictionForm.controls.areaVal.setValue(this.areaVal); // else
           //   this.PrespictionForm.controls.areaVal.setValue(0);
-          //////////debugger
+          ////////////debugger
 
           this.calcPres();
         }
@@ -62552,7 +62552,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this134 = this;
 
           this.ArrayDrus = [];
-          this.getDropDownFromServer(); ////////////////////debugger
+          this.getDropDownFromServer(); //////////////////////debugger
 
           this.ROW_ID_PRE = "";
           this.PresRowIdVal = "";
@@ -62581,7 +62581,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _statusNotToDo = true;
           } else {
             _statusNotToDo = false;
-          } //debugger
+          } ////debugger
 
 
           this.SensitivityBool = false;
@@ -62605,12 +62605,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             MedicationSensitivityVal: ["", [_angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].pattern("[A-Za-z0-9 ]*")]],
             statusRowVal: [_status, false],
             statusNotToDo: [_statusNotToDo, false]
-          }); ////////////////////debugger
+          }); //////////////////////debugger
 
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this134.closeResult = "Closed with: ".concat(result); //////////////////////////debugger
+            _this134.closeResult = "Closed with: ".concat(result); ////////////////////////////debugger
 
-            if ("Save" == result) {// ////////////////////////debugger;
+            if ("Save" == result) {// //////////////////////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -62621,7 +62621,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         key: "openRow",
         value: function openRow(content, _type, _element) {
           this.EDIT_ROW = false;
-          this.ROW_ID_IN_TABLE = this.rows.length; ////////////////debugger
+          this.ROW_ID_IN_TABLE = this.rows.length; //////////////////debugger
           //this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
 
           var row = this.formBuilder.group({
@@ -62652,9 +62652,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           // this.modalService.open(content, this.modalOptions).result.then(
           //     (result) => {
           //         this.closeResult = `Closed with: ${result}`;
-          //         //////////////////////////debugger
+          //         ////////////////////////////debugger
           //         if ("Save" == result) {
-          //             // ////////////////////////debugger;
+          //             // //////////////////////////debugger;
           //             //this.saveChad(_element.ROW_ID);
           //         }
           //     },
@@ -62685,7 +62685,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDropDownFromServer() {
           var _this135 = this;
 
-          ////////////////////////debugger
+          //////////////////////////debugger
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsOptions", {}).subscribe(function (Response) {
             var json = JSON.parse(JSON.parse(Response["d"]));
             _this135.Calc_Type = JSON.parse(json["Calc_Type"]);
@@ -62696,7 +62696,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this135.Way_Of_Providing = JSON.parse(json["Way_Of_Providing"]);
             _this135.MedList = _this135.MedListConst = JSON.parse(json["MedList"]);
             _this135.Days_Protocol = JSON.parse(json["Days_Protocol"]);
-            _this135.Notes = JSON.parse(json["Notes"]); ////////////////////////debugger
+            _this135.Notes = JSON.parse(json["Notes"]); //////////////////////////debugger
           });
         }
       }, {
@@ -62704,12 +62704,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getPresFromServer(_presID) {
           var _this136 = this;
 
-          this.getDropDownFromServer(); ////////////////////////debugger
+          this.getDropDownFromServer(); //////////////////////////debugger
 
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////////////////////////debugger
+            // //////////////////////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -62717,7 +62717,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPresRows", {
             ID: _presID
           }).subscribe(function (Response) {
-            ////////////debugger
+            //////////////debugger
             _this136.rows = _this136.formBuilder.array([]);
             _this136.PrespictionFormRow = _this136.formBuilder.group({
               SrcPresRows: _this136.rows
@@ -62734,7 +62734,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this136.tableDataPresPrint = [];
 
             for (var i = 0; i < Medicine_Prescriptions.length; i++) {
-              // //////////////////debugger
+              // ////////////////////debugger
 
               /*
                */
@@ -62752,7 +62752,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
               if (d > -1) {
                 groupID = _this136.MedList[d].groupID;
-              } //  //////////////////debugger
+              } //  ////////////////////debugger
 
 
               var row = _this136.formBuilder.group({
@@ -62812,7 +62812,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 newRow: ["false", false]
               });
 
-              _this136.ArrayDrus.push(_this136.MedListConst); ////debugger
+              _this136.ArrayDrus.push(_this136.MedListConst); //////debugger
 
 
               _this136.tableDataPresPrint.push({
@@ -62830,7 +62830,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 MedListVal: Medicine_Prescriptions[i].DrugName,
                 rowIdPreVal: Medicine_Prescriptions[i].MedicinID,
                 newRow: false
-              }); //debugger
+              }); ////debugger
 
 
               if (clc != "" && clc != "0" && clc != "0.00" && Medicine_Prescriptions[i].DrugName != "" && (groupID == "1" || groupID == "4")) {
@@ -62845,10 +62845,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this136.updateView();
 
             _this136.tableDataSrcPresPrint = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this136.tableDataPresPrint); // this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
-            //////////////////debugger;
+            ////////////////////debugger;
 
             setTimeout(function () {
-              //////////////////////////debugger
+              ////////////////////////////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -62865,12 +62865,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getTableFromServer(_pageIndex, _pageSize, _FreeText) {
           var _this137 = this;
 
-          this.getDropDownFromServer(); ////////////////////////debugger
+          this.getDropDownFromServer(); //////////////////////////debugger
 
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////////////////////////debugger
+            // //////////////////////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           } else {
@@ -62886,7 +62886,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             var json = JSON.parse(JSON.parse(Response["d"]));
             var DataPrecpiction = JSON.parse(json["Prescriptions"]);
-            var Patient = JSON.parse(json["Patient"]); ////////////////////////debugger
+            var Patient = JSON.parse(json["Patient"]); //////////////////////////debugger
 
             _this137.DemographData = Patient;
 
@@ -62907,17 +62907,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               _this137.openSnackBar("לא נמצא נתונים", "error");
 
               jquery__WEBPACK_IMPORTED_MODULE_5__(document).find("#prespictionsDetailsBtn").prop("disabled", true);
-            } //////////////////////////debugger
+            } ////////////////////////////debugger
 
 
             for (var i = 0; i < DataPrecpiction.length; i++) {
-              ////debugger;
+              //////debugger;
               var ShowRow = false;
 
               if (DataPrecpiction[i].Status == "נעול") {
                 ShowRow = true;
               } else if (_this137.prem) {
-                // //debugger
+                // ////debugger
                 ShowRow = true;
               } else {
                 ShowRow = false;
@@ -62968,7 +62968,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 default:
                   _this137.showDeleteBtn = false;
               }
-            } // ////////////////////////debugger
+            } // //////////////////////////debugger
 
 
             _this137.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this137.TABLE_DATA);
@@ -62977,9 +62977,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             var that = _this137;
             _this137.loadModalAfterCopy = false;
             setTimeout(function () {
-              //////////////////////////debugger
+              ////////////////////////////debugger
               if (that.loadModalAfterClose) {
-                //////debugger
+                ////////debugger
                 var rowToLoad = jquery__WEBPACK_IMPORTED_MODULE_5__(document).find("#formTable tbody>tr>td:contains(" + that.ROW_ID_PRE + ")");
                 rowToLoad.parents("tr:first").find("button").click();
                 that.loadModalAfterClose = false;
@@ -64695,7 +64695,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "radioChange",
         value: function radioChange(event) {
-          ////debugger
+          //////debugger
           this._fun.radioChange(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -64714,7 +64714,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "quart_change",
         value: function quart_change(event) {
-          ////debugger;
+          //////debugger;
           this._fun.quart_change(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -64755,7 +64755,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (_counter == 4) {
             _surgeryType = "ALL";
-          } ////////debugger
+          } //////////debugger
 
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
@@ -64768,7 +64768,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _depart: _Depart,
             _PatientType: _PatientType
           }).subscribe(function (Response) {
-            jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty(); // //////debugger
+            jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty(); // ////////debugger
 
             _this138.TABLE_DATA.splice(0, _this138.TABLE_DATA.length);
 
@@ -64787,7 +64787,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             var _monthsNowVal = JSON.parse(json["_monthsNowVal"]);
 
-            var _monthsPastVal = JSON.parse(json["_monthsPastVal"]); ////////debugger
+            var _monthsPastVal = JSON.parse(json["_monthsPastVal"]); //////////debugger
 
 
             var DepartName = JSON.parse(json["DepartName"]);
@@ -64814,7 +64814,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             var DepartCounterBekoremNewPast = JSON.parse(json["DepartCounterBekoremNewPast"]);
             var DepartNameNotNewPast = JSON.parse(json["DepartNameNotNewPast"]);
             var DepartCounterBekoremNotNewPast = JSON.parse(json["DepartCounterBekoremNotNewPast"]);
-            debugger;
+            //debugger;
 
             _this138._fun.drawCharToDom("line", _monthsLabels, [_monthsNowVal, _monthsPastVal], "totalLineChart", "canvsLineChart", _yearStart.toString(), (_yearStart - 1).toString());
 
@@ -64906,7 +64906,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
               _div.append(_rowClone);
 
-              totAll += parseInt(DepartCounterBekorem[i]); //debugger
+              totAll += parseInt(DepartCounterBekorem[i]); ////debugger
 
               if (DepartSeodeName[i] == "מר-קרד-כ" || DepartSeodeName[i] == "מר-המט" || DepartSeodeName[i] == "מכ-או-כ" || DepartSeodeName[i] == "מר-פג" || DepartSeodeName[i] == "מר-ראומט") {
                 /*
@@ -64917,7 +64917,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 SeodeRoomCounterPast
                 SeodeRoomDepartPast
                 */
-                debugger;
+                //debugger;
 
                 for (var sIn = 0; sIn < SeodeRoomNameNow.length; sIn++) {
                   var _rowClone2;
@@ -65011,14 +65011,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   _div.append(_rowClone2);
                 }
               }
-            } // //////debugger;
+            } // ////////debugger;
 
 
             totAllPast = 0;
 
             for (i = 0; i < DepartNamePast.length; i++) {
               totAllPast += parseInt(DepartCounterBekoremPast[i]);
-            } //////debugger;
+            } ////////debugger;
 
 
             _this138._fun.drawCharToDom("bar", [(_yearStart - 1).toString(), _yearStart.toString()], [totAllPast, totAll], "totalBarChart", "canvstotalBarChart", 'סה"כ', "");
@@ -65039,7 +65039,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
           });
         }
@@ -68040,7 +68040,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this144 = this;
 
-          this.submitted = true; ////debugger
+          this.submitted = true; //////debugger
           // stop here if form is invalid
 
           if (this.departsForm.invalid) {
@@ -68065,7 +68065,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.active_sheet = "1";
           }
 
-          this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text; //debugger
+          this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text; ////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaDeparts", {
             _departName: this.departsForm.value.fullnameVal,
@@ -68076,7 +68076,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _smsText: this.departsForm.value.sms_text
           }).subscribe(function (Response) {
             var json = Response["d"].split(", ");
-            ; //debugger       
+            ; ////debugger       
 
             if (" UPDATE" != json[3]) {
               _this144.rowElement.D_NAME = json[0];
@@ -68097,8 +68097,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               _this144.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this144.TABLE_DATA);
               _this144.resultsLength = _this144.resultsLength + 1;
             } //var vars = json.split
-            // //debugger;
-            // //debugger 888888
+            // ////debugger;
+            // ////debugger 888888
 
 
             _this144.openSnackBar();
@@ -68121,12 +68121,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function editRow(content, _type, _element) {
           var _this145 = this;
 
-          ////debugger
+          //////debugger
           this.rowElement = _element;
           this.fullnameVal = _element.D_NAME;
           this.rowIdVal = _element.D_ROW_ID;
           this.idSheet = _element.D_SHEET_ID;
-          this.active_sheet = _element.D_SEND_SMS; //debugger
+          this.active_sheet = _element.D_SEND_SMS; ////debugger
 
           if (this.active_sheet == "0" || this.active_sheet == null || this.active_sheet == "לא" || this.active_sheet == "") {
             this.active_sheet_bool = false;
@@ -68150,9 +68150,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this145.closeResult = "Closed with: ".concat(result); ////debugger
+            _this145.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -68162,7 +68162,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
         }
       }, {
@@ -68177,7 +68177,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this146 = this;
 
           //$('#free_text').text(_element.FreeText);
-          ////debugger
+          //////debugger
           this.rowElement = {
             D_ROW_ID: 0,
             D_SHEET_ID: '-1',
@@ -68197,9 +68197,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             rowIdVal: ["", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this146.closeResult = "Closed with: ".concat(result); ////debugger
+            _this146.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -68234,7 +68234,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -68247,10 +68247,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this147.TABLE_DATA.splice(0, _this147.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var DepartsData = JSON.parse(json["aaData"]); ////debugger
+            var DepartsData = JSON.parse(json["aaData"]); //////debugger
 
             for (var i = 0; i < DepartsData.length; i++) {
-              ////debugger
+              //////debugger
               if (DepartsData[i].D_SEND_SMS == "0") {
                 DepartsData[i].D_SEND_SMS = "לא";
               } else {
@@ -68265,13 +68265,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 D_SEND_SMS: DepartsData[i].D_SEND_SMS,
                 D_SMS_TEXT: DepartsData[i].D_SMS_TEXT
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this147.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this147.TABLE_DATA);
             _this147.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -68645,7 +68645,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "radioChange",
         value: function radioChange(event) {
-          ////debugger
+          //////debugger
           this._selectedYear = event.value;
           this.Sdate = new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](new Date(event.value, 0, 1));
           this.Edate = new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](new Date(event.value, 11, 31));
@@ -68655,7 +68655,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "quart_change",
         value: function quart_change(event) {
-          //////debugger;
+          ////////debugger;
           switch (event.value) {
             case "all":
               this.Sdate = new _angular_forms__WEBPACK_IMPORTED_MODULE_0__["FormControl"](new Date(this._selectedYear, 0, 1));
@@ -68704,7 +68704,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             var s = Math.floor(Math.random() * 255 + 1);
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
-            var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.2)"; //////debugger;
+            var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.2)"; ////////debugger;
 
             backgroundColorArray.push(backgound);
             backgroundColorArrayOpacity.push(backgoundOpacity);
@@ -68721,7 +68721,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           var _yearStart = new Date(this.startdateVal).getFullYear();
 
-          var _yearEnd = _yearStart - 1; // ////debugger;
+          var _yearEnd = _yearStart - 1; // //////debugger;
 
 
           if (_dataType == "line") {
@@ -68781,7 +68781,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   callbacks: {
                     label: function label(tooltipItem, data) {
                       //get the concerned dataset
-                      var dataset = data.datasets[tooltipItem.datasetIndex]; // ////debugger;
+                      var dataset = data.datasets[tooltipItem.datasetIndex]; // //////debugger;
 
                       var total = 0;
 
@@ -68831,7 +68831,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             $("#" + _wrapperId).empty();
             $("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
             var canvas = document.getElementById(_chartId);
-            var ctxIn = canvas.getContext("2d"); //////debugger
+            var ctxIn = canvas.getContext("2d"); ////////debugger
 
             var myChart = new chart_js__WEBPACK_IMPORTED_MODULE_1__(ctxIn, {
               type: _dataType,
@@ -70060,7 +70060,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.fliterVal = "";
         this.activeOrNot = "";
         this.submitted = false;
-        this.perm = false; // //debugger
+        this.perm = false; // ////debugger
 
         this.activeModal = activeModal;
         this.ResearchesUsersForm = this.formBuilder.group({
@@ -70095,7 +70095,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: ["0", false]
           });
           setTimeout(function () {
-            console.log("sleep"); ////debugger
+            console.log("sleep"); //////debugger
 
             if (localStorage.getItem("loginUserName").toLowerCase() == "jmassalha" || localStorage.getItem("loginUserName").toLowerCase() == "samer" || localStorage.getItem("loginUserName").toLowerCase() == "owertheim") {
               _this150.perm = true;
@@ -70111,7 +70111,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             _this150.getReport(_this150); // And any other code that should run only after 5s
 
-          }, 1000); // //debugger
+          }, 1000); // ////debugger
         }
       }, {
         key: "openSnackBar",
@@ -70129,7 +70129,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this151 = this;
 
-          this.submitted = true; //////debugger
+          this.submitted = true; ////////debugger
           // stop here if form is invalid
 
           this.ResearchesForm.value.ResearchStartDate = Object(_angular_common__WEBPACK_IMPORTED_MODULE_2__["formatDate"])(this.ResearchesForm.value.ResearchStartDate, "yyyy-MM-dd", "en-US");
@@ -70137,7 +70137,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (this.ResearchesForm.invalid) {
             return;
-          } ////debugger
+          } //////debugger
 
 
           setTimeout(function () {
@@ -70166,8 +70166,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getResearchPermission", {
             _UserName: localStorage.getItem("loginUserName")
           }).subscribe(function (Response) {
-            // //////////debugger
-            ////debugger
+            // ////////////debugger
+            //////debugger
             var json = JSON.parse(Response["d"]);
 
             switch (json) {
@@ -70188,10 +70188,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getDropDownFromServer() {
           var _this153 = this;
 
-          debugger;
+          //debugger;
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetResearchesDepart", {}).subscribe(function (Response) {
             var json = JSON.parse(Response["d"]);
-            debugger;
+            //debugger;
             _this153.Departs = json;
           });
         }
@@ -70213,7 +70213,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this154 = this;
 
           this.ResearchName = _element.ResearchName;
-          this.ResearchNumber = _element.ResearchNumber; //debugger;
+          this.ResearchNumber = _element.ResearchNumber; ////debugger;
 
           this.ResearchesForm = this.formBuilder.group({
             ResearchNumber: [_element.ResearchNumber, _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
@@ -70226,9 +70226,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: [_element.RowID, false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this154.closeResult = "Closed with: ".concat(result); //////debugger
+            _this154.closeResult = "Closed with: ".concat(result); ////////debugger
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -70238,7 +70238,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          //////debugger
+          ////////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.activeOrNot);
         }
       }, {
@@ -70253,7 +70253,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this155 = this;
 
           this.ResearchNumber = "";
-          this.ResearchName = "חדש"; ////debugger;
+          this.ResearchName = "חדש"; //////debugger;
 
           this.ResearchesForm = this.formBuilder.group({
             ResearchNumber: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
@@ -70266,9 +70266,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: ["0", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this155.closeResult = "Closed with: ".concat(result); //////debugger
+            _this155.closeResult = "Closed with: ".concat(result); ////////debugger
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -70303,7 +70303,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").removeClass("d-none");
           }
@@ -70316,11 +70316,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _pemAdmin: this.pemAdmin,
             _userName: localStorage.getItem("loginUserName")
           }).subscribe(function (Response) {
-            //////debugger
+            ////////debugger
             _this156.TABLE_DATA.splice(0, _this156.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var Poria_Researches = JSON.parse(json["Researches"]); //  //debugger
+            var Poria_Researches = JSON.parse(json["Researches"]); //  ////debugger
 
             for (var i = 0; i < Poria_Researches.length; i++) {
               _this156.TABLE_DATA.push({
@@ -70336,13 +70336,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 ResearchEndDate: Poria_Researches[i].ResearchEndDate,
                 ResearchDepart: Poria_Researches[i].ResearchDepart
               });
-            } // ////debugger
+            } // //////debugger
 
 
             _this156.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_4__["MatTableDataSource"](_this156.TABLE_DATA);
             _this156.resultsLength = parseInt(json["totalRows"]);
             setTimeout(function () {
-              //////debugger
+              ////////debugger
               //if (tableLoader) {
               jquery__WEBPACK_IMPORTED_MODULE_6__("#loader").addClass("d-none"); // }
             });
@@ -71439,7 +71439,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this157 = this;
 
-          this.submitted = true; ////debugger
+          this.submitted = true; //////debugger
 
           this.patientForm.value.StartDate = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.StartDate, "yyyy-MM-dd", "en-US");
           this.patientForm.value.EndDate = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.patientForm.value.EndDate, "yyyy-MM-dd", "en-US"); // stop here if form is invalid
@@ -71449,7 +71449,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             return;
           }
 
-          debugger;
+          //debugger;
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearchesPatients", {
             _patientForm: this.patientForm.value
           }).subscribe(function (Response) {
@@ -71475,7 +71475,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.UserEmailStatus = true;
           } else {
             this.UserEmailStatus = false;
-          } //debugger
+          } ////debugger
 
 
           this.patientForm = this.formBuilder.group({
@@ -71495,7 +71495,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReportresearchespatients",
         value: function getReportresearchespatients($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterValPatient, this.StatusPatient);
         }
       }, {
@@ -71508,7 +71508,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         key: "open",
         value: function open(content, _type, _element) {
           //$('#free_text').text(_element.FreeText);
-          ////debugger
+          //////debugger
           this.UserSmsStatus = false;
           this.UserEmailStatus = false;
           this.patientForm = this.formBuilder.group({
@@ -71553,7 +71553,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -71565,14 +71565,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _Status: _Status,
             _ResearchID: this.ReseachRowId
           }).subscribe(function (Response) {
-            _this158.TABLE_DATA.splice(0, _this158.TABLE_DATA.length); //debugger
+            _this158.TABLE_DATA.splice(0, _this158.TABLE_DATA.length); ////debugger
 
 
             var json = JSON.parse(Response["d"]);
             var patientData = JSON.parse(json["Patients"]);
 
             for (var i = 0; i < patientData.length; i++) {
-              ////debugger
+              //////debugger
               _this158.TABLE_DATA.push({
                 RowID: patientData[i].RowID,
                 PatientId: patientData[i].PatientId,
@@ -71587,13 +71587,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 StartDate: patientData[i].StartDate,
                 EndDate: patientData[i].EndDate
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this158.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this158.TABLE_DATA);
             _this158.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -72807,7 +72807,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "ngOnInit",
         value: function ngOnInit() {
-          debugger;
+          //debugger;
           this.hideInputs = false;
 
           if (this.ReseachRowId == "0" || this.ReseachRowId == undefined || this.ReseachRowId == null) {
@@ -72847,17 +72847,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this159 = this;
 
           this.submitted = true;
-          debugger; // stop here if form is invalid
+          //debugger; // stop here if form is invalid
 
           if (this.usersForm.invalid) {
             return;
-          } // //debugger
+          } // ////debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearchesUsers", {
             _usersForm: this.usersForm.value
           }).subscribe(function (Response) {
-            //debugger
+            ////debugger
             _this159.applyFilterresearchesusers(_this159.fliterValUser);
 
             _this159.openSnackBar();
@@ -72865,7 +72865,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.usersForm.value, null, 4));
           //this.modalServiceresearchesusers.dismiss();
 
-          this.activeModal.close(); // debugger
+          this.activeModal.close(); // //debugger
           //this.activeModal.close();
           //this.modalReferenceUsers.close('');
         }
@@ -72900,7 +72900,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.UserEmailStatus = true;
           } else {
             this.UserEmailStatus = false;
-          } //debugger
+          } ////debugger
 
 
           if (this.ReseachRowId == "0" || this.ReseachRowId == undefined || this.ReseachRowId == null) {
@@ -72936,7 +72936,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReportUsers",
         value: function getReportUsers($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterValUser, this.StatusUser);
         }
       }, {
@@ -72949,7 +72949,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         key: "open",
         value: function open(content, _type, _element) {
           //$('#free_text').text(_element.FreeText);
-          ////debugger
+          //////debugger
           this.UserSmsStatus = false;
           this.UserEmailStatus = false;
 
@@ -72979,7 +72979,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               RowID: [0, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
               ReseachRowId: [this.ReseachRowId, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required]
             });
-          } //debugger
+          } ////debugger
 
 
           this.activeModal = this.modalServiceresearchesusers.open(content, this.modalOptions);
@@ -73012,7 +73012,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -73024,14 +73024,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _Status: _Status,
             _ResearchID: this.ReseachRowId
           }).subscribe(function (Response) {
-            _this160.TABLE_DATA.splice(0, _this160.TABLE_DATA.length); //debugger
+            _this160.TABLE_DATA.splice(0, _this160.TABLE_DATA.length); ////debugger
 
 
             var json = JSON.parse(Response["d"]);
             var userssData = JSON.parse(json["Users"]);
 
             for (var i = 0; i < userssData.length; i++) {
-              ////debugger
+              //////debugger
               _this160.TABLE_DATA.push({
                 RowID: userssData[i].RowID,
                 UserName: userssData[i].UserName,
@@ -73044,13 +73044,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 UserEmailStatus: userssData[i].UserEmailStatus,
                 UserEmail: userssData[i].UserEmail
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this160.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this160.TABLE_DATA);
             _this160.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -73850,7 +73850,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this161 = this;
 
-          this.submitted = true; ////debugger
+          this.submitted = true; //////debugger
           // stop here if form is invalid
 
           if (this.rolesForm.invalid) {
@@ -73858,14 +73858,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }
 
           this.rowElement.R_ROLE_NAME = this.rolesForm.value.fullnameVal;
-          this.rowElement.R_ROW_ID = this.rolesForm.value.rowIdVal; // //debugger
+          this.rowElement.R_ROW_ID = this.rolesForm.value.rowIdVal; // ////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaRoles", {
             _roleName: this.rolesForm.value.fullnameVal,
             _roleStatus: 1,
             _rowId: this.rolesForm.value.rowIdVal
           }).subscribe(function (Response) {
-            var json = Response["d"].split(", "); //debugger
+            var json = Response["d"].split(", "); ////debugger
 
             if (" UPDATE" != json[2]) {
               _this161.rowElement.R_ROLE_NAME = json[0];
@@ -73876,8 +73876,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               _this161.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this161.TABLE_DATA);
               _this161.resultsLength = _this161.resultsLength + 1;
             } //var vars = json.split
-            // //debugger;
-            // //debugger 888888
+            // ////debugger;
+            // ////debugger 888888
 
 
             _this161.openSnackBar();
@@ -73891,7 +73891,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function editRow(content, _type, _element) {
           var _this162 = this;
 
-          ////debugger
+          //////debugger
           this.rowElement = _element;
           this.fullnameVal = _element.R_ROLE_NAME;
           this.rowIdVal = _element.R_ROW_ID;
@@ -73900,9 +73900,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             rowIdVal: [this.rowIdVal, false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this162.closeResult = "Closed with: ".concat(result); ////debugger
+            _this162.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -73912,7 +73912,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
         }
       }, {
@@ -73927,7 +73927,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this163 = this;
 
           //$('#free_text').text(_element.FreeText);
-          ////debugger
+          //////debugger
           this.rowElement = {
             R_ROW_ID: 0,
             R_ROLE_NAME: "",
@@ -73940,9 +73940,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             rowIdVal: ["0", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this163.closeResult = "Closed with: ".concat(result); ////debugger
+            _this163.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -73977,7 +73977,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -73990,22 +73990,22 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this164.TABLE_DATA.splice(0, _this164.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var RolesData = JSON.parse(json["aaData"]); ////debugger
+            var RolesData = JSON.parse(json["aaData"]); //////debugger
 
             for (var i = 0; i < RolesData.length; i++) {
-              ////debugger
+              //////debugger
               _this164.TABLE_DATA.push({
                 R_ROW_ID: RolesData[i].R_ROW_ID,
                 R_ROLE_NAME: RolesData[i].R_ROLE_NAME,
                 R_ROW_STATUS: RolesData[i].R_ROW_STATUS
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this164.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this164.TABLE_DATA);
             _this164.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -75962,7 +75962,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
           //console.log(this.paginator.pageIndex);
           // $(document).on('submit', '#sendForm', function(e){
-          //     //debugger
+          //     ////debugger
           // })
 
 
@@ -76031,7 +76031,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             this.DoseCompany = false;
           }
 
-          debugger;
+          //debugger;
           this.sarsForm = this.fb.group({
             PatientID: [{
               value: this.rowFormData.PatientID,
@@ -76115,9 +76115,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }, null]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this165.closeResult = "Closed with: ".concat(result); ////debugger
+            _this165.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -76138,12 +76138,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "toShortFormat",
         value: function toShortFormat(d) {
-          ////debugger;
+          //////debugger;
           var monthNames = ["01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"];
           var day = d.getDate();
           var monthIndex = d.getMonth();
           var monthName = monthNames[monthIndex];
-          var year = d.getFullYear(); ////debugger
+          var year = d.getFullYear(); //////debugger
 
           return "".concat(day, "/").concat(monthName, "/").concat(year);
         }
@@ -76164,12 +76164,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "printRowForm",
         value: function printRowForm() {
-          // debugger
-          //debugger
+          // //debugger
+          ////debugger
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
               row.CS_SURVEY_Q2_2 = "";
-              //debugger
+              ////debugger
           }*/
 
           setTimeout(function () {
@@ -76185,7 +76185,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -76201,10 +76201,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             var json = JSON.parse(Response["d"]);
             var json_2 = JSON.parse(json);
-            var SarsData = JSON.parse(json_2["aaData"]); // debugger;
+            var SarsData = JSON.parse(json_2["aaData"]); // //debugger;
 
             for (var i = 0; i < SarsData.length; i++) {
-              debugger;
+              //debugger;
 
               _this166.TABLE_DATA.push({
                 PatientID: SarsData[i].PatientID,
@@ -76236,13 +76236,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 DoseAnotherCompany: SarsData[i].DoseAnotherCompany,
                 AreYouDealingWithAnyStateOfImmunosuppression: SarsData[i].AreYouDealingWithAnyStateOfImmunosuppression
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this166.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this166.TABLE_DATA);
             _this166.resultsLength = parseInt(JSON.parse(json_2["iTotalRecords"]));
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -77598,7 +77598,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
           //console.log(this.paginator.pageIndex);
           // $(document).on('submit', '#sendForm', function(e){
-          //     ////debugger
+          //     //////debugger
           // })
 
 
@@ -77624,7 +77624,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function open(content, _type, _element) {
           var _this167 = this;
 
-          this.rowFormData = _element; //debugger;
+          this.rowFormData = _element; ////debugger;
 
           this.SarsResultsForm = this.fb.group({
             L_MOBILE: [this.rowFormData.L_MOBILE, _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required],
@@ -77633,9 +77633,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             L_ROW_ID: [this.rowFormData.L_ROW_ID, _angular_forms__WEBPACK_IMPORTED_MODULE_7__["Validators"].required]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this167.closeResult = "Closed with: ".concat(result); //////debugger
+            _this167.closeResult = "Closed with: ".concat(result); ////////debugger
 
-            if ("Save" == result) {// ////debugger;
+            if ("Save" == result) {// //////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -77669,7 +77669,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           } //http://srv-apps-prod/RCF_WS/WebService.asmx/
@@ -77684,12 +77684,12 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           }).subscribe(function (Response) {
             _this168.TABLE_DATA.splice(0, _this168.TABLE_DATA.length);
 
-            var json = JSON.parse(Response["d"]); // //debugger
+            var json = JSON.parse(Response["d"]); // ////debugger
 
-            var SarsData = JSON.parse(json["aaData"]); //debugger;
+            var SarsData = JSON.parse(json["aaData"]); ////debugger;
 
             for (var i = 0; i < SarsData.length; i++) {
-              ////debugger
+              //////debugger
               var dateIn = SarsData[i].L_DOB.split('/');
 
               _this168.TABLE_DATA.push({
@@ -77715,13 +77715,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 L_PATIENT_NUMBER: SarsData[i].L_PATIENT_NUMBER,
                 L_PASSWORD: SarsData[i].L_PASSWORD
               });
-            } // ////debugger
+            } // //////debugger
 
 
             _this168.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this168.TABLE_DATA);
             _this168.resultsLength = parseInt(JSON.parse(json["iTotalRecords"]));
             setTimeout(function () {
-              //////debugger
+              ////////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -77733,7 +77733,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this169 = this;
 
-          jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none"); //debugger;
+          jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none"); ////debugger;
           // stop here if form is invalid
 
           this.SarsResultsForm.value.L_DOB = Object(_angular_common__WEBPACK_IMPORTED_MODULE_6__["formatDate"])(this.SarsResultsForm.value.L_DOB, "yyyy-MM-dd", "en-US");
@@ -77741,13 +77741,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           if (this.SarsResultsForm.invalid) {
             return;
           } //http://srv-ipracticom:8080/WebService.asmx
-          ////debugger
+          //////debugger
 
 
           this.http.post("http://srv-ipracticom:8080/WebService.asmx/SarsResultsFormSubmit", {
             sarsResultForm: this.SarsResultsForm.value
           }).subscribe(function (Response) {
-            //////debugger;
+            ////////debugger;
             setTimeout(function () {
               //this.dataSource.paginator = this.paginator
               _this169.openSnackBar("נשלח בהצלחה", "success");
@@ -77759,7 +77759,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             _this169.modalService.dismissAll();
           }, function (error) {
-            // //////debugger;
+            // ////////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
           });
         }
@@ -78561,7 +78561,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.activeOrNot = "";
         this.submitted = false;
         this.perm = false;
-        this.NotAllOrNull = false; // ////debugger
+        this.NotAllOrNull = false; // //////debugger
 
         this.activeModal = activeModal;
       }
@@ -78569,7 +78569,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       _createClass(ScannersComponent, [{
         key: "ngOnInit",
         value: function ngOnInit() {
-          this.SendSmsToemergencymembersModal; //debugger;
+          this.SendSmsToemergencymembersModal; ////debugger;
 
           jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           this.GroupName = "";
@@ -78606,16 +78606,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this170 = this;
 
-          this.submitted = true; //debugger
+          this.submitted = true; ////debugger
 
           if (this.BoxForm.invalid) {
             return;
-          } //////debugger
+          } ////////debugger
 
 
           setTimeout(function () {
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          }); ////debugger;
+          }); //////debugger;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
             boxes: this.BoxForm.value
@@ -78635,7 +78635,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "showcasenumbers",
         value: function showcasenumbers(content, _type, _element) {
-          // //debugger;
+          // ////debugger;
           localStorage.setItem("CartoonID", _element.RowID);
           this.modalService.open(content, this.modalOptions);
         }
@@ -78649,7 +78649,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function editRow(content, _type, _element) {
           var _this171 = this;
 
-          this.GroupName = _element.GroupName; ////debugger;
+          this.GroupName = _element.GroupName; //////debugger;
 
           this.BoxForm = this.formBuilder.group({
             BoxID: [_element.BoxID, _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -78657,9 +78657,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: [_element.RowID, false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this171.closeResult = "Closed with: ".concat(result); ////////debugger
+            _this171.closeResult = "Closed with: ".concat(result); //////////debugger
 
-            if ("Save" == result) {// //////debugger;
+            if ("Save" == result) {// ////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -78669,7 +78669,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////////debugger
+          //////////debugger
           this.getTableFromServer(this.fliterVal, 0, 10);
         }
       }, {
@@ -78684,7 +78684,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this172 = this;
 
           this.GroupNumber = "";
-          this.GroupName = "חדש"; //////debugger;
+          this.GroupName = "חדש"; ////////debugger;
 
           this.BoxForm = this.formBuilder.group({
             BoxID: ["", _angular_forms__WEBPACK_IMPORTED_MODULE_6__["Validators"].required],
@@ -78692,9 +78692,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             RowID: ["0", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this172.closeResult = "Closed with: ".concat(result); ////////debugger
+            _this172.closeResult = "Closed with: ".concat(result); //////////debugger
 
-            if ("Save" == result) {// //////debugger;
+            if ("Save" == result) {// ////////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -78729,10 +78729,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //////debugger
+            // ////////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
-          } //debugger
+          } ////debugger
           //http://srv-apps-prod/RCF_WS/WebService.asmx/
           //http://srv-apps-prod/RCF_WS/WebService.asmx/
 
@@ -78742,10 +78742,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             pageIndex: _pageIndex,
             pageSize: _pageSize
           }).subscribe(function (Response) {
-            ////////debugger
+            //////////debugger
             _this173.TABLE_DATA.splice(0, _this173.TABLE_DATA.length);
 
-            _this173.TABLE_DATA = Response["d"]; //debugger
+            _this173.TABLE_DATA = Response["d"]; ////debugger
 
             if (_this173.TABLE_DATA[0]["BoxID"] == null) {
               _this173.TABLE_DATA = [];
@@ -78757,7 +78757,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
 
             setTimeout(function () {
-              ////////debugger
+              //////////debugger
               //if (tableLoader) {
               jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none"); // }
             });
@@ -79209,7 +79209,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function sendSms() {
           var _this174 = this;
 
-          ////debugger
+          //////debugger
           // stop here if form is invalid
           if (this.sendSmsForm.invalid) {
             return;
@@ -79219,10 +79219,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
-          } // //debugger
+          } // ////debugger
 
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSMSOnLine", {
@@ -79238,7 +79238,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               surveyNumber: ["1", _angular_forms__WEBPACK_IMPORTED_MODULE_2__["Validators"].required]
             });
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
               }
@@ -79655,17 +79655,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         this.smsType = "SMSOnLineAdmin";
         this.textAreaVal = "";
         this.activeModal = activeModal;
-        debugger;
+        //debugger;
 
         if (localStorage.getItem("textAreaVal") && localStorage.getItem("textAreaVal") != "") {
-          debugger;
+          //debugger;
           this.smsType = localStorage.getItem("smsType"); //"SMSMaternity"
 
           this.emergencyCall = true;
           this.GetMessagesTemp();
           this.textAreaVal = localStorage.getItem("textAreaVal");
           localStorage.setItem("textAreaVal", "");
-          debugger;
+          //debugger;
         } else {
           this.emergencyCall = false;
           this.smsType = "SMSOnLineAdmin";
@@ -79722,8 +79722,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this175 = this;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMessagesTemp", {}).subscribe(function (Response) {
-            // debugger
-            _this175.MessagesTemp = Response["d"]; // debugger
+            // //debugger
+            _this175.MessagesTemp = Response["d"]; // //debugger
           });
         }
       }, {
@@ -79731,7 +79731,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function sendSms() {
           var _this176 = this;
 
-          ////debugger
+          //////debugger
           // stop here if form is invalid
           if (this.sendSmsForm.invalid) {
             return;
@@ -79752,7 +79752,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             if (confirmed) {
               if (jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").hasClass("d-none")) {
-                // //debugger
+                // ////debugger
                 tableLoader = true;
                 jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").removeClass("d-none");
               }
@@ -79775,7 +79775,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 _this176.parentFun.emit();
 
                 setTimeout(function () {
-                  ////debugger
+                  //////debugger
                   if (tableLoader) {
                     jquery__WEBPACK_IMPORTED_MODULE_1__("#loader").addClass("d-none");
                   }
@@ -80668,17 +80668,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this177 = this;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRoles", {}).subscribe(function (Response) {
-            //// //debugger
+            //// ////debugger
             _this177.TABLE_DATA.splice(0, _this177.TABLE_DATA.length);
 
-            var json = JSON.parse(Response["d"]); // // //debugger
+            var json = JSON.parse(Response["d"]); // // ////debugger
 
             var _d = JSON.parse(json["Roles"]);
 
             var i = 0;
 
             for (var role in _d) {
-              //// //debugger
+              //// ////debugger
               var _sD = {
                 id: role,
                 name: _d[role]
@@ -80716,17 +80716,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this178 = this;
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeparts", {}).subscribe(function (Response) {
-            //// //debugger
+            //// ////debugger
             _this178.TABLE_DATA.splice(0, _this178.TABLE_DATA.length);
 
-            var json = JSON.parse(Response["d"]); // // //debugger
+            var json = JSON.parse(Response["d"]); // // ////debugger
 
             var _d = JSON.parse(json["Departs"]);
 
             var i = 0;
 
             for (var depart in _d) {
-              //// //debugger
+              //// ////debugger
               var _sD = {
                 id: depart,
                 name: _d[depart]
@@ -80749,11 +80749,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
             /*
             $(_d).each(function(i,k){
-              // //debugger
+              // ////debugger
               //var _sD: Depart = {id: i, name: k};
                 //this.departs.push(_sD);
             })*/
-            //// //debugger
+            //// ////debugger
 
           });
         }
@@ -80773,7 +80773,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function onSubmit() {
           var _this179 = this;
 
-          this.submitted = true; ////debugger
+          this.submitted = true; //////debugger
           // stop here if form is invalid
 
           if (this.staffForm.invalid) {
@@ -80789,7 +80789,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var resultDeparts = this.search(this.staffForm.value.DS_DEPART_ID, this.departs);
           var resultRoles = this.search(this.staffForm.value.DS_STAFF_ROLE, this.roles);
           this.rowElement.DS_DEPART_NAME = resultDeparts['name'];
-          this.rowElement.DS_ROLE_NAME = resultRoles['name']; // //debugger
+          this.rowElement.DS_ROLE_NAME = resultRoles['name']; // ////debugger
 
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaStaff", {
             _staffName: this.staffForm.value.fullnameVal,
@@ -80803,7 +80803,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             var json = Response["d"].split(", ");
 
             if (" UPDATE" != json[7]) {
-              //debugger;
+              ////debugger;
               _this179.departs;
               _this179.rowElement.DS_STAFF_NAME = json[0];
               _this179.rowElement.DS_STAFF_ROLE = json[2];
@@ -80824,8 +80824,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
               _this179.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this179.TABLE_DATA);
               _this179.resultsLength = _this179.resultsLength + 1;
             } //var vars = json.split
-            // //debugger;
-            // //debugger 888888
+            // ////debugger;
+            // ////debugger 888888
 
 
             _this179.openSnackBar();
@@ -80839,7 +80839,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function editRow(content, _type, _element) {
           var _this180 = this;
 
-          // //debugger
+          // ////debugger
           this.rowElement = _element;
           this.fullnameVal = _element.DS_STAFF_NAME;
           this.rowIdVal = _element.DS_ROW_ID;
@@ -80852,9 +80852,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             rowIdVal: [_element.DS_ROW_ID, false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this180.closeResult = "Closed with: ".concat(result); ////debugger
+            _this180.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -80864,13 +80864,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "getReport",
         value: function getReport($event) {
-          ////debugger
+          //////debugger
           this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal, this.DepartmentID, this.RoleID);
         }
       }, {
         key: "applyFilter",
         value: function applyFilter(filterValue) {
-          this.fliterVal = filterValue; //debugger
+          this.fliterVal = filterValue; ////debugger
 
           this.getTableFromServer(this.paginator.pageIndex, this.paginator.pageSize, this.fliterVal, this.DepartmentID, this.RoleID); //this.dataSource.filter = filterValue.trim().toLowerCase();
         }
@@ -80880,7 +80880,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           var _this181 = this;
 
           //$('#free_text').text(_element.FreeText);
-          ////debugger
+          //////debugger
           this.rowElement = {
             DS_ROW_ID: 0,
             DS_DEPART_ID: 0,
@@ -80903,9 +80903,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             rowIdVal: ["0", false]
           });
           this.modalService.open(content, this.modalOptions).result.then(function (result) {
-            _this181.closeResult = "Closed with: ".concat(result); ////debugger
+            _this181.closeResult = "Closed with: ".concat(result); //////debugger
 
-            if ("Save" == result) {// //debugger;
+            if ("Save" == result) {// ////debugger;
               //this.saveChad(_element.ROW_ID);
             }
           }, function (reason) {
@@ -80937,11 +80937,11 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         value: function getTableFromServer(_pageIndex, _pageSize, _FreeText, _Depart, _Role) {
           var _this182 = this;
 
-          //debugger
+          ////debugger
           var tableLoader = false;
 
           if (jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").removeClass("d-none");
           }
@@ -80956,10 +80956,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _this182.TABLE_DATA.splice(0, _this182.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]);
-            var StaffData = JSON.parse(json["aaData"]); ////debugger
+            var StaffData = JSON.parse(json["aaData"]); //////debugger
 
             for (var i = 0; i < StaffData.length; i++) {
-              ////debugger
+              //////debugger
               var resultDeparts = _this182.search(StaffData[i].DS_DEPART_ID, _this182.departs);
 
               var resultRoles = _this182.search(StaffData[i].DS_STAFF_ROLE, _this182.roles);
@@ -80975,13 +80975,13 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                 DS_STAFF_IMAGE: StaffData[i].DS_STAFF_IMAGE,
                 DS_STAFF_ROW_ID: StaffData[i].DS_STAFF_ROW_ID
               });
-            } // //debugger
+            } // ////debugger
 
 
             _this182.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this182.TABLE_DATA);
             _this182.resultsLength = parseInt(json["iTotalRecords"]);
             setTimeout(function () {
-              ////debugger
+              //////debugger
               if (tableLoader) {
                 jquery__WEBPACK_IMPORTED_MODULE_5__("#loader").addClass("d-none");
               }
@@ -82779,10 +82779,10 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             var href = jquery__WEBPACK_IMPORTED_MODULE_4__(this).attr('href');
             href = href.replace('//', '\\\\');
             href = href.replace('/', '\\');
-            href = href.replace('http:', ''); //debugger;
+            href = href.replace('http:', ''); ////debugger;
 
             var win = window.open('', "_blank");
-            win.document.write('<script>window.location("' + href + '");//debugger</script>');
+            win.document.write('<script>window.location("' + href + '");////debugger</script>');
           }); //console.log(this.paginator.pageIndex);
         }
       }, {
@@ -82792,9 +82792,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgens", {}).subscribe(function (Response) {
-            //// ////debugger
+            //// //////debugger
             _this186.SurgensList = [];
-            var json = JSON.parse(Response["d"]); // // ////debugger
+            var json = JSON.parse(Response["d"]); // // //////debugger
 
             var _d = JSON.parse(json["surgensList"]);
 
@@ -82803,7 +82803,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
                   key = _Object$entries6$_i[0],
                   value = _Object$entries6$_i[1];
 
-              //  debugger
+              //  //debugger
               var _sD = {
                 id: key,
                 name: value.toString()
@@ -82815,17 +82815,17 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             /*
               $(_d).each(function(i,k){
-                  // ////debugger
+                  // //////debugger
                   //var _sD: Depart = {id: i, name: k};
                     //this.departs.push(_sD);
               })*/
-            //// ////debugger
+            //// //////debugger
           });
         }
       }, {
         key: "radioChange",
         value: function radioChange(event) {
-          ////debugger
+          //////debugger
           this._fun.radioChange(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -82865,8 +82865,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       }, {
         key: "quart_change",
         value: function quart_change(event) {
-          ////debugger;
           //////debugger;
+          ////////debugger;
           this._fun.quart_change(event);
 
           this.startdateVal = this._fun.Sdate.value;
@@ -82912,6 +82912,77 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           var _yearStart = new Date(_startDate).getFullYear();
 
+          var _yearEnd = new Date(_endDate).getFullYear(); //////debugger
+
+
+          for (var i = 0; i < this.SurgeryType.length; i++) {
+            if (this.SurgeryType[i]) {
+              _counter++;
+              _surgeryType += this._SurgeryTypeArray[i] + "_";
+            }
+          }
+
+          if (_counter == 4) {
+            _surgeryType = "ALL";
+          } //////debugger
+
+
+          jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryExcelFile", {
+            _fromDate: _startDate,
+            _toDate: _endDate,
+            _freeText: _filterVal,
+            _surgeryShift: _surgeryShift,
+            _surgeryType: _surgeryType,
+            _depart: _Depart
+          }).subscribe(function (Response) {
+            jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty(); ////debugger
+
+            jquery__WEBPACK_IMPORTED_MODULE_4__(document).find("#download").remove();
+            jquery__WEBPACK_IMPORTED_MODULE_4__("body").append('<a id="download" class="d-no1ne" trget="_blank" href="' + Response["d"] + '">test</a>');
+            setTimeout(function () {
+              jquery__WEBPACK_IMPORTED_MODULE_4__(document).find("#download").click(); //this.dataSource.paginator = this.paginator
+
+              jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
+            }); //this.dataSource.paginator = this.paginator;
+          }, function (error) {
+            // ////debugger;
+            jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
+          });
+        }
+      }, {
+        key: "getDropDownFromServer",
+        value: function getDropDownFromServer() {
+          var _this187 = this;
+
+          //debugger;
+          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getSurgeryDeparts", {}).subscribe(function (Response) {
+            var json = JSON.parse(Response["d"]);
+            json = JSON.parse(json["SurgeryDeparts"]);
+            //debugger;
+            _this187.Departs = json;
+          });
+        }
+      }, {
+        key: "getDataFormServer",
+        value: function getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _filterVal, _surgeryShift, _Depart, _SurgenType, _Surgen) {
+          var _this188 = this;
+
+          if (_Depart == undefined || _Depart == null) {
+            //////debugger;
+            _Depart = ["-1"];
+          }
+
+          if (_SurgenType == undefined || _SurgenType == null) {
+            //////debugger;
+            _SurgenType = ["-1"];
+          }
+
+          var _surgeryType = "";
+          var _counter = 0;
+
+          var _yearStart = new Date(_startDate).getFullYear();
+
           var _yearEnd = new Date(_endDate).getFullYear(); ////debugger
 
 
@@ -82924,80 +82995,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
           if (_counter == 4) {
             _surgeryType = "ALL";
-          } ////debugger
-
-
-          jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
-          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryExcelFile", {
-            _fromDate: _startDate,
-            _toDate: _endDate,
-            _freeText: _filterVal,
-            _surgeryShift: _surgeryShift,
-            _surgeryType: _surgeryType,
-            _depart: _Depart
-          }).subscribe(function (Response) {
-            jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty(); //debugger
-
-            jquery__WEBPACK_IMPORTED_MODULE_4__(document).find("#download").remove();
-            jquery__WEBPACK_IMPORTED_MODULE_4__("body").append('<a id="download" class="d-no1ne" trget="_blank" href="' + Response["d"] + '">test</a>');
-            setTimeout(function () {
-              jquery__WEBPACK_IMPORTED_MODULE_4__(document).find("#download").click(); //this.dataSource.paginator = this.paginator
-
-              jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
-            }); //this.dataSource.paginator = this.paginator;
-          }, function (error) {
-            // //debugger;
-            jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
-          });
-        }
-      }, {
-        key: "getDropDownFromServer",
-        value: function getDropDownFromServer() {
-          var _this187 = this;
-
-          debugger;
-          this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getSurgeryDeparts", {}).subscribe(function (Response) {
-            var json = JSON.parse(Response["d"]);
-            json = JSON.parse(json["SurgeryDeparts"]);
-            debugger;
-            _this187.Departs = json;
-          });
-        }
-      }, {
-        key: "getDataFormServer",
-        value: function getDataFormServer(_startDate, _endDate, _pageIndex, _pageSize, _filterVal, _surgeryShift, _Depart, _SurgenType, _Surgen) {
-          var _this188 = this;
-
-          if (_Depart == undefined || _Depart == null) {
-            ////debugger;
-            _Depart = ["-1"];
           }
 
-          if (_SurgenType == undefined || _SurgenType == null) {
-            ////debugger;
-            _SurgenType = ["-1"];
-          }
-
-          var _surgeryType = "";
-          var _counter = 0;
-
-          var _yearStart = new Date(_startDate).getFullYear();
-
-          var _yearEnd = new Date(_endDate).getFullYear(); //debugger
-
-
-          for (var i = 0; i < this.SurgeryType.length; i++) {
-            if (this.SurgeryType[i]) {
-              _counter++;
-              _surgeryType += this._SurgeryTypeArray[i] + "_";
-            }
-          }
-
-          if (_counter == 4) {
-            _surgeryType = "ALL";
-          }
-
-          debugger;
+          //debugger;
           jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").removeClass("d-none");
           this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeries", {
             _fromDate: _startDate,
@@ -83012,14 +83012,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             _surgen: _Surgen
           }).subscribe(function (Response) {
             jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").empty();
-            debugger;
+            //debugger;
 
             _this188.TABLE_DATA.splice(0, _this188.TABLE_DATA.length);
 
             var json = JSON.parse(Response["d"]); //let surgeries = JSON.parse(json["aaData"]);
-            //debugger
+            ////debugger
             //  for(var i = 0; i < surgeries.length; i++) {
-            //    ////debugger;
+            //    //////debugger;
             //    this.TABLE_DATA.push({
             //       S_ID:surgeries[i].S_ID,
             //       S_SURGERY_NUMBER:surgeries[i].S_SURGERY_NUMBER,
@@ -83044,7 +83044,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             //       S_ROW_ID:surgeries[i].S_ROW_ID
             //    });
             //  }
-            // //debugger
+            // ////debugger
 
             _this188.dataSource = new _angular_material_table__WEBPACK_IMPORTED_MODULE_3__["MatTableDataSource"](_this188.TABLE_DATA);
             _this188.resultsLength = parseInt(json["iTotalRecords"]);
@@ -83053,7 +83053,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
             var _CharMonthVal = JSON.parse(json["_CharMonthVal"]);
 
-            var _CharPastMonthVal = JSON.parse(json["_CharPastMonthVal"]); ////debugger;
+            var _CharPastMonthVal = JSON.parse(json["_CharPastMonthVal"]); //////debugger;
 
             /*LineChart*/
 
@@ -83135,7 +83135,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             }
 
             var allNow = JSON.parse(json["TotalNowSurgery"]);
-            var allPast = JSON.parse(json["TotalSurgeryPast"]); ////debugger
+            var allPast = JSON.parse(json["TotalSurgeryPast"]); //////debugger
 
             _this188._fun.drawCharToDom("bar", [_yearStart.toString(), (_yearStart - 1).toString()], [allNow[0], allPast[0]], "totalBarChart", "canvstotalBarChart", 'סה"כ', "");
 
@@ -83146,14 +83146,14 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
             jquery__WEBPACK_IMPORTED_MODULE_4__("#_departments").append(_div.clone()); //this.drawCharToDom('bar', JSON.parse(json["SurgeryName"]), JSON.parse(json["SurgeryCounter"]), 'departSurgery', 'canvdepartSurgery');
             //this.paginator. = parseInt(json["iTotalRecords"]);
             //this.dataSource.sort = this.sort;
-            // //debugger
+            // ////debugger
 
             setTimeout(function () {
               //this.dataSource.paginator = this.paginator
               jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
             }); //this.dataSource.paginator = this.paginator;
           }, function (error) {
-            // //debugger;
+            // ////debugger;
             jquery__WEBPACK_IMPORTED_MODULE_4__("#loader").addClass("d-none");
           });
         }

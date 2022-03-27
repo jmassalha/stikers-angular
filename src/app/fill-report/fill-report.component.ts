@@ -70,7 +70,7 @@ export class ShareReportsFillDialog {
     if (this.myControl.value == "") {
       this.openSnackBar("נא לבחור אחראי לשליחה");
     } else {
-      debugger
+      //debugger
 
       this.disableBtn = true;
       this.http
@@ -478,7 +478,7 @@ export class FillReportComponent implements OnInit {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
-      //  debugger
+      //  //debugger
         this.all_report_management = Response["d"];
         this.usersReponsesList = this.all_report_management.UsersReportsList;
         // if(this.all_report_management.UserName == this.UserName){

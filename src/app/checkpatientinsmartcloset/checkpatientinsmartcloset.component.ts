@@ -25,6 +25,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 export interface PatientData {
     RowId: string;
     CaseNumber: string;
@@ -51,8 +52,16 @@ export class CheckpatientinsmartclosetComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("checkpatientinsmartcloset");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     modalOptions: NgbModalOptions;
     ngOnInit(): void {}
     getReport($event: any): void {
@@ -61,7 +70,7 @@ export class CheckpatientinsmartclosetComponent implements OnInit {
     public getTableFromServer(_freeSearch: string) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }

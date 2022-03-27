@@ -135,7 +135,7 @@ export class OnlineAppointmentsComponent implements OnInit {
                 this.events = [];
                 var obj: Array<any> = [];
                 this.EventsDay = Response["d"] as EventDay[];
-               // debugger
+               // //debugger
                 for (var i = 0; i < this.EventsDay.length; i++) {
                     let event = {
                         title:
@@ -149,13 +149,13 @@ export class OnlineAppointmentsComponent implements OnInit {
                         cssClass: "my-custom-class",
                         depart: this.EventsDay[i].Depart,
                     };
-                    //debugger
+                    ////debugger
                     obj.push(event);
                 
                 }
                 this.events = obj;
                 this.refresh.next();
-                debugger;
+                //debugger;
                 $("#loader").addClass("d-none");
             });
     }
@@ -181,7 +181,7 @@ export class OnlineAppointmentsComponent implements OnInit {
     }
     handleEvent(action: string, event: CalendarEvent): void {
       $("#loader").removeClass("d-none");
-     // debugger
+     // //debugger
       this.http
           .post(
               "http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllDepartAppointmentsByDay",

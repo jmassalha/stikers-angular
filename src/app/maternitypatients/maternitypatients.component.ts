@@ -114,7 +114,7 @@ export class MaternitypatientsComponent implements OnInit {
     fullnameVal: string;
     rowIdVal: string;
     ngOnInit(): void {
-       // debugger
+       // //debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
@@ -122,20 +122,7 @@ export class MaternitypatientsComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            this.MaternityRowId != "0"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         this.getReportmaternitypatients(this);
     }
     openSnackBar() {
@@ -149,7 +136,7 @@ export class MaternitypatientsComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
 
         // stop here if form is invalid
         if (this.patientForm.invalid) {
@@ -168,7 +155,7 @@ export class MaternitypatientsComponent implements OnInit {
                 "yyyy-MM-dd",
                 "en-US"
             );
-        //debugger;
+        ////debugger;
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
@@ -196,7 +183,7 @@ export class MaternitypatientsComponent implements OnInit {
         } else {
             this.UserEmailStatus = false;
         }
-        //debugger
+        ////debugger
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
@@ -229,7 +216,7 @@ export class MaternitypatientsComponent implements OnInit {
         );
     }
     getReportmaternitypatients($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -306,7 +293,7 @@ export class MaternitypatientsComponent implements OnInit {
     computeEGA( iDueDateYear, iDueDateMonth, iDueDateDay ) {
         var dToday   = new Date();
         var dDueDate = new Date( iDueDateYear, iDueDateMonth-1, iDueDateDay );
-      //  debugger
+      //  //debugger
         var iDaysUntilDueDate = (dDueDate.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24 );
         var iTotalDaysInPregnancy = 40*7;
         var iGestationalAgeInDays = iTotalDaysInPregnancy - iDaysUntilDueDate;
@@ -326,11 +313,11 @@ export class MaternitypatientsComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //debugger
+        ////debugger
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/getMaternityPatientsTable",
@@ -344,11 +331,11 @@ export class MaternitypatientsComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                //debugger
+                ////debugger
                 var json = JSON.parse(Response["d"]);
                 let patientData = JSON.parse(json["Patients"]);
                 for (var i = 0; i < patientData.length; i++) {
-                    ////debugger
+                    //////debugger
                     var date = patientData[i].PatientPregnancyDOB.split("-");
                     var PatientPregnancyWeekAtInsert = this.computeEGA(date[0], date[1], date[2])
                     this.TABLE_DATA.push({
@@ -372,11 +359,11 @@ export class MaternitypatientsComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

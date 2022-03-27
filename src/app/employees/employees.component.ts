@@ -112,28 +112,14 @@ export class EmployeesComponent implements OnInit {
     fullnameVal: string;
     rowIdVal: string;
     ngOnInit(): void {
-        // debugger
+        // //debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
         this.rowIdVal = "0";
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
-
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            this.GroupID != "0"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+       
         this.getReportEmlpoyeess(this);
     }
     openSnackBar() {
@@ -147,7 +133,7 @@ export class EmployeesComponent implements OnInit {
     }
     addToGroup(_element) {
       
-      //debugger;
+      ////debugger;
       this.http
           .post(
               "http://srv-apps-prod/RCF_WS/WebService.asmx/AddMemberToGroup",
@@ -163,7 +149,7 @@ export class EmployeesComponent implements OnInit {
           });
     }
     getReportEmlpoyeess($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(
           this.paginator.pageIndex,
           10,
@@ -199,11 +185,11 @@ export class EmployeesComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-      //  debugger
+      //  //debugger
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployees",
@@ -215,15 +201,15 @@ export class EmployeesComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                //debugger
+                ////debugger
                 this.TABLE_DATA = Response["d"];
                 
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(this.TABLE_DATA[0].totalRows);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

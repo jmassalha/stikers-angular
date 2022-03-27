@@ -103,7 +103,7 @@ export class FastCovidTestDashboardComponent implements OnInit {
     let dialogRef = this.dialog.open(FastCovid19TestComponent, { disableClose: true });
   }
   print(element){
-    //debugger
+    ////debugger
     this.PatienId = element.IdNumber
     this.FirstName =  element.FullName
     this.date2 =  element.SampleDate

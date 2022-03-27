@@ -31,6 +31,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Drug {
     MedID: number;
@@ -83,8 +84,16 @@ export class DrugsComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("drugs");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     @Input()
     foo: string = "bar";
     startdateVal: string;
@@ -124,24 +133,7 @@ export class DrugsComponent implements OnInit {
             NewRow: ["false", false],
         });
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "jubartal"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         this.getMedGroups();
         var that = this;
         setTimeout(function () {
@@ -153,15 +145,15 @@ export class DrugsComponent implements OnInit {
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetTbl_MedGroups", {})
             .subscribe((Response) => {
-                ////debugger
+                //////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 json = JSON.parse(json);
-                // // //debugger
+                // // ////debugger
                 var _d = JSON.parse(json["GroupOptions"]);
                 var i = 0;
                 for (var s = 0; s < _d.length; s++) {
-                    //  //debugger
+                    //  ////debugger
                     var _sD: MedGroup = {
                         id: _d[s].GroupID,
                         name: _d[s].GroupName,
@@ -211,19 +203,19 @@ export class DrugsComponent implements OnInit {
             this.groups_submit
         );
         this.drugForm.value.MedGroup = resultDeparts["name"];
-        //debugger
+        ////debugger
         //return
         // stop here if form is invalid
         if (this.drugForm.invalid) {
             return;
         }
-        // //debugger
+        // ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug", {
                 drugRow: this.drugForm.value,
             })
             .subscribe((Response) => {
-                //debugger
+                ////debugger
                 this.getReport(null);
                 this.openSnackBar();
             });
@@ -258,9 +250,9 @@ export class DrugsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -270,7 +262,7 @@ export class DrugsComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -280,7 +272,7 @@ export class DrugsComponent implements OnInit {
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
-        // //debugger
+        // ////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -306,9 +298,9 @@ export class DrugsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -345,10 +337,10 @@ export class DrugsComponent implements OnInit {
         _FreeText: string,
         _GroupID: string
     ) {
-        // //debugger
+        // ////debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -364,9 +356,9 @@ export class DrugsComponent implements OnInit {
                 var json = JSON.parse(Response["d"]);
                 json = JSON.parse(json);
                 let drugData = JSON.parse(json["aaData"]);
-                ////debugger
+                //////debugger
                 for (var i = 0; i < drugData.length; i++) {
-                    ////debugger
+                    //////debugger
                     /*var  resultDeparts= this.search(drugData[i].DS_DEPART_ID, this.departs);*/
 
                     this.TABLE_DATA.push({
@@ -378,13 +370,13 @@ export class DrugsComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
                     JSON.parse(json["iTotalRecords"])
                 );
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

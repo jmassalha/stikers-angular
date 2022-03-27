@@ -61,7 +61,7 @@ export class MotherChildeLinkComponent implements OnInit {
     public getTableFromServer(_freeSearch: string) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -73,7 +73,7 @@ export class MotherChildeLinkComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                //debugger
+                ////debugger
                 this.mPatientData = Response["d"];
                 this.modalService
                     .open(this.patientModal, this.modalOptions)

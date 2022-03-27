@@ -31,6 +31,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Poria_Researches {
     RowID: number;
@@ -127,9 +128,17 @@ export class ResearchesComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private mMenuPerm: MenuPerm
     ) {
-        // //debugger
+        mMenuPerm.setRoutName("poriadeparts");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
+        // ////debugger
         this.activeModal = activeModal;
         this.ResearchesUsersForm = this.formBuilder.group({
             roomsDetails: this.formBuilder.array([]),
@@ -166,41 +175,12 @@ export class ResearchesComponent implements OnInit {
         });
         setTimeout(() => {
             console.log("sleep");
-            ////debugger
-            if (
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "samer" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "owertheim"
-            ) {
-                this.perm = true;
-                this.pemAdmin = 1;
-            }
-            if (
-                localStorage.getItem("loginState") != "true" ||
-                localStorage.getItem("loginUserName") == "" ||
-                !this.perm
-            ) {
-                this.router.navigate(["login"]);
-            } else if (
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "samer" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "owertheim" ||
-                this.perm
-            ) {
-            } else {
-                this.router.navigate(["login"]);
-                ///$("#chadTable").DataTable();
-            }
+            //////debugger
+
             this.getReport(this);
             // And any other code that should run only after 5s
         }, 1000);
-        // //debugger
+        // ////debugger
     }
     openSnackBar() {
         this._snackBar.open("נשמר בהצלחה", "", {
@@ -213,7 +193,7 @@ export class ResearchesComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        //////debugger
+        ////////debugger
         // stop here if form is invalid
         this.ResearchesForm.value.ResearchStartDate = formatDate(
             this.ResearchesForm.value.ResearchStartDate,
@@ -228,7 +208,7 @@ export class ResearchesComponent implements OnInit {
         if (this.ResearchesForm.invalid) {
             return;
         }
-        ////debugger
+        //////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
@@ -260,8 +240,8 @@ export class ResearchesComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                // //////////debugger
-                ////debugger
+                // ////////////debugger
+                //////debugger
                 var json = JSON.parse(Response["d"]);
                 switch (json) {
                     case 1:
@@ -277,7 +257,7 @@ export class ResearchesComponent implements OnInit {
             });
     }
     public getDropDownFromServer() {
-        debugger
+        //debugger
 
         this.http
             .post(
@@ -286,7 +266,7 @@ export class ResearchesComponent implements OnInit {
             )
             .subscribe((Response) => {
                 var json = JSON.parse(Response["d"]);
-                debugger
+                //debugger
                 this.Departs = json;
             });
     }
@@ -301,7 +281,7 @@ export class ResearchesComponent implements OnInit {
     editRow(content, _type, _element) {
         this.ResearchName = _element.ResearchName;
         this.ResearchNumber = _element.ResearchNumber;
-        //debugger;
+        ////debugger;
         this.ResearchesForm = this.formBuilder.group({
             ResearchNumber: [_element.ResearchNumber, Validators.required],
             ResearchName: [_element.ResearchName, Validators.required],
@@ -321,9 +301,9 @@ export class ResearchesComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -333,7 +313,7 @@ export class ResearchesComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        //////debugger
+        ////////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -357,7 +337,7 @@ export class ResearchesComponent implements OnInit {
     open(content, _type, _element) {
         this.ResearchNumber = "";
         this.ResearchName = "חדש";
-        ////debugger;
+        //////debugger;
         this.ResearchesForm = this.formBuilder.group({
             ResearchNumber: ["", Validators.required],
             ResearchName: ["", Validators.required],
@@ -374,9 +354,9 @@ export class ResearchesComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -415,7 +395,7 @@ export class ResearchesComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -429,11 +409,11 @@ export class ResearchesComponent implements OnInit {
                 _userName: localStorage.getItem("loginUserName"),
             })
             .subscribe((Response) => {
-                //////debugger
+                ////////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let Poria_Researches = JSON.parse(json["Researches"]);
-                //  //debugger
+                //  ////debugger
                 for (var i = 0; i < Poria_Researches.length; i++) {
                     this.TABLE_DATA.push({
                         RowID: Poria_Researches[i].RowID,
@@ -455,11 +435,11 @@ export class ResearchesComponent implements OnInit {
                     });
                 }
 
-                // ////debugger
+                // //////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["totalRows"]);
                 setTimeout(function () {
-                    //////debugger
+                    ////////debugger
                     //if (tableLoader) {
                     $("#loader").addClass("d-none");
                     // }

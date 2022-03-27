@@ -32,6 +32,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface ResearchesUsers {
     RowID: number;
@@ -93,8 +94,16 @@ export class ResearchesusersComponent implements OnInit {
         private http: HttpClient,
         private modalServiceresearchesusers: NgbModal,
         private formBuilderUsers: FormBuilder,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("researchesusers");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         this.activeModal = activeModal;
     }
     @Input()
@@ -113,7 +122,7 @@ export class ResearchesusersComponent implements OnInit {
         });
     }
     ngOnInit(): void {
-        debugger;
+        //debugger;
         this.hideInputs = false;
         if (
             this.ReseachRowId == "0" ||
@@ -130,24 +139,7 @@ export class ResearchesusersComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "okatz" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            this.ReseachRowId != "0"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+       
         this.getReportUsers(this);
     }
     openSnackBar() {
@@ -161,12 +153,12 @@ export class ResearchesusersComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        debugger;
+        //debugger;
         // stop here if form is invalid
         if (this.usersForm.invalid) {
             return;
         }
-        // //debugger
+        // ////debugger
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearchesUsers",
@@ -175,7 +167,7 @@ export class ResearchesusersComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                //debugger
+                ////debugger
                 this.applyFilterresearchesusers(this.fliterValUser);
                 this.openSnackBar();
             });
@@ -183,7 +175,7 @@ export class ResearchesusersComponent implements OnInit {
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.usersForm.value, null, 4));
         //this.modalServiceresearchesusers.dismiss();
         this.activeModal.close();
-        // debugger
+        // //debugger
         //this.activeModal.close();
 
         //this.modalReferenceUsers.close('');
@@ -213,7 +205,7 @@ export class ResearchesusersComponent implements OnInit {
         } else {
             this.UserEmailStatus = false;
         }
-        //debugger
+        ////debugger
         if (
             this.ReseachRowId == "0" ||
             this.ReseachRowId == undefined ||
@@ -261,7 +253,7 @@ export class ResearchesusersComponent implements OnInit {
         );
     }
     getReportUsers($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -284,7 +276,7 @@ export class ResearchesusersComponent implements OnInit {
 
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         if (
@@ -321,7 +313,7 @@ export class ResearchesusersComponent implements OnInit {
                 ReseachRowId: [this.ReseachRowId, Validators.required],
             });
         }
-        //debugger
+        ////debugger
         this.activeModal = this.modalServiceresearchesusers.open(
             content,
             this.modalOptions
@@ -357,7 +349,7 @@ export class ResearchesusersComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -374,11 +366,11 @@ export class ResearchesusersComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                //debugger
+                ////debugger
                 var json = JSON.parse(Response["d"]);
                 let userssData = JSON.parse(json["Users"]);
                 for (var i = 0; i < userssData.length; i++) {
-                    ////debugger
+                    //////debugger
                     this.TABLE_DATA.push({
                         RowID: userssData[i].RowID,
                         UserName: userssData[i].UserName,
@@ -393,11 +385,11 @@ export class ResearchesusersComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

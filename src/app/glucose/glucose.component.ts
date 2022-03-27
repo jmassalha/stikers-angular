@@ -16,6 +16,7 @@ import { Chart } from "chart.js";
 import { Time } from "@angular/common";
 import { FormControl } from "@angular/forms";
 import * as Fun from "../public.functions";
+import { MenuPerm } from "../menu-perm";
 export interface Glucose {
     PGR_Sample_Number: string;
     PGR_Case_Number: string;
@@ -112,8 +113,16 @@ export class GlucoseComponent implements OnInit {
     constructor(
         private router: Router,
         private modalService: NgbModal,
-        private http: HttpClient
-    ) {}
+        private http: HttpClient,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("glucose");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
 
     ngOnInit(): void {
         this._fun.RunFunction();
@@ -124,29 +133,7 @@ export class GlucoseComponent implements OnInit {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         this.dataSource = new MatTableDataSource(this.TABLE_DATA_ALL);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "lshavit" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mbadarni" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "mubadarne" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "muhbadarne" /*LShavit*/
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         this.getReport(null);
     }
     getPaginatorData(event: PageEvent) {
@@ -170,14 +157,14 @@ export class GlucoseComponent implements OnInit {
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         $("#loader").removeClass("d-none");
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -194,7 +181,7 @@ export class GlucoseComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                //  //debugger
+                //  ////debugger
                 this.selectedCaseNumber = _element.PGR_Case_Number;
                 this.TABLE_DATA_REL_TO_CASENUMBER = [];
                 this.TABLE_DATA_REL_TO_CASENUMBER = Response["d"];
@@ -206,14 +193,14 @@ export class GlucoseComponent implements OnInit {
     }
     openText(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         $("#loader").removeClass("d-none");
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -230,7 +217,7 @@ export class GlucoseComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                debugger;
+                //debugger;
                 this.selectedCaseNumber = _element.PGR_Case_Number;
                 this.Content = [];
                 this.Content = Response["d"];
@@ -261,18 +248,18 @@ export class GlucoseComponent implements OnInit {
         this.dataSource = new MatTableDataSource<any>(
             this.TABLE_DATA
         );
-        //debugger;
+        ////debugger;
     }
     openCons(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         $("#loader").removeClass("d-none");
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -289,7 +276,7 @@ export class GlucoseComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                //debugger
+                ////debugger
                 this.selectedCaseNumber = _element.PGR_Case_Number;
                 this.TABLE_DATA_REL_TO_CONSOLE = [];
                 this.TABLE_DATA_REL_TO_CONSOLE = Response["d"];
@@ -310,11 +297,11 @@ export class GlucoseComponent implements OnInit {
             .subscribe(
                 (Response) => {
                     $("#_departments").empty();
-                    //debugger
+                    ////debugger
                     this.TABLE_DATA_ALL.splice(0, this.TABLE_DATA_ALL.length);
                     var json = JSON.parse(Response["d"]);
                     let tableData = JSON.parse(json["tableData"]);
-                    //////debugger;
+                    ////////debugger;
 
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA_ALL
@@ -342,7 +329,7 @@ export class GlucoseComponent implements OnInit {
                         //var t =  tableData.items[i].CS_SURVEY_DATE.split("T");
                         //var d =  tableData.items[i].CS_SURVEY_Q2_2.split(" ");
                         //var s =  tableData.items[i].CS_SURVEY_Q4_4.split(" ");
-                        //////debugger
+                        ////////debugger
                         this.TABLE_DATA_ALL.push({
                             PGR_Patient_First_Name:
                                 tableData.items[i].PGR_Patient_First_Name,
@@ -369,7 +356,7 @@ export class GlucoseComponent implements OnInit {
                         });
                     }
 
-                    // ////debugger
+                    // //////debugger
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA_ALL
                     );
@@ -381,7 +368,7 @@ export class GlucoseComponent implements OnInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 (error) => {
-                    // ////debugger;
+                    // //////debugger;
                     $("#loader").addClass("d-none");
                 }
             );

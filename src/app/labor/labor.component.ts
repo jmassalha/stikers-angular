@@ -21,6 +21,7 @@ import {
     ModalDismissReasons,
     NgbModalOptions,
 } from "@ng-bootstrap/ng-bootstrap";
+import { MenuPerm } from "../menu-perm";
 export interface DataTableInterface {
     L_ROW_ID: String;
     L_ORDER_CODE: String;
@@ -188,11 +189,19 @@ export class LaborComponent implements OnInit, AfterViewInit {
         public router: Router,
         public http: HttpClient,
         public modalService: NgbModal,
-        public _snackBar: MatSnackBar
+        public _snackBar: MatSnackBar,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("labor");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         this.dataSource = new MatTableDataSource(this.dataTable);
         this.dataSourcePatient = new MatTableDataSource(this.dataTablePatient);
-        // ////debugger;
+        // //////debugger;
     }
     startdateVal: string;
     enddateVal: string;
@@ -208,7 +217,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
     markers: marker[] = [];
     ngOnInit() {
         // this.maps.load().then(() => {
-        //     //////debugger
+        //     ////////debugger
         //     this.geoCoder = new google.maps.Geocoder();
         //     //this.getAddress("haifa");
         // });
@@ -237,77 +246,14 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.startdateVal = this.Sdate.value;
         this.enddateVal = this.Edate.value;
 
-        //////debugger
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "habuzayyad" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "hmizrahi" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mruach" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "yarosenfel" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mmatan" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "etalor" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "batzadok" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mmadmon" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mlehrer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "nsela" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "ssabach" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "dsalameh" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "bmonastirsky" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "mgershovich" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "klibai" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "aasheri" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "obenor" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "ohaccoun" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "iaharon" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "jubartal" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "hseffada" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "waraidy" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "cmagen" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "tlivnat" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mjourno" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "nali" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "emansour" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "kmandel" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "smatta" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "sabuhanna" ||
-                localStorage.getItem("loginUserName").toLowerCase() == "rnakhle"||
-                localStorage.getItem("loginUserName").toLowerCase() == "aibrahim"||
-                localStorage.getItem("loginUserName").toLowerCase() == "mkheer"||
-                localStorage.getItem("loginUserName").toLowerCase() == "ssarusi"||
-            localStorage.getItem("loginUserName").toLowerCase() == "samos" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "tklinger"||
-            localStorage.getItem("loginUserName").toLowerCase() == "relmalem"||
-            localStorage.getItem("loginUserName").toLowerCase() == ("HROSHROSH").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("smazliah").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("MKATAN").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == "aamara"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        ////////debugger
+       
         this.dataSource = new MatTableDataSource(this.dataTable);
         this.dataSourcePatient = new MatTableDataSource(this.dataTablePatient);
         //console.log(this.paginator.pageIndex);
         
         /*$(document).on("click", "#CheckBefore", function (e) {
-           ////debugger
+           //////debugger
             if ($(document).find('[name="mobile"]').val() == "" ||
             $(document).find('[name="email"]').val() == "" ||
             $(document).find('[name="passprot"]').val() == "") {
@@ -323,13 +269,13 @@ export class LaborComponent implements OnInit, AfterViewInit {
         console.log(`clicked the marker: ${label || index}`);
     }
     getAddress(_address: string) {
-        //////debugger
+        ////////debugger
         const address = _address;
 
         this.geoCoder.geocode({ address: address }, (results, status) => {
-            //////debugger
+            ////////debugger
             if (status === "OK") {
-                // ////debugger
+                // //////debugger
                 /* this.markers.push({
                     lat: results[0].geometry.location.lat(),
                     lng: results[0].geometry.location.lng(),
@@ -337,7 +283,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                     address: results[0].formatted_address,
                     draggable: false
                 });*/
-                //////debugger
+                ////////debugger
             } else {
                 // alert(
                 //     "Geocode was not successful for the following reason: " +
@@ -354,7 +300,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this._Element = _element;
         this._Type = _type;
         this._Content = content;
-        //debugger
+        ////debugger
         this.mobile = _element.L_MOBILE;
         this.email = _element.L_EMAIL;
         this.passprot = _element.L_PASSPORT;
@@ -366,7 +312,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
         }
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
-                ////debugger;
+                //////debugger;
                 this.closeResult = `Closed with: ${result}`;
                 if (
                     this.mobile == "" ||
@@ -380,7 +326,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                 if ("Save" == result && this.mobile != "" &&
                 this.email != "" &&
                 this.passprot != "") {
-                    // ////debugger;
+                    // //////debugger;
                     _element.L_PASSWORD = this.sendAttach(_element.L_ROW_ID);
                     _element.L_MOBILE = this.mobile;
                     _element.L_EMAIL = this.email;
@@ -420,7 +366,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                         "-" +
                         date.getFullYear() 
                     _element.L_DOB = str;
-                    //debugger
+                    ////debugger
                     var date = new Date();
                     var m = "";
                     var d = "";
@@ -464,7 +410,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                 }
             },
             (reason) => {
-                //debugger
+                ////debugger
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
             }
         );
@@ -528,7 +474,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
             "-" +
             d
            
-           //debugger
+           ////debugger
         this.http
             .post(
                // "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
@@ -544,7 +490,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
             )
             .subscribe(
                 (Response) => {
-                    ////debugger;
+                    //////debugger;
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
                         this.openSnackBar("נשלח בהצלחה", "success");
@@ -555,7 +501,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                    
                 },
                 (error) => {
-                    // ////debugger;
+                    // //////debugger;
                     $("#loader").addClass("d-none");
                 }
             );
@@ -563,7 +509,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
     mapClicked($event: MouseEvent) {}
 
     radioChange(event: MatRadioChange) {
-        //////debugger
+        ////////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -586,7 +532,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
         }
     }
     quart_change(event: MatRadioChange) {
-        ////////debugger;
+        //////////debugger;
         //this._fun.quart_change(event);
         //this.startdateVal = this._fun.Sdate.value;
         //this.enddateVal = this._fun.Edate.value;
@@ -594,7 +540,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.CheckResult = event.value;
     }
     check_change(event: MatRadioChange) {
-        ////////debugger;
+        //////////debugger;
         //this._fun.quart_change(event);
         //this.startdateVal = this._fun.Sdate.value;
         //this.enddateVal = this._fun.Edate.value;
@@ -602,7 +548,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.CheckType = event.value;
     }
     check_change_status(event: MatRadioChange) {
-        ////////debugger;
+        //////////debugger;
         //this._fun.quart_change(event);
         //this.startdateVal = this._fun.Sdate.value;
         //this.enddateVal = this._fun.Edate.value;
@@ -635,7 +581,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
     getPaginatorData(event: PageEvent) {
         console.log(this.TableTowPaginator.pageIndex);
         if (this.startdateVal && this.enddateVal) {
-            ////debugger;
+            //////debugger;
         }
     }
     public getDataFormServer(
@@ -645,13 +591,13 @@ export class LaborComponent implements OnInit, AfterViewInit {
         _CheckType: string,
         _CheckTypeStatus: string
     ) {
-        // ////debugger
+        // //////debugger
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
         $("#loader").removeClass("d-none");
         this.loader = true;
-        // ////debugger
+        // //////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/RunLaborAppNew", {
                 _fromDate: _startDate,
@@ -662,12 +608,12 @@ export class LaborComponent implements OnInit, AfterViewInit {
             })
             .subscribe(
                 (Response) => {
-                    // ////debugger;
+                    // //////debugger;
                     var json = JSON.parse(Response["d"]);
                     var itemsIn = JSON.parse(json.ITEMS);
                     var itemsInMap = JSON.parse(json.ITEMSMAP);
                     var itemsInPatient = JSON.parse(json.ITEMSPATIENT);
-                    ////debugger;
+                    //////debugger;
                     var counterM = JSON.parse(json.counterM);
                     var counterB = JSON.parse(json.counterB);
                     var counterW = JSON.parse(json.counterW);
@@ -727,7 +673,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                     });
                 },
                 (error) => {
-                    // //////debugger;
+                    // ////////debugger;
                     $("#loader").addClass("d-none");
                     this.loader = false;
                 }

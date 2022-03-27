@@ -31,6 +31,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface InvoiceDetails
 {
@@ -86,39 +87,24 @@ export class CaseinvoisesComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}    
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("caseinvoises");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}    
     ngOnInit(): void {
         
-        this.invoicesForm = this.formBuilder.group({
-          caseNumbers: ["", Validators.required],
-          hfnia: ["3", Validators.required],
-          
-        });
-
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
         
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "ocohen"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }        
     }
 
     getInvoicesByCases() {
       if ($("#loader").hasClass("d-none")) {
-        // //debugger
+        // ////debugger
         
           $("#loader").removeClass("d-none");
       }
@@ -128,7 +114,7 @@ export class CaseinvoisesComponent implements OnInit {
               hfnia:  this.invoicesForm.value.hfnia
             })
             .subscribe((Response) => {
-                //debugger
+                ////debugger
                 this.InvoiceDetailsArray = Response["d"];
                 
                 setTimeout(() => {

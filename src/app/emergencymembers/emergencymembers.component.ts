@@ -102,7 +102,7 @@ export class EmergencymembersComponent implements OnInit {
     fullnameVal: string;
     rowIdVal: string;
     ngOnInit(): void {
-       // debugger
+       // //debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
@@ -110,20 +110,7 @@ export class EmergencymembersComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            this.GroupID != "0"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         this.getReportGroupMember(this);
     }
     openSnackBar(message, type) {
@@ -137,14 +124,14 @@ export class EmergencymembersComponent implements OnInit {
     }
 
     onRemoveSubmit(){
-        //debugger
+        ////debugger
 
       // stop here if form is invalid
       if (this.removeMemberForm.invalid) {
           // console.log(this.removeMemberForm.controls.errors);
           return;
       }
-      //debugger;
+      ////debugger;
       this.http
           .post(
               "http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveMemberFromGroup",
@@ -166,7 +153,7 @@ export class EmergencymembersComponent implements OnInit {
       this.applyFilterGroupMember(this.fliterValGroupMember);
     }
     editRow(content, _type, _element) {
-       // debugger
+       // //debugger
         this.removeMemberForm = this.formBuilder.group({
 
             EmployeeID: [_element.EmployeeID, Validators.required],
@@ -178,7 +165,7 @@ export class EmergencymembersComponent implements OnInit {
         );
     }
     getReportGroupMember($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(
             this.fliterValGroupMember
         );
@@ -215,11 +202,11 @@ export class EmergencymembersComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //debugger
+        ////debugger
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
             .post(
@@ -231,15 +218,15 @@ export class EmergencymembersComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                //debugger
+                ////debugger
                 this.TABLE_DATA = Response["d"];
                 
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = this.TABLE_DATA.length;
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

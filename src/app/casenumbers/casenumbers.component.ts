@@ -38,6 +38,7 @@ import {
 } from "@angular/forms";
 import { IDetect } from "ngx-barcodeput";
 import { tr } from "date-fns/locale";
+import { MenuPerm } from "../menu-perm";
 
 export interface CaseNumbers {
     RowID: string;
@@ -115,7 +116,8 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal
     ) {
-        debugger
+       
+        //debugger
         this.activeModal = activeModal;
     }
     myModal;
@@ -134,7 +136,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
     printOn: boolean = false;
     ngOnInit(): void {
         //var macaddress = require('macaddress');
-        debugger
+        //debugger
         this.hide = true;
         let that = this;
         window.onafterprint = function(){
@@ -144,20 +146,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            this.CartoonID != "0"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+     
         if(localStorage.getItem("Print") == "true"){
             this.printOn = true;
             this.displayedColumns = [
@@ -177,7 +166,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
     }
     
     editRow(content, _type, _element) {
-        // debugger
+        // //debugger
         this.removeCaseForm = this.formBuilder.group({
             CaseNumber: [_element.CaseNumber, Validators.required],
             CartoonID: [_element.BoxID, Validators.required],
@@ -189,9 +178,9 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
     }
 
     onDetected(event: IDetect) {
-        //debugger
+        ////debugger
         console.log(event);
-        //debugger
+        ////debugger
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/InsertCaseNumberToBox",
@@ -223,14 +212,14 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
     }
 
     onRemoveSubmit() {
-        // debugger
+        // //debugger
 
         // stop here if form is invalid
         if (this.removeCaseForm.invalid) {
             // console.log(this.removeCaseForm.controls.errors);
             return;
         }
-        //debugger;
+        ////debugger;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveCaseFromBox", {
                 CaseNumber: this.removeCaseForm.value.CaseNumber,
@@ -249,11 +238,11 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
     public getTableFromServer(_FreeText: string) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        ////debugger
+        //////debugger
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBoxCases", {
@@ -262,10 +251,10 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                ////debugger
+                //////debugger
                 this.TABLE_DATA = Response["d"];
 
-                //debugger
+                ////debugger
                 if (this.TABLE_DATA[0]["BoxID"] == null) {
                     this.TABLE_DATA = [];
                     this.dataSource = new MatTableDataSource<any>(
@@ -280,7 +269,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
                 }
                 this.TotalCases  = this.resultsLength.toString();
                 setTimeout(function () {
-                    //////debugger
+                    ////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -289,7 +278,7 @@ export class CasenumbersComponent implements OnInit, AfterViewInit  {
                     let that = this;
                     setTimeout(function(){
                         var printContents = that.formTable1Div.nativeElement.innerHTML;   
-                        //debugger                 
+                        ////debugger                 
                         var w=window.open();
                         w.document.write(printContents);
                         w.print();

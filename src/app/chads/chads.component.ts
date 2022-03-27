@@ -27,6 +27,7 @@ import * as Chart from "chart.js";import {
     Validators,
   } from "@angular/forms";
 import { MatRadioChange } from '@angular/material/radio';
+import { MenuPerm } from "../menu-perm";
 export interface Depart{
     id: string;
     name: string;
@@ -126,8 +127,16 @@ export class ChadsComponent implements OnInit, AfterViewInit {
         private snackBar: MatSnackBar,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("chads");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     
     RelevantForm: FormGroup;
     ChadWithOutValByDocNameDoctorsNames= null;
@@ -178,19 +187,11 @@ export class ChadsComponent implements OnInit, AfterViewInit {
             RelevantDoc: [localStorage.getItem("loginUserName"), false],
             ROW_ID: ["0", false]
         });
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else {
-            ///$("#chadTable").DataTable();
-        }
         this.getDeparts();
         //console.log(this.paginator.pageIndex);
     }
     openRelevant(content, _type, _element) {
-      //  //debugger
+      //  ////debugger
         this.patientNumber = _element.PatiantNumber;
         this.caseNumber =  _element.Case_Number;
         var _Boolean = false;
@@ -209,7 +210,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
             result => {
                 this.closeResult = `Closed with: ${result}`;
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                    // this.saveChad(_element.ROW_ID);
                 }
             },
@@ -225,7 +226,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
         }else{
             this.RelevantForm.value.RelevantOrNotCheck = '1';
         }
-        ////debugger;
+        //////debugger;
         //return;
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveRelevantOrNotChad", {
@@ -246,30 +247,30 @@ export class ChadsComponent implements OnInit, AfterViewInit {
             })
             .subscribe(
                 Response => {
-                    //// ////debugger
+                    //// //////debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                     var json = JSON.parse(Response["d"]);
-                   // // ////debugger
+                   // // //////debugger
                     var _d = JSON.parse(json["Departs"]);
                     for (var depart in _d) {
-                        //// ////debugger
+                        //// //////debugger
                         var _sD: Depart = {id: depart, name: _d[depart]};
 
                         this.departs.push(_sD);
                     }/*
                     $(_d).each(function(i,k){
-                        // ////debugger
+                        // //////debugger
                         //var _sD: Depart = {id: i, name: k};
 
                         //this.departs.push(_sD);
                     })*/
-                    //// ////debugger
+                    //// //////debugger
                 }
             );
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        // ////debugger
+        // //////debugger
         this.chadVal = "";
         this.chadDate = "";
         this.chadTool = "";
@@ -277,7 +278,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
             result => {
                 this.closeResult = `Closed with: ${result}`;
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     this.saveChad(_element.ROW_ID);
                 }
             },
@@ -310,7 +311,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
             })
             .subscribe(
                 Response => {
-                    // ////debugger;
+                    // //////debugger;
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
@@ -318,7 +319,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 error => {
-                    // ////debugger;
+                    // //////debugger;
                     $("#loader").addClass("d-none");
                 }
             );
@@ -384,7 +385,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
             var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)";
-            //// ////debugger;
+            //// //////debugger;
             backgroundColorArray.push(backgound);
 
             backgroundColorArrayOpacity.push(backgoundOpacity);
@@ -401,16 +402,16 @@ export class ChadsComponent implements OnInit, AfterViewInit {
         let optionCall;
         let totalDataLength = _data.length;
         let bgArray = this.getBackgroundArray(totalDataLength);
-        //// ////debugger;
+        //// //////debugger;
         if(_dataType == "multiBar") {
             $("#" + _wrapperId).empty();
             $("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-          //  // ////debugger
+          //  // //////debugger
             var canvas: HTMLCanvasElement = <HTMLCanvasElement>(
                 document.getElementById(_chartId)
             );
             var ctxIn: CanvasRenderingContext2D = canvas.getContext("2d");
-            ////debugger
+            //////debugger
             var barChartData = {
                 labels: _dataLable,
                 datasets: [{
@@ -426,7 +427,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                 }]
     
             };    
-            // ////debugger
+            // //////debugger
             var myChart = new Chart(ctxIn, {
                 type: 'bar',
                 data: barChartData,
@@ -464,7 +465,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                             //get the concerned dataset
                             var dataset =
                                 data.datasets[tooltipItem.datasetIndex];
-                            // // ////debugger;
+                            // // //////debugger;
                             var total = 0;
                             for (var t = 0; t < dataset.data.length; t++) {
                                 total += parseInt(dataset.data[t]);
@@ -520,7 +521,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
         }
         $("#" + _wrapperId).empty();
         $("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-      //  // ////debugger
+      //  // //////debugger
         var canvas: HTMLCanvasElement = <HTMLCanvasElement>(
             document.getElementById(_chartId)
         );
@@ -576,7 +577,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
     }
     
     quart_change(event: MatRadioChange) {
-        ////debugger;
+        //////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -584,7 +585,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
 
     
     radioChange(event: MatRadioChange) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -601,7 +602,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
         _DepartmentID: string,
         _Relevant: string
     ) {
-        //// ////debugger
+        //// //////debugger
         $("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetReportTable", {
@@ -618,11 +619,11 @@ export class ChadsComponent implements OnInit, AfterViewInit {
             })
             .subscribe(
                 Response => {
-                    //// ////debugger
+                    //// //////debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                     var json = JSON.parse(Response["d"]);
                     let chads = JSON.parse(json["aaData"]);
-                    // ////debugger
+                    // //////debugger
                     for (var i = 0; i < chads.length; i++) {
                         if (
                             chads[i].AntiCoag_Treat == "2" ||
@@ -650,7 +651,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                         // }else{
                         //     this.isShow = true;
                         // }
-                        //// ////debugger;
+                        //// //////debugger;
                         var TkeenIN = "לא תקין";
                         if(chads[i].CHADS2_Value != ''){
                             TkeenIN = "תקין";
@@ -696,7 +697,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                         });
                     }
 
-                    // // ////debugger
+                    // // //////debugger
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA
                     );
@@ -713,7 +714,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                     this.ChadDeparts = JSON.parse(
                         json["ChadDeparts"]
                     );
-                     ////debugger
+                     //////debugger
                     this.ChadDepartsGoods = JSON.parse(json["ChadDepartsGoods"]);
                     this.ChadDepartsNotGoods = JSON.parse(json["ChadDepartsNotGoods"]);
                     if(this.selectedIndexTab == 1){
@@ -748,7 +749,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                   /* */
                     //this.paginator. = parseInt(json["iTotalRecords"]);
                     //this.dataSource.sort = this.sort;
-                    // // ////debugger
+                    // // //////debugger
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
@@ -756,7 +757,7 @@ export class ChadsComponent implements OnInit, AfterViewInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 error => {
-                    // // ////debugger;
+                    // // //////debugger;
                     $("#loader").addClass("d-none");
                 }
             );

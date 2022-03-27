@@ -12,6 +12,7 @@ import * as Fun from "../public.functions";
 import { Time } from "@angular/common";
 import { FormControl } from "@angular/forms";
 import { TableUtil } from "./tableUtil";
+import { MenuPerm } from "../menu-perm";
 export interface Dimot {
     D_ROW_ID: number;
     D_CASE_NUMBER: string;
@@ -71,7 +72,16 @@ export class DimotComponent implements OnInit, AfterViewInit {
     _yearToSearch = 0;
     chart = null;
     isShow = false;
-    constructor(private router: Router, private http: HttpClient) {}
+    constructor(private router: Router, private http: HttpClient,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("dimot");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     startdateVal: string;
     enddateVal: string;
     Sdate: FormControl;
@@ -101,33 +111,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         }
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "hmizrahi" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "lbogun" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mruach" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "yarosenfel"  ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mjerdev" ||            
-            localStorage.getItem("loginUserName").toLowerCase() == ("MLehrer").toLowerCase() ||
-            localStorage.getItem("loginUserName").toLowerCase() == ("mshugan").toLowerCase()||
-            localStorage.getItem("loginUserName").toLowerCase() == ("SZidan").toLowerCase()||
-            localStorage.getItem("loginUserName").toLowerCase() == ("YBitton").toLowerCase()
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
     }
@@ -135,7 +119,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         TableUtil.exportToExcel("dimotTable");
     }
     radioChange(event: MatRadioChange) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -157,7 +141,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event: MatRadioChange) {
-        //////debugger;
+        ////////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -215,7 +199,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -262,11 +246,11 @@ export class DimotComponent implements OnInit, AfterViewInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function() {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -282,7 +266,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         _Shift: string,
         _RequestType: string
     ) {
-        // //debugger
+        // ////debugger
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
@@ -298,7 +282,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
             this.Shift,
             this.RequestType
         );
-        //////debugger
+        ////////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
                 _fromDate: _startDate,
@@ -311,7 +295,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
             })
             .subscribe(
                 Response => {
-                    ////debugger
+                    //////debugger
                     var json = JSON.parse(Response["d"]);
                     var _monthsDoingLabels = JSON.parse(
                         json["_monthsDoingLabels"]
@@ -424,7 +408,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 error => {
-                    // ////debugger;
+                    // //////debugger;
                     $("#loader").addClass("d-none");
                     this.loader = false;
                 }

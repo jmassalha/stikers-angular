@@ -31,6 +31,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Staff {
     DS_ROW_ID: number;
@@ -107,7 +108,16 @@ export class StaffComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         private formBuilder: FormBuilder
-    ) {}
+        ,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("staff");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     @Input()
     foo: string = "bar";
     startdateVal: string;
@@ -152,24 +162,6 @@ export class StaffComponent implements OnInit {
             rowIdVal: ["0", false],
         });
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mbilya" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
         this.getDeparts();
         this.getRoles();
         var that = this;
@@ -183,14 +175,14 @@ export class StaffComponent implements OnInit {
         this.http
             .post("http://srv-ipracticom:8080/WebService.asmx/GetRoles", {})
             .subscribe((Response) => {
-                //// //debugger
+                //// ////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
-                // // //debugger
+                // // ////debugger
                 var _d = JSON.parse(json["Roles"]);
                 var i = 0;
                 for (var role in _d) {
-                    //// //debugger
+                    //// ////debugger
                     var _sD: Role = { id: role, name: _d[role] };
 
                     this.roles.push(_sD);
@@ -217,14 +209,14 @@ export class StaffComponent implements OnInit {
         this.http
             .post("http://srv-ipracticom:8080/WebService.asmx/GetDeparts", {})
             .subscribe((Response) => {
-                //// //debugger
+                //// ////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
-                // // //debugger
+                // // ////debugger
                 var _d = JSON.parse(json["Departs"]);
                 var i = 0;
                 for (var depart in _d) {
-                    //// //debugger
+                    //// ////debugger
                     var _sD: Depart = { id: depart, name: _d[depart] };
 
                     this.departs.push(_sD);
@@ -238,12 +230,12 @@ export class StaffComponent implements OnInit {
                     i++;
                 } /*
                 $(_d).each(function(i,k){
-                    // //debugger
+                    // ////debugger
                     //var _sD: Depart = {id: i, name: k};
 
                     //this.departs.push(_sD);
                 })*/
-                //// //debugger
+                //// ////debugger
             });
     }
     openSnackBar() {
@@ -257,7 +249,7 @@ export class StaffComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.staffForm.invalid) {
             return;
@@ -273,7 +265,7 @@ export class StaffComponent implements OnInit {
         var resultRoles = this.search(this.staffForm.value.DS_STAFF_ROLE, this.roles);
         this.rowElement.DS_DEPART_NAME = resultDeparts['name'];
         this.rowElement.DS_ROLE_NAME = resultRoles['name'];
-        debugger
+        //debugger
         this.http
             .post("http://srv-ipracticom:8080/WebService.asmx/PoriaStaff", {
            // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/PoriaStaff", {
@@ -289,7 +281,7 @@ export class StaffComponent implements OnInit {
                 var json = Response["d"].split(", ");
 
                 if (" UPDATE" != json[7]) {
-                    //debugger;
+                    ////debugger;
                     this.departs
                     this.rowElement.DS_STAFF_NAME = json[0];
                     this.rowElement.DS_STAFF_ROLE = json[2];
@@ -310,8 +302,8 @@ export class StaffComponent implements OnInit {
                 }
 
                 //var vars = json.split
-                // //debugger;
-                // //debugger 888888
+                // ////debugger;
+                // ////debugger 888888
                 this.openSnackBar();
             });
         // display form values on success
@@ -319,7 +311,7 @@ export class StaffComponent implements OnInit {
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
-       //debugger
+       ////debugger
         this.rowElement = _element;
         this.fullnameVal = _element.DS_STAFF_NAME;
         this.rowIdVal = _element.DS_ROW_ID;
@@ -339,9 +331,9 @@ export class StaffComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -351,7 +343,7 @@ export class StaffComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -362,7 +354,7 @@ export class StaffComponent implements OnInit {
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
-        //debugger
+        ////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -376,7 +368,7 @@ export class StaffComponent implements OnInit {
 
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         this.rowElement = {
             DS_ROW_ID: 0,
             DS_DEPART_ID: 0,
@@ -404,9 +396,9 @@ export class StaffComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -445,10 +437,10 @@ export class StaffComponent implements OnInit {
         _Depart: string,
         _Role: string
     ) {
-        //debugger
+        ////debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -464,9 +456,9 @@ export class StaffComponent implements OnInit {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let StaffData = JSON.parse(json["aaData"]);
-                ////debugger
+                //////debugger
                 for (var i = 0; i < StaffData.length; i++) {
-                    ////debugger
+                    //////debugger
                     var  resultDeparts= this.search(StaffData[i].DS_DEPART_ID, this.departs);
                     var resultRoles = this.search(StaffData[i].DS_STAFF_ROLE, this.roles);
                  
@@ -484,11 +476,11 @@ export class StaffComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

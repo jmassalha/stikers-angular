@@ -188,7 +188,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         }, 60 * 1000 * 5)
     }
     changeStatus(event) {
-        ////debugger
+        //////debugger
         this.statusOrder = event.value;
     }
     onKey(value) {
@@ -277,7 +277,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         let bol = false
         if(_element.AlertPatient == 'true'){
             bol = true;
-        }       // debugger
+        }       // //debugger
         if(_element.OrderRangeType != '' && _element.OrderRangeType != '0'){
             this.OrdersToAppointmentsForm = this.formBuilder.group({
                 Notes: [_element.Notes, false],
@@ -330,9 +330,9 @@ export class OrdersToAppointmentsComponent implements OnInit {
         
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
-                ////////////debugger
+                //////////////debugger
                 if ("Save" == result) {
-                    // //////////debugger;
+                    // ////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
                 console.log("Hey!!2")
@@ -346,7 +346,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         );
     }
     applayRequerd(event) {
-        // //debugger
+        // ////debugger
         if (event.value == "1" || event.value == 1) {
             this.OrdersToAppointmentsForm.get("OrderDateTime").setValidators(
                 Validators.required
@@ -354,7 +354,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
             this.OrdersToAppointmentsForm.get(
                 "OrderDateTime"
             ).updateValueAndValidity();
-            ////debugger
+            //////debugger
         } else {
             this.OrdersToAppointmentsForm.get(
                 "OrderDateTime"
@@ -397,7 +397,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -406,7 +406,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
     }
 
     getOrdersToAppointments() {
-        ////debugger
+        //////debugger
         this.startdateVal = formatDate(
             this.startdateVal,
             "yyyy-MM-dd",
@@ -419,11 +419,11 @@ export class OrdersToAppointmentsComponent implements OnInit {
         );
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////////debugger
+            // ////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        // //debugger
+        // ////debugger
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetOrdersToAppointments",
@@ -439,7 +439,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                ////debugger
+                //////debugger
                 var json = Response["d"];
                 if (json.length == 0) {
                     this.dataSource = new MatTableDataSource<any>(
@@ -466,7 +466,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 console.log(this.Permission);
                 
                 setTimeout(function () {
-                    ////////////debugger
+                    //////////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -476,11 +476,11 @@ export class OrdersToAppointmentsComponent implements OnInit {
     getOutpatientClinics() {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////////debugger
+            // ////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        // //debugger
+        // ////debugger
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/selectOutpatientClinic",
@@ -491,9 +491,9 @@ export class OrdersToAppointmentsComponent implements OnInit {
             .subscribe((Response) => {
                 var json = Response["d"];
                 this.OutpatientClinics = this.selectedClinics = json;
-                ////debugger
+                //////debugger
                 setTimeout(function () {
-                    ////////////debugger
+                    //////////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -506,18 +506,18 @@ export class OrdersToAppointmentsComponent implements OnInit {
         }
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////////debugger
+            // ////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        // //debugger
+        // ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/findPatientByID", {
                 PatientId: event.srcElement.value,
             })
             .subscribe((Response) => {
                 var json = Response["d"];
-                // //debugger
+                // ////debugger
                 // this.OrdersToAppointmentsForm.value.PatientName  = json;
                 this.OrdersToAppointmentsForm.patchValue({
                     PatientName: json,
@@ -527,9 +527,9 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 this.OrdersToAppointmentsForm.get(
                     "PatientName"
                 ).updateValueAndValidity();
-                ////debugger
+                //////debugger
                 setTimeout(function () {
-                    ////////////debugger
+                    //////////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -553,7 +553,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
             this.OrdersToAppointmentsForm.get(
                 "OrderRangeType"
             ).updateValueAndValidity();
-            ////debugger
+            //////debugger
         } else {
             this.OrdersToAppointmentsForm.get(
                 "OrderToDate"
@@ -575,7 +575,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         window.print();
     }
     checkValue(event) {
-        ////debugger;
+        //////debugger;
         if (
             event.srcElement.value != "" &&
             event.srcElement.value != "0" &&
@@ -594,7 +594,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
             this.OrdersToAppointmentsForm.get(
                 "OrderToDate"
             ).updateValueAndValidity();
-            ////debugger
+            //////debugger
         } else {
             this.OrdersToAppointmentsForm.get(
                 "OrderRangeType"
@@ -614,11 +614,11 @@ export class OrdersToAppointmentsComponent implements OnInit {
     getUserDetails() {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////////debugger
+            // ////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        // //debugger
+        // ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/selectUserDetails", {
                 user: localStorage.getItem("loginUserName"),
@@ -626,9 +626,9 @@ export class OrdersToAppointmentsComponent implements OnInit {
             .subscribe((Response) => {
                 var json = Response["d"];
                 this.UserDetails = json;
-              //  debugger
+              //  //debugger
                 setTimeout(function () {
-                    ////////////debugger
+                    //////////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -647,7 +647,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         });
     }
     onSubmit() {
-        debugger
+        //debugger
         if(this.OrdersToAppointmentsForm.value.OrderStatus == '1' && (this.OrdersToAppointmentsForm.value.OrderRealDateTime == "" || this.OrdersToAppointmentsForm.value.OrderRealDateTime == null)){
             this._snackBar.open("תאריך ושעת תור בפועל שדה חובה!!", "", {
                 duration: 2500,
@@ -672,7 +672,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 "en-US"
             );
         }
-        //debugger
+        ////debugger
         if (
             this.OrdersToAppointmentsForm.value.OrderRealDateTime != "" &&
             this.OrdersToAppointmentsForm.value.OrderRealDateTime != null &&
@@ -712,14 +712,14 @@ export class OrdersToAppointmentsComponent implements OnInit {
             );
         }
         this.OrdersToAppointmentsForm.value.AlertPatient = (this.OrdersToAppointmentsForm.value.AlertPatient).toString()
-        debugger
+        //debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////////debugger
+            // ////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //debugger
+        ////debugger
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateRowDataOrdersToAppointments",
@@ -732,7 +732,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 this.getOrdersToAppointments();
 
                 this.modalService.dismissAll();
-                ////////////debugger
+                //////////////debugger
                 let that = this;
                 setTimeout(function () {
                     that.openSnackBar();
