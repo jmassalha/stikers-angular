@@ -2,7 +2,6 @@ import { HttpClient } from "@angular/common/http";
 import { Component, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import * as $ from "jquery";
-import { VoiceRecognitionService } from "../header/service/voice-recognition.service";
 
 export interface Link {
   RowId: string;
@@ -54,8 +53,8 @@ export class NewHeaderComponent implements OnInit {
       $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://localhost:64964/WebService.asmx/GetOnnLineLinks",
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetOnnLineLinks",
+                //"http://localhost:64964/WebService.asmx/GetOnnLineLinks",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetOnnLineLinks",
                 {
                     user: localStorage.getItem("loginUserName") ,
                 }

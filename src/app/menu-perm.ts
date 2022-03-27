@@ -23,7 +23,8 @@ export class MenuPerm {
         let taht = this;
        // //debugger;
         this.http
-            .post("http://localhost:64964/WebService.asmx/GetPermLinkForUser", {
+            //.post("http://localhost:64964/WebService.asmx/GetPermLinkForUser", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPermLinkForUser", {
                 UserName: this.UserName,
                 RoutName: this.RoutName,
             })
