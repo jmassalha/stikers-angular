@@ -161,10 +161,7 @@
                 </div>
             </div>
 
-            <!-- <button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'jubartal'" mat-raised-button
-                type="submit" class="btn btn-raised" (click)="test()">
-                <i class="material-icons">face</i>
-            </button> -->
+
         </div>
         <div class="row">
             <div class="col-4">
@@ -185,6 +182,10 @@
                             <span class="material-icons">
                                 apps
                             </span>
+                        </button></li>
+                    <li><button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'jubartal'"
+                            mat-raised-button type="submit" class="btn btn-raised" (click)="test()">
+                            <i class="material-icons">face</i>
                         </button></li>
                 </ul>
             </div>
@@ -534,12 +535,14 @@
                 class="tooltiptext">אתר משמרות</span></div>
     </mat-card>
     <mat-card class="card-img" style="background-color: white;width: 25%;" (click)="openAranWebsite()">
-        <div class="card-img" style="background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')"><span
-                class="tooltiptext">אתר מטה חירום</span></div>
+        <div class="card-img"
+            style="background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')">
+            <span class="tooltiptext">אתר מטה חירום</span></div>
     </mat-card>
     <mat-card class="card-img" style="background-color: white;width: 25%;" (click)="openTelBook()">
-        <div class="card-img" style="background-image:url('https://thumbs.dreamstime.com/z/telephone-icon-design-communication-contact-well-organized-fully-editable-vector-any-use-like-print-media-web-stock-images-179894485.jpg')"><span
-                class="tooltiptext">ספר טלפונים</span></div>
+        <div class="card-img"
+            style="background-image:url('https://thumbs.dreamstime.com/z/telephone-icon-design-communication-contact-well-organized-fully-editable-vector-any-use-like-print-media-web-stock-images-179894485.jpg')">
+            <span class="tooltiptext">ספר טלפונים</span></div>
     </mat-card>
 </ng-template>
 
