@@ -53,7 +53,7 @@ export class NewHeaderComponent implements OnInit {
       $("#loader").removeClass("d-none");
         this.http
             .post(
-                //"http://localhost:64964/WebService.asmx/GetOnnLineLinks",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetOnnLineLinks",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetOnnLineLinks",
                 {
                     user: localStorage.getItem("loginUserName") ,
@@ -62,8 +62,6 @@ export class NewHeaderComponent implements OnInit {
             .subscribe((Response) => {
               //debugger
               this.Links = Response["d"];
-              console.log(this.Links)
-              ////debugger
                 setTimeout(function () {
                     $("#loader").addClass("d-none");
                 });

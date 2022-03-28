@@ -120,7 +120,7 @@
                                             <mat-label>תפקיד</mat-label>
                                             <mat-select formControlName="Role" aria-placeholder="תיאור תפקיד">
                                                 <mat-option *ngFor="let func of FunctionsList"
-                                                    [value]="func.FunctionDescription">
+                                                    [value]="func.FunctionID">
                                                     {{func.FunctionDescription}} </mat-option>
                                             </mat-select>
                                         </mat-form-field>

@@ -7,7 +7,5 @@ export class TreeItemComponent implements OnInit {
     @Input()
     public data: any = {};
     ngOnInit(): void {
-        console.log(this.data);
-        ////debugger;
     }
 }

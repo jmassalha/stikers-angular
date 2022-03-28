@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 
-
 @Component({
   selector: 'app-hospital-bi-dashboard',
   templateUrl: './hospital-bi-dashboard.component.html',
@@ -9,10 +8,11 @@ import { Component, OnInit } from '@angular/core';
 export class HospitalBIDashboardComponent implements OnInit {
 
   constructor() {
+
   }
 
-  
   ngOnInit(): void {
+
   }
 
 
