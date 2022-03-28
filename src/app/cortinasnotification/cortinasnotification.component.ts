@@ -62,7 +62,7 @@ export class CortinasnotificationComponent implements OnInit {
         private formBuilder: FormBuilder,
         private mMenuPerm: MenuPerm
     ) {
-        mMenuPerm.setRoutName("consultations");
+        mMenuPerm.setRoutName("cortinasnotification");
         setTimeout(() => {
             if(!mMenuPerm.getHasPerm()){
                 localStorage.clear();

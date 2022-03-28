@@ -534,6 +534,7 @@ LastName
                                 //  //debugger
                                 if (Response["d"]) {
                                     var json = JSON.parse(Response["d"]);
+                                    debugger
                                     if (json != "") {
                                         this.http
                                             .post(
@@ -543,7 +544,7 @@ LastName
                                                     newId: json,
                                                 }
                                             )
-                                            .subscribe((Response) => {});
+                                            .subscribe((Response) => {debugger});
                                     }
                                     // var FastCoronaTestResponse =
                                     //     json["FastCoronaTestResponse"];
