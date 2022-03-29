@@ -24,12 +24,13 @@ export class NursesManageDashboardComponent implements OnInit {
   all_nursing_departments_array = [];
   all_medical_departments_array = [];
   ER_Occupancy = [];
+  DepartmentsDontReportArray = [];
   Delivery_ER_Occupancy = [];
   searchWord: string;
   hospitalBedsInUse: string;
   resparotriesCount: string;
   updateSubscription: any;
-  UserName:string = "";
+  UserName: string = "";
   nursesUserPermission: boolean = false;
   privateIP;
   publicIP;
@@ -43,6 +44,7 @@ export class NursesManageDashboardComponent implements OnInit {
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
   @ViewChild('modalIp', { static: true }) modalIp: TemplateRef<any>;
   @ViewChild('modalOtherApps', { static: true }) modalOtherApps: TemplateRef<any>;
+  @ViewChild('monitorReports', { static: true }) monitorReports: TemplateRef<any>;
 
   constructor(
     private zone: NgZone,
@@ -115,7 +117,7 @@ export class NursesManageDashboardComponent implements OnInit {
       // this.http.get('https://api.ipify.org?format=json').subscribe(data => {
       //   this.publicIP = data['ip'];
       // });
-    }else{
+    } else {
       this.handleEvent3();
     }
   }
@@ -294,15 +296,15 @@ export class NursesManageDashboardComponent implements OnInit {
       })
   }
 
-  openShiftsWebsite(){
+  openShiftsWebsite() {
     window.open("https://p18.mishmarot.com/?csubDomain=poria", "_blank");
   }
-  
-  openAranWebsite(){
+
+  openAranWebsite() {
     window.open("http://posapci.poria.health.gov.il:8681/sap(bD1oZSZjPTkzMw==)/bc/bsp/sap/zbsp_miun/poria_aran.htm", "_blank");
   }
-  
-  openTelBook(){
+
+  openTelBook() {
     window.open("http://srv-apps/pb/", "_blank");
   }
 
@@ -329,6 +331,17 @@ export class NursesManageDashboardComponent implements OnInit {
 
   otherApps() {
     this.dialog.open(this.modalOtherApps, { width: '60%', disableClose: false });
+  }
+
+  MonitorReports() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDepartmentsDontReport", {
+
+      })
+      .subscribe((Response) => {
+        this.DepartmentsDontReportArray = Response["d"];
+      });
+    this.dialog.open(this.monitorReports, { width: '60%', disableClose: false });
   }
 
   closeModal() {

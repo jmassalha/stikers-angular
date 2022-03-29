@@ -525,7 +525,7 @@ LastName
                         this.http
                             .post(
                                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SavePatientFastTestResult",
-                                // "http://localhost:64964/WebService.asmx/SavePatientFastTestResult",
+                                // "http://srv-apps-prod/RCF_WS/WebService.asmx/SavePatientFastTestResult",
                                 {
                                     resultClass: this.TestsForm.getRawValue(),
                                 }
@@ -539,7 +539,7 @@ LastName
                                         this.http
                                             .post(
                                                 "http://srv-ipracticom:8080/WebService.asmx/checkIsHaveQRCode",
-                                                // "http://localhost:64964/WebService.asmx/checkIsHaveQRCode",
+                                                // "http://srv-apps-prod/RCF_WS/WebService.asmx/checkIsHaveQRCode",
                                                 {
                                                     newId: json,
                                                 }
