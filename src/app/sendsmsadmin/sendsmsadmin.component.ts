@@ -50,7 +50,7 @@ export class SendsmsadminComponent implements OnInit {
         activeModal: NgbActiveModal,
         private mMenuPerm: MenuPerm
     ) {
-        mMenuPerm.setRoutName("sendsms");
+        mMenuPerm.setRoutName("sendsmsadmin");
         setTimeout(() => {
             if(!mMenuPerm.getHasPerm()){
                 localStorage.clear();
