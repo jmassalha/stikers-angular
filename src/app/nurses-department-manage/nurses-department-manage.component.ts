@@ -87,7 +87,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   displayedColumns: string[] = [];
   dataSource = new MatTableDataSource<any>();
 
-  displayedColumns2: string[] = ['casenumber', 'departmentmedical','roomnumber', 'lastname', 'firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
+  displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'roomnumber', 'lastname', 'firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
   dataSource2 = new MatTableDataSource<any>();
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
 
@@ -137,6 +137,7 @@ export class NursesDepartmentManageComponent implements OnInit {
   arrayOfMedDepts = [];
   phoneNumber: any;
   reportSubject: any;
+  nursingCount: any;
 
   ngOnInit(): void {
     if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה') {
@@ -215,6 +216,7 @@ export class NursesDepartmentManageComponent implements OnInit {
     dialogRef.componentInstance.description = description;
     dialogRef.componentInstance.corona = corona;
     dialogRef.componentInstance.reportType = reportType;
+    dialogRef.componentInstance.nursingCount = this.nursingCount;
     dialogRef.afterClosed()
       .subscribe((data) => {
         if (data) {
@@ -241,6 +243,12 @@ export class NursesDepartmentManageComponent implements OnInit {
     }
   }
 
+  changeDepartByUser(departCode,departName) {
+    this.departCode = departCode;
+    this.Dept_Name = departName;
+    this.ngOnInit();
+  }
+
 
   getDepartDetails() {
     this.http
@@ -254,7 +262,7 @@ export class NursesDepartmentManageComponent implements OnInit {
           setTimeout(() => {
             console.log('again');
             this.getDepartDetails();
-          }, 5000);
+          }, 7000);
         } else {
           // this.RespiratorsCount = this.ELEMENT_DATA[0].RespiratorsCount;
           // this.CatheterCount = this.ELEMENT_DATA[0].CatheterCount;
@@ -263,6 +271,7 @@ export class NursesDepartmentManageComponent implements OnInit {
           // this.PhLimitationCount = this.ELEMENT_DATA[0].PhLimitationCount;
           this.loading = false;
           this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
+          this.nursingCount = this.dataSource.filteredData[0].NursingCount;
         }
       });
   }
@@ -289,18 +298,18 @@ export class NursesDepartmentManageComponent implements OnInit {
           medDepart.number = this.dataSource2.filteredData.filter((obj) => obj.PM_MOVE_DEPART === element).length;
           this.arrayOfMedDepts.push(medDepart);
         });
-        
-        let coronaExists = this.dataSource2.filteredData.filter((obj) => obj.CoronaStatus === 'מאומת קורונה').length;
-        this.RespiratorsCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מונשם')).length.toString();
-        this.CatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('שתן')).length.toString();
-        this.CentralCatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מרכזי')).length.toString();
-        this.IsolationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('בידוד')).length.toString();
-        this.PhLimitationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('פיזית')).length.toString();
-        
-        if (coronaExists > 0) {
-          this.CoronaStatus = '1'
+
+        if (this.dataSource2.filteredData.length > 1) {
+          let coronaExists = this.dataSource2.filteredData.filter((obj) => obj.CoronaStatus === 'מאומת קורונה').length;
+          this.RespiratorsCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מונשם')).length.toString();
+          this.CatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('שתן')).length.toString();
+          this.CentralCatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מרכזי')).length.toString();
+          this.IsolationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('בידוד')).length.toString();
+          this.PhLimitationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('פיזית')).length.toString();
+          if (coronaExists > 0) {
+            this.CoronaStatus = '1'
+          }
         }
-        
         if (subDepart != '') {
           this.patientsTable = true;
           this.applyFilter(event, subDepart);
