@@ -131,7 +131,7 @@ export class ResearchesComponent implements OnInit {
         activeModal: NgbActiveModal,
         private mMenuPerm: MenuPerm
     ) {
-        mMenuPerm.setRoutName("poriadeparts");
+        mMenuPerm.setRoutName("researches");
         setTimeout(() => {
             if(!mMenuPerm.getHasPerm()){
                 localStorage.clear();
