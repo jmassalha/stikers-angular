@@ -448,6 +448,7 @@ export class NursesDashboardComponent implements OnInit {
     dialogRef.componentInstance.lastName = lastName;
   }
 
+  // open new report from face icon in the clicical reports list
   showNewReportButton(patient) {
     this.showNewReport = true;
     this.ReportGroup = this.formBuilder.group({
@@ -749,7 +750,6 @@ export class NursesDashboardComponent implements OnInit {
           if (Response["d"] != 0) {
             if (autosave == '0') {
               this.openSnackBar("נשמר בהצלחה");
-              // this.ReportGroup.reset();
               this.Dept_Name = "";
               this.departmentfilter.setValue('');
               this.ngOnInit();
@@ -757,7 +757,6 @@ export class NursesDashboardComponent implements OnInit {
             else {
               this.openSnackBar("נשמר בהצלחה");
               this.ReportGroup.controls['Row_ID'].setValue(Response["d"]);
-              // this.ReportGroup.reset();
             }
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");

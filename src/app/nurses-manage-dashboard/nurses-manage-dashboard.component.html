@@ -525,25 +525,53 @@
     </button>
     <h1 mat-dialog-title style="text-align: center;">יישומים</h1>
     <hr>
-    <mat-card class="card-img" style="background-color: white;width: 25%;"
+    <mat-card class="card-img" style="background-color: white;width: 20%;"
         (click)="!onlyDisplay && openReinforcementtDialog('')">
         <div class="card-img" style="background-image:url('../../assets/images/sos.png')"><span class="tooltiptext">מסך
                 תגבור</span></div>
     </mat-card>
-    <mat-card class="card-img" style="background-color: white;width: 25%;" (click)="openShiftsWebsite()">
+    <mat-card class="card-img" style="background-color: white;width: 20%;" (click)="openShiftsWebsite()">
         <div class="card-img" style="background-image:url('https://p18.mishmarot.com/images/logo_1.png')"><span
                 class="tooltiptext">אתר משמרות</span></div>
     </mat-card>
-    <mat-card class="card-img" style="background-color: white;width: 25%;" (click)="openAranWebsite()">
+    <mat-card class="card-img" style="background-color: white;width: 20%;" (click)="openAranWebsite()">
         <div class="card-img"
             style="background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')">
-            <span class="tooltiptext">אתר מטה חירום</span></div>
+            <span class="tooltiptext">אתר מטה חירום</span>
+        </div>
     </mat-card>
-    <mat-card class="card-img" style="background-color: white;width: 25%;" (click)="openTelBook()">
+    <mat-card class="card-img" style="background-color: white;width: 20%;" (click)="openTelBook()">
         <div class="card-img"
             style="background-image:url('https://thumbs.dreamstime.com/z/telephone-icon-design-communication-contact-well-organized-fully-editable-vector-any-use-like-print-media-web-stock-images-179894485.jpg')">
-            <span class="tooltiptext">ספר טלפונים</span></div>
+            <span class="tooltiptext">ספר טלפונים</span>
+        </div>
     </mat-card>
+    <mat-card class="card-img" style="background-color: white;width: 20%;" (click)="MonitorReports()">
+        <div class="card-img"
+            style="background-image:url('https://www.silicon.co.uk/wp-content/uploads/2014/08/Spy-c-Kar-Shutterstock-2014.jpg')">
+            <span class="tooltiptext">ניטור דיווחים</span>
+        </div>
+
+    </mat-card>
+</ng-template>
+
+<ng-template #monitorReports let-close="close">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">ניטור ומעקב דוחות</h1>
+    <hr>
+    <div class="row" style="justify-content: center;">
+        <h4>רשימת מחלקות שלא דיווחו היום</h4>
+    </div>    
+    <mat-chip-list style="float: right;">
+        <div class="row" style="justify-content: right;">
+            <mat-chip *ngFor="let dept of DepartmentsDontReportArray">
+                <b>{{dept.Dept_Name}}</b>
+            </mat-chip>
+        </div>
+        
+    </mat-chip-list>
 </ng-template>
 
 <ng-template #modalIp let-close="close">

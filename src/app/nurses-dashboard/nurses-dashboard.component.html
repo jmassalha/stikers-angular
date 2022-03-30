@@ -175,7 +175,7 @@
 
     <div id="page-toshow" class="padding-top-0">
         <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup"
-            *ngIf="caseNumber != '' || reportType == 'administrative'"
+            *ngIf="(caseNumber != '' || reportType == 'administrative') && !showNewReport"
             [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
             <div class="modal-header text-right">
                 <div class="row mt-3">
@@ -348,7 +348,74 @@
                         <mat-icon (click)="showNewReportButton(patient[0])">account_circle</mat-icon>
                     </mat-panel-description>
                 </mat-expansion-panel-header>
-
+                <!-- <p *ngIf="showNewReport && patient[0].Patient_CaseNumber == caseNumber">test</p> -->
+                <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup"
+                    *ngIf="showNewReport && patient[0].Patient_CaseNumber == caseNumber"
+                    [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
+                    <div class="modal-header text-right">
+                        <div class="row mt-3">
+                            <div class="col-4 text-center">{{date2}}
+                            </div>
+                            <div class="col-4 text-center" style="font-size: xx-large;">
+                                {{firstName}} {{lastName}}
+                            </div>
+                            <div class="col-4 text-center">
+                                {{time2}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>אבחנה</mat-label>
+                                    <textarea matInput
+                                        style="font-family: 'Roboto';font-size: 20px;font-weight: bolder;"
+                                        formControlName="Diagnosis" placeholder="אבחנה"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>משמרת</mat-label>
+                                        <b
+                                            style="font-size: 26px;font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                            <input matInput class="form-control" formControlName="ReportShift"
+                                                type="text" />
+                                        </b>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <div class="form-group">
+                                    <mat-form-field id="reportContentField">
+                                        <textarea matInput
+                                            style="font-size: 15px;font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                            rows="5" placeholder="תוכן הדוח" class="form-control border-1"
+                                            formControlName="ReportText" required></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-left">
+                        <button matTooltip="דוח חדש" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
+                            (click)="onSubmit('0')" type="submit" mat-raised-button>
+                            <span class="material-icons">
+                                create_new_folder
+                            </span>
+                        </button>
+                        <button matTooltip="שמור והמשך דיווח" class="btn btn-primary btn-raised ml-3 float-left"
+                            id="BtnStyle" (click)="onSubmit('1')" type="submit" mat-raised-button>
+                            <span class="material-icons">
+                                save
+                            </span>
+                        </button>
+                        <br><br><br>
+                    </div>
+                </form>
                 <app-fill-report *ngFor="let item of patient" style="font-size: small;" [reportID]="item.Row_ID"
                     [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
                 <hr>

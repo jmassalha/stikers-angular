@@ -105,6 +105,7 @@ export class NursesReinforcementComponent implements OnInit {
   }
 
   GetNursesList() {
+    //sektor  039
     let empId = '';
     let empFirstName = '';
     let empLastName = '';
@@ -113,8 +114,8 @@ export class NursesReinforcementComponent implements OnInit {
     let medGrad = '';
     let phoneNumber = '';
     let department = '';
-    let role = '';
-    let sektor = '039';
+    let role = "'2','7','14','32'";
+    let sektor = '';
     let workPlace = '';
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {
@@ -139,7 +140,7 @@ export class NursesReinforcementComponent implements OnInit {
   }
 
   getReinforcementStaffList() {
-    // 870  039  001
+    //sektor 870  039  001
     let empId = '';
     let empFirstName = '';
     let empLastName = '';
@@ -148,8 +149,8 @@ export class NursesReinforcementComponent implements OnInit {
     let medGrad = '';
     let phoneNumber = '';
     let department = '';
-    let role = '';
-    let sektor = "'039','870','001'";
+    let role = "'2','7','6','10','14','32'";
+    let sektor = "";
     let workPlace = '';
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {

@@ -29,7 +29,6 @@ import {MatListModule} from '@angular/material/list';
 import { DataTablesModule } from 'angular-datatables';
 import { MatRadioModule } from '@angular/material/radio';
 import {MatChipsModule} from '@angular/material/chips';
-import { ChartsModule } from 'ng2-charts';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SurgeryComponent } from './surgery/surgery.component';
@@ -295,7 +294,6 @@ const maskConfig: Partial<IConfig> = {
     MatTabsModule,
     MatDialogModule,
     MatSelectModule,
-    ChartsModule,
     BrowserModule,
     HttpClientModule,
     MatTooltipModule,

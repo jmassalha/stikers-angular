@@ -1,4 +1,8 @@
-
+h4{
+  margin-bottom: 30px;
+  width: fit-content;
+  font-weight: bold;
+}
 .card-img:hover .tooltiptext {
   visibility: visible;
 }

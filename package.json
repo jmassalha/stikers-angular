@@ -76,7 +76,7 @@
     "mat-select-filter": "^2.4.1",
     "ng-angular9-datatable": "^0.9.13",
     "ng-circle-progress": "^1.6.0",
-    "ng2-charts": "^2.4.3",
+    "ng2-charts": "^3.0.0-rc.7",
     "ng2-smart-table": "^1.7.2",
     "ngx-barcodeput": "^1.1.0",
     "ngx-bootstrap": "^8.0.0",
