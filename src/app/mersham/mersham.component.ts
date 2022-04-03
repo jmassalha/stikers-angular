@@ -513,6 +513,7 @@ export class MershamComponent implements OnInit {
                     this.rows.value[i].MenonValVal = 0;
                 switch (this.rows.value[i].groupID) {
                     case "1":
+                        break;
                     case "2":
                         this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
