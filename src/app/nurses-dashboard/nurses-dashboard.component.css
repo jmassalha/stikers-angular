@@ -3,6 +3,9 @@
   cursor: pointer;
   float: right;
 }
+.face-icon:hover{
+  cursor: pointer;
+}
 #speechBtn{
   border-radius: 50%;
   background-color: cornflowerblue;

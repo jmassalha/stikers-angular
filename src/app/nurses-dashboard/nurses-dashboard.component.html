@@ -153,7 +153,8 @@
     </div>
 
     <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
-        <h5>סה"כ מספר דיווחים: {{ELEMENT_DATA.length}}</h5>
+        <h5 class="ml-3">סה"כ מספר דיווחים: {{ELEMENT_DATA.length}}</h5>
+        <h5>תפוסה סיעודית: {{nursingCount}}</h5>
     </div>
     <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
         <h1>{{Dept_Name}}</h1>
@@ -345,9 +346,13 @@
                     <mat-panel-description>
                         <span style="font-size: 22px;font-weight: bold;">{{patient[0].PatientName}}</span>
                         <!-- <mat-icon>account_circle</mat-icon> -->
-                        <mat-icon (click)="showNewReportButton(patient[0])">account_circle</mat-icon>
+
                     </mat-panel-description>
                 </mat-expansion-panel-header>
+                <div class="row" style="justify-content: right;">
+                    <mat-icon class="face-icon" (click)="showNewReportButton(patient[0])">account_circle</mat-icon>
+                </div>
+
                 <!-- <p *ngIf="showNewReport && patient[0].Patient_CaseNumber == caseNumber">test</p> -->
                 <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup"
                     *ngIf="showNewReport && patient[0].Patient_CaseNumber == caseNumber"

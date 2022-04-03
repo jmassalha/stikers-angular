@@ -107,6 +107,8 @@
                                         <mat-form-field>
                                             <mat-label>מחלקה</mat-label>
                                             <mat-select formControlName="Department" aria-placeholder="מחלקה">
+                                                <mat-option [value]="''">
+                                                    הכל </mat-option>
                                                 <mat-option *ngFor="let dept of DepartmentsList"
                                                     [value]="dept.DepartnentDescripton">
                                                     {{dept.DepartnentDescripton}} </mat-option>
@@ -119,6 +121,8 @@
                                         <mat-form-field>
                                             <mat-label>תפקיד</mat-label>
                                             <mat-select formControlName="Role" aria-placeholder="תיאור תפקיד">
+                                                <mat-option [value]="''">
+                                                    הכל </mat-option>
                                                 <mat-option *ngFor="let func of FunctionsList"
                                                     [value]="func.FunctionID">
                                                     {{func.FunctionDescription}} </mat-option>

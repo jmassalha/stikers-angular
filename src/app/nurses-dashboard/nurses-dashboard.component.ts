@@ -269,6 +269,7 @@ export class NursesDashboardComponent implements OnInit {
   Patientsloading: boolean = false;
   offsetFlag = true;
   showNewReport: boolean = false;
+  nursingCount: string;
 
   ngOnInit(): void {
     if (this.caseNumber != "" && this.caseNumber != undefined) {

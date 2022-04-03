@@ -1,7 +1,30 @@
 <div class="my-container" id="page-toshow">
-  <div dir="rtl">
-    <h4>שם משתמש: {{UserName}}</h4>
+  <div class="row" dir="rtl">
+    <div style="margin-left: auto;">
+      <h4>שם משתמש: {{UserName}}</h4>
+    </div>
+    <div>
+      <button *ngIf="departCode == 'סטנ-ילד'" style="margin-left: 10px;" matTooltip="שינוי למח' ילדים" mat-raised-button
+        type="submit" (click)="changeDepartByUser('סילד','ילדים')" class="btn btn-primary btn-raised">
+        ילדים
+      </button>
+      <button *ngIf="departCode == 'סילד'" matTooltip="שינוי למח' ט.נ ילדים" mat-raised-button type="submit"
+        (click)="changeDepartByUser('סטנ-ילד','טיפול נמרץ ילדים')" class="btn btn-primary btn-raised">
+        טיפול נמרץ ילדים
+      </button>
+      <button *ngIf="departCode == 'סמ-ח-ל'" style="margin-left: 10px;" matTooltip="שינוי למח' חדר לידה"
+        mat-raised-button type="submit" (click)="changeDepartByUser('סח-ל','חדר לידה')"
+        class="btn btn-primary btn-raised">
+        חדר לידה
+      </button>
+      <button *ngIf="departCode == 'סח-ל'" matTooltip="שינוי למח' מיון יולדות" mat-raised-button type="submit"
+        (click)="changeDepartByUser('סמ-ח-ל','מיון יולדות (חדר לידה)')" class="btn btn-primary btn-raised">
+        מיון יולדות
+      </button>
+    </div>
+
   </div>
+
   <button type="button" class="close" matTooltip="סגירה" aria-label="Close" *ngIf="ifAdmin == '1'"
     (click)="closeModal()">
     <span aria-hidden="true">&times;</span>
@@ -148,38 +171,43 @@
       </div>
       <div dir="rtl" class="mb-3 text-center" *ngIf="patientsTable && Dept_Name != 'מיון יולדות (חדר לידה)'">
         <mat-list role="list" id="list_of_types" *ngIf="Dept_Name != 'חדר לידה'">
-          <mat-list-item role="listitem"><button type="button" id="details-btn" style="font-size: 20px;" (click)="applyFilter($event,'')"
-              mat-raised-button>
+          <mat-list-item role="listitem"><button type="button" id="details-btn" style="font-size: 20px;"
+              (click)="applyFilter($event,'')" mat-raised-button>
               הכל
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="RespiratorsCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="RespiratorsCount == '0'"
-              (click)="applyFilter($event,'מונשם')" mat-raised-button color="primary">
+              [style.background]="RespiratorsCount == '0' ? 'darkgray': ''" style="font-size: 20px;"
+              [disabled]="RespiratorsCount == '0'" (click)="applyFilter($event,'מונשם')" mat-raised-button
+              color="primary">
               מונשמים
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="CatheterCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="CatheterCount == '0'"
-              (click)="applyFilter($event,'צנתר שתן')" mat-raised-button color="primary">
+              [style.background]="CatheterCount == '0' ? 'darkgray': ''" style="font-size: 20px;"
+              [disabled]="CatheterCount == '0'" (click)="applyFilter($event,'צנתר שתן')" mat-raised-button
+              color="primary">
               צנתר שתן
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="CentralCatheterCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="CentralCatheterCount == '0'"
-              (click)="applyFilter($event,'צנתר מרכזי')" mat-raised-button color="primary">
+              [style.background]="CentralCatheterCount == '0' ? 'darkgray': ''" style="font-size: 20px;"
+              [disabled]="CentralCatheterCount == '0'" (click)="applyFilter($event,'צנתר מרכזי')" mat-raised-button
+              color="primary">
               צנתר מרכזי
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="IsolationCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="IsolationCount == '0'"
-              (click)="applyFilter($event,'בידוד')" mat-raised-button color="primary">
+              [style.background]="IsolationCount == '0' ? 'darkgray': ''" style="font-size: 20px;"
+              [disabled]="IsolationCount == '0'" (click)="applyFilter($event,'בידוד')" mat-raised-button
+              color="primary">
               בידוד
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="PhLimitationCount == '0' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="PhLimitationCount == '0'"
-              (click)="applyFilter($event,'הגבלה פיזית')" mat-raised-button color="primary">
+              [style.background]="PhLimitationCount == '0' ? 'darkgray': ''" style="font-size: 20px;"
+              [disabled]="PhLimitationCount == '0'" (click)="applyFilter($event,'הגבלה פיזית')" mat-raised-button
+              color="primary">
               הגבלה פיזית
             </button></mat-list-item>
           <mat-list-item role="listitem"><button type="button" id="details-btn"
-              [style.background]="CoronaStatus == '' ? 'darkgray': ''" style="font-size: 20px;" [disabled]="CoronaStatus == ''"
-              (click)="applyFilter($event,'מאומת')" mat-raised-button color="primary">
+              [style.background]="CoronaStatus == '' ? 'darkgray': ''" style="font-size: 20px;"
+              [disabled]="CoronaStatus == ''" (click)="applyFilter($event,'מאומת')" mat-raised-button color="primary">
               סטטוס קורונה
             </button></mat-list-item>
         </mat-list>
@@ -198,7 +226,7 @@
             <th mat-header-cell *matHeaderCellDef> מחלקה רפואית </th>
             <td mat-cell *matCellDef="let element"> {{element.PM_MOVE_DEPART}} </td>
           </ng-container>
-          
+
           <ng-container matColumnDef="roomnumber">
             <th mat-header-cell *matHeaderCellDef> חדר </th>
             <td mat-cell *matCellDef="let element"> {{element.PM_ROOM_NUMBER}} </td>
