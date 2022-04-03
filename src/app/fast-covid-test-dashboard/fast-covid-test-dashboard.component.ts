@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { MatDialog } from '@angular/material/dialog';
 import { FastCovid19TestComponent } from '../fast-covid19-test/fast-covid19-test.component';
 import { DatePipe } from '@angular/common';
+import { FastCovidSendEamilComponent } from '../fast-covid-send-eamil/fast-covid-send-eamil.component';
 
 @Component({
   selector: 'app-fast-covid-test-dashboard',
@@ -41,7 +42,7 @@ export class FastCovidTestDashboardComponent implements OnInit {
   Sdate;
   Edate;
   displayedColumns: string[] = [
-    'SampleDate', 'IdNumber', 'IdNumber2', 'FullName', 'Result', 'QrCode', 'Print'
+    'SampleDate', 'IdNumber', 'IdNumber2', 'FullName', 'Result', 'QrCode', 'Print', 'resend'
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
 
@@ -84,7 +85,7 @@ export class FastCovidTestDashboardComponent implements OnInit {
         }else{
           var img = "";
         }
-
+//debugger
         this.TABLE_DATA.push({
           SampleDate: this.all_Patients_array[i].SampleData.SamplingTime.Day +'/'+this.all_Patients_array[i].SampleData.SamplingTime.Month+'/'+this.all_Patients_array[i].SampleData.SamplingTime.Year,
           SampleEndDate: (parseInt(this.all_Patients_array[i].SampleData.SamplingTime.Day) + 1) +'/'+this.all_Patients_array[i].SampleData.SamplingTime.Month+'/'+this.all_Patients_array[i].SampleData.SamplingTime.Year,
@@ -93,6 +94,9 @@ export class FastCovidTestDashboardComponent implements OnInit {
           Result: this.all_Patients_array[i].TestData.Result,
           IdType: this.all_Patients_array[i].TestData.IdType,
           QrCode: img,
+          Tell: this.all_Patients_array[i].SampleData.Tel1,
+          RowId: this.all_Patients_array[i].TestData.RowId,
+          Email: this.all_Patients_array[i].TestData.EMail,
           SampleTime: this.all_Patients_array[i].SampleData.SamplingTime.Hour+":"+this.all_Patients_array[i].SampleData.SamplingTime.Minutes          
         });
       }
@@ -100,7 +104,9 @@ export class FastCovidTestDashboardComponent implements OnInit {
       this.dataSource.paginator = this.paginator;
     });
   }
-
+  resendEmail(element){
+    let dialogRef = this.dialog.open(FastCovidSendEamilComponent, { disableClose: false, width: '1080px', data: element});
+  }
   openNewTest(){
     let dialogRef = this.dialog.open(FastCovid19TestComponent, { disableClose: true });
   }

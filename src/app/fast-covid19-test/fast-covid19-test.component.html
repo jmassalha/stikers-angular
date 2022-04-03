@@ -19,6 +19,13 @@
     </div>
 
     <div class="modal-body"  *ngIf="!ifQRCodeReady">
+        <div class="col-4">
+            <div class="form-group">
+                <mat-form-field>
+                    <input matInput autocomplete="off" (change)="getDetailsFromNamerP($event)" class="form-control" placeholder="מספר מטופל" type="text" />
+                </mat-form-field>
+            </div>
+        </div>
         <div formGroupName="TestData">
             <div class="row">
                 <div class="col-4">
@@ -377,7 +384,7 @@
                     <div class="form-group">
                         <mat-form-field>
                             <input matInput autocomplete="off" class="form-control" formControlName="Tel1"
-                                placeholder="מספר טלפון" type="number" />
+                                placeholder="מספר טלפון" type="tel" />
                         </mat-form-field>
                     </div>
                 </div>

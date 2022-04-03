@@ -431,7 +431,74 @@ export class FastCovid19TestComponent implements OnInit {
         this.QRImage = "data:image/png;base64," + img;
         this.ifQRCodeReady = true;
     }
+    getDetailsFromNamerP(event) {
+        let val = event.srcElement.value;
+        if (val == "") return;
+        $("#loader").removeClass("d-none");
+        this.http
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/selectDetailsFromNamerPatiantNumber",
+               // "http://localhost:64964/WebService.asmx/selectDetailsFromNamerPatiantNumber",
+                {
+                    patientNumber: val,
+                }
+            )
+            .subscribe((Response) => {
+             //   debugger
+                var json = Response["d"];
+                console.log(json);
+                if (json.FirstName != null) {
+                    /*IDNum: ["", [Validators.required]],
+                IdType: [1, Validators.required],*/
+                    var IdType = 1;
+                    var IDNum = json.PersonID;
+                    if(json.PersonID == ""){
+                        IDNum = json.PASSNR
+                        IdType = 2;
+                    }
+                    if (json.Gender == "1") json.Gender = "M";
+                    else json.Gender = "F";
+                    var dateDOB = json.DOB.toString().split("-");
+                    this.TestsForm.patchValue({
+                        TestData: {
+                            IdType: IdType,
+                            IDNum: IDNum,
+                            FirstName: json.FirstName,
+                            LastName: json.LastName,
+                            Gender: json.Gender,
+                            BirthDate: {
+                                Year: dateDOB[0],
+                                Month: dateDOB[1],
+                                Day: dateDOB[2],
+                            },
+                        },
+                        SampleData: {
+                            Tel1: json.PhoneNumber.replace("-", ""),
+                        },
 
+                        // formControlName2: myValue2 (can be omitted)
+                    });
+                }
+                console.log(this.TestsForm.value);
+                /*this.TestsForm
+TestData
+FirstName
+LastName
+Gender
+BirthDate
+Year
+Month
+Day
+Tel1*/
+                // //debugger;
+                //  //debugger
+                setTimeout(function () {
+                    //////////////debugger
+
+                    $("#loader").addClass("d-none");
+                });
+            });
+    }
     getDetailsFromNamer(event) {
         let val = event.srcElement.value;
         if (val == "") return;

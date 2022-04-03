@@ -250,6 +250,35 @@
                         </button>
                     </mat-cell>
                 </ng-container>
+                <ng-container matColumnDef="resend">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        שלח
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        <button
+                            *ngIf="element.IdType == '2'"
+                            matTooltip="שלח"
+                            class="btn btn-outline-dark ml-4"
+                            id="BtnStyle"
+                            color="primary"
+                            (click)="resendEmail(element)"
+                            type="button"
+                            mat-raised-button
+                        >
+                            <span class="material-icons"> email </span>
+                        </button>
+                    </mat-cell>
+                </ng-container>
 
                 <mat-header-row
                     *matHeaderRowDef="displayedColumns"

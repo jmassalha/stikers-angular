@@ -140,6 +140,7 @@ import { NewHeaderComponent } from './new-header/new-header.component';
 import { HospitalBIDashboardComponent } from './hospital-bi-dashboard/hospital-bi-dashboard.component';
 import { RouterModule } from '@angular/router';
 import { MenuPerm } from './menu-perm';
+import { FastCovidSendEamilComponent } from './fast-covid-send-eamil/fast-covid-send-eamil.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -242,7 +243,8 @@ const maskConfig: Partial<IConfig> = {
     EmployeesAddUpdateComponent,
     NursesReinforcementComponent,
     NewHeaderComponent,
-    HospitalBIDashboardComponent
+    HospitalBIDashboardComponent,
+    FastCovidSendEamilComponent
   ],
   imports: [
     BrowserModule,
