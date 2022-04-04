@@ -286,7 +286,7 @@ export class FastCovid19TestComponent implements OnInit {
                 PlaceOfCollect: [0, Validators.required],
                 Tel1: [
                     "",
-                    [Validators.required, Validators.pattern("[0-9 ]{11}")],
+                    Validators.required
                 ],
                 Insurer: [101, null],
                 SupplierCode: [
