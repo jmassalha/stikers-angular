@@ -170,7 +170,7 @@
                                         </h6>
                                     </div>
                                     <div class="col-2">
-                                        <button *ngIf="response.UserName == UserName" matTooltip="מחיקה" type="button"
+                                        <button *ngIf="response.UserName == UserName && creator" matTooltip="מחיקה" type="button"
                                             id="BtnStyle" mat-raised-button class="btn btn-outline-dark ml-4"
                                             color="primary"
                                             (click)="editReply(response.ResponseRowID,response.ReportIDFK,response.ResponseText)">
