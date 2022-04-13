@@ -1,5 +1,14 @@
-import { Component, OnInit } from '@angular/core';
-
+import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
+import { Component, HostBinding, OnInit } from '@angular/core';
+import { Observable, throwError } from 'rxjs';
+interface Time {
+  DimTimeTypeID: string;
+  DimTimeTypeDesc: string;
+}
+interface Depart {
+  DIMDataTypeID: string;
+  DIMDataTypeDesc: string;
+}
 @Component({
   selector: 'app-hospital-bi-dashboard',
   templateUrl: './hospital-bi-dashboard.component.html',
@@ -7,13 +16,56 @@ import { Component, OnInit } from '@angular/core';
 })
 export class HospitalBIDashboardComponent implements OnInit {
 
-  constructor() {
+  configUrl = 'http://srv-apps-prod/RCF_WS/WebService.asmx/';
+  departments: Depart[] = [
+    { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
+    { DIMDataTypeID: "2", DIMDataTypeDesc: "פעולות" },
+    { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
+    { DIMDataTypeID: "4", DIMDataTypeDesc: "מרפאות ומכונים" },
+    { DIMDataTypeID: "5", DIMDataTypeDesc: "מחלקות אשפוז" },
+    { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
+    { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" }
+  ];
+  choosenDept = this.departments[0];
+  timeLine: Time[] = [];
+  public TimeLineParam: string = "1";
 
-  }
+  constructor(private http: HttpClient) { }
+
 
   ngOnInit(): void {
-
+    this.getTimeType();
   }
+
+  chooseDataType(dept) {
+    this.choosenDept = dept;
+  }
+
+  getTimeType() {
+    let that = this;
+    this.ManagedGetServerFunction('GetTimeTypes').subscribe({
+      next(x) { that.timeLine = x["d"]; },
+      error(err) { alert('אירעה תקלה'); },
+      complete() { console.log('done'); }
+    });
+  }
+
+  public ManagedGetServerFunction(func): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.set('content-type', 'application/json');
+    return this.http.get(this.configUrl + func, {
+      headers
+    })
+  }
+
+  public ManagedPostServerFunction(func, param): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.set('content-type', 'application/json');
+    return this.http.post(this.configUrl + func, {
+      param: param
+    })
+  }
+
 
 
 }

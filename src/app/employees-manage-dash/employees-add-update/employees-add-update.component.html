@@ -278,6 +278,11 @@
                                     <input type="text" matInput placeholder="הערות" formControlName="Remarks">
                                 </mat-form-field>
                             </li>
+                            <mat-button-toggle class="mr-2" [value]="_switchHTOK" (click)="switchHTOK()"
+                                [style.background]="_switchHTOK == '1' ? 'green': 'red'"><span
+                                    *ngIf="_switchHTOK != '1'">נדרש אישור משאבי אנוש</span>
+                                <span *ngIf="_switchHTOK == '1'">מאושר משאבי אנוש</span>
+                            </mat-button-toggle>
                         </div>
                         <!-- <div class="full-width row">
                             

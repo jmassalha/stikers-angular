@@ -70,7 +70,7 @@ import { EmployeesManageDashComponent } from './employees-manage-dash/employees-
 import { EmployeesAddUpdateComponent } from './employees-manage-dash/employees-add-update/employees-add-update.component';
 import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-to-appointments.component';
 import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
-import { OnnLineComponent } from './onn-line/onn-line.component';
+// import { OnnLineComponent } from './onn-line/onn-line.component';
 import { HospitalBIDashboardComponent } from "./hospital-bi-dashboard/hospital-bi-dashboard.component";
 const routes: Routes = [
     

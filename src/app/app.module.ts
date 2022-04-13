@@ -141,6 +141,11 @@ import { HospitalBIDashboardComponent } from './hospital-bi-dashboard/hospital-b
 import { RouterModule } from '@angular/router';
 import { MenuPerm } from './menu-perm';
 import { FastCovidSendEamilComponent } from './fast-covid-send-eamil/fast-covid-send-eamil.component';
+import { BarChartComponent } from './hospital-bi-dashboard/bar-chart/bar-chart.component';
+import { GroupedBarChartComponent } from './hospital-bi-dashboard/grouped-bar-chart/grouped-bar-chart.component';
+import { LineChartComponent } from './hospital-bi-dashboard/line-chart/line-chart.component';
+import { PieChartComponent } from './hospital-bi-dashboard/pie-chart/pie-chart.component';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -244,10 +249,15 @@ const maskConfig: Partial<IConfig> = {
     NursesReinforcementComponent,
     NewHeaderComponent,
     HospitalBIDashboardComponent,
-    FastCovidSendEamilComponent
+    FastCovidSendEamilComponent,
+    BarChartComponent,
+    GroupedBarChartComponent,
+    LineChartComponent,
+    PieChartComponent
   ],
   imports: [
     BrowserModule,
+    MatButtonToggleModule,
     BrowserAnimationsModule,
     RouterModule,
     AppRoutingModule,

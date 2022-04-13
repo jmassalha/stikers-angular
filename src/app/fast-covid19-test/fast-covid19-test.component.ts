@@ -438,7 +438,7 @@ export class FastCovid19TestComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/selectDetailsFromNamerPatiantNumber",
-               // "http://localhost:64964/WebService.asmx/selectDetailsFromNamerPatiantNumber",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/selectDetailsFromNamerPatiantNumber",
                 {
                     patientNumber: val,
                 }

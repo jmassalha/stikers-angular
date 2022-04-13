@@ -1,0 +1,40 @@
+
+select{
+    background: lightgrey;
+    padding: 6px 10px 6px 0px;
+    width: 130px;
+    float: left;
+    margin-top: 10px;
+    border-radius: 5px;
+    margin-right: 75px;
+    font-weight: bold;
+}
+
+.row.section{
+    margin-top: 20px;
+}
+
+h3{
+    align-self: center;
+    font-weight: bold;
+}
+
+mat-list{
+    display: inline-flex;
+}
+
+.depts-btn{
+    background: lightgray;
+    font-size: 18px;
+    font-weight: bold;
+    color: black;
+}
+
+.row.head-row{
+    border-style: outset;
+    padding: 20px;
+    width: 101%;
+}
+.wrapper{
+    background-color: gray;
+}
