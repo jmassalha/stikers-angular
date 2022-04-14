@@ -26,8 +26,6 @@ export class GroupedBarChartComponent implements OnInit {
     vAxis: {
       minValue: 0
     },
-    backgroundColor: 'darkgray',
-    textStyle: { color: '#FFF' }
   };
   width: number;
   height = 600;

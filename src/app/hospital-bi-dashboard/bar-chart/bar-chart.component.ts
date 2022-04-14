@@ -21,10 +21,8 @@ export class BarChartComponent implements OnInit {
   options = {
     legend: 'none',
     colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
-    backgroundColor: 'darkgray',
-    textStyle:{color: '#FFF'}
   };
-  width:number;
+  width: number;
   height = 600;
 
 
@@ -36,6 +34,9 @@ export class BarChartComponent implements OnInit {
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     this.width = (this.innerWidth - 100)/2;
+    if (this.width <= 740) {
+      this.width = this.width * 2;
+    }
     this.discreteBarChart();
   }
 

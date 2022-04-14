@@ -10,7 +10,7 @@ import { Observable } from 'rxjs';
 })
 export class PieChartComponent implements OnInit {
   innerWidth: number;
-  
+
   TimeLineParam: string = "1";
 
   constructor(private http: HttpClient) { }
@@ -20,14 +20,12 @@ export class PieChartComponent implements OnInit {
   data = [];
   options = {
     is3D: true,
-    backgroundColor: 'darkgray',
-    textStyle:{color: '#FFF'},
     chartArea: {
       height: "600px",
       width: "600px"
-  }
+    }
   };
-  width:number;
+  width: number;
   height = 600;
 
   refresh(elem) {
@@ -37,7 +35,7 @@ export class PieChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-    this.width = (this.innerWidth - 100)/2;
+    this.width = (this.innerWidth - 100);
     this.pieChart();
   }
 

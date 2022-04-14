@@ -117,6 +117,7 @@ export class NursesReinforcementComponent implements OnInit {
     let role = "'2','7','14','32'";
     let sektor = '';
     let workPlace = '';
+    let statusRow = '1';
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {
         _empId: empId,
@@ -131,6 +132,7 @@ export class NursesReinforcementComponent implements OnInit {
         _managerType: "",
         _sektor: sektor,
         _workPlace: workPlace,
+        _statusRow: statusRow,
       })
       .subscribe((Response) => {
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
@@ -152,6 +154,7 @@ export class NursesReinforcementComponent implements OnInit {
     let role = "'2','7','6','10','14','32'";
     let sektor = "";
     let workPlace = '';
+    let statusRow = '1';
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {
         _empId: empId,
@@ -166,6 +169,7 @@ export class NursesReinforcementComponent implements OnInit {
         _managerType: "",
         _sektor: sektor,
         _workPlace: workPlace,
+        _statusRow: statusRow,
       })
       .subscribe((Response) => {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);

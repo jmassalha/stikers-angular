@@ -29,24 +29,33 @@ export class HospitalBIDashboardComponent implements OnInit {
   choosenDept = this.departments[0];
   timeLine: Time[] = [];
   public TimeLineParam: string = "1";
+  innerWidth: number;
+  width: number;
+  phoneMode: string = "0";
 
   constructor(private http: HttpClient) { }
 
 
   ngOnInit(): void {
-    this.getTimeType();
+    this.innerWidth = window.innerWidth;
+    this.width = (this.innerWidth - 100);
+    if (this.width <= 740) {
+      this.phoneMode = "1";
+    }
+    this.getTimeType(this.TimeLineParam);
   }
 
   chooseDataType(dept) {
     this.choosenDept = dept;
   }
 
-  getTimeType() {
+  getTimeType(elem) {
+    this.TimeLineParam = elem;
     let that = this;
     this.ManagedGetServerFunction('GetTimeTypes').subscribe({
       next(x) { that.timeLine = x["d"]; },
       error(err) { alert('אירעה תקלה'); },
-      complete() { console.log('done'); }
+      complete() { }
     });
   }
 

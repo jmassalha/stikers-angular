@@ -35,12 +35,9 @@ export class EmployeesManageDashComponent implements OnInit {
   SektorsList = [];
   WorkPlacesList = [];
 
-  constructor(private zone: NgZone,
-    private modal: NgbModal,
+  constructor(
     public dialog: MatDialog,
-    private router: Router,
     private http: HttpClient,
-    private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder) { }
 
   searchEmployeesGroup: FormGroup;
@@ -59,6 +56,7 @@ export class EmployeesManageDashComponent implements OnInit {
         Role: new FormControl('', null),
         Sektor: new FormControl('', null),
         WorkPlace: new FormControl('', null),
+        StatusRow: new FormControl('2', null),
       });
       if (this.UserName == "iditur" || this.UserName == "dfogel") {
         this.managerType = "stager";
@@ -141,6 +139,7 @@ export class EmployeesManageDashComponent implements OnInit {
     let role = this.searchEmployeesGroup.controls['Role'].value;
     let sektor = this.searchEmployeesGroup.controls['Sektor'].value;
     let workPlace = this.searchEmployeesGroup.controls['WorkPlace'].value;
+    let StatusRow = this.searchEmployeesGroup.controls['StatusRow'].value;
     // if (managerType == "research") {
     //   employeesToShow = '';
     //   employeesWorkPlace = '2';
@@ -168,6 +167,7 @@ export class EmployeesManageDashComponent implements OnInit {
         _managerType: managerType,
         _sektor: sektor,
         _workPlace: workPlace,
+        _statusRow: StatusRow,
       })
       .subscribe((Response) => {
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
@@ -188,6 +188,7 @@ export class EmployeesManageDashComponent implements OnInit {
           _managerType: managerType,
           _sektor: sektor,
           _workPlace: workPlace,
+          _statusRow: StatusRow,
         })
         .subscribe((Response) => {
           this.dataSourceExcel = new MatTableDataSource<any>(Response["d"]);
