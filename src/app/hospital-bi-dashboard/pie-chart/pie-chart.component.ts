@@ -35,7 +35,10 @@ export class PieChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-    this.width = (this.innerWidth - 100);
+    this.width = (this.innerWidth - 100) / 2;
+    if (this.width <= 740) {
+      this.width = this.width * 2;
+    }
     this.pieChart();
   }
 

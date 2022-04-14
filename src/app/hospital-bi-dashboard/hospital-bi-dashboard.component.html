@@ -22,7 +22,8 @@
             <div [ngClass]="phoneMode == '1' ? 'col-12' : 'col-6'" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
                     <h3>TOP 10 ניתוחים</h3>
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example" (change)="pie.refresh($event.target.value)">
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                        (change)="pie.refresh($event.target.value)">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>

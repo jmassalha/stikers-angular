@@ -49,9 +49,13 @@ export class GroupedBarChartComponent implements OnInit {
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"][0];
-        let departments = Response["d"][1];
+        let departments = [];
         this.data = [];
         this.columnNames = ['Year'];
+        for (let s = 0; s < Response["d"][1].length; s++) {
+          departments.push(Response["d"][1][s]);
+          departments.push({ role: 'annotation' });
+        }
         this.columnNames = [...this.columnNames, ...departments];
 
         for (let i = 0; i < inquiriesStatLine.length; i++) {
@@ -61,7 +65,9 @@ export class GroupedBarChartComponent implements OnInit {
           for (let j = 0; j < inquiriesStatLine[i].length; j++) {
             if (inquiriesStatLine[i][j] != null) {
               temp.push(inquiriesStatLine[i][j].y);
+              temp.push(inquiriesStatLine[i][j].y);
             } else {
+              temp.push(0);
               temp.push(0);
             }
           }

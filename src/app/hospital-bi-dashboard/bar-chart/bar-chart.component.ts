@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-bar-chart',
@@ -15,12 +13,12 @@ export class BarChartComponent implements OnInit {
 
   TimeLineParam: string = "1";
 
-  // title = 'כמות ניתוחים';
   type = 'ColumnChart';
   data = [];
+  columnNames = ['מחלקה', 'כמות', { role: 'annotation' }];
   options = {
     legend: 'none',
-    colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f', '#f6c7b6'],
+    colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f'],
   };
   width: number;
   height = 600;
@@ -33,12 +31,13 @@ export class BarChartComponent implements OnInit {
 
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
-    this.width = (this.innerWidth - 100)/2;
+    this.width = (this.innerWidth - 100) / 2;
     if (this.width <= 740) {
       this.width = this.width * 2;
     }
     this.discreteBarChart();
   }
+
 
   public discreteBarChart() {
     this.http
@@ -49,7 +48,7 @@ export class BarChartComponent implements OnInit {
         let inquiriesStatLine = Response["d"];
         this.data = [];
         for (let i = 0; i < inquiriesStatLine.length; i++) {
-          this.data.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value)]);
+          this.data.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);;
         }
       });
   }

@@ -80,7 +80,7 @@ export class LineChartComponent implements OnInit {
 
         
         for (let d = 0; d < inquiriesStatLine[0].length; d++) {
-          let arrTemp = [inquiriesStatLine[0][d], 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          let arrTemp = [inquiriesStatLine[0][d], 0, 0, 0, 0, 0, 0, 0, 0, 0];
           if (inquiriesStatLine[0][d] != finalarr[d][0]) {
             finalarr.splice(d, 0, arrTemp);
           }
