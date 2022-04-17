@@ -114,7 +114,7 @@ export class NursesReinforcementComponent implements OnInit {
     let medGrad = '';
     let phoneNumber = '';
     let department = '';
-    let role = "'2','7','14','32'";
+    let role = "'2','7','14','32','12'";
     let sektor = '';
     let workPlace = '';
     let statusRow = '1';

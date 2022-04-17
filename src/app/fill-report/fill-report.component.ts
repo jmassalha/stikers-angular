@@ -154,10 +154,10 @@ export class AddResponseFillDialog {
     });
   }
 
-  chooseAction(){
-    if(this.responseID != '0'){
+  chooseAction() {
+    if (this.responseID != '0') {
       this.editResponse();
-    }else{
+    } else {
       this.saveResponse();
     }
   }
@@ -559,7 +559,7 @@ export class FillReportComponent implements OnInit {
           ifEditable = true;
         } else if (this.all_report_management.ReportShift == 'ערב' && reportDate == thisDate && ((parseInt(thisTime) > 14 && parseInt(thisTime) < 24) || parseInt(thisTime) < 1)) {
           ifEditable = true;
-        } else if (this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate.split('/')[0]) - parseInt(thisDate.split('/')[0]) == 1) && (parseInt(thisTime) < 9 || parseInt(thisTime) > 22)) {
+        } else if (this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate) - parseInt(thisDate) == 100000) && (parseInt(thisTime) < 9 || parseInt(thisTime) > 22)) {
           ifEditable = true;
         }
 

@@ -37,10 +37,12 @@ import { FillReportComponent } from "../fill-report/fill-report.component";
 import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { VoiceRecognitionService } from '../header/service/voice-recognition.service'
-import * as $ from "jquery";
+
 export interface User {
-  name: string;
+  FirstName: string;
+  LastName: string;
   id: string;
+  Email: string;
 }
 export interface PeriodicElement2 {
   Row_ID: string;
@@ -79,30 +81,41 @@ export class ShareReportsDialog {
     public dialogRef: MatDialogRef<ShareReportsDialog>,
     @Inject(MAT_DIALOG_DATA) public data: string,
     private _snackBar: MatSnackBar,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private fb: FormBuilder) { }
 
+  specialForces: User[] = [
+    { FirstName: 'דניאלה',LastName: 'שאול', id: '031965551', Email: 'DSHAUL@PMC.GOV.IL' },
+    { FirstName: 'טניה',LastName: 'אדמוז', id: '061233243', Email: 'TADMUZ@PMC.GOV.IL' },
+    { FirstName: 'מייקי',LastName: 'מיכל לרר', id: '022355333', Email: 'MLEHRER@PMC.GOV.IL' },
+    { FirstName: 'שרון',LastName: 'בן דוד', id: '029302304', Email: 'SBENDAVID@PMC.GOV.IL' }
+  ]
   filteredOptions: Observable<string[]>;
   myControl = new FormControl('', Validators.required);
   users = [];
   all_users_filter = [];
   reportArray = [];
   disableBtn: boolean = false;
+  mail: FormGroup;
 
   ngOnInit() {
+    this.mail = this.fb.group({
+      mailSubject: new FormControl('', null)
+    });
     this.filteredOptions = this.myControl.valueChanges
       .pipe(
         startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
+        map(value => typeof value === 'string' ? value : value.FirstName),
         map(name => name ? this._filter(name) : this.users.slice())
       );
     this.getUsers();
   }
   displayFn(user: User): string {
-    return user && user.name ? user.name : '';
+    return user && user.FirstName+' '+user.LastName ? user.FirstName+' '+user.LastName : '';
   }
   private _filter(value: string): string[] {
     const filterValue = value.toLowerCase();
-    return this.users.filter(option => option.name.includes(filterValue));
+    return this.users.filter(option => option.FirstName.includes(filterValue));
   }
 
 
@@ -115,16 +128,24 @@ export class ShareReportsDialog {
       this.openSnackBar("לא נמצאו דיווחים לשליחה");
       this.disableBtn = false;
     } else {
+      if (this.myControl.value.id == "1") {
+        this.myControl.setValue(this.specialForces);
+      }
+      else{
+        this.all_users_filter = [this.myControl.value];
+        this.myControl.setValue(this.all_users_filter);
+      }
       this.http
         // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachReportToUser", {
-        // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachReportToUser", {
-        .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
+        // .post("http://localhost:64964/WebService.asmx/AttachReportToUser", {
+          .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
-          userId: this.myControl.value.id,
+          users: this.myControl.value,
           _reportArray: this.reportArray,
+          _mailSubject: this.mail.controls['mailSubject'].value,
         })
         .subscribe((Response) => {
-          if (Response["d"] == "found") {
+          if (Response["d"]) {
             this.openSnackBar("! נשלח בהצלחה לנמען");
             this.dialogRef.close();
           } else {
@@ -153,10 +174,18 @@ export class ShareReportsDialog {
 
         this.all_users_filter.forEach(element => {
           this.users.push({
-            name: element.firstname + " " + element.lastname,
-            id: element.id
+            FirstName: element.firstname,
+            LastName: element.lastname,
+            id: element.id,
+            Email: element.email
           });
-        })
+        });
+        this.users.push({
+          FirstName: 'היחידה לבטיחות הטיפול',
+          LastName: '',
+          id: '1',
+          Email: 'a'
+        });
       });
   }
 
