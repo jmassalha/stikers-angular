@@ -10,8 +10,9 @@
             </mat-list>
         </div>
         <div class="col-6 text-right">
-            <select class="form-select" style="margin-right: 26%;"
-                (change)="pie.refresh($event.target.value); bar.refresh($event.target.value); groupedbar.refresh($event.target.value); line.refresh($event.target.value);">
+            <!-- <select class="form-select" style="margin-right: 26%;"
+                (change)="pie.refresh($event.target.value); bar.refresh($event.target.value); groupedbar.refresh($event.target.value); line.refresh($event.target.value);"> -->
+            <select class="form-select" style="margin-right: 26%;" (change)="changeTime($event.target.value,'all');">
                 <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                 </option>
             </select>
@@ -23,7 +24,9 @@
                 <div class="row" style="justify-content: center;">
                     <h3>TOP 10 ניתוחים</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        (change)="pie.refresh($event.target.value)">
+                        (change)="changeTime($event.target.value,'pie');">
+                        <option value="">
+                        </option>
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -34,7 +37,9 @@
                 <div class="row" style="justify-content: center;">
                     <h3>ניתוחים ברמת אתר</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        (change)="bar.refresh($event.target.value)">
+                        (change)="changeTime($event.target.value,'bar');">
+                        <option value="">
+                        </option>
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -47,7 +52,9 @@
                 <div class="row" style="justify-content: center;">
                     <h3>ניתוחים לפי מחלקה וסוג ניתוח</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        (change)="groupedbar.refresh($event.target.value)">
+                        (change)="changeTime($event.target.value,'group');">
+                        <option value="">
+                        </option>
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -60,7 +67,9 @@
                 <div class="row" style="justify-content: center;">
                     <h3>כמות ניתוחים למחלקה</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        (change)="line.refresh($event.target.value)">
+                        (change)="changeTime($event.target.value,'line');">
+                        <option value="">
+                        </option>
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>

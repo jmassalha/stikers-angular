@@ -12,10 +12,15 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { MatChipInputEvent } from "@angular/material/chips";
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export interface User {
-  name: string;
+  FirstName: string;
+  LastName: string;
   id: string;
+  Email: string;
 }
 export interface Status {
   value: string;
@@ -39,49 +44,96 @@ export class ShareReportsFillDialog {
     public dialogRef: MatDialogRef<ShareReportsFillDialog>,
     @Inject(MAT_DIALOG_DATA) public data: string,
     private _snackBar: MatSnackBar,
-    private http: HttpClient) { }
-
+    private http: HttpClient,
+    private fb: FormBuilder) { }
+  specialForces: User[] = [
+    { FirstName: 'דניאלה', LastName: 'שאול', id: '031965551', Email: 'DSHAUL@PMC.GOV.IL' },
+    { FirstName: 'טניה', LastName: 'אדמוז', id: '061233243', Email: 'TADMUZ@PMC.GOV.IL' },
+    { FirstName: 'מייקי', LastName: 'מיכל לרר', id: '022355333', Email: 'MLEHRER@PMC.GOV.IL' },
+    { FirstName: 'שרון', LastName: 'בן דוד', id: '029302304', Email: 'SBENDAVID@PMC.GOV.IL' }
+  ]
   filteredOptions: Observable<string[]>;
   myControl = new FormControl('', Validators.required);
   users = [];
+  removable = true;
+  selectable = true;
   all_users_filter = [];
   reportArray = [];
   disableBtn: boolean;
+  mail: FormGroup;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruits: any[] = [];
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.users.slice())
-      );
+    this.mail = this.fb.group({
+      mailSubject: new FormControl('', null)
+    });
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.users.slice()));
     this.getUsers();
   }
-  displayFn(user: User): string {
-    return user && user.name ? user.name : '';
+  
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // event.chipInput!.clear();
+    this.myControl.setValue(null);
   }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.users.filter(option => option.name.includes(filterValue));
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
   }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    if (event.option.value.id == "1") {
+      this.specialForces.forEach(element => {
+        this.fruits.push(element);
+      });
+    } else {
+      this.fruits.push(event.option.value);
+    }
+    this.fruitInput.nativeElement.value = '';
+    this.myControl.setValue(null);
+  }
+
+  private _filter(value: any): string[] {
+    let filterValue = "";
+    if (value != '' && value.FirstName == undefined) {
+      filterValue = value.toLowerCase();
+    }
+    return this.users.filter(fruit => fruit.FirstName.toLowerCase().includes(filterValue));
+  }
+
 
 
   shareReportWithOthers() {
-    if (this.myControl.value == "") {
+    this.disableBtn = true;
+    if (this.fruits.length == 0) {
       this.openSnackBar("נא לבחור אחראי לשליחה");
+      this.disableBtn = false;
+    } else if (this.reportArray.length == 0) {
+      this.openSnackBar("לא נמצאו דיווחים לשליחה");
+      this.disableBtn = false;
     } else {
-      //debugger
-
-      this.disableBtn = true;
       this.http
+        // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachReportToUser", {
         // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachReportToUser", {
         .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
-          userId: this.myControl.value.id,
+          users: this.fruits,
           _reportArray: this.reportArray,
+          _mailSubject: this.mail.controls['mailSubject'].value,
         })
         .subscribe((Response) => {
-          if (Response["d"] == "found") {
+          if (Response["d"]) {
             this.openSnackBar("! נשלח בהצלחה לנמען");
             this.dialogRef.close();
           } else {
@@ -109,10 +161,18 @@ export class ShareReportsFillDialog {
 
         this.all_users_filter.forEach(element => {
           this.users.push({
-            name: element.firstname + " " + element.lastname,
-            id: element.id
+            FirstName: element.firstname,
+            LastName: element.lastname,
+            id: element.id,
+            Email: element.email
           });
-        })
+        });
+        this.users.push({
+          FirstName: 'היחידה לבטיחות הטיפול',
+          LastName: '',
+          id: '1',
+          Email: 'a'
+        });
       });
   }
 

@@ -18,10 +18,9 @@
                     <mat-icon>more_vert</mat-icon>
                 </button>
                 <mat-menu #menu="matMenu" style="background: floralwhite;">
-                    <button class="menuBtns" mat-menu-item (click)="openShareDialog()">שליחה
-                        לנמען
+                    <button class="menuBtns" mat-menu-item (click)="openShareDialog()">שליחת דיווח למייל
                         <span class="material-icons">
-                            reply
+                            mail
                         </span>
                     </button>
                     <button class="menuBtns" mat-menu-item (click)="printSingleReport()">הדפסת דווח
@@ -170,9 +169,9 @@
                                         </h6>
                                     </div>
                                     <div class="col-2">
-                                        <button *ngIf="response.UserName == UserName && creator" matTooltip="מחיקה" type="button"
-                                            id="BtnStyle" mat-raised-button class="btn btn-outline-dark ml-4"
-                                            color="primary"
+                                        <button *ngIf="response.UserName == UserName && creator" matTooltip="מחיקה"
+                                            type="button" id="BtnStyle" mat-raised-button
+                                            class="btn btn-outline-dark ml-4" color="primary"
                                             (click)="editReply(response.ResponseRowID,response.ReportIDFK,response.ResponseText)">
                                             <span class="material-icons">
                                                 edit

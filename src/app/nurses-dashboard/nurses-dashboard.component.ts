@@ -34,10 +34,11 @@ import { MatTableDataSource } from "@angular/material/table";
 import { Observable } from "rxjs";
 import { map, startWith } from "rxjs/operators";
 import { FillReportComponent } from "../fill-report/fill-report.component";
-import { MatAutocompleteTrigger } from "@angular/material/autocomplete";
+import { MatAutocompleteSelectedEvent, MatAutocompleteTrigger } from "@angular/material/autocomplete";
 import { MatAccordion, MatExpansionModule } from '@angular/material/expansion';
 import { VoiceRecognitionService } from '../header/service/voice-recognition.service'
-
+import { MatChipInputEvent } from "@angular/material/chips";
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
 export interface User {
   FirstName: string;
   LastName: string;
@@ -85,62 +86,93 @@ export class ShareReportsDialog {
     private fb: FormBuilder) { }
 
   specialForces: User[] = [
-    { FirstName: 'דניאלה',LastName: 'שאול', id: '031965551', Email: 'DSHAUL@PMC.GOV.IL' },
-    { FirstName: 'טניה',LastName: 'אדמוז', id: '061233243', Email: 'TADMUZ@PMC.GOV.IL' },
-    { FirstName: 'מייקי',LastName: 'מיכל לרר', id: '022355333', Email: 'MLEHRER@PMC.GOV.IL' },
-    { FirstName: 'שרון',LastName: 'בן דוד', id: '029302304', Email: 'SBENDAVID@PMC.GOV.IL' }
+    { FirstName: 'דניאלה', LastName: 'שאול', id: '031965551', Email: 'DSHAUL@PMC.GOV.IL' },
+    { FirstName: 'טניה', LastName: 'אדמוז', id: '061233243', Email: 'TADMUZ@PMC.GOV.IL' },
+    { FirstName: 'מייקי', LastName: 'מיכל לרר', id: '022355333', Email: 'MLEHRER@PMC.GOV.IL' },
+    { FirstName: 'שרון', LastName: 'בן דוד', id: '029302304', Email: 'SBENDAVID@PMC.GOV.IL' }
   ]
   filteredOptions: Observable<string[]>;
   myControl = new FormControl('', Validators.required);
   users = [];
+  removable = true;
+  selectable = true;
   all_users_filter = [];
   reportArray = [];
   disableBtn: boolean = false;
   mail: FormGroup;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruits: any[] = [];
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   ngOnInit() {
     this.mail = this.fb.group({
       mailSubject: new FormControl('', null)
     });
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.FirstName),
-        map(name => name ? this._filter(name) : this.users.slice())
-      );
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.users.slice()));
     this.getUsers();
   }
-  displayFn(user: User): string {
-    return user && user.FirstName+' '+user.LastName ? user.FirstName+' '+user.LastName : '';
+  // displayFn(user: User): string {
+  //   return user && user.FirstName + ' ' + user.LastName ? user.FirstName + ' ' + user.LastName : '';
+  // }
+  // private _filter(value: string): string[] {
+  //   const filterValue = value.toLowerCase();
+  //   return this.users.filter(option => option.FirstName.includes(filterValue));
+  // }
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // event.chipInput!.clear();
+    this.myControl.setValue(null);
   }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.users.filter(option => option.FirstName.includes(filterValue));
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
+  }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    if (event.option.value.id == "1") {
+      this.specialForces.forEach(element => {
+        this.fruits.push(element);
+      });
+    } else {
+      this.fruits.push(event.option.value);
+    }
+    this.fruitInput.nativeElement.value = '';
+    this.myControl.setValue(null);
+  }
+
+  private _filter(value: any): string[] {
+    let filterValue = "";
+    if (value != '' && value.FirstName == undefined) {
+      filterValue = value.toLowerCase();
+    }
+    return this.users.filter(fruit => fruit.FirstName.toLowerCase().includes(filterValue));
   }
 
 
   shareReportWithOthers() {
     this.disableBtn = true;
-    if (this.myControl.value == "") {
+    if (this.fruits.length == 0) {
       this.openSnackBar("נא לבחור אחראי לשליחה");
       this.disableBtn = false;
     } else if (this.reportArray.length == 0) {
       this.openSnackBar("לא נמצאו דיווחים לשליחה");
       this.disableBtn = false;
     } else {
-      if (this.myControl.value.id == "1") {
-        this.myControl.setValue(this.specialForces);
-      }
-      else{
-        this.all_users_filter = [this.myControl.value];
-        this.myControl.setValue(this.all_users_filter);
-      }
       this.http
         // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachReportToUser", {
-        // .post("http://localhost:64964/WebService.asmx/AttachReportToUser", {
-          .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
+        // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachReportToUser", {
+        .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
-          users: this.myControl.value,
+          users: this.fruits,
           _reportArray: this.reportArray,
           _mailSubject: this.mail.controls['mailSubject'].value,
         })
@@ -154,7 +186,6 @@ export class ShareReportsDialog {
           this.disableBtn = false;
         });
     }
-
   }
 
   openSnackBar(message) {

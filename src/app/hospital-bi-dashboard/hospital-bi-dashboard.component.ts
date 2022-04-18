@@ -1,6 +1,10 @@
 import { HttpClient, HttpErrorResponse, HttpHeaders } from '@angular/common/http';
-import { Component, HostBinding, OnInit } from '@angular/core';
+import { Component, HostBinding, OnInit, ViewChild } from '@angular/core';
 import { Observable, throwError } from 'rxjs';
+import { PieChartComponent } from './pie-chart/pie-chart.component';
+import { GroupedBarChartComponent } from './grouped-bar-chart/grouped-bar-chart.component';
+import { BarChartComponent } from './bar-chart/bar-chart.component';
+import { LineChartComponent } from './line-chart/line-chart.component';
 interface Time {
   DimTimeTypeID: string;
   DimTimeTypeDesc: string;
@@ -32,6 +36,10 @@ export class HospitalBIDashboardComponent implements OnInit {
   innerWidth: number;
   width: number;
   phoneMode: string = "0";
+  @ViewChild(PieChartComponent) pie: PieChartComponent;
+  @ViewChild(GroupedBarChartComponent) group: GroupedBarChartComponent;
+  @ViewChild(BarChartComponent) bar: BarChartComponent;
+  @ViewChild(LineChartComponent) line: LineChartComponent;
 
   constructor(private http: HttpClient) { }
 
@@ -43,6 +51,41 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.phoneMode = "1";
     }
     this.getTimeType(this.TimeLineParam);
+  }
+
+  changeTime(event, type) {
+    switch (type) {
+      case "all": {
+        this.pie.refresh(event);
+        this.bar.refresh(event);
+        this.group.refresh(event);
+        this.line.refresh(event);
+        break;
+      }
+      case "pie": {
+        this.pie.refresh(event);
+        break;
+      }
+      case "group": {
+        this.group.refresh(event);
+        break;
+      }
+      case "bar": {
+        this.bar.refresh(event);
+        break;
+      }
+      case "line": {
+        this.line.refresh(event);
+        break;
+      }
+      default: {
+        this.pie.refresh(event);
+        this.bar.refresh(event);
+        this.group.refresh(event);
+        this.line.refresh(event);
+        break;
+      }
+    }
   }
 
   chooseDataType(dept) {
