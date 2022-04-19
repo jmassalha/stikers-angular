@@ -143,6 +143,18 @@ export class LineChartComponent implements OnInit {
           this.data.reverse();
         } else if (this.TimeLineParam == "3") {
           let counter = 1;
+          finalarr[0][0] = 'ינואר';
+          finalarr[1][0] = 'פברואר';
+          finalarr[2][0] = 'מרץ';
+          finalarr[3][0] = 'אפריל';
+          finalarr[4][0] = 'מאי';
+          finalarr[5][0] = 'יוני';
+          finalarr[6][0] = 'יולי';
+          finalarr[7][0] = 'אוגוסט';
+          finalarr[8][0] = 'ספטמבר';
+          finalarr[9][0] = 'אוקטובר';
+          finalarr[10][0] = 'נובמבר';
+          finalarr[11][0] = 'דצמבר';
           for (let f = 0; f < inquiriesStatLine[0].length; f++) {
             let t = new Date(date);
             let month = t.getMonth();
