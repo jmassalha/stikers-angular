@@ -5,6 +5,7 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { GroupedBarChartComponent } from './grouped-bar-chart/grouped-bar-chart.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 interface Time {
   DimTimeTypeID: string;
   DimTimeTypeDesc: string;
@@ -33,6 +34,10 @@ export class HospitalBIDashboardComponent implements OnInit {
   choosenDept = this.departments[0];
   timeLine: Time[] = [];
   public TimeLineParam: string = "1";
+  barTime: string = "שבוע";
+  groupTime: string = "שבוע";
+  lineTime: string = "שבוע";
+  pieTime: string = "שבוע";
   innerWidth: number;
   width: number;
   phoneMode: string = "0";
@@ -41,10 +46,17 @@ export class HospitalBIDashboardComponent implements OnInit {
   @ViewChild(BarChartComponent) bar: BarChartComponent;
   @ViewChild(LineChartComponent) line: LineChartComponent;
 
-  constructor(private http: HttpClient) { }
-
+  constructor(private http: HttpClient, private fb: FormBuilder) { }
+  graphsCtrl: FormGroup;
 
   ngOnInit(): void {
+    this.graphsCtrl = this.fb.group({
+      pieCtrl: new FormControl('1', null),
+      barCtrl: new FormControl('1', null),
+      groupCtrl: new FormControl('1', null),
+      lineCtrl: new FormControl('1', null),
+    });
+
     this.innerWidth = window.innerWidth;
     this.width = (this.innerWidth - 100);
     if (this.width <= 740) {
@@ -56,33 +68,45 @@ export class HospitalBIDashboardComponent implements OnInit {
   changeTime(event, type) {
     switch (type) {
       case "all": {
-        this.pie.refresh(event);
-        this.bar.refresh(event);
-        this.group.refresh(event);
-        this.line.refresh(event);
+        this.pieTime = this.pie.refresh(event);
+        this.graphsCtrl.controls['pieCtrl'].setValue(event);
+        this.barTime = this.bar.refresh(event);
+        this.graphsCtrl.controls['barCtrl'].setValue(event);
+        this.groupTime = this.group.refresh(event);
+        this.graphsCtrl.controls['groupCtrl'].setValue(event);
+        this.lineTime = this.line.refresh(event);
+        this.graphsCtrl.controls['lineCtrl'].setValue(event);
         break;
       }
       case "pie": {
-        this.pie.refresh(event);
+        this.pieTime = this.pie.refresh(event);
+        this.graphsCtrl.controls['pieCtrl'].setValue(event);
         break;
       }
       case "group": {
-        this.group.refresh(event);
+        this.groupTime = this.group.refresh(event);
+        this.graphsCtrl.controls['groupCtrl'].setValue(event);
         break;
       }
       case "bar": {
-        this.bar.refresh(event);
+        this.barTime = this.bar.refresh(event);
+        this.graphsCtrl.controls['barCtrl'].setValue(event);
         break;
       }
       case "line": {
-        this.line.refresh(event);
+        this.lineTime = this.line.refresh(event);
+        this.graphsCtrl.controls['lineCtrl'].setValue(event);
         break;
       }
       default: {
-        this.pie.refresh(event);
-        this.bar.refresh(event);
-        this.group.refresh(event);
-        this.line.refresh(event);
+        this.pieTime = this.pie.refresh(event);
+        this.graphsCtrl.controls['pieCtrl'].setValue(event);
+        this.barTime = this.bar.refresh(event);
+        this.graphsCtrl.controls['barCtrl'].setValue(event);
+        this.groupTime = this.group.refresh(event);
+        this.graphsCtrl.controls['groupCtrl'].setValue(event);
+        this.lineTime = this.line.refresh(event);
+        this.graphsCtrl.controls['lineCtrl'].setValue(event);
         break;
       }
     }

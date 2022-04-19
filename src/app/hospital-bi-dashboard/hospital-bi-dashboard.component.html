@@ -18,15 +18,13 @@
             </select>
         </div>
     </div>
-    <div class="row">
+    <div class="row" [formGroup]="graphsCtrl">
         <div class="row section" dir="rtl">
             <div [ngClass]="phoneMode == '1' ? 'col-12' : 'col-6'" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
-                    <h3>TOP 10 ניתוחים</h3>
+                    <h3>TOP 10 ניתוחים ב{{pieTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        (change)="changeTime($event.target.value,'pie');">
-                        <option value="">
-                        </option>
+                        formControlName="pieCtrl" (change)="changeTime($event.target.value,'pie');">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -35,11 +33,9 @@
             </div>
             <div [ngClass]="phoneMode == '1' ? 'col-12' : 'col-6'" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
-                    <h3>ניתוחים ברמת אתר</h3>
+                    <h3>ניתוחים ברמת אתר ב{{barTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        (change)="changeTime($event.target.value,'bar');">
-                        <option value="">
-                        </option>
+                        formControlName="barCtrl" (change)="changeTime($event.target.value,'bar');">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -50,11 +46,9 @@
         <div class="row section" dir="rtl">
             <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
-                    <h3>ניתוחים לפי מחלקה וסוג ניתוח</h3>
+                    <h3>ניתוחים לפי מחלקה וסוג ניתוח ב{{groupTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        (change)="changeTime($event.target.value,'group');">
-                        <option value="">
-                        </option>
+                        formControlName="groupCtrl" (change)="changeTime($event.target.value,'group');">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -65,11 +59,9 @@
         <div class="row section" dir="rtl">
             <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
-                    <h3>כמות ניתוחים למחלקה</h3>
+                    <h3>כמות ניתוחים למחלקה ב{{lineTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        (change)="changeTime($event.target.value,'line');">
-                        <option value="">
-                        </option>
+                        formControlName="lineCtrl" (change)="changeTime($event.target.value,'line');">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>

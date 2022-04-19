@@ -12,13 +12,14 @@ export class BarChartComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   TimeLineParam: string = "1";
+  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
 
   type = 'ColumnChart';
   data = [];
   columnNames = ['מחלקה', 'כמות', { role: 'annotation' }];
   options = {
     legend: 'none',
-    colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f'],
+    colors: ['#e0440e', '#e6693e', '#ec8f6e', '#f3b49f']
   };
   width: number;
   height = 600;
@@ -27,6 +28,7 @@ export class BarChartComponent implements OnInit {
   refresh(elem) {
     this.TimeLineParam = elem;
     this.ngOnInit();
+    return this.timesString[parseInt(elem) - 1];
   }
 
   ngOnInit(): void {

@@ -1,7 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Injectable } from '@angular/core';
-import { Observable } from 'rxjs';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-line-chart',
@@ -9,13 +7,14 @@ import { Observable } from 'rxjs';
   styleUrls: ['./line-chart.component.css']
 })
 export class LineChartComponent implements OnInit {
+
   innerWidth: number;
 
   constructor(private http: HttpClient) { }
 
   TimeLineParam: string = "1";
+  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
 
-  // title = 'Average Temperatures of Cities';
   type = 'LineChart';
   data = [];
   columnNames = ["יום"];
@@ -37,10 +36,10 @@ export class LineChartComponent implements OnInit {
   width: number;
   height = 600;
 
-
   refresh(elem) {
     this.TimeLineParam = elem;
     this.ngOnInit();
+    return this.timesString[parseInt(elem) - 1];
   }
 
   ngOnInit(): void {
@@ -56,21 +55,34 @@ export class LineChartComponent implements OnInit {
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];
-        // this.columnNames = inquiriesStatLine[0];
         this.data = [7];
         let date = new Date();
         let finalarr = [];
         this.columnNames = ["יום"];
-
-        this.columnNames = [...this.columnNames, ...inquiriesStatLine[1]];
+        if (this.TimeLineParam == "4" || this.TimeLineParam == "5") {
+          let t = new Date(date);
+          inquiriesStatLine[0].forEach((element, index) => {
+            let temp = t.getFullYear() + parseInt(element);
+            inquiriesStatLine[0][index] = temp.toString();
+          });
+        }
+        // for (let h = 0; h < inquiriesStatLine[1].length; h++) {
+        //   inquiriesStatLine[1][h] = null;
+        // }
 
         for (let i = 0; i < inquiriesStatLine[2].length; i++) {
           let temp = [];
           let notNullIndex = inquiriesStatLine[2][i].findIndex(x => x !== null);
-          temp.push(inquiriesStatLine[2][i][notNullIndex].x);
+          let value = inquiriesStatLine[2][i][notNullIndex].x;
+          if (this.TimeLineParam == "4" || this.TimeLineParam == "5") {
+            let t = new Date(date);
+            value = t.getFullYear() + parseInt(value);
+          }
+          temp.push(value.toString());
           for (let j = 0; j < inquiriesStatLine[2][i].length; j++) {
             if (inquiriesStatLine[2][i][j] != null) {
               temp.push(inquiriesStatLine[2][i][j].y);
+              inquiriesStatLine[1][j] = inquiriesStatLine[2][i][j].depart;
             } else {
               temp.push(0);
             }
@@ -78,37 +90,76 @@ export class LineChartComponent implements OnInit {
           finalarr.push(temp);
         }
 
-        
         for (let d = 0; d < inquiriesStatLine[0].length; d++) {
-          let arrTemp = [inquiriesStatLine[0][d], 0, 0, 0, 0, 0, 0, 0, 0, 0];
+          let value = inquiriesStatLine[0][d];
+          if (this.TimeLineParam == "4" || this.TimeLineParam == "5") {
+            let t = new Date(date);
+            value = t.getFullYear() + parseInt(value);
+          }
+          let arrTemp = [value, 0, 0, 0, 0, 0, 0, 0, 0, 0];
           if (inquiriesStatLine[0][d] != finalarr[d][0]) {
             finalarr.splice(d, 0, arrTemp);
           }
         }
 
         if (this.TimeLineParam == "1") {
+          let counter = 1;
+          finalarr[0][0] = 'ראשון';
+          finalarr[1][0] = 'שני';
+          finalarr[2][0] = 'שלישי';
+          finalarr[3][0] = 'רביעי';
+          finalarr[4][0] = 'חמישי';
+          finalarr[5][0] = 'שישי';
+          finalarr[6][0] = 'שבת';
           for (let f = 0; f < inquiriesStatLine[0].length; f++) {
             let t = new Date(date);
             let dayName = inquiriesStatLine[0][t.getDay()];
             let todayIndex = inquiriesStatLine[0].findIndex(x => x == dayName);
             let dateDifference = todayIndex - f;
+            // if (dateDifference < 0) {
+            //   dateDifference = todayIndex + Math.abs(dateDifference);
+            // }
             if (dateDifference < 0) {
-              dateDifference = todayIndex + Math.abs(dateDifference);
+              dateDifference = todayIndex + ((finalarr.length - counter) - todayIndex);
+              counter++;//Math.abs(dateDifference);
+            }
+
+            this.data[f] = finalarr[dateDifference];
+          }
+          this.data.reverse();
+        } else if (this.TimeLineParam == "2") {
+          let counter = 1;
+          for (let f = 0; f < inquiriesStatLine[0].length; f++) {
+            let t = new Date(date);
+            let day = t.getDate();
+            let todayIndex = inquiriesStatLine[0].findIndex(x => x == day);
+            let dateDifference = todayIndex - f;
+            if (dateDifference < 0) {
+              dateDifference = todayIndex + ((finalarr.length - counter) - todayIndex);
+              counter++;//Math.abs(dateDifference);
             }
             this.data[f] = finalarr[dateDifference];
           }
           this.data.reverse();
-        }else{
+        } else if (this.TimeLineParam == "3") {
+          let counter = 1;
+          for (let f = 0; f < inquiriesStatLine[0].length; f++) {
+            let t = new Date(date);
+            let month = t.getMonth();
+            let monthIndex = month - f;
+            if (monthIndex < 0) {
+              monthIndex = finalarr.length - counter;
+              counter++;
+            }
+            this.data[f] = finalarr[monthIndex];
+          }
+          this.data.reverse();
+        }
+        else {
           this.data = finalarr;
         }
+        this.columnNames = [...this.columnNames, ...inquiriesStatLine[1]];
+
       });
   }
-
-  calculateDiff(dateSent) {
-    let currentDate = new Date();
-    dateSent = new Date(dateSent);
-
-    return Math.floor((Date.UTC(currentDate.getFullYear(), currentDate.getMonth(), currentDate.getDate()) - Date.UTC(dateSent.getFullYear(), dateSent.getMonth(), dateSent.getDate())) / (1000 * 60 * 60 * 24));
-  }
-
 }

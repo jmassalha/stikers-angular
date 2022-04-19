@@ -12,6 +12,7 @@ export class PieChartComponent implements OnInit {
   innerWidth: number;
 
   TimeLineParam: string = "1";
+  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
 
   constructor(private http: HttpClient) { }
 
@@ -31,6 +32,7 @@ export class PieChartComponent implements OnInit {
   refresh(elem) {
     this.TimeLineParam = elem;
     this.ngOnInit();
+    return this.timesString[parseInt(elem) - 1];
   }
 
   ngOnInit(): void {

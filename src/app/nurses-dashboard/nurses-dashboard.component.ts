@@ -69,6 +69,10 @@ export interface ImportantCat {
   value: string;
   viewValue: string;
 }
+export interface ReportTypeArr {
+  value: string;
+  viewValue: string;
+}
 @Component({
   selector: 'share-reports-dialog',
   templateUrl: 'share-reports-dialog.html',
@@ -250,6 +254,10 @@ export class NursesDashboardComponent implements OnInit {
     { value: '1', viewValue: 'חשוב' },
     { value: '0', viewValue: 'רגיל' },
   ];
+  reportTypeArr: ReportTypeArr[] = [
+    { value: '1', viewValue: 'כללית' },
+    { value: '0', viewValue: 'רגיל' },
+  ];
 
   @ViewChild('printmycontent') printmycontent: ElementRef;
   @ViewChild('pagetoshow') myScrollContainer: ElementRef;
@@ -346,6 +354,7 @@ export class NursesDashboardComponent implements OnInit {
       'ReportEndDate': new FormControl('', null),
       'ReportCategory': new FormControl('', null),
       'ImportantCategory': new FormControl('הכל', null),
+      'ReportTypeSearch': new FormControl('הכל', null),
     });
     this.ReportGroup = this.formBuilder.group({
       Row_ID: ['0', null],
@@ -590,6 +599,7 @@ export class NursesDashboardComponent implements OnInit {
       this.departmentfilter.setValue('');
     }
     let _reportShift = this.searchReportsGroup.controls['ReportShift'].value;
+    let _reportTypeSearch = this.searchReportsGroup.controls['ReportTypeSearch'].value;
     let _reportDepartment = this.Dept_Name;
     if (this.Dept_Name == undefined) {
       _reportDepartment = "";
@@ -645,7 +655,8 @@ export class NursesDashboardComponent implements OnInit {
           _reportType: this.reportType,
           _ifGeneral: this.ifGeneral,
           _patientName: _patientName,
-          _important: _important
+          _important: _important,
+          _reportTypeSearch: _reportTypeSearch
         })
         .subscribe((Response) => {
           this.ELEMENT_DATA = [];

@@ -14,6 +14,7 @@ export class GroupedBarChartComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   TimeLineParam: string = "1";
+  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
 
   // title = 'Population (in millions)';
   type = 'BarChart';
@@ -34,6 +35,7 @@ export class GroupedBarChartComponent implements OnInit {
   refresh(elem) {
     this.TimeLineParam = elem;
     this.ngOnInit();
+    return this.timesString[parseInt(elem) - 1];
   }
 
   ngOnInit(): void {
