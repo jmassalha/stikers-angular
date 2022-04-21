@@ -58,27 +58,31 @@ export class GroupedBarChartComponent implements OnInit {
         let departments = [];
         this.data = [];
         this.columnNames = ['Year'];
-        for (let s = 0; s < Response["d"][1].length; s++) {
-          departments.push(Response["d"][1][s]);
-          departments.push({ role: 'annotation' });
-        }
-        this.columnNames = [...this.columnNames, ...departments];
-
-        for (let i = 0; i < inquiriesStatLine.length; i++) {
-          let temp = [];
-          let notNullIndex = inquiriesStatLine[i].findIndex(x => x !== null);
-          temp.push(inquiriesStatLine[i][notNullIndex].key);
-          for (let j = 0; j < inquiriesStatLine[i].length; j++) {
-            if (inquiriesStatLine[i][j] != null) {
-              temp.push(inquiriesStatLine[i][j].y);
-              temp.push(inquiriesStatLine[i][j].y);
-            } else {
-              temp.push(0);
-              temp.push(0);
-            }
+        let that = this;
+        setTimeout(() => {
+          for (let s = 0; s < Response["d"][1].length; s++) {
+            departments.push(Response["d"][1][s]);
+            departments.push({ role: 'annotation' });
           }
-          this.data.push(temp);
-        }
+          that.columnNames = [...that.columnNames, ...departments];
+  
+          for (let i = 0; i < inquiriesStatLine.length; i++) {
+            let temp = [];
+            let notNullIndex = inquiriesStatLine[i].findIndex(x => x !== null);
+            temp.push(inquiriesStatLine[i][notNullIndex].key);
+            for (let j = 0; j < inquiriesStatLine[i].length; j++) {
+              if (inquiriesStatLine[i][j] != null) {
+                temp.push(inquiriesStatLine[i][j].y);
+                temp.push(inquiriesStatLine[i][j].y);
+              } else {
+                temp.push(0);
+                temp.push(0);
+              }
+            }
+            that.data.push(temp);
+          }
+        }, 6000);
+        
       });
   }
 
