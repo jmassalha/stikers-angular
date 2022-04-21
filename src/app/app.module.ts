@@ -146,6 +146,7 @@ import { GroupedBarChartComponent } from './hospital-bi-dashboard/grouped-bar-ch
 import { LineChartComponent } from './hospital-bi-dashboard/line-chart/line-chart.component';
 import { PieChartComponent } from './hospital-bi-dashboard/pie-chart/pie-chart.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { GroupedBarChart2Component } from './hospital-bi-dashboard/grouped-bar-chart2/grouped-bar-chart2.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -253,7 +254,8 @@ const maskConfig: Partial<IConfig> = {
     BarChartComponent,
     GroupedBarChartComponent,
     LineChartComponent,
-    PieChartComponent
+    PieChartComponent,
+    GroupedBarChart2Component
   ],
   imports: [
     BrowserModule,

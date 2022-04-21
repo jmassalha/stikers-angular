@@ -9,13 +9,21 @@
                 </mat-list-item>
             </mat-list>
         </div>
-        <div class="col-6 text-right">
+        <div [ngClass]="departParam == '1' ? 'col-3 text-right' : 'col-6 text-right'">
             <!-- <select class="form-select" style="margin-right: 26%;"
                 (change)="pie.refresh($event.target.value); bar.refresh($event.target.value); groupedbar.refresh($event.target.value); line.refresh($event.target.value);"> -->
             <select class="form-select" style="margin-right: 26%;" (change)="changeTime($event.target.value,'all');">
                 <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                 </option>
             </select>
+        </div>
+        <div *ngIf="departParam == '1'" class="col-3 text-right" [formGroup]="surgeryDeptTypeGroup">
+            <mat-radio-group formControlName="surgeryDeptType" aria-label="Select an option"
+                (change)="changeSurgeryType()">
+                <mat-radio-button value="0">הכל</mat-radio-button>
+                <mat-radio-button value="1">ח.נ כללי</mat-radio-button>
+                <mat-radio-button value="2">חדרי ניתוח</mat-radio-button>
+            </mat-radio-group>
         </div>
     </div>
     <div class="row" [formGroup]="graphsCtrl">
@@ -43,6 +51,32 @@
                 <app-bar-chart #bar></app-bar-chart>
             </div>
         </div>
+        <!-- <div class="row section" dir="rtl">
+            <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+                <div class="row" style="justify-content: center;">
+                    <h3>כמות ניתוחים למחלקה ב{{lineTime}}</h3>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                        formControlName="lineCtrl" (change)="changeTime($event.target.value,'line');">
+                        <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                        </option>
+                    </select>
+                </div>
+                <app-line-chart #line></app-line-chart>
+            </div>
+        </div> -->
+        <div class="row section" dir="rtl">
+            <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+                <div class="row" style="justify-content: center;">
+                    <h3>כמות ניתוחים למחלקה ב{{groupTime2}}</h3>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                        formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2');">
+                        <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                        </option>
+                    </select>
+                </div>
+                <app-grouped-bar-chart2 #group2></app-grouped-bar-chart2>
+            </div>
+        </div>
         <div class="row section" dir="rtl">
             <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
@@ -56,19 +90,5 @@
                 <app-grouped-bar-chart #groupedbar></app-grouped-bar-chart>
             </div>
         </div>
-        <div class="row section" dir="rtl">
-            <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
-                <div class="row" style="justify-content: center;">
-                    <h3>כמות ניתוחים למחלקה ב{{lineTime}}</h3>
-                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        formControlName="lineCtrl" (change)="changeTime($event.target.value,'line');">
-                        <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
-                        </option>
-                    </select>
-                </div>
-                <app-line-chart #line></app-line-chart>
-            </div>
-        </div>
     </div>
-
 </div>

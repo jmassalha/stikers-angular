@@ -37,3 +37,6 @@ mat-list{
 .wrapper{
     overflow: auto;
 }
+.mat-radio-button {
+    margin-left: 16px;
+  }

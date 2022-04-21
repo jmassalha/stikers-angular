@@ -12,6 +12,8 @@ export class BarChartComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   TimeLineParam: string = "1";
+  departParam: string = "1";
+  _surgerydeptType: string = "0";
   timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
 
   type = 'ColumnChart';
@@ -25,8 +27,10 @@ export class BarChartComponent implements OnInit {
   height = 600;
 
 
-  refresh(elem) {
+  refresh(elem,dept,_surgeryDeptType) {
     this.TimeLineParam = elem;
+    this.departParam = dept;
+    this._surgerydeptType = _surgeryDeptType;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
@@ -44,7 +48,9 @@ export class BarChartComponent implements OnInit {
   public discreteBarChart() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/DiscreteBarChart", {
-        param: this.TimeLineParam
+        param: this.TimeLineParam,
+        deptCode: this.departParam,
+        surgerydeptType: this._surgerydeptType
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];

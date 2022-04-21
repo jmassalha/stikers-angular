@@ -13,6 +13,7 @@ export class LineChartComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   TimeLineParam: string = "1";
+  departParam: string = "1";
   timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
 
   type = 'LineChart';
@@ -36,8 +37,9 @@ export class LineChartComponent implements OnInit {
   width: number;
   height = 600;
 
-  refresh(elem) {
+  refresh(elem,dept) {
     this.TimeLineParam = elem;
+    this.departParam = dept;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
@@ -51,7 +53,8 @@ export class LineChartComponent implements OnInit {
   public discreteBarChart() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LineBarChart", {
-        param: this.TimeLineParam
+        param: this.TimeLineParam,
+        deptCode: this.departParam
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];
@@ -88,7 +91,7 @@ export class LineChartComponent implements OnInit {
             }
           }
           finalarr.push(temp);
-        }
+        } 
 
         for (let d = 0; d < inquiriesStatLine[0].length; d++) {
           let value = inquiriesStatLine[0][d];
