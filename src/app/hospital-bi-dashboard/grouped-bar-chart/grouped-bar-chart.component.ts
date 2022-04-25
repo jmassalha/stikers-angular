@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 @Component({
   selector: 'app-grouped-bar-chart',
@@ -14,6 +14,9 @@ export class GroupedBarChartComponent implements OnInit {
   TimeLineParam: string = "1";
   departParam: string = "1";
   _surgerydeptType: string = "0";
+  inquiriesStatLine = [];
+  responseDeparts = [];
+  loader: boolean = false;
   timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
 
   // title = 'Population (in millions)';
@@ -29,10 +32,10 @@ export class GroupedBarChartComponent implements OnInit {
     },
   };
   width: number;
-  height = 600;
+  height = 800;
 
 
-  refresh(elem,dept,_surgeryDeptType) {
+  refresh(elem, dept, _surgeryDeptType) {
     this.TimeLineParam = elem;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
@@ -43,47 +46,60 @@ export class GroupedBarChartComponent implements OnInit {
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     this.width = this.innerWidth - 70;
-    this.discreteBarChart();
+    this.waitData();
   }
 
-  public discreteBarChart() {
-    this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/StackedBarChart", {
-        param: this.TimeLineParam,
-        deptCode: this.departParam,
-        surgerydeptType: this._surgerydeptType
-      })
-      .subscribe((Response) => {
-        let inquiriesStatLine = Response["d"][0];
-        let departments = [];
-        this.data = [];
-        this.columnNames = ['Year'];
-        let that = this;
-        setTimeout(() => {
-          for (let s = 0; s < Response["d"][1].length; s++) {
-            departments.push(Response["d"][1][s]);
-            departments.push({ role: 'annotation' });
+  async waitData() {
+    // await this.discreteBarChart();
+    this.discreteBarChart().then(() => {
+      this.loader = false;
+      let departments = [];
+      this.data = [];
+      this.columnNames = ['Year'];
+      for (let s = 0; s < this.responseDeparts.length; s++) {
+        departments.push(this.responseDeparts[s]);
+        departments.push({ role: 'annotation' });
+      }
+      this.columnNames = [...this.columnNames, ...departments];
+
+      for (let i = 0; i < this.inquiriesStatLine.length; i++) {
+        let temp = [];
+        let notNullIndex = this.inquiriesStatLine[i].findIndex(x => x !== null);
+        temp.push(this.inquiriesStatLine[i][notNullIndex].key);
+        for (let j = 0; j < this.inquiriesStatLine[i].length; j++) {
+          if (this.inquiriesStatLine[i][j] != null) {
+            temp.push(this.inquiriesStatLine[i][j].y);
+            temp.push(this.inquiriesStatLine[i][j].y);
+          } else {
+            temp.push(0);
+            temp.push(0);
           }
-          that.columnNames = [...that.columnNames, ...departments];
-  
-          for (let i = 0; i < inquiriesStatLine.length; i++) {
-            let temp = [];
-            let notNullIndex = inquiriesStatLine[i].findIndex(x => x !== null);
-            temp.push(inquiriesStatLine[i][notNullIndex].key);
-            for (let j = 0; j < inquiriesStatLine[i].length; j++) {
-              if (inquiriesStatLine[i][j] != null) {
-                temp.push(inquiriesStatLine[i][j].y);
-                temp.push(inquiriesStatLine[i][j].y);
-              } else {
-                temp.push(0);
-                temp.push(0);
-              }
-            }
-            that.data.push(temp);
+        }
+        this.data.push(temp);
+      }
+    })
+  }
+
+  discreteBarChart(): Promise<any> {
+    this.loader = true;
+    return new Promise<void>((resolve, reject) => {
+      this.http
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/StackedBarChart", {
+          param: this.TimeLineParam,
+          deptCode: this.departParam,
+          surgerydeptType: this._surgerydeptType
+        }).subscribe(
+          res => {
+            this.inquiriesStatLine = res["d"][0];
+            this.responseDeparts = res["d"][1];
+            resolve()
+          },
+          error => {
+            console.error("Something went wrong: undefined: " + error);
+            reject()
           }
-        }, 6000);
-        
-      });
+        );
+    });
   }
 
 }

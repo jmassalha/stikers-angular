@@ -43,17 +43,7 @@ export class GroupedBarChart2Component implements OnInit {
   }
 
   ngOnInit(): void {
-    if (this.departParam == "6" && (this.TimeLineParam == "2" || this.TimeLineParam == "3")) {
-      this.options = {
-        hAxis: {
-          title: 'זמן'
-        },
-        vAxis: {
-          minValue: 0
-        },
-        isStacked: true
-      };
-    } else {
+    if (this.departParam != "6") {
       this.options = {
         hAxis: {
           title: 'זמן'
@@ -62,6 +52,17 @@ export class GroupedBarChart2Component implements OnInit {
           minValue: 0
         },
         isStacked: false
+      };
+    } else {
+      if(this.TimeLineParam != "1")
+      this.options = {
+        hAxis: {
+          title: 'זמן'
+        },
+        vAxis: {
+          minValue: 0
+        },
+        isStacked: true
       };
     }
     this.innerWidth = window.innerWidth;
@@ -100,7 +101,12 @@ export class GroupedBarChart2Component implements OnInit {
         for (let i = 0; i < inquiriesStatLine.length; i++) {
           let temp = [];
           let notNullIndex = inquiriesStatLine[i].findIndex(x => x !== null);
-          temp.push(inquiriesStatLine[i][notNullIndex].key);
+          let value = inquiriesStatLine[i][notNullIndex].key;
+          if (this.TimeLineParam == "4" || this.TimeLineParam == "5") {
+            let t = new Date(date);
+            value = t.getFullYear() + parseInt(value);
+          }
+          temp.push(value.toString());
           for (let j = 0; j < inquiriesStatLine[i].length; j++) {
             if (inquiriesStatLine[i][j] != null) {
               temp.push(inquiriesStatLine[i][j].y);
@@ -115,9 +121,13 @@ export class GroupedBarChart2Component implements OnInit {
             }
           }
           finalarr.push(temp);
-          this.data = finalarr;
+          
         }
+        this.data = finalarr;
+        let d = new Date();
         // if (this.TimeLineParam == "1") {
+        //   // let temp = [daysHebrew[d.getDay()], 0, 0, 0, 0, 0, 0, 0, 0];
+        //   // finalarr.splice(d.getDay(), 0, temp)
         //   let counter = 1;
         //   finalarr[0][0] = 'ראשון';
         //   finalarr[1][0] = 'שני';
@@ -126,10 +136,10 @@ export class GroupedBarChart2Component implements OnInit {
         //   finalarr[4][0] = 'חמישי';
         //   finalarr[5][0] = 'שישי';
         //   finalarr[6][0] = 'שבת';
-        //   for (let f = 0; f < inquiriesStatLine[0].length; f++) {
+        //   for (let f = 0; f < inquiriesStatLine.length; f++) {
         //     let t = new Date(date);
-        //     let dayName = inquiriesStatLine[0][t.getDay()];
-        //     let todayIndex = inquiriesStatLine[0].findIndex(x => x == dayName);
+        //     let dayName = inquiriesStatLine[t.getDay()];
+        //     let todayIndex = inquiriesStatLine.findIndex(x => x == dayName);
         //     let dateDifference = todayIndex - f;
         //     // if (dateDifference < 0) {
         //     //   dateDifference = todayIndex + Math.abs(dateDifference);
@@ -140,6 +150,7 @@ export class GroupedBarChart2Component implements OnInit {
         //     }
 
         //     this.data[f] = finalarr[dateDifference];
+        //     // this.data = finalarr;
         //   }
         //   this.data.reverse();
         // } else if (this.TimeLineParam == "2") {
@@ -154,6 +165,7 @@ export class GroupedBarChart2Component implements OnInit {
         //       counter++;//Math.abs(dateDifference);
         //     }
         //     this.data[f] = finalarr[dateDifference];
+        //     // this.data = finalarr;
         //   }
         //   this.data.reverse();
         // } else if (this.TimeLineParam == "3") {
@@ -179,6 +191,7 @@ export class GroupedBarChart2Component implements OnInit {
         //       counter++;
         //     }
         //     this.data[f] = finalarr[monthIndex];
+        //     // this.data = finalarr;
         //   }
         //   this.data.reverse();
         // }

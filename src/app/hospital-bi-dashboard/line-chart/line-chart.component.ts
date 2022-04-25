@@ -14,37 +14,69 @@ export class LineChartComponent implements OnInit {
 
   TimeLineParam: string = "1";
   departParam: string = "1";
+  _surgerydeptType: string = "0";
   timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
 
-  type = 'LineChart';
+  type = 'ColumnChart';
   data = [];
   columnNames = ["יום"];
   options = {
-    is3D: true,
     hAxis: {
       title: 'זמן'
     },
     vAxis: {
-      title: 'כמות'
+      minValue: 0
     },
-    crosshair: {
-      color: '#000000',
-      trigger: 'selection'
-    },
-    pointSize: 5,
-    curveType: 'function',
+    isStacked: false
   };
+  // options = {
+  //   is3D: true,
+  //   hAxis: {
+  //     title: 'זמן'
+  //   },
+  //   vAxis: {
+  //     title: 'כמות'
+  //   },
+  //   crosshair: {
+  //     color: '#000000',
+  //     trigger: 'selection'
+  //   },
+  //   pointSize: 5,
+  //   curveType: 'function',
+  // };
   width: number;
   height = 600;
 
-  refresh(elem,dept) {
+  refresh(elem,dept,_surgeryDeptType) {
     this.TimeLineParam = elem;
     this.departParam = dept;
+    this._surgerydeptType = _surgeryDeptType;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
 
   ngOnInit(): void {
+    if (this.departParam == "6" && (this.TimeLineParam == "2" || this.TimeLineParam == "3")) {
+      this.options = {
+        hAxis: {
+          title: 'זמן'
+        },
+        vAxis: {
+          minValue: 0
+        },
+        isStacked: true
+      };
+    } else {
+      this.options = {
+        hAxis: {
+          title: 'זמן'
+        },
+        vAxis: {
+          minValue: 0
+        },
+        isStacked: false
+      };
+    }
     this.innerWidth = window.innerWidth;
     this.width = this.innerWidth - 70;
     this.discreteBarChart();

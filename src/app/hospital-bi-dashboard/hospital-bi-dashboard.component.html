@@ -30,7 +30,7 @@
         <div class="row section" dir="rtl">
             <div [ngClass]="phoneMode == '1' ? 'col-12' : 'col-6'" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
-                    <h3>TOP 10 ניתוחים ב{{pieTime}}</h3>
+                    <h3>{{pieTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                         formControlName="pieCtrl" (change)="changeTime($event.target.value,'pie');">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
@@ -41,7 +41,7 @@
             </div>
             <div [ngClass]="phoneMode == '1' ? 'col-12' : 'col-6'" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
-                    <h3>ניתוחים ברמת אתר ב{{barTime}}</h3>
+                    <h3>{{barTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                         formControlName="barCtrl" (change)="changeTime($event.target.value,'bar');">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
@@ -67,7 +67,7 @@
         <div class="row section" dir="rtl">
             <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
-                    <h3>כמות ניתוחים למחלקה ב{{groupTime2}}</h3>
+                    <h3>{{groupTime2}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                         formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2');">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
@@ -80,7 +80,7 @@
         <div class="row section" dir="rtl">
             <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;">
-                    <h3>ניתוחים לפי מחלקה וסוג ניתוח ב{{groupTime}}</h3>
+                    <h3>{{groupTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
                         formControlName="groupCtrl" (change)="changeTime($event.target.value,'group');">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
