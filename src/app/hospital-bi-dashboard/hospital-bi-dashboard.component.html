@@ -9,10 +9,10 @@
                 </mat-list-item>
             </mat-list>
         </div>
-        <div [ngClass]="departParam == '1' ? 'col-3 text-right' : 'col-6 text-right'">
+        <div class="col-3 text-right">
             <!-- <select class="form-select" style="margin-right: 26%;"
                 (change)="pie.refresh($event.target.value); bar.refresh($event.target.value); groupedbar.refresh($event.target.value); line.refresh($event.target.value);"> -->
-            <select class="form-select" style="margin-right: 26%;" (change)="changeTime($event.target.value,'all');">
+            <select class="form-select" (change)="changeTime($event.target.value,'all');">
                 <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                 </option>
             </select>
@@ -23,6 +23,13 @@
                 <mat-radio-button value="0">הכל</mat-radio-button>
                 <mat-radio-button value="1">ח.נ כללי</mat-radio-button>
                 <mat-radio-button value="2">חדרי ניתוח</mat-radio-button>
+            </mat-radio-group>
+        </div>
+        <div *ngIf="departParam == '5' || departParam == '6'" class="col-3 text-right" [formGroup]="hospitalDepartTypeGroup">
+            <mat-radio-group formControlName="hospitalDepartType" aria-label="Select an option"
+                (change)="changeSurgeryType()">
+                <mat-radio-button value="0">סיעודי</mat-radio-button>
+                <mat-radio-button value="1">רפואי</mat-radio-button>
             </mat-radio-group>
         </div>
     </div>
@@ -78,7 +85,7 @@
             </div>
         </div>
         <div class="row section" dir="rtl">
-            <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+            <div class="col-12" style="border: 1px solid black;border-radius: 10px;height: 920px;">
                 <div class="row" style="justify-content: center;">
                     <h3>{{groupTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"

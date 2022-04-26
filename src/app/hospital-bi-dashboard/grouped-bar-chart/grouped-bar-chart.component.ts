@@ -82,12 +82,16 @@ export class GroupedBarChartComponent implements OnInit {
 
   discreteBarChart(): Promise<any> {
     this.loader = true;
+    let url = "StackedBarChart";
+    if(this.departParam == "5"){
+      url = "StackedBarChartForHospitalDeparts";
+    }
     return new Promise<void>((resolve, reject) => {
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/StackedBarChart", {
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/"+url, {
           param: this.TimeLineParam,
           deptCode: this.departParam,
-          surgerydeptType: this._surgerydeptType
+          deptType: this._surgerydeptType
         }).subscribe(
           res => {
             this.inquiriesStatLine = res["d"][0];

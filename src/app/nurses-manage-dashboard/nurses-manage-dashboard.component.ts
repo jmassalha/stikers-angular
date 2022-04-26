@@ -305,7 +305,7 @@ export class NursesManageDashboardComponent implements OnInit {
   }
 
   openTelBook() {
-    window.open("http://srv-apps/pb/", "_blank");
+    window.open("http://srv-apps-prod/PB/DEfault.aspx", "_blank");
   }
 
   // NursesSystemPermission() {
