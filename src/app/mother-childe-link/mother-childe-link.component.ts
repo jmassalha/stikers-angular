@@ -37,13 +37,12 @@ export interface PatientData {
     Chiled_DOB: string;
 }
 @Component({
-  selector: 'app-mother-childe-link',
-  templateUrl: './mother-childe-link.component.html',
-  styleUrls: ['./mother-childe-link.component.css']
+    selector: "app-mother-childe-link",
+    templateUrl: "./mother-childe-link.component.html",
+    styleUrls: ["./mother-childe-link.component.css"],
 })
-export class MotherChildeLinkComponent implements OnInit { 
-
-  @ViewChild("patientModal") private patientModal;
+export class MotherChildeLinkComponent implements OnInit {
+    @ViewChild("patientModal") private patientModal;
     fliterVal = "";
     mPatientData: PatientData[];
     constructor(
@@ -73,18 +72,18 @@ export class MotherChildeLinkComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                ////debugger
+                //debugger;
                 this.mPatientData = Response["d"];
-                this.modalService
-                    .open(this.patientModal, this.modalOptions)
-                    .result.then(
-                        (result) => {},
-                        (reason) => {}
-                    );
+                if (this.mPatientData.length > 0)
+                    this.modalService
+                        .open(this.patientModal, this.modalOptions)
+                        .result.then(
+                            (result) => {},
+                            (reason) => {}
+                        );
                 setTimeout(function () {
                     $("#loader").addClass("d-none");
                 }, 400);
             });
     }
-
 }

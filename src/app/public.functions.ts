@@ -25,7 +25,16 @@ export class Functions{
                 checked: false
             };
             this.yearsToSelect.list.push(item);
+            
         }
+        this.yearsToSelect.list = this.yearsToSelect.list.sort((a, b) => (a.ID > b.ID) ? -1 : 1);
+        for(var i = 0; i < this.yearsToSelect.list.length; i++ ){
+            this.yearsToSelect.list[i].checked = false;
+            if(i == 0){
+                this.yearsToSelect.list[i].checked = true;
+            }
+        }
+        //debugger
     }
     public radioChange(event: MatRadioChange) {
         //////debugger
