@@ -69,6 +69,7 @@
     "file-saver": "^2.0.5",
     "firebase": "^8.10.1",
     "flatpickr": "^4.6.10",
+    "google-chart": "0.0.1-security",
     "hammerjs": "^2.0.8",
     "ipware": "^2.0.0",
     "jquery": "^3.6.0",

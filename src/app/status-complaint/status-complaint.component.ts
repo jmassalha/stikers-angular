@@ -10,8 +10,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
-import { EmployeesComponent } from '../employees/employees.component';
-import { isEmpty, map, startWith } from 'rxjs/operators';
+import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
@@ -37,11 +36,9 @@ export class StatusComplaintComponent implements OnInit {
   constructor(
     private _snackBar: MatSnackBar,
     public dialog: MatDialog,
-    private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder,
-    private datePipe: DatePipe,
-    private confirmationDialogService: ConfirmationDialogService,
+    private datePipe: DatePipe
   ) { }
 
   selectable = true;

@@ -12,10 +12,15 @@ import { map, startWith } from 'rxjs/operators';
 import { Observable } from 'rxjs';
 import { DatePipe } from '@angular/common';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { MatChipInputEvent } from "@angular/material/chips";
+import { COMMA, ENTER } from '@angular/cdk/keycodes';
+import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 
 export interface User {
-  name: string;
+  FirstName: string;
+  LastName: string;
   id: string;
+  Email: string;
 }
 export interface Status {
   value: string;
@@ -39,49 +44,96 @@ export class ShareReportsFillDialog {
     public dialogRef: MatDialogRef<ShareReportsFillDialog>,
     @Inject(MAT_DIALOG_DATA) public data: string,
     private _snackBar: MatSnackBar,
-    private http: HttpClient) { }
-
+    private http: HttpClient,
+    private fb: FormBuilder) { }
+  specialForces: User[] = [
+    { FirstName: 'דניאלה', LastName: 'שאול', id: '031965551', Email: 'DSHAUL@PMC.GOV.IL' },
+    { FirstName: 'טניה', LastName: 'אדמוז', id: '061233243', Email: 'TADMUZ@PMC.GOV.IL' },
+    { FirstName: 'מייקי', LastName: 'מיכל לרר', id: '022355333', Email: 'MLEHRER@PMC.GOV.IL' },
+    { FirstName: 'שרון', LastName: 'בן דוד', id: '029302304', Email: 'SBENDAVID@PMC.GOV.IL' }
+  ]
   filteredOptions: Observable<string[]>;
   myControl = new FormControl('', Validators.required);
   users = [];
+  removable = true;
+  selectable = true;
   all_users_filter = [];
   reportArray = [];
   disableBtn: boolean;
+  mail: FormGroup;
+  separatorKeysCodes: number[] = [ENTER, COMMA];
+  fruits: any[] = [];
+  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   ngOnInit() {
-    this.filteredOptions = this.myControl.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => typeof value === 'string' ? value : value.name),
-        map(name => name ? this._filter(name) : this.users.slice())
-      );
+    this.mail = this.fb.group({
+      mailSubject: new FormControl('', null)
+    });
+    this.filteredOptions = this.myControl.valueChanges.pipe(
+      startWith(null),
+      map((fruit: string | null) => fruit ? this._filter(fruit) : this.users.slice()));
     this.getUsers();
   }
-  displayFn(user: User): string {
-    return user && user.name ? user.name : '';
+  
+  add(event: MatChipInputEvent): void {
+    const value = (event.value || '').trim();
+    if (value) {
+      this.fruits.push(value);
+    }
+
+    // event.chipInput!.clear();
+    this.myControl.setValue(null);
   }
-  private _filter(value: string): string[] {
-    const filterValue = value.toLowerCase();
-    return this.users.filter(option => option.name.includes(filterValue));
+
+  remove(fruit: string): void {
+    const index = this.fruits.indexOf(fruit);
+    if (index >= 0) {
+      this.fruits.splice(index, 1);
+    }
   }
+
+  selected(event: MatAutocompleteSelectedEvent): void {
+    if (event.option.value.id == "1") {
+      this.specialForces.forEach(element => {
+        this.fruits.push(element);
+      });
+    } else {
+      this.fruits.push(event.option.value);
+    }
+    this.fruitInput.nativeElement.value = '';
+    this.myControl.setValue(null);
+  }
+
+  private _filter(value: any): string[] {
+    let filterValue = "";
+    if (value != '' && value.FirstName == undefined) {
+      filterValue = value.toLowerCase();
+    }
+    return this.users.filter(fruit => fruit.FirstName.toLowerCase().includes(filterValue));
+  }
+
 
 
   shareReportWithOthers() {
-    if (this.myControl.value == "") {
+    this.disableBtn = true;
+    if (this.fruits.length == 0) {
       this.openSnackBar("נא לבחור אחראי לשליחה");
+      this.disableBtn = false;
+    } else if (this.reportArray.length == 0) {
+      this.openSnackBar("לא נמצאו דיווחים לשליחה");
+      this.disableBtn = false;
     } else {
-      //debugger
-
-      this.disableBtn = true;
       this.http
+        // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachReportToUser", {
         // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachReportToUser", {
         .post("http://srv-ipracticom:8080/WebService.asmx/AttachReportToUser", {
           _userSender: localStorage.getItem('loginUserName').toLowerCase(),
-          userId: this.myControl.value.id,
+          users: this.fruits,
           _reportArray: this.reportArray,
+          _mailSubject: this.mail.controls['mailSubject'].value,
         })
         .subscribe((Response) => {
-          if (Response["d"] == "found") {
+          if (Response["d"]) {
             this.openSnackBar("! נשלח בהצלחה לנמען");
             this.dialogRef.close();
           } else {
@@ -109,10 +161,18 @@ export class ShareReportsFillDialog {
 
         this.all_users_filter.forEach(element => {
           this.users.push({
-            name: element.firstname + " " + element.lastname,
-            id: element.id
+            FirstName: element.firstname,
+            LastName: element.lastname,
+            id: element.id,
+            Email: element.email
           });
-        })
+        });
+        this.users.push({
+          FirstName: 'היחידה לבטיחות הטיפול',
+          LastName: '',
+          id: '1',
+          Email: 'a'
+        });
       });
   }
 
@@ -135,12 +195,14 @@ export class AddResponseFillDialog {
 
   reportID: string;
   userFullName: string;
+  responseID: string;
+  responseText: string;
   reportResponse: FormGroup;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
 
   ngOnInit() {
     this.reportResponse = this.formBuilder.group({
-      responseText: new FormControl('', Validators.required),
+      responseText: new FormControl(this.responseText, Validators.required),
     })
   }
 
@@ -152,6 +214,14 @@ export class AddResponseFillDialog {
     });
   }
 
+  chooseAction() {
+    if (this.responseID != '0') {
+      this.editResponse();
+    } else {
+      this.saveResponse();
+    }
+  }
+
   saveResponse() {
     let ResponseText = this.reportResponse.controls['responseText'].value;
     this.http
@@ -160,6 +230,23 @@ export class AddResponseFillDialog {
         _responseText: ResponseText,
         _reportID: this.reportID,
         _userFullName: this.userFullName
+      })
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("נשמר בהצלחה");
+          this.dialogRef.close();
+        } else {
+          this.openSnackBar("אופס משהו השתבש, לא נשמר");
+        }
+      });
+  }
+
+  editResponse() {
+    let ResponseText = this.reportResponse.controls['responseText'].value;
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EditResponseNurses", {
+        _responseID: this.responseID,
+        _reponseText: ResponseText,
       })
       .subscribe((Response) => {
         if (Response["d"]) {
@@ -341,28 +428,28 @@ export class FillReportComponent implements OnInit {
       });
   }
 
-  areYouSureDeleteReport(reportID){
+  areYouSureDeleteReport(reportID) {
     this.confirmationDialogService
-        .confirm("נא לאשר..", "אתה מוחק דיווח.. האם אתה בטוח ...? ")
-        .then((confirmed) => {
-          console.log("User confirmed:", confirmed);
-          if (confirmed) {
-            this.deleteReport(reportID);
-          } else {
-          }
-        })
-        .catch(() =>
-          console.log(
-            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
-          )
-        );
+      .confirm("נא לאשר..", "אתה מוחק דיווח.. האם אתה בטוח ...? ")
+      .then((confirmed) => {
+        console.log("User confirmed:", confirmed);
+        if (confirmed) {
+          this.deleteReport(reportID);
+        } else {
+        }
+      })
+      .catch(() =>
+        console.log(
+          "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+        )
+      );
   }
 
   printSingleReport() {
     this.print = true;
     let that = this;
     setTimeout(function () {
-      var printContents = that.printmycontent.nativeElement.innerHTML;                 
+      var printContents = that.printmycontent.nativeElement.innerHTML;
       var w = window.open();
       w.document.write(printContents);
       w.print();
@@ -381,10 +468,12 @@ export class FillReportComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  addResponseToReport(reportID) {
+  addResponseToReport(responseID, reportID, ResponseText) {
     const dialogRef = this.dialog.open(AddResponseFillDialog, {
       width: '600px'
     });
+    dialogRef.componentInstance.responseID = responseID;
+    dialogRef.componentInstance.responseText = ResponseText;
     dialogRef.componentInstance.reportID = reportID;
     dialogRef.componentInstance.userFullName = this.userFullName;
     dialogRef.afterClosed().subscribe(result => {
@@ -395,21 +484,21 @@ export class FillReportComponent implements OnInit {
   autoDate(amin) {
     if (amin == true) {
       this.ReportGroup.controls['ReportStatus'].setValue('לטיפול');
-    } else if(amin == false) {
+    } else if (amin == false) {
       this.ReportGroup.controls['ReportStatus'].setValue('טופל');
-    }else{
-      if(amin.value == "לטיפול"){
+    } else {
+      if (amin.value == "לטיפול") {
         this.ReportGroup.controls['toContinue'].setValue(true);
-      }else{
+      } else {
         this.ReportGroup.controls['toContinue'].setValue(false);
       }
     }
   }
-  
-  setImportantReport(){
-    if(this.ReportGroup.controls['Important'].value == 'True' || this.ReportGroup.controls['Important'].value == true){
+
+  setImportantReport() {
+    if (this.ReportGroup.controls['Important'].value == 'True' || this.ReportGroup.controls['Important'].value == true) {
       this.ReportGroup.controls['Important'].setValue('False');
-    }else{
+    } else {
       this.ReportGroup.controls['Important'].setValue('True');
     }
     this.http
@@ -478,7 +567,7 @@ export class FillReportComponent implements OnInit {
         _reportID: this.reportID
       })
       .subscribe((Response) => {
-      //  //debugger
+        //  //debugger
         this.all_report_management = Response["d"];
         this.usersReponsesList = this.all_report_management.UsersReportsList;
         // if(this.all_report_management.UserName == this.UserName){
@@ -530,7 +619,7 @@ export class FillReportComponent implements OnInit {
           ifEditable = true;
         } else if (this.all_report_management.ReportShift == 'ערב' && reportDate == thisDate && ((parseInt(thisTime) > 14 && parseInt(thisTime) < 24) || parseInt(thisTime) < 1)) {
           ifEditable = true;
-        } else if (this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate.split('/')[0]) - parseInt(thisDate.split('/')[0]) == 1) && (parseInt(thisTime) < 9 || parseInt(thisTime) > 22)) {
+        } else if (this.all_report_management.ReportShift == 'לילה' && (reportDate == thisDate || parseInt(reportDate) - parseInt(thisDate) == 100000) && (parseInt(thisTime) < 9 || parseInt(thisTime) > 22)) {
           ifEditable = true;
         }
 
@@ -550,7 +639,7 @@ export class FillReportComponent implements OnInit {
         } else {
           this.ReportGroup.controls['toContinue'].setValue(true);
         }
-        
+
       });
     this.getCategories();
   }
@@ -566,7 +655,7 @@ export class FillReportComponent implements OnInit {
       });
   }
 
-  deleteReply(responseRowID){
+  deleteReply(responseRowID) {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeleteResponseNurses", {
         _responseRowID: responseRowID
@@ -579,6 +668,22 @@ export class FillReportComponent implements OnInit {
           this.openSnackBar("משהו השתבש, לא נשמר");
         }
       });
+  }
+
+  editReply(responseRowID, reportIDFK, ResponseText) {
+    this.addResponseToReport(responseRowID, reportIDFK, ResponseText);
+    // this.http
+    //   .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EditResponseNurses", {
+    //     _responseRowID: responseRowID
+    //   })
+    //   .subscribe((Response) => {
+    //     if (Response["d"]) {
+    //       this.openSnackBar("נשמר בהצלחה");
+    //       this.getReportToUpdate();
+    //     } else {
+    //       this.openSnackBar("משהו השתבש, לא נשמר");
+    //     }
+    //   });
   }
 
   onSubmit() {

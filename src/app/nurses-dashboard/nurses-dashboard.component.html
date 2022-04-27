@@ -21,7 +21,7 @@
                                         </div>
                                     </div>
 
-                                    <div class="col-4" *ngIf="reportType == 'administrative'">
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
                                         <div class="form-group lh-37">
                                             <mat-form-field>
                                                 <mat-label>מחלקה</mat-label>
@@ -38,7 +38,7 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    <div class="col-4" *ngIf="reportType == 'administrative'">
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
                                         <div class="form-group lh-37">
                                             <mat-form-field>
                                                 <mat-label>קטגוריה</mat-label>
@@ -55,7 +55,7 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    <div class="col-4" *ngIf="reportType == 'administrative'">
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
                                         <div class="form-group lh-37">
                                             <mat-form-field>
                                                 <mat-label>קטיגוריה אדומה</mat-label>
@@ -64,6 +64,19 @@
                                                     <mat-option *ngFor="let st of importantCat" [value]="st.value"
                                                         [style.color]="st.value == '1' ? 'red':  'darkgrey'">
                                                         {{st.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>סוג דיווח</mat-label>
+                                                <mat-select formControlName="ReportTypeSearch">
+                                                    <mat-option [value]="'הכל'">הכל</mat-option>
+                                                    <mat-option *ngFor="let rt of reportTypeArr" [value]="rt.value">
+                                                        {{rt.viewValue}}
                                                     </mat-option>
                                                 </mat-select>
                                             </mat-form-field>
@@ -137,10 +150,10 @@
                                     </span>
                                 </button>
                                 &nbsp;&nbsp;
-                                <button matTooltip="שליחה לנמען" mat-raised-button type="button"
+                                <button matTooltip="שליחת דיווח למייל" mat-raised-button type="button"
                                     class="btn btn-primary btn-raised" (click)="openShareDialog()">
                                     <span class="material-icons">
-                                        reply
+                                        mail
                                     </span>
                                 </button>
                             </form>

@@ -34,6 +34,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   EmployeeExists: boolean;
   myDate = new Date();
+  _switchHTOK: any = "0";
 
   constructor(private _snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -95,7 +96,9 @@ export class EmployeesAddUpdateComponent implements OnInit {
       InternLearnCountry: new FormControl(this.employee.InternLearnCountry, null),
       InternLearnCountryDesc: new FormControl(this.employee.InternLearnCountryDesc, null),
       InternUniversity: new FormControl(this.employee.InternUniversity, null),
+      StatusRow: new FormControl(this.employee.StatusRow, null),
     });
+    this._switchHTOK = this.employee.StatusRow;
     this.sektorSelection(this.employee.EmployeeSektorID);
     this.getEmployeesFunctionsList();
     this.getRanksList();
@@ -103,6 +106,16 @@ export class EmployeesAddUpdateComponent implements OnInit {
     this.getEmployeesBlossomSektorList();
     this.getEmployeeDepartmentList();
     this.getUserName(this.employee.Email);
+  }
+
+  switchHTOK() {
+    if (this._switchHTOK != "1") {
+      this._switchHTOK = "1";
+      this.employeeWorkDetails.controls['StatusRow'].setValue(this._switchHTOK);
+    } else {
+      this._switchHTOK = "0";
+      this.employeeWorkDetails.controls['StatusRow'].setValue(this._switchHTOK);
+    }
   }
 
   getEmployeeIndex() {
@@ -124,7 +137,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
     return userName;
   }
 
-  duplicateToNewEmployee(){
+  duplicateToNewEmployee() {
     this.employeePersonalDetails.reset();
     this.employeeWorkDetails.controls['ADUserName'].reset();
     this.employeeWorkDetails.controls['RowID'].reset();
@@ -247,7 +260,9 @@ export class EmployeesAddUpdateComponent implements OnInit {
               InternLearnCountry: new FormControl(this.employee.InternLearnCountry, null),
               InternLearnCountryDesc: new FormControl(this.employee.InternLearnCountryDesc, null),
               InternUniversity: new FormControl(this.employee.InternUniversity, null),
+              StatusRow: new FormControl(this.employee.StatusRow, null),
             });
+            this._switchHTOK = this.employee.StatusRow;
           } else {
             this.employeePersonalDetails.disable();
             this.employeeWorkDetails.disable();
