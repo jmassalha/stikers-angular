@@ -95,6 +95,8 @@ export class GroupedBarChart2Component implements OnInit {
     let url = "LineBarChart";
     if(this.departParam == "6"){
       url = "LineBarChartForER";
+    }else if(this.departParam == "5"){
+      url = "LineBarChartHospitalDeparts";
     }
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/"+url, {
@@ -243,6 +245,7 @@ export class GroupedBarChart2Component implements OnInit {
             let t = new Date(date);
             let month = t.getMonth();
             let monthIndex = month - f;
+            monthIndex--;
             if (monthIndex < 0) {
               monthIndex = finalarr.length - counter;
               counter++;

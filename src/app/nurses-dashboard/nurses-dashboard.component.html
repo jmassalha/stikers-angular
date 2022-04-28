@@ -12,7 +12,7 @@
                         <div dir="rtl" class="card-body">
                             <form class="form" [formGroup]="searchReportsGroup">
                                 <div class="row">
-                                    <div class="col-12" *ngIf="reportType == 'clinical'">
+                                    <div class="col-8" *ngIf="reportType == 'clinical'">
                                         <div class="form-group">
                                             <mat-form-field>
                                                 <input matInput autocomplete="off" placeholder="שם מטופל"
@@ -20,7 +20,19 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-
+                                    <div class="col-4" style="font-size: 13px;" *ngIf="reportType == 'clinical'">
+                                        <div class="form-group">
+                                            <mat-form-field>
+                                                <mat-label>סוג דיווח</mat-label>
+                                                <mat-select formControlName="ReportTypeSearch">
+                                                    <mat-option [value]="'הכל'">הכל</mat-option>
+                                                    <mat-option *ngFor="let rt of reportTypeArr" [value]="rt.value">
+                                                        {{rt.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
                                     <div class="col-3" *ngIf="reportType == 'administrative'">
                                         <div class="form-group lh-37">
                                             <mat-form-field>

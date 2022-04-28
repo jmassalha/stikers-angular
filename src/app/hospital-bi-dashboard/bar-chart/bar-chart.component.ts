@@ -49,6 +49,8 @@ export class BarChartComponent implements OnInit {
     let url = "DiscreteBarChart";
     if(this.departParam == "6"){
       url = "DiscreteBarChartForER";
+    }else if(this.departParam == "5"){
+      url = "DiscreteBarChartHospitalDeparts";
     }
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/"+url, {

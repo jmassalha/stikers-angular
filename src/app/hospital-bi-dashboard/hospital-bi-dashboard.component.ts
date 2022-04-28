@@ -55,10 +55,10 @@ export class HospitalBIDashboardComponent implements OnInit {
   surgeryDeptTypeGroup: FormGroup;
   hospitalDepartTypeGroup: FormGroup;
   titles = {
-    pie: ['TOP 10 ניתוחים', '', '', '', '', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
-    bar: ['ניתוחים ברמת אתר', '', '', '', '', 'כמות פניות למחלקות רפואיות', 'כמות לידות'],
-    group: ['ניתוחים לפי אתר וסוג ניתוח', '', '', '', '', 'פניות לפי משמרת', 'כמות וסוגי לידות לפי משמרת'],
-    group2: ['כמות ניתוחים לאתר', '', '', '', '', 'פניות למחלקות רפואיות', 'לידות לפי ציר זמן'],
+    pie: ['TOP 10 ניתוחים', '', '', '', 'מחלקות עם מספר מאושפזים גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
+    bar: ['ניתוחים ברמת אתר', '', '', '', 'כמות מאושפזים', 'כמות פניות למחלקות רפואיות', 'כמות לידות'],
+    group: ['ניתוחים לפי אתר וסוג ניתוח', '', '', '', 'אשפוזים לפי משמרת', 'פניות לפי משמרת', 'כמות וסוגי לידות לפי משמרת'],
+    group2: ['כמות ניתוחים לאתר', '', '', '', 'אשפוזים לפי ציר זמן ומחלקה', 'פניות למחלקות רפואיות', 'לידות לפי ציר זמן'],
     // line: ['', '', '', '', '', '', ''],
   };
 
@@ -89,7 +89,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
     let _hospitalDeptType = this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value;
     let valueOfSwitch = _surgeryDeptType;
-    if (this.departParam == "6") {
+    if (this.departParam == "6" || this.departParam == "5") {
       valueOfSwitch = _hospitalDeptType;
     }
     switch (type) {
