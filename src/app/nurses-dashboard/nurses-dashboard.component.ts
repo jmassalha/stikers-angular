@@ -255,7 +255,7 @@ export class NursesDashboardComponent implements OnInit {
   ];
   reportTypeArr: ReportTypeArr[] = [
     { value: '1', viewValue: 'כללית' },
-    { value: '0', viewValue: 'רגיל' },
+    { value: '0', viewValue: 'מחלקה' },
   ];
 
   @ViewChild('printmycontent') printmycontent: ElementRef;

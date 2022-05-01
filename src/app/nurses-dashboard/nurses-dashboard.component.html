@@ -96,7 +96,7 @@
                                     </div>
                                 </div>
                                 <div class="row">
-                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-6'">
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-4'">
                                         <div class="form-group">
                                             <mat-form-field>
                                                 <input matInput formControlName="ReportStartDate"
@@ -108,7 +108,7 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-6'">
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-4'">
                                         <div class="form-group">
                                             <mat-form-field>
                                                 <input matInput formControlName="ReportEndDate" (focus)="enddate.open()"
@@ -120,7 +120,7 @@
                                             </mat-form-field>
                                         </div>
                                     </div>
-                                    <div class="col-3" *ngIf="reportType == 'administrative'">
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-4'">
                                         <div class="form-group lh-37">
                                             <mat-form-field>
                                                 <mat-label>משמרת</mat-label>

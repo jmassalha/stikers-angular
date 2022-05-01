@@ -15,7 +15,7 @@ export class LineChartComponent implements OnInit {
   TimeLineParam: string = "1";
   departParam: string = "1";
   _surgerydeptType: string = "0";
-  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
+  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   type = 'ColumnChart';
   data = [];

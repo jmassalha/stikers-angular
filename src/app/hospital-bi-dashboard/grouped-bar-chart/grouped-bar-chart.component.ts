@@ -14,10 +14,11 @@ export class GroupedBarChartComponent implements OnInit {
   TimeLineParam: string = "1";
   departParam: string = "1";
   _surgerydeptType: string = "0";
+  _surgeryChooseType: string = "0";
   inquiriesStatLine = [];
   responseDeparts = [];
   loader: boolean = false;
-  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
+  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   // title = 'Population (in millions)';
   type = 'BarChart';
@@ -36,10 +37,11 @@ export class GroupedBarChartComponent implements OnInit {
   height = 800;
 
 
-  refresh(elem, dept, _surgeryDeptType) {
+  refresh(elem, dept, _surgeryDeptType, _surgeryChooseType) {
     this.TimeLineParam = elem;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
+    this._surgeryChooseType = _surgeryChooseType;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
@@ -124,7 +126,8 @@ export class GroupedBarChartComponent implements OnInit {
         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
           param: this.TimeLineParam,
           deptCode: this.departParam,
-          deptType: this._surgerydeptType
+          deptType: this._surgerydeptType,
+          chooseType: this._surgeryChooseType
         }).subscribe(
           res => {
             this.inquiriesStatLine = res["d"][0];

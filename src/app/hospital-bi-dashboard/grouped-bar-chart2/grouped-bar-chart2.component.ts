@@ -9,13 +9,14 @@ import { HttpClient, HttpHeaders } from '@angular/common/http';
 export class GroupedBarChart2Component implements OnInit {
 
   innerWidth: number;
+  innerHeight: number;
 
   constructor(private http: HttpClient) { }
 
   TimeLineParam: string = "1";
   departParam: string = "1";
   _surgerydeptType: string = "0";
-  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
+  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   // title = 'Population (in millions)';
   type = 'ColumnChart';
@@ -31,7 +32,7 @@ export class GroupedBarChart2Component implements OnInit {
     isStacked: false
   };
   width: number;
-  height = 600;
+  height: number;
 
 
   refresh(elem, dept, _surgeryDeptType) {
@@ -43,7 +44,7 @@ export class GroupedBarChart2Component implements OnInit {
   }
 
   ngOnInit(): void {
-    if ((this.TimeLineParam == "2" || this.TimeLineParam == "3") || this.departParam == "5") {
+    if ((this.TimeLineParam == "2" || this.TimeLineParam == "3") || this.departParam == "5" || this.departParam == "1") {
       this.options = {
         hAxis: {
           title: 'זמן'
@@ -87,19 +88,20 @@ export class GroupedBarChart2Component implements OnInit {
     //     };
     // }
     this.innerWidth = window.innerWidth;
+    this.height = window.innerWidth / 3.2;
     this.width = this.innerWidth - 70;
     this.discreteBarChart();
   }
 
   public discreteBarChart() {
     let url = "LineBarChart";
-    if(this.departParam == "6"){
+    if (this.departParam == "6") {
       url = "LineBarChartForER";
-    }else if(this.departParam == "5"){
+    } else if (this.departParam == "5") {
       url = "LineBarChartHospitalDeparts";
     }
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/"+url, {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
         param: this.TimeLineParam,
         deptCode: this.departParam,
         surgerydeptType: this._surgerydeptType
@@ -116,10 +118,13 @@ export class GroupedBarChart2Component implements OnInit {
             inquiriesStatLine[0][index] = temp.toString();
           });
         }
-        // for (let h = 0; h < inquiriesStatLine[1].length; h++) {
-        //   inquiriesStatLine[1][h] = null;
-        // }
-
+        if (this.TimeLineParam == "2") {
+          // let dte = new Date();
+          // dte.setDate(dte.getDate() - 1);
+          // console.log(dte.getDate());
+          inquiriesStatLine[0] = inquiriesStatLine[0].slice(0, inquiriesStatLine[0].length - 1);
+          inquiriesStatLine[2] = inquiriesStatLine[2].slice(0, inquiriesStatLine[2].length - 1);
+        }
         for (let i = 0; i < inquiriesStatLine[2].length; i++) {
           let temp = [];
           let notNullIndex = inquiriesStatLine[2][i].findIndex(x => x !== null);
@@ -205,7 +210,7 @@ export class GroupedBarChart2Component implements OnInit {
           }
           this.data.reverse();
         } else if (this.TimeLineParam == "2") {
-          this.data = new Array(31);
+          this.data = new Array(inquiriesStatLine[0].length);
           let counter = 1;
           for (let f = -1; f < inquiriesStatLine[0].length; f++) {
             let t = new Date(date);

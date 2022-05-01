@@ -9,6 +9,12 @@ select{
     font-weight: bold;
 }
 
+.depts-list-menu{
+    background: lightgrey;
+    font-size: 18px;
+    font-weight: bold;
+}
+
 .row.section{
     margin-top: 20px;
 }

@@ -48,6 +48,7 @@ import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { PoriadepartsComponent } from './poriadeparts/poriadeparts.component';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { RolesComponent } from './roles/roles.component';
+import {MatMenuModule} from '@angular/material/menu';
 import { StaffComponent } from './staff/staff.component';
 import { SendsmsComponent } from './sendsms/sendsms.component';
 import { CoronaresultformComponent } from './coronaresultform/coronaresultform.component';
@@ -320,6 +321,7 @@ const maskConfig: Partial<IConfig> = {
     MatPaginatorModule,
     MatSlideToggleModule,
     MatFormFieldModule,
+    MatMenuModule,
     MatSortModule,
     MatTableModule,
     CustomMaterialModule,

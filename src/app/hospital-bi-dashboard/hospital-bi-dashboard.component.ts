@@ -25,9 +25,9 @@ export class HospitalBIDashboardComponent implements OnInit {
   configUrl = 'http://srv-apps-prod/RCF_WS/WebService.asmx/';
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
-    { DIMDataTypeID: "2", DIMDataTypeDesc: "פעולות" },
-    { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
-    { DIMDataTypeID: "4", DIMDataTypeDesc: "מרפאות ומכונים" },
+    // { DIMDataTypeID: "2", DIMDataTypeDesc: "פעולות" },
+    // { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
+    // { DIMDataTypeID: "4", DIMDataTypeDesc: "מרפאות ומכונים" },
     { DIMDataTypeID: "5", DIMDataTypeDesc: "מחלקות אשפוז" },
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" }
@@ -54,20 +54,24 @@ export class HospitalBIDashboardComponent implements OnInit {
   graphsCtrl: FormGroup;
   surgeryDeptTypeGroup: FormGroup;
   hospitalDepartTypeGroup: FormGroup;
+  surgeryChooseTypeGroup: FormGroup;
   titles = {
     pie: ['TOP 10 ניתוחים', '', '', '', 'מחלקות עם מספר מאושפזים גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
-    bar: ['ניתוחים ברמת אתר', '', '', '', 'כמות מאושפזים', 'כמות פניות למחלקות רפואיות', 'כמות לידות'],
-    group: ['ניתוחים לפי אתר וסוג ניתוח', '', '', '', 'אשפוזים לפי משמרת', 'פניות לפי משמרת', 'כמות וסוגי לידות לפי משמרת'],
-    group2: ['כמות ניתוחים לאתר', '', '', '', 'אשפוזים לפי ציר זמן ומחלקה', 'פניות למחלקות רפואיות', 'לידות לפי ציר זמן'],
+    bar: ['ניתוחים ברמת מחלקה', '', '', '', 'כמות מאושפזים', 'כמות פניות למחלקות רפואיות', 'כמות לידות'],
+    group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', '', '', 'אשפוזים לפי משמרת', 'פניות לפי משמרת', 'כמות וסוגי לידות לפי משמרת'],
+    group2: ['כמות ניתוחים למחלקה', '', '', '', 'אשפוזים לפי ציר זמן ומחלקה', 'פניות למחלקות רפואיות', 'לידות לפי ציר זמן'],
     // line: ['', '', '', '', '', '', ''],
   };
 
   ngOnInit(): void {
     this.surgeryDeptTypeGroup = this.fb.group({
-      surgeryDeptType: new FormControl('0', null)
+      surgeryDeptType: new FormControl('0', null),
     });
     this.hospitalDepartTypeGroup = this.fb.group({
       hospitalDepartType: new FormControl('0', null)
+    });
+    this.surgeryChooseTypeGroup = this.fb.group({
+      surgeryChooseType: new FormControl('0', null)
     });
     this.graphsCtrl = this.fb.group({
       pieCtrl: new FormControl('1', null),
@@ -83,11 +87,15 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.phoneMode = "1";
     }
     this.getTimeType(this.TimeLineParam);
+    setTimeout(() => {
+      this.changeTime('1', 'all');
+    }, 1500);
   }
 
   changeTime(event, type) {
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
     let _hospitalDeptType = this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value;
+    let _surgeryChooseType = this.surgeryChooseTypeGroup.controls['surgeryChooseType'].value;
     let valueOfSwitch = _surgeryDeptType;
     if (this.departParam == "6" || this.departParam == "5") {
       valueOfSwitch = _hospitalDeptType;
@@ -98,7 +106,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.graphsCtrl.controls['pieCtrl'].setValue(event);
         this.barTime = this.titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch);
         this.graphsCtrl.controls['barCtrl'].setValue(event);
-        this.groupTime = this.titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch);
+        this.groupTime = this.titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         this.groupTime2 = this.titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
@@ -112,7 +120,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         break;
       }
       case "group": {
-        this.groupTime = this.titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch);
+        this.groupTime = this.titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         break;
       }
@@ -136,7 +144,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.graphsCtrl.controls['pieCtrl'].setValue(event);
         this.barTime = this.titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch);
         this.graphsCtrl.controls['barCtrl'].setValue(event);
-        this.groupTime = this.titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch);
+        this.groupTime = this.titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         this.groupTime2 = this.titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
@@ -153,6 +161,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (dept.DIMDataTypeID != "1") {
       this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue('0');
       this.hospitalDepartTypeGroup.controls['hospitalDepartType'].setValue('0');
+      this.surgeryChooseTypeGroup.controls['surgeryChooseType'].setValue('0');
     }
     this.changeTime('1', 'all');
   }
