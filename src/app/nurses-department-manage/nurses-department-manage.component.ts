@@ -299,7 +299,7 @@ export class NursesDepartmentManageComponent implements OnInit {
           this.arrayOfMedDepts.push(medDepart);
         });
 
-        if (this.dataSource2.filteredData.length > 1) {
+        if (this.dataSource2.filteredData.length > 0) {
           let coronaExists = this.dataSource2.filteredData.filter((obj) => obj.CoronaStatus === 'מאומת קורונה').length;
           this.RespiratorsCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מונשם')).length.toString();
           this.CatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('שתן')).length.toString();

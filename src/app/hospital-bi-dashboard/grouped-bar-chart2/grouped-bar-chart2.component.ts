@@ -119,11 +119,12 @@ export class GroupedBarChart2Component implements OnInit {
           });
         }
         if (this.TimeLineParam == "2") {
-          // let dte = new Date();
-          // dte.setDate(dte.getDate() - 1);
-          // console.log(dte.getDate());
-          inquiriesStatLine[0] = inquiriesStatLine[0].slice(0, inquiriesStatLine[0].length - 1);
-          inquiriesStatLine[2] = inquiriesStatLine[2].slice(0, inquiriesStatLine[2].length - 1);
+          let dt = new Date();
+          let month = dt.getMonth();
+          let year = dt.getFullYear();
+          let daysInMonth = new Date(year, month, 0).getDate();
+          inquiriesStatLine[0] = inquiriesStatLine[0].slice(0, daysInMonth);
+          inquiriesStatLine[2] = inquiriesStatLine[2].slice(0, daysInMonth);
         }
         for (let i = 0; i < inquiriesStatLine[2].length; i++) {
           let temp = [];
