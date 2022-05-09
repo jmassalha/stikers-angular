@@ -1,7 +1,6 @@
 import {
   Component,
   ElementRef,
-  HostListener,
   Inject,
   Input,
   OnInit,
@@ -90,7 +89,7 @@ export class ShareReportsDialog {
     private fb: FormBuilder) { }
 
   specialForces: User[] = [
-    { FirstName: 'דניאלה', LastName: 'שאול', id: '031965551', Email: 'DSHAUL@PMC.GOV.IL' },
+    { FirstName: 'דניאלה', LastName: 'שאול', id: '031965551', Email: 'X_DSHAUL@PMC.GOV.IL' },
     { FirstName: 'טניה', LastName: 'אדמוז', id: '061233243', Email: 'TADMUZ@PMC.GOV.IL' },
     { FirstName: 'מייקי', LastName: 'מיכל לרר', id: '022355333', Email: 'MLEHRER@PMC.GOV.IL' },
     { FirstName: 'שרון', LastName: 'בן דוד', id: '029302304', Email: 'SBENDAVID@PMC.GOV.IL' }
@@ -256,7 +255,7 @@ export class NursesDashboardComponent implements OnInit {
   ];
   reportTypeArr: ReportTypeArr[] = [
     { value: '1', viewValue: 'כללית' },
-    { value: '0', viewValue: 'רגיל' },
+    { value: '0', viewValue: 'מחלקה' },
   ];
 
   @ViewChild('printmycontent') printmycontent: ElementRef;

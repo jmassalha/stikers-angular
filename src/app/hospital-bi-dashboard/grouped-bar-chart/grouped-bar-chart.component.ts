@@ -14,10 +14,11 @@ export class GroupedBarChartComponent implements OnInit {
   TimeLineParam: string = "1";
   departParam: string = "1";
   _surgerydeptType: string = "0";
+  _surgeryChooseType: string = "0";
   inquiriesStatLine = [];
   responseDeparts = [];
   loader: boolean = false;
-  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
+  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   // title = 'Population (in millions)';
   type = 'BarChart';
@@ -30,20 +31,43 @@ export class GroupedBarChartComponent implements OnInit {
     vAxis: {
       minValue: 0
     },
+    isStacked: false
   };
   width: number;
   height = 800;
 
 
-  refresh(elem, dept, _surgeryDeptType) {
+  refresh(elem, dept, _surgeryDeptType, _surgeryChooseType) {
     this.TimeLineParam = elem;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
+    this._surgeryChooseType = _surgeryChooseType;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
 
   ngOnInit(): void {
+    if (this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5")) {
+      this.options = {
+        hAxis: {
+          title: 'זמן'
+        },
+        vAxis: {
+          minValue: 0
+        },
+        isStacked: true
+      };
+    } else {
+      this.options = {
+        hAxis: {
+          title: 'זמן'
+        },
+        vAxis: {
+          minValue: 0
+        },
+        isStacked: false
+      };
+    }
     this.innerWidth = window.innerWidth;
     this.width = this.innerWidth - 70;
     this.waitData();
@@ -58,7 +82,10 @@ export class GroupedBarChartComponent implements OnInit {
       this.columnNames = ['Year'];
       for (let s = 0; s < this.responseDeparts.length; s++) {
         departments.push(this.responseDeparts[s]);
-        departments.push({ role: 'annotation' });
+        if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))) {
+          departments.push({ role: 'annotation' });
+        }
+
       }
       this.columnNames = [...this.columnNames, ...departments];
 
@@ -69,10 +96,16 @@ export class GroupedBarChartComponent implements OnInit {
         for (let j = 0; j < this.inquiriesStatLine[i].length; j++) {
           if (this.inquiriesStatLine[i][j] != null) {
             temp.push(this.inquiriesStatLine[i][j].y);
-            temp.push(this.inquiriesStatLine[i][j].y);
+            if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))){
+              temp.push(this.inquiriesStatLine[i][j].y);
+            }
+            
           } else {
             temp.push(0);
-            temp.push(0);
+            if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))){
+              temp.push(0);
+            }
+            
           }
         }
         this.data.push(temp);
@@ -83,15 +116,18 @@ export class GroupedBarChartComponent implements OnInit {
   discreteBarChart(): Promise<any> {
     this.loader = true;
     let url = "StackedBarChart";
-    if(this.departParam == "5"){
+    if (this.departParam == "5") {
       url = "StackedBarChartForHospitalDeparts";
+    } else if (this.departParam == "6") {
+      url = "StackedBarChartForER";
     }
     return new Promise<void>((resolve, reject) => {
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/"+url, {
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
           param: this.TimeLineParam,
           deptCode: this.departParam,
-          deptType: this._surgerydeptType
+          deptType: this._surgerydeptType,
+          chooseType: this._surgeryChooseType
         }).subscribe(
           res => {
             this.inquiriesStatLine = res["d"][0];

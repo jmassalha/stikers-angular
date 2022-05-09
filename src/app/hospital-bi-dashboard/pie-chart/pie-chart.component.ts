@@ -14,7 +14,7 @@ export class PieChartComponent implements OnInit {
   TimeLineParam: string = "1";
   departParam: string = "1";
   _surgerydeptType: string = "0";
-  timesString = ['שבוע', 'חודש', 'שנה', '5 שנים מקבילות', '5 שנים מלאות'];
+  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   constructor(private http: HttpClient) { }
 
@@ -54,6 +54,8 @@ export class PieChartComponent implements OnInit {
       url += "PieChartER";
     }else if(this.departParam == "7"){
       url += "PieChartDelivery";
+    }else if(this.departParam == "5"){
+      url += "PieChartDepartments";
     }else{
       url += "PieChart";
     }
