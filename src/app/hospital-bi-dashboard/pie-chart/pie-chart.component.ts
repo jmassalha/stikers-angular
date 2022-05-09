@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 export class PieChartComponent implements OnInit {
   innerWidth: number;
 
+  loader: boolean = true;
   TimeLineParam: string = "1";
   departParam: string = "1";
   _surgerydeptType: string = "0";
@@ -49,6 +50,7 @@ export class PieChartComponent implements OnInit {
   }
 
   public pieChart() {
+    this.loader = true;
     let url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
     if(this.departParam == "6"){
       url += "PieChartER";
@@ -56,6 +58,8 @@ export class PieChartComponent implements OnInit {
       url += "PieChartDelivery";
     }else if(this.departParam == "5"){
       url += "PieChartDepartments";
+    }else if(this.departParam == "3"){
+      url += "PieChartRentgenDimot";
     }else{
       url += "PieChart";
     }
@@ -71,6 +75,7 @@ export class PieChartComponent implements OnInit {
         for (let i = 0; i < inquiriesStatLine.length; i++) {
           this.data.push([inquiriesStatLine[i].key, parseInt(inquiriesStatLine[i].y)]);
         }
+        this.loader = false;
       });
   }
 

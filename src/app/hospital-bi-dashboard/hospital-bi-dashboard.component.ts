@@ -15,6 +15,12 @@ interface Depart {
   DIMDataTypeID: string;
   DIMDataTypeDesc: string;
 }
+interface Cards {
+  Depart: string;
+  Card1: string;
+  Card2: string;
+  Card3: string;
+}
 @Component({
   selector: 'app-hospital-bi-dashboard',
   templateUrl: './hospital-bi-dashboard.component.html',
@@ -26,12 +32,13 @@ export class HospitalBIDashboardComponent implements OnInit {
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
     // { DIMDataTypeID: "2", DIMDataTypeDesc: "פעולות" },
-    // { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
+    { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
     // { DIMDataTypeID: "4", DIMDataTypeDesc: "מרפאות ומכונים" },
     { DIMDataTypeID: "5", DIMDataTypeDesc: "מחלקות אשפוז" },
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" }
   ];
+  
   choosenDept = this.departments[0];
   timeLine: Time[] = [];
   public TimeLineParam: string = "1";
@@ -45,6 +52,8 @@ export class HospitalBIDashboardComponent implements OnInit {
   width: number;
   phoneMode: string = "0";
   _ifSeode = 'סיעודיות';
+  changePercent: number = 0;
+  _changeScale = "Up";
   @ViewChild(PieChartComponent) pie: PieChartComponent;
   @ViewChild(GroupedBarChartComponent) group: GroupedBarChartComponent;
   @ViewChild(GroupedBarChart2Component) group2: GroupedBarChart2Component;
@@ -85,14 +94,18 @@ export class HospitalBIDashboardComponent implements OnInit {
     setTimeout(() => {
       this.changeTime('1', 'all');
     }, 1500);
+    this.getCardsVals();
   }
 
   changeTime(event, type) {
+    let cardsTitles: Cards[] = [
+
+    ];
     let titles = {
-      pie: ['TOP 10 ניתוחים', '', '', '', 'מחלקות עם מספר מאושפזים גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
-      bar: ['ניתוחים ברמת מחלקה', '', '', '', 'כמות מאושפזים', 'כמות פניות למחלקות '+this._ifSeode, 'כמות לידות'],
-      group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', '', '', 'אשפוזים לפי משמרת', 'פניות לפי מחלקות '+this._ifSeode+' במשמרת', 'כמות וסוגי לידות לפי משמרת'],
-      group2: ['כמות ניתוחים למחלקה', '', '', '', 'אשפוזים לפי ציר זמן ומחלקה', 'פניות למחלקות '+this._ifSeode, 'לידות לפי ציר זמן'],
+      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר מאושפזים גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
+      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות מאושפזים', 'כמות פניות למחלקות '+this._ifSeode, 'כמות לידות'],
+      group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'אשפוזים לפי משמרת', 'פניות לפי מחלקות '+this._ifSeode+' במשמרת', 'כמות וסוגי לידות לפי משמרת'],
+      group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'אשפוזים לפי ציר זמן ומחלקה', 'פניות למחלקות '+this._ifSeode, 'לידות לפי ציר זמן'],
       // line: ['', '', '', '', '', '', ''],
     };
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
@@ -155,6 +168,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         break;
       }
     }
+    this.getCardsVals();
   }
 
   chooseDataType(dept) {
@@ -185,6 +199,21 @@ export class HospitalBIDashboardComponent implements OnInit {
       error(err) { alert('אירעה תקלה'); },
       complete() { }
     });
+  }
+
+  getCardsVals(){
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetStatsValues", {
+        deptCode: this.departParam
+      })
+      .subscribe((Response) => {
+        let data = Response["d"];
+        this.changePercent = parseFloat(data[0].y);
+        this.changePercent = parseFloat(this.changePercent.toFixed(2));
+        if(this.changePercent < 1){
+          this._changeScale = "Down";
+        }
+      });
   }
 
   public ManagedGetServerFunction(func): Observable<any> {

@@ -99,6 +99,8 @@ export class GroupedBarChart2Component implements OnInit {
       url = "LineBarChartForER";
     } else if (this.departParam == "5") {
       url = "LineBarChartHospitalDeparts";
+    } else if (this.departParam == "3") {
+      url = "LineBarChartRentgenDimot";
     }
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {

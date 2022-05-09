@@ -19,6 +19,11 @@ select{
     margin-top: 20px;
 }
 
+.example-card {
+    max-width: 400px;
+    padding: 0;
+  }
+
 h3{
     align-self: center;
     font-weight: bold;
