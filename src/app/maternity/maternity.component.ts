@@ -347,6 +347,7 @@ export class MaternityComponent implements OnInit {
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
+            //.post("http://localhost:64964/WebService.asmx/GetMaternityTable", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMaternityTable", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
@@ -354,7 +355,7 @@ export class MaternityComponent implements OnInit {
                 _activeOrNot: _activeOrNot,
             })
             .subscribe((Response) => {
-                ////////debugger
+                //debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let Poria_Maternity = JSON.parse(json["Maternity"]);

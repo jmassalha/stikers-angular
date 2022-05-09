@@ -32,6 +32,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
 
 export interface MaternityPatients {
   RowID: number;
@@ -72,8 +73,9 @@ export class MaternitypatientsComponent implements OnInit {
         "PatientLastName",
         "PatientPregnancyDOB",
         "PatientPregnancyWeekAtInsert",
-        "PatientStatus",
+       // "PatientStatus",
         "Click",
+        "Delete",
     ];
 
     modalOptions: NgbModalOptions = {
@@ -100,6 +102,8 @@ export class MaternitypatientsComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalServicematernitypatients: NgbModal,
+        
+        private confirmationDialogService: ConfirmationDialogService,
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal
     ) {
@@ -134,6 +138,48 @@ export class MaternitypatientsComponent implements OnInit {
             verticalPosition: this.verticalPosition,
         });
     }
+    deletePatient(_element){
+        this.patientForm = this.formBuilder.group({
+            PatientNumber: [
+                _element.PatientNumber,
+                [Validators.nullValidator, Validators.pattern("[0-9].{2,}")],
+            ],
+            PatientId: [
+                _element.PatientId,
+                [Validators.nullValidator, Validators.pattern("[0-9].{7,}")],
+            ],
+            PatientFirstName: [_element.PatientFirstName, Validators.nullValidator],
+            PatientLastName: [_element.PatientLastName, Validators.nullValidator],
+            PatientStatus: [-1 + "", Validators.nullValidator],
+            UserIdUpdate: [
+                localStorage.getItem("loginUserName"),
+                Validators.nullValidator,
+            ],
+            PatientPregnancyDOB: [_element.PatientPregnancyDOB, Validators.nullValidator],
+            PatientDOB: [_element.PatientDOB, Validators.nullValidator],
+            RowID: [_element.RowID, Validators.nullValidator],
+            MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
+            PatientNote: [_element.PatientNote, Validators.nullValidator],
+            PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.nullValidator],
+            PatientAddress: [_element.PatientAddress, Validators.nullValidator],
+            PatientMobile: [_element.PatientMobile, Validators.nullValidator],
+            PatientEmail: [_element.PatientEmail, Validators.nullValidator],
+        });
+        this.confirmationDialogService
+            .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+            .then((confirmed) => {
+                console.log("User confirmed:", confirmed);
+                if (confirmed) {
+                    this.onSubmit();
+                } else {
+                }
+            })
+            .catch(() =>
+                console.log(
+                    "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+                )
+            );
+    }
     onSubmit() {
         this.submitted = true;
         //////debugger
@@ -159,6 +205,7 @@ export class MaternitypatientsComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
+               // "http://localhost:64964/WebService.asmx/InsertOrUpdateMaternityPatients",
                 {
                     _patientForm: this.patientForm.value,
                 }
@@ -331,7 +378,7 @@ export class MaternitypatientsComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                ////debugger
+                //debugger
                 var json = JSON.parse(Response["d"]);
                 let patientData = JSON.parse(json["Patients"]);
                 for (var i = 0; i < patientData.length; i++) {
@@ -361,7 +408,7 @@ export class MaternitypatientsComponent implements OnInit {
 
                 // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-                this.resultsLength = parseInt(json["iTotalRecords"]);
+                this.resultsLength = parseInt(json["totalRows"]);
                 setTimeout(function () {
                     //////debugger
                     if (tableLoader) {
