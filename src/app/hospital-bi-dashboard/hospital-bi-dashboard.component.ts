@@ -53,6 +53,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   phoneMode: string = "0";
   _ifSeode = 'סיעודיות';
   changePercent: number = 0;
+  UserName = localStorage.getItem("loginUserName").toLowerCase();
   _changeScale = "Up";
   @ViewChild(PieChartComponent) pie: PieChartComponent;
   @ViewChild(GroupedBarChartComponent) group: GroupedBarChartComponent;

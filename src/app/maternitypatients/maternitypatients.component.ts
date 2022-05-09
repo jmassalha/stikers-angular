@@ -205,7 +205,7 @@ export class MaternitypatientsComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
-               // "http://localhost:64964/WebService.asmx/InsertOrUpdateMaternityPatients",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
                 {
                     _patientForm: this.patientForm.value,
                 }
