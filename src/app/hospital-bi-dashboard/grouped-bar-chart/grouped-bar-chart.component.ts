@@ -120,6 +120,8 @@ export class GroupedBarChartComponent implements OnInit {
       url = "StackedBarChartForHospitalDeparts";
     } else if (this.departParam == "6") {
       url = "StackedBarChartForER";
+    } else if (this.departParam == "3") {
+      url = "StackedBarChartRentgenDimot";
     }
     return new Promise<void>((resolve, reject) => {
       this.http

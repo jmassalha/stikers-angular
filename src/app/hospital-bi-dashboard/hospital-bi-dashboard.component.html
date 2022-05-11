@@ -22,7 +22,8 @@
                 </option>
             </select>
         </div>
-        <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" [formGroup]="surgeryDeptTypeGroup" style="text-align-last: center;">
+        <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" [formGroup]="surgeryDeptTypeGroup"
+            style="text-align-last: center;">
             <!-- <mat-radio-group formControlName="surgeryDeptType" aria-label="Select an option"
                 (change)="changeSurgeryType()">
                 <mat-radio-button value="0">הכל</mat-radio-button>
@@ -30,14 +31,38 @@
                 <mat-radio-button value="2">חדרי ניתוח</mat-radio-button>
             </mat-radio-group> -->
         </div>
-        <div *ngIf="departParam == '5' || departParam == '6'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
-            [formGroup]="hospitalDepartTypeGroup">
+        <div *ngIf="departParam == '5' || departParam == '6'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+            style="text-align-last: center;" [formGroup]="hospitalDepartTypeGroup">
             <mat-radio-group formControlName="hospitalDepartType" aria-label="Select an option"
                 (change)="changeSurgeryType()">
                 <mat-radio-button value="0">סיעודי</mat-radio-button>
                 <mat-radio-button value="1">רפואי</mat-radio-button>
             </mat-radio-group>
         </div>
+    </div>
+    <div class="row" *ngIf="(departParam == '1' || departParam == '7') && UserName == 'adahabre'">
+        <mat-card class="example-card text-center">
+            <mat-card-title-group style="justify-content: center;">
+                <div class="text-center">
+                    <mat-card-title style="font-weight: bold;">{{choosenDept.DIMDataTypeDesc}}</mat-card-title>
+                    <mat-card-subtitle>השוואה בכמות ניתוחים באותה תקופה לפני שנה</mat-card-subtitle>
+                </div>
+            </mat-card-title-group>
+            <mat-card-content *ngIf="_changeScale == 'Up'" class="text-center"
+                style="font-size: 25px;font-weight: bold;color: green;">
+                <span class="material-icons" style="color: green;">
+                    trending_up
+                </span>
+                {{changePercent}}
+            </mat-card-content>
+            <mat-card-content *ngIf="_changeScale == 'Down'" class="text-center"
+                style="font-size: 25px;font-weight: bold;color: red;">
+                <span class="material-icons" style="color: red;">
+                    trending_down
+                </span>
+                {{changePercent}}
+            </mat-card-content>
+        </mat-card>
     </div>
     <div class="row" [formGroup]="graphsCtrl">
         <div class="row section" dir="rtl">
