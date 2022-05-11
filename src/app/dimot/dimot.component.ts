@@ -55,9 +55,9 @@ export class DimotComponent implements OnInit, AfterViewInit {
         "D_DOC_DOING_TIME",
         "D_REQUEST_DEPARTMENT",
         "D_DOING_DEPARTMENT",
-        "D_TECH_NAME",
-        "D_DOC_NAME",
-        "D_NEED_TO_CHECK",
+       // "D_TECH_NAME",
+     //   "D_DOC_NAME",
+      //  "D_NEED_TO_CHECK",
         "D_TIME_UNTIL_DONIG_IN_DAYS"
     ];
     modalOptions: NgbModalOptions;
@@ -205,7 +205,8 @@ export class DimotComponent implements OnInit, AfterViewInit {
         }
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp",
+               "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp",
+             //   "http://localhost:64964/WebService.asmx/GetDimotTableApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,
@@ -284,8 +285,8 @@ export class DimotComponent implements OnInit, AfterViewInit {
         );
         ////////debugger
         this.http
+            //.post("http://localhost:64964/WebService.asmx/GetDimotApp", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
-            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
