@@ -2,7 +2,8 @@
     <h1 class="page-title text-center">{{choosenDept.DIMDataTypeDesc}}</h1>
     <div class="row head-row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
-            <button mat-button [matMenuTriggerFor]="menu" class="depts-list-menu">תחומים</button>
+            <button mat-button [matMenuTriggerFor]="menu"
+                class="depts-list-menu">{{choosenDept.DIMDataTypeDesc}}</button>
             <mat-menu #menu="matMenu">
                 <button *ngFor="let dept of departments" (click)="chooseDataType(dept)" mat-menu-item
                     color="primary">{{dept.DIMDataTypeDesc}}</button>
@@ -40,27 +41,45 @@
             </mat-radio-group>
         </div>
     </div>
-    <div class="row" *ngIf="(departParam == '1' || departParam == '7') && UserName == 'adahabre'">
-        <mat-card class="example-card text-center">
+    <div class="row" *ngIf="UserName == 'adahabre'">
+        <mat-card class="example-card text-center" *ngFor="let card of cardsList">
             <mat-card-title-group style="justify-content: center;">
                 <div class="text-center">
                     <mat-card-title style="font-weight: bold;">{{choosenDept.DIMDataTypeDesc}}</mat-card-title>
-                    <mat-card-subtitle>השוואה בכמות ניתוחים באותה תקופה לפני שנה</mat-card-subtitle>
+                    <mat-card-subtitle>{{card.title}}</mat-card-subtitle>
                 </div>
             </mat-card-title-group>
-            <mat-card-content *ngIf="_changeScale == 'Up'" class="text-center"
+            <mat-card-content *ngIf="card.key == 'Up'" class="text-center"
                 style="font-size: 25px;font-weight: bold;color: green;">
                 <span class="material-icons" style="color: green;">
                     trending_up
                 </span>
-                {{changePercent}}
+                {{card.y}}
             </mat-card-content>
-            <mat-card-content *ngIf="_changeScale == 'Down'" class="text-center"
+            <mat-card-content *ngIf="card.key == 'Down'" class="text-center"
                 style="font-size: 25px;font-weight: bold;color: red;">
                 <span class="material-icons" style="color: red;">
                     trending_down
                 </span>
-                {{changePercent}}
+                {{card.y}}
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="example-card text-center" *ngIf="departParam == '5'">
+            <mat-card-title-group style="justify-content: center;">
+                <div class="text-center">
+                    <mat-card-title style="font-weight: bold;">{{choosenDept.DIMDataTypeDesc}}</mat-card-title>
+                    <mat-card-subtitle>כמות מאושפזים כרגע - {{_ifSeode}}</mat-card-subtitle>
+                </div>
+            </mat-card-title-group>
+            <mat-card-content class="text-center" style="overflow: auto;height: 82px;">
+                <div class="row" *ngFor="let dept of hospitalDepartments">
+                    <div class="col-6">
+                        {{dept.key}}
+                    </div>
+                    <div class="col-6">
+                        {{dept.y}}
+                    </div>
+                </div>
             </mat-card-content>
         </mat-card>
     </div>

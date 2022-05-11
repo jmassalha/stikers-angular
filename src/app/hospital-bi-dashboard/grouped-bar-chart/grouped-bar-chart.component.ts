@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -9,7 +9,7 @@ import { HttpClient } from '@angular/common/http';
 export class GroupedBarChartComponent implements OnInit {
   innerWidth: number;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private eRef: ElementRef) { }
 
   TimeLineParam: string = "1";
   departParam: string = "1";
@@ -18,6 +18,7 @@ export class GroupedBarChartComponent implements OnInit {
   inquiriesStatLine = [];
   responseDeparts = [];
   loader: boolean = false;
+  filterVal = "";
   timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   // title = 'Population (in millions)';
@@ -71,6 +72,32 @@ export class GroupedBarChartComponent implements OnInit {
     this.innerWidth = window.innerWidth;
     this.width = this.innerWidth - 70;
     this.waitData();
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (this.eRef.nativeElement.contains(event.target)) {
+      let clickedType = event["srcElement"]["localName"];
+      let departClicked = "";
+      if(clickedType == "text"){
+        departClicked = event["srcElement"]["innerHTML"];
+      }    
+      if (departClicked == this.filterVal && this.filterVal != "") {
+        this.filterVal = "";
+        this.waitData();
+      }else if (departClicked != "" && this.columnNames.includes(departClicked)) {
+        this.filterVal = departClicked;
+        this.filterChart();
+      }
+    }
+  }
+
+  filterChart(){
+    let index = this.columnNames.indexOf(this.filterVal);
+    this.columnNames = [this.columnNames[0],this.columnNames[index]];
+    for(let i = 0; i < this.data.length; i++){
+      this.data[i] = [this.data[i][0],this.data[i][index]];
+    }
   }
 
   async waitData() {

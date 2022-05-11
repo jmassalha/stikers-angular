@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -11,11 +11,12 @@ export class GroupedBarChart2Component implements OnInit {
   innerWidth: number;
   innerHeight: number;
 
-  constructor(private http: HttpClient) { }
+  constructor(private http: HttpClient, private eRef: ElementRef) { }
 
   TimeLineParam: string = "1";
   departParam: string = "1";
   _surgerydeptType: string = "0";
+  filterVal = "";
   timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   // title = 'Population (in millions)';
@@ -65,32 +66,36 @@ export class GroupedBarChart2Component implements OnInit {
         isStacked: false
       };
     }
-    // if (this.departParam != "6") {
-    //   this.options = {
-    //     hAxis: {
-    //       title: 'זמן'
-    //     },
-    //     vAxis: {
-    //       minValue: 0
-    //     },
-    //     isStacked: false
-    //   };
-    // } else {
-    //   if (this.TimeLineParam != "1")
-    //     this.options = {
-    //       hAxis: {
-    //         title: 'זמן'
-    //       },
-    //       vAxis: {
-    //         minValue: 0
-    //       },
-    //       isStacked: true
-    //     };
-    // }
     this.innerWidth = window.innerWidth;
     this.height = window.innerWidth / 3.2;
     this.width = this.innerWidth - 70;
     this.discreteBarChart();
+  }
+
+  @HostListener('document:click', ['$event'])
+  clickout(event) {
+    if (this.eRef.nativeElement.contains(event.target)) {
+      let clickedType = event["srcElement"]["localName"];
+      let departClicked = "";
+      if(clickedType == "text"){
+        departClicked = event["srcElement"]["innerHTML"];
+      }    
+      if (departClicked == this.filterVal && this.filterVal != "") {
+        this.filterVal = "";
+        this.discreteBarChart();
+      }else if (departClicked != "" && this.columnNames.includes(departClicked)) {
+        this.filterVal = departClicked;
+        this.filterChart();
+      }
+    }
+  }
+
+  filterChart(){
+    let index = this.columnNames.indexOf(this.filterVal);
+    this.columnNames = [this.columnNames[0],this.columnNames[index]];
+    for(let i = 0; i < this.data.length; i++){
+      this.data[i] = [this.data[i][0],this.data[i][index]];
+    }
   }
 
   public discreteBarChart() {
@@ -106,7 +111,8 @@ export class GroupedBarChart2Component implements OnInit {
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
         param: this.TimeLineParam,
         deptCode: this.departParam,
-        surgerydeptType: this._surgerydeptType
+        surgerydeptType: this._surgerydeptType,
+        filter: this.filterVal
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];

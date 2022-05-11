@@ -22,6 +22,8 @@ select{
 .example-card {
     max-width: 400px;
     padding: 0;
+    margin: auto;
+    height: 170px;
   }
 
 h3{
