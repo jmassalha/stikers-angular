@@ -38,9 +38,11 @@ export class HospitalBIDashboardComponent implements OnInit {
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" }
   ];
-  
+
   choosenDept = this.departments[0];
   timeLine: Time[] = [];
+  cardsList = [];
+  hospitalDepartments = [];
   public TimeLineParam: string = "1";
   public departParam: string = "1";
   barTime: string = "שבוע";
@@ -66,7 +68,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   surgeryDeptTypeGroup: FormGroup;
   hospitalDepartTypeGroup: FormGroup;
   surgeryChooseTypeGroup: FormGroup;
-  
+
 
   ngOnInit(): void {
     this.surgeryDeptTypeGroup = this.fb.group({
@@ -88,7 +90,7 @@ export class HospitalBIDashboardComponent implements OnInit {
 
     this.innerWidth = window.innerWidth;
     this.width = (this.innerWidth - 100);
-    if (this.width <= 740) {
+    if (this.width <= 1180) {
       this.phoneMode = "1";
     }
     this.getTimeType(this.TimeLineParam);
@@ -99,14 +101,12 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   changeTime(event, type) {
-    let cardsTitles: Cards[] = [
 
-    ];
     let titles = {
-      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר מאושפזים גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
-      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות מאושפזים', 'כמות פניות למחלקות '+this._ifSeode, 'כמות לידות'],
-      group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'אשפוזים לפי משמרת', 'פניות לפי מחלקות '+this._ifSeode+' במשמרת', 'כמות וסוגי לידות לפי משמרת'],
-      group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'אשפוזים לפי ציר זמן ומחלקה', 'פניות למחלקות '+this._ifSeode, 'לידות לפי ציר זמן'],
+      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
+      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות'],
+      group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת'],
+      group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן'],
       // line: ['', '', '', '', '', '', ''],
     };
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
@@ -170,6 +170,9 @@ export class HospitalBIDashboardComponent implements OnInit {
       }
     }
     this.getCardsVals();
+    if (this.departParam == "5") {
+      this.getHospitalDepartmentsTableChartList();
+    }
   }
 
   chooseDataType(dept) {
@@ -184,9 +187,9 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   changeSurgeryType() {
-    if(this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value == "0"){
+    if (this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value == "0") {
       this._ifSeode = 'סיעודיות';
-    }else{
+    } else {
       this._ifSeode = 'רפואיות';
     }
     this.changeTime('1', 'all');
@@ -202,18 +205,23 @@ export class HospitalBIDashboardComponent implements OnInit {
     });
   }
 
-  getCardsVals(){
+  getCardsVals() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetStatsValues", {
         deptCode: this.departParam
       })
       .subscribe((Response) => {
-        let data = Response["d"];
-        this.changePercent = parseFloat(data[0].y);
-        this.changePercent = parseFloat(this.changePercent.toFixed(2));
-        if(this.changePercent < 1){
-          this._changeScale = "Down";
-        }
+        this.cardsList = Response["d"];
+      });
+  }
+
+  getHospitalDepartmentsTableChartList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetHospitalDepartmentsTableChartList", {
+        surgerydeptType: this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value
+      })
+      .subscribe((Response) => {
+        this.hospitalDepartments = Response["d"];
       });
   }
 
