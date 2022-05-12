@@ -522,6 +522,24 @@ export class MershamComponent implements OnInit {
                             ).toFixed(1)
                         );
                         break;
+                     
+                    case "5":
+                        this.rows.controls[i]["controls"].MenonCalcVal.setValue(
+                            (
+                                parseFloat(this.PrespictionForm.value.areaVal) *
+                                parseFloat(this.rows.value[i].MenonValVal)
+                            ).toFixed(1)
+                        );
+                        break;   
+                    case "6":
+                        this.rows.controls[i]["controls"].MenonCalcVal.setValue(
+                            (
+                                parseFloat(
+                                    this.PrespictionForm.value.weightVal
+                                ) * parseFloat(this.rows.value[i].MenonValVal)
+                            ).toFixed(1)
+                        );
+                        break;
                     case "3":
                         this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
