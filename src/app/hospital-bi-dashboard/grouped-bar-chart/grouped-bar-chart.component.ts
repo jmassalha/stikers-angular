@@ -19,6 +19,7 @@ export class GroupedBarChartComponent implements OnInit {
   responseDeparts = [];
   loader: boolean = false;
   filterVal = "";
+  _returnedPatients: boolean = false;
   timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   // title = 'Population (in millions)';
@@ -38,11 +39,12 @@ export class GroupedBarChartComponent implements OnInit {
   height = 800;
 
 
-  refresh(elem, dept, _surgeryDeptType, _surgeryChooseType) {
+  refresh(elem, dept, _surgeryDeptType, _surgeryChooseType, _returnedPatients) {
     this.TimeLineParam = elem;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
     this._surgeryChooseType = _surgeryChooseType;
+    this._returnedPatients = _returnedPatients;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
@@ -156,7 +158,8 @@ export class GroupedBarChartComponent implements OnInit {
           param: this.TimeLineParam,
           deptCode: this.departParam,
           deptType: this._surgerydeptType,
-          chooseType: this._surgeryChooseType
+          chooseType: this._surgeryChooseType,
+          returnedPatients: this._returnedPatients
         }).subscribe(
           res => {
             this.inquiriesStatLine = res["d"][0];

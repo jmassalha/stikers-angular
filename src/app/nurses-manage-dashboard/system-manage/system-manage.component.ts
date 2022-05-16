@@ -102,6 +102,7 @@ export class SystemManageComponent implements OnInit {
 
   updateBedsGroup: FormGroup;
   updateNurseDept: FormGroup;
+  hospitalDepartTypeGroup: FormGroup;
   // departmentfilter = new FormControl();
   nurseName = new FormControl();
   nurseDept = new FormControl();
@@ -109,6 +110,7 @@ export class SystemManageComponent implements OnInit {
   // filteredOptions2: Observable<string[]>;
   filteredOptions: Observable<string[]>;
   // department = [];
+  departTypeVar;
   depts = [];
   employees = [];
 
@@ -122,6 +124,10 @@ export class SystemManageComponent implements OnInit {
       DepartnentCode: ['', null],
       DepartnentDescripton: ['', null],
     });
+    this.hospitalDepartTypeGroup = this.formBuilder.group({
+      hospitalDepartType: new FormControl("1",null)
+    });
+    this.departTypeVar = this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value;
     this.getDepartmentsToUpdateBeds();
     this.getEmployeesToUpdateDept();
     this.getDepartsForEmployees();
@@ -173,10 +179,16 @@ export class SystemManageComponent implements OnInit {
     return this.depts.filter(option => option.DepartnentDescripton.includes(filterValue3));
   }
 
+  changeDepartType(){
+    this.departTypeVar = this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value;
+    this.getDepartmentsToUpdateBeds();
+  }
+
 
   getDepartmentsToUpdateBeds() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDepartmentsToUpdateBeds", {
+        _departType: this.departTypeVar
       })
       .subscribe((Response) => {
         let all_departs_filter = Response["d"];
@@ -242,12 +254,13 @@ export class SystemManageComponent implements OnInit {
         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitUpdateBeds", {
           _row_ID: row.Row_ID,
           _numberOfBeds: row.number_of_beds,
-          _ifDelete: ifDelete
+          _ifDelete: ifDelete,
+          _departType: this.departTypeVar
         })
         .subscribe((Response) => {
           if (Response["d"]) {
             this.openSnackBar("שינוי התבצע בהצלחה");
-            this.ngOnInit();
+            this.getDepartmentsToUpdateBeds();
           }
           else {
             this.openSnackBar("משהו השתבש לא התבצע");

@@ -58,24 +58,30 @@
         </div>
     </form>
 </div>
-<table id="excel-table" dir="rtl" style="display: none;"> 
-    <tr>       
-       <th>תעודת זהות</th> 
-       <th>שם העובד</th> 
-       <th>קוד מחלקה</th>  
-       <th> שם מחלקה</th> 
-    </tr>    
-    <tr *ngFor="let emp of employees"> 
-       <td> {{emp.EmployeeID}} </td>  
-       <td> {{emp.FirstName}} {{emp.LastName}} </td> 
-       <td> {{emp.DepartnentCode}} </td> 
-       <td> {{emp.DepartnentDescripton}} </td> 
-    </tr> 
+<table id="excel-table" dir="rtl" style="display: none;">
+    <tr>
+        <th>תעודת זהות</th>
+        <th>שם העובד</th>
+        <th>קוד מחלקה</th>
+        <th> שם מחלקה</th>
+    </tr>
+    <tr *ngFor="let emp of employees">
+        <td> {{emp.EmployeeID}} </td>
+        <td> {{emp.FirstName}} {{emp.LastName}} </td>
+        <td> {{emp.DepartnentCode}} </td>
+        <td> {{emp.DepartnentDescripton}} </td>
+    </tr>
 </table>
 <hr>
 <div dir="rtl">
-    <div dir="rtl" class="container text-center">
-
+    <div dir="rtl" class="container text-center" style="padding-bottom: 100px;">
+        <div class="row" [formGroup]="hospitalDepartTypeGroup">
+            <mat-radio-group aria-label="Select an option" formControlName="hospitalDepartType"
+                (change)="changeDepartType()">
+                <mat-radio-button value="1" style="margin-left: 16px;">סיעודי</mat-radio-button>
+                <mat-radio-button value="2">רפואי</mat-radio-button>
+            </mat-radio-group>
+        </div>
         <!-- <button mat-button (click)="openDialog('הוסף',{})" mat-flat-button color="primary">הוסף</button> -->
 
         <table mat-table [dataSource]="dataSource" #mytable class="my-table mat-elevation-z8">

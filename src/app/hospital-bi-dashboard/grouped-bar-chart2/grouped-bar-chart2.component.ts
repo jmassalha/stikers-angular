@@ -17,6 +17,7 @@ export class GroupedBarChart2Component implements OnInit {
   departParam: string = "1";
   _surgerydeptType: string = "0";
   filterVal = "";
+  _returnedPatients: boolean = false;
   timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   // title = 'Population (in millions)';
@@ -36,10 +37,11 @@ export class GroupedBarChart2Component implements OnInit {
   height: number;
 
 
-  refresh(elem, dept, _surgeryDeptType) {
+  refresh(elem, dept, _surgeryDeptType, _returnedPatients) {
     this.TimeLineParam = elem;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
+    this._returnedPatients = _returnedPatients;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
@@ -77,24 +79,24 @@ export class GroupedBarChart2Component implements OnInit {
     if (this.eRef.nativeElement.contains(event.target)) {
       let clickedType = event["srcElement"]["localName"];
       let departClicked = "";
-      if(clickedType == "text"){
+      if (clickedType == "text") {
         departClicked = event["srcElement"]["innerHTML"];
-      }    
+      }
       if (departClicked == this.filterVal && this.filterVal != "") {
         this.filterVal = "";
         this.discreteBarChart();
-      }else if (departClicked != "" && this.columnNames.includes(departClicked)) {
+      } else if (departClicked != "" && this.columnNames.includes(departClicked)) {
         this.filterVal = departClicked;
         this.filterChart();
       }
     }
   }
 
-  filterChart(){
+  filterChart() {
     let index = this.columnNames.indexOf(this.filterVal);
-    this.columnNames = [this.columnNames[0],this.columnNames[index]];
-    for(let i = 0; i < this.data.length; i++){
-      this.data[i] = [this.data[i][0],this.data[i][index]];
+    this.columnNames = [this.columnNames[0], this.columnNames[index]];
+    for (let i = 0; i < this.data.length; i++) {
+      this.data[i] = [this.data[i][0], this.data[i][index]];
     }
   }
 
@@ -112,7 +114,8 @@ export class GroupedBarChart2Component implements OnInit {
         param: this.TimeLineParam,
         deptCode: this.departParam,
         surgerydeptType: this._surgerydeptType,
-        filter: this.filterVal
+        filter: this.filterVal,
+        returnedPatients: this._returnedPatients
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];
