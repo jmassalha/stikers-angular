@@ -236,10 +236,11 @@ export class DrugsComponent implements OnInit {
                 this.groups_submit
             );
         }
+        /*, Validators.pattern("[A-Za-z0-9 .()]*")*/
         this.drugForm = this.formBuilder.group({
             MedName: [
                 _element.MedName,
-                [Validators.required, Validators.pattern("[A-Za-z0-9 .()]*")],
+                [Validators.required],
             ],
             MedGroup: [resultDeparts["name"], false],
             MedGroupID: [_element.MedGroupID, Validators.required],
