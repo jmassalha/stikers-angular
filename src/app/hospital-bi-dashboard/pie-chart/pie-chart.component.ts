@@ -12,9 +12,10 @@ export class PieChartComponent implements OnInit {
   innerWidth: number;
 
   loader: boolean = true;
-  TimeLineParam: string = "1";
+  TimeLineParam;
   departParam: string = "1";
   _surgerydeptType: string = "0";
+  _returnedPatients: boolean = false;
   timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   constructor(private http: HttpClient) { }
@@ -32,10 +33,11 @@ export class PieChartComponent implements OnInit {
   width: number;
   height = 600;
 
-  refresh(elem,dept,_surgeryDeptType) {
+  refresh(elem, dept, _surgeryDeptType, _returnedPatients) {
     this.TimeLineParam = elem;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
+    this._returnedPatients = _returnedPatients;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
@@ -52,31 +54,35 @@ export class PieChartComponent implements OnInit {
   public pieChart() {
     this.loader = true;
     let url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
-    if(this.departParam == "6"){
+    if (this.departParam == "6") {
       url += "PieChartER";
-    }else if(this.departParam == "7"){
+    } else if (this.departParam == "7") {
       url += "PieChartDelivery";
-    }else if(this.departParam == "5"){
+    } else if (this.departParam == "5") {
       url += "PieChartDepartments";
-    }else if(this.departParam == "3"){
+    } else if (this.departParam == "3") {
       url += "PieChartRentgenDimot";
-    }else{
+    } else {
       url += "PieChart";
     }
-    this.http
-      .post(url, {
-        param: this.TimeLineParam,
-        deptCode: this.departParam,
-        surgerydeptType: this._surgerydeptType
-      })
-      .subscribe((Response) => {
-        let inquiriesStatLine = Response["d"];
-        this.data = [];
-        for (let i = 0; i < inquiriesStatLine.length; i++) {
-          this.data.push([inquiriesStatLine[i].key, parseInt(inquiriesStatLine[i].y)]);
-        }
-        this.loader = false;
-      });
+    if (this.TimeLineParam != undefined) {
+      this.http
+        .post(url, {
+          param: this.TimeLineParam,
+          deptCode: this.departParam,
+          surgerydeptType: this._surgerydeptType,
+          returnedPatients: this._returnedPatients
+        })
+        .subscribe((Response) => {
+          let inquiriesStatLine = Response["d"];
+          this.data = [];
+          for (let i = 0; i < inquiriesStatLine.length; i++) {
+            this.data.push([inquiriesStatLine[i].key, parseInt(inquiriesStatLine[i].y)]);
+          }
+          this.loader = false;
+        });
+    }
+
   }
 
 }

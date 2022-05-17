@@ -11,9 +11,10 @@ export class BarChartComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
-  TimeLineParam: string = "1";
+  TimeLineParam;
   departParam: string = "1";
   _surgerydeptType: string = "0";
+  _returnedPatients: boolean = false;
   timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
 
   type = 'ColumnChart';
@@ -27,10 +28,11 @@ export class BarChartComponent implements OnInit {
   height = 600;
 
 
-  refresh(elem,dept,_surgeryDeptType) {
+  refresh(elem, dept, _surgeryDeptType, _returnedPatients) {
     this.TimeLineParam = elem;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
+    this._returnedPatients = _returnedPatients;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
@@ -47,24 +49,28 @@ export class BarChartComponent implements OnInit {
 
   public discreteBarChart() {
     let url = "DiscreteBarChart";
-    if(this.departParam == "6"){
+    if (this.departParam == "6") {
       url = "DiscreteBarChartForER";
-    }else if(this.departParam == "5"){
+    } else if (this.departParam == "5") {
       url = "DiscreteBarChartHospitalDeparts";
     }
-    this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/"+url, {
-        param: this.TimeLineParam,
-        deptCode: this.departParam,
-        surgerydeptType: this._surgerydeptType
-      })
-      .subscribe((Response) => {
-        let inquiriesStatLine = Response["d"];
-        this.data = [];
-        for (let i = 0; i < inquiriesStatLine.length; i++) {
-          this.data.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);;
-        }
-      });
+    if (this.TimeLineParam != undefined) {
+      this.http
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
+          param: this.TimeLineParam,
+          deptCode: this.departParam,
+          surgerydeptType: this._surgerydeptType,
+          returnedPatients: this._returnedPatients
+        })
+        .subscribe((Response) => {
+          let inquiriesStatLine = Response["d"];
+          this.data = [];
+          for (let i = 0; i < inquiriesStatLine.length; i++) {
+            this.data.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);;
+          }
+        });
+    }
+
   }
 
 }
