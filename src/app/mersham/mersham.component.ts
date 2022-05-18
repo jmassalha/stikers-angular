@@ -532,6 +532,7 @@ export class MershamComponent implements OnInit {
                         );
                         break;   
                     case "6":
+                    case "7":
                         this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
                                 parseFloat(
