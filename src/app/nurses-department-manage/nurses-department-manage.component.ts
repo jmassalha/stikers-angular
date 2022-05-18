@@ -89,17 +89,24 @@ export class NursesDepartmentManageComponent implements OnInit {
 
   displayedColumns2: string[] = ['casenumber', 'departmentmedical', 'roomnumber', 'lastname', 'firstname', 'dadname', 'age', 'gender', 'enterdate', 'entertime', 'displayreports'];
   dataSource2 = new MatTableDataSource<any>();
+  dataSourceFullSpare = new MatTableDataSource<any>();
   @ViewChild('modalBug', { static: true }) modalBug: TemplateRef<any>;
 
   applyFilter(event: Event, filval: string) {
     if (filval == '') {
+      this.dataSource2 = this.dataSourceFullSpare;
       const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource2.filter = filterValue;
     } else {
-      this.dataSource2.filter = filval;
+      if(filval == "מונשם"){
+        let newArr = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes(filval));
+        this.dataSource2 = new MatTableDataSource<any>(newArr);
+      }else{
+        this.dataSource2 = this.dataSourceFullSpare;
+        this.dataSource2.filter = filval;
+      }
     }
   }
-
   constructor(public dialog: MatDialog,
     private router: Router,
     @Inject(MAT_DIALOG_DATA) public data: string,
@@ -284,6 +291,7 @@ export class NursesDepartmentManageComponent implements OnInit {
       })
       .subscribe((Response) => {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);
+        this.dataSourceFullSpare = new MatTableDataSource<any>(Response["d"]);
         let uniqueMedDeparts = [];
         this.arrayOfMedDepts = [];
         uniqueMedDeparts = this.dataSource2.filteredData.map(item => item.PM_MOVE_DEPART)
