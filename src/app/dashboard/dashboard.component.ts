@@ -7,6 +7,13 @@ import {
     ModalDismissReasons,
     NgbModalOptions,
 } from "@ng-bootstrap/ng-bootstrap";
+export interface DepartRefoee {
+    DepartName: string;
+    DepartBedsNumber: number;
+    DepartBedsInUsed: number;
+    DepartBedsInUsedPer: number;
+    Moshamem: number;
+}
 @Component({
     selector: "app-dashboard",
     templateUrl: "./dashboard.component.html",
@@ -26,7 +33,7 @@ export class DashboardComponent implements OnInit {
             return "";
         },
     };
-    aobjTotal: number;
+    aobjTotal: string;
     resporatoryCount: number;
     name: string;
     birthdayUser: boolean = false;
@@ -38,6 +45,7 @@ export class DashboardComponent implements OnInit {
         total: 0,
         resp: 0
     };
+    arrDepartsRefoee: DepartRefoee[]  = [];
     _dotsLoader =
         '<div class="spinner">' +
         '<div class="bounce1"></div>' +
@@ -83,46 +91,59 @@ export class DashboardComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardApp",
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardApp",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardAppRefoee",
+                //"http://localhost:64964/WebService.asmx/TfosaDashBoardAppRefoee",
                 {
                     _depart: _Depart,
                 }
             )
             .subscribe(
-                (Response) => {
-                    var obj = JSON.parse(Response["d"]);
-                    var aobjTotal = JSON.parse(obj["total"]);
-                    var aobj = JSON.parse(obj["DepartObjects"]);
-                    var totalReal = JSON.parse(obj["totalReal"]);
-                    this.resporatoryCount = JSON.parse(obj["totalReal2"]);
-                    var aaobj = JSON.parse("[" + aobj[0] + "]");
-                    aobjTotal = JSON.parse(aobjTotal);
-                    this.aobjTotal = aobjTotal["total"];
-                    aaobj.forEach((element, index) => {
-                        if (element.BedsReal != "0") {
-                            for (var i = index + 1; i < aaobj.length; i++) {
-                                if (aaobj[i].BedsReal == "0" && aaobj[i].Name != 'ילוד בריא') {
-                                    element.Used =
-                                        parseInt(element.Used) +
-                                        parseInt(aaobj[i].Used);
-                                } else {
-                                    break;
-                                }
-                            }
-                        } else {
-                        }
-                    });
+                (Response: DepartRefoee[]) => {
+                    this.arrDepartsRefoee = Response["d"];
+                    var totalBeds = 0;
+                    var totalInUsed = 0;
+                    var totalMonshame = 0;
+                    for(var i = 0; i < this.arrDepartsRefoee.length; i++){
+                        totalBeds += parseInt(this.arrDepartsRefoee[i].DepartBedsNumber + "");
+                        totalInUsed += parseInt(this.arrDepartsRefoee[i].DepartBedsInUsed + "");
+                        totalMonshame = parseInt(this.arrDepartsRefoee[i].Moshamem + "");
+                    }
+                    this.resporatoryCount = totalMonshame;
+                    this.aobjTotal = totalBeds  + " / " +  totalInUsed ;
+                   // debugger
+                    // var obj = JSON.parse(Response["d"]);
+                    // var aobjTotal = JSON.parse(obj["total"]);
+                    // var aobj = JSON.parse(obj["DepartObjects"]);
+                    // var totalReal = JSON.parse(obj["totalReal"]);
+                    // this.resporatoryCount = JSON.parse(obj["totalReal2"]);
+                    // var aaobj = JSON.parse("[" + aobj[0] + "]");
+                    // aobjTotal = JSON.parse(aobjTotal);
+                    // this.aobjTotal = aobjTotal["total"];
+                    // aaobj.forEach((element, index) => {
+                    //     if (element.BedsReal != "0") {
+                    //         for (var i = index + 1; i < aaobj.length; i++) {
+                    //             if (aaobj[i].BedsReal == "0" && aaobj[i].Name != 'ילוד בריא') {
+                    //                 element.Used =
+                    //                     parseInt(element.Used) +
+                    //                     parseInt(aaobj[i].Used);
+                    //             } else {
+                    //                 break;
+                    //             }
+                    //         }
+                    //     } else {
+                    //     }
+                    // });
 
-                    this.Departmints["departs"] = aaobj;
-                    //debugger
+                    // this.Departmints["departs"] = aaobj;
+                    // //debugger
                     this.Departmints["total"] = parseInt(
-                        ((aobjTotal.total / parseInt(totalReal)) * 100).toFixed(
+                        ((
+                            totalInUsed / totalBeds) * 100).toFixed(
                             0
                         )
                     );
                     this.Departmints["resp"] = parseInt(
-                        ((this.resporatoryCount / aobjTotal.total) * 100).toFixed(
+                        ((totalMonshame /totalBeds) * 100).toFixed(
                             0
                         )
                     );
