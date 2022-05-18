@@ -307,6 +307,10 @@ export class NursesManageDashboardComponent implements OnInit {
   openTelBook() {
     window.open("http://srv-apps-prod/PB/DEfault.aspx", "_blank");
   }
+  
+  openBluZone() {
+    window.open("https://biot.co.il/session/lockscreen", "_blank");
+  }
 
   // NursesSystemPermission() {
   //   let userName = localStorage.getItem("loginUserName").toLowerCase();

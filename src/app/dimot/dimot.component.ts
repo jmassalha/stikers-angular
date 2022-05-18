@@ -206,7 +206,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         this.http
             .post(
                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp",
-             //   "http://localhost:64964/WebService.asmx/GetDimotTableApp",
+             //   "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,
@@ -285,7 +285,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         );
         ////////debugger
         this.http
-            //.post("http://localhost:64964/WebService.asmx/GetDimotApp", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,

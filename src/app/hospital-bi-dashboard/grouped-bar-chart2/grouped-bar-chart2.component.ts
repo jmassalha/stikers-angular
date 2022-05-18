@@ -95,8 +95,9 @@ export class GroupedBarChart2Component implements OnInit {
   filterChart() {
     let index = this.columnNames.indexOf(this.filterVal);
     this.columnNames = [this.columnNames[0], this.columnNames[index]];
+    this.columnNames.push({ role: 'annotation' });
     for (let i = 0; i < this.data.length; i++) {
-      this.data[i] = [this.data[i][0], this.data[i][index]];
+      this.data[i] = [this.data[i][0], this.data[i][index],this.data[i][index]];
     }
   }
 

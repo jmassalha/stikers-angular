@@ -28,7 +28,7 @@ export class GroupedBarChartComponent implements OnInit {
   columnNames = [];
   options = {
     hAxis: {
-      title: 'זמן'
+      title: 'כמות'
     },
     vAxis: {
       minValue: 0
@@ -53,7 +53,7 @@ export class GroupedBarChartComponent implements OnInit {
     if (this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5")) {
       this.options = {
         hAxis: {
-          title: 'זמן'
+          title: 'כמות'
         },
         vAxis: {
           minValue: 0
@@ -63,7 +63,7 @@ export class GroupedBarChartComponent implements OnInit {
     } else {
       this.options = {
         hAxis: {
-          title: 'זמן'
+          title: 'כמות'
         },
         vAxis: {
           minValue: 0
@@ -97,8 +97,9 @@ export class GroupedBarChartComponent implements OnInit {
   filterChart(){
     let index = this.columnNames.indexOf(this.filterVal);
     this.columnNames = [this.columnNames[0],this.columnNames[index]];
+    this.columnNames.push({ role: 'annotation' });
     for(let i = 0; i < this.data.length; i++){
-      this.data[i] = [this.data[i][0],this.data[i][index]];
+      this.data[i] = [this.data[i][0],this.data[i][index],this.data[i][index]];
     }
   }
 
