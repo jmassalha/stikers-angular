@@ -53,6 +53,8 @@ export class BarChartComponent implements OnInit {
       url = "DiscreteBarChartForER";
     } else if (this.departParam == "5") {
       url = "DiscreteBarChartHospitalDeparts";
+    } else if (this.departParam == "3") {
+      url = "DiscreteBarChartRentgenDimot";
     }
     if (this.TimeLineParam != undefined) {
       this.http
