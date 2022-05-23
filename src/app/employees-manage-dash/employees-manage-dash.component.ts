@@ -64,9 +64,9 @@ export class EmployeesManageDashComponent implements OnInit {
         this.managerType = "unknown";
       } else if (this.UserName == "ashoshany") {
         this.managerType = "research";
-      } else if (this.UserName == "jmassalha") {
+      } else if (this.UserName == "olari") {
         this.managerType = "hr";
-      } else if (this.UserName == "adahabre" || this.UserName == "owertheim") {
+      } else if (this.UserName == "adahabre" || this.UserName == "owertheim" || this.UserName == "ikalay" || this.UserName == "jmassalha") {
         this.managerType = "admin";
       }
       if (this.managerType != "unknown") {
