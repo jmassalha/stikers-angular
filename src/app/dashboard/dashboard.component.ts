@@ -92,7 +92,7 @@ export class DashboardComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardAppRefoee",
-                //"http://localhost:64964/WebService.asmx/TfosaDashBoardAppRefoee",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardAppRefoee",
                 {
                     _depart: _Depart,
                 }
