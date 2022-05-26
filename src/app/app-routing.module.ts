@@ -72,6 +72,8 @@ import { OrdersToAppointmentsComponent } from './orders-to-appointments/orders-t
 import { NursesReinforcementComponent } from './nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
 // import { OnnLineComponent } from './onn-line/onn-line.component';
 import { HospitalBIDashboardComponent } from "./hospital-bi-dashboard/hospital-bi-dashboard.component";
+import { InfectionDrugsComponent } from "./infection-drugs/infection-drugs.component";
+import { InfectionReportComponent } from "./infection-report/infection-report.component";
 const routes: Routes = [
     
     { path: "dashboard", component: DashboardComponent },
@@ -147,6 +149,8 @@ const routes: Routes = [
     { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
     { path: "reinforcement", component: NursesReinforcementComponent },
     { path: "BIDashboard", component: HospitalBIDashboardComponent },
+    { path: "InfectionDrugs", component: InfectionDrugsComponent },
+    { path: "InfectionReport", component: InfectionReportComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

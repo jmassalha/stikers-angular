@@ -148,6 +148,9 @@ import { LineChartComponent } from './hospital-bi-dashboard/line-chart/line-char
 import { PieChartComponent } from './hospital-bi-dashboard/pie-chart/pie-chart.component';
 import {MatButtonToggleModule} from '@angular/material/button-toggle';
 import { GroupedBarChart2Component } from './hospital-bi-dashboard/grouped-bar-chart2/grouped-bar-chart2.component';
+import { InfectionDrugsComponent } from './infection-drugs/infection-drugs.component';
+import { AngularDualListBoxModule } from 'angular-dual-listbox';
+import { InfectionReportComponent } from './infection-report/infection-report.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -256,9 +259,12 @@ const maskConfig: Partial<IConfig> = {
     GroupedBarChartComponent,
     LineChartComponent,
     PieChartComponent,
-    GroupedBarChart2Component
+    GroupedBarChart2Component,
+    InfectionDrugsComponent,
+    InfectionReportComponent
   ],
   imports: [
+    AngularDualListBoxModule ,
     BrowserModule,
     MatButtonToggleModule,
     BrowserAnimationsModule,

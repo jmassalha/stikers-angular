@@ -4,6 +4,37 @@
 /* ::-webkit-scrollbar {
     width: 5px;
 } */
+.point-right:after {
+    content: "\25C0" !important;
+    padding-right: 1em !important;
+}
+.record-picker ul{
+    max-height: 500px !important;
+    min-height: 500px !important;
+}
+.point-left:before {
+    content: "\25B6" !important;
+    padding-left: 1em !important;
+}
+.listbox form.filter{
+    margin: 0 0 15px!important;
+    position: relative;
+    padding: 0;
+}
+.listbox .filter:after {
+   left: auto !important;
+    right: calc(100% - 50px) !important;
+    position: absolute !important;
+    top: -5px !important;
+    width: 27px !important;
+}
+.dual-list  .listbox  {
+
+    margin: 30px 0;
+    width: 50%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
 footer {
     z-index: 9000000000 !important;
 }

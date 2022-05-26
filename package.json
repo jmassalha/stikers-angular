@@ -52,6 +52,7 @@
     "angular-bootstrap-md": "^8.10.1",
     "angular-calendar": "^0.28.28",
     "angular-datatables": "^8.1.0",
+    "angular-dual-listbox": "^6.0.0",
     "angular-google-charts": "^1.1.6",
     "angular-popper": "^2.0.1",
     "angular2-chartjs": "^0.5.1",

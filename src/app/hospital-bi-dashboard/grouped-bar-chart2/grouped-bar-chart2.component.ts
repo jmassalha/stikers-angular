@@ -120,6 +120,7 @@ export class GroupedBarChart2Component implements OnInit {
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];
+      //  debugger;
         let date = new Date();
         let finalarr = [];
         this.columnNames = ["יום"];
