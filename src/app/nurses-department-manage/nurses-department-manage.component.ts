@@ -98,10 +98,10 @@ export class NursesDepartmentManageComponent implements OnInit {
       const filterValue = (event.target as HTMLInputElement).value;
       this.dataSource2.filter = filterValue;
     } else {
-      if(filval == "מונשם"){
+      if (filval == "מונשם") {
         let newArr = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes(filval));
         this.dataSource2 = new MatTableDataSource<any>(newArr);
-      }else{
+      } else {
         this.dataSource2 = this.dataSourceFullSpare;
         this.dataSource2.filter = filval;
       }
@@ -145,6 +145,10 @@ export class NursesDepartmentManageComponent implements OnInit {
   phoneNumber: any;
   reportSubject: any;
   nursingCount: any;
+  // dateTimeGroup: FormGroup;
+  // numberOfDays = 0;
+  // newDate: string = this.datePipe.transform(this.date, 'yyyy-MM-dd');
+  // dateToDisplayString: string = this.datePipe.transform(this.date, 'yyyy-MM-dd');
 
   ngOnInit(): void {
     if (this.Dept_Name == 'מיון יולדות (חדר לידה)' || this.Dept_Name == 'חדר לידה') {
@@ -161,28 +165,16 @@ export class NursesDepartmentManageComponent implements OnInit {
     this.departmentRelease = new FormGroup({
       plannedToRelease: new FormControl('', null),
     });
+    this.getPatientsPerDepart(this.event, '');
     this.getDepartDetails();
     this.getSubmitPlannedToRealse('0');
-    this.getPatientsPerDepart(this.event, '');
-    this.checkIfToRefresh(true);
+    // this.dateTimeGroup = this.formBuilder.group({
+    //   ReportStartDate: new FormControl('', null),
+    //   ReportEndDate: new FormControl('', null)
+    // });
   }
 
-  checkIfToRefresh(refresh) {
-    // let time = setTimeout(() => {
-    //   if (refresh) {
-    //     let time2 =  setTimeout(() => {
-    //       this.getDepartDetails();
-    //       this.getSubmitPlannedToRealse('0');
-    //       this.getPatientsPerDepart(this.event, '');
-    //       this.checkIfToRefresh(true);
-    //     }, 1500);
-    //   }else{
-    //     clearTimeout(time);
-    //   }
-    // }, 5000);
-  }
-
-  getSubmitPlannedToRealse(ifsaved) {
+   getSubmitPlannedToRealse(ifsaved) {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSubmitPlannedToRealse", {
         _plannedToRelease: this.departmentRelease.controls['plannedToRelease'].value,
@@ -250,17 +242,47 @@ export class NursesDepartmentManageComponent implements OnInit {
     }
   }
 
-  changeDepartByUser(departCode,departName) {
+  changeDepartByUser(departCode, departName) {
     this.departCode = departCode;
     this.Dept_Name = departName;
     this.ngOnInit();
   }
 
+  // changeDisplayDateTime() {
+  //   let startDate = this.dateTimeGroup.controls['ReportStartDate'].value;
+  //   let endDate = this.dateTimeGroup.controls['ReportEndDate'].value;
+  //   let start_date = this.datePipe.transform(startDate, 'yyyy-MM-dd');
+  //   let end_date = this.datePipe.transform(endDate, 'yyyy-MM-dd');
+  //   let start_time = this.datePipe.transform(startDate, 'HH:mm');
+  //   let end_time = this.datePipe.transform(endDate, 'HH:mm');
+  //   console.log(start_date + ' ' + start_time);
+  //   console.log(end_date + ' ' + end_time);
+  // }
+
+  // displayDateNavigate(dateN){
+  //   let dte = new Date();
+  //   let dateToDisplay = new Date();
+  //   if (dateN == 'before') {
+  //     this.numberOfDays++;
+  //   } else if (dateN == 'next') {
+  //     this.numberOfDays--;
+  //   } else {
+  //     this.numberOfDays;
+  //   }
+  //   dte.setDate(dte.getDate() - this.numberOfDays);
+  //   let pipe = new DatePipe('en-US');
+  //   this.newDate = pipe.transform(dte.toString(), 'yyyy-MM-dd');
+  //   this.dateToDisplayString = this.newDate;
+  //   this.getDepartDetails();
+  //   this.getPatientsPerDepart(this.event, '');
+  // }
+
 
   getDepartDetails() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDepartDetails", {
-        _departCode: this.departCode
+        _departCode: this.departCode,
+        _datePointer: ""
       })
       .subscribe((Response) => {
         this.ELEMENT_DATA = Response["d"];
@@ -287,7 +309,8 @@ export class NursesDepartmentManageComponent implements OnInit {
     this.Patientsloading = true;
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPatientsPerDepart", {
-        _departCode: this.departCode
+        _departCode: this.departCode,
+        _datePointer: ""
       })
       .subscribe((Response) => {
         this.dataSource2 = new MatTableDataSource<any>(Response["d"]);

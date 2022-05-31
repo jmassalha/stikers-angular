@@ -46,7 +46,7 @@ export class InfectionDrugsComponent implements OnInit {
     getDataDrugFromServer(DrugStatus: string) {
         this.http
             .post(
-                "http://localhost:64964/WebService.asmx/GetInfectionsDrugs",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionsDrugs",
                 //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getDrugsTbl",
                 { DrugStatus: DrugStatus }
             )
@@ -69,7 +69,7 @@ export class InfectionDrugsComponent implements OnInit {
       this.http
         .post(
           //"http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitInfectionsDrugs",
-          'http://localhost:64964/WebService.asmx/SubmitInfectionsDrugs',
+          'http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitInfectionsDrugs',
           {
             DrugList: this.confirmed,
           }

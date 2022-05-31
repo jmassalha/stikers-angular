@@ -13,13 +13,6 @@
     font-size: 14px;
     width: 100%;
   }
-  #printmycontent td.mat-cell{
-    padding: 10px !important;
-    font-weight: bold;
-    text-align: center;
-    overflow-wrap: break-word;
-    border: 1px solid black;
-  }
   [dir="rtl"] td.mat-cell:first-of-type{
     padding: 10px !important;
     font-weight: bold;
@@ -30,17 +23,3 @@
   th.mat-sort-header-sorted {
     color: black;
   }
-  @media print {
-    table{
-      width: 100%;
-      table-layout: fixed;
-      border-spacing: 0px;
-    }
-    td.mat-cell{
-      padding: 10px !important;
-      font-weight: bold;
-      background-color: white;
-      text-align: center;
-      border: 1px solid black;
-    }
- }
