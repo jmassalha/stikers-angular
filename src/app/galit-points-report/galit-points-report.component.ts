@@ -1,12 +1,10 @@
-import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild,ViewEncapsulation  } from '@angular/core';
-import { FormBuilder } from '@angular/forms';
+import { Component, ElementRef, OnInit, ViewChild,ViewEncapsulation  } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { ActivatedRoute, Router } from '@angular/router';
-import { MatSort, Sort } from '@angular/material/sort';
+import { Router } from '@angular/router';
+import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
 
 @Component({
@@ -26,18 +24,13 @@ export class GalitPointsReportComponent implements OnInit {
 
   constructor(public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private route: ActivatedRoute,
     private router: Router,
-    private datePipe: DatePipe,
-    private http: HttpClient,
-    private formBuilder: FormBuilder,
-    private readonly changeDetectorRef: ChangeDetectorRef,) { }
+    private http: HttpClient) { }
 
   // patient: any = "";
   // caseNumber: any;
   patientFound: boolean;
   numberOfPatients: number = 0;
-  private gridApi;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -74,9 +67,11 @@ export class GalitPointsReportComponent implements OnInit {
     let that = this;
     that.paginator._changePageSize(300);
     setTimeout(function () {
+      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;}</style>"
       var printContents = that.printmycontent.nativeElement.innerHTML;
+      style += printContents;
       var w = window.open();
-      w.document.write(printContents);
+      w.document.write(style);
       w.print();
       w.close();
       that.paginator._changePageSize(5);
@@ -131,17 +126,17 @@ export class GalitPointsReportComponent implements OnInit {
         this.dataSource = new MatTableDataSource<any>(this.ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
-        if (this.ELEMENT_DATA.length == 0) {
-          //no data
-          this.openSnackBar("חסר נתונים, מרענן מחדש");
-          let time = setTimeout(() => {
-            if (this.router.url !== '/galitpointsreport') {
-              clearTimeout(time);
-            } else {
-              this.getGalitReportPatient();
-            }
-          }, 3000);
-        }
+        // if (this.ELEMENT_DATA.length == 0) {
+        //   //no data
+        //   this.openSnackBar("חסר נתונים, מרענן מחדש");
+        //   let time = setTimeout(() => {
+        //     if (this.router.url !== '/galitpointsreport') {
+        //       clearTimeout(time);
+        //     } else {
+        //       this.getGalitReportPatient();
+        //     }
+        //   }, 3000);
+        // }
         this.patientFound = true;
       });
   }

@@ -97,7 +97,7 @@ export class GroupedBarChart2Component implements OnInit {
     this.columnNames = [this.columnNames[0], this.columnNames[index]];
     this.columnNames.push({ role: 'annotation' });
     for (let i = 0; i < this.data.length; i++) {
-      this.data[i] = [this.data[i][0], this.data[i][index],this.data[i][index]];
+      this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
     }
   }
 
@@ -120,7 +120,7 @@ export class GroupedBarChart2Component implements OnInit {
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];
-      //  debugger;
+        //  debugger;
         let date = new Date();
         let finalarr = [];
         this.columnNames = ["יום"];
@@ -186,15 +186,18 @@ export class GroupedBarChart2Component implements OnInit {
               arrTemp.push(0);
             }
           }
-          // if(inquiriesStatLine[0].length > finalarr.length){
-          //   finalarr.push(['',0,0]);
-          // }
+
           if (inquiriesStatLine[0][d] != finalarr[d][0]) {
             finalarr.splice(d, 0, arrTemp);
           }
+          // if (inquiriesStatLine[0].length == inquiriesStatLine[2].length) {
+          //   if (inquiriesStatLine[0][d] != finalarr[d][0]) {
+          //     finalarr.splice(d, 0, arrTemp);
+          //   }
+          // }else{
+          //   continue;
+          // }
         }
-        // let index = finalarr.findIndex(x => x[0] === "");
-        // delete finalarr[index];
 
         if (this.TimeLineParam == "1") {
           this.data = new Array(7);
@@ -224,26 +227,43 @@ export class GroupedBarChart2Component implements OnInit {
           }
           this.data.reverse();
         } else if (this.TimeLineParam == "2") {
-          this.data = new Array(inquiriesStatLine[0].length);
-          let counter = 1;
-          for (let f = -1; f < inquiriesStatLine[0].length; f++) {
-            let t = new Date(date);
-            let day = t.getDate();
-            let todayIndex = inquiriesStatLine[0].findIndex(x => x == day);
-            todayIndex--;
-            let dateDifference = todayIndex - f;
-            if (dateDifference < 0) {
-              dateDifference = todayIndex + ((finalarr.length - counter) - todayIndex);
-              counter++;//Math.abs(dateDifference);
-            }
-            if (f == -1) {
-              this.data[this.data.length - 1] = finalarr[dateDifference];
-            } else {
-              this.data[f] = finalarr[dateDifference];
-            }
+          let dt = new Date();
+          let day = dt.getDate();
+          let month = dt.getMonth();
+          let year = dt.getFullYear();
+          let daysInMonth = new Date(year, month - 1, 0).getDate();
+          this.data = new Array(daysInMonth);
+          let counter = 0;
+          for (let f = 0; f < daysInMonth; f++) {
+            let yesterdayIndex = inquiriesStatLine[0].findIndex(x => x == day - counter);
+            //if its 1 in month
 
-
+            //if not found
+            if (yesterdayIndex == -1) {
+              this.data[f] = new Array(finalarr[0].length).fill(0);
+            }
+            //else
+            else {
+              this.data[f] = finalarr[yesterdayIndex];
+            }
+            counter++;
           }
+          // for (let f = -1; f < inquiriesStatLine[0].length; f++) {
+          //   let t = new Date(date);
+          //   let day = t.getDate();
+          //   let todayIndex = inquiriesStatLine[0].findIndex(x => x == day);
+          //   todayIndex--;
+          //   let dateDifference = todayIndex - f;
+          //   if (dateDifference < 0) {
+          //     dateDifference = todayIndex + ((finalarr.length - counter) - todayIndex);
+          //     counter++;//Math.abs(dateDifference);
+          //   }
+          //   if (f == -1) {
+          //     this.data[this.data.length - 1] = finalarr[dateDifference];
+          //   } else {
+          //     this.data[f] = finalarr[dateDifference];
+          //   }
+          // }
           this.data.reverse();
         } else if (this.TimeLineParam == "3") {
           this.data = new Array(12);
