@@ -24,7 +24,7 @@ export interface InfectionsRow {
     PatientName: string;
     DrugDate: string;
     DrugTime: string;
-    PrescribedDrugDose: string;
+    PrescribedDrugDose: number;
     DrugNumberPerCaseNumber: Date;
     DrugRoute: Time;
     DrugManner: string;
@@ -36,6 +36,8 @@ export interface InfectionsRow {
     Weight: string;
     Height: string;
     BMI: string;
+    GFR: string;
+    Creatinine: string;
     DiagnostCode: string;
     DocNumber: string;
 }
@@ -48,13 +50,12 @@ export interface ReciveDocHos {
     Content: string;
 }
 @Component({
-  selector: 'app-infection-report',
-  templateUrl: './infection-report.component.html',
-  styleUrls: ['./infection-report.component.css']
+    selector: "app-infection-report",
+    templateUrl: "./infection-report.component.html",
+    styleUrls: ["./infection-report.component.css"],
 })
 export class InfectionReportComponent implements OnInit {
-
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+    @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     // @ViewChild(MatSort, { static: true }) sort: MatSort;
     displayedColumns: string[] = [
@@ -64,12 +65,15 @@ export class InfectionReportComponent implements OnInit {
         "PatientName",
         "Depart",
         "DrugName",
+        "PrescribedDrugDose",
         "Height",
         "Weight",
         "BMI",
+        "GFR",
+        "Creatinine",
         "DocNumber",
     ];
-    
+
     modalOptions: NgbModalOptions;
     Content: ReciveDocHos[] = [];
     TABLE_DATA: InfectionsRow[] = [];
@@ -101,11 +105,12 @@ export class InfectionReportComponent implements OnInit {
     ) {
         mMenuPerm.setRoutName("glucose");
         setTimeout(() => {
-            if(!mMenuPerm.getHasPerm()){
+            if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();
                 this.router.navigate(["login"]);
             }
-        }, 2000);}
+        }, 2000);
+    }
 
     ngOnInit(): void {
         $("#loader").removeClass("d-none");
@@ -117,7 +122,6 @@ export class InfectionReportComponent implements OnInit {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         this.dataSource = new MatTableDataSource(this.TABLE_DATA_ALL);
 
-        
         this.getReport(null);
     }
     getPaginatorData(event: PageEvent) {
@@ -139,6 +143,10 @@ export class InfectionReportComponent implements OnInit {
             return `with: ${reason}`;
         }
     }
+    applyFilter(event: Event) {
+        const filterValue = (event.target as HTMLInputElement).value;
+        this.dataSource.filter = filterValue.trim().toLowerCase();
+    }
     openConsText(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
         //////debugger
@@ -159,7 +167,7 @@ export class InfectionReportComponent implements OnInit {
         this.http
             .post(
                 //"http://localhost:64964/WebService.asmx/GetInfectionCons",
-                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionCons",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionCons",
                 {
                     DocNumber: _element.DocNumber,
                 }
@@ -178,49 +186,45 @@ export class InfectionReportComponent implements OnInit {
             this.TABLE_DATA_ALL
         );*/
 
-        
         switch (parseInt($event.value)) {
             case 2:
-                this.TABLE_DATA =  this.TABLE_DATA_ALL.filter(function(data) {
+                this.TABLE_DATA = this.TABLE_DATA_ALL.filter(function (data) {
                     return data.DocNumber == "";
                 });
                 break;
             case 1:
-                this.TABLE_DATA =  this.TABLE_DATA_ALL.filter(function(data) {
+                this.TABLE_DATA = this.TABLE_DATA_ALL.filter(function (data) {
                     return data.DocNumber != "";
                 });
                 break;
             default:
-                this.TABLE_DATA =  this.TABLE_DATA_ALL
+                this.TABLE_DATA = this.TABLE_DATA_ALL;
                 break;
         }
-        this.dataSource = new MatTableDataSource<any>(
-            this.TABLE_DATA
-        );
+        this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
         ////debugger;
     }
-   
+
     public getDataFormServer(_startDate: string, _endDate: string) {
+        //debugger
         $("#loader").removeClass("d-none");
         this.http
-            //.post("http://localhost:64964/WebService.asmx/GetInfectionPatiantApp", {
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionPatiantApp", {
-                _fromDate: _startDate,
-                _toDate: _endDate,
-            })
+            // .post("http://localhost:64964/WebService.asmx/GetInfectionPatiantApp", {
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionPatiantApp",
+                {}
+            )
             .subscribe(
                 (Response) => {
                     $("#_departments").empty();
-                   // debugger
-                     this.TABLE_DATA_ALL.splice(0, this.TABLE_DATA_ALL.length);
-                     this.TABLE_DATA_ALL = Response["d"];
-                     //debugger;
+                    //debugger
+                    this.TABLE_DATA_ALL.splice(0, this.TABLE_DATA_ALL.length);
+                    this.TABLE_DATA_ALL = Response["d"];
+                    //debugger;
 
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA_ALL
                     );
-                    
-                    
 
                     // //////debugger
                     this.dataSource = new MatTableDataSource<any>(
@@ -239,5 +243,4 @@ export class InfectionReportComponent implements OnInit {
                 }
             );
     }
-
 }
