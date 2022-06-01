@@ -76,6 +76,7 @@ export class MaternitypatientsComponent implements OnInit {
        // "PatientStatus",
         "Click",
         "Delete",
+        "Display",
     ];
 
     modalOptions: NgbModalOptions = {
@@ -348,8 +349,8 @@ export class MaternitypatientsComponent implements OnInit {
         var iEGAWeeks = Math.floor( fGestationalAgeInWeeks );
         var iEGADays = ((fGestationalAgeInWeeks % 1)*7).toFixed(0)
     
-        console.log( iEGAWeeks + " weeks" );
-        console.log( iEGADays + " days" );
+        // console.log( iEGAWeeks + " weeks" );
+        // console.log( iEGADays + " days" );
         return iEGAWeeks+"."+iEGADays
     }
     public getTableFromServer(
