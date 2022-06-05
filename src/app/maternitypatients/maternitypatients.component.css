@@ -15,3 +15,14 @@
     float: right;
     margin-right: 15px;
 }
+.card-img{
+    width: auto;
+    margin: 10px;
+    padding: 15px;
+}
+thead{
+    text-align: center;
+}
+tbody{
+    text-align: center;
+}

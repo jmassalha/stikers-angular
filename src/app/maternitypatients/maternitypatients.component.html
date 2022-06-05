@@ -168,7 +168,8 @@
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     <div class="example-button-container">
-                                        <button class="row-data" mat-mini-fab color="primary">
+                                        <button class="row-data" mat-mini-fab color="primary"
+                                            (click)="displayProjects(element)">
                                             <span class="material-icons">
                                                 open_in_new
                                             </span>
@@ -317,4 +318,29 @@
             <button type="submit" class="btn btn-outline-dark">שמור</button>
         </div>
     </form>
+</ng-template>
+<ng-template #modalProjects style="direction: rtl;">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">פרוייקטים למשתתף</h1>
+    <hr>
+    <table class="table" dir="rtl">
+        <thead>
+            <tr>
+                <th scope="col">תיאור פרויקט</th>
+                <th scope="col">עלות</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let project of ParticipantProjectsList">
+                <td>{{project.MaternityName}}</td>
+                <td>{{project.ProjectCost}}</td>
+            </tr>
+            <tr>
+                <td>סה"כ</td>
+                <td>{{AllParticipantProjectsCost}}</td>
+            </tr>
+        </tbody>
+    </table>
 </ng-template>

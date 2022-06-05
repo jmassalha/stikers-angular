@@ -205,9 +205,9 @@ export class GroupedBarChart2Component implements OnInit {
           temp = finalarr;
           finalarr = temp;
           let counter = 1;
-          if(finalarr.length < 7){
-            for(let i = 0; i < 7; i++){
-              
+          if (finalarr.length < 7) {
+            for (let i = 0; i < 7; i++) {
+
             }
           }
           finalarr[0][0] = 'ראשון';
@@ -242,39 +242,39 @@ export class GroupedBarChart2Component implements OnInit {
           let daysInMonth = new Date(year, month - 1, 0).getDate();
           this.data = new Array(daysInMonth);
           let counter = 0;
-          if(day == 1){
+          if (day == 1) {
             this.data = finalarr;
-          }else{
-            for (let f = 0; f < daysInMonth; f++) {
-              // let yesterdayIndex = inquiriesStatLine[0].findIndex(x => x == day - f);
-              // if (yesterdayIndex == -1) {
-              //   // this.data[f] = new Array(finalarr[0].length).fill(0);
-              //   // this.data[f][0] = day;
-              // }
-              // //else
-              // else {
-              //   this.data[counter] = finalarr[yesterdayIndex];
-              //   counter++;
-              // }
+          } else {
+            for (let f = -1; f < inquiriesStatLine[0].length; f++) {
+              let t = new Date(date);
+              let day = t.getDate();
+              let todayIndex = inquiriesStatLine[0].findIndex(x => x == day);
+              todayIndex--;
+              let dateDifference = todayIndex - f;
+              if (dateDifference < 0) {
+                dateDifference = todayIndex + ((finalarr.length - counter) - todayIndex);
+                counter++;//Math.abs(dateDifference);
+              }
+              if (f == -1) {
+                this.data[this.data.length - 1] = finalarr[dateDifference];
+              } else {
+                this.data[f] = finalarr[dateDifference];
+              }
             }
-          }          
-          // for (let f = -1; f < inquiriesStatLine[0].length; f++) {
-          //   let t = new Date(date);
-          //   let day = t.getDate();
-          //   let todayIndex = inquiriesStatLine[0].findIndex(x => x == day);
-          //   todayIndex--;
-          //   let dateDifference = todayIndex - f;
-          //   if (dateDifference < 0) {
-          //     dateDifference = todayIndex + ((finalarr.length - counter) - todayIndex);
-          //     counter++;//Math.abs(dateDifference);
-          //   }
-          //   if (f == -1) {
-          //     this.data[this.data.length - 1] = finalarr[dateDifference];
-          //   } else {
-          //     this.data[f] = finalarr[dateDifference];
-          //   }
-          // }
-          // this.data.reverse();
+            this.data.reverse();
+            // for (let f = 0; f < daysInMonth; f++) {
+            // let yesterdayIndex = inquiriesStatLine[0].findIndex(x => x == day - f);
+            // if (yesterdayIndex == -1) {
+            //   // this.data[f] = new Array(finalarr[0].length).fill(0);
+            //   // this.data[f][0] = day;
+            // }
+            // //else
+            // else {
+            //   this.data[counter] = finalarr[yesterdayIndex];
+            //   counter++;
+            // }
+            // }
+          }
         } else if (this.TimeLineParam == "3") {
           this.data = new Array(12);
           let counter = 1;
