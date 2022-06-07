@@ -101,12 +101,8 @@ export class EmployeesAddUpdateComponent implements OnInit {
       AcceptTerms: new FormControl(this.employee.AcceptTerms, null),
     });
     this._switchHTOK = this.employee.StatusRow;
-    if (this.employee.AcceptTerms == '1') {
-      this.AcceptTerms = true;
-    }else{
-      this.AcceptTerms = false;
-    }
-    
+    this.AcceptTerms = this.employee.AcceptTerms;
+
     this.sektorSelection(this.employee.EmployeeSektorID);
     this.getEmployeesFunctionsList();
     this.getRanksList();
@@ -126,13 +122,13 @@ export class EmployeesAddUpdateComponent implements OnInit {
     }
   }
 
-  acceptTermsFunc() {
-    if(this.AcceptTerms){
-      this.employeeWorkDetails.controls['AcceptTerms'].setValue("1");
-    }else{
-      this.employeeWorkDetails.controls['AcceptTerms'].setValue("0");
-    }
-  }
+  // acceptTermsFunc() {
+  //   if(this.AcceptTerms){
+  //     this.employeeWorkDetails.controls['AcceptTerms'].setValue("1");
+  //   }else{
+  //     this.employeeWorkDetails.controls['AcceptTerms'].setValue("0");
+  //   }
+  // }
 
   getEmployeeIndex() {
     return this.employeeWorkDetails.controls['DepartnentCode'].value + '_' + this.employeeWorkDetails.controls['EmployeeSektorID'].value;
