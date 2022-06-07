@@ -57,6 +57,7 @@ export class EmployeesManageDashComponent implements OnInit {
         Sektor: new FormControl('', null),
         WorkPlace: new FormControl('', null),
         StatusRow: new FormControl('2', null),
+        AcceptTerms: new FormControl(false, null),
       });
       if (this.UserName == "iditur" || this.UserName == "dfogel") {
         this.managerType = "stager";

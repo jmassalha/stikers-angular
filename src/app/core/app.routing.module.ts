@@ -79,6 +79,7 @@ import { HospitalBIDashboardComponent } from '../hospital-bi-dashboard/hospital-
 import { InfectionDrugsComponent } from '../infection-drugs/infection-drugs.component';
 import { InfectionReportComponent } from "../infection-report/infection-report.component";
 import { MaternityParticipantsComponent } from "../maternity/maternity-participants/maternity-participants.component";
+import { CprFormComponent } from "../form-dashboard/cpr-form/cpr-form.component";
 const routes: Routes = [
   
   { path: 'dashboard', component: DashboardComponent },
@@ -162,6 +163,7 @@ const routes: Routes = [
   { path: "InfectionDrugs", component: InfectionDrugsComponent },
   { path: "InfectionReport", component: InfectionReportComponent },
   { path: "MaternityParticipants", component: MaternityParticipantsComponent },
+  { path: "CprForm", component: CprFormComponent },
   { path: '', component : LoginComponent}
 ];
  

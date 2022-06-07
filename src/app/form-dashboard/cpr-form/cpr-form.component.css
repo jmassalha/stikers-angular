@@ -1,0 +1,24 @@
+.FormHeader{
+    background-color: antiquewhite;
+    text-align: center;
+}
+
+.radio-style{
+    float: right;
+    margin: 0px 20px 0px 20px;
+}
+.col{
+    display: flex;
+}
+.container1{
+    margin: 10px;
+    padding: 10px;
+    border-style: double;
+}
+.row{
+    margin-top: 10px;
+}
+.last-paragraph{
+    text-align: center;
+    direction: rtl;
+}

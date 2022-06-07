@@ -1,0 +1,488 @@
+<div class="header">
+    <h2 class="FormHeader"><u>טופס החייאה</u></h2>
+</div>
+<div class="row" *ngIf="searching == 'notFound' || searching == 'tryAgain'">
+    <div class="col"></div>
+    <div class="col-4">
+        <div dir="rtl" class="card w-85-p">
+            <div dir="rtl" class="card-body">
+                <form dir="rtl">
+                    <div class="row">
+                        <div class="col-12">
+                            <mat-form-field class="full-width">
+                                <input [(ngModel)]="PatientPassport" [ngModelOptions]="{standalone: true}" matInput
+                                    placeholder="תעודת זהות">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <p *ngIf="searching == 'tryAgain'">מטופל לא נמצא</p>
+                    <button mat-raised-button ml-2 type="submit" (click)="getPatientDetails()"
+                        class="btn btn-primary btn-raised mb-2" matTooltip="חפש">
+                        <span class="material-icons">
+                            done
+                        </span>
+                    </button>
+                </form>
+            </div>
+            <mat-progress-bar mode="buffer" *ngIf="buffering"></mat-progress-bar>
+        </div>
+    </div>
+    <div class="col"></div>
+</div>
+
+
+<div class="wrapper" *ngIf="searching == 'Found'">
+
+    <div class="row" dir="rtl">
+        <div class="col" style="justify-content: center;">
+            <p>שם פרטי: <b>{{PatientRecord.PatientFirstName}}</b></p>
+        </div>
+        <div class="col" style="justify-content: center;">
+            <p>שם משפחה: <b>{{PatientRecord.PatientLastName}}</b></p>
+        </div>
+        <div class="col" style="justify-content: center;">
+            <p *ngIf="PatientRecord.PatientGender == '1'">מין: <b>זכר</b></p>
+            <p *ngIf="PatientRecord.PatientGender != '1'">מין: <b>נקבה</b></p>
+        </div>
+        <div class="col" style="justify-content: center;">
+            <p>גיל: <b>{{PatientRecord.PatientDOB | number : '1.1-1'}}</b></p>
+        </div>
+    </div>
+
+    <!-- first section questions -->
+
+    <div class="container1 m-2" dir="rtl" [formGroup]="FirstSection">
+        <div class="header">
+            <p class="text-right"><b><u>א) נתונים לפני תחילת פעולות החייאה:</u></b></p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field appearance="fill" style="margin: -12px;">
+                    <mat-label>תאריך החייאה</mat-label>
+                    <input matInput formControlName="cprDate" [matDatepicker]="picker">
+                </mat-form-field>
+                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                <mat-datepicker #picker></mat-datepicker>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>שעה</mat-label>
+                    <input matInput [ngxTimepicker]="cprTime" [format]="24" formControlName="cprTime" />
+                </mat-form-field>
+                <ngx-material-timepicker #cprTime></ngx-material-timepicker>
+            </div>
+            <div class="col" style="display: inline-flex;justify-content: center;place-items: center;">
+                <mat-label>הופעל צוות החייאה: </mat-label>
+                <mat-radio-group class="example-radio-group" formControlName="cprTeamWork">
+                    <mat-radio-button class="radio-style" value="כן">
+                        <span>כן</span>
+                    </mat-radio-button>
+                    <mat-radio-button class="radio-style" value="לא">
+                        <span>לא</span>
+                    </mat-radio-button>
+                </mat-radio-group>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>בשעה</mat-label>
+                    <input matInput [ngxTimepicker]="cprTeamWorkTime" [format]="24" formControlName="cprTeamWorkTime" />
+                </mat-form-field>
+                <ngx-material-timepicker #cprTeamWorkTime></ngx-material-timepicker>
+            </div>
+        </div>
+        <div class="header">
+            <p class="text-right"><b>שם ושעת הגעת צוות החייאה:</b></p>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input formControlName="cadriologName" matInput placeholder="שם קרדיולוג">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>שעת הגעה</mat-label>
+                    <input matInput [ngxTimepicker]="cardiologTime" [format]="24" formControlName="cardiologTime" />
+                </mat-form-field>
+                <ngx-material-timepicker #cardiologTime></ngx-material-timepicker>
+            </div>
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input formControlName="mardimName" matInput placeholder="שם מרדים">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>שעת הגעה</mat-label>
+                    <input matInput [ngxTimepicker]="mardimTime" [format]="24" formControlName="mardimTime" />
+                </mat-form-field>
+                <ngx-material-timepicker #mardimTime></ngx-material-timepicker>
+            </div>
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input formControlName="clalitName" matInput placeholder="שם א.כללית">
+                </mat-form-field>
+            </div>
+            <div class="col">
+                <mat-form-field>
+                    <mat-label>שעת הגעה</mat-label>
+                    <input matInput [ngxTimepicker]="clalitTime" [format]="24" formControlName="clalitTime" />
+                </mat-form-field>
+                <ngx-material-timepicker #clalitTime></ngx-material-timepicker>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-form-field class="full-width">
+                    <input formControlName="cprPlace" matInput placeholder="מקום האירוע">
+                </mat-form-field>
+            </div>
+            <div class="col" style="display: inline-flex;align-self: center;">
+                <mat-label><b>עדים לאירוע:</b></mat-label>
+                <mat-radio-group>
+                    <mat-checkbox class="radio-style" formControlName="cprWitness1" style="float: right;"
+                        value="צוות רפואי">
+                        <span style="white-space: break-spaces;">צוות רפואי</span>
+                    </mat-checkbox>
+                    <mat-checkbox class="radio-style" formControlName="cprWitness2" style="float: right;"
+                        value="צוות סיעודי">
+                        <span style="white-space: break-spaces;">צוות סיעודי</span>
+                    </mat-checkbox>
+                    <mat-checkbox class="radio-style" formControlName="cprWitness3" style="float: right;"
+                        value="מלווה/משפחה">
+                        <span style="white-space: break-spaces;">מלווה/משפחה</span>
+                    </mat-checkbox>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-label>הסיבה להחייאה:</mat-label>
+                <mat-radio-group>
+
+                    <mat-checkbox class="radio-style" formControlName="cprCause1" style="float: right;" value="דום לב">
+                        <span style="white-space: break-spaces;">דום לב</span>
+                    </mat-checkbox>
+                    <mat-checkbox class="radio-style" formControlName="cprCause2" style="float: right;"
+                        value="דום נשימה">
+                        <span style="white-space: break-spaces;">דום נשימה</span>
+                    </mat-checkbox>
+                    <mat-checkbox class="radio-style" formControlName="cprCause3" style="float: right;" value="אחר">
+                        <span style="white-space: break-spaces;">אחר</span>
+                    </mat-checkbox>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" style="display: inline-flex;place-items: center;">
+                <mat-label>מצב הכרה :מגיב:</mat-label>
+                <mat-radio-group class="example-radio-group" formControlName="replying">
+                    <div class="d-block">
+                        <mat-radio-button class="radio-style" value="כן">
+                            <span>כן</span>
+                        </mat-radio-button>
+                        <mat-radio-button class="radio-style" value="לא">
+                            <span>לא</span>
+                        </mat-radio-button>
+                    </div>
+                </mat-radio-group>
+            </div>
+            <div class="col" style="display: inline-flex;place-items: center;">
+                <mat-label>מצב נשימתי:</mat-label>
+                <mat-radio-group class="example-radio-group" formControlName="resporatoryStat">
+                    <div class="d-block">
+                        <mat-radio-button class="radio-style" value="נושם">
+                            <span>נושם</span>
+                        </mat-radio-button>
+                        <mat-radio-button class="radio-style" value="לא נושם (כולל נשימות לא יעילות)">
+                            <span>לא נושם (כולל נשימות לא יעילות)</span>
+                        </mat-radio-button>
+                        <mat-radio-button class="radio-style" value="מונשם">
+                            <span>מונשם</span>
+                        </mat-radio-button>
+                    </div>
+                </mat-radio-group>
+            </div>
+        </div>
+        <div class="row">
+            <mat-form-field class="full-width">
+                <input formControlName="patientDiagnosis" matInput placeholder="אבחנות המטופל">
+            </mat-form-field>
+        </div>
+    </div>
+
+    <!-- Second section questions (Tables) -->
+
+    <div class="container1 m-2" style="overflow: auto;" dir="rtl" [formGroup]="SecondSection">
+        <div class="header">
+            <p class="text-right"><b><u>ב) תהליך החייאה:</u></b></p>
+        </div>
+        <div class="row">
+            <div class="col-3">
+                <mat-form-field class="full-width">
+                    <input formControlName="firstHeartRate" matInput placeholder="קצב לב ראשוני שזוהה">
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table class="table table-bordered table-hover" id="tab_logic">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                #
+                            </th>
+                            <th class="text-center" *ngFor="let col of firstTablecolumns">
+                                <input type="time" name='time[]' placeholder='שעה' class="form-control" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr id='addr0'>
+                            <td>בד' דופק יש/אין</td>
+                            <td *ngFor="let inp of firstTablecolumns">
+                                <input type="text" name='rate[]' class="form-control" />
+                            </td>
+                        </tr>
+                        <tr id='addr1'>
+                            <td>הערכת מצב</td>
+                            <td *ngFor="let inp of firstTablecolumns">
+                                <input type="text" name='status[]' class="form-control" />
+                            </td>
+                        </tr>
+                        <tr id='addr1'></tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table class="table table-bordered table-hover" id="tab_logic">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                פעולות
+                            </th>
+                            <th class="text-center">
+                                בוצע
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let action of actions" class="text-center ">
+                            <td>{{action.ActionList}}</td>
+                            <td>
+                                <input type="checkbox" class="form-control" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <p class="text-center"><b>רשום את מינון התרופה והשעה מדויקת של מתן התרופה!</b></p>
+                <table class="table table-bordered table-hover" id="tab_logic">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                התרופה (מינון)
+                            </th>
+                            <th class="text-center" *ngFor="let time of secondTablecolumns">
+                                {{time}}
+                                <!-- <input type="time" name='time2[]' placeholder='שעה' class="form-control" /> -->
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let action of secondTableActions" class="text-center ">
+                            <td *ngIf="action != ''">{{action}}</td>
+                            <td *ngIf="action == ''"></td>
+                            <td *ngFor="let time of secondTablecolumns">
+                                <div class="row">
+                                    <input type="text" style="width: 50%;" class="form-control" />
+                                    <input type="time" style="width: 50%;" class="form-control" />
+                                </div>
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table class="table table-bordered table-hover" id="tab_logic">
+                    <thead>
+                        <tr>
+                            <th class="text-center">
+                                שעת דפיברלציה/היפוך חשמלי
+                            </th>
+                            <th class="text-center" *ngFor="let time of secondTablecolumns">
+                                <input type="time" name='time3[]' placeholder='שעה' class="form-control" />
+                            </th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr class="text-center">
+                            <td>אנרגיה של מכת חשמל</td>
+                            <td *ngFor="let time of secondTablecolumns">
+                                <input type="text" class="form-control" />
+                            </td>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+
+    <!-- Third section questions -->
+    <div class="container1 m-2" dir="rtl" [formGroup]="ThirdSection">
+        <div class="header">
+            <div class="row">
+                <p style="align-self: center;"><b>ג) סיכום ההחייאה:</b></p>
+                <div class="col">
+                    <mat-form-field>
+                        <mat-label>שעת סיום ההחייאה</mat-label>
+                        <input matInput [ngxTimepicker]="cprEndTime" [format]="24" formControlName="cprEndTime" />
+                    </mat-form-field>
+                    <ngx-material-timepicker #cprEndTime></ngx-material-timepicker>
+                </div>
+                <div class="col" style="display: inline-flex;justify-content: center;place-items: center;">
+                    <mat-label>קביעת מוות:</mat-label>
+                    <mat-radio-group class="example-radio-group" formControlName="cprDeath">
+                        <div class="d-block">
+                            <mat-radio-button class="radio-style" value="כן">
+                                <span>כן</span>
+                            </mat-radio-button>
+                            <mat-radio-button class="radio-style" value="לא">
+                                <span>לא</span>
+                            </mat-radio-button>
+                        </div>
+                    </mat-radio-group>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <p style="align-self: center;"><b><u>סימנים חיוניים בתום החייאה</u></b></p>
+                        <div class="col" style="display: inline-flex;justify-content: center;place-items: center;">
+                            <mat-label>נשימה עצמונית:</mat-label>
+                            <mat-radio-group class="example-radio-group" formControlName="resporatoryAlone">
+                                <div class="d-block">
+                                    <mat-radio-button class="radio-style" value="כן">
+                                        <span>כן</span>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="radio-style" value="לא / מונשם">
+                                        <span>לא / מונשם</span>
+                                    </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input formControlName="heartRate" matInput placeholder="קצב לב">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input formControlName="saturation" matInput placeholder="סטורציה">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input formControlName="carbonCo" matInput placeholder="ETCO2">
+                            </mat-form-field>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input formControlName="bloodPressure" matInput placeholder="לחץ דם">
+                            </mat-form-field>
+                        </div>
+                        <div class="col" style="display: inline-flex;justify-content: center;place-items: center;">
+                            <mat-label>דופק:</mat-label>
+                            <mat-radio-group class="example-radio-group" formControlName="pulseStat">
+                                <div class="d-block">
+                                    <mat-radio-button class="radio-style" value="סדיר">
+                                        <span>סדיר</span>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="radio-style" value="לא סדיר">
+                                        <span>לא סדיר</span>
+                                    </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col-6" style="display: inline-flex;place-items: center;">
+                            <mat-label>מצב הכרה:</mat-label>
+                            <mat-radio-group class="example-radio-group" formControlName="cautiosStat">
+                                <div class="d-block">
+                                    <mat-radio-button class="radio-style" value="מעורפל">
+                                        <span>מעורפל</span>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="radio-style" value="ללא הכרה">
+                                        <span>ללא הכרה</span>
+                                    </mat-radio-button>
+                                    <mat-radio-button class="radio-style" value="מורדם">
+                                        <span>מורדם</span>
+                                    </mat-radio-button>
+                                </div>
+                            </mat-radio-group>
+                        </div>
+                        <div class="col-6"></div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-12">
+                    <div class="row">
+                        <mat-form-field class="full-width">
+                            <input formControlName="responsNurse" matInput
+                                placeholder="שם וחתימת האחות שהשתתפה בהחייאה ו/או מופקדת על החולה">
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="col-12">
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input formControlName="managingDoc" matInput placeholder="שם הרופא - מנהל החייאה">
+                            </mat-form-field>
+                            <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
+                                color="warn" (click)="signForm()" type="submit" mat-raised-button>
+                                <span>לחתום</span>
+                            </button>
+                        </div>
+                        <div class="col">
+                            <mat-form-field class="full-width">
+                                <input formControlName="managingNurse" matInput placeholder="שם האחות אחראית המשמרת">
+                            </mat-form-field>
+                            <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
+                                color="warn" (click)="signForm()" type="submit" mat-raised-button>
+                                <span>לחתום</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <p class="last-paragraph"><b>הטופס ימולא על-ידי הרופא מנהל ההחייאה והאחות שהשתתפה בהחייאה. &nbsp; מקור: לתיק המטופל
+            &nbsp; העתק: למרכז ועדת החייאה.</b></p>
+
+    <!-- additional container cause i didnt know what to do in the end -->
+    <!-- delete it and you will stuck with the consiquenses baby -->
+    <div class="container1 m-2" style="background-color: darkgray;" dir="rtl">
+
+    </div>
+    <div class="container1 m-2" dir="rtl">
+
+    </div>
+</div>

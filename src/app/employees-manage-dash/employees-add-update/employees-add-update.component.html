@@ -283,6 +283,10 @@
                                     *ngIf="_switchHTOK != '1'">נדרש אישור משאבי אנוש</span>
                                 <span *ngIf="_switchHTOK == '1'">מאושר משאבי אנוש</span>
                             </mat-button-toggle>
+                            <div style="align-self: center;margin-right: 2%;">
+                                <mat-checkbox class="example-margin" [(ngModel)]="AcceptTerms" (change)="acceptTermsFunc()"
+                                    [ngModelOptions]="{standalone: true}">חתם על תנאים</mat-checkbox>
+                            </div>
                         </div>
                         <!-- <div class="full-width row">
                             
