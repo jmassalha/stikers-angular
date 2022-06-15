@@ -58,6 +58,7 @@ export class EmployeesManageDashComponent implements OnInit {
         WorkPlace: new FormControl('', null),
         StatusRow: new FormControl('2', null),
         AcceptTerms: new FormControl(false, null),
+        ApprovedToBlossom: new FormControl(false, null),
       });
       if (this.UserName == "iditur" || this.UserName == "dfogel") {
         this.managerType = "stager";
@@ -141,6 +142,7 @@ export class EmployeesManageDashComponent implements OnInit {
     let sektor = this.searchEmployeesGroup.controls['Sektor'].value;
     let workPlace = this.searchEmployeesGroup.controls['WorkPlace'].value;
     let StatusRow = this.searchEmployeesGroup.controls['StatusRow'].value;
+    let ApprovedToBlossom = this.searchEmployeesGroup.controls['ApprovedToBlossom'].value;
     // if (managerType == "research") {
     //   employeesToShow = '';
     //   employeesWorkPlace = '2';
@@ -169,6 +171,7 @@ export class EmployeesManageDashComponent implements OnInit {
         _sektor: sektor,
         _workPlace: workPlace,
         _statusRow: StatusRow,
+        _approvedToBlossom: ApprovedToBlossom
       })
       .subscribe((Response) => {
         this.dataSource = new MatTableDataSource<any>(Response["d"]);

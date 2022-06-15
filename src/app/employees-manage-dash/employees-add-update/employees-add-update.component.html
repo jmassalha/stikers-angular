@@ -283,6 +283,11 @@
                                     *ngIf="_switchHTOK != '1'">נדרש אישור משאבי אנוש</span>
                                 <span *ngIf="_switchHTOK == '1'">מאושר משאבי אנוש</span>
                             </mat-button-toggle>
+                            <mat-button-toggle class="mr-2" [value]="_switchBlossom" (click)="switchBlossom()"
+                                [style.background]="_switchBlossom == '1' ? 'green': 'red'"><span
+                                    *ngIf="_switchBlossom != '1'">לאשר בלוסום</span>
+                                <span *ngIf="_switchBlossom == '1'">מאושר לבלוסום</span>
+                            </mat-button-toggle>
                             <div style="align-self: center;margin-right: 2%;">
                                 <span *ngIf="AcceptTerms == '1'">חתם על טופס סודיות</span>
                                 <span *ngIf="AcceptTerms == '0'">לא חתם על טופס סודיות</span>
