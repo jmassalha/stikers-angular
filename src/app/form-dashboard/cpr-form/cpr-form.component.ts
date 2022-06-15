@@ -75,11 +75,11 @@ export class CprFormComponent implements OnInit {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   // usersToSend = ['batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
   usersToSend = ['adahabre@poria.health.gov.il'];
+  imagePath = "";
 
 
   ngOnInit(): void {
     this.getCprActionsList();
-    this.getAllCprFormsList();
     // for the first table hour/minutes row
     for (let i = 0; i < 1; i++) {
       this.firstTableArray.push(this.formBuilder.group({
@@ -363,17 +363,17 @@ export class CprFormComponent implements OnInit {
 
   getAllCprFormsList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllCprFormsList", {
+      .post("http://localhost:64964/WebService.asmx/GetAllCprFormsList", {
       })
       .subscribe((Response) => {
         this.CprFormsList_all = Response["d"];
       });
   }
-  
+
   sendCprFormEmail(id) {
     this.CprFormsList = this.CprFormsList_all.filter(x => id);
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
+      .post("http://localhost:64964/WebService.asmx/SendCprFormEmail", {
         _userSender: this.UserName,
         users: this.usersToSend,
         _reportArray: this.CprFormsList
@@ -396,14 +396,16 @@ export class CprFormComponent implements OnInit {
     // }, 1500);
     let that = this;
     setTimeout(function () {
-      var style = "<style>p,mat-label{font-weight: bold;font-size: 12px;}td{border: 1px solid black}.container1{margin:2px; padding: 0px 5px 0px 0px; border-style: double;}</style>";
+      var style = "<style>p,mat-label,li{font-weight: bold;font-size: 12px;}.col-2{width: 20%;justify-content: center;}td{border: 1px solid black}.container1{margin:2px; padding: 0px 5px 0px 0px; border-style: double;}th{font-size: 14px;}</style>";
       var printContents = that.printmycontent.nativeElement.innerHTML;
       style = style + printContents;
       var w = window.open();
       w.document.write(style);
-      w.print();
+      setTimeout(() => {
+        w.print();
+      }, 500);
       // w.close();
-    }, 1000);
+    }, 100);
   }
 
   closeModal() {

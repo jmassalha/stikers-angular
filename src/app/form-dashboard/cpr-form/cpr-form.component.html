@@ -569,7 +569,7 @@
                 <ng-container matColumnDef="print">
                     <th mat-header-cell *matHeaderCellDef> הדפסה </th>
                     <td mat-cell *matCellDef="let element"> <button mat-raised-button ml-2 type="submit"
-                            (click)="printCprForm(element.Row_ID)" class="btn btn-primary btn-raised mb-2"
+                            (click)="sendCprFormEmail(element.Row_ID)" class="btn btn-primary btn-raised mb-2"
                             matTooltip="הדפסה">
                             <span class="material-icons">
                                 print
@@ -590,39 +590,40 @@
 <!-- Print Cpr Form -->
 <div class="d-none-desktop" *ngIf="CprFormsList.length == 1" #printmycontent>
     <div class="d-none-desktop" dir="rtl">
-        <div class="card-header border-bottomIn rel">
-            <img class="full-width" src="assets/images/covid_2_header.png" />
+        <div class="card-header border-bottomIn rel" style="text-align: center;">
+            <img class="full-width" style="width: 640px;" src="assets/images/covid_2_header.png" />
+            <div class="centered" style="position: absolute;top: 6%;left: 50%;transform: translate(-50%, -50%);"> נספח
+                לנוהל ניהול מערך החייאה במרכז הרפואי, מס' נוהל 1.2.21</div>
+            <div class="centered" style="position: absolute;top: 8%;left: 50%;transform: translate(-50%, -50%);"> מזהה
+                סער: 1000-1004-2018-0001454</div>
+            <div class="centered" style="position: absolute;top: 10%;left: 50%;transform: translate(-50%, -50%);"> תאריך
+                עדכון 03.21</div>
             <h2 class="text-center pos-abs-center"><u>ניטור החייאה</u></h2>
         </div>
-        <!-- <div class="row" dir="rtl">
-            <div class="col" style="justify-content: center;">
-                <p>מספר מקרה: <b>{{PatientRecord.PM_CASE_NUMBER}}</b></p>
+        <div class="row" dir="rtl" style="display: flex;">
+            <div class="col-2">
+                <p>מספר מקרה: {{CprFormsList[0].PM_CASE_NUMBER}}</p>
             </div>
-            <div class="col" style="justify-content: center;">
-                <p>ת.ז: <b>{{PatientRecord.PM_PATIENT_ID}}</b></p>
+            <div class="col-2">
+                <p>ת.ז: {{CprFormsList[0].PM_PATIENT_ID}}</p>
             </div>
-            <div class="col" style="justify-content: center;">
-                <p>שם פרטי: <b>{{PatientRecord.PM_FIRST_NAME}}</b></p>
+            <div class="col-2">
+                <p>שם מלא: {{CprFormsList[0].PM_FIRST_NAME}} {{CprFormsList[0].PM_LAST_NAME}}</p>
             </div>
-            <div class="col" style="justify-content: center;">
-                <p>שם משפחה: <b>{{PatientRecord.PM_LAST_NAME}}</b></p>
+            <div class="col-2">
+                <p *ngIf="CprFormsList[0].PM_PATIENT_GENDER == '1'">מין: זכר</p>
+                <p *ngIf="CprFormsList[0].PM_PATIENT_GENDER != '1'">מין: נקבה</p>
             </div>
-            <div class="col" style="justify-content: center;">
-                <p *ngIf="PatientRecord.PM_PATIENT_GENDER == '1'">מין: <b>זכר</b></p>
-                <p *ngIf="PatientRecord.PM_PATIENT_GENDER != '1'">מין: <b>נקבה</b></p>
+            <div class="col-2">
+                <p>גיל: {{CprFormsList[0].PM_DOB | number : '1.1-1'}}</p>
             </div>
-            <div class="col" style="justify-content: center;">
-                <p>גיל: <b>{{PatientRecord.PM_DOB | number : '1.1-1'}}</b></p>
-            </div>
-        </div> -->
-
-        <!-- first section questions -->
+        </div>
 
         <div class="container1 m-2" style="display: grid;" dir="rtl">
-            <div class="header">
+            <div class="header" style="float: right;">
                 <p class="text-right"><b><u>א) נתונים לפני תחילת פעולות החייאה:</u></b></p>
             </div>
-            <div class="row">
+            <div class="row" style="float: right;">
                 <div class="col-8" style="display: flex;margin: -10px 0px -10px 0px;">
                     <div class="inside-col" style="display: flex;margin-left: 10px;">
                         <mat-label style="align-self: center;">תאריך החייאה:&nbsp; </mat-label>
@@ -644,7 +645,7 @@
                 </div>
 
             </div>
-            <div class="header">
+            <div class="header" style="float: right;">
                 <p class="text-right"><b>שם ושעת הגעת צוות החייאה:&nbsp;</b></p>
             </div>
             <div class="row">
@@ -675,75 +676,53 @@
                     </div>
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="float: right;">
                 <div class="col-12">
                     <div class="row">
-                        <div class="col-6" style="float: right;width: 14%;">
+                        <div class="col-6" style="float: right;width: 20%;">
                             <mat-label>מקום האירוע: &nbsp;</mat-label>
                             <p style="display: inline-flex;"><u>{{CprFormsList[0].cprPlace}}</u></p>
                         </div>
-                        <div class="col-6" style="float: right;width: 86%;">
+                        <div class="col-6" style="float: right;width: 80%;">
                             <mat-label><b>עדים לאירוע: &nbsp;</b></mat-label>
                             <ul style="display: inline-flex;">
                                 <li style="margin-left: 26px;"
-                                    [style.background]="CprFormsList[0].cprWitness1 == 'True' ? 'yellow' : ''">צוות
+                                    [ngStyle]="{'display': CprFormsList[0].cprWitness1 == 'True' ? 'block' : 'none' }">
+                                    צוות
                                     רפואי</li>
                                 <li style="margin-left: 26px;"
-                                    [style.background]="CprFormsList[0].cprWitness2 == 'True' ? 'yellow' : ''">צוות
+                                    [ngStyle]="{'display': CprFormsList[0].cprWitness2 == 'True' ? 'block' : 'none' }">
+                                    צוות
                                     סיעודי</li>
                                 <li style="margin-left: 26px;"
-                                    [style.background]="CprFormsList[0].cprWitness3 == 'True' ? 'yellow' : ''">
+                                    [ngStyle]="{'display': CprFormsList[0].cprWitness3 == 'True' ? 'block' : 'none' }">
                                     <span></span>מלווה /
                                     משפחה
                                 </li>
                             </ul>
-                            <!-- <mat-radio-group>
-                                <mat-checkbox [checked]="CprFormsList[0].cprWitness1">
-                                    צוות רפואי
-                                </mat-checkbox>
-                                <mat-checkbox [checked]="CprFormsList[0].cprWitness2">
-                                    צוות סיעודי
-                                </mat-checkbox>
-                                <mat-checkbox [checked]="CprFormsList[0].cprWitness3">
-                                    מלווה/משפחה
-                                </mat-checkbox>
-                            </mat-radio-group> -->
                         </div>
                     </div>
 
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="float: right;margin: -20px 0px 0px 0px;">
                 <div class="col-" style="width: 100%;">
                     <mat-label><b>הסיבה להחייאה: &nbsp;</b></mat-label>
                     <ul style="display: inline-flex;">
                         <li style="margin-left: 26px;"
-                            [style.background]="CprFormsList[0].cprCause1 == 'True' ? 'yellow' : ''">דום לב</li>
+                            [ngStyle]="{'display': CprFormsList[0].cprCause1 == 'True' ? 'block' : 'none' }">דום לב
+                        </li>
                         <li style="margin-left: 26px;"
-                            [style.background]="CprFormsList[0].cprCause2 == 'True' ? 'yellow' : ''">דום נשימה</li>
+                            [ngStyle]="{'display': CprFormsList[0].cprCause2 == 'True' ? 'block' : 'none' }">דום
+                            נשימה
+                        </li>
                         <li style="margin-left: 26px;"
-                            [style.background]="CprFormsList[0].cprCause3 == 'True' ? 'yellow' : ''">אחר</li>
+                            [ngStyle]="{'display': CprFormsList[0].cprCause3 == 'True' ? 'block' : 'none' }">אחר
+                        </li>
                     </ul>
                 </div>
-                <!-- <div class="col" style="margin: -10px 0px -10px 0px;">
-                    <mat-label style="align-self: center;">הסיבה להחייאה: &nbsp;</mat-label>
-                    <mat-radio-group>
-                        <mat-checkbox class="radio-style" [checked]="CprFormsList[0].cprCause1" style="float: right;"
-                            disabled>
-                            <span style="white-space: break-spaces;">דום לב</span>
-                        </mat-checkbox>
-                        <mat-checkbox class="radio-style" [checked]="CprFormsList[0].cprCause2" style="float: right;"
-                            disabled>
-                            <span style="white-space: break-spaces;">דום נשימה</span>
-                        </mat-checkbox>
-                        <mat-checkbox class="radio-style" [checked]="CprFormsList[0].cprCause3" style="float: right;"
-                            disabled>
-                            <span style="white-space: break-spaces;">אחר</span>
-                        </mat-checkbox>
-                    </mat-radio-group>
-                </div> -->
             </div>
-            <div class="row">
+            <div class="row" style="float: right;">
                 <div class="col-12" style="display: flex;margin: -10px 0px 0px 0px;">
                     <div class="inside-col4" style="display: flex;align-self: center;margin-left: 10px;">
                         <mat-label style="align-self: center;">מצב הכרה &nbsp;: מגיב: &nbsp;</mat-label>
@@ -753,25 +732,9 @@
                         <mat-label style="align-self: center;">מצב נשימתי: &nbsp;</mat-label>
                         <p style="margin: 0px;"><u>{{CprFormsList[0].resporatoryStat}}</u></p>
                     </div>
-                    <!-- <div class="inside-col4" style="display: flex;align-self: center;">
-                        <mat-label style="align-self: center;">מצב נשימתי: &nbsp;</mat-label>
-                        <mat-radio-group class="example-radio-group" [value]="CprFormsList[0].resporatoryStat">
-                            <div class="d-block">
-                                <mat-radio-button class="radio-style" value="נושם" disabled>
-                                    <span>נושם</span>
-                                </mat-radio-button>
-                                <mat-radio-button class="radio-style" value="לא נושם (כולל נשימות לא יעילות)" disabled>
-                                    <span>לא נושם (כולל נשימות לא יעילות)</span>
-                                </mat-radio-button>
-                                <mat-radio-button class="radio-style" value="מונשם" disabled>
-                                    <span>מונשם</span>
-                                </mat-radio-button>
-                            </div>
-                        </mat-radio-group>
-                    </div> -->
                 </div>
             </div>
-            <div class="row">
+            <div class="row" style="float: right;">
                 <div class="inside-col" style="display: flex;align-self: center;">
                     <mat-label style="align-self: center;">אבחנות המטופל:&nbsp; </mat-label>
                     <p style="margin: 0px;"><u>{{CprFormsList[0].patientDiagnosis}}</u></p>
@@ -779,17 +742,11 @@
             </div>
         </div>
 
-        <!-- Second section questions (Tables) -->
 
-        <div class="container1 m-2" style="display: grid;" dir="rtl">
+        <div class="container1 m-2" style="margin-top: 5px;display: grid;" dir="rtl">
             <div class="header">
                 <p class="text-right" style="margin: 0px;"><b><u>ב) תהליך החייאה:</u></b></p>
             </div>
-            <!-- <div class="row">
-                <div class="col-2" style="padding-left: 4%;">
-                    <p>קצב לב ראשוני שזוהה</p>
-                </div>
-            </div> -->
             <div class="row clearfix">
                 <div class="col-md-12 column">
                     <table id="firstTable" class="table table-bordered table-hover" style="width: 100%;">
@@ -846,19 +803,6 @@
                                         <td>{{action.ActionList}}</td>
                                         <td>
                                             <p>{{CprFormsList[0].actionsTableArray[i].actionctrl}}</p>
-                                            <!-- <div style="display: inline-flex;justify-content: center;place-items: center;">
-                                                <mat-radio-group class="example-radio-group"
-                                                    [value]="CprFormsList[0].actionsTableArray[i].actionctrl">
-                                                    <div class="d-block">
-                                                        <mat-radio-button class="radio-style" value="בוצע" disabled>
-                                                            <span>בוצע</span>
-                                                        </mat-radio-button>
-                                                        <mat-radio-button class="radio-style" value="לא בוצע" disabled>
-                                                            <span>לא בוצע</span>
-                                                        </mat-radio-button>
-                                                    </div>
-                                                </mat-radio-group>
-                                            </div> -->
                                         </td>
                                     </tr>
                                 </tbody>
@@ -869,9 +813,6 @@
                 <div class="col" style="width: 75%;float: right;">
                     <div class="row clearfix" style="width: 100%;float: right;">
                         <div class="col-md-12 column">
-                            <!-- <p class="text-center" style="text-align: center;padding-top: 1px;"><b>רשום את מינון התרופה והשעה מדויקת של מתן
-                                    התרופה!</b>
-                            </p> -->
                             <table class="table table-bordered table-hover" style="width: 100%;" id="tab_logic">
                                 <thead>
                                     <tr>
@@ -880,29 +821,26 @@
                                         </th>
                                         <th class="text-center" *ngFor="let time of secondTablecolumns">
                                             {{time}}
-                                            <!-- <input type="time" name='time2[]' placeholder='שעה' class="form-control" /> -->
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
                                     <tr *ngFor="let action of CprFormsList[0].thirdTableArray; let i = index"
                                         class="text-center">
-                                        <!-- <td *ngIf="action != ''">{{action}}</td> -->
                                         <td>
-                                            <p></p>
+                                            <p>{{action.subArray[0].title}}</p>
                                         </td>
                                         <td
                                             *ngFor="let time of CprFormsList[0].thirdTableArray[i].subArray; let j = index">
-                                            <div class="row" style="display: flex;margin: 6px 0px 6px 0px;">
+                                            <div class="row" style="display: flex;margin: 10px 0px 10px 0px;">
                                                 <div class="col-6"
-                                                    style="width: 50%;margin: 0px;border-left: 1px solid black;">
+                                                    style="width: 50%;margin: 0px;border-left: 1px solid black;text-align: center;">
                                                     <p style="margin: 0px;">{{time.textMed}}</p>
                                                 </div>
-                                                <div class="col-6" style="width: 50%;margin: 0px;">
+                                                <div class="col-6" style="width: 50%;margin: 0px;text-align: center;">
                                                     <p style="margin: 0px;">{{time.timeMed}}</p>
                                                 </div>
                                             </div>
-
                                         </td>
                                     </tr>
                                 </tbody>
@@ -917,14 +855,14 @@
                                         <td> שעת דפיברלציה/היפוך חשמלי</td>
                                         <td class="text-center"
                                             *ngFor="let time of CprFormsList[0].forthTableArray[0].subArray; let i = index">
-                                            <p style="margin: 0px;">שעה: <b>{{time.timeMed}}</b></p>
+                                            <p style="margin: 0px;">{{time.timeMed}}</p>
                                         </td>
                                     </tr>
                                     <tr class="text-center">
                                         <td>אנרגיה של מכת חשמל</td>
                                         <td
                                             *ngFor="let text of CprFormsList[0].forthTableArray[0].subArray; let j = index">
-                                            <p style="margin: 0px;">כמות: <b>{{text.textMed}}</b></p>
+                                            <p style="margin: 0px;">{{text.textMed}}</p>
                                         </td>
                                     </tr>
                                 </tbody>
@@ -938,19 +876,18 @@
 
         </div>
 
-        <!-- Third section questions -->
 
         <div class="container1 m-2" style="margin-top: 5px;display: grid;" dir="rtl">
             <div class="header">
                 <div class="row" style="width: 100%;">
-                    <div class="col-4" style="width: 30%;float: right;margin-top: -20px;">
+                    <div class="col-4" style="width: 30%;float: right;">
                         <p style="align-self: center;"><b>ג) סיכום ההחייאה:&nbsp;</b></p>
                     </div>
-                    <div class="col-8" style="width: 70%;float: right;margin-top: -20px;">
-                        <div class="inside-col3 mr-3" style="width: 20%;float: right;">
+                    <div class="col-8" style="width: 70%;float: right;">
+                        <div class="inside-col3 mr-3" style="width: 40%;float: right;">
                             <p>שעת סיום ההחייאה: &nbsp;<u>{{CprFormsList[0].cprEndTime}}</u></p>
                         </div>
-                        <div class="inside-col3" style="width: 20%;float: right;">
+                        <div class="inside-col3" style="width: 25%;float: right;">
                             <p>קביעת מוות:&nbsp; <u>{{CprFormsList[0].cprDeath}}</u></p>
                         </div>
                     </div>
@@ -1000,28 +937,22 @@
                     </div>
                 </div>
                 <div class="row">
-                    <!-- <div class="col-12">
-                        <div class="row">
-                            <mat-form-field class="full-width">
-                                <input formControlName="responsNurse" matInput
-                                    placeholder="שם וחתימת האחות שהשתתפה בהחייאה ו/או מופקדת על החולה">
-                            </mat-form-field>
-                        </div>
-                    </div> -->
                     <div class="col-12">
                         <div class="row" style="width: 100%;">
                             <div class="col inside-col3"
                                 style="width: 50%;float: right;display: inline-flex;margin-top: -20px;">
                                 <div>
-                                    <p>שם הרופא - מנהל החייאה:&nbsp; <u>{{CprFormsList[0].managingDoc}}</u></p>
+                                    <p>שם וחתימת הרופא - מנהל החייאה:&nbsp;</p>
+                                    <u>{{CprFormsList[0].managingDoc}}</u>
                                 </div>
                                 <img width="100" height="100" [src]="CprFormsList[0].managingDocSign">
                             </div>
                             <div class="col inside-col3"
                                 style="width: 50%;float: right;display: inline-flex;margin-top: -20px;">
                                 <div>
-                                    <p>שם האחות שהשתתפה בהחייאה ו/או מופקדת על
-                                        החולה: &nbsp;<u>{{CprFormsList[0].responsNurse}}</u></p>
+                                    <p>שם וחתימת האחות שהשתתפה בהחייאה ו/או מופקדת על
+                                        החולה: &nbsp;</p>
+                                    <u>{{CprFormsList[0].responsNurse}}</u>
                                 </div>
                                 <img width="100" height="100" [src]="CprFormsList[0].responsNurseSign">
                             </div>
@@ -1031,22 +962,11 @@
             </div>
         </div>
 
-        <!-- save button -->
-        <div class="row" style="width: 100%;">
+        <div class="row" style="width: 100%;text-align: center;">
             <p class="last-paragraph text-center"><b>הטופס ימולא על-ידי הרופא מנהל ההחייאה והאחות שהשתתפה
                     בהחייאה. &nbsp; מקור: לתיק
                     המטופל
                     &nbsp; העתק: למרכז ועדת החייאה.</b></p>
-        </div>
-
-
-        <!-- additional container cause i didnt know what to do in the end -->
-        <!-- delete it and you will stuck with the consiquenses baby -->
-        <div class="container1 m-2" style="background-color: darkgray;" dir="rtl">
-
-        </div>
-        <div class="container1 m-2" dir="rtl">
-
         </div>
     </div>
 </div>
