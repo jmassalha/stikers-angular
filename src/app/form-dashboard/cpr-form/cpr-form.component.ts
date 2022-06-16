@@ -13,7 +13,7 @@ import {
   FormArray,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { HttpClient } from "@angular/common/http";
+import { HttpClient, HttpHeaders } from "@angular/common/http";
 import {
   MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
@@ -24,6 +24,8 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { DatePipe } from "@angular/common";
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
 import { DialogContentExampleDialog } from "../../fill-survey/fill-survey.component";
+import jspdf, { jsPDF } from 'jspdf';
+import html2canvas from 'html2canvas';
 
 @Component({
   selector: 'app-cpr-form',
@@ -341,6 +343,7 @@ export class CprFormComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] != -1) {
             this.openSnackBar("נשמר בהצלחה");
+            this.linkToNamer(Response["d"]);
             this.sendCprFormEmail(Response["d"]);
             this.ngOnInit();
           } else {
@@ -363,7 +366,7 @@ export class CprFormComponent implements OnInit {
 
   getAllCprFormsList() {
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetAllCprFormsList", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllCprFormsList", {
       })
       .subscribe((Response) => {
         this.CprFormsList_all = Response["d"];
@@ -371,24 +374,78 @@ export class CprFormComponent implements OnInit {
   }
 
   sendCprFormEmail(id) {
-    this.CprFormsList = this.CprFormsList_all.filter(x => id);
-    this.http
-      .post("http://localhost:64964/WebService.asmx/SendCprFormEmail", {
-        _userSender: this.UserName,
-        users: this.usersToSend,
-        _reportArray: this.CprFormsList
-      })
+    this.CprFormsList = this.CprFormsList_all.filter(x => id = x.Row_ID);
+    let that = this;
+    setTimeout(() => {
+      const DATA = that.printmycontent.nativeElement;
+      const doc: jsPDF = new jspdf('p', 'mm', 'a4');
+      doc.text("<html>", 10, 10);
+      doc.output('dataurlnewwindow');
+      // doc.html(DATA.innerHTML, {
+      //   callback: () => {
+      //     doc.output('dataurlnewwindow');
+      //     // doc.save('test.pdf');
+      //   }
+      // });
+    }, 1000);
+    // this.http
+    //   .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
+    //     _userSender: this.UserName,
+    //     users: this.usersToSend,
+    //     _reportArray: this.CprFormsList
+    //   })
+    //   .subscribe((Response) => {
+    //     if (Response["d"]) {
+    //       this.openSnackBar("נשלח בהצלחה");
+    //     } else {
+    //       this.openSnackBar("אירעה תקלה, לא נשלח!");
+    //     }
+    //   });
+  }
+
+  linkToNamer(id) {
+    this.CprFormsList = this.CprFormsList_all.filter(x => id = x.Row_ID);
+    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
+      CaseNumber: this.CprFormsList[0].PM_CASE_NUMBER,
+      FormID: "1",
+      Catigory: "ZPO_ONLINE",
+      Row_ID: id,
+    }
+    )
       .subscribe((Response) => {
-        if (Response["d"]) {
-          this.openSnackBar("נשלח בהצלחה");
-        } else {
-          this.openSnackBar("אירעה תקלה, לא נשלח!");
-        }
+        let that = this;
+        setTimeout(() => {
+          that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+            CaseNumber:
+              that.CprFormsList[0].PM_CASE_NUMBER,
+            FormID: "1",
+            Catigory: "ZPO_ONLINE",
+            fileSource:
+              Response["d"],
+          }
+          )
+            .subscribe((Response) => {
+              if (
+                Response["d"] ==
+                "success"
+              ) {
+                that.openSnackBar(
+                  "! נשמר בהצלחה לתיק מטופל בנמר"
+                );
+              } else {
+                that.openSnackBar(
+                  "! משהו לא תקין"
+                );
+              }
+            });
+        }, 1000);
+
       });
   }
 
   printCprForm(id) {
     this.CprFormsList = this.CprFormsList_all.filter(x => id);
+    this.CprFormsList[0].PM_DOB = this.CprFormsList[0].PM_DOB.toFixed(1);
     // $("#loader").removeClass("d-none");
     // setTimeout(function () {
     //   $("#loader").addClass("d-none");

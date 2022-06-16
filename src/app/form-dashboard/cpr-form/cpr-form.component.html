@@ -574,7 +574,14 @@
                             <span class="material-icons">
                                 print
                             </span>
-                        </button> </td>
+                        </button>
+                        <button mat-raised-button ml-2 type="submit" (click)="linkToNamer(element.Row_ID)"
+                            class="btn btn-primary btn-raised mb-2" matTooltip="נמר">
+                            <span class="material-icons">
+                                save
+                            </span>
+                        </button>
+                    </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="CprFormsColumns"></tr>
@@ -588,7 +595,7 @@
 
 
 <!-- Print Cpr Form -->
-<div class="d-none-desktop" *ngIf="CprFormsList.length == 1" #printmycontent>
+<div class="d-none-desktop" *ngIf="CprFormsList.length == 1" #printmycontent id="printmycontent">
     <div class="d-none-desktop" dir="rtl">
         <div class="card-header border-bottomIn rel" style="text-align: center;">
             <img class="full-width" style="width: 640px;" src="assets/images/covid_2_header.png" />
