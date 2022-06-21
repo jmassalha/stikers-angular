@@ -35,6 +35,8 @@ export class EmployeesAddUpdateComponent implements OnInit {
   EmployeeExists: boolean;
   myDate = new Date();
   _switchHTOK: any = "0";
+  _switchBlossom: any = "0";
+  AcceptTerms: any;
 
   constructor(private _snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -97,8 +99,13 @@ export class EmployeesAddUpdateComponent implements OnInit {
       InternLearnCountryDesc: new FormControl(this.employee.InternLearnCountryDesc, null),
       InternUniversity: new FormControl(this.employee.InternUniversity, null),
       StatusRow: new FormControl(this.employee.StatusRow, null),
+      ApprovedToBlossom: new FormControl(this.employee.ApprovedToBlossom, null),
+      AcceptTerms: new FormControl(this.employee.AcceptTerms, null),
     });
     this._switchHTOK = this.employee.StatusRow;
+    this._switchBlossom = this.employee.ApprovedToBlossom;
+    this.AcceptTerms = this.employee.AcceptTerms;
+
     this.sektorSelection(this.employee.EmployeeSektorID);
     this.getEmployeesFunctionsList();
     this.getRanksList();
@@ -117,6 +124,24 @@ export class EmployeesAddUpdateComponent implements OnInit {
       this.employeeWorkDetails.controls['StatusRow'].setValue(this._switchHTOK);
     }
   }
+  
+  switchBlossom() {
+    if (this._switchBlossom != "1") {
+      this._switchBlossom = "1";
+      this.employeeWorkDetails.controls['ApprovedToBlossom'].setValue(this._switchBlossom);
+    } else {
+      this._switchBlossom = "0";
+      this.employeeWorkDetails.controls['ApprovedToBlossom'].setValue(this._switchBlossom);
+    }
+  }
+
+  // acceptTermsFunc() {
+  //   if(this.AcceptTerms){
+  //     this.employeeWorkDetails.controls['AcceptTerms'].setValue("1");
+  //   }else{
+  //     this.employeeWorkDetails.controls['AcceptTerms'].setValue("0");
+  //   }
+  // }
 
   getEmployeeIndex() {
     return this.employeeWorkDetails.controls['DepartnentCode'].value + '_' + this.employeeWorkDetails.controls['EmployeeSektorID'].value;
@@ -261,8 +286,12 @@ export class EmployeesAddUpdateComponent implements OnInit {
               InternLearnCountryDesc: new FormControl(this.employee.InternLearnCountryDesc, null),
               InternUniversity: new FormControl(this.employee.InternUniversity, null),
               StatusRow: new FormControl(this.employee.StatusRow, null),
+              ApprovedToBlossom: new FormControl(this.employee.ApprovedToBlossom, null),
+              AcceptTerms: new FormControl(this.employee.AcceptTerms, null),
             });
             this._switchHTOK = this.employee.StatusRow;
+            this._switchBlossom = this.employee.ApprovedToBlossom;
+            this.AcceptTerms = this.employee.AcceptTerms;
           } else {
             this.employeePersonalDetails.disable();
             this.employeeWorkDetails.disable();

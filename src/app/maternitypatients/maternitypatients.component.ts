@@ -1,71 +1,74 @@
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  Input,
+    Component,
+    OnInit,
+    ViewChild,
+    AfterViewInit,
+    Input,
+    TemplateRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatRadioChange } from "@angular/material/radio";
 import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 
 import {
-  NgbModal,
-  ModalDismissReasons,
-  NgbModalOptions,
-  NgbActiveModal,
+    NgbModal,
+    ModalDismissReasons,
+    NgbModalOptions,
+    NgbActiveModal,
 } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import * as Fun from "../public.functions";
 import { formatDate, Time } from "@angular/common";
 import {
-  FormControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
+    FormControl,
+    FormBuilder,
+    FormGroup,
+    Validators,
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { MatDialog } from "@angular/material/dialog";
 
 export interface MaternityPatients {
-  RowID: number;
-  PatientId: string;
-  PatientFirstName: string;
-  PatientLastName: string;
-  UserIdInsert: string;
-  DateInsert: string;
-  DateUpdate: string;
-  UserIdUpdate: string;
-  PatientStatus: string;
-  PatientNumber: string;
-  PatientDOB: string;
-  PatientPregnancyDOB: string;
-  PatientMobile: string;
-  PatientEmail: string;
-  PatientAddress: string;
-  PatientPregnancyWeekAtInsert: string;
-  PatientNote: string;
+    RowID: number;
+    PatientId: string;
+    PatientFirstName: string;
+    PatientLastName: string;
+    UserIdInsert: string;
+    DateInsert: string;
+    DateUpdate: string;
+    UserIdUpdate: string;
+    PatientStatus: string;
+    PatientNumber: string;
+    PatientDOB: string;
+    PatientPregnancyDOB: string;
+    PatientMobile: string;
+    PatientEmail: string;
+    PatientAddress: string;
+    PatientPregnancyWeekAtInsert: string;
+    PatientNote: string;
 }
 
 @Component({
-  selector: 'app-maternitypatients',
-  templateUrl: './maternitypatients.component.html',
-  styleUrls: ['./maternitypatients.component.css']
+    selector: 'app-maternitypatients',
+    templateUrl: './maternitypatients.component.html',
+    styleUrls: ['./maternitypatients.component.css']
 })
 export class MaternitypatientsComponent implements OnInit {
 
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+    @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
+    @ViewChild('modalProjects', { static: true }) modalProjects: TemplateRef<any>;
     displayedColumns: string[] = [
         "PatientId",
         "PatientNumber",
@@ -73,15 +76,17 @@ export class MaternitypatientsComponent implements OnInit {
         "PatientLastName",
         "PatientPregnancyDOB",
         "PatientPregnancyWeekAtInsert",
-       // "PatientStatus",
+        // "PatientStatus",
         "Click",
         "Delete",
+        "Display",
     ];
 
     modalOptions: NgbModalOptions = {
         windowClass: "marg-t-60",
     };
     closeResult: string;
+    ParticipantProjectsList = [];
     TABLE_DATA: MaternityPatients[] = [];
     rowFormData = {} as MaternityPatients;
     dataSource = new MatTableDataSource(this.TABLE_DATA);
@@ -98,11 +103,12 @@ export class MaternitypatientsComponent implements OnInit {
     submitted = false;
     activeModal: NgbActiveModal;
     constructor(
+        public dialog: MatDialog,
         private _snackBar: MatSnackBar,
         private router: Router,
         private http: HttpClient,
         private modalServicematernitypatients: NgbModal,
-        
+
         private confirmationDialogService: ConfirmationDialogService,
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal
@@ -117,8 +123,9 @@ export class MaternitypatientsComponent implements OnInit {
     Edate: FormControl;
     fullnameVal: string;
     rowIdVal: string;
+    AllParticipantProjectsCost: number = 0;
     ngOnInit(): void {
-       // //debugger
+        // //debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
@@ -126,7 +133,7 @@ export class MaternitypatientsComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        
+
         this.getReportmaternitypatients(this);
     }
     openSnackBar() {
@@ -138,7 +145,7 @@ export class MaternitypatientsComponent implements OnInit {
             verticalPosition: this.verticalPosition,
         });
     }
-    deletePatient(_element){
+    deletePatient(_element) {
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
@@ -189,13 +196,13 @@ export class MaternitypatientsComponent implements OnInit {
             // console.log(this.patientForm.controls.errors);
             return;
         }
-        if(this.patientForm.value.PatientDOB != '')
+        if (this.patientForm.value.PatientDOB != '')
             this.patientForm.value.PatientDOB = formatDate(
                 this.patientForm.value.PatientDOB,
                 "yyyy-MM-dd",
                 "en-US"
             );
-        if(this.patientForm.value.PatientPregnancyDOB != '')
+        if (this.patientForm.value.PatientPregnancyDOB != '')
             this.patientForm.value.PatientPregnancyDOB = formatDate(
                 this.patientForm.value.PatientPregnancyDOB,
                 "yyyy-MM-dd",
@@ -205,7 +212,7 @@ export class MaternitypatientsComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
-               // "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
+                // "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
                 {
                     _patientForm: this.patientForm.value,
                 }
@@ -219,6 +226,28 @@ export class MaternitypatientsComponent implements OnInit {
         // this.modalServicematernitypatients.dismissAll();
         this.activeModal.close();
     }
+
+    displayProjects(patientDetials) {
+        this.http
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/DisplayParticipantProjects",
+                {
+                    Id: patientDetials.RowID
+                }
+            )
+            .subscribe((Response) => {
+                this.ParticipantProjectsList = Response["d"];
+                for (let i = 0; i < this.ParticipantProjectsList.length; i++) {
+                    this.AllParticipantProjectsCost += parseInt(this.ParticipantProjectsList[i].ProjectCost);
+                }
+                this.dialog.open(this.modalProjects, { width: '60%', disableClose: false });
+            });
+    }
+
+    closeModal() {
+        this.dialog.closeAll();
+    }
+
     editRow(content, _type, _element) {
         if (_element.UserSmsStatus == "1") {
             this.UserSmsStatus = true;
@@ -326,7 +355,7 @@ export class MaternitypatientsComponent implements OnInit {
         }
     }
 
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
 
@@ -337,20 +366,20 @@ export class MaternitypatientsComponent implements OnInit {
             this.StatusPatient
         );
     }
-    computeEGA( iDueDateYear, iDueDateMonth, iDueDateDay ) {
-        var dToday   = new Date();
-        var dDueDate = new Date( iDueDateYear, iDueDateMonth-1, iDueDateDay );
-      //  //debugger
-        var iDaysUntilDueDate = (dDueDate.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24 );
-        var iTotalDaysInPregnancy = 40*7;
+    computeEGA(iDueDateYear, iDueDateMonth, iDueDateDay) {
+        var dToday = new Date();
+        var dDueDate = new Date(iDueDateYear, iDueDateMonth - 1, iDueDateDay);
+        //  //debugger
+        var iDaysUntilDueDate = (dDueDate.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24);
+        var iTotalDaysInPregnancy = 40 * 7;
         var iGestationalAgeInDays = iTotalDaysInPregnancy - iDaysUntilDueDate;
         var fGestationalAgeInWeeks = iGestationalAgeInDays / 7;
-        var iEGAWeeks = Math.floor( fGestationalAgeInWeeks );
-        var iEGADays = ((fGestationalAgeInWeeks % 1)*7).toFixed(0)
-    
-        console.log( iEGAWeeks + " weeks" );
-        console.log( iEGADays + " days" );
-        return iEGAWeeks+"."+iEGADays
+        var iEGAWeeks = Math.floor(fGestationalAgeInWeeks);
+        var iEGADays = ((fGestationalAgeInWeeks % 1) * 7).toFixed(0)
+
+        // console.log( iEGAWeeks + " weeks" );
+        // console.log( iEGADays + " days" );
+        return iEGAWeeks + "." + iEGADays
     }
     public getTableFromServer(
         _pageIndex: number,

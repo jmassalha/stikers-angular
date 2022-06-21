@@ -372,6 +372,8 @@
     </div>
 </mat-card>
 
+
+<!-- Bugs And Feature Assigntments -->
 <ng-template #modalBug let-close="close">
     <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
@@ -519,6 +521,8 @@
     </mat-tab-group>
 </ng-template>
 
+
+<!-- Various apps screen -->
 <ng-template #modalOtherApps let-close="close">
     <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
@@ -565,6 +569,8 @@
     </div>
 </ng-template>
 
+
+<!-- Monitor the unreporting departments -->
 <ng-template #monitorReports let-close="close">
     <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
@@ -584,6 +590,8 @@
     </mat-chip-list>
 </ng-template>
 
+
+<!-- Updating Ip Addresses -->
 <ng-template #modalIp let-close="close">
     <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
         <span aria-hidden="true">&times;</span>
@@ -608,6 +616,7 @@
     </div>
 </ng-template>
 
+<!-- Unotherized Device Login -->
 <ng-template #modalContent let-close="close">
     <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
         warning
@@ -620,6 +629,9 @@
         <span class="mr-3">כניסה מותרת רק ממחשב מורשה</span>
     </h1>
 </ng-template>
+
+
+<!-- Unotherized UserName -->
 <ng-template #modalContent3 let-close="close">
     <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
         warning
@@ -633,6 +645,8 @@
         <span class="mr-3" *ngIf="UserName != 'amabushkar'">&#8734; 😨 ייתכן ואין לך הרשאת צפייה במידע זה &#8734;</span>
     </h1>
 </ng-template>
+
+<!-- Warning When using clalit userName -->
 <ng-template #modalContent2 let-close="close">
     <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
         warning
@@ -646,6 +660,8 @@
     </h1>
 </ng-template>
 
+
+<!-- Printing Reports -->
 <div class="d-none-desktop" dir="rtl">
     <div class="row text-right" *ngFor="let tblRow of ELEMENT_DATA"
         style="border-style: outset;margin-bottom: 20px;padding: 6px;">

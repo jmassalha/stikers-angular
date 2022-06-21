@@ -78,7 +78,12 @@ import { NursesReinforcementComponent } from '../nurses-manage-dashboard/nurses-
 import { HospitalBIDashboardComponent } from '../hospital-bi-dashboard/hospital-bi-dashboard.component';
 import { InfectionDrugsComponent } from '../infection-drugs/infection-drugs.component';
 import { InfectionReportComponent } from "../infection-report/infection-report.component";
+<<<<<<< HEAD
 import { NewBornComponent } from "../new-born/new-born.component";
+=======
+import { MaternityParticipantsComponent } from "../maternity/maternity-participants/maternity-participants.component";
+import { CprFormComponent } from "../form-dashboard/cpr-form/cpr-form.component";
+>>>>>>> 6b7a58076116037ab11eb112424ca0dcd25dfd8a
 const routes: Routes = [
   
   { path: 'dashboard', component: DashboardComponent },
@@ -161,7 +166,12 @@ const routes: Routes = [
   { path: "BIDashboard", component: HospitalBIDashboardComponent },
   { path: "InfectionDrugs", component: InfectionDrugsComponent },
   { path: "InfectionReport", component: InfectionReportComponent },
+<<<<<<< HEAD
   { path: "newborn", component: NewBornComponent },
+=======
+  { path: "MaternityParticipants", component: MaternityParticipantsComponent },
+  { path: "CprForm", component: CprFormComponent },
+>>>>>>> 6b7a58076116037ab11eb112424ca0dcd25dfd8a
   { path: '', component : LoginComponent}
 ];
  

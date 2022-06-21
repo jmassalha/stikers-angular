@@ -186,8 +186,13 @@ export class GroupedBarChart2Component implements OnInit {
               arrTemp.push(0);
             }
           }
-
-          if (inquiriesStatLine[0][d] != finalarr[d][0]) {
+          // if the day not in finalarr then add it in right place with values of zero
+          if (finalarr.length > d) {
+            if (inquiriesStatLine[0][d] != finalarr[d][0]) {
+              finalarr.splice(d, 0, arrTemp);
+            }
+          }
+          else {
             finalarr.splice(d, 0, arrTemp);
           }
           // if (inquiriesStatLine[0].length == inquiriesStatLine[2].length) {
@@ -201,6 +206,8 @@ export class GroupedBarChart2Component implements OnInit {
 
         if (this.TimeLineParam == "1") {
           this.data = new Array(7);
+          let temp = finalarr;
+          finalarr = new Array(7).fill(['', 0, 0, 0, 0]);
           let counter = 1;
           finalarr[0][0] = 'ראשון';
           finalarr[1][0] = 'שני';
@@ -209,6 +216,7 @@ export class GroupedBarChart2Component implements OnInit {
           finalarr[4][0] = 'חמישי';
           finalarr[5][0] = 'שישי';
           finalarr[6][0] = 'שבת';
+          finalarr = temp;
           for (let f = 0; f < inquiriesStatLine[0].length; f++) {
             let t = new Date(date);
             let dayName = inquiriesStatLine[0][t.getDay()];
@@ -233,38 +241,36 @@ export class GroupedBarChart2Component implements OnInit {
           let year = dt.getFullYear();
           let daysInMonth = new Date(year, month - 1, 0).getDate();
           this.data = new Array(daysInMonth);
-          let counter = 0;
-          for (let f = 0; f < daysInMonth; f++) {
-            let yesterdayIndex = inquiriesStatLine[0].findIndex(x => x == day - counter);
-            //if its 1 in month
-
-            //if not found
-            if (yesterdayIndex == -1) {
-              this.data[f] = new Array(finalarr[0].length).fill(0);
+          let counter = 1;
+          if (day == 1) {
+            this.data = finalarr;
+          } else if (day != 1 && day != 31) {
+            for (let f = 0; f < inquiriesStatLine[0].length; f++) {
+              let t = new Date(date);
+              let day = t.getDate();
+              let todayIndex = inquiriesStatLine[0].findIndex(x => x == day);
+              todayIndex--;
+              let dateDifference = todayIndex - f;
+              if (dateDifference < 0) {
+                dateDifference = finalarr.length - counter;
+                counter++;//Math.abs(dateDifference);
+              }
+              this.data[f] = finalarr[dateDifference];
             }
-            //else
-            else {
-              this.data[f] = finalarr[yesterdayIndex];
-            }
-            counter++;
+            this.data.reverse();
+            // for (let f = 0; f < daysInMonth; f++) {
+            // let yesterdayIndex = inquiriesStatLine[0].findIndex(x => x == day - f);
+            // if (yesterdayIndex == -1) {
+            //   // this.data[f] = new Array(finalarr[0].length).fill(0);
+            //   // this.data[f][0] = day;
+            // }
+            // //else
+            // else {
+            //   this.data[counter] = finalarr[yesterdayIndex];
+            //   counter++;
+            // }
+            // }
           }
-          // for (let f = -1; f < inquiriesStatLine[0].length; f++) {
-          //   let t = new Date(date);
-          //   let day = t.getDate();
-          //   let todayIndex = inquiriesStatLine[0].findIndex(x => x == day);
-          //   todayIndex--;
-          //   let dateDifference = todayIndex - f;
-          //   if (dateDifference < 0) {
-          //     dateDifference = todayIndex + ((finalarr.length - counter) - todayIndex);
-          //     counter++;//Math.abs(dateDifference);
-          //   }
-          //   if (f == -1) {
-          //     this.data[this.data.length - 1] = finalarr[dateDifference];
-          //   } else {
-          //     this.data[f] = finalarr[dateDifference];
-          //   }
-          // }
-          this.data.reverse();
         } else if (this.TimeLineParam == "3") {
           this.data = new Array(12);
           let counter = 1;

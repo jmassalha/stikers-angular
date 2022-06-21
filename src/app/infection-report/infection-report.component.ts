@@ -166,7 +166,7 @@ export class InfectionReportComponent implements OnInit {
         );
         this.http
             .post(
-                //"http://localhost:64964/WebService.asmx/GetInfectionCons",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionCons",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionCons",
                 {
                     DocNumber: _element.DocNumber,
@@ -209,7 +209,7 @@ export class InfectionReportComponent implements OnInit {
         //debugger
         $("#loader").removeClass("d-none");
         this.http
-            // .post("http://localhost:64964/WebService.asmx/GetInfectionPatiantApp", {
+            // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionPatiantApp", {
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionPatiantApp",
                 {}

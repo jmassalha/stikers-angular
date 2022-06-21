@@ -17,7 +17,7 @@
                     <div dir="rtl" class="card-body">
                         <form class="form" [formGroup]="searchEmployeesGroup">
                             <div class="row">
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <mat-form-field>
                                             <input matInput type="text" autocomplete="off" placeholder="תעודת זהות"
@@ -25,7 +25,7 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <mat-form-field>
                                             <input matInput type="text" autocomplete="off" placeholder="שם פרטי"
@@ -33,11 +33,27 @@
                                         </mat-form-field>
                                     </div>
                                 </div>
-                                <div class="col-4">
+                                <div class="col-3">
                                     <div class="form-group">
                                         <mat-form-field>
                                             <input matInput type="text" autocomplete="off" placeholder="שם משפחה"
                                                 formControlName="EmpLastName" />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col-3">
+                                    <div class="form-group lh-37">
+                                        <mat-form-field>
+                                            <mat-label>מאושר לבלוסום</mat-label>
+                                            <mat-select formControlName="ApprovedToBlossom">
+                                                <mat-option value="2">הכל</mat-option>
+                                                <mat-option value="1">
+                                                    כן
+                                                </mat-option>
+                                                <mat-option value="0">
+                                                    לא
+                                                </mat-option>
+                                            </mat-select>
                                         </mat-form-field>
                                     </div>
                                 </div>
