@@ -142,11 +142,11 @@ export class MaternitypatientsComponent implements OnInit {
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
-                [Validators.nullValidator, Validators.pattern("[0-9].{2,}")],
+                Validators.nullValidator,
             ],
             PatientId: [
                 _element.PatientId,
-                [Validators.nullValidator, Validators.pattern("[0-9].{7,}")],
+                Validators.nullValidator
             ],
             PatientFirstName: [_element.PatientFirstName, Validators.nullValidator],
             PatientLastName: [_element.PatientLastName, Validators.nullValidator],

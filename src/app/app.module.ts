@@ -151,6 +151,7 @@ import { GroupedBarChart2Component } from './hospital-bi-dashboard/grouped-bar-c
 import { InfectionDrugsComponent } from './infection-drugs/infection-drugs.component';
 import { AngularDualListBoxModule } from 'angular-dual-listbox';
 import { InfectionReportComponent } from './infection-report/infection-report.component';
+import { NewBornComponent } from './new-born/new-born.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -261,7 +262,8 @@ const maskConfig: Partial<IConfig> = {
     PieChartComponent,
     GroupedBarChart2Component,
     InfectionDrugsComponent,
-    InfectionReportComponent
+    InfectionReportComponent,
+    NewBornComponent
   ],
   imports: [
     AngularDualListBoxModule ,
