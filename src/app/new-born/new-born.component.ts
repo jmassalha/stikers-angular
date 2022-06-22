@@ -276,6 +276,8 @@ export class NewBornComponent implements OnInit {
             });
     }
     showRow(content, _type, _element) {
+        debugger
+        this.ShowFormNewBorn = true;
         this.ShowSubmit = false;
         if (_element.NewBornWeightInProgress == "לא") {
             _element.NewBornWeightInProgress = "";
@@ -359,10 +361,25 @@ export class NewBornComponent implements OnInit {
                 Validators.required,
             ],
         });
-        this.activeModal = this.modalServiceresearchespatients.open(
+        this.modalServiceresearchespatients.open(
             content,
             this.modalOptions
-        );
+        ).result.then(
+            result => {
+                this.closeResult = `Closed with: ${result}`;
+                if ("Save" == result) {
+                    // //////debugger;
+                }
+                
+                //debugger
+            },
+            reason => {
+                //debugger
+                this.patientForm.value.UserName = '';
+                this.ShowFormNewBorn = false;
+                this.myControl = new FormControl("");
+            }
+        );;;
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
