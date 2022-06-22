@@ -230,7 +230,7 @@
 
         <!-- Second section questions (Tables) -->
 
-        <div class="container1 m-2" dir="rtl" [formGroup]="SecondSection">
+        <div class="container1 m-2" style="overflow: scroll;" dir="rtl" [formGroup]="SecondSection">
             <div class="header">
                 <p class="text-right"><b><u>ב) תהליך החייאה:</u></b></p>
             </div>
@@ -338,8 +338,8 @@
                             <tr *ngFor="let action of secondTableMeds; let i = index" class="text-center"
                                 [formGroupName]="i">
                                 <!-- <td *ngIf="action != ''">{{action}}</td> -->
-                                <td><input type="text" formControlName="title" value="{{action}}"
-                                        class="form-control" />
+                                <td><input type="text" formControlName="title" style="font-size: 14px;"
+                                        value="{{action}}" class="form-control" />
                                 </td>
                                 <td *ngFor="let time of secondTablecolumns; let j = index" formArrayName="subArray">
                                     <div class="row" [formGroupName]="j">
@@ -495,9 +495,20 @@
                     <div class="col-12">
                         <div class="row">
                             <div class="col">
-                                <mat-form-field class="full-width">
-                                    <input formControlName="managingDoc" matInput placeholder="שם הרופא - מנהל החייאה">
+                                <mat-form-field>
+                                    <mat-label>שם הרופא - מנהל החייאה</mat-label>
+                                    <input type="text" aria-label="doc" matInput [formControl]="docfilter"
+                                        [matAutocomplete]="auto1">
+                                    <mat-autocomplete #auto1="matAutocomplete">
+                                        <mat-option *ngFor="let doc of filteredOptions1 | async"
+                                            [value]="doc.firstname">
+                                            {{doc.firstname}}
+                                        </mat-option>
+                                    </mat-autocomplete>
                                 </mat-form-field>
+                                <!-- <mat-form-field class="full-width">
+                                    <input formControlName="managingDoc" matInput placeholder="שם הרופא - מנהל החייאה">
+                                </mat-form-field> -->
                                 <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
                                     color="warn" (click)="signForm('Doctor')" type="submit" mat-raised-button>
                                     <span *ngIf="signDoc == ''">לחתום</span>
@@ -505,10 +516,21 @@
                                 </button>
                             </div>
                             <div class="col">
-                                <mat-form-field class="full-width">
+                                <mat-form-field>
+                                    <mat-label>שם האחות שהשתתפה בהחייאה ו/או מופקדת על החולה</mat-label>
+                                    <input type="text" aria-label="nur" matInput [formControl]="nurfilter"
+                                        [matAutocomplete]="auto2">
+                                    <mat-autocomplete #auto2="matAutocomplete">
+                                        <mat-option *ngFor="let nur of filteredOptions2 | async"
+                                            [value]="nur.firstname">
+                                            {{nur.firstname}}
+                                        </mat-option>
+                                    </mat-autocomplete>
+                                </mat-form-field>
+                                <!-- <mat-form-field class="full-width">
                                     <input formControlName="responsNurse" matInput
                                         placeholder="שם האחות שהשתתפה בהחייאה ו/או מופקדת על החולה">
-                                </mat-form-field>
+                                </mat-form-field> -->
                                 <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
                                     color="warn" (click)="signForm('Nurse')" type="submit" mat-raised-button>
                                     <span *ngIf="signNurse == ''">לחתום</span>
@@ -569,16 +591,23 @@
                 <ng-container matColumnDef="print">
                     <th mat-header-cell *matHeaderCellDef> הדפסה </th>
                     <td mat-cell *matCellDef="let element"> <button mat-raised-button ml-2 type="submit"
-                            (click)="sendCprFormEmail(element.Row_ID)" class="btn btn-primary btn-raised mb-2"
+                            (click)="printCprForm(element.Row_ID)" class="btn btn-primary btn-raised mb-2"
                             matTooltip="הדפסה">
                             <span class="material-icons">
                                 print
                             </span>
                         </button>
-                        <button mat-raised-button ml-2 type="submit" (click)="linkToNamer(element.Row_ID)"
-                            class="btn btn-primary btn-raised mb-2" matTooltip="נמר">
+                        <button mat-raised-button ml-2 type="submit" *ngIf="UserName == 'adahabre'"
+                            (click)="linkToNamer(element.Row_ID)" class="btn btn-primary btn-raised mb-2"
+                            matTooltip="נמר">
                             <span class="material-icons">
                                 save
+                            </span>
+                        </button>
+                        <button mat-raised-button ml-2 type="submit" (click)="sendCprFormEmail(element.Row_ID)"
+                            class="btn btn-primary btn-raised mb-2" matTooltip="שליחה במייל">
+                            <span class="material-icons">
+                                reply
                             </span>
                         </button>
                     </td>
@@ -595,7 +624,7 @@
 
 
 <!-- Print Cpr Form -->
-<div class="d-none-desktop" *ngIf="CprFormsList.length == 1" #printmycontent id="printmycontent">
+<div class="d-none-desktop" *ngIf="CprFormsList.length == 1" #printmycontent>
     <div class="d-none-desktop" dir="rtl">
         <div class="card-header border-bottomIn rel" style="text-align: center;">
             <img class="full-width" style="width: 640px;" src="assets/images/covid_2_header.png" />
@@ -764,7 +793,7 @@
                                 </td>
                                 <td class="col-1 text-center" *ngFor="let col of firstTablecolumns; let i = index">
                                     <mat-label style="align-self: center;">שעה:&nbsp;</mat-label>
-                                    <p style="margin: 0px;font-size: 12px;">
+                                    <p style="margin: 0px;font-size: 9px;padding: 0px;">
                                         <b>{{CprFormsList[0].firstTableArray[i].subArray[0].timeHead}}</b>
                                     </p>
                                 </td>
@@ -772,7 +801,7 @@
                             <tr>
                                 <td>בד' דופק יש/אין</td>
                                 <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index">
-                                    <p style="margin: 0px;font-size: 12px;">
+                                    <p style="margin: 0px;font-size: 9px;padding: 0px;">
                                         <b>{{CprFormsList[0].firstTableArray[i].subArray[0].rateHead}}</b>
                                     </p>
                                 </td>
@@ -781,7 +810,12 @@
                                 <td>הערכת קצב</td>
                                 <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index"
                                     style="text-align: right;">
-                                    <p style="margin: 0px;font-size: 12px;">
+                                    <p style="margin: 0px;font-size: 5px;padding: 0px;"
+                                        *ngIf="CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead == 'ASYSTOLE'">
+                                        <b>{{CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead}}</b>
+                                    </p>
+                                    <p style="margin: 0px;font-size: 9px;padding: 0px;"
+                                        *ngIf="CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead != 'ASYSTOLE'">
                                         <b>{{CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead}}</b>
                                     </p>
                                 </td>
@@ -807,7 +841,9 @@
                                 </thead>
                                 <tbody>
                                     <tr class="text-center" *ngFor="let action of actions; let i = index">
-                                        <td>{{action.ActionList}}</td>
+                                        <td>
+                                            <p>{{action.ActionList}}</p>
+                                        </td>
                                         <td>
                                             <p>{{CprFormsList[0].actionsTableArray[i].actionctrl}}</p>
                                         </td>
@@ -824,7 +860,7 @@
                                 <thead>
                                     <tr>
                                         <th class="text-center">
-                                            התרופה (מינון)
+                                            התרופה
                                         </th>
                                         <th class="text-center" *ngFor="let time of secondTablecolumns">
                                             {{time}}
@@ -835,17 +871,17 @@
                                     <tr *ngFor="let action of CprFormsList[0].thirdTableArray; let i = index"
                                         class="text-center">
                                         <td>
-                                            <p>{{action.subArray[0].title}}</p>
+                                            <p style="font-size: 7px;">{{action.subArray[0].title}}</p>
                                         </td>
                                         <td
                                             *ngFor="let time of CprFormsList[0].thirdTableArray[i].subArray; let j = index">
                                             <div class="row" style="display: flex;margin: 10px 0px 10px 0px;">
                                                 <div class="col-6"
                                                     style="width: 50%;margin: 0px;border-left: 1px solid black;text-align: center;">
-                                                    <p style="margin: 0px;">{{time.textMed}}</p>
+                                                    <p style="margin: 0px;font-size: 8px;">{{time.textMed}}</p>
                                                 </div>
                                                 <div class="col-6" style="width: 50%;margin: 0px;text-align: center;">
-                                                    <p style="margin: 0px;">{{time.timeMed}}</p>
+                                                    <p style="margin: 0px;font-size: 8px;">{{time.timeMed}}</p>
                                                 </div>
                                             </div>
                                         </td>
@@ -859,14 +895,18 @@
                             <table class="table table-bordered table-hover" style="width: 100%;" id="tab_logic">
                                 <tbody>
                                     <tr class="text-center">
-                                        <td> שעת דפיברלציה/היפוך חשמלי</td>
+                                        <td>
+                                            <p style="font-size: 7px;">שעת דפיברלציה/היפוך חשמלי</p>
+                                        </td>
                                         <td class="text-center"
                                             *ngFor="let time of CprFormsList[0].forthTableArray[0].subArray; let i = index">
                                             <p style="margin: 0px;">{{time.timeMed}}</p>
                                         </td>
                                     </tr>
                                     <tr class="text-center">
-                                        <td>אנרגיה של מכת חשמל</td>
+                                        <td>
+                                            <p style="font-size: 9px;">אנרגיה של מכת חשמל</p>
+                                        </td>
                                         <td
                                             *ngFor="let text of CprFormsList[0].forthTableArray[0].subArray; let j = index">
                                             <p style="margin: 0px;">{{text.textMed}}</p>
@@ -907,10 +947,10 @@
                                 </p>
                             </div>
                             <div class="col-8" style="width: 70%;float: right;margin-top: -20px;">
-                                <div class="inside-col3" style="width: 20%;float: right;">
+                                <div class="inside-col3" style="width: 40%;float: right;">
                                     <p>נשימה עצמונית: &nbsp;<u>{{CprFormsList[0].resporatoryAlone}}</u></p>
                                 </div>
-                                <div class="inside-col3" style="width: 20%;float: right;">
+                                <div class="inside-col3" style="width: 25%;float: right;">
                                     <p>קצב לב:&nbsp; <u>{{CprFormsList[0].heartRate}}</u></p>
                                 </div>
                             </div>
@@ -923,7 +963,7 @@
                                     <p>סטורציה:&nbsp; <u>{{CprFormsList[0].saturation}}</u></p>
                                 </div>
                                 <div class="inside-col" style="width: 25%;float: right;margin-top: -20px;">
-                                    <p>ETCO2: &nbsp;<u>{{CprFormsList[0].carbonCo}}</u></p>
+                                    <p><u>{{CprFormsList[0].carbonCo}}</u> &nbsp;:ETCO2</p>
                                 </div>
                                 <div class="inside-col" style="width: 25%;float: right;margin-top: -20px;">
                                     <p>לחץ דם:&nbsp;<u>{{CprFormsList[0].bloodPressure}}</u></p>

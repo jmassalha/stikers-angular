@@ -25,7 +25,14 @@ import { DatePipe } from "@angular/common";
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
 import { DialogContentExampleDialog } from "../../fill-survey/fill-survey.component";
 import jspdf, { jsPDF } from 'jspdf';
+import domtoimage from 'dom-to-image';
+import pdfMake from 'pdfmake/build/pdfmake';
+import pdfFonts from 'pdfmake/build/vfs_fonts';
+pdfMake.vfs = pdfFonts.pdfMake.vfs;
+import htmlToPdfmake from 'html-to-pdfmake';
 import html2canvas from 'html2canvas';
+import { Observable } from "rxjs";
+import { map, startWith } from 'rxjs/operators';
 
 @Component({
   selector: 'app-cpr-form',
@@ -77,7 +84,11 @@ export class CprFormComponent implements OnInit {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   // usersToSend = ['batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
   usersToSend = ['adahabre@poria.health.gov.il'];
-  imagePath = "";
+  filteredOptions1: Observable<string[]>;
+  docfilter = new FormControl();
+  filteredOptions2: Observable<string[]>;
+  nurfilter = new FormControl();
+  employees = [];
 
 
   ngOnInit(): void {
@@ -85,7 +96,7 @@ export class CprFormComponent implements OnInit {
     // for the first table hour/minutes row
     for (let i = 0; i < 1; i++) {
       this.firstTableArray.push(this.formBuilder.group({
-        subArray: this.subArrayTest(this.firstTablecolumns.length)
+        subArray: this.subArrayTest(this.firstTablecolumns.length, 'actions')
       }));
     }
 
@@ -101,14 +112,14 @@ export class CprFormComponent implements OnInit {
     for (let i = 0; i < 6; i++) {
       this.thirdTableArray.push(this.formBuilder.group({
         title: this.secondTableMeds[i],
-        subArray: this.subArrayTest(this.secondTablecolumns.length)
+        subArray: this.subArrayTest(this.secondTablecolumns.length, 'third')
       }));
     }
 
     // forth table of electricity arrays  -- NOTE (MAKE IT ONE ARRAY NOT TWO !!!!!!!!!)
     for (let i = 0; i < 1; i++) {
       this.forthTableArray.push(this.formBuilder.group({
-        subArray: this.subArrayTest(this.secondTablecolumns.length)
+        subArray: this.subArrayTest(this.secondTablecolumns.length, 'forth')
       }));
     }
 
@@ -158,10 +169,61 @@ export class CprFormComponent implements OnInit {
       cautiosStat: new FormControl('', Validators.required),
       managingDoc: new FormControl('', Validators.required),
       managingDocSign: new FormControl('', Validators.required),
+      managingDocLicence: new FormControl('', Validators.required),
       responsNurse: new FormControl('', Validators.required),
       responsNurseSign: new FormControl('', Validators.required),
+      responsNurseLicence: new FormControl('', Validators.required),
     });
 
+    this.filteredOptions1 = this.docfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter1(value))
+      );
+    this.filteredOptions2 = this.nurfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter2(value))
+      );
+  }
+
+  private _filter1(value: string): string[] {
+    const filterValue1 = value;
+    let depart: any = this.employees.filter(t => t.firstname === filterValue1);
+    let userToChange;
+    if (depart.length > 0) {
+      this.ThirdSection.controls['managingDoc'].setValue(depart[0].firstname);
+      this.ThirdSection.controls['managingDocLicence'].setValue(depart[0].doc);
+    }
+    return this.employees.filter(option => option.firstname.includes(filterValue1));
+  }
+
+  private _filter2(value: string): string[] {
+    const filterValue2 = value;
+    let depart: any = this.employees.filter(t => t.firstname === filterValue2);
+    let userToChange;
+    if (depart.length > 0) {
+      this.ThirdSection.controls['responsNurse'].setValue(depart[0].firstname);
+      this.ThirdSection.controls['responsNurseLicence'].setValue(depart[0].doc);
+    }
+    return this.employees.filter(option => option.firstname.includes(filterValue2));
+  }
+
+  getEmployeesList() {
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetUsersForInquiries", {
+      })
+      .subscribe((Response) => {
+        let all_users_filter = Response["d"];
+        all_users_filter.forEach(element => {
+          this.employees.push({
+            firstname: element.firstname + " " + element.lastname,
+            id: element.id,
+            email: element.email,
+            doc: element.DocLicence,
+          });
+        })
+      });
   }
 
   openSnackBar(message) {
@@ -202,15 +264,19 @@ export class CprFormComponent implements OnInit {
   }
 
   // create sub arrays for the table arrays
-  subArrayTest(number) {
+  subArrayTest(number, tableName) {
     let t = this.formBuilder.array([]);
+    let autoVal = '';
+    if (tableName == 'forth') {
+      autoVal = 'J 200'
+    }
     if (number != 15) {
       for (let i = 0; i < number; i++) {
         t.push(this.formBuilder.group(
           {
             id: new FormControl(i, null),
             // title: new FormControl(this.secondTableMeds[place], null),
-            textMed: new FormControl('J 200', null),
+            textMed: new FormControl(autoVal, null),
             timeMed: new FormControl('', null)
           }
         ));
@@ -282,12 +348,13 @@ export class CprFormComponent implements OnInit {
         this.PatientRecord = Response["d"];
         if (this.PatientRecord.PM_PATIENT_ID != null) {
           this.searching = "Found";
+          this.getEmployeesList();
         } else {
           this.searching = "tryAgain";
         }
         this.buffering = false;
         this.PatientRecord.PM_DOB = this.calculateDiff(this.PatientRecord.PM_DOB) / 365;
-
+        this.PatientRecord.PM_DOB = this.PatientRecord.PM_DOB.toFixed(1);
       });
   }
 
@@ -333,19 +400,19 @@ export class CprFormComponent implements OnInit {
     let defaultCprDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
     this.FirstSection.controls['cprDate'].setValue(defaultCprDate);
     if (!this.FirstSection.invalid && !this.SecondSection.invalid && !this.ThirdSection.invalid) {
-      this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveCprForm", {
-          _first: this.FirstSection.value,
-          _second: this.SecondSection.value,
-          _third: this.ThirdSection.value,
-          _patientDetails: this.PatientRecord,
-        })
+      this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveCprForm", {
+        _first: this.FirstSection.value,
+        _second: this.SecondSection.value,
+        _third: this.ThirdSection.value,
+        _patientDetails: this.PatientRecord,
+      })
         .subscribe((Response) => {
           if (Response["d"] != -1) {
             this.openSnackBar("נשמר בהצלחה");
             this.linkToNamer(Response["d"]);
             this.sendCprFormEmail(Response["d"]);
             this.ngOnInit();
+            this.returnToSearch();
           } else {
             this.openSnackBar("אירעה תקלה, לא נשמר!");
           }
@@ -357,6 +424,9 @@ export class CprFormComponent implements OnInit {
 
   returnToSearch() {
     this.searching = "notFound";
+    this.FirstSection.reset();
+    this.SecondSection.reset();
+    this.ThirdSection.reset();
   }
 
   displayCprForms() {
@@ -367,6 +437,7 @@ export class CprFormComponent implements OnInit {
   getAllCprFormsList() {
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllCprFormsList", {
+        ID: ""
       })
       .subscribe((Response) => {
         this.CprFormsList_all = Response["d"];
@@ -374,39 +445,34 @@ export class CprFormComponent implements OnInit {
   }
 
   sendCprFormEmail(id) {
-    this.CprFormsList = this.CprFormsList_all.filter(x => id = x.Row_ID);
-    let that = this;
-    setTimeout(() => {
-      const DATA = that.printmycontent.nativeElement;
-      const doc: jsPDF = new jspdf('p', 'mm', 'a4');
-      doc.text("<html>", 10, 10);
-      doc.output('dataurlnewwindow');
-      // doc.html(DATA.innerHTML, {
-      //   callback: () => {
-      //     doc.output('dataurlnewwindow');
-      //     // doc.save('test.pdf');
-      //   }
-      // });
-    }, 1000);
-    // this.http
-    //   .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
-    //     _userSender: this.UserName,
-    //     users: this.usersToSend,
-    //     _reportArray: this.CprFormsList
-    //   })
-    //   .subscribe((Response) => {
-    //     if (Response["d"]) {
-    //       this.openSnackBar("נשלח בהצלחה");
-    //     } else {
-    //       this.openSnackBar("אירעה תקלה, לא נשלח!");
-    //     }
-    //   });
+    this.http
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
+        _userSender: this.UserName,
+        users: this.usersToSend,
+        _reportArrayID: id
+      })
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("נשלח בהצלחה");
+        } else {
+          this.openSnackBar("אירעה תקלה, לא נשלח!");
+        }
+      });
   }
 
   linkToNamer(id) {
-    this.CprFormsList = this.CprFormsList_all.filter(x => id = x.Row_ID);
-    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
-      CaseNumber: this.CprFormsList[0].PM_CASE_NUMBER,
+    let CaseNumber = "";
+    let form = [];
+    if (this.CprFormsList_all.length > 0) {
+      form = this.CprFormsList_all.filter(x => x.Row_ID == id);
+      CaseNumber = form[0].PM_CASE_NUMBER;
+    } else {
+      CaseNumber = this.PatientRecord.PM_CASE_NUMBER;
+    }
+
+    this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createCprPdfOnServer", {
+      // this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
+      CaseNumber: CaseNumber,
       FormID: "1",
       Catigory: "ZPO_ONLINE",
       Row_ID: id,
@@ -415,9 +481,10 @@ export class CprFormComponent implements OnInit {
       .subscribe((Response) => {
         let that = this;
         setTimeout(() => {
-          that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+          that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
+            // that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
             CaseNumber:
-              that.CprFormsList[0].PM_CASE_NUMBER,
+              CaseNumber,
             FormID: "1",
             Catigory: "ZPO_ONLINE",
             fileSource:
@@ -444,13 +511,14 @@ export class CprFormComponent implements OnInit {
   }
 
   printCprForm(id) {
-    this.CprFormsList = this.CprFormsList_all.filter(x => id);
-    this.CprFormsList[0].PM_DOB = this.CprFormsList[0].PM_DOB.toFixed(1);
-    // $("#loader").removeClass("d-none");
-    // setTimeout(function () {
-    //   $("#loader").addClass("d-none");
-    //   window.print();
-    // }, 1500);
+    this.CprFormsList = this.CprFormsList_all.filter(x => x.Row_ID == id);
+    // this.CprFormsList[0].PM_DOB = this.CprFormsList[0].PM_DOB.toFixed(1);
+    // let that = this;
+    // const doc = new jsPDF();
+    // const pdfTable = this.printmycontent.nativeElement;
+    // var html = htmlToPdfmake(pdfTable.innerHTML);
+    // const documentDefinition = { content: html };
+    // pdfMake.createPdf(documentDefinition).open();
     let that = this;
     setTimeout(function () {
       var style = "<style>p,mat-label,li{font-weight: bold;font-size: 12px;}.col-2{width: 20%;justify-content: center;}td{border: 1px solid black}.container1{margin:2px; padding: 0px 5px 0px 0px; border-style: double;}th{font-size: 14px;}</style>";
@@ -461,7 +529,7 @@ export class CprFormComponent implements OnInit {
       setTimeout(() => {
         w.print();
       }, 500);
-      // w.close();
+      w.close();
     }, 100);
   }
 
