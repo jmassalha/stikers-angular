@@ -470,8 +470,8 @@ export class CprFormComponent implements OnInit {
       CaseNumber = this.PatientRecord.PM_CASE_NUMBER;
     }
 
-    this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createCprPdfOnServer", {
-      // this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
+    // this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createCprPdfOnServer", {
+      this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
       CaseNumber: CaseNumber,
       FormID: "1",
       Catigory: "ZPO_ONLINE",
@@ -481,8 +481,8 @@ export class CprFormComponent implements OnInit {
       .subscribe((Response) => {
         let that = this;
         setTimeout(() => {
-          that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
-            // that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+          // that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
+            that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
             CaseNumber:
               CaseNumber,
             FormID: "1",
