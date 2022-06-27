@@ -547,7 +547,8 @@
         <div class="row" style="justify-content: center;">
             <p class="last-paragraph"><b>הטופס ימולא על-ידי הרופא מנהל ההחייאה והאחות שהשתתפה בהחייאה. &nbsp; מקור: לתיק
                     המטופל
-                    &nbsp; העתק: למרכז ועדת החייאה.</b></p>
+                    &nbsp; העתק: למרכז ועדת החייאה.
+                    &nbsp; העתק: היחידה לבטיחות הטיפול.</b></p>
 
             <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;" color="primary"
                 (click)="submit()" type="submit" mat-raised-button>
@@ -598,14 +599,14 @@
                             </span>
                         </button>
                         <button mat-raised-button ml-2 type="submit" *ngIf="UserName == 'adahabre'"
-                            (click)="linkToNamer(element.Row_ID)" class="btn btn-primary btn-raised mb-2"
+                            (click)="linkToNamer(element.Row_ID)" class="btn btn-primary btn-raised mb-2 mr-2"
                             matTooltip="נמר">
                             <span class="material-icons">
                                 save
                             </span>
                         </button>
                         <button mat-raised-button ml-2 type="submit" (click)="sendCprFormEmail(element.Row_ID)"
-                            class="btn btn-primary btn-raised mb-2" matTooltip="שליחה במייל">
+                            class="btn btn-primary btn-raised mb-2 mr-2" matTooltip="שליחה במייל">
                             <span class="material-icons">
                                 reply
                             </span>
@@ -681,10 +682,10 @@
                 </div>
 
             </div>
-            <div class="header" style="float: right;">
+            <div class="header" style="float: right;" *ngIf="CprFormsList[0].cprTeamWork == 'כן'">
                 <p class="text-right"><b>שם ושעת הגעת צוות החייאה:&nbsp;</b></p>
             </div>
-            <div class="row">
+            <div class="row" *ngIf="CprFormsList[0].cprTeamWork == 'כן'">
                 <div class="col-10" style="display: flex;margin: -10px 0px -10px 0px;">
                     <div class="inside-col" style="display: flex;margin-left: 10px;">
                         <mat-label style="align-self: center;">שם קרדיולוג:&nbsp; </mat-label>
@@ -812,7 +813,7 @@
                                     style="text-align: right;">
                                     <p style="margin: 0px;font-size: 5px;padding: 0px;"
                                         *ngIf="CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead == 'ASYSTOLE'">
-                                        <b>{{CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead}}</b>
+                                        <b>ASYS</b>
                                     </p>
                                     <p style="margin: 0px;font-size: 9px;padding: 0px;"
                                         *ngIf="CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead != 'ASYSTOLE'">
@@ -939,7 +940,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" *ngIf="CprFormsList[0].cprDeath == 'לא'">
                     <div class="col-12">
                         <div class="row" style="width: 100%;">
                             <div class="col-4" style="width: 30%;float: right;margin-top: -20px;">
@@ -983,7 +984,7 @@
                         </div>
                     </div>
                 </div>
-                <div class="row">
+                <div class="row" style="margin-top: 10%;">
                     <div class="col-12">
                         <div class="row" style="width: 100%;">
                             <div class="col inside-col3"
@@ -1013,7 +1014,8 @@
             <p class="last-paragraph text-center"><b>הטופס ימולא על-ידי הרופא מנהל ההחייאה והאחות שהשתתפה
                     בהחייאה. &nbsp; מקור: לתיק
                     המטופל
-                    &nbsp; העתק: למרכז ועדת החייאה.</b></p>
+                    &nbsp; העתק: למרכז ועדת החייאה.
+                    &nbsp; העתק: היחידה לבטיחות הטיפול.</b></p>
         </div>
     </div>
 </div>

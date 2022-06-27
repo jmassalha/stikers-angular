@@ -223,7 +223,7 @@ export class NewBornComponent implements OnInit {
         //debugger;
         this.http
             .post(
-                //"http://localhost:64964/WebService.asmx/SaveNewBornForm",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/SaveNewBornForm",
                 "http://srv-ipracticom:8080/WebService.asmx/SaveNewBornForm",
                 {
                     _patientForm: this.patientForm.value,
@@ -246,7 +246,7 @@ export class NewBornComponent implements OnInit {
         //event.target.value
         this.http
             .post(
-                //"http://localhost:64964/WebService.asmx/GetPersonalDetails",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetails",
                 "http://srv-ipracticom:8080/WebService.asmx/GetPersonalDetails",
                 {
                     CaseNumber: event.target.value,
@@ -266,7 +266,7 @@ export class NewBornComponent implements OnInit {
     selectNewBornUsers() {
         this.http
             .post(
-                //"http://localhost:64964/WebService.asmx/selectNewBornUsers",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/selectNewBornUsers",
                 "http://srv-ipracticom:8080/WebService.asmx/selectNewBornUsers",
                 {}
             )
@@ -498,7 +498,7 @@ export class NewBornComponent implements OnInit {
         }
         this.http
             .post(
-                // "http://localhost:64964/WebService.asmx/GetNewBornTable",
+                // "http://srv-apps-prod/RCF_WS/WebService.asmx/GetNewBornTable",
                 "http://srv-ipracticom:8080/WebService.asmx/GetNewBornTable",
                 {
                     _pageIndex: _pageIndex,

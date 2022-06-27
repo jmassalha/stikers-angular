@@ -13,6 +13,7 @@ export class GroupedBarChartComponent implements OnInit {
 
   TimeLineParam: string = "1";
   departParam: string = "1";
+  periodList: any;
   _surgerydeptType: string = "0";
   _surgeryChooseType: string = "0";
   inquiriesStatLine = [];
@@ -39,9 +40,10 @@ export class GroupedBarChartComponent implements OnInit {
   height = 800;
 
 
-  refresh(elem, dept, _surgeryDeptType, _surgeryChooseType, _returnedPatients) {
+  refresh(elem, dept, _surgeryDeptType, _surgeryChooseType, _returnedPatients, periodList) {
     this.TimeLineParam = elem;
     this.departParam = dept;
+    this.periodList = periodList;
     this._surgerydeptType = _surgeryDeptType;
     this._surgeryChooseType = _surgeryChooseType;
     this._returnedPatients = _returnedPatients;
@@ -81,25 +83,25 @@ export class GroupedBarChartComponent implements OnInit {
     if (this.eRef.nativeElement.contains(event.target)) {
       let clickedType = event["srcElement"]["localName"];
       let departClicked = "";
-      if(clickedType == "text"){
+      if (clickedType == "text") {
         departClicked = event["srcElement"]["innerHTML"];
-      }    
+      }
       if (departClicked == this.filterVal && this.filterVal != "") {
         this.filterVal = "";
         this.waitData();
-      }else if (departClicked != "" && this.columnNames.includes(departClicked)) {
+      } else if (departClicked != "" && this.columnNames.includes(departClicked)) {
         this.filterVal = departClicked;
         this.filterChart();
       }
     }
   }
 
-  filterChart(){
+  filterChart() {
     let index = this.columnNames.indexOf(this.filterVal);
-    this.columnNames = [this.columnNames[0],this.columnNames[index]];
+    this.columnNames = [this.columnNames[0], this.columnNames[index]];
     this.columnNames.push({ role: 'annotation' });
-    for(let i = 0; i < this.data.length; i++){
-      this.data[i] = [this.data[i][0],this.data[i][index],this.data[i][index]];
+    for (let i = 0; i < this.data.length; i++) {
+      this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
     }
   }
 
@@ -110,36 +112,42 @@ export class GroupedBarChartComponent implements OnInit {
       let departments = [];
       this.data = [];
       this.columnNames = ['Year'];
-      for (let s = 0; s < this.responseDeparts.length; s++) {
-        departments.push(this.responseDeparts[s]);
-        if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))) {
-          departments.push({ role: 'annotation' });
-        }
-
-      }
-      this.columnNames = [...this.columnNames, ...departments];
-
-      for (let i = 0; i < this.inquiriesStatLine.length; i++) {
-        let temp = [];
-        let notNullIndex = this.inquiriesStatLine[i].findIndex(x => x !== null);
-        temp.push(this.inquiriesStatLine[i][notNullIndex].key);
-        for (let j = 0; j < this.inquiriesStatLine[i].length; j++) {
-          if (this.inquiriesStatLine[i][j] != null) {
-            temp.push(this.inquiriesStatLine[i][j].y);
-            if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))){
-              temp.push(this.inquiriesStatLine[i][j].y);
-            }
-            
-          } else {
-            temp.push(0);
-            if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))){
-              temp.push(0);
-            }
-            
+      if (this.responseDeparts == undefined) {
+        console.log("No Data Returned");
+        this.waitData();
+      } else {
+        for (let s = 0; s < this.responseDeparts.length; s++) {
+          departments.push(this.responseDeparts[s]);
+          if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))) {
+            departments.push({ role: 'annotation' });
           }
+
         }
-        this.data.push(temp);
+        this.columnNames = [...this.columnNames, ...departments];
+
+        for (let i = 0; i < this.inquiriesStatLine.length; i++) {
+          let temp = [];
+          let notNullIndex = this.inquiriesStatLine[i].findIndex(x => x !== null);
+          temp.push(this.inquiriesStatLine[i][notNullIndex].key);
+          for (let j = 0; j < this.inquiriesStatLine[i].length; j++) {
+            if (this.inquiriesStatLine[i][j] != null) {
+              temp.push(this.inquiriesStatLine[i][j].y);
+              if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))) {
+                temp.push(this.inquiriesStatLine[i][j].y);
+              }
+
+            } else {
+              temp.push(0);
+              if (!(this.departParam == "5" && (this.TimeLineParam == "4" || this.TimeLineParam == "5"))) {
+                temp.push(0);
+              }
+
+            }
+          }
+          this.data.push(temp);
+        }
       }
+
     })
   }
 
@@ -154,13 +162,17 @@ export class GroupedBarChartComponent implements OnInit {
       url = "StackedBarChartRentgenDimot";
     }
     return new Promise<void>((resolve, reject) => {
+      if (this.periodList == undefined) {
+        this.periodList = "";
+      }
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
+        .post("http://localhost:64964/WebService.asmx/" + url, {
           param: this.TimeLineParam,
           deptCode: this.departParam,
           deptType: this._surgerydeptType,
           chooseType: this._surgeryChooseType,
-          returnedPatients: this._returnedPatients
+          returnedPatients: this._returnedPatients,
+          periodList: this.periodList
         }).subscribe(
           res => {
             this.inquiriesStatLine = res["d"][0];

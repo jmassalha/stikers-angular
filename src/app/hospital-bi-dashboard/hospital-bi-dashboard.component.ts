@@ -36,15 +36,23 @@ export class HospitalBIDashboardComponent implements OnInit {
     // { DIMDataTypeID: "4", DIMDataTypeDesc: "מרפאות ומכונים" },
     { DIMDataTypeID: "5", DIMDataTypeDesc: "מחלקות אשפוז" },
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
-    { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" }
+    { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" },
+    // { DIMDataTypeID: "8", DIMDataTypeDesc: "דיאליזה" },
+    // { DIMDataTypeID: "9", DIMDataTypeDesc: "גסטרו" },
+    // { DIMDataTypeID: "10", DIMDataTypeDesc: "צינטורים" }
   ];
 
   choosenDept = this.departments[0];
   timeLine: Time[] = [];
+  yearsPeriodList = [];
+  yearsPeriodList2 = [];
+  periodListToSend = [];
   cardsList = [];
   returnedPatients = false;
   hospitalDepartments = [];
   TimeLineParam;
+  first: any = "undefined";
+  second: any = "undefined";
   public departParam: string = "1";
   barTime: string = "שבוע";
   groupTime: string = "שבוע";
@@ -102,13 +110,13 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
     this.getTimeType(this.TimeLineParam);
     setTimeout(() => {
-      this.changeTime(this.TimeLineParam, 'all');
+      this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }, 1500);
     this.getCardsVals();
+    this.showYearsPeriod();
   }
 
-  changeTime(event, type) {
-    //debugger
+  changeTime(event, type, periodList) {
     this.TimeLineParam = event;
     let titles = {
       pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
@@ -121,44 +129,54 @@ export class HospitalBIDashboardComponent implements OnInit {
     let _hospitalDeptType = this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value;
     let _surgeryChooseType = this.surgeryChooseTypeGroup.controls['surgeryChooseType'].value;
     let _returnedPatients = this.hospitalDepartTypeGroup.controls['returnedPatients'].value;
-    if(this.departParam == "7"){
+    if (this.departParam == "7") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
     }
     let valueOfSwitch = _surgeryDeptType;
     if (this.departParam == "6" || this.departParam == "5") {
       valueOfSwitch = _hospitalDeptType;
     }
+    if (periodList.length > 0) {
+      let tempList = periodList;
+      periodList = "(";
+      for (let i = 0; i < tempList.length - 1; i++) {
+        periodList += tempList[i] + ",";
+      }
+      periodList += tempList[tempList.length - 1] + ")";
+    } else {
+      periodList = "";
+    }
     switch (type) {
       case "all": {
-        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['pieCtrl'].setValue(event);
-        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['barCtrl'].setValue(event);
-        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients);
+        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
-        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
         // this.graphsCtrl.controls['lineCtrl'].setValue(event);
         break;
       }
       case "pie": {
-        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['pieCtrl'].setValue(event);
         break;
       }
       case "group": {
-        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients);
+        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         break;
       }
       case "group2": {
-        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
         break;
       }
       case "bar": {
-        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['barCtrl'].setValue(event);
         break;
       }
@@ -168,13 +186,13 @@ export class HospitalBIDashboardComponent implements OnInit {
       //   break;
       // }
       default: {
-        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['pieCtrl'].setValue(event);
-        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['barCtrl'].setValue(event);
-        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients);
+        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
-        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients);
+        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
         // this.graphsCtrl.controls['lineCtrl'].setValue(event);
@@ -187,6 +205,52 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
   }
 
+  showYearsPeriod() {
+    let date = new Date();
+    let current = date.getFullYear();
+    this.yearsPeriodList = [];
+    for (let i = 1; i < 6; i++) {
+      current = date.getFullYear() - i;
+      this.yearsPeriodList.push({ year: current, number: -Math.abs(i) });
+      this.yearsPeriodList2.push({ year: current, number: -Math.abs(i) });
+    }
+  }
+  showYearsPeriod2(numberOfLoops) {
+    let date = new Date();
+    let current = date.getFullYear();
+    this.yearsPeriodList2 = [];
+    numberOfLoops = Math.abs(parseInt(numberOfLoops));
+    for (let i = 1; i < numberOfLoops; i++) {
+      current = date.getFullYear() - i;
+      this.yearsPeriodList2.push({ year: current, number: -Math.abs(i) });
+    }
+  }
+
+  changePeriod(event) {
+    if (event['srcElement'].id == "firstSelect") {
+      this.first = event.target.value;
+      this.showYearsPeriod2(this.first);
+    }
+    else if (event['srcElement'].id == "secondSelect") {
+      this.second = event.target.value;
+    }
+    // let total = Math.abs(this.first) - Math.abs(this.second);
+    if (this.first != "undefined" && this.second != "undefined") {
+      this.periodListToSend = [];
+      for (let i = Math.abs(this.second); i <= Math.abs(this.first); i++) {
+        if (i == 0) {
+          this.periodListToSend.push(Math.abs(i));
+        } else {
+          this.periodListToSend.push(-Math.abs(i));
+        }
+      }
+      this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+    } else if (this.first == "undefined" && this.second == "undefined") {
+      this.periodListToSend = ["-1","-2","-3","-4","-5"]
+      this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+    }
+  }
+
   chooseDataType(dept) {
     this.choosenDept = dept;
     this.departParam = dept.DIMDataTypeID;
@@ -195,7 +259,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.hospitalDepartTypeGroup.controls['hospitalDepartType'].setValue('0');
       this.surgeryChooseTypeGroup.controls['surgeryChooseType'].setValue('0');
     }
-    this.changeTime(this.TimeLineParam, 'all');
+    this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
   }
 
   changeSurgeryType() {
@@ -204,11 +268,11 @@ export class HospitalBIDashboardComponent implements OnInit {
     } else {
       this._ifSeode = 'רפואיות';
     }
-    this.changeTime(this.TimeLineParam, 'all');
+    this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
   }
 
   getTimeType(elem) {
-   // this.TimeLineParam = elem;
+    // this.TimeLineParam = elem;
     let that = this;
     this.ManagedGetServerFunction('GetTimeTypes').subscribe({
       next(x) { that.timeLine = x["d"]; },

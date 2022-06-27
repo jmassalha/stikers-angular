@@ -18,8 +18,23 @@
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
             <!-- <select class="form-select" style="margin-right: 26%;"
                 (change)="pie.refresh($event.target.value); bar.refresh($event.target.value); groupedbar.refresh($event.target.value); line.refresh($event.target.value);"> -->
-            <select class="form-select" (change)="changeTime($event.target.value,'all');">
+
+            <select class="form-select" (change)="changeTime($event.target.value,'all',[]);">
                 <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                </option>
+            </select>
+            <mat-label *ngIf="this.TimeLineParam == '5'" class="mr-2">מ-שנה</mat-label>
+            <select *ngIf="this.TimeLineParam == '5'" id="firstSelect" class="form-select"
+                (change)="changePeriod($event);">
+                <option value="undefined">הכל</option>
+                <option *ngFor="let year of yearsPeriodList" [value]="year.number">{{year.year}}
+                </option>
+            </select>
+            <mat-label *ngIf="this.TimeLineParam == '5'" class="mr-2">עד-שנה</mat-label>
+            <select *ngIf="this.TimeLineParam == '5'" id="secondSelect" class="form-select"
+                (change)="changePeriod($event);">
+                <option value="undefined">הכל</option>
+                <option *ngFor="let year of yearsPeriodList2" [value]="year.number">{{year.year}}
                 </option>
             </select>
         </div>
@@ -40,14 +55,16 @@
                 <mat-radio-button value="1">רפואי</mat-radio-button>
             </mat-radio-group>
             <section class="example-section">
-                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="returnedPatients">אשפוזים חוזרים</mat-checkbox>
-              </section>
+                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="returnedPatients">
+                    אשפוזים חוזרים</mat-checkbox>
+            </section>
         </div>
-        <div *ngIf="departParam == '20'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-            style="text-align-last: center;" [formGroup]="deliveryPrematureGroup">
+        <div *ngIf="departParam == '20'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
+            [formGroup]="deliveryPrematureGroup">
             <section class="example-section">
-                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="deliveryPremature">פגיה</mat-checkbox>
-              </section>
+                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="deliveryPremature">
+                    פגיה</mat-checkbox>
+            </section>
         </div>
     </div>
     <div class="row">
@@ -98,7 +115,7 @@
                 <div class="row" style="justify-content: center;text-align-last: center;">
                     <h3>{{pieTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        formControlName="pieCtrl" (change)="changeTime($event.target.value,'pie');">
+                        formControlName="pieCtrl" (change)="changeTime($event.target.value,'pie',[]);">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -109,7 +126,7 @@
                 <div class="row" style="justify-content: center;text-align-last: center;">
                     <h3>{{barTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        formControlName="barCtrl" (change)="changeTime($event.target.value,'bar');">
+                        formControlName="barCtrl" (change)="changeTime($event.target.value,'bar',[]);">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -135,7 +152,7 @@
                 <div class="row" style="justify-content: center;text-align-last: center;">
                     <h3>{{groupTime2}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2');">
+                        formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
@@ -148,7 +165,7 @@
                 <div class="row" style="justify-content: center;text-align-last: center;">
                     <h3>{{groupTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        formControlName="groupCtrl" (change)="changeTime($event.target.value,'group');">
+                        formControlName="groupCtrl" (change)="changeTime($event.target.value,'group',[]);">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>

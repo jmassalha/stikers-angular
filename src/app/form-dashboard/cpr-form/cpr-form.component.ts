@@ -169,10 +169,10 @@ export class CprFormComponent implements OnInit {
       cautiosStat: new FormControl('', Validators.required),
       managingDoc: new FormControl('', Validators.required),
       managingDocSign: new FormControl('', Validators.required),
-      managingDocLicence: new FormControl('', Validators.required),
+      managingDocLicence: new FormControl('', null),
       responsNurse: new FormControl('', Validators.required),
       responsNurseSign: new FormControl('', Validators.required),
-      responsNurseLicence: new FormControl('', Validators.required),
+      responsNurseLicence: new FormControl('', null),
     });
 
     this.filteredOptions1 = this.docfilter.valueChanges
@@ -340,7 +340,7 @@ export class CprFormComponent implements OnInit {
     this.buffering = true;
     this.http
       .post(
-        "http://srv-apps-prod/RCF_WS/WebService.asmx/GetPatientDetailsByIDNumber", {
+        "http://localhost:64964/WebService.asmx/GetPatientDetailsByIDNumber", {
         _patientPassport: this.PatientPassport
       }
       )
@@ -446,7 +446,7 @@ export class CprFormComponent implements OnInit {
 
   sendCprFormEmail(id) {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
+      .post("http://localhost:64964/WebService.asmx/SendCprFormEmail", {
         _userSender: this.UserName,
         users: this.usersToSend,
         _reportArrayID: id
@@ -528,9 +528,9 @@ export class CprFormComponent implements OnInit {
       w.document.write(style);
       setTimeout(() => {
         w.print();
+        w.close();
       }, 500);
-      w.close();
-    }, 100);
+    }, 600);
   }
 
   closeModal() {

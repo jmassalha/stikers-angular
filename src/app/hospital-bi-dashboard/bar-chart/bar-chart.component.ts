@@ -13,6 +13,7 @@ export class BarChartComponent implements OnInit {
 
   TimeLineParam;
   departParam: string = "1";
+  periodList = [];
   _surgerydeptType: string = "0";
   _returnedPatients: boolean = false;
   timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
@@ -28,8 +29,9 @@ export class BarChartComponent implements OnInit {
   height = 600;
 
 
-  refresh(elem, dept, _surgeryDeptType, _returnedPatients) {
+  refresh(elem, dept, _surgeryDeptType, _returnedPatients,periodList) {
     this.TimeLineParam = elem;
+    this.periodList = periodList;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
     this._returnedPatients = _returnedPatients;
@@ -58,11 +60,12 @@ export class BarChartComponent implements OnInit {
     }
     if (this.TimeLineParam != undefined) {
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
+        .post("http://localhost:64964/WebService.asmx/" + url, {
           param: this.TimeLineParam,
           deptCode: this.departParam,
           surgerydeptType: this._surgerydeptType,
-          returnedPatients: this._returnedPatients
+          returnedPatients: this._returnedPatients,
+          periodList: this.periodList
         })
         .subscribe((Response) => {
           let inquiriesStatLine = Response["d"];
