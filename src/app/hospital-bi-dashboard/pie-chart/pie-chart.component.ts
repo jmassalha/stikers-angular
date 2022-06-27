@@ -55,7 +55,7 @@ export class PieChartComponent implements OnInit {
 
   public pieChart() {
     this.loader = true;
-    let url = "http://localhost:64964/WebService.asmx/";
+    let url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
     if (this.departParam == "6") {
       url += "PieChartER";
     } else if (this.departParam == "7") {

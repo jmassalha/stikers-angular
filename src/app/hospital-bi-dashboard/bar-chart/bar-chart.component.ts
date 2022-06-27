@@ -60,7 +60,7 @@ export class BarChartComponent implements OnInit {
     }
     if (this.TimeLineParam != undefined) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/" + url, {
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
           param: this.TimeLineParam,
           deptCode: this.departParam,
           surgerydeptType: this._surgerydeptType,

@@ -340,7 +340,7 @@ export class CprFormComponent implements OnInit {
     this.buffering = true;
     this.http
       .post(
-        "http://localhost:64964/WebService.asmx/GetPatientDetailsByIDNumber", {
+        "http://srv-apps-prod/RCF_WS/WebService.asmx/GetPatientDetailsByIDNumber", {
         _patientPassport: this.PatientPassport
       }
       )
@@ -446,7 +446,7 @@ export class CprFormComponent implements OnInit {
 
   sendCprFormEmail(id) {
     this.http
-      .post("http://localhost:64964/WebService.asmx/SendCprFormEmail", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
         _userSender: this.UserName,
         users: this.usersToSend,
         _reportArrayID: id
