@@ -103,7 +103,7 @@
                         <mat-label>חפש</mat-label>
                         <input matInput (keyup)="applyFilter($event)" placeholder="חפש" #input>
                       </mat-form-field>
-                    <mat-table
+                    <table mat-table
                         #exporter="matTableExporter"
                         class="table table-striped table-responsive-md"
                         matSort
@@ -246,7 +246,7 @@
                             mat-row
                             *matRowDef="let row; columns: displayedColumns"
                         ></tr>
-                    </mat-table>
+                    </table>
                 </div>
                 <!-- PAGINATION -->
                 <mat-paginator
