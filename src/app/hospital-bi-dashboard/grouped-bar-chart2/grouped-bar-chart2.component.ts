@@ -15,6 +15,7 @@ export class GroupedBarChart2Component implements OnInit {
 
   TimeLineParam: string = "1";
   departParam: string = "1";
+  periodList: any;
   _surgerydeptType: string = "0";
   filterVal = "";
   _returnedPatients: boolean = false;
@@ -37,8 +38,9 @@ export class GroupedBarChart2Component implements OnInit {
   height: number;
 
 
-  refresh(elem, dept, _surgeryDeptType, _returnedPatients) {
+  refresh(elem, dept, _surgeryDeptType, _returnedPatients,periodList) {
     this.TimeLineParam = elem;
+    this.periodList = periodList;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
     this._returnedPatients = _returnedPatients;
@@ -110,13 +112,17 @@ export class GroupedBarChart2Component implements OnInit {
     } else if (this.departParam == "3") {
       url = "LineBarChartRentgenDimot";
     }
+    if (this.periodList == undefined) {
+      this.periodList = "";
+    }
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
         param: this.TimeLineParam,
         deptCode: this.departParam,
         surgerydeptType: this._surgerydeptType,
         filter: this.filterVal,
-        returnedPatients: this._returnedPatients
+        returnedPatients: this._returnedPatients,
+        periodList: this.periodList
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];
