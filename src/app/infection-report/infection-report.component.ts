@@ -40,6 +40,8 @@ export interface InfectionsRow {
     Creatinine: string;
     DiagnostCode: string;
     DocNumber: string;
+    Frequency: string;
+    DateDiffInDays: string;
 }
 export interface GlucoseConsole {
     ConsoleDate: string;
@@ -60,12 +62,15 @@ export class InfectionReportComponent implements OnInit {
     // @ViewChild(MatSort, { static: true }) sort: MatSort;
     displayedColumns: string[] = [
         "CaseNumber",
-        "PatientNumber",
+       // "PatientNumber",
         "PatientID",
         "PatientName",
         "Depart",
         "DrugName",
         "PrescribedDrugDose",
+        "DrugDate",
+        "DateDiffInDays",
+        "Frequency",
         "Height",
         "Weight",
         "BMI",
@@ -209,10 +214,10 @@ export class InfectionReportComponent implements OnInit {
         //debugger
         $("#loader").removeClass("d-none");
         this.http
-            // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionPatiantApp", {
-            .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionPatiantApp",
-                {}
+           //  .post("http://localhost:64964/WebService.asmx/GetInfectionPatiantApp", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInfectionPatiantApp",                {
+
+            }
             )
             .subscribe(
                 (Response) => {

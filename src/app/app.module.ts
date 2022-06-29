@@ -154,6 +154,7 @@ import { InfectionReportComponent } from './infection-report/infection-report.co
 import { NewBornComponent } from './new-born/new-born.component';
 import { MaternityParticipantsComponent } from './maternity/maternity-participants/maternity-participants.component';
 import { CprFormComponent } from './form-dashboard/cpr-form/cpr-form.component';
+import { MatTableExporterModule } from 'mat-table-exporter';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -271,6 +272,7 @@ const maskConfig: Partial<IConfig> = {
   ],
   imports: [
     AngularDualListBoxModule ,
+    MatTableExporterModule,
     BrowserModule,
     MatButtonToggleModule,
     BrowserAnimationsModule,
