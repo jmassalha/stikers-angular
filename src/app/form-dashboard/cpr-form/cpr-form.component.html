@@ -338,7 +338,7 @@
                             <tr *ngFor="let action of secondTableMeds; let i = index" class="text-center"
                                 [formGroupName]="i">
                                 <!-- <td *ngIf="action != ''">{{action}}</td> -->
-                                <td><input type="text" formControlName="title" style="font-size: 14px;"
+                                <td><input type="text" formControlName="title" style="font-size: 10px;"
                                         value="{{action}}" class="form-control" />
                                 </td>
                                 <td *ngFor="let time of secondTablecolumns; let j = index" formArrayName="subArray">

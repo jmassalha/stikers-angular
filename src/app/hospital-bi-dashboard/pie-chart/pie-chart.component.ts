@@ -64,6 +64,8 @@ export class PieChartComponent implements OnInit {
       url += "PieChartDepartments";
     } else if (this.departParam == "3") {
       url += "PieChartRentgenDimot";
+    } else if (this.departParam == "8") {
+      url += "PieChartDialisa";
     } else {
       url += "PieChart";
     }
@@ -80,6 +82,38 @@ export class PieChartComponent implements OnInit {
           let inquiriesStatLine = Response["d"];
           this.data = [];
           for (let i = 0; i < inquiriesStatLine.length; i++) {
+            if (this.departParam == "8") {
+              switch (inquiriesStatLine[i].key) {
+                case "Sunday": {
+                  inquiriesStatLine[i].key = "ראשון"
+                  break;
+                }
+                case "Monday": {
+                  inquiriesStatLine[i].key = "שני"
+                  break;
+                }
+                case "Tuesday": {
+                  inquiriesStatLine[i].key = "שלישי"
+                  break;
+                }
+                case "Wednesday": {
+                  inquiriesStatLine[i].key = "רביעי"
+                  break;
+                }
+                case "Thursday": {
+                  inquiriesStatLine[i].key = "חמישי"
+                  break;
+                }
+                case "Friday": {
+                  inquiriesStatLine[i].key = "שישי"
+                  break;
+                }
+                case "Saturday": {
+                  inquiriesStatLine[i].key = "שבת"
+                  break;
+                }
+              }
+            }
             this.data.push([inquiriesStatLine[i].key, parseInt(inquiriesStatLine[i].y)]);
           }
           this.loader = false;

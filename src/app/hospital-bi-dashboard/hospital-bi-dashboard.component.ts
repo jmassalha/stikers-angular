@@ -37,7 +37,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     { DIMDataTypeID: "5", DIMDataTypeDesc: "מחלקות אשפוז" },
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" },
-    // { DIMDataTypeID: "8", DIMDataTypeDesc: "דיאליזה" },
+    { DIMDataTypeID: "8", DIMDataTypeDesc: "דיאליזה" },
     // { DIMDataTypeID: "9", DIMDataTypeDesc: "גסטרו" },
     // { DIMDataTypeID: "10", DIMDataTypeDesc: "צינטורים" }
   ];
@@ -72,7 +72,8 @@ export class HospitalBIDashboardComponent implements OnInit {
   @ViewChild(BarChartComponent) bar: BarChartComponent;
   // @ViewChild(LineChartComponent) line: LineChartComponent;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) { }
+  constructor(private http: HttpClient, private fb: FormBuilder) {
+  }
   graphsCtrl: FormGroup;
   surgeryDeptTypeGroup: FormGroup;
   hospitalDepartTypeGroup: FormGroup;
@@ -119,10 +120,10 @@ export class HospitalBIDashboardComponent implements OnInit {
   changeTime(event, type, periodList) {
     this.TimeLineParam = event;
     let titles = {
-      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות'],
-      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות'],
-      group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת'],
-      group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן'],
+      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'פילוח כמות מטופלים'],
+      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים'],
+      group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', ''],
+      group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', ''],
       // line: ['', '', '', '', '', '', ''],
     };
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
@@ -220,7 +221,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     let current = date.getFullYear();
     this.yearsPeriodList2 = [];
     numberOfLoops = Math.abs(parseInt(numberOfLoops));
-    for (let i = 1; i < numberOfLoops; i++) {
+    for (let i = 1; i <= numberOfLoops; i++) {
       current = date.getFullYear() - i;
       this.yearsPeriodList2.push({ year: current, number: -Math.abs(i) });
     }
@@ -246,7 +247,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       }
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     } else if (this.first == "undefined" && this.second == "undefined") {
-      this.periodListToSend = ["-1","-2","-3","-4","-5"]
+      this.periodListToSend = ["-1", "-2", "-3", "-4", "-5"]
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }
   }
