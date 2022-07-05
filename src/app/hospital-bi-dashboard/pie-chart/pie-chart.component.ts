@@ -64,7 +64,7 @@ export class PieChartComponent implements OnInit {
       url += "PieChartDepartments";
     } else if (this.departParam == "3") {
       url += "PieChartRentgenDimot";
-    } else if (this.departParam == "8") {
+    } else if (this.departParam == "8" || this.departParam == "9") {
       url += "PieChartDialisa";
     } else {
       url += "PieChart";
@@ -82,7 +82,7 @@ export class PieChartComponent implements OnInit {
           let inquiriesStatLine = Response["d"];
           this.data = [];
           for (let i = 0; i < inquiriesStatLine.length; i++) {
-            if (this.departParam == "8") {
+            if (this.departParam == "8" || this.departParam == "9") {
               switch (inquiriesStatLine[i].key) {
                 case "Sunday": {
                   inquiriesStatLine[i].key = "ראשון"

@@ -38,7 +38,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" },
     { DIMDataTypeID: "8", DIMDataTypeDesc: "דיאליזה" },
-    // { DIMDataTypeID: "9", DIMDataTypeDesc: "גסטרו" },
+    { DIMDataTypeID: "9", DIMDataTypeDesc: "גסטרו" },
     // { DIMDataTypeID: "10", DIMDataTypeDesc: "צינטורים" }
   ];
 
@@ -120,10 +120,10 @@ export class HospitalBIDashboardComponent implements OnInit {
   changeTime(event, type, periodList) {
     this.TimeLineParam = event;
     let titles = {
-      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'פילוח כמות מטופלים'],
-      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים'],
-      group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', ''],
-      group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', ''],
+      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'פילוח כמות מטופלים',''],
+      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים',''],
+      group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת',''],
+      group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן',''],
       // line: ['', '', '', '', '', '', ''],
     };
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
