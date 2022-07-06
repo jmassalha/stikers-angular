@@ -80,14 +80,17 @@
                 <span class="material-icons" style="color: green;">
                     trending_up
                 </span>
-                {{card.y}}
+                <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
+                <p *ngIf="!loader">{{card.y}}</p>
+
             </mat-card-content>
             <mat-card-content *ngIf="card.key == 'Down'" class="text-center"
                 style="font-size: 25px;font-weight: bold;color: red;">
                 <span class="material-icons" style="color: red;">
                     trending_down
                 </span>
-                {{card.y}}
+                <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
+                <p *ngIf="!loader">{{card.y}}</p>
             </mat-card-content>
         </mat-card>
         <mat-card class="example-card text-center" *ngIf="departParam == '5'">
