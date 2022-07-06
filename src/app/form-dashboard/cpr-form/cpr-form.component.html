@@ -338,7 +338,7 @@
                             <tr *ngFor="let action of secondTableMeds; let i = index" class="text-center"
                                 [formGroupName]="i">
                                 <!-- <td *ngIf="action != ''">{{action}}</td> -->
-                                <td><input type="text" formControlName="title" style="font-size: 10px;"
+                                <td><input type="text" formControlName="title" style="font-size: 12px;"
                                         value="{{action}}" class="form-control" />
                                 </td>
                                 <td *ngFor="let time of secondTablecolumns; let j = index" formArrayName="subArray">
@@ -383,7 +383,7 @@
         <div class="container1 m-2" dir="rtl" [formGroup]="ThirdSection">
             <div class="header">
                 <div class="row">
-                    <p style="align-self: center;"><b>ג) סיכום ההחייאה:</b></p>
+                    <p style="align-self: center;"><b>ג) סיום ההחייאה:</b></p>
                     <div class="col">
                         <mat-form-field>
                             <mat-label style="align-self: center;">שעת סיום ההחייאה</mat-label>
@@ -929,7 +929,7 @@
             <div class="header">
                 <div class="row" style="width: 100%;">
                     <div class="col-4" style="width: 30%;float: right;">
-                        <p style="align-self: center;"><b>ג) סיכום ההחייאה:&nbsp;</b></p>
+                        <p style="align-self: center;"><b>ג) סיום ההחייאה:&nbsp;</b></p>
                     </div>
                     <div class="col-8" style="width: 70%;float: right;">
                         <div class="inside-col3 mr-3" style="width: 40%;float: right;">

@@ -75,7 +75,7 @@ export class CprFormComponent implements OnInit {
   deathFormShow: boolean;
   cprTeamShow: boolean;
   secondTableMeds = ['ADRENALINE', 'AMIODARONE', 'ATROPINE', '', '', ''];
-  statusDropDown = ['VF', 'PEA', 'ASYSTOLE', 'VT'];
+  statusDropDown = ['VF', 'PEA', 'ASYSTOLE', 'VT','BRADY ARITMIA'];
   rateHeadDropdown = ['יש', 'אין'];
   myDate = new Date();
   CprFormsColumns: string[] = ['date', 'patientID', 'patientName', 'print'];
