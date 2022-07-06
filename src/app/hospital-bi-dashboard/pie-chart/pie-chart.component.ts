@@ -17,7 +17,7 @@ export class PieChartComponent implements OnInit {
   departParam: string = "1";
   _surgerydeptType: string = "0";
   _returnedPatients: boolean = false;
-  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
+  timesString = ['', '', '', '', ''];
 
   constructor(private http: HttpClient) { }
 

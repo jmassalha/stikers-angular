@@ -21,7 +21,7 @@ export class GroupedBarChartComponent implements OnInit {
   loader: boolean = false;
   filterVal = "";
   _returnedPatients: boolean = false;
-  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
+  timesString = ['', '', '', '', ''];
 
   // title = 'Population (in millions)';
   type = 'BarChart';

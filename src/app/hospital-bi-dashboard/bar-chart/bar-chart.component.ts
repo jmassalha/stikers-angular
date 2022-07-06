@@ -16,7 +16,7 @@ export class BarChartComponent implements OnInit {
   periodList = [];
   _surgerydeptType: string = "0";
   _returnedPatients: boolean = false;
-  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
+  timesString = ['', '', '', '', ''];
 
   type = 'ColumnChart';
   data = [];

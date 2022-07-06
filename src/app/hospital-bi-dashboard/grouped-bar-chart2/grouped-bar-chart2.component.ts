@@ -19,16 +19,16 @@ export class GroupedBarChart2Component implements OnInit {
   _surgerydeptType: string = "0";
   filterVal = "";
   _returnedPatients: boolean = false;
-  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
-  weekObject = [
-    { x: 'Sunday', depart: '', y: 0 },
-    { x: 'Monday', depart: '', y: 0 },
-    { x: 'Tuesday', depart: '', y: 0 },
-    { x: 'Wednesday', depart: '', y: 0 },
-    { x: 'Thursday', depart: '', y: 0 },
-    { x: 'Friday', depart: '', y: 0 },
-    { x: 'Saturday', depart: '', y: 0 }
-  ]
+  timesString = ['', '', '', '', ''];
+  // weekObject = [
+  //   { x: 'Sunday', depart: '', y: 0 },
+  //   { x: 'Monday', depart: '', y: 0 },
+  //   { x: 'Tuesday', depart: '', y: 0 },
+  //   { x: 'Wednesday', depart: '', y: 0 },
+  //   { x: 'Thursday', depart: '', y: 0 },
+  //   { x: 'Friday', depart: '', y: 0 },
+  //   { x: 'Saturday', depart: '', y: 0 }
+  // ]
   // title = 'Population (in millions)';
   type = 'ColumnChart';
   data = [];

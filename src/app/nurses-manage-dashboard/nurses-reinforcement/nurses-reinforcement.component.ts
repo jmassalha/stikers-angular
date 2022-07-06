@@ -191,7 +191,7 @@ export class NursesReinforcementComponent implements OnInit {
       this.Reinf_emp.name = this.Reinf_emp.name.replace(/['"]+/g, '');
       this.Reinf_nurse.name = this.Reinf_nurse.name.replace(/['"]+/g, '');
       this.confirmationDialogService
-        .confirm("נא לאשר..", "אתה עומד לשלוח סמס ...? ")
+        .confirm("נא לאשר..", "האם אתה בטוח ...? ")
         .then((confirmed) => {
           console.log("User confirmed:", confirmed);
           if (confirmed) {
