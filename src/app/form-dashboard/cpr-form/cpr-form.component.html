@@ -80,7 +80,8 @@
                 <div class="col">
                     <mat-form-field appearance="fill" style="margin: -12px;">
                         <mat-label style="align-self: center;">תאריך החייאה</mat-label>
-                        <input matInput formControlName="cprDate" [matDatepicker]="picker">
+                        <input matInput formControlName="cprDate" [matDatepicker]="picker" required>
+
                     </mat-form-field>
                     <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
                     <mat-datepicker #picker></mat-datepicker>
@@ -88,7 +89,7 @@
                 <div class="col">
                     <mat-form-field>
                         <mat-label style="align-self: center;">שעה</mat-label>
-                        <input type="time" matInput formControlName="cprTime" class="form-control" />
+                        <input type="time" matInput formControlName="cprTime" class="form-control" required />
                     </mat-form-field>
                 </div>
                 <div class="col" style="display: inline-flex;justify-content: center;place-items: center;">

@@ -292,6 +292,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       .subscribe((Response) => {
         this.loader = false;
         this.cardsList = Response["d"];
+        this.cardsList[0].y = this.cardsList[0].y + "%"; 
       });
   }
 

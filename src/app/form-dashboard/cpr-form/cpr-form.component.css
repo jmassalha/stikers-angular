@@ -35,6 +35,9 @@
 .col-1{
     max-width: 114px;
 }
+.input-error {
+    border: red 1px solid;
+}
 .inside-col{
     width: 25%;
     display: flex;
