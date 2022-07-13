@@ -156,8 +156,11 @@
                                     <mat-select formControlName="EmployeeSektorID"
                                         (selectionChange)="sektorSelection($event.value)" aria-placeholder="סקטור">
                                         <div *ngIf="managerType == 'stager'">
-                                            <mat-option [value]="899">
+                                            <mat-option value="899">
                                                 סקטור סטאזרים לרפואה
+                                            </mat-option>
+                                            <mat-option value="999">
+                                                סקטור רופאים
                                             </mat-option>
                                         </div>
                                         <div *ngIf="managerType == 'research' || managerType == 'hr'">
