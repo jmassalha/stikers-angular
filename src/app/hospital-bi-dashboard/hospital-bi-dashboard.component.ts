@@ -34,7 +34,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     // { DIMDataTypeID: "2", DIMDataTypeDesc: "פעולות" },
     { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
     // { DIMDataTypeID: "4", DIMDataTypeDesc: "מרפאות ומכונים" },
-    { DIMDataTypeID: "5", DIMDataTypeDesc: "מחלקות אשפוז" },
+    { DIMDataTypeID: "5", DIMDataTypeDesc: "קבלות לאשפוז" },
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" },
     { DIMDataTypeID: "8", DIMDataTypeDesc: "דיאליזה" },
