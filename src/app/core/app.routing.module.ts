@@ -81,6 +81,7 @@ import { InfectionReportComponent } from "../infection-report/infection-report.c
 import { NewBornComponent } from "../new-born/new-born.component";
 import { MaternityParticipantsComponent } from "../maternity/maternity-participants/maternity-participants.component";
 import { CprFormComponent } from "../form-dashboard/cpr-form/cpr-form.component";
+import { DrugProtocolsComponent } from '../drug-protocols/drug-protocols.component';
 const routes: Routes = [
   
   { path: 'dashboard', component: DashboardComponent },
@@ -166,6 +167,7 @@ const routes: Routes = [
   { path: "newborn", component: NewBornComponent },
   { path: "MaternityParticipants", component: MaternityParticipantsComponent },
   { path: "CprForm", component: CprFormComponent },
+  { path: "drugprotocols", component: DrugProtocolsComponent },
   { path: '', component : LoginComponent}
 ];
  
