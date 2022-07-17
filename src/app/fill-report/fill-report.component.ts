@@ -339,6 +339,7 @@ export class FillReportComponent implements OnInit {
   visible: boolean = true;
   AdminNurse: string;
   print: boolean;
+  waitToSaveBtn: boolean;
 
   ngOnInit(): void {
     if (this.Dept_Name != "") {
@@ -524,6 +525,7 @@ export class FillReportComponent implements OnInit {
       this.caseNumber = "";
     }
     if (!this.ReportGroup.invalid) {
+      this.waitToSaveBtn = true;
       this.http
         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
@@ -537,6 +539,7 @@ export class FillReportComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] != 0) {
             this.openSnackBar("נשמר בהצלחה");
+            this.waitToSaveBtn = false;
             this.getReportToUpdate();
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");

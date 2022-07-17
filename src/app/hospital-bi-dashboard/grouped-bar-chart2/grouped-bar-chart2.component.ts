@@ -19,8 +19,16 @@ export class GroupedBarChart2Component implements OnInit {
   _surgerydeptType: string = "0";
   filterVal = "";
   _returnedPatients: boolean = false;
-  timesString = ['בשבוע', 'בחודש', 'בשנה', 'ב5 שנים מקבילות', 'ב5 שנים מלאות'];
-
+  timesString = ['', '', '', '', ''];
+  // weekObject = [
+  //   { x: 'Sunday', depart: '', y: 0 },
+  //   { x: 'Monday', depart: '', y: 0 },
+  //   { x: 'Tuesday', depart: '', y: 0 },
+  //   { x: 'Wednesday', depart: '', y: 0 },
+  //   { x: 'Thursday', depart: '', y: 0 },
+  //   { x: 'Friday', depart: '', y: 0 },
+  //   { x: 'Saturday', depart: '', y: 0 }
+  // ]
   // title = 'Population (in millions)';
   type = 'ColumnChart';
   data = [];
@@ -38,7 +46,7 @@ export class GroupedBarChart2Component implements OnInit {
   height: number;
 
 
-  refresh(elem, dept, _surgeryDeptType, _returnedPatients,periodList) {
+  refresh(elem, dept, _surgeryDeptType, _returnedPatients, periodList) {
     this.TimeLineParam = elem;
     this.periodList = periodList;
     this.departParam = dept;
@@ -126,7 +134,6 @@ export class GroupedBarChart2Component implements OnInit {
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];
-        //  debugger;
         let date = new Date();
         let finalarr = [];
         this.columnNames = ["יום"];
@@ -137,14 +144,14 @@ export class GroupedBarChart2Component implements OnInit {
             inquiriesStatLine[0][index] = temp.toString();
           });
         }
-        if (this.TimeLineParam == "2") {
-          let dt = new Date();
-          let month = dt.getMonth();
-          let year = dt.getFullYear();
-          let daysInMonth = new Date(year, month, 0).getDate();
-          inquiriesStatLine[0] = inquiriesStatLine[0].slice(0, daysInMonth);
-          inquiriesStatLine[2] = inquiriesStatLine[2].slice(0, daysInMonth);
-        }
+        // if (this.TimeLineParam == "2") {
+        //   let dt = new Date();
+        //   let month = dt.getMonth();
+        //   let year = dt.getFullYear();
+        //   let daysInMonth = new Date(year, month, 0).getDate();
+        //   inquiriesStatLine[0] = inquiriesStatLine[0].slice(0, daysInMonth);
+        //   inquiriesStatLine[2] = inquiriesStatLine[2].slice(0, daysInMonth);
+        // }
         for (let i = 0; i < inquiriesStatLine[2].length; i++) {
           let temp = [];
           let notNullIndex = inquiriesStatLine[2][i].findIndex(x => x !== null);
@@ -201,19 +208,10 @@ export class GroupedBarChart2Component implements OnInit {
           else {
             finalarr.splice(d, 0, arrTemp);
           }
-          // if (inquiriesStatLine[0].length == inquiriesStatLine[2].length) {
-          //   if (inquiriesStatLine[0][d] != finalarr[d][0]) {
-          //     finalarr.splice(d, 0, arrTemp);
-          //   }
-          // }else{
-          //   continue;
-          // }
         }
 
         if (this.TimeLineParam == "1") {
           this.data = new Array(7);
-          let temp = finalarr;
-          finalarr = new Array(7).fill(['', 0, 0, 0, 0]);
           let counter = 1;
           finalarr[0][0] = 'ראשון';
           finalarr[1][0] = 'שני';
@@ -222,7 +220,6 @@ export class GroupedBarChart2Component implements OnInit {
           finalarr[4][0] = 'חמישי';
           finalarr[5][0] = 'שישי';
           finalarr[6][0] = 'שבת';
-          finalarr = temp;
           for (let f = 0; f < inquiriesStatLine[0].length; f++) {
             let t = new Date(date);
             let dayName = inquiriesStatLine[0][t.getDay()];

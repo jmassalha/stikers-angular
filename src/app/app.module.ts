@@ -1,10 +1,10 @@
-import { BrowserModule,Title } from '@angular/platform-browser';
+import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule } from '@angular/common/http';
+import { HttpClientModule, HttpClient } from '@angular/common/http';
 import { Injectable, NgModule } from '@angular/core';
 import { CustomMaterialModule } from './core/material.module';
 import { AppRoutingModule } from './core/app.routing.module';
-import { FormsModule, ReactiveFormsModule }  from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { AppComponent } from './app.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { LoginComponent } from './login/login.component';
@@ -15,20 +15,20 @@ import { MatNativeDateModule, MAT_DATE_FORMATS, MAT_DATE_LOCALE } from '@angular
 import { MatDatepickerModule } from '@angular/material/datepicker';
 import { MatBadgeModule } from '@angular/material/badge';
 import { MatInputModule } from '@angular/material/input';
-import {MatStepperModule} from '@angular/material/stepper';
-import {MatTreeModule} from '@angular/material/tree';
+import { MatStepperModule } from '@angular/material/stepper';
+import { MatTreeModule } from '@angular/material/tree';
 import { MatSelectModule } from '@angular/material/select';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatCheckboxModule} from '@angular/material/checkbox';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatCheckboxModule } from '@angular/material/checkbox';
 import { HeaderComponent } from './header/header.component';
 import { FooterComponent } from './footer/footer.component';
-import { ChadsComponent } from './chads/chads.component'; 
-import {MatListModule} from '@angular/material/list';
+import { ChadsComponent } from './chads/chads.component';
+import { MatListModule } from '@angular/material/list';
 import { DataTablesModule } from 'angular-datatables';
 import { MatRadioModule } from '@angular/material/radio';
-import {MatChipsModule} from '@angular/material/chips';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDialogModule } from '@angular/material/dialog';
 import { MatTabsModule } from '@angular/material/tabs';
 import { SurgeryComponent } from './surgery/surgery.component';
@@ -46,9 +46,9 @@ import { MatFormFieldModule } from '@angular/material/form-field';
 import { CoronaformComponent } from './coronaform/coronaform.component';
 import { NgxMaskModule, IConfig } from 'ngx-mask';
 import { PoriadepartsComponent } from './poriadeparts/poriadeparts.component';
-import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { RolesComponent } from './roles/roles.component';
-import {MatMenuModule} from '@angular/material/menu';
+import { MatMenuModule } from '@angular/material/menu';
 import { StaffComponent } from './staff/staff.component';
 import { SendsmsComponent } from './sendsms/sendsms.component';
 import { CoronaresultformComponent } from './coronaresultform/coronaresultform.component';
@@ -59,9 +59,9 @@ import { CortinasComponent } from './cortinas/cortinas.component';
 import { CortinasdepartsComponent } from './cortinasdeparts/cortinasdeparts.component';
 import { CortinasnotificationComponent } from './cortinasnotification/cortinasnotification.component';
 import { ColonoscopyComponent } from './colonoscopy/colonoscopy.component';
-import {  NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
-import {NgxMaterialTimepickerModule} from 'ngx-material-timepicker';
-import { MatMomentDateModule} from "@angular/material-moment-adapter";
+import { NgxMatDatetimePickerModule, NgxMatTimepickerModule, NgxMatNativeDateModule } from '@angular-material-components/datetime-picker';
+import { NgxMaterialTimepickerModule } from 'ngx-material-timepicker';
+import { MatMomentDateModule } from "@angular/material-moment-adapter";
 import { SendsmsadminComponent } from './sendsmsadmin/sendsmsadmin.component';
 import { CoronavaccineComponent } from './coronavaccine/coronavaccine.component';
 import { Covid19reportComponent } from './covid19report/covid19report.component';
@@ -77,17 +77,17 @@ import { MaternitypatientsComponent } from './maternitypatients/maternitypatient
 import { EmergencycallgroupsComponent } from './emergencycallgroups/emergencycallgroups.component';
 import { EmergencymembersComponent } from './emergencymembers/emergencymembers.component';
 import { EmployeesComponent } from './employees/employees.component';
-import {MatSlideToggleModule} from '@angular/material/slide-toggle';
+import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { FillSurveyComponent, DialogContentExampleDialog } from './fill-survey/fill-survey.component';
 import { FormDashboardComponent } from './form-dashboard/form-dashboard.component';
 import { UpdateformComponent } from './updateform/updateform.component';
 import { UpdatesingleformComponent } from './updatesingleform/updatesingleform.component';
 import { FormsansweredComponent } from './formsanswered/formsanswered.component';
-import {MatTooltipModule} from '@angular/material/tooltip';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { EventsscheduleComponent } from './eventsschedule/eventsschedule.component';
 import { EmailsdashboardComponent } from './emailsdashboard/emailsdashboard.component';
 import { EmailmanagementComponent } from './emailmanagement/emailmanagement.component';
-import {DatePipe, registerLocaleData} from '@angular/common';
+import { DatePipe, registerLocaleData } from '@angular/common';
 import { StatusComplaintComponent } from './status-complaint/status-complaint.component';
 import { ConfirmationDialogComponent } from './confirmation-dialog/confirmation-dialog.component';
 import { ConfirmationDialogService } from './confirmation-dialog/confirmation-dialog.service';
@@ -146,7 +146,7 @@ import { BarChartComponent } from './hospital-bi-dashboard/bar-chart/bar-chart.c
 import { GroupedBarChartComponent } from './hospital-bi-dashboard/grouped-bar-chart/grouped-bar-chart.component';
 import { LineChartComponent } from './hospital-bi-dashboard/line-chart/line-chart.component';
 import { PieChartComponent } from './hospital-bi-dashboard/pie-chart/pie-chart.component';
-import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
 import { GroupedBarChart2Component } from './hospital-bi-dashboard/grouped-bar-chart2/grouped-bar-chart2.component';
 import { InfectionDrugsComponent } from './infection-drugs/infection-drugs.component';
 import { AngularDualListBoxModule } from 'angular-dual-listbox';
@@ -156,6 +156,7 @@ import { MaternityParticipantsComponent } from './maternity/maternity-participan
 import { CprFormComponent } from './form-dashboard/cpr-form/cpr-form.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { DrugProtocolsComponent } from './drug-protocols/drug-protocols.component';
+
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -169,7 +170,7 @@ const maskConfig: Partial<IConfig> = {
     ScannersComponent,
     DialogContentExampleDialog,
     AppComponent,
-   // DragDropModule,
+    // DragDropModule,
     LoginComponent,
     DashboardComponent,
     HeaderComponent,
@@ -275,6 +276,7 @@ const maskConfig: Partial<IConfig> = {
   imports: [
     AngularDualListBoxModule ,
     MatTableExporterModule,
+    AngularDualListBoxModule,
     BrowserModule,
     MatButtonToggleModule,
     BrowserAnimationsModule,
@@ -297,7 +299,7 @@ const maskConfig: Partial<IConfig> = {
     ReactiveFormsModule,
     NgxBarCodePutModule,
     GoogleChartsModule,
-    NgxMatNativeDateModule,    
+    NgxMatNativeDateModule,
     MatMomentDateModule,
     NgxMaterialTimepickerModule,
     NgxMatDatetimePickerModule,
@@ -315,8 +317,8 @@ const maskConfig: Partial<IConfig> = {
       // titleColor: "#C7E596",
       // animationDuration: 300,
       // lazy : false
-      
-    }) ,
+
+    }),
     AgmCoreModule.forRoot({
       apiKey: 'AIzaSyBMYu4gJHWl09_DEpL08qmrJXv6s-kCfiI'
     }),
@@ -342,7 +344,7 @@ const maskConfig: Partial<IConfig> = {
     MatTableModule,
     CustomMaterialModule,
     MatButtonModule,
-    GoogleChartsModule,     
+    GoogleChartsModule,
     MatDatepickerModule,
     MatProgressBarModule,
     MatAutocompleteModule,
@@ -355,12 +357,12 @@ const maskConfig: Partial<IConfig> = {
     MatListModule,
     MatRadioModule,
     ReactiveFormsModule,
-    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory }) 
+    CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' },DatePipe
-    ,ConfirmationDialogService
-    ,MenuPerm
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, DatePipe
+    , ConfirmationDialogService
+    , MenuPerm
     , NgbActiveModal],
   bootstrap: [AppComponent],
   exports: [

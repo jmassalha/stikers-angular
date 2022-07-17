@@ -335,7 +335,7 @@ export class NursesDepartmentManageComponent implements OnInit {
           this.RespiratorsCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מונשם')).length.toString();
           this.CatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('שתן')).length.toString();
           this.CentralCatheterCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('מרכזי')).length.toString();
-          this.IsolationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('בידוד')).length.toString();
+          this.IsolationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('בידוד') || obj.kpcType.includes('בידוד')).length.toString();
           this.PhLimitationCount = this.dataSource2.filteredData.filter((obj) => obj.SSP_DESCRIPTION.includes('פיזית')).length.toString();
           if (coronaExists > 0) {
             this.CoronaStatus = '1'

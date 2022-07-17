@@ -29,8 +29,14 @@
 #firstTable > tbody > tr > td {
     white-space: nowrap; 
 }
+.table td, .table th {
+    width: 8%;
+}
 .col-1{
     max-width: 114px;
+}
+.input-error {
+    border: red 1px solid;
 }
 .inside-col{
     width: 25%;

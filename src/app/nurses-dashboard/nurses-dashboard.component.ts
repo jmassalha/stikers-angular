@@ -323,7 +323,7 @@ export class NursesDashboardComponent implements OnInit {
   date2: string;
   time2: string;
   automaticShift: string;
-  creator: boolean;
+  // creator: boolean;
   now = new Date();
   autoSaveCounter: any;
   autoSaveTimer: any;
@@ -337,6 +337,7 @@ export class NursesDashboardComponent implements OnInit {
   offsetFlag = true;
   showNewReport: boolean = false;
   nursingCount: string;
+  waitToSaveBtn: boolean;
 
   ngOnInit(): void {
     if (this.caseNumber != "" && this.caseNumber != undefined) {
@@ -807,6 +808,7 @@ export class NursesDashboardComponent implements OnInit {
       this.caseNumber = "";
     }
     if (!this.ReportGroup.invalid) {
+      this.waitToSaveBtn = true;
       this.http
         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AddUpdateReport", {
           _report: this.ReportGroup.getRawValue(),
@@ -829,6 +831,7 @@ export class NursesDashboardComponent implements OnInit {
               this.openSnackBar("נשמר בהצלחה");
               this.ReportGroup.controls['Row_ID'].setValue(Response["d"]);
             }
+            this.waitToSaveBtn = false;
           } else {
             this.openSnackBar("משהו השתבש, לא נשמר");
           }

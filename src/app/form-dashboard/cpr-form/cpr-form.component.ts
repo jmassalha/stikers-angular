@@ -75,15 +75,15 @@ export class CprFormComponent implements OnInit {
   deathFormShow: boolean;
   cprTeamShow: boolean;
   secondTableMeds = ['ADRENALINE', 'AMIODARONE', 'ATROPINE', '', '', ''];
-  statusDropDown = ['VF', 'PEA', 'ASYSTOLE', 'VT'];
+  statusDropDown = ['VF', 'PEA', 'ASYSTOLE', 'VT', 'BRADY ARITMIA'];
   rateHeadDropdown = ['יש', 'אין'];
   myDate = new Date();
   CprFormsColumns: string[] = ['date', 'patientID', 'patientName', 'print'];
   CprFormsList = [];
   CprFormsList_all = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
-  // usersToSend = ['batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
-  usersToSend = ['adahabre@poria.health.gov.il'];
+  usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
+  // usersToSend = ['adahabre@poria.health.gov.il'];
   filteredOptions1: Observable<string[]>;
   docfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
@@ -399,7 +399,13 @@ export class CprFormComponent implements OnInit {
   submit() {
     let defaultCprDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
     this.FirstSection.controls['cprDate'].setValue(defaultCprDate);
-    if (!this.FirstSection.invalid && !this.SecondSection.invalid && !this.ThirdSection.invalid) {
+    if (this.FirstSection.invalid) {
+      this.openSnackBar("שכחת שדה חובה בחלק ראשון");
+    } else if (this.SecondSection.invalid) {
+      this.openSnackBar("שכחת שדה חובה בחלק שני");
+    } else if (this.ThirdSection.invalid) {
+      this.openSnackBar("שכחת שדה חובה בחלק שלישי");
+    } else {
       this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveCprForm", {
         _first: this.FirstSection.value,
         _second: this.SecondSection.value,
@@ -417,8 +423,6 @@ export class CprFormComponent implements OnInit {
             this.openSnackBar("אירעה תקלה, לא נשמר!");
           }
         });
-    } else {
-      this.openSnackBar("שכחת למלא שדות חובה");
     }
   }
 
@@ -471,7 +475,7 @@ export class CprFormComponent implements OnInit {
     }
 
     // this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createCprPdfOnServer", {
-      this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
+    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
       CaseNumber: CaseNumber,
       FormID: "1",
       Catigory: "ZPO_ONLINE",
@@ -482,7 +486,7 @@ export class CprFormComponent implements OnInit {
         let that = this;
         setTimeout(() => {
           // that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
-            that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+          that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
             CaseNumber:
               CaseNumber,
             FormID: "1",

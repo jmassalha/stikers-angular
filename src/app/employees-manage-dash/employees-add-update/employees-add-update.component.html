@@ -10,7 +10,7 @@
                         *ngIf="!EmployeeExists">{{employeePersonalDetails.controls['FirstName'].value}}
                         {{employeePersonalDetails.controls['LastName'].value}} -
                         {{employeeWorkDetails.controls['ADUserName'].value}} -
-                        {{employeePersonalDetails.controls['CellNumber'].value}}</label>
+                        {{employeePersonalDetails.controls['EmployeeID'].value}}</label>
                     <label style="font-size: 40px;color: red;" *ngIf="EmployeeExists">העובד כבר קיים במערכת - ליצור קשר
                         עם מערכות מידע</label>
                 </div>
@@ -156,8 +156,11 @@
                                     <mat-select formControlName="EmployeeSektorID"
                                         (selectionChange)="sektorSelection($event.value)" aria-placeholder="סקטור">
                                         <div *ngIf="managerType == 'stager'">
-                                            <mat-option [value]="899">
+                                            <mat-option value="899">
                                                 סקטור סטאזרים לרפואה
+                                            </mat-option>
+                                            <mat-option value="999">
+                                                סקטור רופאים
                                             </mat-option>
                                         </div>
                                         <div *ngIf="managerType == 'research' || managerType == 'hr'">
@@ -226,7 +229,7 @@
                                     <mat-datepicker #picker4></mat-datepicker>
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-3" *ngIf="managerType != 'stager'">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                     <label class="exp-label">תיאור תפקיד</label>
                                     <mat-select formControlName="FunctionID" aria-placeholder="תיאור תפקיד">
@@ -264,7 +267,7 @@
                                     </mat-select>
                                 </div>
                             </li>
-                            <li class="border-me col-3" *ngIf="managerType != 'stager'">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                     <label class="exp-label">מחלקה</label>
                                     <mat-select formControlName="DepartnentCode" aria-placeholder="מחלקה">
