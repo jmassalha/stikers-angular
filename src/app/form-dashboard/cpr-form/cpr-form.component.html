@@ -575,6 +575,11 @@
         <hr>
         <div class="row mt-5">
             <table mat-table [dataSource]="CprFormsList_all" dir="rtl" style="width: 100%;" class="mat-elevation-z8">
+                <ng-container matColumnDef="rowid">
+                    <th mat-header-cell *matHeaderCellDef> מספר טופס </th>
+                    <td mat-cell *matCellDef="let element"> {{element.Row_ID}} </td>
+                </ng-container>
+                
                 <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef> תאריך </th>
                     <td mat-cell *matCellDef="let element"> {{element.DateOFFill}} </td>

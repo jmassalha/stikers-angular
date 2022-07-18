@@ -174,7 +174,7 @@ export class OtherDepartmentsComponent implements OnInit {
   getOtherDepartmentPatients(ICUType, live, event) {
     this.IcuPatientsBar = false;
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetOtherDepartmentPatients", {
+      .post("http://localhost:64964/WebService.asmx/GetOtherDepartmentPatients", {
         _otherDepartName: ICUType,
         _ifLive: live,
         _dateToLook: this.dateToDisplayString

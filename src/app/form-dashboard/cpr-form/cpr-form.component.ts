@@ -78,7 +78,7 @@ export class CprFormComponent implements OnInit {
   statusDropDown = ['VF', 'PEA', 'ASYSTOLE', 'VT', 'BRADY ARITMIA'];
   rateHeadDropdown = ['יש', 'אין'];
   myDate = new Date();
-  CprFormsColumns: string[] = ['date', 'patientID', 'patientName', 'print'];
+  CprFormsColumns: string[] = ['rowid', 'date', 'patientID', 'patientName', 'print'];
   CprFormsList = [];
   CprFormsList_all = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
@@ -168,7 +168,7 @@ export class CprFormComponent implements OnInit {
       pulseStat: new FormControl('', Validators.required),
       cautiosStat: new FormControl('', Validators.required),
       managingDoc: new FormControl('', Validators.required),
-      managingDocSign: new FormControl('', Validators.required),
+      managingDocSign: new FormControl('', null),
       managingDocLicence: new FormControl('', null),
       responsNurse: new FormControl('', Validators.required),
       responsNurseSign: new FormControl('', Validators.required),

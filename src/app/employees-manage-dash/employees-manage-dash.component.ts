@@ -34,6 +34,7 @@ export class EmployeesManageDashComponent implements OnInit {
   FunctionsList = [];
   SektorsList = [];
   WorkPlacesList = [];
+  loaded: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -58,7 +59,7 @@ export class EmployeesManageDashComponent implements OnInit {
         WorkPlace: new FormControl('', null),
         StatusRow: new FormControl('2', null),
         AcceptTerms: new FormControl(false, null),
-        ApprovedToBlossom: new FormControl(false, null),
+        ApprovedToBlossom: new FormControl('2', null),
       });
       if (this.UserName == "iditur" || this.UserName == "dfogel") {
         this.managerType = "stager";
@@ -128,6 +129,7 @@ export class EmployeesManageDashComponent implements OnInit {
   }
 
   GetEmployeesToUpdate(managerType, toExcel) {
+    this.loaded = false;
     let employeesToShow = "";
     let employeesWorkPlace = "";
     let empId = this.searchEmployeesGroup.controls['EmpID'].value;
@@ -157,7 +159,7 @@ export class EmployeesManageDashComponent implements OnInit {
     //   employeesWorkPlace = '';
     // }
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {
+      .post("http://localhost:64964/WebService.asmx/GetEmployeesToUpdate", {
         _empId: empId,
         _empFirstName: empFirstName,
         _empLastName: empLastName,
@@ -174,13 +176,14 @@ export class EmployeesManageDashComponent implements OnInit {
         _approvedToBlossom: ApprovedToBlossom
       })
       .subscribe((Response) => {
+        this.loaded = true;
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
       });
     if (toExcel) {
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EmployeesExcelExport", {
+        .post("http://localhost:64964/WebService.asmx/EmployeesExcelExport", {
           _empId: empId,
           _empFirstName: empFirstName,
           _empLastName: empLastName,
@@ -193,6 +196,7 @@ export class EmployeesManageDashComponent implements OnInit {
           _sektor: sektor,
           _workPlace: workPlace,
           _statusRow: StatusRow,
+          _approvedToBlossom: ApprovedToBlossom
         })
         .subscribe((Response) => {
           this.dataSourceExcel = new MatTableDataSource<any>(Response["d"]);

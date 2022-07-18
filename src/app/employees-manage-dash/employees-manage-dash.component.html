@@ -1,6 +1,6 @@
 <div *ngIf="managerType == 'unknown'">
     <mat-card class="card" style="box-shadow: 2px 2px 4px 1px;" (click)="chooseManagerTypeForMultiple('stager')">
-        <mat-card-content>ניהול סטאזרים</mat-card-content>
+        <mat-card-content>ניהול סטאג'רים/רופאים</mat-card-content>
     </mat-card>
     <mat-card class="card" style="box-shadow: 2px 2px 4px 1px;" (click)="chooseManagerTypeForMultiple('hr')">
         <mat-card-content>ניהול כח אדם</mat-card-content>
@@ -228,7 +228,8 @@
                 </div>
             </div>
         </div>
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8">
+        <mat-spinner class="spinner" *ngIf="!loaded"></mat-spinner>
+        <table mat-table *ngIf="loaded" [dataSource]="dataSource" matSort class="mat-elevation-z8">
 
             <ng-container matColumnDef="EmployeeID">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> תעודת זהות
