@@ -159,7 +159,7 @@ export class EmployeesManageDashComponent implements OnInit {
     //   employeesWorkPlace = '';
     // }
     this.http
-      .post("http://localhost:64964/WebService.asmx/GetEmployeesToUpdate", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {
         _empId: empId,
         _empFirstName: empFirstName,
         _empLastName: empLastName,
@@ -183,7 +183,7 @@ export class EmployeesManageDashComponent implements OnInit {
       });
     if (toExcel) {
       this.http
-        .post("http://localhost:64964/WebService.asmx/EmployeesExcelExport", {
+        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EmployeesExcelExport", {
           _empId: empId,
           _empFirstName: empFirstName,
           _empLastName: empLastName,
