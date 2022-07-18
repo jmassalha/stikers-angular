@@ -511,7 +511,7 @@
                                     <input formControlName="managingDoc" matInput placeholder="שם הרופא - מנהל החייאה">
                                 </mat-form-field> -->
                                 <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
-                                    color="warn" (click)="signForm('Doctor')" type="submit" mat-raised-button>
+                                    color="warn" (click)="signForm('Doctor',0)" type="submit" mat-raised-button>
                                     <span *ngIf="signDoc == ''">לחתום</span>
                                     <span *ngIf="signDoc != ''">נחתם</span>
                                 </button>
@@ -533,7 +533,7 @@
                                         placeholder="שם האחות שהשתתפה בהחייאה ו/או מופקדת על החולה">
                                 </mat-form-field> -->
                                 <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
-                                    color="warn" (click)="signForm('Nurse')" type="submit" mat-raised-button>
+                                    color="warn" (click)="signForm('Nurse',0)" type="submit" mat-raised-button>
                                     <span *ngIf="signNurse == ''">לחתום</span>
                                     <span *ngIf="signNurse != ''">נחתם</span>
                                 </button>
@@ -579,7 +579,7 @@
                     <th mat-header-cell *matHeaderCellDef> מספר טופס </th>
                     <td mat-cell *matCellDef="let element"> {{element.Row_ID}} </td>
                 </ng-container>
-                
+
                 <ng-container matColumnDef="date">
                     <th mat-header-cell *matHeaderCellDef> תאריך </th>
                     <td mat-cell *matCellDef="let element"> {{element.DateOFFill}} </td>
@@ -618,6 +618,16 @@
                             </span>
                         </button>
                     </td>
+                </ng-container>
+
+                <ng-container matColumnDef="sign">
+                    <th mat-header-cell *matHeaderCellDef> חתימת רופא</th>
+                    <td mat-cell *matCellDef="let element"><button class="full-width mb-5"
+                            *ngIf="element.managingDocSign == ''"
+                            style="font-weight: bold;font-size: 20px;color: white;" color="warn"
+                            (click)="signForm('Doctor',element.Row_ID)" type="submit" mat-raised-button>
+                            <span>לחתום</span>
+                        </button> </td>
                 </ng-container>
 
                 <tr mat-header-row *matHeaderRowDef="CprFormsColumns"></tr>
