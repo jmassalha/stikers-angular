@@ -622,7 +622,7 @@
 
                 <ng-container matColumnDef="sign">
                     <th mat-header-cell *matHeaderCellDef> חתימת רופא</th>
-                    <td mat-cell *matCellDef="let element"><button class="full-width mb-5"
+                    <td mat-cell *matCellDef="let element"><button class="full-width"
                             *ngIf="element.managingDocSign == ''"
                             style="font-weight: bold;font-size: 20px;color: white;" color="warn"
                             (click)="signForm('Doctor',element.Row_ID)" type="submit" mat-raised-button>

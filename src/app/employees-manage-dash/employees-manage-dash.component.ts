@@ -62,7 +62,7 @@ export class EmployeesManageDashComponent implements OnInit {
         ApprovedToBlossom: new FormControl('2', null),
       });
       if (this.UserName == "iditur" || this.UserName == "dfogel") {
-        this.managerType = "stager";
+        this.managerType = "admin";
       } else if (this.UserName == "dporat") {
         this.managerType = "unknown";
       } else if (this.UserName == "ashoshany" || this.UserName == "amarom") {

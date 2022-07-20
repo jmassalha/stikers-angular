@@ -373,6 +373,7 @@ export class CprFormComponent implements OnInit {
       .subscribe((Response) => {
         if(Response["d"]){
           this.openSnackBar("נשמר");
+          this.getAllCprFormsList();
         }else{
           this.openSnackBar("לא נשמר"); 
         }
