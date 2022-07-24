@@ -32,7 +32,7 @@
                     <ng-template matStepLabel>פרטים אישיים</ng-template>
                     <ol class="list-style">
                         <div class="full-width row">
-                            <li class="border-me col-3">
+                            <li class="border-me col-4">
                                 <div class="col-12 text-right">
                                     <div class="col-12 text-right">
                                     </div>
@@ -42,38 +42,43 @@
                                     </mat-form-field>
                                 </div>
                             </li>
-                            <li class="border-me col-3">
+                            <li class="border-me col-4">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" matInput placeholder="שם פרטי" formControlName="FirstName">
+                                    <input type="text" matInput placeholder="שם פרטי (עברית)"
+                                        formControlName="FirstName">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-3">
+                            <li class="border-me col-4">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" matInput placeholder="שם פרטי באנגלית" formControlName="FirstNameEng">
+                                    <input type="text" matInput placeholder="שם פרטי (אנגלית)"
+                                        formControlName="FirstNameEng">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-3">
-                                <div class="col-12 text-right">
-                                </div>
-                                <mat-form-field class="example-full-width">
-                                    <input type="text" matInput placeholder="שם משפחה" formControlName="LastName">
-                                </mat-form-field>
-                            </li>
-                            
+
+
                         </div>
                         <div class="full-width row">
-                            <li class="border-me col-3">
+                            <li class="border-me col-4">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
-                                    <input type="text" matInput placeholder="שם משפחה באנגלית" formControlName="LastNameEng">
+                                    <input type="text" matInput placeholder="שם משפחה (עברית)"
+                                        formControlName="LastName">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-3">
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם משפחה (אנגלית)"
+                                        formControlName="LastNameEng">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4">
                                 <div class="col-12 text-right">
                                     <label class="exp-label">מגדר</label>
                                     <mat-select formControlName="Gender" aria-placeholder="מגדר">
@@ -82,7 +87,10 @@
                                     </mat-select>
                                 </div>
                             </li>
-                            <li class="border-me col-3">
+
+                        </div>
+                        <div class="full-width row">
+                            <li class="border-me col-4">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
@@ -90,15 +98,13 @@
                                         formControlName="Email">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-3">
+                            <li class="border-me col-4">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="מס' טלפון" formControlName="CellNumber">
                                 </mat-form-field>
                             </li>
-                        </div>
-                        <div class="full-width row">
                             <li class="border-me col-4" id="employees" style="height: 75px;">
                                 <div class="col-12 text-right">
                                     <mat-form-field appearance="fill" class="example-full-width">
@@ -129,7 +135,7 @@
 
                     </ol>
                     <div>
-                        <button mat-raised-button class="btn btn-primary btn-raised" matStepperNext>הבא</button>
+                        <button mat-raised-button class="btn btn-primary btn-raised mt-3" matStepperNext>הבא</button>
                     </div>
                 </form>
             </mat-step>
@@ -291,13 +297,13 @@
                                     </mat-select>
                                 </div>
                             </li>
-                            
+
                             <li class="border-me col-3">
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="הערות" formControlName="Remarks">
                                 </mat-form-field>
                             </li>
-                            
+
                         </div>
                         <!-- <div class="full-width row">
                             
