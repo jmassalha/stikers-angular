@@ -59,7 +59,7 @@ export class CprFormComponent implements OnInit {
   FirstSection: FormGroup;
   SecondSection: FormGroup;
   ThirdSection: FormGroup;
-  PatientPassport: string = "";
+  CaseNumber: string = "";
   searching: string = "notFound";
   buffering: boolean = false;
   PatientRecord: any;
@@ -89,6 +89,402 @@ export class CprFormComponent implements OnInit {
   filteredOptions2: Observable<string[]>;
   nurfilter = new FormControl();
   employees = [];
+  pdfToServer: string = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>ניטור החייאה</title>
+  <style>p,mat-label,li{font-weight: bold;font-size: 12px;}.col-2{width: 20%;justify-content: center;}td{border: 1px solid black}
+  .container1{margin:2px; padding: 0px 5px 0px 0px; border-style: double;}th{font-size: 14px;}</style>
+  </head><body dir="rtl">
+  <div class="d-none-desktop" dir="rtl">
+  <div class="card-header border-bottomIn rel" style="text-align: center;">
+      <img class="full-width" style="width: 640px;" src="assets/images/covid_2_header.png" />
+      <div class="centered" style="position: absolute;top: 6%;left: 50%;transform: translate(-50%, -50%);"> נספח
+          לנוהל ניהול מערך החייאה במרכז הרפואי, מס' נוהל 1.2.21</div>
+      <div class="centered" style="position: absolute;top: 8%;left: 50%;transform: translate(-50%, -50%);"> מזהה
+          סער: 1000-1004-2018-0001454</div>
+      <div class="centered" style="position: absolute;top: 10%;left: 50%;transform: translate(-50%, -50%);"> תאריך
+          עדכון 03.21</div>
+      <h2 class="text-center pos-abs-center"><u>ניטור החייאה</u></h2>
+  </div>
+  <div class="row" dir="rtl" style="display: flex;">
+      <div class="col-2">
+          <p>מספר מקרה: {{CprFormsList[0].PM_CASE_NUMBER}}</p>
+      </div>
+      <div class="col-2">
+          <p>ת.ז: {{CprFormsList[0].PM_PATIENT_ID}}</p>
+      </div>
+      <div class="col-2">
+          <p>שם מלא: {{CprFormsList[0].PM_FIRST_NAME}} {{CprFormsList[0].PM_LAST_NAME}}</p>
+      </div>
+      <div class="col-2">
+          <p *ngIf="CprFormsList[0].PM_PATIENT_GENDER == '1'">מין: זכר</p>
+          <p *ngIf="CprFormsList[0].PM_PATIENT_GENDER != '1'">מין: נקבה</p>
+      </div>
+      <div class="col-2">
+          <p>גיל: {{CprFormsList[0].PM_DOB | number : '1.1-1'}}</p>
+      </div>
+  </div>
+
+  <div class="container1 m-2" style="display: grid;" dir="rtl">
+      <div class="header" style="float: right;">
+          <p class="text-right"><b><u>א) נתונים לפני תחילת פעולות החייאה:</u></b></p>
+      </div>
+      <div class="row" style="float: right;">
+          <div class="col-8" style="display: flex;margin: -10px 0px -10px 0px;">
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">תאריך החייאה:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].cprDate}}</u></p>
+              </div>
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">שעה:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].cprTime}}</u></p>
+              </div>
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">הופעל צוות החייאה:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].cprTeamWork}}</u></p>
+              </div>
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">בשעה:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].cprTeamWorkTime}}</u></p>
+              </div>
+
+          </div>
+
+      </div>
+      <div class="header" style="float: right;" *ngIf="CprFormsList[0].cprTeamWork == 'כן'">
+          <p class="text-right"><b>שם ושעת הגעת צוות החייאה:&nbsp;</b></p>
+      </div>
+      <div class="row" *ngIf="CprFormsList[0].cprTeamWork == 'כן'">
+          <div class="col-10" style="display: flex;margin: -10px 0px -10px 0px;">
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">שם קרדיולוג:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].cadriologName}}</u></p>
+              </div>
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">שעת הגעה:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].cardiologTime}}</u></p>
+              </div>
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">שם מרדים:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].mardimName}}</u></p>
+              </div>
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">שעת הגעה:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].mardimTime}}</u></p>
+              </div>
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">שם א.כללית: &nbsp;</mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].clalitName}}</u></p>
+              </div>
+              <div class="inside-col" style="display: flex;margin-left: 10px;">
+                  <mat-label style="align-self: center;">שעת הגעה:&nbsp; </mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].clalitTime}}</u></p>
+              </div>
+          </div>
+      </div>
+      <div class="row" style="float: right;">
+          <div class="col-12">
+              <div class="row">
+                  <div class="col-6" style="float: right;width: 20%;">
+                      <mat-label>מקום האירוע: &nbsp;</mat-label>
+                      <p style="display: inline-flex;"><u>{{CprFormsList[0].cprPlace}}</u></p>
+                  </div>
+                  <div class="col-6" style="float: right;width: 80%;">
+                      <mat-label><b>עדים לאירוע: &nbsp;</b></mat-label>
+                      <ul style="display: inline-flex;">
+                          <li style="margin-left: 26px;"
+                              [ngStyle]="{'display': CprFormsList[0].cprWitness1 == 'True' ? 'block' : 'none' }">
+                              צוות
+                              רפואי</li>
+                          <li style="margin-left: 26px;"
+                              [ngStyle]="{'display': CprFormsList[0].cprWitness2 == 'True' ? 'block' : 'none' }">
+                              צוות
+                              סיעודי</li>
+                          <li style="margin-left: 26px;"
+                              [ngStyle]="{'display': CprFormsList[0].cprWitness3 == 'True' ? 'block' : 'none' }">
+                              <span></span>מלווה /
+                              משפחה
+                          </li>
+                      </ul>
+                  </div>
+              </div>
+
+          </div>
+      </div>
+      <div class="row" style="float: right;margin: -20px 0px 0px 0px;">
+          <div class="col-" style="width: 100%;">
+              <mat-label><b>הסיבה להחייאה: &nbsp;</b></mat-label>
+              <ul style="display: inline-flex;">
+                  <li style="margin-left: 26px;"
+                      [ngStyle]="{'display': CprFormsList[0].cprCause1 == 'True' ? 'block' : 'none' }">דום לב
+                  </li>
+                  <li style="margin-left: 26px;"
+                      [ngStyle]="{'display': CprFormsList[0].cprCause2 == 'True' ? 'block' : 'none' }">דום
+                      נשימה
+                  </li>
+                  <li style="margin-left: 26px;"
+                      [ngStyle]="{'display': CprFormsList[0].cprCause3 == 'True' ? 'block' : 'none' }">אחר
+                  </li>
+              </ul>
+          </div>
+      </div>
+      <div class="row" style="float: right;">
+          <div class="col-12" style="display: flex;margin: -10px 0px 0px 0px;">
+              <div class="inside-col4" style="display: flex;align-self: center;margin-left: 10px;">
+                  <mat-label style="align-self: center;">מצב הכרה &nbsp;: מגיב: &nbsp;</mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].replying}}</u></p>
+              </div>
+              <div class="inside-col4" style="display: flex;align-self: center;">
+                  <mat-label style="align-self: center;">מצב נשימתי: &nbsp;</mat-label>
+                  <p style="margin: 0px;"><u>{{CprFormsList[0].resporatoryStat}}</u></p>
+              </div>
+          </div>
+      </div>
+      <div class="row" style="float: right;">
+          <div class="inside-col" style="display: flex;align-self: center;">
+              <mat-label style="align-self: center;">אבחנות המטופל:&nbsp; </mat-label>
+              <p style="margin: 0px;"><u>{{CprFormsList[0].patientDiagnosis}}</u></p>
+          </div>
+      </div>
+  </div>
+
+
+  <div class="container1 m-2" style="margin-top: 5px;display: grid;" dir="rtl">
+      <div class="header">
+          <p class="text-right" style="margin: 0px;"><b><u>ב) תהליך החייאה:</u></b></p>
+      </div>
+      <div class="row clearfix">
+          <div class="col-md-12 column">
+              <table id="firstTable" class="table table-bordered table-hover" style="width: 100%;">
+                  <tbody>
+                      <tr>
+                          <td style="background-color: red;text-align: right;">קצב לב ראשוני
+                              שזוהה
+                          </td>
+                          <td class="col-1 text-center" *ngFor="let col of firstTablecolumns; let i = index">
+                              <mat-label style="align-self: center;">שעה:&nbsp;</mat-label>
+                              <p style="margin: 0px;font-size: 9px;padding: 0px;">
+                                  <b>{{CprFormsList[0].firstTableArray[i].subArray[0].timeHead}}</b>
+                              </p>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>בד' דופק יש/אין</td>
+                          <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index">
+                              <p style="margin: 0px;font-size: 9px;padding: 0px;">
+                                  <b>{{CprFormsList[0].firstTableArray[i].subArray[0].rateHead}}</b>
+                              </p>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>הערכת קצב</td>
+                          <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index"
+                              style="text-align: right;">
+                              <p style="margin: 0px;font-size: 5px;padding: 0px;"
+                                  *ngIf="CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead == 'ASYSTOLE'">
+                                  <b>ASYS</b>
+                              </p>
+                              <p style="margin: 0px;font-size: 9px;padding: 0px;"
+                                  *ngIf="CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead != 'ASYSTOLE'">
+                                  <b>{{CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead}}</b>
+                              </p>
+                          </td>
+                      </tr>
+                  </tbody>
+              </table>
+          </div>
+      </div>
+      <div class="row">
+          <div class="col" style="width: 25%;float: right;">
+              <div class="row clearfix" style="width: 100%;float: right;">
+                  <div class="col-md-12 column">
+                      <table class="table table-bordered table-hover" style="width: 100%;" id="tab_logic">
+                          <thead>
+                              <tr>
+                                  <th class="text-center">
+                                      פעולות
+                                  </th>
+                                  <th class="text-center">
+                                      סטטוס
+                                  </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr class="text-center" *ngFor="let action of actions; let i = index">
+                                  <td>
+                                      <p>{{action.ActionList}}</p>
+                                  </td>
+                                  <td>
+                                      <p>{{CprFormsList[0].actionsTableArray[i].actionctrl}}</p>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+          <div class="col" style="width: 75%;float: right;">
+              <div class="row clearfix" style="width: 100%;float: right;">
+                  <div class="col-md-12 column">
+                      <table class="table table-bordered table-hover" style="width: 100%;" id="tab_logic">
+                          <thead>
+                              <tr>
+                                  <th class="text-center">
+                                      התרופה
+                                  </th>
+                                  <th class="text-center" *ngFor="let time of secondTablecolumns">
+                                      {{time}}
+                                  </th>
+                              </tr>
+                          </thead>
+                          <tbody>
+                              <tr *ngFor="let action of CprFormsList[0].thirdTableArray; let i = index"
+                                  class="text-center">
+                                  <td>
+                                      <p style="font-size: 7px;">{{action.subArray[0].title}}</p>
+                                  </td>
+                                  <td
+                                      *ngFor="let time of CprFormsList[0].thirdTableArray[i].subArray; let j = index">
+                                      <div class="row" style="display: flex;margin: 10px 0px 10px 0px;">
+                                          <div class="col-6"
+                                              style="width: 50%;margin: 0px;border-left: 1px solid black;text-align: center;">
+                                              <p style="margin: 0px;font-size: 8px;">{{time.textMed}}</p>
+                                          </div>
+                                          <div class="col-6" style="width: 50%;margin: 0px;text-align: center;">
+                                              <p style="margin: 0px;font-size: 8px;">{{time.timeMed}}</p>
+                                          </div>
+                                      </div>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+              <div class="row clearfix" style="width: 100%;float: right;">
+                  <div class="col-md-12 column">
+                      <table class="table table-bordered table-hover" style="width: 100%;" id="tab_logic">
+                          <tbody>
+                              <tr class="text-center">
+                                  <td>
+                                      <p style="font-size: 7px;">שעת דפיברלציה/היפוך חשמלי</p>
+                                  </td>
+                                  <td class="text-center"
+                                      *ngFor="let time of CprFormsList[0].forthTableArray[0].subArray; let i = index">
+                                      <p style="margin: 0px;">{{time.timeMed}}</p>
+                                  </td>
+                              </tr>
+                              <tr class="text-center">
+                                  <td>
+                                      <p style="font-size: 9px;">אנרגיה של מכת חשמל</p>
+                                  </td>
+                                  <td
+                                      *ngFor="let text of CprFormsList[0].forthTableArray[0].subArray; let j = index">
+                                      <p style="margin: 0px;">{{text.textMed}}</p>
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </div>
+          </div>
+      </div>
+
+
+
+  </div>
+
+
+  <div class="container1 m-2" style="margin-top: 5px;display: grid;" dir="rtl">
+      <div class="header">
+          <div class="row" style="width: 100%;">
+              <div class="col-4" style="width: 30%;float: right;">
+                  <p style="align-self: center;"><b>ג) סיום ההחייאה:&nbsp;</b></p>
+              </div>
+              <div class="col-8" style="width: 70%;float: right;">
+                  <div class="inside-col3 mr-3" style="width: 40%;float: right;">
+                      <p>שעת סיום ההחייאה: &nbsp;<u>{{CprFormsList[0].cprEndTime}}</u></p>
+                  </div>
+                  <div class="inside-col3" style="width: 25%;float: right;">
+                      <p>קביעת מוות:&nbsp; <u>{{CprFormsList[0].cprDeath}}</u></p>
+                  </div>
+              </div>
+          </div>
+          <div class="row" *ngIf="CprFormsList[0].cprDeath == 'לא'">
+              <div class="col-12">
+                  <div class="row" style="width: 100%;">
+                      <div class="col-4" style="width: 30%;float: right;margin-top: -20px;">
+                          <p><b><u>סימנים חיוניים בתום החייאה&nbsp;</u></b>
+                          </p>
+                      </div>
+                      <div class="col-8" style="width: 70%;float: right;margin-top: -20px;">
+                          <div class="inside-col3" style="width: 40%;float: right;">
+                              <p>נשימה עצמונית: &nbsp;<u>{{CprFormsList[0].resporatoryAlone}}</u></p>
+                          </div>
+                          <div class="inside-col3" style="width: 25%;float: right;">
+                              <p>קצב לב:&nbsp; <u>{{CprFormsList[0].heartRate}}</u></p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="row" style="width: 100%;">
+                      <div class="col-12">
+                          <div class="inside-col" style="width: 25%;float: right;margin-top: -20px;">
+                              <p>סטורציה:&nbsp; <u>{{CprFormsList[0].saturation}}</u></p>
+                          </div>
+                          <div class="inside-col" style="width: 25%;float: right;margin-top: -20px;">
+                              <p><u>{{CprFormsList[0].carbonCo}}</u> &nbsp;:ETCO2</p>
+                          </div>
+                          <div class="inside-col" style="width: 25%;float: right;margin-top: -20px;">
+                              <p>לחץ דם:&nbsp;<u>{{CprFormsList[0].bloodPressure}}</u></p>
+                          </div>
+                          <div class="inside-col" style="width: 25%;float: right;margin-top: -20px;">
+                              <p>דופק:&nbsp;<u>{{CprFormsList[0].pulseStat}}</u></p>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+              <div class="col-12">
+                  <div class="row" style="width: 100%;">
+                      <div class="col-6 text-right" style="width: 100%;float: right;margin-top: -20px;">
+                          <p>מצב הכרה:&nbsp;<u>{{CprFormsList[0].cautiosStat}}</u></p>
+                      </div>
+                      <div class="col-6" style="width: 50%;float: right;margin-top: -20px;"></div>
+                  </div>
+              </div>
+          </div>
+          <div class="row" style="margin-top: 10%;">
+              <div class="col-12">
+                  <div class="row" style="width: 100%;">
+                      <div class="col inside-col3"
+                          style="width: 50%;float: right;display: inline-flex;margin-top: -20px;">
+                          <div>
+                              <p>שם וחתימת הרופא - מנהל החייאה:&nbsp;</p>
+                              <u>{{CprFormsList[0].managingDoc}}</u>
+                          </div>
+                          <img width="100" height="100" [src]="CprFormsList[0].managingDocSign">
+                      </div>
+                      <div class="col inside-col3"
+                          style="width: 50%;float: right;display: inline-flex;margin-top: -20px;">
+                          <div>
+                              <p>שם וחתימת האחות שהשתתפה בהחייאה ו/או מופקדת על
+                                  החולה: &nbsp;</p>
+                              <u>{{CprFormsList[0].responsNurse}}</u>
+                          </div>
+                          <img width="100" height="100" [src]="CprFormsList[0].responsNurseSign">
+                      </div>
+                  </div>
+              </div>
+          </div>
+      </div>
+  </div>
+
+  <div class="row" style="width: 100%;text-align: center;">
+      <p class="last-paragraph text-center"><b>הטופס ימולא על-ידי הרופא מנהל ההחייאה והאחות שהשתתפה
+              בהחייאה. &nbsp; מקור: לתיק
+              המטופל
+              &nbsp; העתק: למרכז ועדת החייאה.
+              &nbsp; העתק: היחידה לבטיחות הטיפול.</b></p>
+  </div>
+</div></body></html>`;
 
 
   ngOnInit(): void {
@@ -336,12 +732,34 @@ export class CprFormComponent implements OnInit {
       });
   }
 
+  // getPatientDetails() {
+  //   this.buffering = true;
+  //   this.http
+  //     .post(
+  //       "http://srv-apps-prod/RCF_WS/WebService.asmx/GetPatientDetailsByIDNumber", {
+  //       _patientPassport: this.PatientPassport
+  //     }
+  //     )
+  //     .subscribe((Response) => {
+  //       this.PatientRecord = Response["d"];
+  //       if (this.PatientRecord.PM_PATIENT_ID != null) {
+  //         this.searching = "Found";
+  //         this.getEmployeesList();
+  //       } else {
+  //         this.searching = "tryAgain";
+  //       }
+  //       this.buffering = false;
+  //       this.PatientRecord.PM_DOB = this.calculateDiff(this.PatientRecord.PM_DOB) / 365;
+  //       this.PatientRecord.PM_DOB = this.PatientRecord.PM_DOB.toFixed(1);
+  //     });
+  // }
+
   getPatientDetails() {
     this.buffering = true;
     this.http
       .post(
-        "http://srv-apps-prod/RCF_WS/WebService.asmx/GetPatientDetailsByIDNumber", {
-        _patientPassport: this.PatientPassport
+        "http://srv-apps-prod/RCF_WS/WebService.asmx/getPatientDetailsByCaseNumber", {
+        _caseNumber: this.CaseNumber
       }
       )
       .subscribe((Response) => {
@@ -371,11 +789,11 @@ export class CprFormComponent implements OnInit {
       _signData: data.sign,
     })
       .subscribe((Response) => {
-        if(Response["d"]){
+        if (Response["d"]) {
           this.openSnackBar("נשמר");
           this.getAllCprFormsList();
-        }else{
-          this.openSnackBar("לא נשמר"); 
+        } else {
+          this.openSnackBar("לא נשמר");
         }
       });
   }
@@ -469,10 +887,12 @@ export class CprFormComponent implements OnInit {
 
   sendCprFormEmail(id) {
     this.http
+      //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
         _userSender: this.UserName,
         users: this.usersToSend,
-        _reportArrayID: id
+        _reportArrayID: id,
+        _html_content: ""
       })
       .subscribe((Response) => {
         if (Response["d"]) {
@@ -548,6 +968,20 @@ export class CprFormComponent implements OnInit {
       var printContents = that.printmycontent.nativeElement.innerHTML;
       style = style + printContents;
       var w = window.open();
+      // let pdfServer = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>ניטור החייאה</title>
+      // <style>p,mat-label,li{font-weight: bold;font-size: 12px;}.col-2{width: 20%;justify-content: center;}td{border: 1px solid black}
+      // .container1{margin:2px; padding: 0px 5px 0px 0px; border-style: double;}th{font-size: 14px;}</style>
+      // </head><body dir="rtl">` + printContents;
+      // pdfServer = pdfServer + "</body></html>";
+      // that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
+      //   _userSender: that.UserName,
+      //   users: that.usersToSend,
+      //   _reportArrayID: id,
+      //   _html_content: pdfServer
+      // }
+      // ).subscribe((Response) => {
+      //   console.log("hello");
+      // });
       w.document.write(style);
       setTimeout(() => {
         w.print();

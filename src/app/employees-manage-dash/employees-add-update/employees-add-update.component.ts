@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, EventEmitter, Injectable, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatDialog } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import {
@@ -37,6 +37,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   _switchHTOK: any = "0";
   _switchBlossom: any = "0";
   AcceptTerms: any;
+  Api = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
 
   constructor(private _snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -66,7 +67,9 @@ export class EmployeesAddUpdateComponent implements OnInit {
       RowID: new FormControl(this.employee.RowID, null),
       EmployeeID: new FormControl(this.employee.EmployeeID, [Validators.required, Validators.pattern("[0-9 ]{1,9}")]),
       FirstName: new FormControl(this.employee.FirstName, [Validators.required]),
+      FirstNameEng: new FormControl(this.employee.FirstNameEng, [Validators.required]),
       LastName: new FormControl(this.employee.LastName, [Validators.required]),
+      LastNameEng: new FormControl(this.employee.LastNameEng, [Validators.required]),
       Gender: new FormControl(this.employee.Gender, [Validators.required]),
       Email: new FormControl(this.employee.Email, null),
       CellNumber: new FormControl(this.employee.CellNumber, [Validators.required, Validators.pattern("[0-9 ]{10}")]),
@@ -90,6 +93,8 @@ export class EmployeesAddUpdateComponent implements OnInit {
       ADUserName: new FormControl('', null),
       WorkPlaceID: new FormControl(WorkPlaceID, null),
       EndWorkDate: new FormControl(this.employee.EndWorkDate, null),
+      CarType: new FormControl(this.employee.CarType, null),
+      CarNumber: new FormControl(this.employee.CarNumber, null),
       Remarks: new FormControl(this.employee.Remarks, null),
       // UpdateDate: new FormControl(this.employee.UpdateDate, null),
       // SentToMOHDate: new FormControl(this.employee.SentToMOHDate, null),
@@ -173,7 +178,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   getRanksList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRanksList", {
+      .post(this.Api + "GetRanksList", {
       })
       .subscribe((Response) => {
         this.RanksList = Response["d"];
@@ -182,7 +187,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   getWorkPlacesList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetWorkPlacesList", {
+      .post(this.Api + "GetWorkPlacesList", {
       })
       .subscribe((Response) => {
         this.WorkPlacesList = Response["d"];
@@ -191,7 +196,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   getEmployeeDepartmentList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeeDepartmentList", {
+      .post(this.Api + "GetEmployeeDepartmentList", {
       })
       .subscribe((Response) => {
         this.DepartmentsList = Response["d"];
@@ -200,7 +205,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   getSektorsList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSektorsList", {
+      .post(this.Api + "GetSektorsList", {
       })
       .subscribe((Response) => {
         this.SektorsList = Response["d"];
@@ -209,7 +214,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   getEmployeesFunctionsList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesFunctionsList", {
+      .post(this.Api + "GetEmployeesFunctionsList", {
       })
       .subscribe((Response) => {
         this.FunctionsList = Response["d"];
@@ -218,7 +223,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   getEmployeesBlossomSektorList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesBlossomSektorList", {
+      .post(this.Api + "GetEmployeesBlossomSektorList", {
       })
       .subscribe((Response) => {
         this.EmployeeBlossomSektors = Response["d"];
@@ -235,7 +240,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
 
   checkIfExists() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/CheckIfEmployeeExists", {
+      .post(this.Api + "CheckIfEmployeeExists", {
         _EmployeeID: this.employeePersonalDetails.controls['EmployeeID'].value
       })
       .subscribe((Response) => {
@@ -253,7 +258,9 @@ export class EmployeesAddUpdateComponent implements OnInit {
               RowID: new FormControl(this.employee.RowID, null),
               EmployeeID: new FormControl(this.employee.EmployeeID, [Validators.required, Validators.pattern("[0-9 ]{1,9}")]),
               FirstName: new FormControl(this.employee.FirstName, [Validators.required]),
+              FirstNameEng: new FormControl(this.employee.FirstNameEng, [Validators.required]),
               LastName: new FormControl(this.employee.LastName, [Validators.required]),
+              LastNameEng: new FormControl(this.employee.LastNameEng, [Validators.required]),
               Gender: new FormControl(this.employee.Gender, [Validators.required]),
               Email: new FormControl(this.employee.Email, [Validators.required]),
               CellNumber: new FormControl(this.employee.CellNumber, [Validators.required, Validators.pattern("[0-9 ]{10}")]),
@@ -277,6 +284,8 @@ export class EmployeesAddUpdateComponent implements OnInit {
               ADUserName: new FormControl('', null),
               WorkPlaceID: new FormControl(WorkPlaceID, null),
               EndWorkDate: new FormControl(this.employee.EndWorkDate, null),
+              CarType: new FormControl(this.employee.CarType, null),
+              CarNumber: new FormControl(this.employee.CarNumber, null),
               Remarks: new FormControl(this.employee.Remarks, null),
               // UpdateDate: new FormControl(this.employee.UpdateDate, null),
               // SentToMOHDate: new FormControl(this.employee.SentToMOHDate, null),
@@ -328,7 +337,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
     this.employeePersonalDetails.controls['DateOfBirth'].setValue(pipe.transform(this.employeePersonalDetails.controls['DateOfBirth'].value, 'yyyy-MM-dd'));
     if (!this.employeeWorkDetails.invalid) {
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveEmployeeDetails", {
+        .post(this.Api + "SaveEmployeeDetails", {
           _personalDetails: this.employeePersonalDetails.getRawValue(),
           _workDetails: this.employeeWorkDetails.getRawValue(),
           _userName: this.UserName,

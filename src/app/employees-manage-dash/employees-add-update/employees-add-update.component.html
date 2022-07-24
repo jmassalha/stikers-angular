@@ -32,7 +32,7 @@
                     <ng-template matStepLabel>פרטים אישיים</ng-template>
                     <ol class="list-style">
                         <div class="full-width row">
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                     <div class="col-12 text-right">
                                     </div>
@@ -42,23 +42,38 @@
                                     </mat-form-field>
                                 </div>
                             </li>
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="שם פרטי" formControlName="FirstName">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם פרטי באנגלית" formControlName="FirstNameEng">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="שם משפחה" formControlName="LastName">
                                 </mat-form-field>
                             </li>
+                            
                         </div>
                         <div class="full-width row">
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם משפחה באנגלית" formControlName="LastNameEng">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                     <label class="exp-label">מגדר</label>
                                     <mat-select formControlName="Gender" aria-placeholder="מגדר">
@@ -67,7 +82,7 @@
                                     </mat-select>
                                 </div>
                             </li>
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
@@ -75,7 +90,7 @@
                                         formControlName="Email">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
@@ -276,9 +291,37 @@
                                     </mat-select>
                                 </div>
                             </li>
+                            
                             <li class="border-me col-3">
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="הערות" formControlName="Remarks">
+                                </mat-form-field>
+                            </li>
+                            
+                        </div>
+                        <!-- <div class="full-width row">
+                            
+                        </div> -->
+                    </ol>
+                    <div>
+                        <button mat-raised-button class="btn btn-primary btn-raised" matStepperNext>הבא</button>
+                    </div>
+
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="employeeWorkDetails">
+                <form dir="rtl" [formGroup]="employeeWorkDetails" autocomplete="off">
+                    <ng-template matStepLabel>פרטים נלווים</ng-template>
+                    <ol class="list-style">
+                        <div class="full-width row">
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="סוג רכב" formControlName="CarType">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מספר רכב" formControlName="CarNumber">
                                 </mat-form-field>
                             </li>
                             <mat-button-toggle class="mr-2" [value]="_switchHTOK" (click)="switchHTOK()"
@@ -296,20 +339,17 @@
                                 <span *ngIf="AcceptTerms == '0'">לא חתם על טופס סודיות</span>
                             </div>
                         </div>
-                        <!-- <div class="full-width row">
-                            
-                        </div> -->
                     </ol>
-                    <div class="button-row">
-                        <button class="submitBtn mb-2 mt-3" matTooltip="שמירה"
-                            [disabled]="employeePersonalDetails.invalid" (click)="saveEmployee()" color="primary"
-                            type="submit" mat-fab>
-                            <span class="material-icons">
-                                save
-                            </span>
-                        </button>
-                    </div>
                 </form>
+
+                <div class="button-row">
+                    <button class="submitBtn mb-2 mt-3" matTooltip="שמירה" [disabled]="employeePersonalDetails.invalid"
+                        (click)="saveEmployee()" color="primary" type="submit" mat-fab>
+                        <span class="material-icons">
+                            save
+                        </span>
+                    </button>
+                </div>
             </mat-step>
         </mat-vertical-stepper>
     </div>

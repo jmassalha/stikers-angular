@@ -1,10 +1,7 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { EmployeesAddUpdateComponent } from '../employees-manage-dash/employees-add-update/employees-add-update.component';
@@ -112,7 +109,7 @@ export class EmployeesManageDashComponent implements OnInit {
 
   getSektorsList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSektorsList", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getEmployeesBlossomSektorList", {
       })
       .subscribe((Response) => {
         this.SektorsList = Response["d"];
