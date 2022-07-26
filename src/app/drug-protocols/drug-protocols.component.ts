@@ -102,7 +102,16 @@ export class DrugProtocolsComponent implements OnInit {
     resultsLength = 0;
     RoleStatus = 0;
     fliterVal = "";
-
+    emptyElement: any = {
+      DrugName: "",
+      ProtocolDay: "",
+      MedAdministrationType: "",
+      Dosage: "",
+      DosingUnit: "",
+      Solution: "",
+      SolutionVol: "",
+      Duration: ""
+    }
     GroupID: string;
     MedGroupID: string;
     MedStatus: string;
@@ -201,10 +210,10 @@ export class DrugProtocolsComponent implements OnInit {
         if (this.ProtocolForm.invalid) {
             return;
         }
-        debugger;
+       // debugger;
         this.http
             .post(
-                "http://localhost:64964/WebService.asmx//insertOrUpdateProtocol",
+                "http://localhost:64964/WebService.asmx/insertOrUpdateProtocol",
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateProtocol",
                 {
                     drugRow: this.ProtocolForm.value,
@@ -220,10 +229,19 @@ export class DrugProtocolsComponent implements OnInit {
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
+        this.myControls  = [];
+        var arrElementOfDetails = [];
+        for(var i = 0; i < _element.Drugs.length; i++){
+          arrElementOfDetails.push(this.addDrugsGroup(_element.Drugs[i]))
+        }
+       // debugger
+        if(arrElementOfDetails.length == 0)
+          arrElementOfDetails.push(this.addDrugsGroup(this.emptyElement))
         this.ProtocolForm = this.formBuilder.group({
             ProtocolName: [_element.ProtocolName, [Validators.required]],
             Status: ["1", false],
             ProtocolId: [_element.ProtocolId, false],
+            Drugs: this.formBuilder.array(arrElementOfDetails),
         });
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
@@ -254,9 +272,11 @@ export class DrugProtocolsComponent implements OnInit {
 
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
-    private addDrugsGroup(): FormGroup {
+    private addDrugsGroup(element:any): FormGroup {
       
         this.myControls.push(new FormControl(""));
+        this.myControls[this.myControls.length - 1].patchValue(element.DrugName );
+       // debugger
         this.filteredOptionsIn.push(this.filteredOptions);
         this.filteredOptionsIn[this.myControls.length - 1] = this.myControls[this.myControls.length - 1].valueChanges.pipe(
             startWith(""),
@@ -266,14 +286,14 @@ export class DrugProtocolsComponent implements OnInit {
             map((name) => (name ? this._filter(name) : this.DrugList.slice()))
         );
         return this.formBuilder.group({
-            DrugName: ["", Validators.required],
-            ProtocolDay: ["", Validators.required],
-            MedAdministrationType: ["", Validators.required],
-            Dosage: ["", Validators.required],
-            DosingUnit: ["", Validators.required],
-            Solution: ["", Validators.required],
-            SolutionVol: ["", Validators.required],
-            Duration: ["", Validators.required],
+            DrugName: [element.DrugName, Validators.required],
+            ProtocolDay: [element.ProtocolDay, Validators.required],
+            MedAdministrationType: [element.MedAdministrationType, Validators.required],
+            Dosage: [element.Dosage, Validators.required],
+            DosingUnit: [element.DosingUnit, Validators.required],
+            Solution: [element.Solution, Validators.required],
+            SolutionVol: [element.SolutionVol, Validators.required],
+            Duration: [element.Duration, Validators.required],
         });
     }
     public getDropDownFromServer() {
@@ -328,18 +348,20 @@ export class DrugProtocolsComponent implements OnInit {
     }
     //Add Fields
     addDrug(): void {
-        this.Drugs.push(this.addDrugsGroup());
+        this.Drugs.push(this.addDrugsGroup(this.emptyElement));
     }
     get Drugs(): FormArray {
         return <FormArray>this.ProtocolForm.get("Drugs");
     }
     open(content, _type, _element) {
+      
+        this.myControls  = [];
         this.myControl = new FormControl("");
         this.ProtocolForm = this.formBuilder.group({
             ProtocolName: ["", Validators.required],
             Status: ["1", false],
             ProtocolId: ["0", false],
-            Drugs: this.formBuilder.array([this.addDrugsGroup()]),
+            Drugs: this.formBuilder.array([this.addDrugsGroup(this.emptyElement)]),
         });
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
@@ -393,8 +415,7 @@ export class DrugProtocolsComponent implements OnInit {
             .post("http://localhost:64964/WebService.asmx/GetAllProtocols", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
-                _FreeText: _FreeText,
-                _GroupID: this.GroupID,
+                _FreeText: _FreeText
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);

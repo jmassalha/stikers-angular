@@ -817,6 +817,7 @@
                 <span *ngIf="this.isCanceldVisible" class="badge badge-danger"
                     >מבוטל</span
                 >
+                
                 <div
                     dir="rtl"
                     class="container-fluid pos-relative"
@@ -943,6 +944,28 @@
                 </div>
             </div>
             <div class="modal-body">
+                <div class="select-protocol" *ngIf="
+                this.isButtonVisible
+            ">
+                    <div class="form-group">
+                        <mat-form-field
+                            appearance="fill"
+                            floatLabel="always"
+                        >
+                            <mat-label>פרוטוקול</mat-label>
+                            <mat-select (selectionChange)="protocolChanged($event)">
+                                <mat-option
+                                    *ngFor="
+                                        let Protocol of Protocols
+                                    "
+                                    [value]="Protocol"
+                                >
+                                    {{ Protocol.ProtocolName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-7">
                         <div class="form-group">
