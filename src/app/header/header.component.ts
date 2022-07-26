@@ -1,5 +1,5 @@
 import { HttpClient } from "@angular/common/http";
-import { Component, OnInit } from "@angular/core";
+import { Component, ElementRef, HostListener, OnInit } from "@angular/core";
 import { Router } from "@angular/router";
 import * as $ from "jquery";
 import { VoiceRecognitionService } from '../header/service/voice-recognition.service'
@@ -199,9 +199,9 @@ export class HeaderComponent implements OnInit {
             this._onnline = true;
         }
         if (
-            this.loginUserName.toLowerCase() == "jmassalha" || 
+            this.loginUserName.toLowerCase() == "jmassalha" ||
             this.loginUserName.toLowerCase() == "samer" ||
-            this.loginUserName.toLowerCase() == "owertheim" || 
+            this.loginUserName.toLowerCase() == "owertheim" ||
             this.loginUserName.toLowerCase() == "adahabre" ||
             this.loginUserName.toLowerCase() == "sabuhanna" ||
             this.loginUserName.toLowerCase() == ("rsharlin").toLowerCase() || //רJKH13579-
@@ -806,11 +806,14 @@ export class HeaderComponent implements OnInit {
             } else {
                 $('body').removeClass('bg-blue-light');
             }
+            console.log("alert");
         });
+
         $("#menu-btn").click(function () {
             //////debugger;
             $(this).toggleClass("show");
             $("#app-menu").toggleClass("show");
+            console.log("alert");
         });
         this.ifPersonRead();
         this.ClinicsPricingPermission();
@@ -819,6 +822,7 @@ export class HeaderComponent implements OnInit {
         this.CardiologyPermission();
         // this.EmployeesManagePermission();
     }
+
     startService() {
         this.service.start()
     }
@@ -834,6 +838,7 @@ export class HeaderComponent implements OnInit {
         this.router.navigate(["login"]);
     }
 
+ 
     ClinicsPricingPermission() {
         let userName = localStorage.getItem("loginUserName").toLowerCase();
         this.http

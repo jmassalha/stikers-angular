@@ -11,6 +11,7 @@ export class BarChartComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
+  loader: boolean = true;
   TimeLineParam;
   departParam: string = "1";
   periodList = [];
@@ -29,7 +30,7 @@ export class BarChartComponent implements OnInit {
   height = 600;
 
 
-  refresh(elem, dept, _surgeryDeptType, _returnedPatients,periodList) {
+  refresh(elem, dept, _surgeryDeptType, _returnedPatients, periodList) {
     this.TimeLineParam = elem;
     this.periodList = periodList;
     this.departParam = dept;
@@ -59,6 +60,7 @@ export class BarChartComponent implements OnInit {
       url = "DiscreteBarChartRentgenDimot";
     }
     if (this.TimeLineParam != undefined) {
+      this.loader = true;
       this.http
         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
           param: this.TimeLineParam,
@@ -73,6 +75,7 @@ export class BarChartComponent implements OnInit {
           for (let i = 0; i < inquiriesStatLine.length; i++) {
             this.data.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);;
           }
+          this.loader = false;
         });
     }
 

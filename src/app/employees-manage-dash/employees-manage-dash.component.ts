@@ -1,10 +1,7 @@
-import { Component, NgZone, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
-import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from '@angular/material/dialog';
-import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { EmployeesAddUpdateComponent } from '../employees-manage-dash/employees-add-update/employees-add-update.component';
@@ -34,6 +31,7 @@ export class EmployeesManageDashComponent implements OnInit {
   FunctionsList = [];
   SektorsList = [];
   WorkPlacesList = [];
+  loaded: boolean = false;
 
   constructor(
     public dialog: MatDialog,
@@ -58,10 +56,10 @@ export class EmployeesManageDashComponent implements OnInit {
         WorkPlace: new FormControl('', null),
         StatusRow: new FormControl('2', null),
         AcceptTerms: new FormControl(false, null),
-        ApprovedToBlossom: new FormControl(false, null),
+        ApprovedToBlossom: new FormControl('2', null),
       });
       if (this.UserName == "iditur" || this.UserName == "dfogel") {
-        this.managerType = "stager";
+        this.managerType = "admin";
       } else if (this.UserName == "dporat") {
         this.managerType = "unknown";
       } else if (this.UserName == "ashoshany" || this.UserName == "amarom") {
@@ -111,7 +109,7 @@ export class EmployeesManageDashComponent implements OnInit {
 
   getSektorsList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSektorsList", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getEmployeesBlossomSektorList", {
       })
       .subscribe((Response) => {
         this.SektorsList = Response["d"];
@@ -128,6 +126,7 @@ export class EmployeesManageDashComponent implements OnInit {
   }
 
   GetEmployeesToUpdate(managerType, toExcel) {
+    this.loaded = false;
     let employeesToShow = "";
     let employeesWorkPlace = "";
     let empId = this.searchEmployeesGroup.controls['EmpID'].value;
@@ -174,6 +173,7 @@ export class EmployeesManageDashComponent implements OnInit {
         _approvedToBlossom: ApprovedToBlossom
       })
       .subscribe((Response) => {
+        this.loaded = true;
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
         this.dataSource.paginator = this.paginator;
         this.dataSource.sort = this.sort;
@@ -193,6 +193,7 @@ export class EmployeesManageDashComponent implements OnInit {
           _sektor: sektor,
           _workPlace: workPlace,
           _statusRow: StatusRow,
+          _approvedToBlossom: ApprovedToBlossom
         })
         .subscribe((Response) => {
           this.dataSourceExcel = new MatTableDataSource<any>(Response["d"]);
