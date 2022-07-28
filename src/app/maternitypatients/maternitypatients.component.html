@@ -38,6 +38,9 @@
                 </div>
             </div>
         </div>
+        <button mat-fab color="accent" aria-label="Excel" (click)="exportToExcel()" matTooltip="יצוא לאקסל">
+            <mat-icon>get_app</mat-icon>
+        </button>
     </div>
     <br />
     <hr />
@@ -356,3 +359,22 @@
         </tbody>
     </table>
 </ng-template>
+<table id="excel-table" dir="rtl" style="display: none;">
+    <tr>
+        <th>ת.ז</th>
+        <th>מס מטופל</th>
+        <th>שם פרטי</th>
+        <th>שם משפחה</th>
+        <th>תאריך לידה משוער</th>
+        <th>שבוע היריון</th>
+
+    </tr>
+    <tr *ngFor="let mat of dataSource.filteredData">
+        <td> {{mat.PatientId}} </td>
+        <td> {{mat.PatientNumber}} </td>
+        <td> {{mat.PatientFirstName}} </td>
+        <td> {{mat.PatientLastName}} </td>
+        <td> {{mat.PatientPregnancyDOB}} </td>
+        <td> {{mat.PatientPregnancyWeekAtInsert}} </td>
+    </tr>
+</table>
