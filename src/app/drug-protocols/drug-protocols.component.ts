@@ -213,7 +213,7 @@ export class DrugProtocolsComponent implements OnInit {
        // debugger;
         this.http
             .post(
-                "http://localhost:64964/WebService.asmx/insertOrUpdateProtocol",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateProtocol",
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateProtocol",
                 {
                     drugRow: this.ProtocolForm.value,
@@ -323,7 +323,7 @@ export class DrugProtocolsComponent implements OnInit {
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/selectNewBornUsers",
-                "http://localhost:64964/WebService.asmx/SelectAllDrugsForProtocols",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SelectAllDrugsForProtocols",
                 {}
             )
             .subscribe((Response) => {
@@ -412,7 +412,7 @@ export class DrugProtocolsComponent implements OnInit {
         }
         this.http
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
-            .post("http://localhost:64964/WebService.asmx/GetAllProtocols", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _FreeText: _FreeText

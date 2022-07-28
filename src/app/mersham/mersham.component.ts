@@ -1515,7 +1515,7 @@ export class MershamComponent implements OnInit {
                 this.http
                     .post(
                         //"http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
-                        "http://localhost:64964/WebService.asmx/SubmitPrecpiction",
+                        "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
                         {
                             prentFromId: prentFromId,
                             ParentFrom: ParentFrom,
@@ -2151,7 +2151,7 @@ export class MershamComponent implements OnInit {
         this.http
             .post(
                 // "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographData",
-                "http://localhost:64964/WebService.asmx/GetDemographData",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographData",
                 {
                     _id: _FreeText,
                     _pageIndex: _pageIndex,
@@ -2292,7 +2292,7 @@ export class MershamComponent implements OnInit {
 
         this.http
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
-            .post("http://localhost:64964/WebService.asmx/GetAllProtocols", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
                 _pageIndex: 0,
                 _pageSize: 1000,
                 _FreeText: "",
