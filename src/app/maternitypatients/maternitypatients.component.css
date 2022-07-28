@@ -1,8 +1,8 @@
 
 #rolesDetailsBtn{
-    position: absolute;
-    bottom: 50px;
-    left: 10px;
+    position: fixed;
+    bottom: 65px;
+    left: 25px;
     z-index: 10;
 }
 .form-group {

@@ -1,5 +1,5 @@
 <div id="page-toshow">
-    <h1 class="text-center">משתתפות</h1>
+    <h1 class="text-center">משתתפות {{MaternityName}}</h1>
     <div class="container-fluid">
         <div class="row">
             <div class="col">
@@ -208,30 +208,16 @@
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field>
-                            <input
-                                id="PatientNumber"
-                                matInput
-                                autocomplete="off"
-                                class="form-control"
-                                placeholder="מס' מטופל"
-                                formControlName="PatientNumber"                                                                
-                                type="tel"
-                            />
+                            <input id="PatientNumber" matInput autocomplete="off" class="form-control"
+                                placeholder="מס' מטופל" formControlName="PatientNumber" type="tel" />
                         </mat-form-field>
                     </div>
                 </div>
                 <div class="col">
                     <div class="form-group">
                         <mat-form-field>
-                            <input
-                                id="PatientId"
-                                matInput
-                                autocomplete="off"
-                                class="form-control"
-                                placeholder="ת.ז"
-                                formControlName="PatientId"                                                           
-                                type="tel"
-                            />
+                            <input id="PatientId" matInput autocomplete="off" class="form-control" placeholder="ת.ז"
+                                formControlName="PatientId" type="tel" (focusout)="checkIfExists()" />
                         </mat-form-field>
                     </div>
                 </div>
@@ -338,6 +324,18 @@
         <span aria-hidden="true">&times;</span>
     </button>
     <h1 mat-dialog-title style="text-align: center;">פרוייקטים למשתתף</h1>
+    <mat-form-field appearance="fill" style="width: 37%;text-align: right;">
+        <mat-label>פרויקטים</mat-label>
+        <mat-select [(ngModel)]="projectToAttach" style="height: 15px;">
+            <mat-option *ngFor="let proj of projects" [value]="proj.RowID">
+                {{proj.MaternityName}}
+            </mat-option>
+        </mat-select>
+    </mat-form-field>
+    <button matTooltip="שיוך לפרויקט אחר" class="attach" mat-raised-button type="submit" class="btn btn-raised mr-1"
+        style="background-color: grey;float: left;" (click)="attachToOtherProject()">
+        שיוך
+    </button>
     <hr>
     <table class="table" dir="rtl">
         <thead>

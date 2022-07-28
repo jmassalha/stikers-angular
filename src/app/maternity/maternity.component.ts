@@ -32,6 +32,8 @@ import {
     Validators,
 } from "@angular/forms";
 import { MenuPerm } from "../menu-perm";
+import { MaternityPatients, MaternitypatientsComponent } from '../maternitypatients/maternitypatients.component';
+
 export interface Poria_Maternity {
     RowID: number;
     MaternityNumber: string;
@@ -116,7 +118,7 @@ export class MaternityComponent implements OnInit {
     ) {
         mMenuPerm.setRoutName("maternity");
         setTimeout(() => {
-            if(!mMenuPerm.getHasPerm()){
+            if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();
                 this.router.navigate(["login"]);
             }
@@ -192,13 +194,14 @@ export class MaternityComponent implements OnInit {
     }
 
     showPatient(content, _type, _element) {
-       // //debugger;
-        localStorage.setItem("MaternityRowId", _element.RowID);
-        this.modalService.open(content, this.modalOptions);
+        // localStorage.setItem("MaternityRowId", _element.RowID);
+        let dialog = this.modalService.open(MaternitypatientsComponent, this.modalOptions);
+        dialog.componentInstance.MaternityRowId = _element.RowID;
+        dialog.componentInstance.MaternityName = 'בפרויקט ' + _element.MaternityName;
     }
 
     SendSmsToPatient(content, _type, _element) {
-       // //debugger;
+        // //debugger;
         this.MaternityName = _element.MaternityNumber;
         this.MaternityNumber = _element.MaternityName;
         this.http
@@ -207,24 +210,24 @@ export class MaternityComponent implements OnInit {
             })
             .subscribe((Response) => {
                 //localStorage.setItem("MaternityRowId", _element.RowID);
-                
+
                 var json = JSON.parse(Response["d"]);
                 let Poria_Maternity = JSON.parse(json["MaternityPatients"]);
                 var textAreaVal = "";
-                for(var i = 0;i < Poria_Maternity.length; i++){
+                for (var i = 0; i < Poria_Maternity.length; i++) {
                     textAreaVal += Poria_Maternity[i]["PatientMobile"] + " - ";
                     textAreaVal += Poria_Maternity[i]["PatientFirstName"] + " ";
                     textAreaVal += Poria_Maternity[i]["PatientLastName"] + "\r\n";
                 }
-               // //debugger
-               localStorage.setItem("smsType", "SMSMaternity");
+                // //debugger
+                localStorage.setItem("smsType", "SMSMaternity");
                 localStorage.setItem("textAreaVal", textAreaVal);
                 this.modalService.open(content, this.modalOptions);
             });
 
-       
+
     }
-    CloseModalSendSms(){
+    CloseModalSendSms() {
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
@@ -320,7 +323,7 @@ export class MaternityComponent implements OnInit {
         }
     }
 
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
 

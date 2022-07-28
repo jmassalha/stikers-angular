@@ -35,6 +35,7 @@ import {
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
 import { MatDialog } from "@angular/material/dialog";
+import { MaternityComponent } from "../maternity/maternity.component";
 
 export interface MaternityPatients {
     RowID: number;
@@ -86,6 +87,8 @@ export class MaternitypatientsComponent implements OnInit {
         windowClass: "marg-t-60",
     };
     closeResult: string;
+    projectToAttach: any;
+    projects: any;
     ParticipantProjectsList = [];
     TABLE_DATA: MaternityPatients[] = [];
     rowFormData = {} as MaternityPatients;
@@ -97,9 +100,11 @@ export class MaternitypatientsComponent implements OnInit {
     resultsLength = 0;
     fliterValPatient = "";
     StatusPatient = "-1";
+    Api = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
     patientForm: FormGroup;
 
-    MaternityRowId = localStorage.getItem("MaternityRowId");
+    MaternityRowId: string;
+    MaternityName: string;
     submitted = false;
     activeModal: NgbActiveModal;
     constructor(
@@ -136,8 +141,8 @@ export class MaternitypatientsComponent implements OnInit {
 
         this.getReportmaternitypatients(this);
     }
-    openSnackBar() {
-        this._snackBar.open("נשמר בהצלחה", "", {
+    openSnackBar(message) {
+        this._snackBar.open(message, "", {
             duration: 2500,
             direction: "rtl",
             panelClass: "success",
@@ -189,7 +194,6 @@ export class MaternitypatientsComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        //////debugger
 
         // stop here if form is invalid
         if (this.patientForm.invalid) {
@@ -208,7 +212,6 @@ export class MaternitypatientsComponent implements OnInit {
                 "yyyy-MM-dd",
                 "en-US"
             );
-        ////debugger;
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
@@ -218,12 +221,14 @@ export class MaternitypatientsComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                this.applyFiltermaternitypatients(this.fliterValPatient);
-                this.openSnackBar();
+                if (Response["d"]) {
+                    this.applyFiltermaternitypatients(this.fliterValPatient);
+                    this.openSnackBar("נשמר בהצלחה");
+                } else {
+                    this.openSnackBar('לא נשמר');
+                }
+
             });
-        // display form values on success
-        //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.patientForm.value, null, 4));
-        // this.modalServicematernitypatients.dismissAll();
         this.activeModal.close();
     }
 
@@ -236,11 +241,33 @@ export class MaternitypatientsComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                this.ParticipantProjectsList = Response["d"];
+                this.ParticipantProjectsList = Response["d"][0];
+                this.AllParticipantProjectsCost = 0;
                 for (let i = 0; i < this.ParticipantProjectsList.length; i++) {
                     this.AllParticipantProjectsCost += parseInt(this.ParticipantProjectsList[i].ProjectCost);
                 }
+                this.projects = Response["d"][1];
                 this.dialog.open(this.modalProjects, { width: '60%', disableClose: false });
+            });
+    }
+
+    attachToOtherProject() {
+        this.http
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/AttachPatientToMaternity",
+                {
+                    _patientId: this.ParticipantProjectsList[0].PatientID,
+                    _maternityId: this.projectToAttach
+                }
+            )
+            .subscribe((Response) => {
+                if(Response["d"]){
+                    this.dialog.closeAll();
+                    this.openSnackBar("שויך בהצלחה");
+                }else{
+                    this.openSnackBar("תקלה בשיוך");
+                }
+                
             });
     }
 
@@ -259,7 +286,6 @@ export class MaternitypatientsComponent implements OnInit {
         } else {
             this.UserEmailStatus = false;
         }
-        ////debugger
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
@@ -292,7 +318,6 @@ export class MaternitypatientsComponent implements OnInit {
         );
     }
     getReportmaternitypatients($event: any): void {
-        //////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -309,8 +334,6 @@ export class MaternitypatientsComponent implements OnInit {
             this.fliterValPatient,
             this.StatusPatient
         );
-
-        //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
     open(content, _type, _element) {
@@ -345,6 +368,48 @@ export class MaternitypatientsComponent implements OnInit {
             this.modalOptions
         );
     }
+
+    checkIfExists() {
+        let id = this.patientForm.controls['PatientId'].value;
+        this.http
+            .post(this.Api + "CheckIfMaternityPatientExists", {
+                _EmployeeID: id
+            })
+            .subscribe((Response) => {
+                let patientDetails = Response["d"];
+                if (patientDetails.PatientId != null) {
+                    this.patientForm = this.formBuilder.group({
+                        PatientNumber: [
+                            patientDetails.PatientNumber,
+                            [Validators.nullValidator, Validators.pattern("[0-9].{2,}")],
+                        ],
+                        PatientId: [
+                            patientDetails.PatientId,
+                            [Validators.nullValidator, Validators.pattern("[0-9].{7,}")],
+                        ],
+                        PatientFirstName: [patientDetails.PatientFirstName, Validators.nullValidator],
+                        PatientLastName: [patientDetails.PatientLastName, Validators.nullValidator],
+                        PatientStatus: [1 + "", Validators.nullValidator],
+                        UserIdInsert: [
+                            localStorage.getItem("loginUserName"),
+                            Validators.nullValidator,
+                        ],
+                        PatientPregnancyDOB: [patientDetails.PatientPregnancyDOB, Validators.nullValidator],
+                        PatientDOB: [patientDetails.PatientDOB, Validators.nullValidator],
+                        RowID: [0, Validators.nullValidator],
+                        MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
+                        PatientNote: [patientDetails.PatientNote, Validators.nullValidator],
+                        PatientPregnancyWeekAtInsert: [patientDetails.PatientPregnancyWeekAtInsert, Validators.nullValidator],
+                        PatientAddress: [patientDetails.PatientAddress, Validators.nullValidator],
+                        PatientMobile: [patientDetails.PatientMobile, Validators.nullValidator],
+                        PatientEmail: [patientDetails.PatientEmail, Validators.nullValidator],
+                    });
+                }
+            });
+    }
+
+
+
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
             return "by pressing ESC";
@@ -369,7 +434,6 @@ export class MaternitypatientsComponent implements OnInit {
     computeEGA(iDueDateYear, iDueDateMonth, iDueDateDay) {
         var dToday = new Date();
         var dDueDate = new Date(iDueDateYear, iDueDateMonth - 1, iDueDateDay);
-        //  //debugger
         var iDaysUntilDueDate = (dDueDate.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24);
         var iTotalDaysInPregnancy = 40 * 7;
         var iGestationalAgeInDays = iTotalDaysInPregnancy - iDaysUntilDueDate;
@@ -389,11 +453,12 @@ export class MaternitypatientsComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        ////debugger
+        if (this.MaternityRowId == null) {
+            this.MaternityRowId = "";
+        }
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/getMaternityPatientsTable",
@@ -407,11 +472,9 @@ export class MaternitypatientsComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                //debugger
                 var json = JSON.parse(Response["d"]);
                 let patientData = JSON.parse(json["Patients"]);
                 for (var i = 0; i < patientData.length; i++) {
-                    //////debugger
                     var date = patientData[i].PatientPregnancyDOB.split("-");
                     var PatientPregnancyWeekAtInsert = this.computeEGA(date[0], date[1], date[2])
                     this.TABLE_DATA.push({
@@ -435,11 +498,9 @@ export class MaternitypatientsComponent implements OnInit {
                     });
                 }
 
-                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["totalRows"]);
                 setTimeout(function () {
-                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

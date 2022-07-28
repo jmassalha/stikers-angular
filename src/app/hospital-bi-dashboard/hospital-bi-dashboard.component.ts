@@ -121,8 +121,8 @@ export class HospitalBIDashboardComponent implements OnInit {
   changeTime(event, type, periodList) {
     this.TimeLineParam = event;
     let titles = {
-      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'אחוז מטופלים לפי ימים', 'אחוז פניות לפי ימים', 'אחוז צנתורים לפי ימי שבוע'],
-      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פונים ליחידה', 'מספר צנתורים לתקופת'],
+      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'אחוז מטופלים לפי ימים', 'אחוז פעולות לפי מבצע', 'אחוז צנתורים לפי ימי שבוע'],
+      bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פעולות', 'מספר צנתורים לתקופת'],
       group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת'],
       group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן', 'מספר מטופלים לפי ציר זמן', 'מספר צנתורים לפי צרי זמן'],
       // line: ['', '', '', '', '', '', ''],
@@ -286,7 +286,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   getCardsVals() {
     this.loader = true;
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetStatsValues", {
+      .post(this.configUrl +"GetStatsValues", {
         deptCode: this.departParam
       })
       .subscribe((Response) => {
@@ -298,7 +298,7 @@ export class HospitalBIDashboardComponent implements OnInit {
 
   getHospitalDepartmentsTableChartList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetHospitalDepartmentsTableChartList", {
+      .post(this.configUrl +"GetHospitalDepartmentsTableChartList", {
         surgerydeptType: this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value
       })
       .subscribe((Response) => {
