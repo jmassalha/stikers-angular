@@ -80,7 +80,7 @@
                             </li>
                             <li class="border-me col-4">
                                 <div class="col-12 text-right">
-                                    <label class="exp-label">מגדר</label>
+                                    <label class="exp-label" [ngStyle]="{'color':this.employeePersonalDetails.get('Gender').value === null ? 'red' : 'black' }">מגדר</label>
                                     <mat-select formControlName="Gender" aria-placeholder="מגדר">
                                         <mat-option value="Male"> זכר </mat-option>
                                         <mat-option value="Female"> נקבה </mat-option>

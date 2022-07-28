@@ -507,11 +507,14 @@
                                         </mat-option>
                                     </mat-autocomplete>
                                 </mat-form-field>
+                                <p style="width: 20%;margin: 10px -10px 0px 14px;">
+                                    {{this.ThirdSection.get('managingDocLicence').value}}</p>
                                 <!-- <mat-form-field class="full-width">
                                     <input formControlName="managingDoc" matInput placeholder="שם הרופא - מנהל החייאה">
                                 </mat-form-field> -->
-                                <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
-                                    color="warn" (click)="signForm('Doctor',0)" type="submit" mat-raised-button>
+                                <button class="full-width mb-5"
+                                    style="font-weight: bold;font-size: 20px;color: white;width: 35%;" color="warn"
+                                    (click)="signForm('Doctor',0)" type="submit" mat-raised-button>
                                     <span *ngIf="signDoc == ''">לחתום</span>
                                     <span *ngIf="signDoc != ''">נחתם</span>
                                 </button>
@@ -528,12 +531,15 @@
                                         </mat-option>
                                     </mat-autocomplete>
                                 </mat-form-field>
+                                <p style="width: 20%;margin: 10px -10px 0px 14px;">
+                                    {{this.ThirdSection.get('responsNurseLicence').value}}</p>
                                 <!-- <mat-form-field class="full-width">
                                     <input formControlName="responsNurse" matInput
                                         placeholder="שם האחות שהשתתפה בהחייאה ו/או מופקדת על החולה">
                                 </mat-form-field> -->
-                                <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
-                                    color="warn" (click)="signForm('Nurse',0)" type="submit" mat-raised-button>
+                                <button class="full-width mb-5"
+                                    style="font-weight: bold;font-size: 20px;color: white;width: 35%;" color="warn"
+                                    (click)="signForm('Nurse',0)" type="submit" mat-raised-button>
                                     <span *ngIf="signNurse == ''">לחתום</span>
                                     <span *ngIf="signNurse != ''">נחתם</span>
                                 </button>
@@ -1007,7 +1013,7 @@
                                 style="width: 50%;float: right;display: inline-flex;margin-top: -20px;">
                                 <div>
                                     <p>שם וחתימת הרופא - מנהל החייאה:&nbsp;</p>
-                                    <u>{{CprFormsList[0].managingDoc}}</u>
+                                    <u>{{CprFormsList[0].managingDoc}} - {{CprFormsList[0].managingDocLicence}}</u>
                                 </div>
                                 <img width="100" height="100" [src]="CprFormsList[0].managingDocSign">
                             </div>
@@ -1016,9 +1022,9 @@
                                 <div>
                                     <p>שם וחתימת האחות שהשתתפה בהחייאה ו/או מופקדת על
                                         החולה: &nbsp;</p>
-                                    <u>{{CprFormsList[0].responsNurse}}</u>
+                                    <u>{{CprFormsList[0].responsNurse}} - {{CprFormsList[0].managingDocLicence}}</u>
                                 </div>
-                                <img width="100" height="100" [src]="CprFormsList[0].responsNurseSign">
+                                <img width="100" height="100" [src]="CprFormsList[0].responsNurseLicence">
                             </div>
                         </div>
                     </div>
