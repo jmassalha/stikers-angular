@@ -7,6 +7,7 @@ import {
     Input,
     TemplateRef,
     ChangeDetectorRef,
+    ElementRef,
 } from "@angular/core";
 import { DatePipe } from '@angular/common';
 import {
@@ -77,6 +78,7 @@ export interface EventDepartDay {
 })
 export class OnlineAppointmentsComponent implements OnInit {
     @ViewChild("modalContent", { static: true }) modalContent: TemplateRef<any>;
+    @ViewChild('toDayCall') toDayCall: ElementRef;
     view: CalendarView = CalendarView.Month;
     TABLE_DATA: EventDepartDay[] = [];
     refresh: Subject<any> = new Subject();
@@ -154,7 +156,13 @@ export class OnlineAppointmentsComponent implements OnInit {
                 
                 }
                 this.events = obj;
+                this.viewDate = new Date();
+                this.viewDate.setDate(this.viewDate.getDate() + 31)
+                //this.events.
                 this.refresh.next();
+                // Next
+                //this.viewDate = 
+                this.toDayCall.nativeElement.click();
                 //debugger;
                 $("#loader").addClass("d-none");
             });
@@ -206,3 +214,4 @@ export class OnlineAppointmentsComponent implements OnInit {
         
     }
 }
+

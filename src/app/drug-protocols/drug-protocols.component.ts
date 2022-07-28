@@ -213,8 +213,8 @@ export class DrugProtocolsComponent implements OnInit {
        // debugger;
         this.http
             .post(
-                "http://localhost:64964/WebService.asmx/insertOrUpdateProtocol",
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateProtocol",
+                //"http://localhost:64964/WebService.asmx/insertOrUpdateProtocol",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateProtocol",
                 {
                     drugRow: this.ProtocolForm.value,
                 }
@@ -291,9 +291,9 @@ export class DrugProtocolsComponent implements OnInit {
             MedAdministrationType: [element.MedAdministrationType, Validators.required],
             Dosage: [element.Dosage, Validators.required],
             DosingUnit: [element.DosingUnit, Validators.required],
-            Solution: [element.Solution, Validators.required],
-            SolutionVol: [element.SolutionVol, Validators.required],
-            Duration: [element.Duration, Validators.required],
+            Solution: [element.Solution, null],
+            SolutionVol: [element.SolutionVol, null],
+            Duration: [element.Duration, null],
         });
     }
     public getDropDownFromServer() {
@@ -322,8 +322,8 @@ export class DrugProtocolsComponent implements OnInit {
     GetAllDrugs() {
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/selectNewBornUsers",
-                "http://localhost:64964/WebService.asmx/SelectAllDrugsForProtocols",
+               "http://srv-apps-prod/RCF_WS/WebService.asmx/selectNewBornUsers",
+               // "http://localhost:64964/WebService.asmx/SelectAllDrugsForProtocols",
                 {}
             )
             .subscribe((Response) => {
@@ -411,8 +411,8 @@ export class DrugProtocolsComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
-            .post("http://localhost:64964/WebService.asmx/GetAllProtocols", {
+           .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
+           // .post("http://localhost:64964/WebService.asmx/GetAllProtocols", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _FreeText: _FreeText
