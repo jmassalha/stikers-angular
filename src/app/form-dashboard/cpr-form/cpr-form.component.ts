@@ -13,7 +13,7 @@ import {
   FormArray,
 } from "@angular/forms";
 import { Router } from "@angular/router";
-import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import {
   MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
@@ -24,13 +24,9 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { DatePipe } from "@angular/common";
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
 import { DialogContentExampleDialog } from "../../fill-survey/fill-survey.component";
-import jspdf, { jsPDF } from 'jspdf';
-import domtoimage from 'dom-to-image';
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
-import htmlToPdfmake from 'html-to-pdfmake';
-import html2canvas from 'html2canvas';
 import { Observable } from "rxjs";
 import { map, startWith } from 'rxjs/operators';
 
@@ -458,7 +454,7 @@ export class CprFormComponent implements OnInit {
                           style="width: 50%;float: right;display: inline-flex;margin-top: -20px;">
                           <div>
                               <p>שם וחתימת הרופא - מנהל החייאה:&nbsp;</p>
-                              <u>{{CprFormsList[0].managingDoc}}</u>
+                              <u>{{CprFormsList[0].managingDoc}} - {{CprFormsList[0].managingDocLicence}}</u>
                           </div>
                           <img width="100" height="100" [src]="CprFormsList[0].managingDocSign">
                       </div>
@@ -467,7 +463,7 @@ export class CprFormComponent implements OnInit {
                           <div>
                               <p>שם וחתימת האחות שהשתתפה בהחייאה ו/או מופקדת על
                                   החולה: &nbsp;</p>
-                              <u>{{CprFormsList[0].responsNurse}}</u>
+                              <u>{{CprFormsList[0].responsNurse}} - {{CprFormsList[0].managingDocLicence}}</u>
                           </div>
                           <img width="100" height="100" [src]="CprFormsList[0].responsNurseSign">
                       </div>

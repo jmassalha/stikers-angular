@@ -62,6 +62,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
     } else if (this.managerType == "research") {
       WorkPlaceID = "2";
     }
+    
     this.getSektorsList();
     this.employeePersonalDetails = this.formBuilder.group({
       RowID: new FormControl(this.employee.RowID, null),
@@ -107,6 +108,11 @@ export class EmployeesAddUpdateComponent implements OnInit {
       ApprovedToBlossom: new FormControl(this.employee.ApprovedToBlossom, null),
       AcceptTerms: new FormControl(this.employee.AcceptTerms, null),
     });
+    if(this.employee.RowID == null){
+      this.employeePersonalDetails.controls['FirstNameEng'].setValidators(Validators.required);
+      this.employeePersonalDetails.controls['LastNameEng'].setValidators(Validators.required);
+    }
+    this.markRequiredFields();
     this._switchHTOK = this.employee.StatusRow;
     this._switchBlossom = this.employee.ApprovedToBlossom;
     this.AcceptTerms = this.employee.AcceptTerms;
@@ -138,6 +144,19 @@ export class EmployeesAddUpdateComponent implements OnInit {
       this._switchBlossom = "0";
       this.employeeWorkDetails.controls['ApprovedToBlossom'].setValue(this._switchBlossom);
     }
+  }
+
+  markRequiredFields(){
+    this.employeePersonalDetails.controls['EmployeeID'].markAsTouched();
+    this.employeePersonalDetails.controls['FirstName'].markAsTouched();
+    this.employeePersonalDetails.controls['LastName'].markAsTouched();
+    this.employeePersonalDetails.controls['CellNumber'].markAsTouched();
+    this.employeePersonalDetails.controls['DateOfBirth'].markAsTouched();
+    if(this.employee.RowID == null){
+      this.employeePersonalDetails.controls['FirstNameEng'].markAsTouched();
+      this.employeePersonalDetails.controls['LastNameEng'].markAsTouched();
+    }
+    this.employeeWorkDetails.controls['StartWorkDate'].markAsTouched();
   }
 
   // acceptTermsFunc() {

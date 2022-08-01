@@ -36,6 +36,7 @@ import {
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
 import { MatDialog } from "@angular/material/dialog";
 import { MaternityComponent } from "../maternity/maternity.component";
+import * as XLSX from 'xlsx';
 
 export interface MaternityPatients {
     RowID: number;
@@ -261,13 +262,13 @@ export class MaternitypatientsComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                if(Response["d"]){
+                if (Response["d"]) {
                     this.dialog.closeAll();
                     this.openSnackBar("שויך בהצלחה");
-                }else{
+                } else {
                     this.openSnackBar("תקלה בשיוך");
                 }
-                
+
             });
     }
 
@@ -334,6 +335,27 @@ export class MaternitypatientsComponent implements OnInit {
             this.fliterValPatient,
             this.StatusPatient
         );
+    }
+
+    fileName = 'Maternity_Participants.xlsx';
+    exportexcel(): void {
+        /* table id is passed over here */
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+
+    }
+    exportToExcel() {
+        this.getTableFromServer(0, 100, "", "-1");
+        setTimeout(() => {
+            this.exportexcel();
+        }, 1000);
     }
 
     open(content, _type, _element) {
