@@ -299,7 +299,28 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-
+                            <div class="col-1">
+                                <div class="form-group">
+                                    <mat-form-field
+                                            appearance="fill"
+                                            floatLabel="always"
+                                        >
+                                            <mat-label>משך מתן</mat-label>
+                                            <mat-select
+                                                formControlName="Duration"
+                                            >
+                                                <mat-option
+                                                    *ngFor="
+                                                        let Duration of Duration_Of_Delivery
+                                                    "
+                                                    [value]="Duration.value"
+                                                >
+                                                    {{ Duration.viewValue }}
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field>
+                                </div>
+                            </div>
                             <div class="col-1">
                                 <div class="form-group">                                    
                                     <mat-form-field
@@ -338,28 +359,7 @@
                                 </div>
                             </div>
 
-                            <div class="col-1">
-                                <div class="form-group">
-                                    <mat-form-field
-                                            appearance="fill"
-                                            floatLabel="always"
-                                        >
-                                            <mat-label>משך מתן</mat-label>
-                                            <mat-select
-                                                formControlName="Duration"
-                                            >
-                                                <mat-option
-                                                    *ngFor="
-                                                        let Duration of Duration_Of_Delivery
-                                                    "
-                                                    [value]="Duration.value"
-                                                >
-                                                    {{ Duration.viewValue }}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                </div>
-                            </div>
+                            
 
                             <button
                                 mat-mini-fab

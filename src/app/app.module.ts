@@ -156,6 +156,7 @@ import { MaternityParticipantsComponent } from './maternity/maternity-participan
 import { CprFormComponent } from './form-dashboard/cpr-form/cpr-form.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { DrugProtocolsComponent } from './drug-protocols/drug-protocols.component';
+import { MershamNComponent } from './mersham-n/mersham-n.component';
 
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
@@ -271,7 +272,8 @@ const maskConfig: Partial<IConfig> = {
     NewBornComponent,
     MaternityParticipantsComponent,
     CprFormComponent,
-    DrugProtocolsComponent
+    DrugProtocolsComponent,
+    MershamNComponent
   ],
   imports: [
     AngularDualListBoxModule ,

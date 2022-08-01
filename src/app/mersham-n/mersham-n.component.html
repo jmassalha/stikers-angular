@@ -817,6 +817,7 @@
                 <span *ngIf="this.isCanceldVisible" class="badge badge-danger"
                     >מבוטל</span
                 >
+                
                 <div
                     dir="rtl"
                     class="container-fluid pos-relative"
@@ -943,6 +944,28 @@
                 </div>
             </div>
             <div class="modal-body">
+                <div class="select-protocol" *ngIf="
+                this.isButtonVisible
+            ">
+                    <div class="form-group">
+                        <mat-form-field
+                            appearance="fill"
+                            floatLabel="always"
+                        >
+                            <mat-label>פרוטוקול</mat-label>
+                            <mat-select (selectionChange)="protocolChanged($event)">
+                                <mat-option
+                                    *ngFor="
+                                        let Protocol of Protocols
+                                    "
+                                    [value]="Protocol"
+                                >
+                                    {{ Protocol.ProtocolName }}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                </div>
                 <div class="row">
                     <div class="col-7">
                         <div class="form-group">
@@ -1075,21 +1098,7 @@
                     </div>
                 </div>
                 <div class="row">
-                    <div class="col">
-                        <div class="form-group">
-                            <mat-form-field floatLabel="always">
-                                <input
-                                    matInput
-                                    id="diagnosis"
-                                    autocomplete="off"
-                                    class="form-control"
-                                    placeholder="אבחנה"
-                                    formControlName="diagnosisVal"
-                                    type="text"
-                                />
-                            </mat-form-field>
-                        </div>
-                    </div>
+                    
                     <div class="col">
                         <div class="form-group">
                             <mat-form-field floatLabel="always">
@@ -1154,6 +1163,24 @@
                                     [for]="takedateIN"
                                 ></mat-datepicker-toggle>
                                 <mat-datepicker #takedateIN></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field floatLabel="always">
+                                <textarea
+                                    matInput
+                                    id="diagnosis"
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="אבחנה"
+                                    formControlName="diagnosisVal"
+                                    type="text"
+                                    rows="5"
+                                ></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -1425,7 +1452,7 @@
                                                     )
                                                 "
                                                 formControlName="finalMenonVal"
-                                                type="number"
+                                                type="text"
                                                 value="{{
                                                     element.finalMenonVal
                                                 }}"
@@ -2155,14 +2182,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col">
-                    <div class="form-group">
-                        <label>אבחנה</label>
-                        <span class="form-control">{{
-                            printForm.diagnosisVal
-                        }}</span>
-                    </div>
-                </div>
+                
                 <div class="col">
                     <div class="form-group">
                         <label>פרוטוקול טיפול</label>
@@ -2194,6 +2214,18 @@
                             printForm.takedateIN
                         }}</span>
                     </div>
+                </div>
+            </div>
+            <div class="row text-right" dir="rtl">
+                <div class="col">
+                    <label>אבחנה</label>
+                    <div class="form-group">
+                        
+                        <p class="form-control text">{{
+                            printForm.diagnosisVal
+                        }}</p>
+                    </div>
+                   
                 </div>
             </div>
         </div>

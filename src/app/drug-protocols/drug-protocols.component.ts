@@ -286,11 +286,11 @@ export class DrugProtocolsComponent implements OnInit {
             map((name) => (name ? this._filter(name) : this.DrugList.slice()))
         );
         return this.formBuilder.group({
-            DrugName: [element.DrugName, Validators.required],
-            ProtocolDay: [element.ProtocolDay, Validators.required],
-            MedAdministrationType: [element.MedAdministrationType, Validators.required],
-            Dosage: [element.Dosage, Validators.required],
-            DosingUnit: [element.DosingUnit, Validators.required],
+            DrugName: [element.DrugName, Validators.required], 
+            ProtocolDay: [element.ProtocolDay, null],
+            MedAdministrationType: [element.MedAdministrationType, null],
+            Dosage: [element.Dosage, null],
+            DosingUnit: [element.DosingUnit, null],
             Solution: [element.Solution, null],
             SolutionVol: [element.SolutionVol, null],
             Duration: [element.Duration, null],

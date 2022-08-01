@@ -32,7 +32,12 @@ import {
     Validators,
 } from "@angular/forms";
 import { MenuPerm } from "../menu-perm";
-
+export interface DropOption {
+    value: string;
+    name: string;
+    viewValue: string;
+    groupID: string;
+}
 export interface Drug {
     MedID: number;
     MedName: string;
@@ -74,6 +79,7 @@ export class DrugsComponent implements OnInit {
     RoleStatus = 0;
     fliterVal = "";
 
+    Solution: DropOption[];
     GroupID: string;
     MedGroupID: string;
     MedStatus: string;
@@ -89,11 +95,12 @@ export class DrugsComponent implements OnInit {
     ) {
         mMenuPerm.setRoutName("drugs");
         setTimeout(() => {
-            if(!mMenuPerm.getHasPerm()){
+            if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();
                 this.router.navigate(["login"]);
             }
-        }, 2000);}
+        }, 2000);
+    }
     @Input()
     foo: string = "bar";
     startdateVal: string;
@@ -133,7 +140,7 @@ export class DrugsComponent implements OnInit {
             NewRow: ["false", false],
         });
 
-        
+        this.getDropDownFromServer();
         this.getMedGroups();
         var that = this;
         setTimeout(function () {
@@ -143,7 +150,10 @@ export class DrugsComponent implements OnInit {
 
     getMedGroups() {
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetTbl_MedGroups", {})
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetTbl_MedGroups",
+                {}
+            )
             .subscribe((Response) => {
                 //////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -211,9 +221,12 @@ export class DrugsComponent implements OnInit {
         }
         // ////debugger
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug", {
-                drugRow: this.drugForm.value,
-            })
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug",
+                {
+                    drugRow: this.drugForm.value,
+                }
+            )
             .subscribe((Response) => {
                 ////debugger
                 this.getReport(null);
@@ -238,14 +251,13 @@ export class DrugsComponent implements OnInit {
         }
         /*, Validators.pattern("[A-Za-z0-9 .()]*")*/
         this.drugForm = this.formBuilder.group({
-            MedName: [
-                _element.MedName,
-                [Validators.required],
-            ],
+            MedName: [_element.MedName, [Validators.required]],
             MedGroup: [resultDeparts["name"], false],
             MedGroupID: [_element.MedGroupID, Validators.required],
             MedStatus: ["1", false],
             MedID: [_element.MedID, false],
+            Solution: [_element.Solution, false],
+            SolutionVol: [_element.SolutionVol, false],
             NewRow: ["false", false],
         });
         this.modalService.open(content, this.modalOptions).result.then(
@@ -286,14 +298,13 @@ export class DrugsComponent implements OnInit {
 
     open(content, _type, _element) {
         this.drugForm = this.formBuilder.group({
-            MedName: [
-                "",
-                [Validators.required, Validators.pattern("[A-Za-z0-9 .()]*")],
-            ],
+            MedName: ["", Validators.required],
             MedGroup: ["", false],
             MedGroupID: ["", Validators.required],
             MedStatus: ["1", false],
             MedID: ["0", false],
+            Solution: ["", false],
+            SolutionVol: ["", false],
             NewRow: ["true", false],
         });
         this.modalService.open(content, this.modalOptions).result.then(
@@ -331,7 +342,20 @@ export class DrugsComponent implements OnInit {
             this.GroupID
         );
     }
+    public getDropDownFromServer() {
+        //////////////////////////debugger
 
+        this.http
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsOptions",
+                {}
+            )
+            .subscribe((Response) => {
+                var json = JSON.parse(JSON.parse(Response["d"]));
+                this.Solution = JSON.parse(json["Solution"]);
+                //debugger
+            });
+    }
     public getTableFromServer(
         _pageIndex: number,
         _pageSize: number,
