@@ -435,9 +435,9 @@ export class ResearchesComponent implements OnInit {
                     });
                 }
 
-                // //////debugger
+                //debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-                this.resultsLength = parseInt(json["totalRows"]);
+                this.resultsLength = parseInt(json["totalRows"].toString().replaceAll('"',''));
                 setTimeout(function () {
                     ////////debugger
                     //if (tableLoader) {

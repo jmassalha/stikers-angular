@@ -323,7 +323,7 @@ export class ResearchespatientsComponent implements OnInit {
 
                 // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-                this.resultsLength = parseInt(json["iTotalRecords"]);
+                this.resultsLength = parseInt(json["totalRows"].toString().replaceAll('"',''));
                 setTimeout(function () {
                     //////debugger
                     if (tableLoader) {
