@@ -1,6 +1,6 @@
 import { BrowserModule, Title } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HttpClientModule, HttpClient } from '@angular/common/http';
+import { HttpClientModule, HttpClient, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Injectable, NgModule } from '@angular/core';
 import { CustomMaterialModule } from './core/material.module';
 import { AppRoutingModule } from './core/app.routing.module';
@@ -157,7 +157,7 @@ import { CprFormComponent } from './form-dashboard/cpr-form/cpr-form.component';
 import { MatTableExporterModule } from 'mat-table-exporter';
 import { DrugProtocolsComponent } from './drug-protocols/drug-protocols.component';
 import { MershamNComponent } from './mersham-n/mersham-n.component';
-
+import { LogAllRequestsInterceptor } from './log-all-requests.interceptor';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -365,7 +365,9 @@ const maskConfig: Partial<IConfig> = {
     { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, DatePipe
     , ConfirmationDialogService
     , MenuPerm
-    , NgbActiveModal],
+    , NgbActiveModal
+    ,{ provide: HTTP_INTERCEPTORS, useClass: LogAllRequestsInterceptor, multi: true }
+  ],
   bootstrap: [AppComponent],
   exports: [
     MatBadgeModule,
