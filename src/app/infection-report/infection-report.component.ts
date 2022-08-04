@@ -108,7 +108,7 @@ export class InfectionReportComponent implements OnInit {
         private http: HttpClient,
         private mMenuPerm: MenuPerm
     ) {
-        mMenuPerm.setRoutName("glucose");
+        mMenuPerm.setRoutName("InfectionReport");
         setTimeout(() => {
             if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();

@@ -7,30 +7,52 @@ import {
     HttpClient,
 } from "@angular/common/http";
 import { Observable } from "rxjs";
+import { Router } from "@angular/router";
 
 @Injectable()
 export class LogAllRequestsInterceptor implements HttpInterceptor {
-    constructor(private logHttp: HttpClient) {}
+    constructor(private logHttp: HttpClient, 
+      private router: Router) {}
 
     intercept(
         request: HttpRequest<unknown>,
         next: HttpHandler
     ): Observable<HttpEvent<unknown>> {
-        if (request.body["RoutName"]) {
-            console.log(request.body["RoutName"]);
-            console.log(request.body["UserName"]);
-            this.logHttp
-                .post(
-                    "http://localhost:64964/WebService.asmx/LinksLog",
-                    //"http://srv-apps-prod/RCF_WS/WebService.asmx/LinksLog",
-                    {
-                        usaerName: request.body["UserName"],
-                        linkId: request.body["RoutName"],
-                    }
-                )
-                .subscribe((Response) => {
-                });
+        console.log(request.url)
+        
+        if(!localStorage.getItem("LastRout")){
+          localStorage.setItem("LastRout", this.router.url.replace("/", ""))
+          this.logHttp
+          .post(
+              //"http://localhost:64964/WebService.asmx/LinksLog",
+              "http://srv-apps-prod/RCF_WS/WebService.asmx/LinksLog",
+              {
+                  usaerName: localStorage.loginUserName,
+                  linkId: this.router.url.replace("/", ""),
+              }
+          )
+          .subscribe((Response) => {
+          });
         }
+        if(request.url.indexOf("LinksLog") < 0)
+          if(localStorage.getItem("LastRout") != this.router.url.replace("/", "")){
+            localStorage.setItem("LastRout", this.router.url.replace("/", ""))
+            this.logHttp
+            .post(
+                //"http://localhost:64964/WebService.asmx/LinksLog",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/LinksLog",
+                {
+                    usaerName: localStorage.loginUserName,
+                    linkId: this.router.url.replace("/", ""),
+                }
+            )
+            .subscribe((Response) => {
+            });
+          }  
+         
+        
+          
+        
         return next.handle(request);
     }
 }

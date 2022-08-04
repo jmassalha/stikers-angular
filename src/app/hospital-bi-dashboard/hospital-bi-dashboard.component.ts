@@ -278,7 +278,8 @@ export class HospitalBIDashboardComponent implements OnInit {
     let that = this;
     this.ManagedGetServerFunction('GetTimeTypes').subscribe({
       next(x) { that.timeLine = x["d"]; },
-      error(err) { alert('אירעה תקלה'); },
+      error(err) { debugger 
+        alert('אירעה תקלה'); },
       complete() { }
     });
   }
@@ -307,6 +308,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   public ManagedGetServerFunction(func): Observable<any> {
+    //debugger
     let headers = new HttpHeaders();
     headers = headers.set('content-type', 'application/json');
     return this.http.get(this.configUrl + func, {
