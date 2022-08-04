@@ -78,6 +78,7 @@ import { NewBornComponent } from "./new-born/new-born.component";
 import { MaternityParticipantsComponent } from "./maternity/maternity-participants/maternity-participants.component"; 
 import { CprFormComponent } from "./form-dashboard/cpr-form/cpr-form.component"; 
 import { DrugProtocolsComponent } from "./drug-protocols/drug-protocols.component";
+import { MershamNComponent } from "./mersham-n/mersham-n.component";
 const routes: Routes = [
     
     { path: "dashboard", component: DashboardComponent },
@@ -159,6 +160,7 @@ const routes: Routes = [
     { path: "MaternityParticipants", component: MaternityParticipantsComponent },
     { path: "CprForm", component: CprFormComponent },
     { path: "drugprotocols", component: DrugProtocolsComponent },
+    { path: "mershamn", component: MershamNComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

@@ -1,158 +1,157 @@
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  Input,
-  ElementRef,
-  //ChangeDetectionStrategy,
-  // ChangeDetectorRef
+    Component,
+    OnInit,
+    ViewChild,
+    Input,
+    ElementRef,
+    //ChangeDetectionStrategy,
+    // ChangeDetectorRef
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 
 import {
-  NgbModal,
-  ModalDismissReasons,
-  NgbModalOptions,
-  NgbActiveModal,
+    NgbModal,
+    ModalDismissReasons,
+    NgbModalOptions,
+    NgbActiveModal,
 } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import {
-  FormControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
-  FormArray,
-  AbstractControl,
+    FormControl,
+    FormBuilder,
+    FormGroup,
+    Validators,
+    FormArray,
+    AbstractControl,
 } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
 import { DatePipe, formatDate } from "@angular/common";
 import { MenuPerm } from "../menu-perm";
 
 export interface Demograph {
-  FIRST_NAME: string;
-  LAST_NAME: string;
-  MID_NAME: string;
-  ID: string;
-  KUPA: string;
-  GENDER: string;
-  AGE: string;
-  PATIENT_NUMBER: string;
-  Case_Number: string;
-  Depart: string;
-  Seode_Depart: string;
+    FIRST_NAME: string;
+    LAST_NAME: string;
+    MID_NAME: string;
+    ID: string;
+    KUPA: string;
+    GENDER: string;
+    AGE: string;
+    PATIENT_NUMBER: string;
+    Case_Number: string;
+    Depart: string;
+    Seode_Depart: string;
 }
 
 export interface PatientDetails {
-  FIRST_NAME: string;
-  LAST_NAME: string;
-  MID_NAME: string;
-  ID: string;
-  GENDER: string;
-  AGE: string;
-  KUPA: string;
-  CaseNumber: string;
-  Depart: string;
-  Seode_Depart: string;
+    FIRST_NAME: string;
+    LAST_NAME: string;
+    MID_NAME: string;
+    ID: string;
+    GENDER: string;
+    AGE: string;
+    KUPA: string;
+    CaseNumber: string;
+    Depart: string;
+    Seode_Depart: string;
 }
 export interface DropOption {
-  value: string;
-  name: string;
-  viewValue: string;
-  groupID: string;
+    value: string;
+    name: string;
+    viewValue: string;
+    groupID: string;
 }
 export interface Prescription {
-  PerscriptionID: string;
-  ID: string;
-  PatientFirstName: string;
-  PatientLastName: string;
-  ProtocolName: string;
-  FatherName: string;
-  Age: string;
-  sex: string;
-  Kupa: string;
-  Weight: string;
-  Hight: string;
-  TargetAUC: string;
-  CreatinineLevel: string;
-  Prognosis: string;
-  ProtocolTreatment: string;
-  Frequency: string;
-  DateAdministrationMed: string;
-  MedicationSensitivity: string;
-  RegistrationDate: string;
-  SaveDate: string;
-  ModifyDate: string;
-  Status: string;
-  statusNotToDo: string;
-  SensitivityUnknown: string;
-  CourseNum: string;
-  CompletionOfDetailsCheck: string;
-  DosageCalculationCheck: string;
-  CalcOfBodyAreaCheck: string;
-  SolutionOfDilutionCheck: string;
-  UserCreate: string;
-  UserUpdate: string;
-  Case_Number: string;
-  Depart: string;
-  Seode_Depart: string;
-  hideOrShow: boolean;
+    PerscriptionID: string;
+    ID: string;
+    PatientFirstName: string;
+    PatientLastName: string;
+    ProtocolName: string;
+    FatherName: string;
+    Age: string;
+    sex: string;
+    Kupa: string;
+    Weight: string;
+    Hight: string;
+    TargetAUC: string;
+    CreatinineLevel: string;
+    Prognosis: string;
+    ProtocolTreatment: string;
+    Frequency: string;
+    DateAdministrationMed: string;
+    MedicationSensitivity: string;
+    RegistrationDate: string;
+    SaveDate: string;
+    ModifyDate: string;
+    Status: string;
+    statusNotToDo: string;
+    SensitivityUnknown: string;
+    CourseNum: string;
+    CompletionOfDetailsCheck: string;
+    DosageCalculationCheck: string;
+    CalcOfBodyAreaCheck: string;
+    SolutionOfDilutionCheck: string;
+    UserCreate: string;
+    UserUpdate: string;
+    Case_Number: string;
+    Depart: string;
+    Seode_Depart: string;
+    hideOrShow: boolean;
 }
 export interface PrescriptionRow {
-  noteVal: string;
-  Dosage_UnitVal: string;
-  Dosage_Unit_2_Val: string;
-  finalMenonVal: string;
-  Duration_Of_DeliveryVal: string;
-  Solution_VolumeVal: string;
-  SolutionVal: string;
-  MenonValVal: string;
-  MenonCalcVal: string;
-  Way_Of_ProvidingVal: string;
-  Days_ProtocolVal: string[];
-  MedListVal: string;
-  rowIdPreVal: string;
-  newRow: Boolean;
+    noteVal: string;
+    Dosage_UnitVal: string;
+    Dosage_Unit_2_Val: string;
+    finalMenonVal: string;
+    Duration_Of_DeliveryVal: string;
+    Solution_VolumeVal: string;
+    SolutionVal: string;
+    MenonValVal: string;
+    MenonCalcVal: string;
+    Way_Of_ProvidingVal: string;
+    Days_ProtocolVal: string[];
+    MedListVal: string;
+    rowIdPreVal: string;
+    newRow: Boolean;
 }
 
 export interface Drug {
-  DrugName: string;
+    DrugName: string;
 }
 export interface Protocol {
-  ProtocolId: number;
-  ProtocolName: string;
-  Status: string;
-  TotalRows: number;
-  DrugsProtocolDetailsRows: DrugsProtocolDetails[];
+    ProtocolId: number;
+    ProtocolName: string;
+    Status: string;
+    TotalRows: number;
+    DrugsProtocolDetailsRows: DrugsProtocolDetails[];
 }
 export interface DrugsProtocolDetails {
-  ProtocolId: string;
-  RowId: string;
-  DrugName: string;
-  ProtocolDay: string;
-  MedAdministrationType: string;
-  Dosage: string;
-  DosingUnit: string;
-  Solution: string;
-  SolutionVol: string;
-  Duration: string;
+    ProtocolId: string;
+    RowId: string;
+    DrugName: string;
+    ProtocolDay: string;
+    MedAdministrationType: string;
+    Dosage: string;
+    DosingUnit: string;
+    Solution: string;
+    SolutionVol: string;
+    Duration: string;
 }
 @Component({
-  selector: 'app-mersham-n',
-  templateUrl: './mersham-n.component.html',
-  styleUrls: ['./mersham-n.component.css']
+    selector: "app-mersham-n",
+    templateUrl: "./mersham-n.component.html",
+    styleUrls: ["./mersham-n.component.css"],
 })
 export class MershamNComponent implements OnInit {
-
-  EDIT_ROW: Boolean;
+    EDIT_ROW: Boolean;
     ROW_ID_IN_TABLE: number;
     tableColsPres: string[] = [
         "note",
@@ -185,7 +184,7 @@ export class MershamNComponent implements OnInit {
         "Days_Protocol",
         "MedList",
     ];
-    mPatientDetails:PatientDetails;
+    mPatientDetails: PatientDetails;
     drugs: Drug[] = [];
     DeleteRowId: string;
     DeletePreRowId: string;
@@ -308,7 +307,7 @@ export class MershamNComponent implements OnInit {
         private formBuilder: FormBuilder,
         private mMenuPerm: MenuPerm
     ) {
-        mMenuPerm.setRoutName("mersham");
+        mMenuPerm.setRoutName("mershamN");
         setTimeout(() => {
             if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();
@@ -619,8 +618,8 @@ export class MershamNComponent implements OnInit {
         this.ArrayDrus = [];
         this.drugs = [];
         this.tableDataPresPrint = [];
-        let that = this
-        setTimeout(function(){
+        let that = this;
+        setTimeout(function () {
             for (var i = 0; i < selected[0].Drugs.length; i++) {
                 var d = that.MedList.findIndex((obj) => {
                     return obj.value === selected[0].Drugs[i].DrugName;
@@ -629,7 +628,7 @@ export class MershamNComponent implements OnInit {
                 if (d > -1) {
                     groupID = that.MedList[d].groupID;
                 }
-    
+
                 //  ////////////////////debugger
                 const row = that.formBuilder.group({
                     noteVal: [
@@ -720,9 +719,9 @@ export class MershamNComponent implements OnInit {
                     groupID: [groupID, false],
                     newRow: ["true", false],
                 });
-    
+
                 that.ArrayDrus.push(that.MedListConst);
-    
+
                 //////debugger
                 that.tableDataPresPrint.push({
                     noteVal: "",
@@ -741,12 +740,12 @@ export class MershamNComponent implements OnInit {
                     rowIdPreVal: selected[0].Drugs[i].MedicinID,
                     newRow: true,
                 });
-    
+
                 that.rows.push(row);
             }
-    
+
             that.updateView();
-    
+
             that.tableDataSrcPresPrint = new MatTableDataSource(
                 that.tableDataPresPrint
             );
@@ -755,8 +754,7 @@ export class MershamNComponent implements OnInit {
             );
             //debugger
             that.calcPres();
-        }, 500)
-        
+        }, 500);
     }
     ClearMershmData() {
         //////////debugger
@@ -1420,24 +1418,24 @@ export class MershamNComponent implements OnInit {
         //}
     }
     copyRowPres(element) {
-       // debugger
+        // debugger
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
         let ele = this.Protocols.filter((obj) => {
             return obj.ProtocolName === this.PrespictionForm.value.ProtocolName;
         });
-        if(this.PrespictionForm.value.ProtocolName != "")
+        if (this.PrespictionForm.value.ProtocolName != "")
             this.protocolChangedCopy(ele);
-        let that= this
-        setTimeout(function(){
+        let that = this;
+        setTimeout(function () {
             that.PrespictionForm.enable();
             that.rows.enable();
             // //////////debugger
             // return
             for (var i = 0; i < that.rows.value.length; i++) {
                 that.rows.value[i]["Days_ProtocolVal"] =
-                that.rows.value[i]["Days_ProtocolVal"].join(",");
+                    that.rows.value[i]["Days_ProtocolVal"].join(",");
             }
             ////debugger
             var copyParent = that.PrespictionForm.value;
@@ -1479,13 +1477,12 @@ export class MershamNComponent implements OnInit {
             //debugger
             //return
             that.saveToServer(ParentFrom, tableFrom, true);
-        }, 900)
-        
+        }, 900);
     }
     saveToServer(ParentFrom, tableFrom, copy) {
         var fDay = 9999;
         var lDay = 0;
-        if(!this.Case_Number){
+        if (!this.Case_Number) {
             this.Case_Number = "";
             this.Depart = "";
             this.Seode_Depart = "";
@@ -1500,13 +1497,13 @@ export class MershamNComponent implements OnInit {
             KUPA: this.KUPA,
             CaseNumber: this.Case_Number,
             Depart: this.Depart,
-            Seode_Depart: this.Seode_Depart
-        }
-        
+            Seode_Depart: this.Seode_Depart,
+        };
+
         for (var i = 0; i < tableFrom.length; i++) {
             var numDays = tableFrom[i].Days_ProtocolVal.replaceAll(" ", "");
             numDays = tableFrom[i].Days_ProtocolVal.replaceAll("D", "");
-            if(numDays.indexOf("-") >= 0){
+            if (numDays.indexOf("-") >= 0) {
                 var days = numDays.split("-");
                 let daysn: Array<number> = [];
                 for (var c = 0; c < days.length; c++) {
@@ -1520,7 +1517,7 @@ export class MershamNComponent implements OnInit {
                 if (lDay < _max) {
                     lDay = _max;
                 }
-            }else if(numDays.indexOf(",") >= 0){
+            } else if (numDays.indexOf(",") >= 0) {
                 var days = numDays.split(",");
                 let daysn: Array<number> = [];
                 for (var c = 0; c < days.length; c++) {
@@ -1535,26 +1532,23 @@ export class MershamNComponent implements OnInit {
                     lDay = _max;
                 }
             }
-            
         }
         var realDate = new Date(this.PrespictionForm.value.takedateIN);
         this.DelayLoopIndex = fDay;
         //var realDate = new Date(this.PrespictionForm.value.takedateIN);
         //debugger
-        this.LoopWithDelay(ParentFrom, tableFrom, lDay, realDate)
+        this.LoopWithDelay(ParentFrom, tableFrom, lDay, realDate);
     }
-    LoopWithDelay(ParentFrom, tableFrom, lDay, realDate){
-        let that = this
-        setTimeout(function() {             
+    LoopWithDelay(ParentFrom, tableFrom, lDay, realDate) {
+        let that = this;
+        setTimeout(function () {
             var tableFromToSubmit = [];
             var protocolDay = "";
-            
-            for (var i = 0; i < tableFrom.length; i++) {
-               
-                var numDays = tableFrom[i].Days_ProtocolVal.replaceAll("D", "");
-                if(numDays.indexOf("-") >= 0){
 
-                }else if(numDays.indexOf(",") >= 0){
+            for (var i = 0; i < tableFrom.length; i++) {
+                var numDays = tableFrom[i].Days_ProtocolVal.replaceAll("D", "");
+                if (numDays.indexOf("-") >= 0) {
+                } else if (numDays.indexOf(",") >= 0) {
                     var days = numDays.split(",");
                     let daysn: Array<number> = [];
                     for (var c = 0; c < days.length; c++) {
@@ -1562,12 +1556,12 @@ export class MershamNComponent implements OnInit {
                     }
                     if (daysn.indexOf(that.DelayLoopIndex) >= 0) {
                         tableFromToSubmit.push(tableFrom[i]);
-                        tableFromToSubmit[tableFromToSubmit.length - 1].RealDay =
-                            "D" + that.DelayLoopIndex;
-                        protocolDay = "D" +that.DelayLoopIndex;
+                        tableFromToSubmit[
+                            tableFromToSubmit.length - 1
+                        ].RealDay = "D" + that.DelayLoopIndex;
+                        protocolDay = "D" + that.DelayLoopIndex;
                     }
                 }
-                
             }
             var dn = new Date(realDate);
             if (that.DelayLoopIndex > 1) {
@@ -1576,49 +1570,55 @@ export class MershamNComponent implements OnInit {
 
             var datePipe = new DatePipe("en-US");
             var _dn = datePipe.transform(dn, "yyyy-MM-dd");
-            if(tableFromToSubmit.length > 0){
+            if (tableFromToSubmit.length > 0) {
                 that.PrespictionForm.value.takedateIN = formatDate(
                     _dn,
                     "yyyy-MM-dd",
                     "en-US"
                 );
-                var prentFromId  = that.ID + "_" +  protocolDay +"_"+datePipe.transform(new Date(that.PrespictionForm.value.regesterdateIN), "yyyyMMdd");
+                var prentFromId =
+                    that.ID +
+                    "_" +
+                    protocolDay +
+                    "_" +
+                    datePipe.transform(
+                        new Date(that.PrespictionForm.value.regesterdateIN),
+                        "yyyyMMdd"
+                    );
                 // debugger
                 console.log(tableFromToSubmit);
-            
+
                 that.http
-                .post(
-                    "http://localhost:64964/WebService.asmx/SubmitPrecpiction",
-                    //"http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
-                    {
-                        prentFromId: prentFromId,
-                        ParentFrom: ParentFrom,
-                        tableFrom: tableFromToSubmit,
-                        mPatientDetails: that.mPatientDetails,
-                        loginUserName: localStorage
-                            .getItem("loginUserName")
-                            .toLowerCase(),
-                    }
-                )
-                .subscribe((Response) => {
-                    //debugger;
-                    
-                });
+                    .post(
+                        //"http://localhost:64964/WebService.asmx/SubmitPrecpiction",
+                        "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
+                        {
+                            prentFromId: prentFromId,
+                            ParentFrom: ParentFrom,
+                            tableFrom: tableFromToSubmit,
+                            mPatientDetails: that.mPatientDetails,
+                            loginUserName: localStorage
+                                .getItem("loginUserName")
+                                .toLowerCase(),
+                        }
+                    )
+                    .subscribe((Response) => {
+                        //debugger;
+                    });
             }
             that.DelayLoopIndex++;
             console.log(that.DelayLoopIndex);
-            if(that.DelayLoopIndex <= lDay){
-                that.LoopWithDelay(ParentFrom, tableFrom, lDay, realDate)
-            }else{
-                setTimeout(function(){
+            if (that.DelayLoopIndex <= lDay) {
+                that.LoopWithDelay(ParentFrom, tableFrom, lDay, realDate);
+            } else {
+                setTimeout(function () {
                     that.openSnackBar("נשמר בהצלחה", "success");
                     //if (copy) this.loadModalAfterCopy = true;
                     that.getReport("");
                     that.modalService.dismissAll();
-                }, 500)
-                
+                }, 500);
             }
-        }, 250)   
+        }, 250);
     }
     clearForm() {
         this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
@@ -1774,18 +1774,39 @@ export class MershamNComponent implements OnInit {
         //this.PrespictionForm.value.statusRowVal = ;
         var ParentFrom = this.PrespictionForm.value;
         for (var i = 0; i < this.rows.value.length; i++) {
-            if(this.rows.value[i]["Days_ProtocolVal"].join(",") != undefined)
+            if (this.rows.value[i]["Days_ProtocolVal"].join(",") != undefined)
                 this.rows.value[i]["Days_ProtocolVal"] =
                     this.rows.value[i]["Days_ProtocolVal"].join(",");
             else
-                this.rows.value[i]["Days_ProtocolVal"] = this.rows.value[i]["Days_ProtocolVal"];
+                this.rows.value[i]["Days_ProtocolVal"] =
+                    this.rows.value[i]["Days_ProtocolVal"];
         }
         var tableFrom = this.rows.value;
         if (this.ID == "") {
             this.ID = this.ID_In;
         }
-        this.saveToServer(ParentFrom, tableFrom, false);
-
+        //this.saveToServer(ParentFrom, tableFrom, false);
+        this.http
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
+                {
+                    //  .post("http://localhost:64964/WebService.asmx/SubmitPrecpiction", {
+                    //    prentFromId: '',
+                    ParentFrom: ParentFrom,
+                    tableFrom: tableFrom,
+                    patientId: this.ID,
+                    loginUserName: localStorage
+                        .getItem("loginUserName")
+                        .toLowerCase(),
+                }
+            )
+            .subscribe((Response) => {
+                this.openSnackBar("נשמר בהצלחה", "success");
+                this.getReport("");
+                // if ($("#loader").hasClass("d-none")) {
+                // $("#loader").addClass("d-none");
+                // }
+            });
         this.modalService.dismissAll();
     }
 
@@ -2238,8 +2259,8 @@ export class MershamNComponent implements OnInit {
         }
         this.http
             .post(
-                 "http://localhost:64964/WebService.asmx/GetDemographData",
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographData",
+                //"http://localhost:64964/WebService.asmx/GetDemographData",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographData",
                 {
                     _id: _FreeText,
                     _pageIndex: _pageIndex,
@@ -2380,11 +2401,14 @@ export class MershamNComponent implements OnInit {
 
         this.http
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
-                _pageIndex: 0,
-                _pageSize: 1000,
-                _FreeText: "",
-            })
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols",
+                {
+                    _pageIndex: 0,
+                    _pageSize: 1000,
+                    _FreeText: "",
+                }
+            )
             .subscribe((Response) => {
                 this.Protocols = Response["d"];
 
