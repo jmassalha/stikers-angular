@@ -317,7 +317,7 @@
             </mat-step>
             <mat-step [stepControl]="employeeWorkDetails">
                 <form dir="rtl" [formGroup]="employeeWorkDetails" autocomplete="off">
-                    <ng-template matStepLabel>פרטים נלווים</ng-template>
+                    <ng-template matStepLabel>שונות</ng-template>
                     <ol class="list-style">
                         <div class="full-width row">
                             <li class="border-me col-3">
@@ -329,6 +329,26 @@
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="מספר רכב" formControlName="CarNumber">
                                 </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="סוג רכב 2" formControlName="CarType2">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מספר רכב 2" formControlName="CarNumber2">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">מבצע תורנויות</label>
+                                    <mat-select formControlName="Toranot"
+                                        aria-placeholder="מבצע תורנויות">
+                                        <mat-option value="כן"> כן </mat-option>
+                                        <mat-option value="לא"> לא </mat-option>
+                                    </mat-select>
+                                </div>
                             </li>
                             <mat-button-toggle class="mr-2" [value]="_switchHTOK" (click)="switchHTOK()"
                                 [style.background]="_switchHTOK == '1' ? 'green': 'red'"><span

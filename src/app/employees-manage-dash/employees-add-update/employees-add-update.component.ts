@@ -96,6 +96,8 @@ export class EmployeesAddUpdateComponent implements OnInit {
       EndWorkDate: new FormControl(this.employee.EndWorkDate, null),
       CarType: new FormControl(this.employee.CarType, null),
       CarNumber: new FormControl(this.employee.CarNumber, null),
+      CarType2: new FormControl(this.employee.CarType2, null),
+      CarNumber2: new FormControl(this.employee.CarNumber2, null),
       Remarks: new FormControl(this.employee.Remarks, null),
       // UpdateDate: new FormControl(this.employee.UpdateDate, null),
       // SentToMOHDate: new FormControl(this.employee.SentToMOHDate, null),
@@ -107,6 +109,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
       StatusRow: new FormControl(this.employee.StatusRow, null),
       ApprovedToBlossom: new FormControl(this.employee.ApprovedToBlossom, null),
       AcceptTerms: new FormControl(this.employee.AcceptTerms, null),
+      Toranot: new FormControl(this.employee.Toranot, null),
     });
     if(this.employee.RowID == null){
       this.employeePersonalDetails.controls['FirstNameEng'].setValidators(Validators.required);
@@ -305,6 +308,8 @@ export class EmployeesAddUpdateComponent implements OnInit {
               EndWorkDate: new FormControl(this.employee.EndWorkDate, null),
               CarType: new FormControl(this.employee.CarType, null),
               CarNumber: new FormControl(this.employee.CarNumber, null),
+              CarType2: new FormControl(this.employee.CarType2, null),
+              CarNumber2: new FormControl(this.employee.CarNumber2, null),
               Remarks: new FormControl(this.employee.Remarks, null),
               // UpdateDate: new FormControl(this.employee.UpdateDate, null),
               // SentToMOHDate: new FormControl(this.employee.SentToMOHDate, null),
@@ -316,6 +321,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
               StatusRow: new FormControl(this.employee.StatusRow, null),
               ApprovedToBlossom: new FormControl(this.employee.ApprovedToBlossom, null),
               AcceptTerms: new FormControl(this.employee.AcceptTerms, null),
+              Toranot: new FormControl(this.employee.Toranot, null),
             });
             this._switchHTOK = this.employee.StatusRow;
             this._switchBlossom = this.employee.ApprovedToBlossom;
