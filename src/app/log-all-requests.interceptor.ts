@@ -26,7 +26,7 @@ export class LogAllRequestsInterceptor implements HttpInterceptor {
                 );
                 this.logHttp
                     .post(
-                        //"http://localhost:64964/WebService.asmx/LinksLog",
+                        //"http://srv-apps-prod/RCF_WS/WebService.asmx/LinksLog",
                         "http://srv-apps-prod/RCF_WS/WebService.asmx/LinksLog",
                         {
                             usaerName: localStorage.getItem("loginUserName"),
@@ -46,7 +46,7 @@ export class LogAllRequestsInterceptor implements HttpInterceptor {
                     );
                     this.logHttp
                         .post(
-                           // "http://localhost:64964/WebService.asmx/LinksLog",
+                           // "http://srv-apps-prod/RCF_WS/WebService.asmx/LinksLog",
                             "http://srv-apps-prod/RCF_WS/WebService.asmx/LinksLog",
                             {
                                 usaerName: localStorage.getItem("loginUserName"),

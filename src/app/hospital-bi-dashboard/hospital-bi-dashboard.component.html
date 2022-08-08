@@ -163,6 +163,19 @@
                 <app-grouped-bar-chart2 #group2></app-grouped-bar-chart2>
             </div>
         </div>
+        <div class="row section" dir="rtl" *ngIf="departParam == '5'">
+            <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+                <div class="row" style="justify-content: center;text-align-last: center;">
+                    <h3>{{groupReleaseTime}}</h3>
+                    <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                        formControlName="groupReleaseCtrl" (change)="changeTime($event.target.value,'groupRelease',[]);">
+                        <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                        </option>
+                    </select>
+                </div>
+                <app-grouped-bar-chart-release #groupRelease></app-grouped-bar-chart-release>
+            </div>
+        </div>
         <div class="row section" dir="rtl">
             <div class="col-12" style="border: 1px solid black;border-radius: 10px;height: 920px;">
                 <div class="row" style="justify-content: center;text-align-last: center;">

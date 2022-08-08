@@ -7,6 +7,7 @@ import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-chart2.component';
+import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
 interface Time {
   DimTimeTypeID: string;
   DimTimeTypeDesc: string;
@@ -58,6 +59,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   barTime: string = "";
   groupTime: string = "";
   groupTime2: string = "";
+  groupReleaseTime: string = "";
   // lineTime: string = "שבוע";
   pieTime: string = "";
   innerWidth: number;
@@ -70,6 +72,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   @ViewChild(PieChartComponent) pie: PieChartComponent;
   @ViewChild(GroupedBarChartComponent) group: GroupedBarChartComponent;
   @ViewChild(GroupedBarChart2Component) group2: GroupedBarChart2Component;
+  @ViewChild(GroupedBarChartReleaseComponent) groupRelease: GroupedBarChartReleaseComponent;
   @ViewChild(BarChartComponent) bar: BarChartComponent;
   // @ViewChild(LineChartComponent) line: LineChartComponent;
 
@@ -102,6 +105,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       barCtrl: new FormControl('1', null),
       groupCtrl: new FormControl('1', null),
       groupCtrl2: new FormControl('1', null),
+      groupReleaseCtrl: new FormControl('1', null),
       // lineCtrl: new FormControl('1', null),
     });
 
@@ -125,6 +129,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פעולות', 'מספר צנתורים לתקופת'],
       group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת'],
       group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן', 'מספר מטופלים לפי ציר זמן', 'מספר צנתורים לפי צרי זמן'],
+      groupRelease: ['', '', '', '', 'שחרורים לפי זמן ','', '', '', '', ''],
       // line: ['', '', '', '', '', '', ''],
     };
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
@@ -158,6 +163,8 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
+        // this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        // this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
         // this.graphsCtrl.controls['lineCtrl'].setValue(event);
         break;
@@ -175,6 +182,11 @@ export class HospitalBIDashboardComponent implements OnInit {
       case "group2": {
         this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
+        break;
+      }
+      case "groupRelease": {
+        this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
         break;
       }
       case "bar": {
@@ -196,6 +208,8 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
+        this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
         // this.graphsCtrl.controls['lineCtrl'].setValue(event);
         break;
@@ -278,8 +292,10 @@ export class HospitalBIDashboardComponent implements OnInit {
     let that = this;
     this.ManagedGetServerFunction('GetTimeTypes').subscribe({
       next(x) { that.timeLine = x["d"]; },
-      error(err) { debugger 
-        alert('אירעה תקלה'); },
+      error(err) {
+        debugger
+        alert('אירעה תקלה');
+      },
       complete() { }
     });
   }
@@ -287,19 +303,19 @@ export class HospitalBIDashboardComponent implements OnInit {
   getCardsVals() {
     this.loader = true;
     this.http
-      .post(this.configUrl +"GetStatsValues", {
+      .post(this.configUrl + "GetStatsValues", {
         deptCode: this.departParam
       })
       .subscribe((Response) => {
         this.loader = false;
         this.cardsList = Response["d"];
-        this.cardsList[0].y = this.cardsList[0].y + "%"; 
+        this.cardsList[0].y = this.cardsList[0].y + "%";
       });
   }
 
   getHospitalDepartmentsTableChartList() {
     this.http
-      .post(this.configUrl +"GetHospitalDepartmentsTableChartList", {
+      .post(this.configUrl + "GetHospitalDepartmentsTableChartList", {
         surgerydeptType: this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value
       })
       .subscribe((Response) => {

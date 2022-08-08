@@ -158,6 +158,7 @@ import { MatTableExporterModule } from 'mat-table-exporter';
 import { DrugProtocolsComponent } from './drug-protocols/drug-protocols.component';
 import { MershamNComponent } from './mersham-n/mersham-n.component';
 import { LogAllRequestsInterceptor } from './log-all-requests.interceptor';
+import { GroupedBarChartReleaseComponent } from './hospital-bi-dashboard/grouped-bar-chart-release/grouped-bar-chart-release.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -273,7 +274,8 @@ const maskConfig: Partial<IConfig> = {
     MaternityParticipantsComponent,
     CprFormComponent,
     DrugProtocolsComponent,
-    MershamNComponent
+    MershamNComponent,
+    GroupedBarChartReleaseComponent
   ],
   imports: [
     AngularDualListBoxModule ,

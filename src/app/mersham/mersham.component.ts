@@ -1155,7 +1155,7 @@ export class MershamComponent implements OnInit {
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
                 {
-                    //.post("http://localhost:64964/WebService.asmx/SubmitPrecpiction", {
+                    //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
                     ParentFrom: ParentFrom,
                     tableFrom: tableFrom,
                     patientId: this.ID,
@@ -1339,7 +1339,7 @@ export class MershamComponent implements OnInit {
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
                 {
-                    //  .post("http://localhost:64964/WebService.asmx/SubmitPrecpiction", {
+                    //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
                     //    prentFromId: '',
                     ParentFrom: ParentFrom,
                     tableFrom: tableFrom,
