@@ -32,6 +32,7 @@ export class EmployeesManageDashComponent implements OnInit {
   SektorsList = [];
   WorkPlacesList = [];
   loaded: boolean = false;
+  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
 
   constructor(
     public dialog: MatDialog,
@@ -42,6 +43,7 @@ export class EmployeesManageDashComponent implements OnInit {
 
   ngOnInit(): void {
     if (localStorage.getItem("loginState") == "true") {
+      this.getUserDepartmentForEmployees();
       this.searchEmployeesGroup = this.formBuilder.group({
         EmpID: new FormControl('', null),
         EmpFirstName: new FormControl('', null),
@@ -58,25 +60,34 @@ export class EmployeesManageDashComponent implements OnInit {
         AcceptTerms: new FormControl(false, null),
         ApprovedToBlossom: new FormControl('2', null),
       });
-      if (this.UserName == "iditur" || this.UserName == "dfogel") {
-        this.managerType = "admin";
-      } else if (this.UserName == "dporat") {
-        this.managerType = "unknown";
-      } else if (this.UserName == "ashoshany" || this.UserName == "amarom") {
-        this.managerType = "research";
-      } else if (this.UserName == "olari") {
-        this.managerType = "hr";
-      } else if (this.UserName == "adahabre" || this.UserName == "owertheim" || this.UserName == "ikalay" || this.UserName == "jmassalha") {
-        this.managerType = "admin";
-      }
-      if (this.managerType != "unknown") {
-        this.GetEmployeesToUpdate(this.managerType, false);
-        this.getEmployeeDepartmentList();
-        this.getEmployeesFunctionsList();
-        this.getSektorsList();
-        this.getWorkPlacesList();
-      }
+
     }
+  }
+
+  getUserDepartmentForEmployees() {
+    this.http
+      .post(this.url + "getUserDepartmentForEmployees", {
+        userName: this.UserName
+      })
+      .subscribe((Response) => {
+        let type = Response["d"];
+        if (type == "1") {
+          this.managerType = "admin";
+        } else if (this.UserName == "dporat") {
+          this.managerType = "unknown";
+        } else if (type == "2" || type == "3") {
+          this.managerType = "research";
+        } else if (this.UserName == "olari") {
+          this.managerType = "hr";
+        }
+        if (this.managerType != "unknown") {
+          this.GetEmployeesToUpdate(this.managerType, false);
+          this.getEmployeeDepartmentList();
+          this.getEmployeesFunctionsList();
+          this.getSektorsList();
+          this.getWorkPlacesList();
+        }
+      });
   }
 
   chooseManagerTypeForMultiple(managerType) {
@@ -156,7 +167,7 @@ export class EmployeesManageDashComponent implements OnInit {
     //   employeesWorkPlace = '';
     // }
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesToUpdate", {
+      .post(this.url+"GetEmployeesToUpdate", {
         _empId: empId,
         _empFirstName: empFirstName,
         _empLastName: empLastName,

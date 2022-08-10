@@ -1,3 +1,4 @@
+<mat-spinner style="left: 50%;top: 50%;" *ngIf="!nursesUserPermission && !rightPC"></mat-spinner>
 <mat-card dir="rtl" *ngIf="nursesUserPermission && rightPC" id="page-toshow"
     style="background-color: aliceblue;padding-top: 0px;">
     <h1 class="page-title text-center">מערכת דיווח סיעודית - שם משתמש: {{UserName}}</h1>

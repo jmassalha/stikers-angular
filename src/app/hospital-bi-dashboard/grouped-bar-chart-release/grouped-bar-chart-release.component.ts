@@ -1,5 +1,7 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { HospitalBIDashboardComponent } from '../hospital-bi-dashboard.component';
+import { FormBuilder } from '@angular/forms';
 
 @Component({
   selector: 'app-grouped-bar-chart-release',
@@ -12,7 +14,7 @@ export class GroupedBarChartReleaseComponent implements OnInit {
   innerHeight: number;
 
 
-  constructor(private http: HttpClient, private eRef: ElementRef) { }
+  constructor(private http: HttpClient, private eRef: ElementRef, private fb: FormBuilder) { }
 
   loader: boolean = true;
   TimeLineParam: string = "1";
@@ -22,16 +24,11 @@ export class GroupedBarChartReleaseComponent implements OnInit {
   filterVal = "";
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
-  // weekObject = [
-  //   { x: 'Sunday', depart: '', y: 0 },
-  //   { x: 'Monday', depart: '', y: 0 },
-  //   { x: 'Tuesday', depart: '', y: 0 },
-  //   { x: 'Wednesday', depart: '', y: 0 },
-  //   { x: 'Thursday', depart: '', y: 0 },
-  //   { x: 'Friday', depart: '', y: 0 },
-  //   { x: 'Saturday', depart: '', y: 0 }
-  // ]
-  // title = 'Population (in millions)';
+  @Input() releasePatient: string;
+  _releasePatient: string;
+  // hospitalObj = new HospitalBIDashboardComponent(this.http,this.fb);
+  // releasePatient = this.hospitalObj.releaseDeptChooseGroup.controls['releaseDeptChoose'].value;
+
   type = 'ColumnChart';
   data = [];
   columnNames = [];
@@ -48,8 +45,9 @@ export class GroupedBarChartReleaseComponent implements OnInit {
   height: number;
 
 
-  refresh(elem, dept, _surgeryDeptType, _returnedPatients, periodList) {
+  refresh(elem, dept, _surgeryDeptType, _returnedPatients, periodList, releasePatient) {
     this.TimeLineParam = elem;
+    this._releasePatient = releasePatient;
     this.periodList = periodList;
     this.departParam = dept;
     this._surgerydeptType = _surgeryDeptType;
@@ -59,6 +57,7 @@ export class GroupedBarChartReleaseComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    // this._releasePatient = this.releasePatient;
     this.options = {
       hAxis: {
         title: 'זמן'
@@ -107,11 +106,14 @@ export class GroupedBarChartReleaseComponent implements OnInit {
     if (this.periodList == undefined) {
       this.periodList = "";
     }
+    if (this._releasePatient == undefined) {
+      this._releasePatient = "ספנ-א";
+    }
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
         param: this.TimeLineParam,
         deptCode: this.departParam,
-        surgerydeptType: this._surgerydeptType,
+        surgerydeptType: this._releasePatient,
         filter: this.filterVal,
         returnedPatients: this._returnedPatients,
         periodList: this.periodList

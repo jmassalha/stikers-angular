@@ -172,8 +172,16 @@
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
+                    <div *ngIf="departParam == '5'" style="align-self: center;margin-right: 6%;"
+                        [formGroup]="releaseDeptChooseGroup">
+                        <mat-radio-group formControlName="releaseDeptChoose" aria-label="Select an option"
+                            (change)="changeReleasedDept()">
+                            <mat-radio-button value="ספנ-א">פנימית א</mat-radio-button>
+                            <mat-radio-button value="ספנ-ב">פנימית ב</mat-radio-button>
+                        </mat-radio-group>
+                    </div>
                 </div>
-                <app-grouped-bar-chart-release #groupRelease></app-grouped-bar-chart-release>
+                <app-grouped-bar-chart-release #groupRelease [releasePatient]="releasePatient"></app-grouped-bar-chart-release>
             </div>
         </div>
         <div class="row section" dir="rtl">

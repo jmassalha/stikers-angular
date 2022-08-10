@@ -164,6 +164,16 @@
                                     <mat-datepicker #picker3></mat-datepicker>
                                 </mat-form-field>
                             </li>
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
+                                <mat-form-field appearance="fill" class="example-full-width">
+                                    <span matPrefix>צפי סיום עבודה &nbsp;</span>
+                                    <input matInput formControlName="DateToEndWork" placeholder="צפי סיום עבודה"
+                                        [matDatepicker]="picker4" (focus)="picker4.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker4">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                            </li>
                             <!-- <li class="border-me col-4">
                                 <mat-form-field class="example-full-width">
                                     <input type="text" matInput placeholder="תפקיד" formControlName="Title">

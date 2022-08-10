@@ -82,8 +82,9 @@ export class HospitalBIDashboardComponent implements OnInit {
   surgeryDeptTypeGroup: FormGroup;
   hospitalDepartTypeGroup: FormGroup;
   surgeryChooseTypeGroup: FormGroup;
+  releaseDeptChooseGroup: FormGroup;
   deliveryPrematureGroup: FormGroup;
-
+  releasePatient: any;
 
   ngOnInit(): void {
     this.TimeLineParam = "1"
@@ -96,6 +97,9 @@ export class HospitalBIDashboardComponent implements OnInit {
     });
     this.surgeryChooseTypeGroup = this.fb.group({
       surgeryChooseType: new FormControl('0', null)
+    });
+    this.releaseDeptChooseGroup = this.fb.group({
+      releaseDeptChoose: new FormControl('ספנ-א', null)
     });
     this.deliveryPrematureGroup = this.fb.group({
       deliveryPremature: new FormControl(false, null)
@@ -129,13 +133,15 @@ export class HospitalBIDashboardComponent implements OnInit {
       bar: ['ניתוחים ברמת מחלקה', '', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פעולות', 'מספר צנתורים לתקופת'],
       group: ['ניתוחים לפי מחלקה וסוג ניתוח', '', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת'],
       group2: ['כמות ניתוחים למחלקה', '', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן', 'מספר מטופלים לפי ציר זמן', 'מספר צנתורים לפי צרי זמן'],
-      groupRelease: ['', '', '', '', 'שחרורים לפי זמן ','', '', '', '', ''],
+      groupRelease: ['', '', '', '', 'שחרורים לפי זמן ', '', '', '', '', ''],
       // line: ['', '', '', '', '', '', ''],
     };
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
     let _hospitalDeptType = this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value;
     let _surgeryChooseType = this.surgeryChooseTypeGroup.controls['surgeryChooseType'].value;
     let _returnedPatients = this.hospitalDepartTypeGroup.controls['returnedPatients'].value;
+    let _releaseDeptChoose = this.releaseDeptChooseGroup.controls['releaseDeptChoose'].value;
+    this.releasePatient = _releaseDeptChoose;
     if (this.departParam == "7") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
     }
@@ -163,10 +169,12 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
-        // this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
-        // this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
         // this.graphsCtrl.controls['lineCtrl'].setValue(event);
+        if (this.departParam == "5") {
+          this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList,this.releasePatient);
+        this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
+        }
         break;
       }
       case "pie": {
@@ -185,7 +193,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         break;
       }
       case "groupRelease": {
-        this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList,this.releasePatient);
         this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
         break;
       }
@@ -208,8 +216,10 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
-        this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
-        this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
+        if (this.departParam == "5") {
+          this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList,this.releasePatient);
+          this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
+        }
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
         // this.graphsCtrl.controls['lineCtrl'].setValue(event);
         break;
@@ -284,6 +294,10 @@ export class HospitalBIDashboardComponent implements OnInit {
     } else {
       this._ifSeode = 'רפואיות';
     }
+    this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+  }
+
+  changeReleasedDept() {
     this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
   }
 
