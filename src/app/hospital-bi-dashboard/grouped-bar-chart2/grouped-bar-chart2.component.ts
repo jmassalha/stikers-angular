@@ -18,6 +18,8 @@ export class GroupedBarChart2Component implements OnInit {
   periodList: any;
   _surgerydeptType: string = "0";
   filterVal = "";
+  totalNumberOfOccurincy = 0;
+  percent: boolean = false;
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
   // weekObject = [
@@ -38,6 +40,7 @@ export class GroupedBarChart2Component implements OnInit {
       title: 'זמן'
     },
     vAxis: {
+      // format: '#%',
       minValue: 0
     },
     isStacked: false
@@ -63,6 +66,7 @@ export class GroupedBarChart2Component implements OnInit {
           title: 'זמן'
         },
         vAxis: {
+          // format: '#%',
           minValue: 0
         },
         isStacked: true
@@ -73,6 +77,7 @@ export class GroupedBarChart2Component implements OnInit {
           title: 'זמן'
         },
         vAxis: {
+          // format: '#%',
           minValue: 0
         },
         isStacked: false
@@ -102,12 +107,42 @@ export class GroupedBarChart2Component implements OnInit {
     }
   }
 
+  changePercent() {
+    let index = this.columnNames.indexOf(this.filterVal);
+    if (!this.percent) {
+      this.percent = true;
+      for (let i = 0; i < this.data.length; i++) {
+        let percent = (this.data[i][1] / this.totalNumberOfOccurincy) * 100;
+        this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
+      }
+    } else {
+      this.percent = false;
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i] = [this.data[i][0], this.data[i][1], this.data[i][1]];
+      }
+    }
+  }
+
   filterChart() {
+    this.totalNumberOfOccurincy = 0;
     let index = this.columnNames.indexOf(this.filterVal);
     this.columnNames = [this.columnNames[0], this.columnNames[index]];
     this.columnNames.push({ role: 'annotation' });
     for (let i = 0; i < this.data.length; i++) {
-      this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+      this.totalNumberOfOccurincy += this.data[i][index];
+    }
+
+    if (!this.percent) {
+      this.percent = true;
+      for (let i = 0; i < this.data.length; i++) {
+        let percent = (this.data[i][index] / this.totalNumberOfOccurincy) * 100;
+        this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
+      }
+    } else {
+      this.percent = false;
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+      }
     }
   }
 
@@ -152,6 +187,8 @@ export class GroupedBarChart2Component implements OnInit {
         //   inquiriesStatLine[0] = inquiriesStatLine[0].slice(0, daysInMonth);
         //   inquiriesStatLine[2] = inquiriesStatLine[2].slice(0, daysInMonth);
         // }
+
+        // PROCCESS THE DATA INTO ARRAYS
         for (let i = 0; i < inquiriesStatLine[2].length; i++) {
           let temp = [];
           let notNullIndex = inquiriesStatLine[2][i].findIndex(x => x !== null);
@@ -167,8 +204,6 @@ export class GroupedBarChart2Component implements OnInit {
               if (!this.options.isStacked) {
                 temp.push(inquiriesStatLine[2][i][j].y);
               }
-
-              // inquiriesStatLine[1][j] = inquiriesStatLine[2][i][j].depart;
             } else {
               temp.push(0);
               if (!this.options.isStacked) {

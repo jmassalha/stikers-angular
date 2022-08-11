@@ -114,7 +114,10 @@ export class GroupedBarChartComponent implements OnInit {
       this.columnNames = ['Year'];
       if (this.responseDeparts == undefined) {
         console.log("No Data Returned");
-        this.waitData();
+        let that = this;
+        setTimeout(() => {
+          that.waitData();
+        }, 2000);
       } else {
         for (let s = 0; s < this.responseDeparts.length; s++) {
           departments.push(this.responseDeparts[s]);

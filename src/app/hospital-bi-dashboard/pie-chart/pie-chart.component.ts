@@ -25,6 +25,7 @@ export class PieChartComponent implements OnInit {
   type = 'PieChart';
   data = [];
   options = {
+    pieSliceText: 'value-and-percentage',
     is3D: true,
     chartArea: {
       height: "600px",

@@ -22,12 +22,14 @@ export class GroupedBarChartReleaseComponent implements OnInit {
   periodList: any;
   _surgerydeptType: string = "0";
   filterVal = "";
+  totalNumberOfOccurincy = 0;
+  percent: boolean = false;
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
   @Input() releasePatient: string;
   _releasePatient: string;
-  // hospitalObj = new HospitalBIDashboardComponent(this.http,this.fb);
-  // releasePatient = this.hospitalObj.releaseDeptChooseGroup.controls['releaseDeptChoose'].value;
+  _averageBefore: any = 0;
+  _averageAfter: any = 0;
 
   type = 'ColumnChart';
   data = [];
@@ -39,6 +41,7 @@ export class GroupedBarChartReleaseComponent implements OnInit {
     vAxis: {
       minValue: 0
     },
+    series: { 5: { type: 'line' } },
     isStacked: false
   };
   width: number;
@@ -65,6 +68,7 @@ export class GroupedBarChartReleaseComponent implements OnInit {
       vAxis: {
         minValue: 0
       },
+      series: { 5: { type: 'line' } },
       isStacked: true
     };
     this.innerWidth = window.innerWidth;
@@ -92,11 +96,25 @@ export class GroupedBarChartReleaseComponent implements OnInit {
   }
 
   filterChart() {
+    this.totalNumberOfOccurincy = 0;
     let index = this.columnNames.indexOf(this.filterVal);
     this.columnNames = [this.columnNames[0], this.columnNames[index]];
     this.columnNames.push({ role: 'annotation' });
     for (let i = 0; i < this.data.length; i++) {
-      this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+      this.totalNumberOfOccurincy += this.data[i][index];
+    }
+
+    if (!this.percent) {
+      this.percent = true;
+      for (let i = 0; i < this.data.length; i++) {
+        let percent = (this.data[i][index] / this.totalNumberOfOccurincy) * 100;
+        this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
+      }
+    } else {
+      this.percent = false;
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+      }
     }
   }
 
@@ -119,6 +137,7 @@ export class GroupedBarChartReleaseComponent implements OnInit {
         periodList: this.periodList
       })
       .subscribe((Response) => {
+        this.totalNumberOfOccurincy = 0;
         let inquiriesStatLine = Response["d"];
         let date = new Date();
         let finalarr = [];
@@ -138,6 +157,14 @@ export class GroupedBarChartReleaseComponent implements OnInit {
         //   inquiriesStatLine[0] = inquiriesStatLine[0].slice(0, daysInMonth);
         //   inquiriesStatLine[2] = inquiriesStatLine[2].slice(0, daysInMonth);
         // }
+        for (let i = 0; i < inquiriesStatLine[2].length; i++) {
+          for (let j = 0; j < inquiriesStatLine[2][i].length; j++) {
+            if (inquiriesStatLine[2][i][j] != null) {
+              this.totalNumberOfOccurincy += inquiriesStatLine[2][i][j].y;
+            }
+          }
+        }
+
         for (let i = 0; i < inquiriesStatLine[2].length; i++) {
           let temp = [];
           let notNullIndex = inquiriesStatLine[2][i].findIndex(x => x !== null);
@@ -294,8 +321,22 @@ export class GroupedBarChartReleaseComponent implements OnInit {
           departments.push({ role: 'annotation' });
         }
         this.columnNames = [...this.columnNames, ...departments];
+        this.getAverage();
         this.loader = false;
       });
+  }
+
+  getAverage() {
+    this._averageBefore = 0;
+    this._averageAfter = 0;
+    for (let f = 0; f < this.data.length; f++) {
+      this._averageBefore += this.data[f][1];
+      this._averageAfter += this.data[f][3];
+    }
+    this._averageAfter = (this._averageAfter / this.totalNumberOfOccurincy) * 100;
+    this._averageAfter = this.columnNames[3] + ' - ' + this._averageAfter.toFixed(1) + ' %';
+    this._averageBefore = (this._averageBefore / this.totalNumberOfOccurincy) * 100;
+    this._averageBefore = this.columnNames[1] + ' - ' + this._averageBefore.toFixed(1) + ' %';
   }
 
 }

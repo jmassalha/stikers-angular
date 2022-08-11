@@ -106,9 +106,6 @@ export class NursesManageDashboardComponent implements OnInit {
         that.getEROccupancy('', 'er');
         that.getDeliveryEROccupancy('');
         that.privateIP = this.ClientIP;
-        if (this.UserName != 'adahabre') {
-          this.IpAddressMonitoring();
-        }
         this.onlyDisplayUsers();
 
       }, 1500);

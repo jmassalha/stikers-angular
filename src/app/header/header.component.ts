@@ -19,7 +19,7 @@ export class HeaderComponent implements OnInit {
         public service: VoiceRecognitionService,
         private http: HttpClient) {
         this.getPermission();
-        this.service.init();
+        // this.service.init();
     }
 
     personReadInquiry: boolean = false;
@@ -823,13 +823,13 @@ export class HeaderComponent implements OnInit {
         // this.EmployeesManagePermission();
     }
 
-    startService() {
-        this.service.start()
-    }
+    // startService() {
+    //     this.service.start()
+    // }
 
-    stopService() {
-        this.service.stop()
-    }
+    // stopService() {
+    //     this.service.stop()
+    // }
     logout($event): void {
         //////debugger
         localStorage.clear();
