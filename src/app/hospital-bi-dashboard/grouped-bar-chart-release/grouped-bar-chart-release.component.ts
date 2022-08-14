@@ -1,6 +1,5 @@
 import { Component, ElementRef, HostListener, Input, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { HospitalBIDashboardComponent } from '../hospital-bi-dashboard.component';
 import { FormBuilder } from '@angular/forms';
 
 @Component({
@@ -100,22 +99,30 @@ export class GroupedBarChartReleaseComponent implements OnInit {
     let index = this.columnNames.indexOf(this.filterVal);
     this.columnNames = [this.columnNames[0], this.columnNames[index]];
     this.columnNames.push({ role: 'annotation' });
+
+    // get the total number of all columns
     for (let i = 0; i < this.data.length; i++) {
       this.totalNumberOfOccurincy += this.data[i][index];
     }
 
-    if (!this.percent) {
-      this.percent = true;
-      for (let i = 0; i < this.data.length; i++) {
-        let percent = (this.data[i][index] / this.totalNumberOfOccurincy) * 100;
-        this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
-      }
-    } else {
-      this.percent = false;
-      for (let i = 0; i < this.data.length; i++) {
-        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
-      }
+    // FOR CALCULATING THE AVERAGE OF EVERY COLUMN IN A SPECIFIC TOOLTIP
+    for (let i = 0; i < this.data.length; i++) {
+      let percent = (this.data[i][index] / this.totalNumberOfOccurincy) * 100;
+      this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
     }
+
+    // if (!this.percent) {
+    //   this.percent = true;
+    //   for (let i = 0; i < this.data.length; i++) {
+    //     let percent = (this.data[i][index] / this.totalNumberOfOccurincy) * 100;
+    //     this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
+    //   }
+    // } else {
+    //   this.percent = false;
+    //   for (let i = 0; i < this.data.length; i++) {
+    //     this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+    //   }
+    // }
   }
 
   public discreteBarChart() {
@@ -334,9 +341,28 @@ export class GroupedBarChartReleaseComponent implements OnInit {
       this._averageAfter += this.data[f][3];
     }
     this._averageAfter = (this._averageAfter / this.totalNumberOfOccurincy) * 100;
-    this._averageAfter = this.columnNames[3] + ' - ' + this._averageAfter.toFixed(1) + ' %';
+    this._averageAfter = 'ממוצע כללי ' + this.columnNames[3] + ' - ' + this._averageAfter.toFixed(1) + ' %';
     this._averageBefore = (this._averageBefore / this.totalNumberOfOccurincy) * 100;
-    this._averageBefore = this.columnNames[1] + ' - ' + this._averageBefore.toFixed(1) + ' %';
+    this._averageBefore = 'ממוצע כללי ' + this.columnNames[1] + ' - ' + this._averageBefore.toFixed(1) + ' %';
+
+    this.totalNumberOfOccurincy = 0;
+    let index = this.columnNames.indexOf(this.filterVal);
+
+    // get the total number of all columns
+    // for (let i = 0; i < this.data.length; i++) {
+    //   this.totalNumberOfOccurincy += this.data[i][index];
+    // }
+
+    // FOR CALCULATING THE AVERAGE OF EVERY COLUMN IN A SPECIFIC TOOLTIP
+    for (let i = 0; i < this.data.length; i++) {
+      this.totalNumberOfOccurincy = this.data[i][1] + this.data[i][3];
+      // let percent = (this.data[i][1] / this.totalNumberOfOccurincy) * 100;
+      this.data[i][1] = parseFloat(((this.data[i][1] / this.totalNumberOfOccurincy) * 100).toFixed(1));
+      this.data[i][2] = parseFloat(((this.data[i][2] / this.totalNumberOfOccurincy) * 100).toFixed(1));
+      this.data[i][3] = parseFloat(((this.data[i][3] / this.totalNumberOfOccurincy) * 100).toFixed(1));
+      this.data[i][4] = parseFloat(((this.data[i][4] / this.totalNumberOfOccurincy) * 100).toFixed(1));
+      // this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
+    }
   }
 
 }

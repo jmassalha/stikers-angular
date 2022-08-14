@@ -128,22 +128,26 @@ export class GroupedBarChart2Component implements OnInit {
     let index = this.columnNames.indexOf(this.filterVal);
     this.columnNames = [this.columnNames[0], this.columnNames[index]];
     this.columnNames.push({ role: 'annotation' });
-    for (let i = 0; i < this.data.length; i++) {
-      this.totalNumberOfOccurincy += this.data[i][index];
-    }
 
-    if (!this.percent) {
-      this.percent = true;
-      for (let i = 0; i < this.data.length; i++) {
-        let percent = (this.data[i][index] / this.totalNumberOfOccurincy) * 100;
-        this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
-      }
-    } else {
-      this.percent = false;
-      for (let i = 0; i < this.data.length; i++) {
-        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
-      }
+    for (let i = 0; i < this.data.length; i++) {
+      this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
     }
+    // for (let i = 0; i < this.data.length; i++) {
+    //   this.totalNumberOfOccurincy += this.data[i][index];
+    // }
+
+    // if (!this.percent) {
+    //   this.percent = true;
+    //   for (let i = 0; i < this.data.length; i++) {
+    //     let percent = (this.data[i][index] / this.totalNumberOfOccurincy) * 100;
+    //     this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
+    //   }
+    // } else {
+    //   this.percent = false;
+    //   for (let i = 0; i < this.data.length; i++) {
+    //     this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+    //   }
+    // }
   }
 
   public discreteBarChart() {
