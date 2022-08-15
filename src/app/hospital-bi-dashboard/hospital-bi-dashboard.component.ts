@@ -118,11 +118,12 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (this.width <= 1180) {
       this.phoneMode = "1";
     }
+    this.getCardsVals();
     this.getTimeType(this.TimeLineParam);
     setTimeout(() => {
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }, 1500);
-    this.getCardsVals();
+    
     this.showYearsPeriod();
   }
 
@@ -159,6 +160,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     } else {
       periodList = "";
     }
+    this.getCardsVals();
     switch (type) {
       case "all": {
         this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
@@ -225,7 +227,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         break;
       }
     }
-    this.getCardsVals();
+    
     if (this.departParam == "5") {
       this.getHospitalDepartmentsTableChartList();
     }
