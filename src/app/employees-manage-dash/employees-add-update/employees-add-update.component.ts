@@ -112,7 +112,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
       AcceptTerms: new FormControl(this.employee.AcceptTerms, null),
       Toranot: new FormControl(this.employee.Toranot, null),
     });
-    if (this.employee.RowID == null) {
+    if (this.employee.RowID == null || this.employee.StatusRow == "1") {
       this.employeePersonalDetails.controls['FirstNameEng'].setValidators(Validators.required);
       this.employeePersonalDetails.controls['LastNameEng'].setValidators(Validators.required);
     }
@@ -366,10 +366,15 @@ export class EmployeesAddUpdateComponent implements OnInit {
     this.employeeWorkDetails.controls['DocStartExperience'].setValue(pipe.transform(this.employeeWorkDetails.controls['DocStartExperience'].value, 'yyyy-MM-dd'));
     this.employeeWorkDetails.controls['EndWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['EndWorkDate'].value, 'yyyy-MM-dd'));
     this.employeePersonalDetails.controls['DateOfBirth'].setValue(pipe.transform(this.employeePersonalDetails.controls['DateOfBirth'].value, 'yyyy-MM-dd'));
-    if (this.employeeWorkDetails.controls['StatusRow'].value == null) {
+    if (this.employeeWorkDetails.controls['StatusRow'].value == null || this.employeeWorkDetails.controls['StatusRow'].value == "0") {
       this.employeeWorkDetails.controls['StatusRow'].setValue('0');
+      this.employeePersonalDetails.controls['FirstNameEng'].setValidators(null);
+      this.employeePersonalDetails.controls['LastNameEng'].setValidators(null);
+    } else if (this.employeeWorkDetails.controls['StatusRow'].value == "1") {
+      this.employeePersonalDetails.controls['FirstNameEng'].setValidators(Validators.required);
+      this.employeePersonalDetails.controls['LastNameEng'].setValidators(Validators.required);
     }
-    if (!this.employeeWorkDetails.invalid) {
+    if (!this.employeeWorkDetails.invalid && !this.employeePersonalDetails.invalid) {
       this.http
         .post(this.Api + "SaveEmployeeDetails", {
           _personalDetails: this.employeePersonalDetails.getRawValue(),
