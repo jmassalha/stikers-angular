@@ -44,6 +44,8 @@ export interface Drug {
     MedGroup: string;
     MedGroupID: number;
     MedStatus: string;
+    Solution: string;
+    SolutionVol: string;
 }
 export interface MedGroup {
     id: string;
@@ -116,6 +118,8 @@ export class DrugsComponent implements OnInit {
         MedGroup: "",
         MedGroupID: 0,
         MedStatus: "1",
+        Solution: "",
+        SolutionVol: "",
     };
     ngOnInit(): void {
         this.MedID = "";
@@ -219,10 +223,11 @@ export class DrugsComponent implements OnInit {
         if (this.drugForm.invalid) {
             return;
         }
-        // ////debugger
+        debugger
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug",
+                "http://localhost:64964/WebService.asmx/insertOrUpdateDrug",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug",
                 {
                     drugRow: this.drugForm.value,
                 }
@@ -249,6 +254,7 @@ export class DrugsComponent implements OnInit {
                 this.groups_submit
             );
         }
+        debugger
         /*, Validators.pattern("[A-Za-z0-9 .()]*")*/
         this.drugForm = this.formBuilder.group({
             MedName: [_element.MedName, [Validators.required]],
@@ -370,6 +376,7 @@ export class DrugsComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
+           // .post("http://localhost:64964/WebService.asmx/getDrugsTbl", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getDrugsTbl", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
@@ -392,6 +399,8 @@ export class DrugsComponent implements OnInit {
                         MedGroup: drugData[i].MedGroup,
                         MedGroupID: drugData[i].MedGroupID,
                         MedStatus: drugData[i].MedStatus,
+                        Solution: drugData[i].Solution,
+                        SolutionVol: drugData[i].SolutionVol,
                     });
                 }
 

@@ -6,3 +6,8 @@
 .form-group{
     position: relative;
 }
+#drugDetailsBtn{
+    position: fixed;
+    bottom: 47px;
+    left: 47px;
+}

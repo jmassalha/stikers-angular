@@ -51,6 +51,15 @@
     color: indianred;
     text-decoration: line-through;
 }
+#cdk-overlay-0 #mat-select-1-panel{
+    padding-top: 30px !important;
+}
+.fixd-me{
+    position: absolute;
+    left: 0;
+    right: 0;
+    top: 0;
+}
 .left-img {
     position: absolute;
     left: 10px;

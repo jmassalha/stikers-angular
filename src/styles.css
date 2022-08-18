@@ -10,6 +10,9 @@
 .drugprotocols .mat-form-field-appearance-legacy .mat-form-field-wrapper{
     padding: 0 !important;
 }
+.mat-select-panel  {
+    padding-top: 30px !important;
+}
 .point-right:after {
     content: "\25C0" !important;
     padding-right: 1em !important;

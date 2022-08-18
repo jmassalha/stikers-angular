@@ -105,6 +105,7 @@ export interface Prescription {
     Depart: string;
     Seode_Depart: string;
     hideOrShow: boolean;
+    ParentRowId: string;
 }
 export interface PrescriptionRow {
     noteVal: string;
@@ -219,6 +220,7 @@ export class MershamNComponent implements OnInit {
     ];
 
     prem: Boolean;
+    ParentRowId: string;
     showDeleteBtn: Boolean;
     showCopyBtn: Boolean;
     isButtonVisible: Boolean;
@@ -294,8 +296,10 @@ export class MershamNComponent implements OnInit {
         Case_Number: "",
         Depart: "",
         Seode_Depart: "",
+        ParentRowId: "",
         hideOrShow: true,
     };
+    searchProtocols: Protocol[];
     constructor(
         private activeModal: NgbActiveModal,
         private _snackBar: MatSnackBar,
@@ -373,6 +377,7 @@ export class MershamNComponent implements OnInit {
         Case_Number: "",
         Depart: "",
         Seode_Depart: "",
+        ParentRowId: "",
         hideOrShow: true,
     };
     weightVal: string;
@@ -459,13 +464,19 @@ export class MershamNComponent implements OnInit {
         this.getDropDownFromServer();
         //this.cdRef.detectChanges();
     }
+    onSearchProtocol(event){
+        console.log(event)
+        this.searchProtocols = this.searchInProtocols(event);
+
+    }
     protocolChanged(selected) {
-        //debugger
+     //   //debugger
         //this.tableDataSrcPres = new MatTableDataSource(this.tableDataPresPrint);
         this.rows = this.formBuilder.array([]);
         this.PrespictionFormRow = this.formBuilder.group({
             SrcPresRows: this.rows,
         });
+        this.PrespictionForm.patchValue({protocolVal:selected.value.ProtocolName});
         this.updateView();
         this.tableDataPres.splice(0, this.tableDataPres.length);
         this.ArrayDrus = [];
@@ -480,7 +491,7 @@ export class MershamNComponent implements OnInit {
                 groupID = this.MedList[d].groupID;
             }
 
-            //  ////////////////////debugger
+            //  //////////////////////debugger
             const row = this.formBuilder.group({
                 noteVal: [
                     {
@@ -573,7 +584,7 @@ export class MershamNComponent implements OnInit {
 
             this.ArrayDrus.push(this.MedListConst);
 
-            //////debugger
+            ////////debugger
             this.tableDataPresPrint.push({
                 noteVal: "",
                 Dosage_UnitVal: selected.value.Drugs[i].DosingUnit,
@@ -603,11 +614,11 @@ export class MershamNComponent implements OnInit {
         this.PrespictionForm.controls.ProtocolName.setValue(
             selected.value.ProtocolName
         );
-        //debugger
+        ////debugger
         this.calcPres();
     }
     protocolChangedCopy(selected) {
-        //debugger
+        ////debugger
         //this.tableDataSrcPres = new MatTableDataSource(this.tableDataPresPrint);
         this.rows = this.formBuilder.array([]);
         this.PrespictionFormRow = this.formBuilder.group({
@@ -629,7 +640,7 @@ export class MershamNComponent implements OnInit {
                     groupID = that.MedList[d].groupID;
                 }
 
-                //  ////////////////////debugger
+                //  //////////////////////debugger
                 const row = that.formBuilder.group({
                     noteVal: [
                         {
@@ -722,7 +733,7 @@ export class MershamNComponent implements OnInit {
 
                 that.ArrayDrus.push(that.MedListConst);
 
-                //////debugger
+                ////////debugger
                 that.tableDataPresPrint.push({
                     noteVal: "",
                     Dosage_UnitVal: selected[0].Drugs[i].DosingUnit,
@@ -752,12 +763,12 @@ export class MershamNComponent implements OnInit {
             that.PrespictionForm.controls.ProtocolName.setValue(
                 selected[0].ProtocolName
             );
-            //debugger
+            ////debugger
             that.calcPres();
         }, 500);
     }
     ClearMershmData() {
-        //////////debugger
+        ////////////debugger
         this.rows = this.formBuilder.array([]);
         this.PrespictionFormRow = this.formBuilder.group({
             SrcPresRows: this.rows,
@@ -787,12 +798,12 @@ export class MershamNComponent implements OnInit {
             statusNotToDo: [false, false],
             ProtocolName: ["", false],
         });
-        ////////debugger
+        //////////debugger
         this.updateView();
-        ////////debugger
+        //////////debugger
     }
     checkIfCarboplatin($event) {
-        // //////////debugger
+        // ////////////debugger
 
         this.Carboplatin = false;
         var Boolean = false;
@@ -829,9 +840,9 @@ export class MershamNComponent implements OnInit {
         this.calcPres();
     }
     calcPres() {
-        //debugger;
+        ////debugger;
         for (var i = 0; i < this.rows.value.length; i++) {
-            //////////////////debugger
+            ////////////////////debugger
             var arr = this.rows.value[i].MedListVal.split("___");
             var d = this.MedList.findIndex((obj) => {
                 return obj.value === arr[0];
@@ -843,7 +854,7 @@ export class MershamNComponent implements OnInit {
                 this.rows.value[i].groupID != "" &&
                 this.rows.value[i].groupID != null
             ) {
-                //////////////////debugger
+                ////////////////////debugger
                 if (this.rows.value[i].MenonValVal == "")
                     this.rows.value[i].MenonValVal = 0;
                 switch (this.rows.value[i].groupID) {
@@ -916,7 +927,7 @@ export class MershamNComponent implements OnInit {
                         //     )) *
                         // this.calcByGender;
 
-                        //debugger;
+                        ////debugger;
                         this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
                                 parseFloat(
@@ -941,7 +952,7 @@ export class MershamNComponent implements OnInit {
         );
     }
     openSnackBar(AlertTxt, Type) {
-        // ////////debugger
+        // //////////debugger
         this._snackBar.open(AlertTxt, "", {
             duration: 2500,
             direction: "rtl",
@@ -951,12 +962,12 @@ export class MershamNComponent implements OnInit {
         });
     }
     delete(c, type) {
-        //  //////////////////debugger
+        //  ////////////////////debugger
         if (type == "true") {
             var d = this.rows.value.findIndex((obj) => {
                 return obj.rowIdPreVal === this.DeleteRowId;
             });
-            ////////////////debugger
+            //////////////////debugger
             if (this.rows.value[d].newRow == "false") {
                 this.http
                     .post(
@@ -986,7 +997,7 @@ export class MershamNComponent implements OnInit {
             this.DeleteRowId = "";
         }
         c("close modal");
-        // ////////////////////debugger
+        // //////////////////////debugger
         // this.modalService._modalStack._windowCmpts[1].dismiss()
     }
     getPermission() {
@@ -998,7 +1009,7 @@ export class MershamNComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                // ////////////debugger
+                // //////////////debugger
                 var json = JSON.parse(Response["d"]);
                 switch (json) {
                     case 0:
@@ -1058,9 +1069,9 @@ export class MershamNComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////////////////////////////debugger
+                ////////////////////////////////debugger
                 if ("Save" == result) {
-                    // ////////////////////////////debugger;
+                    // //////////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -1072,8 +1083,8 @@ export class MershamNComponent implements OnInit {
     }
 
     deletePerRow(content, _type, _element) {
-        //  ////////////////debugger
-        ////////////////////debugger
+        //  //////////////////debugger
+        //////////////////////debugger
         this.DeletePreRowId = _element.PerscriptionID;
         this.modalOptions = {
             windowClass: "custom-class",
@@ -1081,9 +1092,9 @@ export class MershamNComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////////////////////////////debugger
+                ////////////////////////////////debugger
                 if ("Save" == result) {
-                    // ////////////////////////////debugger;
+                    // //////////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -1114,7 +1125,7 @@ export class MershamNComponent implements OnInit {
     }
 
     printRowInside() {
-        ////////////debugger
+        //////////////debugger
         this.editRow(null, null, this.rowElementPres, "false");
         setTimeout(function () {
             var head =
@@ -1160,7 +1171,7 @@ export class MershamNComponent implements OnInit {
         this.loadModalAfterClose = true;
     }
     checkMyValue(ele, rowIdx) {
-        // ////debugger
+        // //////debugger
         var MenonCalcVal = this.rows.value[rowIdx].MenonCalcVal;
         var _f5ivePre =
             (parseFloat(this.rows.value[rowIdx].MenonCalcVal) * 5) / 100;
@@ -1186,10 +1197,10 @@ export class MershamNComponent implements OnInit {
                 "noteVal"
             ].updateValueAndValidity();
         }
-        //////debugger
+        ////////debugger
     }
     editRow(content, _type, _element, openModal) {
-        //debugger;
+        //debugger
         this.FIRST_NAME_In = _element.PatientFirstName;
         this.LAST_NAME_In = _element.PatientLastName;
         this.MID_NAME_In = _element.FatherName;
@@ -1203,7 +1214,7 @@ export class MershamNComponent implements OnInit {
 
         this.ROW_ID_PRE = _element.PerscriptionID;
         this.rowElementPres = _element;
-        ////////////////////debugger;
+        //////////////////////debugger;
         // this.PrespictionFormRow = this.formBuilder.group({
         //     noteVal: ["", false],
         //     Dosage_UnitVal: ["", false],
@@ -1230,7 +1241,7 @@ export class MershamNComponent implements OnInit {
             this.isButtonVisible = true;
             this.showCopyBtn = true;
             this.isCanceldVisible = false;
-            // //debugger
+            // ////debugger
             if (!_element.hideOrShow) {
                 this.dis = _status = true;
             }
@@ -1239,7 +1250,7 @@ export class MershamNComponent implements OnInit {
             this.showCopyBtn = true;
             this.isButtonVisible = false;
             this.isCanceldVisible = false;
-            //////////////////////debugger
+            ////////////////////////debugger
         } else {
             this.showCopyBtn = false;
             this.dis = true;
@@ -1259,14 +1270,14 @@ export class MershamNComponent implements OnInit {
             _requerd_sen = null;
             _requerd_drug = Validators.required;
         }
-        //////////////////////debugger
+        ////////////////////////debugger
         /*
         DateAdministrationMed
         RegistrationDate
         */
         var dateIN = null;
         var dateT = null;
-        ////////debugger
+        //////////debugger
         if (
             _element.DateAdministrationMed != "" &&
             typeof _element.DateAdministrationMed != "object"
@@ -1315,7 +1326,7 @@ export class MershamNComponent implements OnInit {
         this.printForm.MedicationSensitivityVal =
             _element.MedicationSensitivity;
         this.printForm.statusRowVal = _status;
-        // ////////////debugger
+        // //////////////debugger
         this.PrespictionForm = this.formBuilder.group({
             weightVal: [
                 { value: _element.Weight, disabled: this.dis },
@@ -1385,7 +1396,8 @@ export class MershamNComponent implements OnInit {
             ProtocolName: [_element.ProtocolName, false],
         });
         this.PresRowIdVal = _element.PerscriptionID;
-        //////////////////////debugger
+        this.ParentRowId = _element.ParentRowId;
+        ////////////////////////debugger
 
         this.getPresFromServer(_element.PerscriptionID);
         if (openModal == "true") {
@@ -1398,9 +1410,9 @@ export class MershamNComponent implements OnInit {
                 .result.then(
                     (result) => {
                         this.closeResult = `Closed with: ${result}`;
-                        //////////////////////////////debugger
+                        ////////////////////////////////debugger
                         if ("Save" == result) {
-                            // ////////////////////////////debugger;
+                            // //////////////////////////////debugger;
                             //this.saveChad(_element.ROW_ID);
                         }
                     },
@@ -1418,127 +1430,30 @@ export class MershamNComponent implements OnInit {
         //}
     }
     copyRowPres(element) {
-        // debugger
+         ////debugger
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
-        }
-        let ele = this.Protocols.filter((obj) => {
-            return obj.ProtocolName === this.PrespictionForm.value.ProtocolName;
-        });
-        if (this.PrespictionForm.value.ProtocolName != "")
-            this.protocolChangedCopy(ele);
-        let that = this;
-        setTimeout(function () {
-            that.PrespictionForm.enable();
-            that.rows.enable();
-            // //////////debugger
-            // return
-            for (var i = 0; i < that.rows.value.length; i++) {
-                that.rows.value[i]["Days_ProtocolVal"] =
-                    that.rows.value[i]["Days_ProtocolVal"].join(",");
-            }
-            ////debugger
-            var copyParent = that.PrespictionForm.value;
-            var copyrows = that.rows.value;
-
-            copyParent.statusRowVal = "false";
-            copyParent.rowIdVal = "-100";
-            var dateNow = new FormControl(new Date()).value;
-            ////////debugger
-            copyParent.regesterdateIN = dateNow;
-            copyParent.takedateIN = null;
-            ////////debugger
-            for (var i = 0; i < copyrows.length; i++) {
-                ////////////debugger;
-                copyrows[i].newRow = "true";
-                copyrows[i].rowIdPreVal = -1 * i;
-            }
-            copyParent.takedateIN = formatDate(
-                copyParent.takedateIN,
-                "yyyy-MM-dd",
-                "en-US"
-            );
-            copyParent.regesterdateIN = formatDate(
-                copyParent.regesterdateIN,
-                "yyyy-MM-dd",
-                "en-US"
-            );
-            if (copyParent.statusNotToDo) {
-                copyParent.statusNotToDo = "1";
-            } else {
-                copyParent.statusNotToDo = "0";
-            }
-            var ParentFrom = copyParent;
-            var tableFrom = copyrows;
-            if (that.ID == "") {
-                that.ID = that.ID_In;
-            }
-
-            //debugger
-            //return
-            that.saveToServer(ParentFrom, tableFrom, true);
-        }, 900);
+        }  
+        this.http
+            //.post("http://localhost:64964/WebService.asmx/SubmitCopyPrecpiction",                {
+              .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCopyPrecpiction", {
+                    prentFromId: element.currentTarget.attributes["id"].value,                    
+                    loginUserName: localStorage
+                        .getItem("loginUserName")
+                        .toLowerCase(),
+                }
+            )
+            .subscribe((Response) => {
+                this.loadModalAfterCopy = true;
+                this.openSnackBar("נשמר בהצלחה", "success");
+                this.getReport("");
+                // if ($("#loader").hasClass("d-none")) {
+                // $("#loader").addClass("d-none");
+                // }
+            });
+        this.modalService.dismissAll();      
     }
-    saveToServer(ParentFrom, tableFrom, copy) {
-        var fDay = 9999;
-        var lDay = 0;
-        if (!this.Case_Number) {
-            this.Case_Number = "";
-            this.Depart = "";
-            this.Seode_Depart = "";
-        }
-        this.mPatientDetails = {
-            FIRST_NAME: this.FIRST_NAME,
-            LAST_NAME: this.LAST_NAME,
-            MID_NAME: this.MID_NAME,
-            ID: this.ID,
-            GENDER: this.GENDER,
-            AGE: this.AGE,
-            KUPA: this.KUPA,
-            CaseNumber: this.Case_Number,
-            Depart: this.Depart,
-            Seode_Depart: this.Seode_Depart,
-        };
-
-        for (var i = 0; i < tableFrom.length; i++) {
-            var numDays = tableFrom[i].Days_ProtocolVal.replaceAll(" ", "");
-            numDays = tableFrom[i].Days_ProtocolVal.replaceAll("D", "");
-            if (numDays.indexOf("-") >= 0) {
-                var days = numDays.split("-");
-                let daysn: Array<number> = [];
-                for (var c = 0; c < days.length; c++) {
-                    daysn[c] = parseInt(days[c]);
-                }
-                var _max = Math.max(...daysn);
-                var _min = Math.min(...daysn);
-                if (_min < fDay) {
-                    fDay = _min;
-                }
-                if (lDay < _max) {
-                    lDay = _max;
-                }
-            } else if (numDays.indexOf(",") >= 0) {
-                var days = numDays.split(",");
-                let daysn: Array<number> = [];
-                for (var c = 0; c < days.length; c++) {
-                    daysn[c] = parseInt(days[c]);
-                }
-                var _max = Math.max(...daysn);
-                var _min = Math.min(...daysn);
-                if (_min < fDay) {
-                    fDay = _min;
-                }
-                if (lDay < _max) {
-                    lDay = _max;
-                }
-            }
-        }
-        var realDate = new Date(this.PrespictionForm.value.takedateIN);
-        this.DelayLoopIndex = fDay;
-        //var realDate = new Date(this.PrespictionForm.value.takedateIN);
-        //debugger
-        this.LoopWithDelay(ParentFrom, tableFrom, lDay, realDate);
-    }
+    
     LoopWithDelay(ParentFrom, tableFrom, lDay, realDate) {
         let that = this;
         setTimeout(function () {
@@ -1585,7 +1500,7 @@ export class MershamNComponent implements OnInit {
                         new Date(that.PrespictionForm.value.regesterdateIN),
                         "yyyyMMdd"
                     );
-                // debugger
+                // //debugger
                 console.log(tableFromToSubmit);
 
                 that.http
@@ -1603,7 +1518,7 @@ export class MershamNComponent implements OnInit {
                         }
                     )
                     .subscribe((Response) => {
-                        //debugger;
+                        ////debugger;
                     });
             }
             that.DelayLoopIndex++;
@@ -1631,7 +1546,7 @@ export class MershamNComponent implements OnInit {
         this.elementRef.nativeElement = document.getElementById(
             "singleSelect" + index
         );
-        // //////debugger
+        // ////////debugger
         this.filterdDataArray = [];
         this.search(value, index);
     }
@@ -1644,13 +1559,13 @@ export class MershamNComponent implements OnInit {
             }
         }
         this.ArrayDrus[index] = this.filterdDataArray;
-        ////////////////////debugger
+        //////////////////////debugger
     }
 
     editRowPre(content, _type, _element) {
-        //debugger;
+        ////debugger;
         this.EDIT_ROW = true;
-        //////////////////////debugger
+        ////////////////////////debugger
         // this.PrespictionFormRow = this.formBuilder.group({
         //     noteVal: [{value:_element.noteVal, disabled: this.dis}, false],
         //     Dosage_UnitVal: [{value:_element.Dosage_UnitVal, disabled: this.dis}, false],
@@ -1666,13 +1581,13 @@ export class MershamNComponent implements OnInit {
         //     MedListVal: [{value:_element.MedListVal, disabled: this.dis}, false],
         //     rowIdPreVal: [{value:_element.rowIdPreVal, disabled: this.dis}, false],
         // });
-        ////debugger
+        //////debugger
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////////////////////////////debugger
+                ////////////////////////////////debugger
                 if ("Save" == result) {
-                    // ////////////////////////////debugger;
+                    // //////////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -1683,7 +1598,7 @@ export class MershamNComponent implements OnInit {
     }
 
     changeActiveNo($event) {
-        ////////////////debugger;
+        //////////////////debugger;
         if ($event.checked) {
             this.Sensitivity = "1";
             this.PrespictionForm.controls.MedicationSensitivityVal.setValidators(
@@ -1705,12 +1620,12 @@ export class MershamNComponent implements OnInit {
         }
     }
     changeActiveAndSave($event, _element) {
-        // ////debugger
+        // //////debugger
         if ($event.checked) {
             $event = "1";
         } else {
             $event = "0";
-        } //////debugger
+        } ////////debugger
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNotToServe",
@@ -1731,12 +1646,12 @@ export class MershamNComponent implements OnInit {
             });
     }
     onSubmit() {
-        //////debugger
-        //////////////////////debugger
+        ////////debugger
+        ////////////////////////debugger
         this.submitted = true;
-        //////////////////////////////debugger
+        ////////////////////////////////debugger
         // stop here if form is invalid
-        //////debugger
+        ////////debugger
         if (this.PrespictionForm.invalid || this.rows.invalid) {
             this.openSnackBar(
                 "נא למלא את כל השדות המסומנים באדום",
@@ -1785,16 +1700,25 @@ export class MershamNComponent implements OnInit {
         if (this.ID == "") {
             this.ID = this.ID_In;
         }
-        //this.saveToServer(ParentFrom, tableFrom, false);
+        this.mPatientDetails = {
+            FIRST_NAME: this.FIRST_NAME,
+            LAST_NAME: this.LAST_NAME,
+            MID_NAME: this.MID_NAME,
+            ID: this.ID,
+            GENDER: this.GENDER,
+            AGE: this.AGE,
+            KUPA: this.KUPA,
+            CaseNumber: this.Case_Number,
+            Depart: this.Depart,
+            Seode_Depart: this.Seode_Depart,
+        };
         this.http
-            .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
-                {
-                    //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
-                    //    prentFromId: '',
+            //.post(  "http://localhost:64964/WebService.asmx/SubmitPrecpictionNew",{
+             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNew", {
+                    prentFromId: '',
                     ParentFrom: ParentFrom,
                     tableFrom: tableFrom,
-                    patientId: this.ID,
+                    mPatientDetails: this.mPatientDetails,
                     loginUserName: localStorage
                         .getItem("loginUserName")
                         .toLowerCase(),
@@ -1814,7 +1738,7 @@ export class MershamNComponent implements OnInit {
         // return "";
     }
     getReport($event: any): void {
-        //////////////////////////debugger
+        ////////////////////////////debugger
         if (this.fliterVal.trim() != "")
             this.getTableFromServer(
                 this.paginator.pageIndex,
@@ -1846,10 +1770,10 @@ export class MershamNComponent implements OnInit {
         if (this.weightVal == "NaN") {
             this.weightVal = "0";
         }
-        //////////////debugger
+        ////////////////debugger
         this.PrespictionForm.removeControl("areaVal");
         this.PrespictionForm.addControl("areaVal", new FormControl(""));
-        //////////////////////debugger
+        ////////////////////////debugger
         this.areaVal = Math.sqrt(
             (parseFloat(this.heightVal) * parseFloat(this.weightVal)) / 3600
         ).toFixed(1);
@@ -1859,18 +1783,18 @@ export class MershamNComponent implements OnInit {
             "areaVal",
             new FormControl({ value: this.areaVal, disabled: false })
         );
-        //  ////////debugger
+        //  //////////debugger
         // if(this.areaVal)
         this.PrespictionForm.controls.areaVal.setValue(this.areaVal);
         // else
         //   this.PrespictionForm.controls.areaVal.setValue(0);
-        ////////////debugger
+        //////////////debugger
         this.calcPres();
     }
     open(content, _type, _element) {
         this.ArrayDrus = [];
         this.getDropDownFromServer();
-        //////////////////////debugger
+        ////////////////////////debugger
         this.ROW_ID_PRE = "";
         this.PresRowIdVal = "";
         this.rows = this.formBuilder.array([]);
@@ -1900,7 +1824,7 @@ export class MershamNComponent implements OnInit {
         } else {
             _statusNotToDo = false;
         }
-        ////debugger
+        //////debugger
         this.SensitivityBool = false;
         this.PrespictionForm = this.formBuilder.group({
             weightVal: [null, Validators.required],
@@ -1931,13 +1855,13 @@ export class MershamNComponent implements OnInit {
             backdrop: "static",
             keyboard: false,
         };
-        //////////////////////debugger
+        ////////////////////////debugger
         this.modalService.open(content, ngbModalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////////////////////////debugger
+                //////////////////////////////debugger
                 if ("Save" == result) {
-                    // //////////////////////////debugger;
+                    // ////////////////////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -1947,9 +1871,10 @@ export class MershamNComponent implements OnInit {
         );
     }
     openRow(content, _type, _element) {
+        //debugger
         this.EDIT_ROW = false;
         this.ROW_ID_IN_TABLE = this.rows.length;
-        //////////////////debugger
+        ////////////////////debugger
         //this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
         const row = this.formBuilder.group({
             noteVal: ["", false],
@@ -1979,9 +1904,9 @@ export class MershamNComponent implements OnInit {
         // this.modalService.open(content, this.modalOptions).result.then(
         //     (result) => {
         //         this.closeResult = `Closed with: ${result}`;
-        //         ////////////////////////////debugger
+        //         //////////////////////////////debugger
         //         if ("Save" == result) {
-        //             // //////////////////////////debugger;
+        //             // ////////////////////////////debugger;
         //             //this.saveChad(_element.ROW_ID);
         //         }
         //     },
@@ -2009,7 +1934,7 @@ export class MershamNComponent implements OnInit {
     }
 
     public getDropDownFromServer() {
-        //////////////////////////debugger
+        ////////////////////////////debugger
 
         this.http
             .post(
@@ -2029,16 +1954,16 @@ export class MershamNComponent implements OnInit {
                 this.MedList = this.MedListConst = JSON.parse(json["MedList"]);
                 this.Days_Protocol = JSON.parse(json["Days_Protocol"]);
                 this.Notes = JSON.parse(json["Notes"]);
-                //////////////////////////debugger
+                ////////////////////////////debugger
             });
     }
 
     public getPresFromServer(_presID: string) {
         this.getDropDownFromServer();
-        //////////////////////////debugger
+        ////////////////////////////debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////////////////////////debugger
+            // ////////////////////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -2047,7 +1972,7 @@ export class MershamNComponent implements OnInit {
                 ID: _presID,
             })
             .subscribe((Response) => {
-                //////////////debugger
+                ////////////////debugger
                 this.rows = this.formBuilder.array([]);
                 this.PrespictionFormRow = this.formBuilder.group({
                     SrcPresRows: this.rows,
@@ -2061,9 +1986,9 @@ export class MershamNComponent implements OnInit {
                 this.ArrayDrus = [];
                 this.drugs = [];
                 this.tableDataPresPrint = [];
-                //debugger;
+                ////debugger;
                 for (var i = 0; i < Medicine_Prescriptions.length; i++) {
-                    // ////////////////////debugger
+                    // //////////////////////debugger
                     /*
                      */
                     var clc = "";
@@ -2084,7 +2009,7 @@ export class MershamNComponent implements OnInit {
                         groupID = this.MedList[d].groupID;
                     }
 
-                    //  ////////////////////debugger
+                    //  //////////////////////debugger
                     const row = this.formBuilder.group({
                         noteVal: [
                             {
@@ -2181,7 +2106,7 @@ export class MershamNComponent implements OnInit {
 
                     this.ArrayDrus.push(this.MedListConst);
 
-                    //////debugger
+                    ////////debugger
                     this.tableDataPresPrint.push({
                         noteVal: Medicine_Prescriptions[i].ChangeNotes,
                         Dosage_UnitVal: Medicine_Prescriptions[i].DosingUnit,
@@ -2203,7 +2128,7 @@ export class MershamNComponent implements OnInit {
                         rowIdPreVal: Medicine_Prescriptions[i].MedicinID,
                         newRow: false,
                     });
-                    ////debugger
+                    //////debugger
                     if (
                         clc != "" &&
                         clc != "0" &&
@@ -2229,9 +2154,9 @@ export class MershamNComponent implements OnInit {
                     this.tableDataPresPrint
                 );
                 // this.tableDataSrcPres = new MatTableDataSource(this.tableDataPres);
-                ////////////////////debugger;
+                //////////////////////debugger;
                 setTimeout(function () {
-                    ////////////////////////////debugger
+                    //////////////////////////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -2248,10 +2173,10 @@ export class MershamNComponent implements OnInit {
         _FreeText: string
     ) {
         this.getDropDownFromServer();
-        //////////////////////////debugger
+        ////////////////////////////debugger
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////////////////////////debugger
+            // ////////////////////////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         } else {
@@ -2259,8 +2184,8 @@ export class MershamNComponent implements OnInit {
         }
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographData",
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographData",
+                //"http://localhost:64964/WebService.asmx/GetDemographDataNew",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographDataNew",
                 {
                     _id: _FreeText,
                     _pageIndex: _pageIndex,
@@ -2272,7 +2197,7 @@ export class MershamNComponent implements OnInit {
                 var json = JSON.parse(JSON.parse(Response["d"]));
                 let DataPrecpiction = JSON.parse(json["Prescriptions"]);
                 let Patient = JSON.parse(json["Patient"]);
-                //////////////////////////debugger
+                ////////////////////////////debugger
                 this.DemographData = Patient;
                 if (this.DemographData[0]) {
                     this.FIRST_NAME_In = this.FIRST_NAME =
@@ -2302,14 +2227,14 @@ export class MershamNComponent implements OnInit {
                         .prop("disabled", true);
                 }
 
-                ////////////////////////////debugger
+                //////////////////////////////debugger
                 for (var i = 0; i < DataPrecpiction.length; i++) {
-                    //////debugger;
+                    ////////debugger;
                     var ShowRow = false;
                     if (DataPrecpiction[i].Status == "נעול") {
                         ShowRow = true;
                     } else if (this.prem) {
-                        // ////debugger
+                        // //////debugger
                         ShowRow = true;
                     } else {
                         ShowRow = false;
@@ -2356,6 +2281,7 @@ export class MershamNComponent implements OnInit {
                         Case_Number: DataPrecpiction[i].Case_Number,
                         Depart: DataPrecpiction[i].Depart,
                         Seode_Depart: DataPrecpiction[i].Seode_Depart,
+                        ParentRowId: DataPrecpiction[i].ParentRowId,
                         hideOrShow: ShowRow,
                     });
                     switch (DataPrecpiction[i].Status) {
@@ -2367,16 +2293,16 @@ export class MershamNComponent implements OnInit {
                     }
                 }
 
-                // //////////////////////////debugger
+                // ////////////////////////////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 var loadModalAfterCopy = this.loadModalAfterCopy;
                 var that = this;
                 this.loadModalAfterCopy = false;
                 setTimeout(function () {
-                    ////////////////////////////debugger
+                    //////////////////////////////debugger
                     if (that.loadModalAfterClose) {
-                        ////////debugger
+                        //////////debugger
                         var rowToLoad = $(document).find(
                             "#formTable tbody>tr>td:contains(" +
                                 that.ROW_ID_PRE +
@@ -2397,7 +2323,7 @@ export class MershamNComponent implements OnInit {
             });
     }
     public getAllProtocols() {
-        // ////debugger
+        // //////debugger
 
         this.http
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllProtocols", {
@@ -2411,8 +2337,13 @@ export class MershamNComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.Protocols = Response["d"];
-
-                //debugger
+                this.searchProtocols = this.Protocols;
+                ////debugger
             });
+    }
+   
+    searchInProtocols(value: string) { 
+        let filter = value.toLowerCase();
+        return this.Protocols.filter(option => option.ProtocolName.toLowerCase().startsWith(filter));
     }
 }
