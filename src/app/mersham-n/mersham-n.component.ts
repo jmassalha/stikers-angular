@@ -464,19 +464,20 @@ export class MershamNComponent implements OnInit {
         this.getDropDownFromServer();
         //this.cdRef.detectChanges();
     }
-    onSearchProtocol(event){
-        console.log(event)
+    onSearchProtocol(event) {
+        console.log(event);
         this.searchProtocols = this.searchInProtocols(event);
-
     }
     protocolChanged(selected) {
-     //   //debugger
+        //   //debugger
         //this.tableDataSrcPres = new MatTableDataSource(this.tableDataPresPrint);
         this.rows = this.formBuilder.array([]);
         this.PrespictionFormRow = this.formBuilder.group({
             SrcPresRows: this.rows,
         });
-        this.PrespictionForm.patchValue({protocolVal:selected.value.ProtocolName});
+        this.PrespictionForm.patchValue({
+            protocolVal: selected.value.ProtocolName,
+        });
         this.updateView();
         this.tableDataPres.splice(0, this.tableDataPres.length);
         this.ArrayDrus = [];
@@ -962,31 +963,34 @@ export class MershamNComponent implements OnInit {
         });
     }
     delete(c, type) {
-        //  ////////////////////debugger
+        debugger
         if (type == "true") {
             var d = this.rows.value.findIndex((obj) => {
                 return obj.rowIdPreVal === this.DeleteRowId;
             });
             //////////////////debugger
-            if (this.rows.value[d].newRow == "false") {
-                this.http
-                    .post(
-                        "http://srv-apps-prod/RCF_WS/WebService.asmx/DeletePresRowInside",
-                        {
-                            _rowID: this.DeleteRowId,
-                        }
-                    )
-                    .subscribe((Response) => {
-                        //this.getReport("");
-                        setTimeout(function () {
-                            // $("#loader").addClass("d-none");
-                            //this.DeleteRowId = "";
-                            //this.openSnackBar("נמחק בהצלחה", "success");
-                        }, 500);
-                    });
+            if (d != -1) {
+                if (this.rows.value[d].newRow == "false") {
+                    this.http
+                        .post(
+                            "http://srv-apps-prod/RCF_WS/WebService.asmx/DeletePresRowInside",
+                            {
+                                _rowID: this.DeleteRowId,
+                            }
+                        )
+                        .subscribe((Response) => {
+                            //this.getReport("");
+                            setTimeout(function () {
+                                // $("#loader").addClass("d-none");
+                                //this.DeleteRowId = "";
+                                //this.openSnackBar("נמחק בהצלחה", "success");
+                            }, 500);
+                        });
+                }
+
+                this.rows.removeAt(d);
             }
 
-            this.rows.removeAt(d);
             this.updateView();
             this.tableDataPresPrint = this.rows.value;
             this.tableDataSrcPresPrint = new MatTableDataSource(
@@ -1061,7 +1065,9 @@ export class MershamNComponent implements OnInit {
         c("close modal");
     }
     deleteRow(content, _type, _element, rowIdx) {
-        this.ArrayDrus.splice(rowIdx, 1);
+       // debugger;
+        //this.PrespictionFormRow.value.SrcPresRows.splice(rowIdx, 1);
+        //this.rows.value.splice(rowIdx, 1)
         this.DeleteRowId = _element.value.rowIdPreVal;
         this.modalOptions = {
             windowClass: "custom-class",
@@ -1084,7 +1090,7 @@ export class MershamNComponent implements OnInit {
 
     deletePerRow(content, _type, _element) {
         //  //////////////////debugger
-        //////////////////////debugger
+        debugger;
         this.DeletePreRowId = _element.PerscriptionID;
         this.modalOptions = {
             windowClass: "custom-class",
@@ -1430,14 +1436,16 @@ export class MershamNComponent implements OnInit {
         //}
     }
     copyRowPres(element) {
-         ////debugger
+        ////debugger
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
-        }  
+        }
         this.http
             //.post("http://localhost:64964/WebService.asmx/SubmitCopyPrecpiction",                {
-              .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCopyPrecpiction", {
-                    prentFromId: element.currentTarget.attributes["id"].value,                    
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCopyPrecpiction",
+                {
+                    prentFromId: element.currentTarget.attributes["id"].value,
                     loginUserName: localStorage
                         .getItem("loginUserName")
                         .toLowerCase(),
@@ -1451,9 +1459,9 @@ export class MershamNComponent implements OnInit {
                 // $("#loader").addClass("d-none");
                 // }
             });
-        this.modalService.dismissAll();      
+        this.modalService.dismissAll();
     }
-    
+
     LoopWithDelay(ParentFrom, tableFrom, lDay, realDate) {
         let that = this;
         setTimeout(function () {
@@ -1714,8 +1722,10 @@ export class MershamNComponent implements OnInit {
         };
         this.http
             //.post(  "http://localhost:64964/WebService.asmx/SubmitPrecpictionNew",{
-             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNew", {
-                    prentFromId: '',
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNew",
+                {
+                    prentFromId: "",
                     ParentFrom: ParentFrom,
                     tableFrom: tableFrom,
                     mPatientDetails: this.mPatientDetails,
@@ -2341,9 +2351,11 @@ export class MershamNComponent implements OnInit {
                 ////debugger
             });
     }
-   
-    searchInProtocols(value: string) { 
+
+    searchInProtocols(value: string) {
         let filter = value.toLowerCase();
-        return this.Protocols.filter(option => option.ProtocolName.toLowerCase().startsWith(filter));
+        return this.Protocols.filter((option) =>
+            option.ProtocolName.toLowerCase().startsWith(filter)
+        );
     }
 }

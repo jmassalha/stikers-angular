@@ -226,8 +226,8 @@ export class DrugsComponent implements OnInit {
         debugger
         this.http
             .post(
-                "http://localhost:64964/WebService.asmx/insertOrUpdateDrug",
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug",
+               // "http://localhost:64964/WebService.asmx/insertOrUpdateDrug",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug",
                 {
                     drugRow: this.drugForm.value,
                 }
