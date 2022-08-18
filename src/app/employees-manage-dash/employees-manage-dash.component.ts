@@ -71,11 +71,11 @@ export class EmployeesManageDashComponent implements OnInit {
       })
       .subscribe((Response) => {
         let type = Response["d"];
-        if (type == "1") {
+        if (type == "1" || type == "3") {
           this.managerType = "admin";
         } else if (this.UserName == "dporat") {
           this.managerType = "unknown";
-        } else if (type == "2" || type == "3") {
+        } else if (type == "2") {
           this.managerType = "research";
         } else if (this.UserName == "olari") {
           this.managerType = "hr";

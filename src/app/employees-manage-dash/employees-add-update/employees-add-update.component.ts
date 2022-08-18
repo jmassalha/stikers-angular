@@ -62,7 +62,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
     } else if (this.managerType == "research") {
       WorkPlaceID = "2";
     }
-    
+
     this.getSektorsList();
     this.employeePersonalDetails = this.formBuilder.group({
       RowID: new FormControl(this.employee.RowID, null),
@@ -112,7 +112,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
       AcceptTerms: new FormControl(this.employee.AcceptTerms, null),
       Toranot: new FormControl(this.employee.Toranot, null),
     });
-    if(this.employee.RowID == null){
+    if (this.employee.RowID == null || this.employee.StatusRow == "1") {
       this.employeePersonalDetails.controls['FirstNameEng'].setValidators(Validators.required);
       this.employeePersonalDetails.controls['LastNameEng'].setValidators(Validators.required);
     }
@@ -133,13 +133,17 @@ export class EmployeesAddUpdateComponent implements OnInit {
   switchHTOK() {
     if (this._switchHTOK != "1") {
       this._switchHTOK = "1";
+      this.employeePersonalDetails.controls['FirstNameEng'].setValidators(Validators.required);
+      this.employeePersonalDetails.controls['LastNameEng'].setValidators(Validators.required);
       this.employeeWorkDetails.controls['StatusRow'].setValue(this._switchHTOK);
     } else {
       this._switchHTOK = "0";
+      this.employeePersonalDetails.controls['FirstNameEng'].setValidators(null);
+      this.employeePersonalDetails.controls['LastNameEng'].setValidators(null);
       this.employeeWorkDetails.controls['StatusRow'].setValue(this._switchHTOK);
     }
   }
-  
+
   switchBlossom() {
     if (this._switchBlossom != "1") {
       this._switchBlossom = "1";
@@ -150,13 +154,13 @@ export class EmployeesAddUpdateComponent implements OnInit {
     }
   }
 
-  markRequiredFields(){
+  markRequiredFields() {
     this.employeePersonalDetails.controls['EmployeeID'].markAsTouched();
     this.employeePersonalDetails.controls['FirstName'].markAsTouched();
     this.employeePersonalDetails.controls['LastName'].markAsTouched();
     this.employeePersonalDetails.controls['CellNumber'].markAsTouched();
     this.employeePersonalDetails.controls['DateOfBirth'].markAsTouched();
-    if(this.employee.RowID == null){
+    if (this.employee.RowID == null) {
       this.employeePersonalDetails.controls['FirstNameEng'].markAsTouched();
       this.employeePersonalDetails.controls['LastNameEng'].markAsTouched();
     }
@@ -362,10 +366,15 @@ export class EmployeesAddUpdateComponent implements OnInit {
     this.employeeWorkDetails.controls['DocStartExperience'].setValue(pipe.transform(this.employeeWorkDetails.controls['DocStartExperience'].value, 'yyyy-MM-dd'));
     this.employeeWorkDetails.controls['EndWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['EndWorkDate'].value, 'yyyy-MM-dd'));
     this.employeePersonalDetails.controls['DateOfBirth'].setValue(pipe.transform(this.employeePersonalDetails.controls['DateOfBirth'].value, 'yyyy-MM-dd'));
-    if(this.employeeWorkDetails.controls['StatusRow'].value == null){
+    if (this.employeeWorkDetails.controls['StatusRow'].value == null || this.employeeWorkDetails.controls['StatusRow'].value == "0") {
       this.employeeWorkDetails.controls['StatusRow'].setValue('0');
+      this.employeePersonalDetails.controls['FirstNameEng'].setValidators(null);
+      this.employeePersonalDetails.controls['LastNameEng'].setValidators(null);
+    } else if (this.employeeWorkDetails.controls['StatusRow'].value == "1") {
+      this.employeePersonalDetails.controls['FirstNameEng'].setValidators(Validators.required);
+      this.employeePersonalDetails.controls['LastNameEng'].setValidators(Validators.required);
     }
-    if (!this.employeeWorkDetails.invalid) {
+    if (!this.employeeWorkDetails.invalid && !this.employeePersonalDetails.invalid) {
       this.http
         .post(this.Api + "SaveEmployeeDetails", {
           _personalDetails: this.employeePersonalDetails.getRawValue(),
