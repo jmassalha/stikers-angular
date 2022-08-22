@@ -25,7 +25,6 @@ export class GroupedBarChartReleaseComponent implements OnInit {
   percent: boolean = false;
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
-  @Input() releasePatient: string;
   _releasePatient: string;
   _averageBefore: any = 0;
   _averageAfter: any = 0;
@@ -56,6 +55,10 @@ export class GroupedBarChartReleaseComponent implements OnInit {
     this._returnedPatients = _returnedPatients;
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
+  }
+
+  test(){
+    console.log("Works");
   }
 
   ngOnInit(): void {

@@ -43,6 +43,7 @@ export interface Poria_Maternity {
     MaternityInsertUser: string;
     MaternityUpdateUser: string;
     MaternityStatus: string;
+    ParentProject: string;
     ProjectCost: string;
 }
 export interface Poria_MaternityPatients {
@@ -95,6 +96,7 @@ export class MaternityComponent implements OnInit {
     private activeModal: NgbActiveModal;
     modalOptions: NgbModalOptions;
     closeResult: string;
+    ParentProjectsList = [];
     TABLE_DATA: Poria_Maternity[] = [];
     rowFormData = {} as Poria_Maternity;
     dataSource = new MatTableDataSource(this.TABLE_DATA);
@@ -107,6 +109,7 @@ export class MaternityComponent implements OnInit {
     maternityForm: FormGroup;
     submitted = false;
     perm: Boolean = false;
+    url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
     constructor(
         private _snackBar: MatSnackBar,
         private router: Router,
@@ -142,6 +145,7 @@ export class MaternityComponent implements OnInit {
             MaternityNumber: ["", Validators.required],
             MaternityName: ["", Validators.required],
             MaternityStatus: ["", Validators.required],
+            ParentProject: ["", Validators.required],
             ProjectCost: ["", Validators.required],
             MaternityInsertUser: [
                 localStorage.getItem("loginUserName"),
@@ -176,7 +180,7 @@ export class MaternityComponent implements OnInit {
         //debugger;
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternity",
+                this.url + "InsertOrUpdateMaternity",
                 {
                     _maternityForm: this.maternityForm.value,
                 }
@@ -241,6 +245,10 @@ export class MaternityComponent implements OnInit {
                 _element.MaternityStatus + "",
                 Validators.required,
             ],
+            ParentProject: [
+                _element.ParentProject + "",
+                null,
+            ],
             ProjectCost: [_element.ProjectCost, Validators.required],
             MaternityUpdateUser: [
                 localStorage.getItem("loginUserName"),
@@ -284,6 +292,15 @@ export class MaternityComponent implements OnInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
+    getParentProjects() {
+        this.http
+            .post(this.url + "GetParentMaternityProjects", {
+            })
+            .subscribe((Response) => {
+                this.ParentProjectsList = Response["d"];
+            });
+    }
+
     open(content, _type, _element) {
         this.MaternityNumber = "";
         this.MaternityName = "חדש";
@@ -292,6 +309,7 @@ export class MaternityComponent implements OnInit {
             MaternityNumber: ["", Validators.required],
             MaternityName: ["", Validators.required],
             MaternityStatus: ["1", Validators.required],
+            ParentProject: ["", Validators.required],
             ProjectCost: ["", Validators.required],
             MaternityInsertUser: [
                 localStorage.getItem("loginUserName"),
@@ -351,7 +369,7 @@ export class MaternityComponent implements OnInit {
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMaternityTable", {
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMaternityTable", {
+            .post(this.url + "GetMaternityTable", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _freeText: _FreeText,
@@ -377,6 +395,7 @@ export class MaternityComponent implements OnInit {
                         MaternityUpdateUser:
                             Poria_Maternity[i].MaternityUpdateUser,
                         MaternityStatus: Poria_Maternity[i].MaternityStatus,
+                        ParentProject: Poria_Maternity[i].ParentProject,
                         ProjectCost: Poria_Maternity[i].ProjectCost,
                     });
                 }
