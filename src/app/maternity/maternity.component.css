@@ -9,3 +9,7 @@
     border-top: 3px solid #341d5c;
     padding-top: 20px;;
 }
+table th.mat-header-cell{
+    text-align: center;
+    width: 24%;
+}

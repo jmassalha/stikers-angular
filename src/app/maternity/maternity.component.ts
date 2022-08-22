@@ -86,6 +86,7 @@ export class MaternityComponent implements OnInit {
         "MaternityName",
         "MaternityStatus",
         "ProjectCost",
+        "CLICK_PROJ_CHILD",
         "CLICK",
         "CLICK_PATIENT",
         "SEND_SMS_PATIENT",
@@ -97,6 +98,7 @@ export class MaternityComponent implements OnInit {
     modalOptions: NgbModalOptions;
     closeResult: string;
     ParentProjectsList = [];
+    ChildrenProjectsList = [];
     TABLE_DATA: Poria_Maternity[] = [];
     rowFormData = {} as Poria_Maternity;
     dataSource = new MatTableDataSource(this.TABLE_DATA);
@@ -107,6 +109,7 @@ export class MaternityComponent implements OnInit {
     fliterVal = "";
     activeOrNot = "";
     maternityForm: FormGroup;
+    parentCheckBox: any = true;
     submitted = false;
     perm: Boolean = false;
     url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
@@ -145,7 +148,7 @@ export class MaternityComponent implements OnInit {
             MaternityNumber: ["", Validators.required],
             MaternityName: ["", Validators.required],
             MaternityStatus: ["", Validators.required],
-            ParentProject: ["", Validators.required],
+            ParentProject: ["", null],
             ProjectCost: ["", Validators.required],
             MaternityInsertUser: [
                 localStorage.getItem("loginUserName"),
@@ -202,6 +205,17 @@ export class MaternityComponent implements OnInit {
         let dialog = this.modalService.open(MaternitypatientsComponent, this.modalOptions);
         dialog.componentInstance.MaternityRowId = _element.RowID;
         dialog.componentInstance.MaternityName = 'בפרויקט ' + _element.MaternityName;
+    }
+
+    parentCheckFunc(event) {
+        if (event) {
+            this.maternityForm.controls['ParentProject'].clearValidators();
+        } else {
+            // if (this.maternityForm.controls['ParentProject'].value == "") {
+            //     this.maternityForm.controls['ParentProject'].setValue(null);
+            // }
+            this.maternityForm.controls['ParentProject'].setValidators([Validators.required]);
+        }
     }
 
     SendSmsToPatient(content, _type, _element) {
@@ -301,6 +315,16 @@ export class MaternityComponent implements OnInit {
             });
     }
 
+    getChildrenProjects(rowID) {
+        this.http
+            .post(this.url + "GetChildrenMaternityProjects", {
+                ParentID: rowID
+            })
+            .subscribe((Response) => {
+                this.ChildrenProjectsList = Response["d"];
+            });
+    }
+
     open(content, _type, _element) {
         this.MaternityNumber = "";
         this.MaternityName = "חדש";
@@ -309,7 +333,7 @@ export class MaternityComponent implements OnInit {
             MaternityNumber: ["", Validators.required],
             MaternityName: ["", Validators.required],
             MaternityStatus: ["1", Validators.required],
-            ParentProject: ["", Validators.required],
+            ParentProject: ["", null],
             ProjectCost: ["", Validators.required],
             MaternityInsertUser: [
                 localStorage.getItem("loginUserName"),
