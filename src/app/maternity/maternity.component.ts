@@ -105,6 +105,7 @@ export class MaternityComponent implements OnInit {
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     loader: Boolean;
     tableLoader: Boolean;
+    userName = localStorage.getItem("loginUserName");
     resultsLength = 0;
     departStatus = 0;
     fliterVal = "";

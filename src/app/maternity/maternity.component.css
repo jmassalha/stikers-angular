@@ -5,6 +5,11 @@
     left: 43px;
     z-index: 10;
 }
+#submaternityBtn{
+    bottom: 6px;
+    left: 20px;
+    z-index: 10;
+}
 .group-border{
     border-top: 3px solid #341d5c;
     padding-top: 20px;;

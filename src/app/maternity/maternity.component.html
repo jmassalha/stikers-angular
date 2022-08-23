@@ -99,6 +99,7 @@
                                 <td mat-cell *matCellDef="let element">
                                     <div class="example-button-container">
                                         <button class="row-data" mat-mini-fab color="primary"
+                                            [disabled]="userName != 'adahabre'"
                                             (click)="open(subProjects, 'maternity', element.MaternityName); getChildrenProjects(element.RowID)">
                                             <span class="material-icons">
                                                 view_list
@@ -182,7 +183,8 @@
 <ng-template #subProjects let-modal>
     <form dir="rtl" id="maternityFormID" class="form col" [formGroup]="maternityForm">
         <div class="modal-header text-right">
-            <h4 class="modal-title text-center"><span class="d-none1">תתי פרויקטים של - </span><span>{{ ParentProjectName
+            <h4 class="modal-title text-center"><span class="d-none1">תתי פרויקטים של - </span><span>{{
+                    ParentProjectName
                     }}</span>
             </h4>
             <button type="button" class="close" aria-label="Close" (click)="modal.dismiss('Cross click')">
@@ -196,6 +198,8 @@
                         <th scope="col">תיאור פרויקט</th>
                         <th scope="col">עלות</th>
                         <th scope="col">עריכה</th>
+                        <th scope="col">מטופלות</th>
+                        <th scope="col">שליחת SMS</th>
                     </tr>
                 </thead>
                 <tbody>
@@ -210,11 +214,41 @@
                                 </button>
                             </div>
                         </td>
+                        <td>
+                            <div class="example-button-container">
+                                <button (click)="
+                                            showPatient(
+                                                PatientModal,
+                                                'PatientDetails',
+                                                subProj
+                                            )
+                                        " class="row-data" mat-mini-fab color="primary">
+                                    <mat-icon>night_shelter</mat-icon>
+                                </button>
+                            </div>
+                        </td>
+                        <td>
+                            <div class="example-button-container">
+                                <button *ngIf="subProj.MaternityStatus == 1" (click)="
+                                            SendSmsToPatient(
+                                                SendSmsToPatientModal,
+                                                'SendSmsToPatientDetails',
+                                                subProj
+                                            )
+                                        " class="row-data" mat-mini-fab color="primary">
+                                    <mat-icon>textsms</mat-icon>
+                                </button>
+                            </div>
+                        </td>
                     </tr>
                 </tbody>
             </table>
         </div>
     </form>
+    <button type="button" id="submaternityBtn" (click)="open(maternityModal, 'maternity', ''); getParentProjects();"
+        mat-fab color="primary">
+        <i class="material-icons">add</i>
+    </button>
 </ng-template>
 
 <ng-template #maternityModal let-modal>
