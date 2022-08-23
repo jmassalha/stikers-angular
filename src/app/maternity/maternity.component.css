@@ -13,3 +13,9 @@ table th.mat-header-cell{
     text-align: center;
     width: 24%;
 }
+thead{
+    text-align: center;
+}
+tbody{
+    text-align: center;
+}

@@ -93,6 +93,7 @@ export class MaternityComponent implements OnInit {
     ];
     ProjectNumber;
     ProjectName;
+    ParentProjectName: string;
     pemAdmin = 2;
     private activeModal: NgbActiveModal;
     modalOptions: NgbModalOptions;
@@ -211,9 +212,6 @@ export class MaternityComponent implements OnInit {
         if (event) {
             this.maternityForm.controls['ParentProject'].clearValidators();
         } else {
-            // if (this.maternityForm.controls['ParentProject'].value == "") {
-            //     this.maternityForm.controls['ParentProject'].setValue(null);
-            // }
             this.maternityForm.controls['ParentProject'].setValidators([Validators.required]);
         }
     }
@@ -249,6 +247,9 @@ export class MaternityComponent implements OnInit {
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
+        if (_type == "subProjEdit") {
+            this.parentCheckBox = false;
+        }
         this.MaternityName = _element.MaternityName;
         this.MaternityNumber = _element.MaternityNumber;
         ////debugger;
@@ -260,7 +261,7 @@ export class MaternityComponent implements OnInit {
                 Validators.required,
             ],
             ParentProject: [
-                _element.ParentProject + "",
+                _element.ParentProject,
                 null,
             ],
             ProjectCost: [_element.ProjectCost, Validators.required],
@@ -328,6 +329,7 @@ export class MaternityComponent implements OnInit {
     open(content, _type, _element) {
         this.MaternityNumber = "";
         this.MaternityName = "חדש";
+        this.ParentProjectName = _element;
         //////debugger;
         this.maternityForm = this.formBuilder.group({
             MaternityNumber: ["", Validators.required],

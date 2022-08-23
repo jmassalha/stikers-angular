@@ -67,13 +67,13 @@ export class GalitPointsReportComponent implements OnInit {
     let that = this;
     that.paginator._changePageSize(300);
     setTimeout(function () {
-      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;} tr{box-shadow: 0px 1px 5px 3px;}</style>"
+      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;box-shadow: 0px 1px 0px 2px;} /*td{box-shadow: 0px 1px 4px 3px;}*/</style>"
       var printContents = that.printmycontent.nativeElement.innerHTML;
       style += printContents;
       var w = window.open();
       w.document.write(style);
       w.print();
-      // w.close();
+      w.close();
       that.paginator._changePageSize(5);
     }, 1000);
   }

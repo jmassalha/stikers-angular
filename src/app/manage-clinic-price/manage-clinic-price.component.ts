@@ -27,7 +27,7 @@ export interface Services {
 })
 export class ManageClinicPriceComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['code', 'name', 'quantity'];
+  displayedColumns: string[] = ['code', 'name', 'price', 'quantity'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -68,6 +68,7 @@ export class ManageClinicPriceComponent implements OnInit {
   print: boolean = false;
   userDR: boolean = false;
   displayArr = this.fb.array([]);
+  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
   UserName = localStorage.getItem("loginUserName").toLowerCase();
 
   ngOnInit(): void {
@@ -102,7 +103,7 @@ export class ManageClinicPriceComponent implements OnInit {
     if (this.ifEdit == 1) {
       passport = this.PatientElement.PersonID;
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPatientDetailsFromClinicsDB", {
+        .post(this.url + "GetPatientDetailsFromClinicsDB", {
           _patientPassport: passport
         })
         .subscribe((Response) => {
@@ -185,7 +186,7 @@ export class ManageClinicPriceComponent implements OnInit {
     let patientRowID = this.PatientElement.Row_ID;
     let recordVersion = this.versionSelection;
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsServices", {
+      .post(this.url + "GetClinicsServices", {
         _departmentNumber: departNumber,
         _patientRowID: patientRowID,
         _recordVersion: recordVersion,
@@ -206,7 +207,7 @@ export class ManageClinicPriceComponent implements OnInit {
             ServiceId: [i, null],
             ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
             ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
-            ServicePrice: [{ value: relevantServices[i].ServicePrice, disabled: true }, null],
+            ServicePrice: [{ value: relevantServices[i].ServicePrice / 100, disabled: true }, null],
             ServiceQuantity: [relevantServices[i].ServiceQuantity, null],
           });
           let serialNumber = {
@@ -268,7 +269,7 @@ export class ManageClinicPriceComponent implements OnInit {
     });
     if (serviceCtrl.controls['ServiceQuantity'].value > 0) {
       this.selectedServices.push(serviceCtrl);
-    } 
+    }
   }
 
   onSubmit() {
@@ -280,7 +281,7 @@ export class ManageClinicPriceComponent implements OnInit {
     } else {
       if (!this.servicesFormGroup.invalid) {
         this.http
-          .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendTreatmentToReception", {
+          .post(this.url + "SendTreatmentToReception", {
             _patientDetails: this.detailsFormGroup.getRawValue(),
             _serviceDetails: this.servicesFormGroup.getRawValue(),
             _ifEdit: this.ifEdit,
@@ -306,7 +307,7 @@ export class ManageClinicPriceComponent implements OnInit {
 
   getDepartments() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetClinicsPricingDeparts", {
+      .post(this.url + "GetClinicsPricingDeparts", {
       })
       .subscribe((Response) => {
         let clinicsDeparts = [];
