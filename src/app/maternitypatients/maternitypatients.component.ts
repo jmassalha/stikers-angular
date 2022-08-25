@@ -2,14 +2,12 @@ import {
     Component,
     OnInit,
     ViewChild,
-    AfterViewInit,
     Input,
     TemplateRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatRadioChange } from "@angular/material/radio";
 import {
     MatSnackBar,
     MatSnackBarHorizontalPosition,
@@ -25,8 +23,7 @@ import {
     NgbActiveModal,
 } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
-import * as Fun from "../public.functions";
-import { formatDate, Time } from "@angular/common";
+import { formatDate } from "@angular/common";
 import {
     FormControl,
     FormBuilder,
@@ -35,7 +32,6 @@ import {
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
 import { MatDialog } from "@angular/material/dialog";
-import { MaternityComponent } from "../maternity/maternity.component";
 import * as XLSX from 'xlsx';
 
 export interface MaternityPatients {
@@ -114,7 +110,6 @@ export class MaternitypatientsComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalServicematernitypatients: NgbModal,
-
         private confirmationDialogService: ConfirmationDialogService,
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal
@@ -139,9 +134,19 @@ export class MaternitypatientsComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-
+        this.getMaternityNewPatientsAlert();
         this.getReportmaternitypatients(this);
     }
+
+    getMaternityNewPatientsAlert() {
+        this.http
+            .post(this.Api + "GetMaternityNewPatientsAlert", {
+            })
+            .subscribe((Response) => {
+                console.log(Response["d"]);
+            });
+    }
+
     openSnackBar(message) {
         this._snackBar.open(message, "", {
             duration: 2500,

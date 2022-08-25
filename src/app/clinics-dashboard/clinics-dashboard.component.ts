@@ -243,7 +243,7 @@ export class ClinicsDashboardComponent implements OnInit {
     if (printAfter) {
       this.searchPatientProgressBar = false;
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRecordAndPatients", {
+        .post(this.url + "GetRecordAndPatients", {
           _patientPassport: passport
         })
         .subscribe((Response) => {

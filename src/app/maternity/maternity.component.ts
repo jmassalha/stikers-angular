@@ -14,7 +14,7 @@ import {
     MatSnackBarHorizontalPosition,
     MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
-import { formatDate } from "@angular/common";
+import { DatePipe, formatDate } from "@angular/common";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 
@@ -45,6 +45,12 @@ export interface Poria_Maternity {
     MaternityStatus: string;
     ParentProject: string;
     ProjectCost: string;
+    StartProjectTime: string;
+    EndProjectTime: string;
+    ModeratorName: string;
+    ProjectDate: string;
+    Location: string;
+    additionalProjectDate: string;
 }
 export interface Poria_MaternityPatients {
     RowID: number;
@@ -84,8 +90,10 @@ export class MaternityComponent implements OnInit {
         //"RowID", //"D_PERIOD_TO_REPLACE",
         "MaternityNumber",
         "MaternityName",
-        "MaternityStatus",
+        "ProjectDate",
+        "ProjectLocation",
         "ProjectCost",
+        "MaternityStatus",
         "CLICK_PROJ_CHILD",
         "CLICK",
         "CLICK_PATIENT",
@@ -100,6 +108,7 @@ export class MaternityComponent implements OnInit {
     closeResult: string;
     ParentProjectsList = [];
     ChildrenProjectsList = [];
+    NewPatientsAlertList = [];
     TABLE_DATA: Poria_Maternity[] = [];
     rowFormData = {} as Poria_Maternity;
     dataSource = new MatTableDataSource(this.TABLE_DATA);
@@ -116,6 +125,7 @@ export class MaternityComponent implements OnInit {
     perm: Boolean = false;
     url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
     constructor(
+        public datePipe: DatePipe,
         private _snackBar: MatSnackBar,
         private router: Router,
         private http: HttpClient,
@@ -150,8 +160,14 @@ export class MaternityComponent implements OnInit {
             MaternityNumber: ["", Validators.required],
             MaternityName: ["", Validators.required],
             MaternityStatus: ["", Validators.required],
-            ParentProject: ["", null],
+            ParentProject: ["1", null],
             ProjectCost: ["", Validators.required],
+            StartProjectTime: ["", null],
+            EndProjectTime: ["", null],
+            ModeratorName: ["", null],
+            ProjectDate: ["", null],
+            Location: ["", null],
+            additionalProjectDate: ["", null],
             MaternityInsertUser: [
                 localStorage.getItem("loginUserName"),
                 Validators.required,
@@ -161,9 +177,10 @@ export class MaternityComponent implements OnInit {
         console.log("sleep");
 
         this.getReport(this);
+        this.getMaternityNewPatientsAlert();
     }
-    openSnackBar() {
-        this._snackBar.open("נשמר בהצלחה", "", {
+    openSnackBar(message) {
+        this._snackBar.open(message, "", {
             duration: 2500,
             direction: "rtl",
             panelClass: "success",
@@ -171,32 +188,55 @@ export class MaternityComponent implements OnInit {
             verticalPosition: this.verticalPosition,
         });
     }
+
+    getMaternityNewPatientsAlert() {
+        this.http
+            .post(this.url + "GetMaternityNewPatientsAlert", {
+            })
+            .subscribe((Response) => {
+                this.NewPatientsAlertList = Response["d"];
+            });
+    }
+
+    setAlertToRead(row) {
+        this.http
+            .post(this.url + "SetMaternityAlertToRead", {
+                Row_ID: row
+            }).subscribe((Response) => {
+                this.getMaternityNewPatientsAlert();
+            });
+    }
+
     onSubmit() {
         this.submitted = true;
-        ////////debugger
 
-        if (this.maternityForm.invalid) {
-            return;
-        }
-        //////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
-        //debugger;
-        this.http
-            .post(
-                this.url + "InsertOrUpdateMaternity",
-                {
-                    _maternityForm: this.maternityForm.value,
-                }
-            )
-            .subscribe((Response) => {
-                this.getReport(null);
-                this.openSnackBar();
-                setTimeout(function () {
-                    $("#loader").addClass("d-none");
+        let pipe = new DatePipe('en-US');
+        // this.maternityForm.controls['StartProjectTime'].setValue(this.datePipe.transform(this.maternityForm.controls['StartProjectTime'].value, 'HH:mm'));
+        // this.maternityForm.controls['EndProjectTime'].setValue(this.datePipe.transform(this.maternityForm.controls['EndProjectTime'].value, 'HH:mm'));
+        this.maternityForm.controls['ProjectDate'].setValue(pipe.transform(this.maternityForm.controls['ProjectDate'].value, 'yyyy-MM-dd'));
+        this.maternityForm.controls['additionalProjectDate'].setValue(pipe.transform(this.maternityForm.controls['additionalProjectDate'].value, 'yyyy-MM-dd'));
+        if (!this.maternityForm.invalid) {
+            this.http
+                .post(
+                    this.url + "InsertOrUpdateMaternity",
+                    {
+                        _maternityForm: this.maternityForm.value,
+                    }
+                )
+                .subscribe((Response) => {
+                    this.getReport(null);
+                    this.openSnackBar("נשמר בהצלחה");
+                    setTimeout(function () {
+                        $("#loader").addClass("d-none");
+                    });
                 });
-            });
+        } else {
+            this.openSnackBar("תקלה, לא נשמר!");
+        }
+
         // display form values on success
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.maternityForm.value, null, 4));
         this.modalService.dismissAll();
@@ -266,6 +306,12 @@ export class MaternityComponent implements OnInit {
                 null,
             ],
             ProjectCost: [_element.ProjectCost, Validators.required],
+            StartProjectTime: [_element.StartProjectTime, null],
+            EndProjectTime: [_element.EndProjectTime, null],
+            ModeratorName: [_element.ModeratorName, null],
+            ProjectDate: [_element.ProjectDate, null],
+            Location: [_element.Location, null],
+            additionalProjectDate: [_element.additionalProjectDate, null],
             MaternityUpdateUser: [
                 localStorage.getItem("loginUserName"),
                 Validators.required,
@@ -336,8 +382,14 @@ export class MaternityComponent implements OnInit {
             MaternityNumber: ["", Validators.required],
             MaternityName: ["", Validators.required],
             MaternityStatus: ["1", Validators.required],
-            ParentProject: ["", null],
+            ParentProject: ["1", null],
             ProjectCost: ["", Validators.required],
+            StartProjectTime: ["", null],
+            EndProjectTime: ["", null],
+            ModeratorName: ["", null],
+            ProjectDate: ["", null],
+            Location: ["", null],
+            additionalProjectDate: ["", null],
             MaternityInsertUser: [
                 localStorage.getItem("loginUserName"),
                 Validators.required,
@@ -424,6 +476,12 @@ export class MaternityComponent implements OnInit {
                         MaternityStatus: Poria_Maternity[i].MaternityStatus,
                         ParentProject: Poria_Maternity[i].ParentProject,
                         ProjectCost: Poria_Maternity[i].ProjectCost,
+                        StartProjectTime: Poria_Maternity[i].StartProjectTime,
+                        EndProjectTime: Poria_Maternity[i].EndProjectTime,
+                        ModeratorName: Poria_Maternity[i].ModeratorName,
+                        ProjectDate: Poria_Maternity[i].ProjectDate,
+                        Location: Poria_Maternity[i].Location,
+                        additionalProjectDate: Poria_Maternity[i].additionalProjectDate
                     });
                 }
 

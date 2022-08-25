@@ -101,10 +101,11 @@ export class ManageClinicPriceComponent implements OnInit {
   searchPatientDetails() {
     let passport;
     if (this.ifEdit == 1) {
-      passport = this.PatientElement.PersonID;
+      passport = this.PatientElement.Row_ID;
       this.http
         .post(this.url + "GetPatientDetailsFromClinicsDB", {
-          _patientPassport: passport
+          _patientPassport: passport,
+          _versionSelected: this.versionSelection
         })
         .subscribe((Response) => {
           let mPersonalDetails = Response["d"];
@@ -289,7 +290,7 @@ export class ManageClinicPriceComponent implements OnInit {
           .subscribe((Response) => {
             let message = Response["d"];
             if (message == "Success") {
-              this.openSnackBar("הצעת טיפול נשלחה בהצלחה");
+              // this.openSnackBar("הצעת טיפול נשלחה בהצלחה");
               this.dialogR.close(true);
             } else if (message == "noServices") {
               this.openSnackBar("לא נשמר, לא נבחרו שירותים עבור המטופל");
