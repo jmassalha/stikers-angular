@@ -850,10 +850,10 @@ export class CprFormComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] != -1) {
             this.openSnackBar("נשמר בהצלחה");
-            // this.linkToNamer(Response["d"]);
-            // this.sendCprFormEmail(Response["d"]);
-            // this.ngOnInit();
-            // this.returnToSearch();
+            this.linkToNamer(Response["d"]);
+            this.sendCprFormEmail(Response["d"]);
+            this.ngOnInit();
+            this.returnToSearch();
           } else {
             this.openSnackBar("אירעה תקלה, לא נשמר!");
           }

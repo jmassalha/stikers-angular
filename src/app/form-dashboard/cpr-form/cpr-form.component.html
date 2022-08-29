@@ -87,7 +87,9 @@
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
                 <div class="col">
-                    <input jpTimeMask formControlName="cprTime" [useUtc]="true" dir="ltr" style="align-self: center;text-align: center;">
+                    <mat-label style="align-self: center;">שעת תחילת ההחייאה</mat-label>
+                    <input formControlName="cprTime" jpTimeMask [useUtc]="true" dir="ltr"
+                        style="align-self: center;text-align: center;">
                 </div>
                 <div class="col" style="display: inline-flex;justify-content: center;place-items: center;">
                     <mat-label style="align-self: center;">הופעל צוות החייאה: </mat-label>
@@ -101,10 +103,9 @@
                     </mat-radio-group>
                 </div>
                 <div class="col">
-                    <mat-form-field>
-                        <mat-label style="align-self: center;">בשעה</mat-label>
-                        <input type="time" matInput formControlName="cprTeamWorkTime" class="form-control" />
-                    </mat-form-field>
+                    <mat-label style="align-self: center;">בשעה</mat-label>
+                    <input formControlName="cprTeamWorkTime" jpTimeMask [useUtc]="true" dir="ltr"
+                        style="align-self: center;text-align: center;" class="form-control" />
                 </div>
             </div>
             <div class="header">
@@ -117,10 +118,9 @@
                     </mat-form-field>
                 </div>
                 <div class="col">
-                    <mat-form-field>
-                        <mat-label style="align-self: center;">שעת הגעה</mat-label>
-                        <input type="time" matInput formControlName="cardiologTime" class="form-control" />
-                    </mat-form-field>
+                    <mat-label style="align-self: center;">שעת הגעה</mat-label>
+                    <input formControlName="cardiologTime" jpTimeMask [useUtc]="true" dir="ltr"
+                        style="align-self: center;text-align: center;" class="form-control" />
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
@@ -128,10 +128,9 @@
                     </mat-form-field>
                 </div>
                 <div class="col">
-                    <mat-form-field>
-                        <mat-label style="align-self: center;">שעת הגעה</mat-label>
-                        <input type="time" matInput formControlName="mardimTime" class="form-control" />
-                    </mat-form-field>
+                    <mat-label style="align-self: center;">שעת הגעה</mat-label>
+                    <input formControlName="mardimTime" jpTimeMask [useUtc]="true" dir="ltr"
+                        style="align-self: center;text-align: center;" class="form-control" />
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
@@ -139,10 +138,9 @@
                     </mat-form-field>
                 </div>
                 <div class="col">
-                    <mat-form-field>
-                        <mat-label style="align-self: center;">שעת הגעה</mat-label>
-                        <input type="time" matInput formControlName="clalitTime" class="form-control" />
-                    </mat-form-field>
+                    <mat-label style="align-self: center;">שעת הגעה</mat-label>
+                    <input formControlName="clalitTime" jpTimeMask [useUtc]="true" dir="ltr"
+                        style="align-self: center;text-align: center;" class="form-control" />
                 </div>
             </div>
             <div class="row">
@@ -248,8 +246,9 @@
                                 <td class="col-1 text-center" *ngFor="let col of firstTablecolumns; let i = index"
                                     [formGroupName]="i">
                                     <mat-label style="align-self: center;">שעה</mat-label>
-                                    <input type="time" placeholder='שעה' style="width: 111%;" formControlName="timeHead"
-                                        class="form-control" />
+                                    <input jpTimeMask [useUtc]="true" dir="ltr"
+                                        style="align-self: center;text-align: center;width: 111%;" placeholder='שעה'
+                                        formControlName="timeHead" class="form-control" />
                                 </td>
                             </tr>
                             <tr formArrayName="subArray">
@@ -343,7 +342,8 @@
                                     <div class="row" [formGroupName]="j">
                                         <input type="text" formControlName="textMed" style="width: 50%;"
                                             class="form-control" />
-                                        <input type="time" formControlName="timeMed" style="width: 50%;"
+                                        <input formControlName="timeMed" jpTimeMask [useUtc]="true" dir="ltr"
+                                            style="align-self: center;text-align: center;width: 50%;"
                                             class="form-control" />
                                     </div>
                                 </td>
@@ -360,7 +360,8 @@
                                 <td> שעת דפיברלציה/היפוך חשמלי</td>
                                 <td class="text-center" *ngFor="let time of secondTablecolumns; let i = index"
                                     [formGroupName]="i">
-                                    <input type="time" formControlName="timeMed" placeholder='שעה'
+                                    <input formControlName="timeMed" jpTimeMask [useUtc]="true" dir="ltr"
+                                        style="align-self: center;text-align: center;" placeholder='שעה'
                                         class="form-control" />
                                 </td>
                             </tr>
@@ -383,10 +384,9 @@
                 <div class="row">
                     <p style="align-self: center;"><b>ג) סיום ההחייאה:</b></p>
                     <div class="col">
-                        <mat-form-field>
-                            <mat-label style="align-self: center;">שעת סיום ההחייאה</mat-label>
-                            <input type="time" matInput formControlName="cprEndTime" class="form-control" />
-                        </mat-form-field>
+                        <mat-label style="align-self: center;">שעת סיום ההחייאה</mat-label>
+                        <input formControlName="cprEndTime" jpTimeMask [useUtc]="true" dir="ltr"
+                            style="align-self: center;text-align: center;" class="form-control" />
                     </div>
                     <div class="col" style="display: inline-flex;justify-content: center;place-items: center;">
                         <mat-label style="align-self: center;">קביעת מוות:</mat-label>
@@ -1021,7 +1021,7 @@
                                         החולה: &nbsp;</p>
                                     <u>{{CprFormsList[0].responsNurse}} - {{CprFormsList[0].managingDocLicence}}</u>
                                 </div>
-                                <img width="100" height="100" [src]="CprFormsList[0].responsNurseLicence">
+                                <img width="100" height="100" [src]="CprFormsList[0].responsNurseSign">
                             </div>
                         </div>
                     </div>
