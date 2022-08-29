@@ -87,10 +87,16 @@
                     <mat-datepicker #picker></mat-datepicker>
                 </div>
                 <div class="col">
+                    <!-- <mat-label style="align-self: center;">שעה</mat-label>
                     <mat-form-field>
                         <mat-label style="align-self: center;">שעה</mat-label>
+                        
                         <input type="time" matInput formControlName="cprTime" class="form-control" required />
-                    </mat-form-field>
+                    </mat-form-field> -->
+                    <mat-form-field appearance="outline">
+                        <mat-label>Input type time</mat-label>
+                        <input type="time" matInput name="week" min="09:00" max="18:00">
+                     </mat-form-field>
                 </div>
                 <div class="col" style="display: inline-flex;justify-content: center;place-items: center;">
                     <mat-label style="align-self: center;">הופעל צוות החייאה: </mat-label>

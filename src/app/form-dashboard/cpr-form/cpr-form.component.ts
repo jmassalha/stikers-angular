@@ -49,8 +49,9 @@ export class CprFormComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private datePipe: DatePipe,
     private router: Router,
-    private _sanitizer: DomSanitizer) { }
+    private _sanitizer: DomSanitizer) {
 
+  }
 
   FirstSection: FormGroup;
   SecondSection: FormGroup;
@@ -85,6 +86,7 @@ export class CprFormComponent implements OnInit {
   filteredOptions2: Observable<string[]>;
   nurfilter = new FormControl();
   employees = [];
+  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
   pdfToServer: string = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>ניטור החייאה</title>
   <style>p,mat-label,li{font-weight: bold;font-size: 12px;}.col-2{width: 20%;justify-content: center;}td{border: 1px solid black}
   .container1{margin:2px; padding: 0px 5px 0px 0px; border-style: double;}th{font-size: 14px;}</style>
@@ -484,6 +486,7 @@ export class CprFormComponent implements OnInit {
 
 
   ngOnInit(): void {
+    
     this.getCprActionsList();
     // for the first table hour/minutes row
     for (let i = 0; i < 1; i++) {
@@ -492,7 +495,7 @@ export class CprFormComponent implements OnInit {
       }));
     }
 
-    // second table of actions -- fixed number 9 or wait till the response from server for actions list (fekret abo elabed) --errroooooorrrrrrrr!!!!!!!!!!!
+    // second table of actions
     for (let i = 0; i < 9; i++) {
       this.actionsTableArray.push(this.formBuilder.group({
         id: new FormControl(i, null),

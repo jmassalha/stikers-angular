@@ -37,6 +37,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   _switchHTOK: any = "0";
   _switchBlossom: any = "0";
   AcceptTerms: any;
+  saveBtnWait: boolean = false;
   Api = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
 
   constructor(private _snackBar: MatSnackBar,
@@ -360,6 +361,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   }
 
   saveEmployee() {
+    this.saveBtnWait = true;
     this.employeeWorkDetails.controls['EmployeeIndex'].setValue(this.getEmployeeIndex());
     let pipe = new DatePipe('en-US');
     this.employeeWorkDetails.controls['StartWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['StartWorkDate'].value, 'yyyy-MM-dd'));
