@@ -841,7 +841,7 @@ export class CprFormComponent implements OnInit {
     } else if (this.ThirdSection.invalid) {
       this.openSnackBar("שכחת שדה חובה בחלק שלישי");
     } else {
-      this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveCprForm", {
+      this.http.post(this.url + "SaveCprForm", {
         _first: this.FirstSection.value,
         _second: this.SecondSection.value,
         _third: this.ThirdSection.value,
@@ -850,10 +850,10 @@ export class CprFormComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] != -1) {
             this.openSnackBar("נשמר בהצלחה");
-            this.linkToNamer(Response["d"]);
-            this.sendCprFormEmail(Response["d"]);
-            this.ngOnInit();
-            this.returnToSearch();
+            // this.linkToNamer(Response["d"]);
+            // this.sendCprFormEmail(Response["d"]);
+            // this.ngOnInit();
+            // this.returnToSearch();
           } else {
             this.openSnackBar("אירעה תקלה, לא נשמר!");
           }
