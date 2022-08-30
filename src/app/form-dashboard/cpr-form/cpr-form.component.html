@@ -114,7 +114,16 @@
             <div class="row" *ngIf="cprTeamShow">
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input formControlName="cadriologName" matInput placeholder="שם קרדיולוג">
+                        <mat-label>שם קרדיולוג</mat-label>
+                        <input type="text" aria-label="cardiolog" matInput [formControl]="cardiologfilter"
+                            [matAutocomplete]="auto3">
+                        <mat-autocomplete #auto3="matAutocomplete">
+                            <mat-option *ngFor="let doc of filteredOptions3 | async" [value]="doc.firstname">
+                                {{doc.firstname}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <input formControlName="cadriologName" matInput placeholder="שם קרדיולוג"> -->
+
                     </mat-form-field>
                 </div>
                 <div class="col">
@@ -124,7 +133,15 @@
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input formControlName="mardimName" matInput placeholder="שם מרדים">
+                        <mat-label>שם מרדים</mat-label>
+                        <input type="text" aria-label="mardim" matInput [formControl]="mardimfilter"
+                            [matAutocomplete]="auto4">
+                        <mat-autocomplete #auto4="matAutocomplete">
+                            <mat-option *ngFor="let doc of filteredOptions4 | async" [value]="doc.firstname">
+                                {{doc.firstname}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <input formControlName="mardimName" matInput placeholder="שם מרדים"> -->
                     </mat-form-field>
                 </div>
                 <div class="col">
@@ -134,7 +151,15 @@
                 </div>
                 <div class="col">
                     <mat-form-field class="full-width">
-                        <input formControlName="clalitName" matInput placeholder="שם א.כללית">
+                        <mat-label>שם א.כללית</mat-label>
+                        <input type="text" aria-label="clalit" matInput [formControl]="clalitfilter"
+                            [matAutocomplete]="auto5">
+                        <mat-autocomplete #auto5="matAutocomplete">
+                            <mat-option *ngFor="let doc of filteredOptions5 | async" [value]="doc.firstname">
+                                {{doc.firstname}}
+                            </mat-option>
+                        </mat-autocomplete>
+                        <!-- <input formControlName="clalitName" matInput placeholder="שם א.כללית"> -->
                     </mat-form-field>
                 </div>
                 <div class="col">
@@ -296,7 +321,7 @@
                         </thead>
                         <tbody>
                             <tr class="text-center" *ngFor="let action of actions; let i = index" [formGroupName]="i">
-                                <td>{{action.ActionList}}</td>
+                                <td [style.color]="SecondSection.invalid ? 'red' : 'black'">{{action.ActionList}}</td>
                                 <td>
                                     <div style="display: inline-flex;justify-content: center;place-items: center;">
                                         <mat-radio-group class="example-radio-group" formControlName="actionctrl">
