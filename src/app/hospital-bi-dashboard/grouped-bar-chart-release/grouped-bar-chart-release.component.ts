@@ -340,8 +340,12 @@ export class GroupedBarChartReleaseComponent implements OnInit {
     this._averageBefore = 0;
     this._averageAfter = 0;
     for (let f = 0; f < this.data.length; f++) {
-      this._averageBefore += this.data[f][1];
-      this._averageAfter += this.data[f][3];
+      if(this.data[f].length > 1){
+        this._averageBefore += this.data[f][1];
+      }
+      if(this.data[f].length > 3){
+        this._averageAfter += this.data[f][3];
+      }
     }
     this._averageAfter = (this._averageAfter / this.totalNumberOfOccurincy) * 100;
     this._averageAfter = 'ממוצע כללי ' + this.columnNames[3] + ' - ' + this._averageAfter.toFixed(1) + ' %';

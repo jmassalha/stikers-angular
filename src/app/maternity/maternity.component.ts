@@ -290,6 +290,8 @@ export class MaternityComponent implements OnInit {
     editRow(content, _type, _element) {
         if (_type == "subProjEdit") {
             this.parentCheckBox = false;
+        } else if (_type == "maternity") {
+            this.parentCheckBox = true;
         }
         this.MaternityName = _element.MaternityName;
         this.MaternityNumber = _element.MaternityNumber;
@@ -318,6 +320,7 @@ export class MaternityComponent implements OnInit {
             ],
             RowID: [_element.RowID, false],
         });
+        this.parentCheckFunc(_element.ParentProject);
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;

@@ -242,7 +242,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input id="PatientMobile" matInput autocomplete="off" class="form-control"
@@ -250,7 +250,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input id="PatientEmail" matInput autocomplete="off" class="form-control"
@@ -258,13 +258,23 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input id="PatientAddress" matInput autocomplete="off" class="form-control"
                                 placeholder="כתובת" formControlName="PatientAddress" type="text" />
                         </mat-form-field>
                     </div>
+                </div>
+                <div class="col-3">
+                    <mat-form-field>
+                        <mat-label>שיוך משתתפת</mat-label>
+                        <mat-select formControlName="PatientCategory" required>
+                            <mat-option value="0">כללי</mat-option>
+                            <mat-option value="1">חרדי</mat-option>
+                            <mat-option value="2">ערבי</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
             </div>
             <div class="row">

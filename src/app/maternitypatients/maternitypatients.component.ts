@@ -50,6 +50,7 @@ export interface MaternityPatients {
     PatientMobile: string;
     PatientEmail: string;
     PatientAddress: string;
+    PatientCategory: string;
     PatientPregnancyWeekAtInsert: string;
     PatientNote: string;
 }
@@ -134,18 +135,9 @@ export class MaternitypatientsComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        this.getMaternityNewPatientsAlert();
         this.getReportmaternitypatients(this);
     }
 
-    getMaternityNewPatientsAlert() {
-        this.http
-            .post(this.Api + "GetMaternityNewPatientsAlert", {
-            })
-            .subscribe((Response) => {
-                console.log(Response["d"]);
-            });
-    }
 
     openSnackBar(message) {
         this._snackBar.open(message, "", {
@@ -180,6 +172,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientNote: [_element.PatientNote, Validators.nullValidator],
             PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.nullValidator],
             PatientAddress: [_element.PatientAddress, Validators.nullValidator],
+            PatientCategory: [_element.PatientCategory, Validators.nullValidator],
             PatientMobile: [_element.PatientMobile, Validators.nullValidator],
             PatientEmail: [_element.PatientEmail, Validators.nullValidator],
         });
@@ -220,8 +213,7 @@ export class MaternitypatientsComponent implements OnInit {
             );
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
-                // "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateMaternityPatients",
+                this.Api + "InsertOrUpdateMaternityPatients",
                 {
                     _patientForm: this.patientForm.value,
                 }
@@ -241,7 +233,7 @@ export class MaternitypatientsComponent implements OnInit {
     displayProjects(patientDetials) {
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/DisplayParticipantProjects",
+                this.Api + "DisplayParticipantProjects",
                 {
                     Id: patientDetials.RowID
                 }
@@ -260,7 +252,7 @@ export class MaternitypatientsComponent implements OnInit {
     attachToOtherProject() {
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/AttachPatientToMaternity",
+                this.Api + "AttachPatientToMaternity",
                 {
                     _patientId: this.ParticipantProjectsList[0].PatientID,
                     _maternityId: this.projectToAttach
@@ -315,6 +307,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientNote: [_element.PatientNote, Validators.nullValidator],
             PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.nullValidator],
             PatientAddress: [_element.PatientAddress, Validators.nullValidator],
+            PatientCategory: [_element.PatientCategory, Validators.nullValidator],
             PatientMobile: [_element.PatientMobile, Validators.nullValidator],
             PatientEmail: [_element.PatientEmail, Validators.nullValidator],
         });
@@ -387,6 +380,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientNote: ["", Validators.nullValidator],
             PatientPregnancyWeekAtInsert: ["", Validators.nullValidator],
             PatientAddress: ["", Validators.nullValidator],
+            PatientCategory: ["", Validators.nullValidator],
             PatientMobile: ["", Validators.nullValidator],
             PatientEmail: ["", Validators.nullValidator],
         });
@@ -428,6 +422,7 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientNote: [patientDetails.PatientNote, Validators.nullValidator],
                         PatientPregnancyWeekAtInsert: [patientDetails.PatientPregnancyWeekAtInsert, Validators.nullValidator],
                         PatientAddress: [patientDetails.PatientAddress, Validators.nullValidator],
+                        PatientCategory: [patientDetails.PatientCategory, Validators.nullValidator],
                         PatientMobile: [patientDetails.PatientMobile, Validators.nullValidator],
                         PatientEmail: [patientDetails.PatientEmail, Validators.nullValidator],
                     });
@@ -488,7 +483,7 @@ export class MaternitypatientsComponent implements OnInit {
         }
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/getMaternityPatientsTable",
+                this.Api + "getMaternityPatientsTable",
                 {
                     _pageIndex: _pageIndex,
                     _pageSize: _pageSize,
@@ -520,6 +515,7 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientMobile: patientData[i].PatientMobile,
                         PatientEmail: patientData[i].PatientEmail,
                         PatientAddress: patientData[i].PatientAddress,
+                        PatientCategory: patientData[i].PatientCategory,
                         PatientPregnancyWeekAtInsert: PatientPregnancyWeekAtInsert,
                         PatientNote: patientData[i].PatientNote,
                     });
