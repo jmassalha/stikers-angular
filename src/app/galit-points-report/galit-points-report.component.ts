@@ -18,7 +18,7 @@ export class GalitPointsReportComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   ELEMENT_DATA: any = [];
-  displayedColumns: string[] = ['PatientRowNumber', 'CaseNumber', 'DepartName', 'PM_ROOM_NUMBER', 'PatientFirstName', 'PM_PATIENT_GENDER', 'DatesInHospital', 'AnotherHospital', 'ICD9Surgery', 'ICD9Anamniza', 'DifferenceInStayDays', 'AGE', 'Albomin', 'Norton', 'ThroughInput', 'HowToEat', 'DietType', 'TextureFood', 'Desctiption', 'BMI', 'MUST', 'STAMP', 'WieghtLoss', 'Points'];
+  displayedColumns: string[] = ['CaseNumber', 'DepartName', 'PM_ROOM_NUMBER', 'PatientFirstName', 'PM_PATIENT_GENDER', 'DatesInHospital', 'AnotherHospital', 'ICD9Surgery', 'ICD9Anamniza', 'DifferenceInStayDays', 'AGE', 'Albomin', 'Norton', 'ThroughInput', 'HowToEat', 'DietType', 'TextureFood', 'Desctiption', 'BMI', 'MUST', 'STAMP', 'WieghtLoss', 'Points'];
   dataSource = this.ELEMENT_DATA;
   @ViewChild('printmycontent') printmycontent: ElementRef;
 
@@ -31,6 +31,7 @@ export class GalitPointsReportComponent implements OnInit {
   // caseNumber: any;
   patientFound: boolean;
   numberOfPatients: number = 0;
+  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -67,7 +68,7 @@ export class GalitPointsReportComponent implements OnInit {
     let that = this;
     that.paginator._changePageSize(300);
     setTimeout(function () {
-      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;box-shadow: 0px 1px 0px 2px;} /*td{box-shadow: 0px 1px 4px 3px;}*/</style>"
+      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;box-shadow: 0px 1px 0px 2px;background: white;}</style>"
       var printContents = that.printmycontent.nativeElement.innerHTML;
       style += printContents;
       var w = window.open();
@@ -76,6 +77,18 @@ export class GalitPointsReportComponent implements OnInit {
       w.close();
       that.paginator._changePageSize(5);
     }, 1000);
+  }
+
+  saveReport(){
+    this.http
+      .post(this.url + "SaveGalitReport", {})
+      .subscribe((Response) => {
+        if(Response["d"]){
+          this.openSnackBar("נשמר בהצלחה");
+        }else{
+          this.openSnackBar("תקלה, לא נשמר");
+        }
+      });
   }
 
   getGalitReportPatient() {

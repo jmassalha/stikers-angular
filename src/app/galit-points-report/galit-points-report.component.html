@@ -35,13 +35,17 @@
     <div class="col ml-3" style="overflow: auto;">
       <div class="row d-block">
         <h3 class="header float-right">מספר מטופלים: {{numberOfPatients}}</h3>
-        <button matTooltip="רענון" mat-raised-button class="btn btn-raised" style="background: lawngreen;float: left;"
+        <button matTooltip="רענון" mat-raised-button class="btn btn-raised mr-2" style="background: lawngreen;float: left;"
           (click)="ngOnInit()">
           <i class="material-icons">refresh</i>
         </button>
-        <button matTooltip="הדפסה" mat-raised-button class="btn btn-raised"
+        <button matTooltip="הדפסה" mat-raised-button class="btn btn-raised mr-2"
           style="background: cornflowerblue;float: left;" (click)="print()">
           <i class="material-icons">print</i>
+        </button>
+        <button matTooltip="שמירת דו'ח" mat-raised-button class="btn btn-raised mr-2" style="background: goldenrod;float: left;"
+          (click)="saveReport()">
+          <i class="material-icons">save</i>
         </button>
       </div>
       <mat-form-field appearance="standard" style="box-shadow: -1px -1px 9px 0px #000;text-align: center;">
@@ -54,12 +58,12 @@
         </div>
       </div>
       <div #printmycontent>
-        
+
         <table mat-table [dataSource]="dataSource" matSort dir="rtl" class="mat-elevation-z8">
-          <ng-container matColumnDef="PatientRowNumber">
+          <!-- <ng-container matColumnDef="PatientRowNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר שורה </th>
             <td mat-cell *matCellDef="let element"> {{element.PatientRowNumber}} </td>
-          </ng-container>
+          </ng-container> -->
           <ng-container matColumnDef="CaseNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר מקרה </th>
             <td mat-cell *matCellDef="let element"> {{element.CaseNumber}} </td>
@@ -94,11 +98,11 @@
           </ng-container>
           <ng-container matColumnDef="ICD9Surgery">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ניתוח </th>
-            <td mat-cell *matCellDef="let element"> {{element.ICD9Surgery}} </td>
+            <td mat-cell *matCellDef="let element" style="word-wrap: break-word;font-size: 10px;"> {{element.ICD9Surgery}} </td>
           </ng-container>
           <ng-container matColumnDef="ICD9Anamniza">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> אבחנה </th>
-            <td mat-cell *matCellDef="let element"> {{element.ICD9Anamniza}} </td>
+            <td mat-cell *matCellDef="let element" style="word-wrap: break-word;font-size: 10px;"> {{element.ICD9Anamniza}} </td>
           </ng-container>
           <ng-container matColumnDef="DifferenceInStayDays">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> הפרש ימי אשפוז </th>
@@ -125,7 +129,7 @@
             <td mat-cell *matCellDef="let element"> {{element.Iv}} </td>
           </ng-container> -->
           <ng-container matColumnDef="HowToEat">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> דרך האכלה</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> אופן אכילה</th>
             <td mat-cell *matCellDef="let element"> {{element.HowToEat}} </td>
           </ng-container>
           <ng-container matColumnDef="DietType">
@@ -133,7 +137,7 @@
             <td mat-cell *matCellDef="let element"> {{element.DietType}} </td>
           </ng-container>
           <ng-container matColumnDef="TextureFood">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> סוג האכלה </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> מרקם מזון </th>
             <td mat-cell *matCellDef="let element"> {{element.TextureFood}} </td>
           </ng-container>
           <ng-container matColumnDef="Desctiption">
@@ -166,7 +170,7 @@
             [style.background]="row.Points >= 6 ? 'indianred' : row.Points >= 2 && row.Points < 6 ? 'yellow': 'white'">
           </tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" style="float: right;">
+        <mat-paginator [pageSizeOptions]="[10, 25, 100, 200]" aria-label="Select page of users" style="float: right;">
         </mat-paginator>
         <mat-progress-bar mode="buffer" *ngIf="!patientFound"></mat-progress-bar>
       </div>
