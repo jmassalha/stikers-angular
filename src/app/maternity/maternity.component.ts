@@ -51,6 +51,7 @@ export interface Poria_Maternity {
     ProjectDate: string;
     Location: string;
     additionalProjectDate: string;
+    ActivityRelated: string;
 }
 export interface Poria_MaternityPatients {
     RowID: number;
@@ -87,8 +88,8 @@ export class MaternityComponent implements OnInit {
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
     displayedColumns: string[] = [
-        //"RowID", //"D_PERIOD_TO_REPLACE",
-        "MaternityNumber",
+        "RowID", //"D_PERIOD_TO_REPLACE",
+        // "MaternityNumber",
         "MaternityName",
         "ProjectDate",
         "ProjectLocation",
@@ -109,6 +110,7 @@ export class MaternityComponent implements OnInit {
     ParentProjectsList = [];
     ChildrenProjectsList = [];
     NewPatientsAlertList = [];
+    MaternityActivityList = [];
     TABLE_DATA: Poria_Maternity[] = [];
     rowFormData = {} as Poria_Maternity;
     dataSource = new MatTableDataSource(this.TABLE_DATA);
@@ -141,8 +143,6 @@ export class MaternityComponent implements OnInit {
                 this.router.navigate(["login"]);
             }
         }, 2000);
-        /*maternity*/
-        // ////debugger
         this.activeModal = activeModal;
     }
     @Input()
@@ -168,6 +168,7 @@ export class MaternityComponent implements OnInit {
             ProjectDate: ["", null],
             Location: ["", null],
             additionalProjectDate: ["", null],
+            ActivityRelated: ["", null],
             MaternityInsertUser: [
                 localStorage.getItem("loginUserName"),
                 Validators.required,
@@ -176,8 +177,8 @@ export class MaternityComponent implements OnInit {
         });
         console.log("sleep");
 
-        this.getReport(this);
         this.getMaternityNewPatientsAlert();
+        this.getMaternityActivtiesList()
     }
     openSnackBar(message) {
         this._snackBar.open(message, "", {
@@ -187,6 +188,15 @@ export class MaternityComponent implements OnInit {
             horizontalPosition: this.horizontalPosition,
             verticalPosition: this.verticalPosition,
         });
+    }
+
+    getMaternityActivtiesList() {
+        this.http
+            .post(this.url + "GetMaternityActivtiesList", {
+            })
+            .subscribe((Response) => {
+                this.MaternityActivityList = Response["d"];
+            });
     }
 
     getMaternityNewPatientsAlert() {
@@ -214,8 +224,6 @@ export class MaternityComponent implements OnInit {
             $("#loader").removeClass("d-none");
         });
         let pipe = new DatePipe('en-US');
-        // this.maternityForm.controls['StartProjectTime'].setValue(this.datePipe.transform(this.maternityForm.controls['StartProjectTime'].value, 'HH:mm'));
-        // this.maternityForm.controls['EndProjectTime'].setValue(this.datePipe.transform(this.maternityForm.controls['EndProjectTime'].value, 'HH:mm'));
         this.maternityForm.controls['ProjectDate'].setValue(pipe.transform(this.maternityForm.controls['ProjectDate'].value, 'yyyy-MM-dd'));
         this.maternityForm.controls['additionalProjectDate'].setValue(pipe.transform(this.maternityForm.controls['additionalProjectDate'].value, 'yyyy-MM-dd'));
         if (!this.maternityForm.invalid) {
@@ -227,7 +235,7 @@ export class MaternityComponent implements OnInit {
                     }
                 )
                 .subscribe((Response) => {
-                    this.getReport(null);
+                    this.getTableFromServer("", "1", "");
                     this.openSnackBar("נשמר בהצלחה");
                     setTimeout(function () {
                         $("#loader").addClass("d-none");
@@ -237,13 +245,10 @@ export class MaternityComponent implements OnInit {
             this.openSnackBar("תקלה, לא נשמר!");
         }
 
-        // display form values on success
-        //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.maternityForm.value, null, 4));
         this.modalService.dismissAll();
     }
 
     showPatient(content, _type, _element) {
-        // localStorage.setItem("MaternityRowId", _element.RowID);
         let dialog = this.modalService.open(MaternitypatientsComponent, this.modalOptions);
         dialog.componentInstance.MaternityRowId = _element.RowID;
         dialog.componentInstance.MaternityName = 'בפרויקט ' + _element.MaternityName;
@@ -258,7 +263,6 @@ export class MaternityComponent implements OnInit {
     }
 
     SendSmsToPatient(content, _type, _element) {
-        // //debugger;
         this.MaternityName = _element.MaternityNumber;
         this.MaternityNumber = _element.MaternityName;
         this.http
@@ -266,7 +270,6 @@ export class MaternityComponent implements OnInit {
                 RowID: _element.RowID,
             })
             .subscribe((Response) => {
-                //localStorage.setItem("MaternityRowId", _element.RowID);
 
                 var json = JSON.parse(Response["d"]);
                 let Poria_Maternity = JSON.parse(json["MaternityPatients"]);
@@ -276,7 +279,6 @@ export class MaternityComponent implements OnInit {
                     textAreaVal += Poria_Maternity[i]["PatientFirstName"] + " ";
                     textAreaVal += Poria_Maternity[i]["PatientLastName"] + "\r\n";
                 }
-                // //debugger
                 localStorage.setItem("smsType", "SMSMaternity");
                 localStorage.setItem("textAreaVal", textAreaVal);
                 this.modalService.open(content, this.modalOptions);
@@ -295,7 +297,6 @@ export class MaternityComponent implements OnInit {
         }
         this.MaternityName = _element.MaternityName;
         this.MaternityNumber = _element.MaternityNumber;
-        ////debugger;
         this.maternityForm = this.formBuilder.group({
             MaternityNumber: [_element.MaternityNumber, Validators.required],
             MaternityName: [_element.MaternityName, Validators.required],
@@ -314,6 +315,7 @@ export class MaternityComponent implements OnInit {
             ProjectDate: [_element.ProjectDate, null],
             Location: [_element.Location, null],
             additionalProjectDate: [_element.additionalProjectDate, null],
+            ActivityRelated: [_element.ActivityRelated, null],
             MaternityUpdateUser: [
                 localStorage.getItem("loginUserName"),
                 Validators.required,
@@ -324,37 +326,13 @@ export class MaternityComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////debugger
                 if ("Save" == result) {
-                    // //////debugger;
-                    //this.saveChad(_element.ROW_ID);
                 }
             },
             (reason) => {
                 this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
             }
         );
-    }
-    getReport($event: any): void {
-        ////////debugger
-        this.getTableFromServer(
-            this.paginator.pageIndex,
-            10,
-            this.fliterVal,
-            this.activeOrNot
-        );
-    }
-    applyFilter(filterValue: string) {
-        this.fliterVal = filterValue;
-
-        this.getTableFromServer(
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
-            this.fliterVal,
-            this.activeOrNot
-        );
-
-        //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
     getParentProjects() {
@@ -380,7 +358,6 @@ export class MaternityComponent implements OnInit {
         this.MaternityNumber = "";
         this.MaternityName = "חדש";
         this.ParentProjectName = _element;
-        //////debugger;
         this.maternityForm = this.formBuilder.group({
             MaternityNumber: ["", Validators.required],
             MaternityName: ["", Validators.required],
@@ -393,6 +370,7 @@ export class MaternityComponent implements OnInit {
             ProjectDate: ["", null],
             Location: ["", null],
             additionalProjectDate: ["", null],
+            ActivityRelated: ["", null],
             MaternityInsertUser: [
                 localStorage.getItem("loginUserName"),
                 Validators.required,
@@ -402,10 +380,7 @@ export class MaternityComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////debugger
                 if ("Save" == result) {
-                    // //////debugger;
-                    //this.saveChad(_element.ROW_ID);
                 }
             },
             (reason) => {
@@ -423,46 +398,30 @@ export class MaternityComponent implements OnInit {
         }
     }
 
-    ngAfterViewInit(): void { }
-    getPaginatorData(event: PageEvent) {
-        //console.log(this.paginator.pageIndex);
-
-        this.getTableFromServer(
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
-            this.fliterVal,
-            this.activeOrNot
-        );
+    returnToCards() {
+        this.dataSource = new MatTableDataSource();
     }
 
     public getTableFromServer(
-        _pageIndex: number,
-        _pageSize: number,
         _FreeText: string,
-        _activeOrNot: string
+        _activeOrNot: string,
+        ActivityID: string,
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //http://srv-apps-prod/RCF_WS/WebService.asmx/
-        //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
-            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMaternityTable", {
             .post(this.url + "GetMaternityTable", {
-                _pageIndex: _pageIndex,
-                _pageSize: _pageSize,
                 _freeText: _FreeText,
                 _activeOrNot: _activeOrNot,
+                _activityID: ActivityID,
             })
             .subscribe((Response) => {
-                //debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let Poria_Maternity = JSON.parse(json["Maternity"]);
-                //  ////debugger
                 for (var i = 0; i < Poria_Maternity.length; i++) {
                     this.TABLE_DATA.push({
                         RowID: Poria_Maternity[i].RowID,
@@ -484,18 +443,15 @@ export class MaternityComponent implements OnInit {
                         ModeratorName: Poria_Maternity[i].ModeratorName,
                         ProjectDate: Poria_Maternity[i].ProjectDate,
                         Location: Poria_Maternity[i].Location,
-                        additionalProjectDate: Poria_Maternity[i].additionalProjectDate
+                        additionalProjectDate: Poria_Maternity[i].additionalProjectDate,
+                        ActivityRelated: Poria_Maternity[i].ActivityRelated,
                     });
                 }
 
-                // //////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["totalRows"]);
                 setTimeout(function () {
-                    ////////debugger
-                    //if (tableLoader) {
                     $("#loader").addClass("d-none");
-                    // }
                 });
             });
     }

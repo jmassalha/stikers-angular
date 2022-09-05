@@ -15,11 +15,14 @@
   }
   [dir="rtl"] td.mat-cell:first-of-type{
     padding: 10px !important;
-    font-weight: bold;
+    word-wrap: break-word;
   }
   .filterClass{
     font-weight: bold;
   }
   th.mat-sort-header-sorted {
     color: black;
+  }
+  .d-block {
+    margin: 0px 15px 5px 15px;
   }

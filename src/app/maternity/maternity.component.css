@@ -43,3 +43,7 @@ mat-card{
 #alertIcon{
     cursor: pointer;
 }
+.card.activity{
+    cursor: pointer;
+    text-align: center;
+}
