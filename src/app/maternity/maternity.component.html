@@ -8,9 +8,9 @@
                         <b>{{NewPatientsAlertList.length}} יולדות במחלקה</b>
                     </h4>
                     <div class="list-of-new">
-                        <mat-card *ngFor="let newOne of NewPatientsAlertList">
+                        <mat-card *ngFor="let newOne of NewPatientsAlertList" [ngStyle]="{'background-color': newOne.RowID != '' ? 'pink' : 'white'}">
                             <p><span class="material-icons" id="alertIcon" style="color: red;float: right;"
-                                    *ngIf="newOne.Read == 'False'" matTooltip="סמן כנקרא"
+                                    *ngIf="newOne.Read == 'False' && newOne.RowID != ''" matTooltip="סמן כנקרא"
                                     (click)="setAlertToRead(newOne.Row_ID)">
                                     notifications_active
                                 </span>ת.ז: {{newOne.PatientID}} - שם מלא:
@@ -229,8 +229,6 @@
             </div>
         </div>
     </div>
-
-
 </div>
 <button type="button" id="maternityBtn" (click)="open(maternityModal, 'maternity', ''); getParentProjects();" mat-fab
     color="primary">

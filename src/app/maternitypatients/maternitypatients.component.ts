@@ -465,6 +465,9 @@ export class MaternitypatientsComponent implements OnInit {
 
         // console.log( iEGAWeeks + " weeks" );
         // console.log( iEGADays + " days" );
+        if (iEGAWeeks > 42) {
+            iEGAWeeks = 42;
+        }
         return iEGAWeeks + "." + iEGADays
     }
     public getTableFromServer(
@@ -498,7 +501,7 @@ export class MaternitypatientsComponent implements OnInit {
                 let patientData = JSON.parse(json["Patients"]);
                 for (var i = 0; i < patientData.length; i++) {
                     var date = patientData[i].PatientPregnancyDOB.split("-");
-                    var PatientPregnancyWeekAtInsert = this.computeEGA(date[0], date[1], date[2])
+                    var PatientPregnancyWeekAtInsert = this.computeEGA(date[0], date[1], date[2]);
                     this.TABLE_DATA.push({
                         RowID: patientData[i].RowID,
                         PatientId: patientData[i].PatientId,

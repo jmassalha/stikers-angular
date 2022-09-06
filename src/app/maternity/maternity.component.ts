@@ -115,7 +115,6 @@ export class MaternityComponent implements OnInit {
     rowFormData = {} as Poria_Maternity;
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     loader: Boolean;
-    tableLoader: Boolean;
     userName = localStorage.getItem("loginUserName");
     resultsLength = 0;
     departStatus = 0;
@@ -150,7 +149,6 @@ export class MaternityComponent implements OnInit {
     MaternityNumber: string;
 
     ngOnInit(): void {
-        $("#loader").removeClass("d-none");
         this.MaternityName = "";
         this.MaternityNumber = "";
         this.activeOrNot = "-1";
@@ -175,8 +173,6 @@ export class MaternityComponent implements OnInit {
             ],
             RowID: ["0", false],
         });
-        console.log("sleep");
-
         this.getMaternityNewPatientsAlert();
         this.getMaternityActivtiesList()
     }
@@ -399,6 +395,8 @@ export class MaternityComponent implements OnInit {
     }
 
     returnToCards() {
+        this.fliterVal = "";
+        this.activeOrNot = "";
         this.dataSource = new MatTableDataSource();
     }
 
@@ -407,15 +405,10 @@ export class MaternityComponent implements OnInit {
         _activeOrNot: string,
         ActivityID: string,
     ) {
-        let tableLoader = false;
-        if ($("#loader").hasClass("d-none")) {
-            tableLoader = true;
-            $("#loader").removeClass("d-none");
-        }
         this.http
             .post(this.url + "GetMaternityTable", {
-                _freeText: _FreeText,
-                _activeOrNot: _activeOrNot,
+                _freeText: this.fliterVal,
+                _activeOrNot: this.activeOrNot,
                 _activityID: ActivityID,
             })
             .subscribe((Response) => {
@@ -450,9 +443,6 @@ export class MaternityComponent implements OnInit {
 
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["totalRows"]);
-                setTimeout(function () {
-                    $("#loader").addClass("d-none");
-                });
             });
     }
 }
