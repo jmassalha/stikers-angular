@@ -32,9 +32,9 @@ export class HospitalBIDashboardComponent implements OnInit {
   configUrl = 'http://srv-apps-prod/RCF_WS/WebService.asmx/';
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
-    // { DIMDataTypeID: "2", DIMDataTypeDesc: "פעולות" },
+    { DIMDataTypeID: "2", DIMDataTypeDesc: "מרפאות ומכונים" },
     { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
-    // { DIMDataTypeID: "4", DIMDataTypeDesc: "מרפאות ומכונים" },
+    // { DIMDataTypeID: "4", DIMDataTypeDesc: "פעולות" },
     { DIMDataTypeID: "5", DIMDataTypeDesc: "קבלות לאשפוז" },
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" },

@@ -318,8 +318,6 @@ export class MaternitypatientsComponent implements OnInit {
     }
     getReportmaternitypatients($event: any): void {
         this.getTableFromServer(
-            this.paginator.pageIndex,
-            10,
             this.fliterValPatient,
             this.StatusPatient
         );
@@ -328,8 +326,6 @@ export class MaternitypatientsComponent implements OnInit {
         this.fliterValPatient = filterValue;
 
         this.getTableFromServer(
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
             this.fliterValPatient,
             this.StatusPatient
         );
@@ -350,7 +346,7 @@ export class MaternitypatientsComponent implements OnInit {
 
     }
     exportToExcel() {
-        this.getTableFromServer(0, 100, "", "-1");
+        this.getTableFromServer("", "-1");
         setTimeout(() => {
             this.exportexcel();
         }, 1000);
@@ -370,6 +366,10 @@ export class MaternitypatientsComponent implements OnInit {
             PatientLastName: ["", Validators.nullValidator],
             PatientStatus: [1 + "", Validators.nullValidator],
             UserIdInsert: [
+                localStorage.getItem("loginUserName"),
+                Validators.nullValidator,
+            ],
+            UserIdUpdate: [
                 localStorage.getItem("loginUserName"),
                 Validators.nullValidator,
             ],
@@ -415,9 +415,13 @@ export class MaternitypatientsComponent implements OnInit {
                             localStorage.getItem("loginUserName"),
                             Validators.nullValidator,
                         ],
+                        UserIdUpdate: [
+                            localStorage.getItem("loginUserName"),
+                            Validators.nullValidator,
+                        ],
                         PatientPregnancyDOB: [patientDetails.PatientPregnancyDOB, Validators.nullValidator],
                         PatientDOB: [patientDetails.PatientDOB, Validators.nullValidator],
-                        RowID: [0, Validators.nullValidator],
+                        RowID: [patientDetails.RowID, Validators.nullValidator],
                         MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
                         PatientNote: [patientDetails.PatientNote, Validators.nullValidator],
                         PatientPregnancyWeekAtInsert: [patientDetails.PatientPregnancyWeekAtInsert, Validators.nullValidator],
@@ -447,8 +451,6 @@ export class MaternitypatientsComponent implements OnInit {
         //console.log(this.paginator.pageIndex);
 
         this.getTableFromServer(
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
             this.fliterValPatient,
             this.StatusPatient
         );
@@ -471,8 +473,6 @@ export class MaternitypatientsComponent implements OnInit {
         return iEGAWeeks + "." + iEGADays
     }
     public getTableFromServer(
-        _pageIndex: number,
-        _pageSize: number,
         _FreeText: string,
         _Status: string
     ) {
@@ -488,8 +488,6 @@ export class MaternitypatientsComponent implements OnInit {
             .post(
                 this.Api + "getMaternityPatientsTable",
                 {
-                    _pageIndex: _pageIndex,
-                    _pageSize: _pageSize,
                     _FreeText: _FreeText,
                     _Status: _Status,
                     _MaternityID: this.MaternityRowId,
@@ -525,6 +523,7 @@ export class MaternitypatientsComponent implements OnInit {
                 }
 
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+                this.dataSource.paginator = this.paginator;
                 this.resultsLength = parseInt(json["totalRows"]);
                 setTimeout(function () {
                     if (tableLoader) {
@@ -532,6 +531,18 @@ export class MaternitypatientsComponent implements OnInit {
                     }
                 });
             });
+    }
+
+    applyFilter(event: Event) {
+        let filterValue;
+        if (event == undefined) {
+            filterValue = "";
+        } else if (event.isTrusted == undefined) {
+            filterValue = event;
+        } else {
+            filterValue = (event.target as HTMLInputElement).value;
+        }
+        this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
 }
