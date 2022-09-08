@@ -8,7 +8,8 @@
                         <b>{{NewPatientsAlertList.length}} יולדות במחלקה</b>
                     </h4>
                     <div class="list-of-new">
-                        <mat-card *ngFor="let newOne of NewPatientsAlertList" [ngStyle]="{'background-color': newOne.RowID != '' ? 'pink' : 'white'}">
+                        <mat-card *ngFor="let newOne of NewPatientsAlertList"
+                            [ngStyle]="{'background-color': newOne.RowID != '' ? 'pink' : 'white'}">
                             <p><span class="material-icons" id="alertIcon" style="color: red;float: right;"
                                     *ngIf="newOne.Read == 'False' && newOne.RowID != ''" matTooltip="סמן כנקרא"
                                     (click)="setAlertToRead(newOne.Row_ID)">
@@ -384,18 +385,18 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="form-group">
+                <div class="col" style="align-self: center;">
+                    <div class="form-group" dir="rtl">
                         <mat-form-field>
-                            <input type="time" matInput formControlName="StartProjectTime" placeholder="שעת תחילה"
+                            <input matInput formControlName="StartProjectTime" placeholder="שעת תחילה"
                                 class="form-control" />
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col">
-                    <div class="form-group">
+                <div class="col" style="align-self: center;">
+                    <div class="form-group" dir="rtl">
                         <mat-form-field>
-                            <input type="time" matInput formControlName="EndProjectTime" placeholder="שעת סיום"
+                            <input matInput formControlName="EndProjectTime" placeholder="שעת סיום"
                                 class="form-control" />
                         </mat-form-field>
                     </div>

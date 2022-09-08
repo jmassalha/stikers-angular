@@ -33,6 +33,7 @@ import {
 } from "@angular/forms";
 import { MenuPerm } from "../menu-perm";
 import { MaternityPatients, MaternitypatientsComponent } from '../maternitypatients/maternitypatients.component';
+import * as moment from 'moment';
 
 export interface Poria_Maternity {
     RowID: number;
@@ -186,6 +187,7 @@ export class MaternityComponent implements OnInit {
         });
     }
 
+
     getMaternityActivtiesList() {
         this.http
             .post(this.url + "GetMaternityActivtiesList", {
@@ -222,6 +224,7 @@ export class MaternityComponent implements OnInit {
         let pipe = new DatePipe('en-US');
         this.maternityForm.controls['ProjectDate'].setValue(pipe.transform(this.maternityForm.controls['ProjectDate'].value, 'yyyy-MM-dd'));
         this.maternityForm.controls['additionalProjectDate'].setValue(pipe.transform(this.maternityForm.controls['additionalProjectDate'].value, 'yyyy-MM-dd'));
+        let relatedProj = this.maternityForm.controls['ActivityRelated'].value;
         if (!this.maternityForm.invalid) {
             this.http
                 .post(
@@ -231,7 +234,7 @@ export class MaternityComponent implements OnInit {
                     }
                 )
                 .subscribe((Response) => {
-                    this.getTableFromServer("", "1", "");
+                    this.getTableFromServer("", "1", relatedProj);
                     this.openSnackBar("נשמר בהצלחה");
                     setTimeout(function () {
                         $("#loader").addClass("d-none");
@@ -282,9 +285,11 @@ export class MaternityComponent implements OnInit {
 
 
     }
+
     CloseModalSendSms() {
         this.modalService.dismissAll();
     }
+
     editRow(content, _type, _element) {
         if (_type == "subProjEdit") {
             this.parentCheckBox = false;
