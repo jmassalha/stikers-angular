@@ -69,6 +69,7 @@ export class MaternitypatientsComponent implements OnInit {
     verticalPosition: MatSnackBarVerticalPosition = "top";
     @ViewChild('modalProjects', { static: true }) modalProjects: TemplateRef<any>;
     displayedColumns: string[] = [
+        "boxes",
         "PatientId",
         "PatientNumber",
         "PatientFirstName",
@@ -98,6 +99,7 @@ export class MaternitypatientsComponent implements OnInit {
     resultsLength = 0;
     fliterValPatient = "";
     StatusPatient = "-1";
+    listOfEmails = [];
     Api = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
     patientForm: FormGroup;
 
@@ -247,6 +249,38 @@ export class MaternitypatientsComponent implements OnInit {
                 this.projects = Response["d"][1];
                 this.dialog.open(this.modalProjects, { width: '60%', disableClose: false });
             });
+    }
+
+    selectAllPatients() {
+        for (let i = 0; i < this.dataSource.filteredData.length; i++) {
+            this.listOfEmails.push(this.dataSource.filteredData[i].PatientEmail);
+        }
+    }
+
+    choosePatientsToEmail(event, email) {
+        if (event.target.checked) {
+            this.listOfEmails.push(email);
+        } else {
+            let index: number = this.listOfEmails.indexOf(email);
+            if (index !== -1) {
+                this.listOfEmails.splice(index, 1);
+            }
+        }
+    }
+
+    sendEmailToPatients() {
+        let stringEmails = "";
+        for (let i = 0; i < this.listOfEmails.length; i++) {
+            stringEmails += this.listOfEmails[i] + ";";
+        }
+        this.http
+            .post(
+                this.Api + "SendMaternityEmailToPatients",
+                {
+                    emailList: stringEmails
+                }
+            )
+            .subscribe((Response) => { });
     }
 
     attachToOtherProject() {

@@ -6,6 +6,11 @@
                 <button mat-fab color="accent" aria-label="Excel" (click)="exportToExcel()" matTooltip="יצוא לאקסל">
                     <mat-icon>get_app</mat-icon>
                 </button>
+                <button mat-fab color="primary" style="margin-left: 10px;" *ngIf="listOfEmails.length > 0"
+                    (click)="sendEmailToPatients()" aria-label="Email" matTooltip="שליחת מייל">
+                    <mat-icon>mail</mat-icon>
+                    <!-- <a href="mailto:{{listOfEmails[0]}}">Contact via E-mail</a> -->
+                </button>
             </div>
             <div class="col-11">
                 <div dir="rtl" class="card w-85-p">
@@ -57,16 +62,21 @@
                         <input matInput (keyup)="applyFilter($event)" #input>
                     </mat-form-field>
                     <div class="table-spinner-container">
-                        <!-- <mat-form-field>
-                                <input matInput (keyup)="applyFiltermaternitypatients($event.target.value)" placeholder="חפש">
-                            </mat-form-field> -->
                         <table class="table" mat-table [dataSource]="dataSource" id="formTable1">
-                            <ng-container matColumnDef="RowID">
+                            <!-- <ng-container matColumnDef="RowID">
                                 <th mat-header-cell *matHeaderCellDef>
                                     מס' שורה
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.RowID }}
+                                </td>
+                            </ng-container> -->
+                            <ng-container matColumnDef="boxes">
+                                <th mat-header-cell *matHeaderCellDef><input type="checkbox"
+                                        (change)="selectAllPatients()" /></th>
+                                <td mat-cell *matCellDef="let element">
+                                    <input type="checkbox"
+                                        (change)="choosePatientsToEmail($event, element.PatientEmail)" />
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="PatientId">
