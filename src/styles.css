@@ -16,6 +16,15 @@
 .mat-select-panel  {
     padding-top: 30px !important;
 }
+.NewBorn .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #c90000 !important;
+}
+.NewBorn  .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .NewBorn  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #c90000 !important;
+}
+.NewBorn .mat-radio-button.mat-accent .mat-radio-inner-circle, .NewBorn .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .NewBorn .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .NewBorn .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: #c90000 !important;
+}
 .point-right:after {
     content: "\25C0" !important;
     padding-right: 1em !important;

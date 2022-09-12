@@ -209,12 +209,9 @@
     <i class="material-icons">add</i>
 </button>
 <ng-template #patientDetailsModal let-modal>
-
     <form
-    
-        
         dir="rtl"
-        class="form col"
+        class="form col NewBorn"
         [formGroup]="patientForm"
         (ngSubmit)="onSubmit()"
     >
@@ -232,22 +229,37 @@
             </button>
         </div>
         <div class="modal-body">
-            <div class=""  *ngIf="!ShowFormNewBorn">
+            <div class="" *ngIf="!ShowFormNewBorn">
                 <div class="row">
                     <div class="col">
-                        <mat-form-field class="example-full-width" appearance="fill">
+                        <mat-form-field
+                            class="example-full-width"
+                            appearance="fill"
+                        >
                             <mat-label>שם עובד</mat-label>
-                            <input type="text"
-                                   placeholder="בחר שם עובד"
-                                   matInput
-                                   [formControl]="myControl"
-                                   [matAutocomplete]="auto">
-                            <mat-autocomplete autoActiveFirstOption #auto="matAutocomplete" (optionSelected)='updateUser($event)'  [displayWith]="displayFn">
-                              <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                {{option.UserFullName}}
-                              </mat-option>
+                            <input
+                                type="text"
+                                placeholder="בחר שם עובד"
+                                matInput
+                                [formControl]="myControl"
+                                [matAutocomplete]="auto"
+                            />
+                            <mat-autocomplete
+                                autoActiveFirstOption
+                                #auto="matAutocomplete"
+                                (optionSelected)="updateUser($event)"
+                                [displayWith]="displayFn"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of filteredOptions | async
+                                    "
+                                    [value]="option"
+                                >
+                                    {{ option.UserFullName }}
+                                </mat-option>
                             </mat-autocomplete>
-                          </mat-form-field>
+                        </mat-form-field>
                     </div>
                 </div>
             </div>
@@ -317,9 +329,9 @@
                 </div>
                 <div class="row">
                     <div class="col">
-                        <div  class="form-group" *ngIf="!ShowSubmit">
+                        <div class="form-group" *ngIf="!ShowSubmit">
                             <label>תאריך לידה</label>
-                            <p>{{NewBornDOB}}</p>
+                            <p>{{ NewBornDOB }}</p>
                         </div>
                         <div class="form-group" *ngIf="ShowSubmit">
                             <mat-form-field>
@@ -341,26 +353,22 @@
                         </div>
                     </div>
                     <div class="col">
-                        <div  class="form-group" *ngIf="!ShowSubmit">
+                        <div class="form-group" *ngIf="!ShowSubmit">
                             <label>שעת לידה</label>
-                            <p>{{NewBornTime}}</p>
+                            <p>{{ NewBornTime }}</p>
                         </div>
                         <mat-form-field *ngIf="ShowSubmit">
                             <input
+                                dir="ltr"
                                 matInput
+                                jpTimeMask
+                                [useUtc]="true"
                                 autocomplete="off"
                                 placeholder="שעת לידה"
-                                class="timepicker"
-                                [ngxTimepicker]="NewBornTime"
-                                [format]="24"
                                 name="NewBornTime"
+                                type="text"
                                 formControlName="NewBornTime"
-                            />
-                            <ngx-material-timepicker
-                                #NewBornTime
-                                [enableKeyboardInput]="true"
-                            >
-                            </ngx-material-timepicker>
+                            />                            
                         </mat-form-field>
                     </div>
                 </div>
@@ -368,18 +376,21 @@
                     <div class="col text-right" dir="rtl">
                         <label>הליך לידה</label>
                         &nbsp;&nbsp;
-    
+
                         <mat-radio-group formControlName="BornProcedure">
-                            <mat-radio-button value="רגיל">רגיל</mat-radio-button
+                            <mat-radio-button value="רגיל"
+                                >רגיל</mat-radio-button
                             >&nbsp;&nbsp;
-                            <mat-radio-button value="ואקום">ואקום</mat-radio-button
+                            <mat-radio-button value="ואקום"
+                                >ואקום</mat-radio-button
                             >&nbsp;&nbsp;
                             <mat-radio-button value="מלקחים"
                                 >מלקחים</mat-radio-button
                             >&nbsp;&nbsp;
-                            <mat-radio-button value="קיסרי">קיסרי</mat-radio-button
+                            <mat-radio-button value="קיסרי"
+                                >קיסרי</mat-radio-button
                             >&nbsp;&nbsp;
-                            <mat-radio-button value='ואקום'
+                            <mat-radio-button value="ואקום"
                                 >ואקום</mat-radio-button
                             >&nbsp;&nbsp;
                             <mat-radio-button value='מחוץ לבי"ח'
@@ -392,11 +403,12 @@
                     <div class="col text-right" dir="rtl">
                         <label>מין הילד</label>
                         &nbsp;&nbsp;
-    
+
                         <mat-radio-group formControlName="NewBornGender">
                             <mat-radio-button value="זכר">זכר</mat-radio-button
                             >&nbsp;&nbsp;
-                            <mat-radio-button value="נקבה">נקבה</mat-radio-button
+                            <mat-radio-button value="נקבה"
+                                >נקבה</mat-radio-button
                             >&nbsp;&nbsp;
                         </mat-radio-group>
                     </div>
@@ -416,12 +428,14 @@
                         </mat-form-field>
                     </div>
                     <div class="col text-right" dir="rtl">
-                        
-                            <label>הילוד טרם נשקל</label>
-                            &nbsp;&nbsp;
-    
-                            <mat-checkbox formControlName="NewBornWeightInProgress" value="כן">כן</mat-checkbox>
-                       
+                        <label>הילוד טרם נשקל</label>
+                        &nbsp;&nbsp;
+
+                        <mat-checkbox
+                            formControlName="NewBornWeightInProgress"
+                            value="כן"
+                            >כן</mat-checkbox
+                        >
                     </div>
                 </div>
                 <div class="row">
@@ -442,9 +456,11 @@
                 <div class="row">
                     <div class="col text-right" dir="rtl">
                         <label>לידה מרובה</label>
-                            &nbsp;&nbsp;
-    
-                            <mat-checkbox formControlName="MultipleBirth" value="כן">כן</mat-checkbox>
+                        &nbsp;&nbsp;
+
+                        <mat-checkbox formControlName="MultipleBirth" value="כן"
+                            >כן</mat-checkbox
+                        >
                     </div>
                     <div class="col text-right" dir="rtl">
                         <mat-form-field>
@@ -474,26 +490,29 @@
                     </div>
                     <div class="col text-right" dir="rtl">
                         <label>לידת מת</label>
-                            &nbsp;&nbsp;
-    
-                            <mat-checkbox formControlName="BirthIsDie" value="כן">כן</mat-checkbox>
+                        &nbsp;&nbsp;
+
+                        <mat-checkbox formControlName="BirthIsDie" value="כן"
+                            >כן</mat-checkbox
+                        >
                     </div>
                 </div>
                 <div class="row">
                     <div class="col text-right" dir="rtl">
                         <label>אשפוז הילוד ב</label>
                         &nbsp;&nbsp;
-    
+
                         <mat-radio-group formControlName="hospitalizedAt">
-                            <mat-radio-button value="תינוקייה">תינוקייה</mat-radio-button
+                            <mat-radio-button value="תינוקייה"
+                                >תינוקייה</mat-radio-button
                             >&nbsp;&nbsp;
-                            <mat-radio-button value="פגייה">פגייה</mat-radio-button
+                            <mat-radio-button value="פגייה"
+                                >פגייה</mat-radio-button
                             >&nbsp;&nbsp;
                         </mat-radio-group>
                     </div>
-                </div>   
+                </div>
             </div>
-                    
         </div>
         <div class="modal-footer text-left">
             <input
@@ -502,7 +521,13 @@
                 id="RowID"
                 formControlName="RowID"
             />
-            <button *ngIf="ShowSubmit" type="submit" class="btn btn-outline-dark">שמור</button>
+            <button
+                *ngIf="ShowSubmit"
+                type="submit"
+                class="btn btn-outline-dark"
+            >
+                שמור
+            </button>
         </div>
     </form>
 </ng-template>

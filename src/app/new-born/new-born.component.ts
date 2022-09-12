@@ -384,11 +384,12 @@ export class NewBornComponent implements OnInit {
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
         //////debugger
+      //  debugger
         let now = new Date();
         let hours = ("0" + now.getHours()).slice(-2);
         let minutes = ("0" + now.getMinutes()).slice(-2);
-        let str = hours + ":" + minutes;
-
+        let str = formatDate(new Date(), 'yyyy-MM-dd HH:mm', 'en-US');
+       // debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.patientForm = this.formBuilder.group({
@@ -401,7 +402,7 @@ export class NewBornComponent implements OnInit {
             BornProcedure: ["", Validators.required],
             NewBornGender: ["", Validators.required],
             NewBornWeight: [
-                "",
+                "0",
                 [Validators.required, Validators.pattern(/^[0-9]{1,4}$/)],
             ],
             NewBornWeightInProgress: ["", null],
@@ -411,11 +412,11 @@ export class NewBornComponent implements OnInit {
             ],
             MultipleBirth: ["", null],
             NumberOfBirths: [
-                "",
+                "1",
                 [Validators.required, Validators.pattern(/^[0-9]{1,1}$/)],
             ],
             BirthNumber: [
-                "",
+                "1",
                 [Validators.required, Validators.pattern(/^[0-9]{1,1}$/)],
             ],
             BirthIsDie: ["", null],
