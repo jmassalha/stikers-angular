@@ -191,7 +191,7 @@ export class EmployeesManageDashComponent implements OnInit {
       });
     if (toExcel) {
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EmployeesExcelExport", {
+        .post(this.url + "EmployeesExcelExport", {
           _empId: empId,
           _empFirstName: empFirstName,
           _empLastName: empLastName,

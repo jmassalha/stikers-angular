@@ -63,6 +63,7 @@ export class ClinicsDashboardComponent implements OnInit {
   date2: string;
   time2: string;
   patientRecords = [];
+  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
 
 
   ELEMENT_DATA = [];
@@ -145,7 +146,7 @@ export class ClinicsDashboardComponent implements OnInit {
     }
     let passport = this.searchPatient.controls['Passport'].value;
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/PrintReciept", {
+      .post(this.url + "PrintReciept", {
         _patientPassport: passport,
         _patientRecordID: element.Row_ID,
         _versionNum: this.selectV,
@@ -242,7 +243,7 @@ export class ClinicsDashboardComponent implements OnInit {
     if (printAfter) {
       this.searchPatientProgressBar = false;
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRecordAndPatients", {
+        .post(this.url + "GetRecordAndPatients", {
           _patientPassport: passport
         })
         .subscribe((Response) => {

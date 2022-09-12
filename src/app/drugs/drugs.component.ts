@@ -226,7 +226,7 @@ export class DrugsComponent implements OnInit {
         debugger
         this.http
             .post(
-               // "http://localhost:64964/WebService.asmx/insertOrUpdateDrug",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateDrug",
                 {
                     drugRow: this.drugForm.value,
@@ -376,7 +376,7 @@ export class DrugsComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-           // .post("http://localhost:64964/WebService.asmx/getDrugsTbl", {
+           // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getDrugsTbl", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getDrugsTbl", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,

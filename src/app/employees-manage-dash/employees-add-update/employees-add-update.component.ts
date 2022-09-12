@@ -37,6 +37,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   _switchHTOK: any = "0";
   _switchBlossom: any = "0";
   AcceptTerms: any;
+  saveBtnWait: boolean = false;
   Api = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
 
   constructor(private _snackBar: MatSnackBar,
@@ -72,6 +73,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
       LastName: new FormControl(this.employee.LastName, [Validators.required]),
       LastNameEng: new FormControl(this.employee.LastNameEng, null),
       Gender: new FormControl(this.employee.Gender, [Validators.required]),
+      KupaID: new FormControl(this.employee.KupaID, null),
       Email: new FormControl(this.employee.Email, null),
       CellNumber: new FormControl(this.employee.CellNumber, [Validators.required, Validators.pattern("[0-9 ]{10}")]),
       // KupaID: new FormControl(this.employee.KupaID, null),
@@ -289,6 +291,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
               LastName: new FormControl(this.employee.LastName, [Validators.required]),
               LastNameEng: new FormControl(this.employee.LastNameEng, [Validators.required]),
               Gender: new FormControl(this.employee.Gender, [Validators.required]),
+              KupaID: new FormControl(this.employee.KupaID, null),
               Email: new FormControl(this.employee.Email, [Validators.required]),
               CellNumber: new FormControl(this.employee.CellNumber, [Validators.required, Validators.pattern("[0-9 ]{10}")]),
               // KupaID: new FormControl(this.employee.KupaID, null),
@@ -360,11 +363,13 @@ export class EmployeesAddUpdateComponent implements OnInit {
   }
 
   saveEmployee() {
+    this.saveBtnWait = true;
     this.employeeWorkDetails.controls['EmployeeIndex'].setValue(this.getEmployeeIndex());
     let pipe = new DatePipe('en-US');
     this.employeeWorkDetails.controls['StartWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['StartWorkDate'].value, 'yyyy-MM-dd'));
     this.employeeWorkDetails.controls['DocStartExperience'].setValue(pipe.transform(this.employeeWorkDetails.controls['DocStartExperience'].value, 'yyyy-MM-dd'));
     this.employeeWorkDetails.controls['EndWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['EndWorkDate'].value, 'yyyy-MM-dd'));
+    this.employeeWorkDetails.controls['DateToEndWork'].setValue(pipe.transform(this.employeeWorkDetails.controls['DateToEndWork'].value, 'yyyy-MM-dd'));
     this.employeePersonalDetails.controls['DateOfBirth'].setValue(pipe.transform(this.employeePersonalDetails.controls['DateOfBirth'].value, 'yyyy-MM-dd'));
     if (this.employeeWorkDetails.controls['StatusRow'].value == null || this.employeeWorkDetails.controls['StatusRow'].value == "0") {
       this.employeeWorkDetails.controls['StatusRow'].setValue('0');

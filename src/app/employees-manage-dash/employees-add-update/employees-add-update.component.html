@@ -58,11 +58,9 @@
                                         formControlName="FirstNameEng">
                                 </mat-form-field>
                             </li>
-
-
                         </div>
                         <div class="full-width row">
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
@@ -70,7 +68,7 @@
                                         formControlName="LastName">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                 </div>
                                 <mat-form-field class="example-full-width">
@@ -78,12 +76,28 @@
                                         formControlName="LastNameEng">
                                 </mat-form-field>
                             </li>
-                            <li class="border-me col-4">
+                            <li class="border-me col-3">
                                 <div class="col-12 text-right">
-                                    <label class="exp-label" [ngStyle]="{'color':this.employeePersonalDetails.get('Gender').value === null ? 'red' : 'black' }">מגדר</label>
+                                    <label class="exp-label"
+                                        [ngStyle]="{'color':this.employeePersonalDetails.get('Gender').value === null ? 'red' : 'black' }">מגדר</label>
                                     <mat-select formControlName="Gender" aria-placeholder="מגדר">
                                         <mat-option value="Male"> זכר </mat-option>
                                         <mat-option value="Female"> נקבה </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label"
+                                        [ngStyle]="{'color':this.employeePersonalDetails.get('KupaID').value === null ? 'red' : 'black' }">קופת
+                                        חולים</label>
+                                    <mat-select formControlName="KupaID" aria-placeholder="קופת חולים">
+                                        <mat-option value="10"> כללית </mat-option>
+                                        <mat-option value="11"> מכבי </mat-option>
+                                        <mat-option value="12"> מאוחדת </mat-option>
+                                        <mat-option value="13"> לאומית </mat-option>
+                                        <mat-option value="98"> צה\"ל </mat-option>
+                                        <mat-option value="99"> ללא קופה </mat-option>
                                     </mat-select>
                                 </div>
                             </li>
@@ -353,8 +367,7 @@
                             <li class="border-me col-3">
                                 <div class="col-12 text-right">
                                     <label class="exp-label">מבצע תורנויות</label>
-                                    <mat-select formControlName="Toranot"
-                                        aria-placeholder="מבצע תורנויות">
+                                    <mat-select formControlName="Toranot" aria-placeholder="מבצע תורנויות">
                                         <mat-option value="כן"> כן </mat-option>
                                         <mat-option value="לא"> לא </mat-option>
                                     </mat-select>
@@ -380,10 +393,11 @@
 
                 <div class="button-row">
                     <button class="submitBtn mb-2 mt-3" matTooltip="שמירה" [disabled]="employeePersonalDetails.invalid"
-                        (click)="saveEmployee()" color="primary" type="submit" mat-fab>
-                        <span class="material-icons">
+                        (click)="saveEmployee()" [disabled]="saveBtnWait" color="primary" type="submit" mat-fab>
+                        <span *ngIf="!saveBtnWait" class="material-icons">
                             save
                         </span>
+                        <p *ngIf="saveBtnWait" style="font-size: 16px;">המתן..</p>
                     </button>
                 </div>
             </mat-step>

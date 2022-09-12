@@ -2,7 +2,17 @@
     <h1 class="text-center">משתתפות {{MaternityName}}</h1>
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col-1 text-center" style="align-self: center;">
+                <button mat-fab color="accent" aria-label="Excel" (click)="exportToExcel()" matTooltip="יצוא לאקסל">
+                    <mat-icon>get_app</mat-icon>
+                </button>
+                <button mat-fab color="primary" style="margin-left: 10px;" *ngIf="listOfEmails.length > 0"
+                    (click)="sendEmailToPatients()" aria-label="Email" matTooltip="שליחת מייל">
+                    <mat-icon>mail</mat-icon>
+                    <!-- <a href="mailto:{{listOfEmails[0]}}">Contact via E-mail</a> -->
+                </button>
+            </div>
+            <div class="col-11">
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body">
                         <form class="form" ngbAutofocus>
@@ -37,28 +47,36 @@
                     </div>
                 </div>
             </div>
+
+
         </div>
-        <button mat-fab color="accent" aria-label="Excel" (click)="exportToExcel()" matTooltip="יצוא לאקסל">
-            <mat-icon>get_app</mat-icon>
-        </button>
+
     </div>
-    <br />
     <hr />
     <div class="container-fluid pb-60">
         <div class="row">
             <div dir="rtl" class="col">
                 <div class="table-responsive">
+                    <mat-form-field appearance="standard" style="text-align: center;">
+                        <mat-label class="filterClass">מסנן</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" #input>
+                    </mat-form-field>
                     <div class="table-spinner-container">
-                        <!-- <mat-form-field>
-                                <input matInput (keyup)="applyFiltermaternitypatients($event.target.value)" placeholder="חפש">
-                            </mat-form-field> -->
                         <table class="table" mat-table [dataSource]="dataSource" id="formTable1">
-                            <ng-container matColumnDef="RowID">
+                            <!-- <ng-container matColumnDef="RowID">
                                 <th mat-header-cell *matHeaderCellDef>
                                     מס' שורה
                                 </th>
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.RowID }}
+                                </td>
+                            </ng-container> -->
+                            <ng-container matColumnDef="boxes">
+                                <th mat-header-cell *matHeaderCellDef><input type="checkbox"
+                                        (change)="selectAllPatients()" /></th>
+                                <td mat-cell *matCellDef="let element">
+                                    <input type="checkbox"
+                                        (change)="choosePatientsToEmail($event, element.PatientEmail)" />
                                 </td>
                             </ng-container>
                             <ng-container matColumnDef="PatientId">
@@ -183,10 +201,10 @@
                             <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                             <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
                         </table>
+                        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50, 100]"></mat-paginator>
                     </div>
                     <!-- PAGINATION -->
-                    <mat-paginator [length]="resultsLength" [pageSizeOptions]="[5, 10, 20, 50, 100]" [pageSize]="10"
-                        showFirstLastButtons (page)="getPaginatorData($event)"></mat-paginator>
+
                 </div>
             </div>
         </div>
@@ -242,7 +260,7 @@
                 </div>
             </div>
             <div class="row">
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input id="PatientMobile" matInput autocomplete="off" class="form-control"
@@ -250,7 +268,7 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input id="PatientEmail" matInput autocomplete="off" class="form-control"
@@ -258,13 +276,23 @@
                         </mat-form-field>
                     </div>
                 </div>
-                <div class="col-4">
+                <div class="col-3">
                     <div class="form-group">
                         <mat-form-field>
                             <input id="PatientAddress" matInput autocomplete="off" class="form-control"
                                 placeholder="כתובת" formControlName="PatientAddress" type="text" />
                         </mat-form-field>
                     </div>
+                </div>
+                <div class="col-3">
+                    <mat-form-field>
+                        <mat-label>שיוך משתתפת</mat-label>
+                        <mat-select formControlName="PatientCategory" required>
+                            <mat-option value="0">כללי</mat-option>
+                            <mat-option value="1">חרדי</mat-option>
+                            <mat-option value="2">ערבי</mat-option>
+                        </mat-select>
+                    </mat-form-field>
                 </div>
             </div>
             <div class="row">

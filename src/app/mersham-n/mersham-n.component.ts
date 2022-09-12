@@ -1441,7 +1441,7 @@ export class MershamNComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            //.post("http://localhost:64964/WebService.asmx/SubmitCopyPrecpiction",                {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCopyPrecpiction",                {
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCopyPrecpiction",
                 {
@@ -1721,7 +1721,7 @@ export class MershamNComponent implements OnInit {
             Seode_Depart: this.Seode_Depart,
         };
         this.http
-            //.post(  "http://localhost:64964/WebService.asmx/SubmitPrecpictionNew",{
+            //.post(  "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNew",{
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNew",
                 {
@@ -2194,7 +2194,7 @@ export class MershamNComponent implements OnInit {
         }
         this.http
             .post(
-                //"http://localhost:64964/WebService.asmx/GetDemographDataNew",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographDataNew",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographDataNew",
                 {
                     _id: _FreeText,

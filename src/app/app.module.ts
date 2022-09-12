@@ -159,7 +159,11 @@ import { DrugProtocolsComponent } from './drug-protocols/drug-protocols.componen
 import { MershamNComponent } from './mersham-n/mersham-n.component';
 import { LogAllRequestsInterceptor } from './log-all-requests.interceptor';
 import { GroupedBarChartReleaseComponent } from './hospital-bi-dashboard/grouped-bar-chart-release/grouped-bar-chart-release.component';
+<<<<<<< HEAD
 import { ServersComponent } from './servers/servers.component';
+=======
+import {JpTimeMaskModule} from '@julianobrasil/timemask';
+>>>>>>> cbd6782d1667cc8a64798a1776025a506e5de38d
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -280,7 +284,8 @@ const maskConfig: Partial<IConfig> = {
     ServersComponent
   ],
   imports: [
-    AngularDualListBoxModule ,
+    JpTimeMaskModule,
+    AngularDualListBoxModule,
     MatTableExporterModule,
     AngularDualListBoxModule,
     BrowserModule,
@@ -370,7 +375,7 @@ const maskConfig: Partial<IConfig> = {
     , ConfirmationDialogService
     , MenuPerm
     , NgbActiveModal
-    ,{ provide: HTTP_INTERCEPTORS, useClass: LogAllRequestsInterceptor, multi: true }
+    , { provide: HTTP_INTERCEPTORS, useClass: LogAllRequestsInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
   exports: [

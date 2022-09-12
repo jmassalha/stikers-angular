@@ -32,9 +32,9 @@ export class HospitalBIDashboardComponent implements OnInit {
   configUrl = 'http://srv-apps-prod/RCF_WS/WebService.asmx/';
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
-    // { DIMDataTypeID: "2", DIMDataTypeDesc: "פעולות" },
+    { DIMDataTypeID: "2", DIMDataTypeDesc: "מרפאות ומכונים" },
     { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
-    // { DIMDataTypeID: "4", DIMDataTypeDesc: "מרפאות ומכונים" },
+    // { DIMDataTypeID: "4", DIMDataTypeDesc: "פעולות" },
     { DIMDataTypeID: "5", DIMDataTypeDesc: "קבלות לאשפוז" },
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" },
@@ -123,7 +123,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     setTimeout(() => {
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }, 1500);
-    
+
     this.showYearsPeriod();
   }
 
@@ -173,9 +173,15 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
         // this.graphsCtrl.controls['lineCtrl'].setValue(event);
-        if (this.departParam == "5") {
-          this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList,this.releasePatient);
-        this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
+        // let test = this.groupRelease.test();
+        if (this.departParam == "5" || this.departParam == "6") {
+          try {
+            this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
+          } catch (error) {
+            console.log("error");
+          }
+
+          this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
         }
         break;
       }
@@ -195,7 +201,11 @@ export class HospitalBIDashboardComponent implements OnInit {
         break;
       }
       case "groupRelease": {
-        this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList,this.releasePatient);
+        try {
+          this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
+        } catch (error) {
+          console.log("error");
+        }
         this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
         break;
       }
@@ -218,8 +228,12 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
-        if (this.departParam == "5") {
-          this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList,this.releasePatient);
+        if (this.departParam == "5" || this.departParam == "6") {
+          try {
+            this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
+          } catch (error) {
+            console.log("error");
+          }
           this.graphsCtrl.controls['groupReleaseCtrl'].setValue(event);
         }
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
@@ -227,7 +241,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         break;
       }
     }
-    
+
     if (this.departParam == "5") {
       this.getHospitalDepartmentsTableChartList();
     }

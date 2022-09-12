@@ -163,7 +163,7 @@
                 <app-grouped-bar-chart2 #group2></app-grouped-bar-chart2>
             </div>
         </div>
-        <div class="row section" dir="rtl" *ngIf="departParam == '5'">
+        <div class="row section" dir="rtl" [ngStyle]="{'display': departParam == '5'|| departParam == '6' ? 'block' : 'none' }">
             <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;text-align-last: center;">
                     <h3>{{groupReleaseTime}}</h3>
@@ -172,7 +172,7 @@
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
-                    <div *ngIf="departParam == '5'" style="align-self: center;margin-right: 6%;"
+                    <div style="align-self: center;margin-right: 6%;"
                         [formGroup]="releaseDeptChooseGroup">
                         <mat-radio-group formControlName="releaseDeptChoose" aria-label="Select an option"
                             (change)="changeReleasedDept()">
@@ -181,7 +181,7 @@
                         </mat-radio-group>
                     </div>
                 </div>
-                <app-grouped-bar-chart-release #groupRelease [releasePatient]="releasePatient"></app-grouped-bar-chart-release>
+                <app-grouped-bar-chart-release #groupRelease></app-grouped-bar-chart-release>
             </div>
         </div>
         <div class="row section" dir="rtl">

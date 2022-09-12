@@ -1,49 +1,48 @@
 <div class="d-block pd-60">
-  <!-- <div class="row">
-    <div class="col">
-      <div dir="rtl" class="card w-85-p">
-        <div dir="rtl" class="card-body">
-          <form class="form">
-            <div class="row">
-              <div class="col">
-                <div class="form-group">
-                  <mat-form-field>
-                    <label><b>חיפוש</b> - הקלד תעודת
-                      זהות</label>
-                    <input matInput autocomplete="off" [(ngModel)]="caseNumber" name="fliterVal" />
-                  </mat-form-field>
-                </div>
-              </div>
-            </div>
-            <h4 class="searchingPatient" *ngIf="!patientFound"> מחפש נבדק ... </h4>
-            <button type="submit" mat-raised-button color="yello" (click)="getGalitReportPatient()">
-              <mat-icon>search</mat-icon>
-            </button>
-            &nbsp;&nbsp;&nbsp;
-            <button mat-raised-button color="yello" type="button" (click)="clearSearch()">
-              <mat-icon>clear</mat-icon>
-            </button>
-            &nbsp;&nbsp;&nbsp;
-          </form>
-        </div>
-        <mat-progress-bar mode="buffer" *ngIf="!patientFound"></mat-progress-bar>
+  <div class="row mt-5" dir="rtl" [formGroup]="searchForm" style="border-style: outset;width: 90%;margin: auto;">
+    <div class="col-2 text-center" style="margin: auto;">
+      <span class="ml-1">היסטוריה</span>
+      <mat-slide-toggle class="example-margin" color="accent" [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">
+      </mat-slide-toggle>
+    </div>
+    <div class="col-4">
+      <div class="form-group">
+        <mat-form-field appearance="fill">
+          <input matInput formControlName="DateSearch" (focus)="pickersearch1.open()"
+            [matDatepicker]="pickersearch1" placeholder="דוח בתאריך:">
+          <mat-datepicker-toggle matSuffix [for]="pickersearch1">
+          </mat-datepicker-toggle>
+          <mat-datepicker [disabled]="!checked" #pickersearch1></mat-datepicker>
+        </mat-form-field>
       </div>
     </div>
-  </div> -->
-
-  <div class="row mt-5" dir="rtl">
+    <div class="col-6">
+      <mat-form-field class="full-width">
+        <mat-label>מחלקה</mat-label>
+        <mat-select formControlName="DepartmentSearch" (selectionChange)="applyFilter($event.value)">
+          <mat-option value="">
+            הכל
+          </mat-option>
+          <mat-option *ngFor="let dept of departmentsArray" [value]="dept">
+            {{dept}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+    </div>
+    <div class="row d-block">
+      <h3 class="header float-right">מספר מטופלים: {{numberOfPatients}}</h3>
+      <button matTooltip="רענון" mat-raised-button class="btn btn-raised mr-2"
+        style="background: lawngreen;float: left;" (click)="getGalitReportPatient()">
+        <i class="material-icons">search</i>
+      </button>
+      <button matTooltip="הדפסה" mat-raised-button class="btn btn-raised mr-2"
+        style="background: cornflowerblue;float: left;" (click)="print()">
+        <i class="material-icons">print</i>
+      </button>
+    </div>
+  </div>
+  <div class="row mt-1" dir="rtl">
     <div class="col ml-3" style="overflow: auto;">
-      <div class="row d-block">
-        <h3 class="header float-right">מספר מטופלים: {{numberOfPatients}}</h3>
-        <button matTooltip="רענון" mat-raised-button class="btn btn-raised" style="background: lawngreen;float: left;"
-          (click)="ngOnInit()">
-          <i class="material-icons">refresh</i>
-        </button>
-        <button matTooltip="הדפסה" mat-raised-button class="btn btn-raised"
-          style="background: cornflowerblue;float: left;" (click)="print()">
-          <i class="material-icons">print</i>
-        </button>
-      </div>
       <mat-form-field appearance="standard" style="box-shadow: -1px -1px 9px 0px #000;text-align: center;">
         <mat-label class="filterClass">מסנן</mat-label>
         <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
@@ -54,12 +53,12 @@
         </div>
       </div>
       <div #printmycontent>
-        
+
         <table mat-table [dataSource]="dataSource" matSort dir="rtl" class="mat-elevation-z8">
-          <ng-container matColumnDef="PatientRowNumber">
+          <!-- <ng-container matColumnDef="PatientRowNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר שורה </th>
             <td mat-cell *matCellDef="let element"> {{element.PatientRowNumber}} </td>
-          </ng-container>
+          </ng-container> -->
           <ng-container matColumnDef="CaseNumber">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> מספר מקרה </th>
             <td mat-cell *matCellDef="let element"> {{element.CaseNumber}} </td>
@@ -76,10 +75,6 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> שם פרטי </th>
             <td mat-cell *matCellDef="let element"> {{element.PatientFirstName}} {{element.PatientLastName}}</td>
           </ng-container>
-          <!-- <ng-container matColumnDef="PatientLastName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> שם משפחה </th>
-            <td mat-cell *matCellDef="let element"> {{element.PatientLastName}} </td>
-          </ng-container> -->
           <ng-container matColumnDef="PM_PATIENT_GENDER">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> מגדר </th>
             <td mat-cell *matCellDef="let element"> {{element.PM_PATIENT_GENDER}} </td>
@@ -94,11 +89,13 @@
           </ng-container>
           <ng-container matColumnDef="ICD9Surgery">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ניתוח </th>
-            <td mat-cell *matCellDef="let element"> {{element.ICD9Surgery}} </td>
+            <td mat-cell *matCellDef="let element" style="word-wrap: break-word;font-size: 10px;">
+              {{element.ICD9Surgery}} </td>
           </ng-container>
           <ng-container matColumnDef="ICD9Anamniza">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> אבחנה </th>
-            <td mat-cell *matCellDef="let element"> {{element.ICD9Anamniza}} </td>
+            <td mat-cell *matCellDef="let element" style="word-wrap: break-word;font-size: 10px;">
+              {{element.ICD9Anamniza}} </td>
           </ng-container>
           <ng-container matColumnDef="DifferenceInStayDays">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> הפרש ימי אשפוז </th>
@@ -125,7 +122,7 @@
             <td mat-cell *matCellDef="let element"> {{element.Iv}} </td>
           </ng-container> -->
           <ng-container matColumnDef="HowToEat">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> דרך האכלה</th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> אופן אכילה</th>
             <td mat-cell *matCellDef="let element"> {{element.HowToEat}} </td>
           </ng-container>
           <ng-container matColumnDef="DietType">
@@ -133,7 +130,7 @@
             <td mat-cell *matCellDef="let element"> {{element.DietType}} </td>
           </ng-container>
           <ng-container matColumnDef="TextureFood">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header> סוג האכלה </th>
+            <th mat-header-cell *matHeaderCellDef mat-sort-header> מרקם מזון </th>
             <td mat-cell *matCellDef="let element"> {{element.TextureFood}} </td>
           </ng-container>
           <ng-container matColumnDef="Desctiption">
@@ -148,10 +145,10 @@
             <th mat-header-cell *matHeaderCellDef mat-sort-header> MUST </th>
             <td mat-cell *matCellDef="let element"> {{element.MUST}} </td>
           </ng-container>
-          <!-- <ng-container matColumnDef="STAMP">
+          <ng-container matColumnDef="STAMP">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> STAMP </th>
             <td mat-cell *matCellDef="let element"> {{element.STAMP}} </td>
-          </ng-container> -->
+          </ng-container>
           <ng-container matColumnDef="WieghtLoss">
             <th mat-header-cell *matHeaderCellDef mat-sort-header> ירידה במשקל </th>
             <td mat-cell *matCellDef="let element"> {{element.WieghtLoss}} </td>
@@ -166,39 +163,10 @@
             [style.background]="row.Points >= 6 ? 'indianred' : row.Points >= 2 && row.Points < 6 ? 'yellow': 'white'">
           </tr>
         </table>
-        <mat-paginator [pageSizeOptions]="[5, 10, 25, 100]" aria-label="Select page of users" style="float: right;">
+        <mat-paginator [pageSizeOptions]="[10, 25, 100, 200]" aria-label="Select page of users" style="float: right;">
         </mat-paginator>
         <mat-progress-bar mode="buffer" *ngIf="!patientFound"></mat-progress-bar>
       </div>
-
-
-      <!-- <mat-list role="list">
-        <mat-list-item role="listitem">DepartName: {{patient.DepartName}}</mat-list-item>
-        <mat-list-item role="listitem">PM_ROOM_NUMBER: {{patient.PM_ROOM_NUMBER}}</mat-list-item>
-        <mat-list-item role="listitem">CaseNumber: {{patient.CaseNumber}}</mat-list-item>
-        <mat-list-item role="listitem">PatientFirstName: {{patient.PatientFirstName}}</mat-list-item>
-        <mat-list-item role="listitem">PatientLastName: {{patient.PatientLastName}}</mat-list-item>
-        <mat-list-item role="listitem">PM_PATIENT_GENDER: {{patient.PM_PATIENT_GENDER}}</mat-list-item>
-        <mat-list-item role="listitem">DatesInHospital: {{patient.DatesInHospital}}</mat-list-item>
-        <mat-list-item role="listitem">AnotherHospital: {{patient.AnotherHospital}}</mat-list-item>
-        <mat-list-item role="listitem">ICD9Surgery: {{patient.ICD9Surgery}}</mat-list-item>
-        <mat-list-item role="listitem">ICD9Anamniza: {{patient.ICD9Anamniza}}</mat-list-item>
-        <mat-list-item role="listitem">DifferenceInStayDays: {{patient.DifferenceInStayDays}}</mat-list-item>
-        <mat-list-item role="listitem">AGE: {{patient.AGE}}</mat-list-item>
-        <mat-list-item role="listitem">Albomin: {{patient.Albomin}}</mat-list-item>
-        <mat-list-item role="listitem">Norton: {{patient.Norton}}</mat-list-item>
-        <mat-list-item role="listitem">ThroughInput: {{patient.ThroughInput}}</mat-list-item>
-        <mat-list-item role="listitem">Iv: {{patient.Iv}}</mat-list-item>
-        <mat-list-item role="listitem">HowToEat: {{patient.HowToEat}}</mat-list-item>
-        <mat-list-item role="listitem">DietType: {{patient.DietType}}</mat-list-item>
-        <mat-list-item role="listitem">TextureFood: {{patient.TextureFood}}</mat-list-item>
-        <mat-list-item role="listitem">Desctiption: {{patient.Desctiption}}</mat-list-item>
-        <mat-list-item role="listitem">BMI: {{patient.BMI}}</mat-list-item>
-        <mat-list-item role="listitem">MUST: {{patient.MUST}}</mat-list-item>
-        <mat-list-item role="listitem">STAMP: {{patient.STAMP}}</mat-list-item>
-        <mat-list-item role="listitem">WieghtLoss: {{patient.WieghtLoss}}</mat-list-item>
-        <mat-list-item role="listitem">Points: {{patient.Points}}</mat-list-item>
-      </mat-list> -->
     </div>
   </div>
 </div>

@@ -1,11 +1,13 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, ElementRef, OnInit, ViewChild,ViewEncapsulation  } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { MatDialog } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
 import { Router } from '@angular/router';
 import { MatSort } from '@angular/material/sort';
 import { MatPaginator } from '@angular/material/paginator';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { DatePipe } from '@angular/common';
 
 @Component({
   selector: 'app-galit-points-report',
@@ -18,35 +20,50 @@ export class GalitPointsReportComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   ELEMENT_DATA: any = [];
-  displayedColumns: string[] = ['PatientRowNumber', 'CaseNumber', 'DepartName', 'PM_ROOM_NUMBER', 'PatientFirstName', 'PM_PATIENT_GENDER', 'DatesInHospital', 'AnotherHospital', 'ICD9Surgery', 'ICD9Anamniza', 'DifferenceInStayDays', 'AGE', 'Albomin', 'Norton', 'ThroughInput', 'HowToEat', 'DietType', 'TextureFood', 'Desctiption', 'BMI', 'MUST', 'WieghtLoss', 'Points'];
+  displayedColumns: string[] = ['CaseNumber', 'DepartName', 'PM_ROOM_NUMBER', 'PatientFirstName', 'PM_PATIENT_GENDER', 'DatesInHospital', 'AnotherHospital', 'ICD9Surgery', 'ICD9Anamniza', 'DifferenceInStayDays', 'AGE', 'Albomin', 'Norton', 'ThroughInput', 'HowToEat', 'DietType', 'TextureFood', 'Desctiption', 'BMI', 'MUST', 'STAMP', 'WieghtLoss', 'Points'];
   dataSource = this.ELEMENT_DATA;
   @ViewChild('printmycontent') printmycontent: ElementRef;
 
   constructor(public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private router: Router,
-    private http: HttpClient) { }
+    private http: HttpClient,
+    private datePipe: DatePipe,
+    private fb: FormBuilder) { }
 
   // patient: any = "";
   // caseNumber: any;
   patientFound: boolean;
   numberOfPatients: number = 0;
+  departmentsArray = [];
+  checked = false;
+  fillteredDepartmentsArray = [];
+  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  searchForm: FormGroup;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  // ngAfterViewInit() {
-
-  // }
 
   ngOnInit(): void {
     // this.caseNumber = "";
     this.patientFound = true;
     this.getGalitReportPatient();
+    this.searchForm = this.fb.group({
+      DateSearch: new FormControl({ value: '', disabled: true }, null),
+      DepartmentSearch: new FormControl('', null)
+    });
   }
 
   applyFilter(event: Event) {
-    const filterValue = (event.target as HTMLInputElement).value;
+    let filterValue;
+    if (event == undefined) {
+      filterValue = "";
+    } else if (event.isTrusted == undefined) {
+      filterValue = event;
+    } else {
+      filterValue = (event.target as HTMLInputElement).value;
+    }
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
@@ -67,7 +84,7 @@ export class GalitPointsReportComponent implements OnInit {
     let that = this;
     that.paginator._changePageSize(300);
     setTimeout(function () {
-      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;}</style>"
+      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;box-shadow: 0px 1px 0px 2px;background: white;}</style>"
       var printContents = that.printmycontent.nativeElement.innerHTML;
       style += printContents;
       var w = window.open();
@@ -78,14 +95,36 @@ export class GalitPointsReportComponent implements OnInit {
     }, 1000);
   }
 
+  saveReport() {
+    this.http
+      .post(this.url + "SaveGalitReport", {})
+      .subscribe((Response) => {
+        if (Response["d"]) {
+          this.openSnackBar("נשמר בהצלחה");
+        } else {
+          this.openSnackBar("תקלה, לא נשמר");
+        }
+      });
+  }
+
+
   getGalitReportPatient() {
     this.patientFound = false;
+    let dateOfReport = null;
+    if (this.checked) {
+      dateOfReport = this.searchForm.controls['DateSearch'].value;
+      dateOfReport = this.datePipe.transform(dateOfReport, 'yyyy-MM-dd');
+    }
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetGalitReportPatient", {
+      .post(this.url + "GetGalitReportPatient", {
+        _dateOfReport: dateOfReport
       })
       .subscribe((Response) => {
         this.ELEMENT_DATA = Response["d"];
         this.ELEMENT_DATA.forEach(element => {
+          if (!this.departmentsArray.includes(element.DepartName)) {
+            this.departmentsArray.push(element.DepartName);
+          }
           if (parseInt(element.AGE) > 70) {
             element.Points++;
           } if (parseInt(element.DatesInHospital) > 8) {

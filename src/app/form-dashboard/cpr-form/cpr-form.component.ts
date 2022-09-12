@@ -49,8 +49,9 @@ export class CprFormComponent implements OnInit {
     private confirmationDialogService: ConfirmationDialogService,
     private datePipe: DatePipe,
     private router: Router,
-    private _sanitizer: DomSanitizer) { }
+    private _sanitizer: DomSanitizer) {
 
+  }
 
   FirstSection: FormGroup;
   SecondSection: FormGroup;
@@ -78,13 +79,20 @@ export class CprFormComponent implements OnInit {
   CprFormsList = [];
   CprFormsList_all = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
-  // usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
-  usersToSend = ['adahabre@poria.health.gov.il'];
+  usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
+  // usersToSend = ['adahabre@poria.health.gov.il'];
   filteredOptions1: Observable<string[]>;
   docfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
   nurfilter = new FormControl();
+  filteredOptions3: Observable<string[]>;
+  cardiologfilter = new FormControl();
+  filteredOptions4: Observable<string[]>;
+  mardimfilter = new FormControl();
+  filteredOptions5: Observable<string[]>;
+  clalitfilter = new FormControl();
   employees = [];
+  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
   pdfToServer: string = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>ניטור החייאה</title>
   <style>p,mat-label,li{font-weight: bold;font-size: 12px;}.col-2{width: 20%;justify-content: center;}td{border: 1px solid black}
   .container1{margin:2px; padding: 0px 5px 0px 0px; border-style: double;}th{font-size: 14px;}</style>
@@ -484,6 +492,7 @@ export class CprFormComponent implements OnInit {
 
 
   ngOnInit(): void {
+
     this.getCprActionsList();
     // for the first table hour/minutes row
     for (let i = 0; i < 1; i++) {
@@ -492,7 +501,7 @@ export class CprFormComponent implements OnInit {
       }));
     }
 
-    // second table of actions -- fixed number 9 or wait till the response from server for actions list (fekret abo elabed) --errroooooorrrrrrrr!!!!!!!!!!!
+    // second table of actions
     for (let i = 0; i < 9; i++) {
       this.actionsTableArray.push(this.formBuilder.group({
         id: new FormControl(i, null),
@@ -577,6 +586,21 @@ export class CprFormComponent implements OnInit {
         startWith(''),
         map(value => this._filter2(value))
       );
+    this.filteredOptions3 = this.cardiologfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter3(value))
+      );
+    this.filteredOptions4 = this.mardimfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter4(value))
+      );
+    this.filteredOptions5 = this.clalitfilter.valueChanges
+      .pipe(
+        startWith(''),
+        map(value => this._filter5(value))
+      );
   }
 
   private _filter1(value: string): string[] {
@@ -600,10 +624,37 @@ export class CprFormComponent implements OnInit {
     }
     return this.employees.filter(option => option.firstname.includes(filterValue2));
   }
+  private _filter3(value: string): string[] {
+    const filterValue3 = value;
+    let depart: any = this.employees.filter(t => t.firstname === filterValue3);
+    let userToChange;
+    if (depart.length > 0) {
+      this.FirstSection.controls['cadriologName'].setValue(depart[0].firstname);
+    }
+    return this.employees.filter(option => option.firstname.includes(filterValue3));
+  }
+  private _filter4(value: string): string[] {
+    const filterValue4 = value;
+    let depart: any = this.employees.filter(t => t.firstname === filterValue4);
+    let userToChange;
+    if (depart.length > 0) {
+      this.FirstSection.controls['mardimName'].setValue(depart[0].firstname);
+    }
+    return this.employees.filter(option => option.firstname.includes(filterValue4));
+  }
+  private _filter5(value: string): string[] {
+    const filterValue5 = value;
+    let depart: any = this.employees.filter(t => t.firstname === filterValue5);
+    let userToChange;
+    if (depart.length > 0) {
+      this.FirstSection.controls['clalitName'].setValue(depart[0].firstname);
+    }
+    return this.employees.filter(option => option.firstname.includes(filterValue5));
+  }
 
   getEmployeesList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetUsersForInquiries", {
+      .post(this.url + "GetUsersForInquiries", {
       })
       .subscribe((Response) => {
         let all_users_filter = Response["d"];
@@ -720,7 +771,7 @@ export class CprFormComponent implements OnInit {
   getCprActionsList() {
     this.http
       .post(
-        "http://srv-apps-prod/RCF_WS/WebService.asmx/GetCprActionsList",
+        this.url + "GetCprActionsList",
         {}
       )
       .subscribe((Response) => {
@@ -754,7 +805,7 @@ export class CprFormComponent implements OnInit {
     this.buffering = true;
     this.http
       .post(
-        "http://srv-apps-prod/RCF_WS/WebService.asmx/getPatientDetailsByCaseNumber", {
+        this.url + "getPatientDetailsByCaseNumber", {
         _caseNumber: this.CaseNumber
       }
       )
@@ -780,7 +831,7 @@ export class CprFormComponent implements OnInit {
   }
 
   LateDocSignature(data, row) {
-    this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateSign", {
+    this.http.post(this.url + "UpdateSign", {
       _rowID: row,
       _signData: data.sign,
     })
@@ -831,6 +882,9 @@ export class CprFormComponent implements OnInit {
   submit() {
     let defaultCprDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
     this.FirstSection.controls['cprDate'].setValue(defaultCprDate);
+    this.FirstSection.markAllAsTouched();
+    this.SecondSection.markAllAsTouched();
+    this.ThirdSection.markAllAsTouched();
     if (this.FirstSection.invalid) {
       this.openSnackBar("שכחת שדה חובה בחלק ראשון");
     } else if (this.SecondSection.invalid) {
@@ -838,7 +892,7 @@ export class CprFormComponent implements OnInit {
     } else if (this.ThirdSection.invalid) {
       this.openSnackBar("שכחת שדה חובה בחלק שלישי");
     } else {
-      this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveCprForm", {
+      this.http.post(this.url + "SaveCprForm", {
         _first: this.FirstSection.value,
         _second: this.SecondSection.value,
         _third: this.ThirdSection.value,
@@ -873,7 +927,7 @@ export class CprFormComponent implements OnInit {
 
   getAllCprFormsList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllCprFormsList", {
+      .post(this.url + "GetAllCprFormsList", {
         ID: ""
       })
       .subscribe((Response) => {
@@ -884,7 +938,7 @@ export class CprFormComponent implements OnInit {
   sendCprFormEmail(id) {
     this.http
       //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
+      .post(this.url + "SendCprFormEmail", {
         _userSender: this.UserName,
         users: this.usersToSend,
         _reportArrayID: id,
