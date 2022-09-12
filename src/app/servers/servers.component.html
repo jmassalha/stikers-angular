@@ -1,0 +1,65 @@
+<div id="page-toshow">
+    <div class="container-fluid">
+        <mat-tab-group mat-align-tabs="center">
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    <div class="min-width-200">
+                        <div class="warn-server">
+                            Off Line Servers - {{ TotalOffLineServers }}
+                        </div>
+                    </div>
+                </ng-template>
+                <div class="row">
+                    <div
+                        *ngFor="let server of OffLineServers"
+                        class="col-3 mb-3 mt-3"
+                    >
+                        <mat-card class="min-height-200">
+                            <div class="warn-server min-height-200">
+                                <mat-card-title>{{
+                                    server.VMName
+                                }}</mat-card-title>
+                                <mat-card-subtitle>{{
+                                    server.IPAddress
+                                }}</mat-card-subtitle>
+                                <mat-card-content>
+                                    <p>{{ server.OS }}</p>
+                                </mat-card-content>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+            <mat-tab>
+                <ng-template mat-tab-label>
+                    
+                    <div class="min-width-200">
+                        <div class="green-server">
+                            On Line Servers - {{ TotalOnLineServers }}
+                        </div>
+                    </div>
+                </ng-template>
+                <div class="row">
+                    <div
+                        *ngFor="let server of OnLineServers"
+                        class="col-3 mb-3 mt-3"
+                    >
+                        <mat-card class="min-height-200">
+                            <div class="green-server">
+                                <mat-card-title>{{
+                                    server.VMName
+                                }}</mat-card-title>
+                                <mat-card-subtitle>{{
+                                    server.IPAddress
+                                }}</mat-card-subtitle>
+                                <mat-card-content>
+                                    <p>{{ server.OS }}</p>
+                                </mat-card-content>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </mat-tab>
+        </mat-tab-group>
+    </div>
+</div>

@@ -159,6 +159,7 @@ import { DrugProtocolsComponent } from './drug-protocols/drug-protocols.componen
 import { MershamNComponent } from './mersham-n/mersham-n.component';
 import { LogAllRequestsInterceptor } from './log-all-requests.interceptor';
 import { GroupedBarChartReleaseComponent } from './hospital-bi-dashboard/grouped-bar-chart-release/grouped-bar-chart-release.component';
+import { ServersComponent } from './servers/servers.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -275,7 +276,8 @@ const maskConfig: Partial<IConfig> = {
     CprFormComponent,
     DrugProtocolsComponent,
     MershamNComponent,
-    GroupedBarChartReleaseComponent
+    GroupedBarChartReleaseComponent,
+    ServersComponent
   ],
   imports: [
     AngularDualListBoxModule ,

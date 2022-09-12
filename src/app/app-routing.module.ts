@@ -79,6 +79,7 @@ import { MaternityParticipantsComponent } from "./maternity/maternity-participan
 import { CprFormComponent } from "./form-dashboard/cpr-form/cpr-form.component"; 
 import { DrugProtocolsComponent } from "./drug-protocols/drug-protocols.component";
 import { MershamNComponent } from "./mersham-n/mersham-n.component";
+import { ServersComponent } from "./servers/servers.component";
 const routes: Routes = [
     
     { path: "dashboard", component: DashboardComponent },
@@ -161,6 +162,7 @@ const routes: Routes = [
     { path: "CprForm", component: CprFormComponent },
     { path: "drugprotocols", component: DrugProtocolsComponent },
     { path: "mershamn", component: MershamNComponent },
+    { path: "servers", component: ServersComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({
