@@ -53,6 +53,7 @@ export interface MaternityPatients {
     PatientCategory: string;
     PatientPregnancyWeekAtInsert: string;
     PatientNote: string;
+    completed: boolean;
 }
 
 @Component({
@@ -128,8 +129,8 @@ export class MaternitypatientsComponent implements OnInit {
     fullnameVal: string;
     rowIdVal: string;
     AllParticipantProjectsCost: number = 0;
+
     ngOnInit(): void {
-        // //debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
@@ -251,10 +252,23 @@ export class MaternitypatientsComponent implements OnInit {
             });
     }
 
-    selectAllPatients() {
-        for (let i = 0; i < this.dataSource.filteredData.length; i++) {
-            this.listOfEmails.push(this.dataSource.filteredData[i].PatientEmail);
+    selectAllPatients(event) {
+        if (event.target.checked) {
+            for (let i = 0; i < this.dataSource.filteredData.length; i++) {
+                this.listOfEmails.push(this.dataSource.filteredData[i].PatientEmail);
+                // this.choosePatientsToEmail();
+                this.dataSource.filteredData[i].completed = true;
+            }
+        } else {
+            this.listOfEmails = [];
+            for (let i = 0; i < this.dataSource.filteredData.length; i++) {
+                // this.listOfEmails.push(this.dataSource.filteredData[i].PatientEmail);
+                // this.choosePatientsToEmail();
+                this.dataSource.filteredData[i].completed = false;
+            }
         }
+
+
     }
 
     choosePatientsToEmail(event, email) {
@@ -273,14 +287,7 @@ export class MaternitypatientsComponent implements OnInit {
         for (let i = 0; i < this.listOfEmails.length; i++) {
             stringEmails += this.listOfEmails[i] + ";";
         }
-        this.http
-            .post(
-                this.Api + "SendMaternityEmailToPatients",
-                {
-                    emailList: stringEmails
-                }
-            )
-            .subscribe((Response) => { });
+        window.location.href = "mailto:" + stringEmails;
     }
 
     attachToOtherProject() {
@@ -553,6 +560,7 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientCategory: patientData[i].PatientCategory,
                         PatientPregnancyWeekAtInsert: PatientPregnancyWeekAtInsert,
                         PatientNote: patientData[i].PatientNote,
+                        completed: false,
                     });
                 }
 

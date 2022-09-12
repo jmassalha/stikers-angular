@@ -2,17 +2,16 @@
     <h1 class="text-center">משתתפות {{MaternityName}}</h1>
     <div class="container-fluid">
         <div class="row">
-            <div class="col-1 text-center" style="align-self: center;">
+            <div class="col-2 text-center" style="align-self: center;">
                 <button mat-fab color="accent" aria-label="Excel" (click)="exportToExcel()" matTooltip="יצוא לאקסל">
                     <mat-icon>get_app</mat-icon>
                 </button>
                 <button mat-fab color="primary" style="margin-left: 10px;" *ngIf="listOfEmails.length > 0"
                     (click)="sendEmailToPatients()" aria-label="Email" matTooltip="שליחת מייל">
                     <mat-icon>mail</mat-icon>
-                    <!-- <a href="mailto:{{listOfEmails[0]}}">Contact via E-mail</a> -->
                 </button>
             </div>
-            <div class="col-11">
+            <div class="col-10">
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body">
                         <form class="form" ngbAutofocus>
@@ -73,9 +72,9 @@
                             </ng-container> -->
                             <ng-container matColumnDef="boxes">
                                 <th mat-header-cell *matHeaderCellDef><input type="checkbox"
-                                        (change)="selectAllPatients()" /></th>
+                                        (change)="selectAllPatients($event)" /></th>
                                 <td mat-cell *matCellDef="let element">
-                                    <input type="checkbox"
+                                    <input type="checkbox" [checked]="element.completed"
                                         (change)="choosePatientsToEmail($event, element.PatientEmail)" />
                                 </td>
                             </ng-container>
