@@ -53,6 +53,7 @@ export interface MaternityPatients {
     PatientCategory: string;
     PatientPregnancyWeekAtInsert: string;
     PatientNote: string;
+    ConnectionID: string;
     completed: boolean;
 }
 
@@ -178,6 +179,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientCategory: [_element.PatientCategory, Validators.nullValidator],
             PatientMobile: [_element.PatientMobile, Validators.nullValidator],
             PatientEmail: [_element.PatientEmail, Validators.nullValidator],
+            ConnectionID: [_element.ConnectionID, Validators.nullValidator],
         });
         this.confirmationDialogService
             .confirm("נא לאשר..", "האם אתה בטוח ...? ")
@@ -351,6 +353,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientCategory: [_element.PatientCategory, Validators.nullValidator],
             PatientMobile: [_element.PatientMobile, Validators.nullValidator],
             PatientEmail: [_element.PatientEmail, Validators.nullValidator],
+            ConnectionID: [_element.ConnectionID, Validators.nullValidator],
         });
         this.activeModal = this.modalServicematernitypatients.open(
             content,
@@ -424,6 +427,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientCategory: ["", Validators.nullValidator],
             PatientMobile: ["", Validators.nullValidator],
             PatientEmail: ["", Validators.nullValidator],
+            ConnectionID: ["", Validators.nullValidator],
         });
         this.activeModal = this.modalServicematernitypatients.open(
             content,
@@ -470,6 +474,7 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientCategory: [patientDetails.PatientCategory, Validators.nullValidator],
                         PatientMobile: [patientDetails.PatientMobile, Validators.nullValidator],
                         PatientEmail: [patientDetails.PatientEmail, Validators.nullValidator],
+                        ConnectionID: [patientDetails.ConnectionID, Validators.nullValidator],
                     });
                 }
             });
@@ -560,6 +565,7 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientCategory: patientData[i].PatientCategory,
                         PatientPregnancyWeekAtInsert: PatientPregnancyWeekAtInsert,
                         PatientNote: patientData[i].PatientNote,
+                        ConnectionID: patientData[i].ConnectionID,
                         completed: false,
                     });
                 }
