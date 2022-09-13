@@ -4,8 +4,9 @@ import {
     ViewChild,
     AfterViewInit,
     Input,
+    ElementRef,
 } from "@angular/core";
-import { Router } from "@angular/router";
+import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatRadioChange } from "@angular/material/radio";
@@ -71,6 +72,7 @@ export interface NewBornUsers {
     styleUrls: ["./new-born.component.css"],
 })
 export class NewBornComponent implements OnInit {
+    @ViewChild('newBornBtn') newBornBtn: ElementRef;
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -118,7 +120,8 @@ export class NewBornComponent implements OnInit {
         private http: HttpClient,
         private modalServiceresearchespatients: NgbModal,
         private formBuilder: FormBuilder,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private _Activatedroute:ActivatedRoute,
     ) {
         this.activeModal = activeModal;
     }
@@ -135,7 +138,10 @@ export class NewBornComponent implements OnInit {
     rowIdVal: string;
     UserFrom: string;
     myControl = new FormControl("");
+    casenumber = '';
     ngOnInit(): void {
+        //debugger
+        
         this.selectNewBornUsers();
         this.UserFrom = localStorage.getItem("loginUserName");
         this.UserSmsStatus = false;
@@ -155,6 +161,16 @@ export class NewBornComponent implements OnInit {
             map(value => (typeof value === 'string' ? value : value?.name)),
             map(name => (name ? this._filter(name) : this.NewBornUsersList.slice()))
         ); 
+        this._Activatedroute.queryParams.subscribe(
+            params => {
+              console.log(params)
+              if(params['casenumber']){
+                this.casenumber = params['casenumber'];
+                document.getElementById("rolesDetailsBtn").click();
+                this.getMotherDetails(null);
+              }
+            }
+          )
     }
     private _filter(value: string): NewBornUsers[] {
         //debugger
@@ -242,14 +258,20 @@ export class NewBornComponent implements OnInit {
         // this.modalServiceresearchespatients.dismissAll();
     }
     getMotherDetails(event) {
+        var dataCasenumber = '';
         console.log(event);
+        if(event == null){
+            dataCasenumber = this.casenumber
+        }else{
+            dataCasenumber = event.target.value
+        }
         //event.target.value
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetails",
                 "http://srv-ipracticom:8080/WebService.asmx/GetPersonalDetails",
                 {
-                    CaseNumber: event.target.value,
+                    CaseNumber: dataCasenumber,
                 }
             )
             .subscribe((Response) => {
@@ -271,6 +293,7 @@ export class NewBornComponent implements OnInit {
                 {}
             )
             .subscribe((Response) => {
+                debugger
                 var json = Response["d"];
                 this.NewBornUsersList = json;
             });
@@ -393,7 +416,7 @@ export class NewBornComponent implements OnInit {
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.patientForm = this.formBuilder.group({
-            MotherCaseNumber: ["", [Validators.required]],
+            MotherCaseNumber: [this.casenumber, [Validators.required]],
             MotherID: ["", [Validators.required]],
             MotherFirstName: ["", Validators.required],
             MotherLastName: ["", Validators.required],
