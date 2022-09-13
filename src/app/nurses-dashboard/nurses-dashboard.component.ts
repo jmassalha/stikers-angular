@@ -484,7 +484,7 @@ export class NursesDashboardComponent implements OnInit {
   }
 
   openNewBornLink() {
-    window.open("http://localhost:4200/#/newborn?casenumber=" + this.caseNumber);
+    window.open("http://srv-apps-prod/app/#/newborn?casenumber=" + this.caseNumber);
   }
 
   closeModal() {
