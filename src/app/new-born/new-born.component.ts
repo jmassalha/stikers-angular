@@ -4,7 +4,7 @@ import {
     ViewChild,
     AfterViewInit,
     Input,
-    TemplateRef,
+    ElementRef,
 } from "@angular/core";
 import { ActivatedRoute, Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -76,7 +76,6 @@ export class NewBornComponent implements OnInit {
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
-    @ViewChild('patientDetailsModal', { static: true }) patientDetailsModal: TemplateRef<any>;
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
     UserNameList: string[] = [];
@@ -85,13 +84,16 @@ export class NewBornComponent implements OnInit {
         "MotherID",
         "MotherFirstName",
         "MotherLastName",
+        "NewBornDOB",
+        "hospitalizedAt",
+
         "Click",
     ];
 
     modalOptions: NgbModalOptions = {
         windowClass: "marg-t-60",
-        backdrop: 'static',
-        keyboard: false
+        backdrop : 'static',
+        keyboard : false
     };
     ShowSubmit: Boolean = true;
     closeResult: string;
@@ -126,8 +128,6 @@ export class NewBornComponent implements OnInit {
     filteredOptions: Observable<NewBornUsers[]>;
     @Input()
     foo: string = "bar";
-    @Input()
-    motherCaseNumber;
     startdateVal: string;
     enddateVal: string;
     NewBornDOB: string;
@@ -172,28 +172,24 @@ export class NewBornComponent implements OnInit {
             }
           )
     }
-
-
->>>>>>> e0d8607 (newBornPull)
-    }
     private _filter(value: string): NewBornUsers[] {
         //debugger
-
+        
         const filterValue = value.toLowerCase();
 
         return this.NewBornUsersList.filter((e) =>
             e.UserFullName.toLowerCase().includes(filterValue)
         );
     }
-    updateUser(option) {
-        // console.log(option);
+    updateUser(option){
+       // console.log(option);
         this.patientForm.value.UserName = option.option.value.UserName;
         this.patientForm.patchValue({
-            UserName: option.option.value.UserName,
-            UserTell: option.option.value.CellNumber,
-            UserFllName: option.option.value.UserFullName,
+            UserName:  option.option.value.UserName,
+            UserTell:  option.option.value.CellNumber,
+            UserFllName:  option.option.value.UserFullName,
         });
-        this.UserFrom = option.option.value.UserName
+        this.UserFrom =  option.option.value.UserName
         console.log(this.patientForm.value)
         this.ShowFormNewBorn = true;
     }
@@ -203,7 +199,7 @@ export class NewBornComponent implements OnInit {
         //     this.patientForm.value.UserName = user.UserName
         //     this.ShowFormNewBorn = true;
         // }
-
+        
         return user && user.UserFullName ? user.UserFullName : "";
     }
     openSnackBar() {
@@ -217,7 +213,7 @@ export class NewBornComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        this.patientForm.value.UserName = this.UserFrom;
+        this.patientForm.value.UserName = this.UserFrom ;
         this.patientForm.value.NewBornDOB = formatDate(
             this.patientForm.value.NewBornDOB,
             "yyyy-MM-dd",
@@ -254,8 +250,8 @@ export class NewBornComponent implements OnInit {
                 this.openSnackBar();
                 $("#loader").addClass("d-none");
                 this.patientForm.value.UserName = "";
-                this.ShowFormNewBorn = false;
-                this.modalServiceresearchespatients.dismissAll();
+                 this.ShowFormNewBorn = false;
+                 this.modalServiceresearchespatients.dismissAll();
             });
         // display form values on success
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.patientForm.value, null, 4));
@@ -380,7 +376,7 @@ export class NewBornComponent implements OnInit {
                 Validators.required,
             ],
             UserName: [
-                { value: _element.UserFllName + " - " + _element.UserTell, disabled: true },
+                { value: _element.UserFllName + " - " +_element.UserTell, disabled: true },
                 Validators.required,
             ],
             RowID: [
@@ -397,7 +393,7 @@ export class NewBornComponent implements OnInit {
                 if ("Save" == result) {
                     // //////debugger;
                 }
-
+                
                 //debugger
             },
             reason => {
@@ -452,7 +448,7 @@ export class NewBornComponent implements OnInit {
                 "",
                 Validators.required,
             ],
-            UserFllName: [
+             UserFllName: [
                 "",
                 Validators.required,
             ],
@@ -471,7 +467,7 @@ export class NewBornComponent implements OnInit {
                 if ("Save" == result) {
                     // //////debugger;
                 }
-
+                
                 //debugger
             },
             reason => {
@@ -502,7 +498,7 @@ export class NewBornComponent implements OnInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    ngAfterViewInit(): void { }
+    ngAfterViewInit(): void {}
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
 
