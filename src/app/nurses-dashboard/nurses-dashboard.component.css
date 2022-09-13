@@ -66,6 +66,13 @@ hr{
   line-height: 30px;
 }
 
+#BtnStyleNewBorn{
+  box-shadow: 3px 4px 3px 0px black;
+  min-width: 50px;
+  width: 20%;
+  line-height: 30px;
+}
+
 #formBody{
   border-style: outset;
   margin-bottom: 8px;
@@ -221,12 +228,6 @@ table {
   font-size: 13px;
   margin: 8px 0;
   height: 90%;
-}
-
-#BtnStyle{
-  box-shadow: 3px 4px 3px 0px black;
-  min-width: 50px;
-  line-height: 30px;
 }
 
 #page-toshow{
