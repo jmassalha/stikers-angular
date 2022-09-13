@@ -239,7 +239,7 @@ export class NewBornComponent implements OnInit {
         //debugger;
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/SaveNewBornForm",
+                // "http://srv-apps-prod/RCF_WS/WebService.asmx/SaveNewBornForm",
                 "http://srv-ipracticom:8080/WebService.asmx/SaveNewBornForm",
                 {
                     _patientForm: this.patientForm.value,
@@ -252,6 +252,7 @@ export class NewBornComponent implements OnInit {
                 this.patientForm.value.UserName = "";
                  this.ShowFormNewBorn = false;
                  this.modalServiceresearchespatients.dismissAll();
+                 window.self.close();
             });
         // display form values on success
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.patientForm.value, null, 4));
