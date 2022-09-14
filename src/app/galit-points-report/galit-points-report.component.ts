@@ -20,7 +20,7 @@ export class GalitPointsReportComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   ELEMENT_DATA: any = [];
-  displayedColumns: string[] = ['CaseNumber', 'DepartName', 'PM_ROOM_NUMBER', 'PatientFirstName', 'PM_PATIENT_GENDER', 'DatesInHospital', 'AnotherHospital', 'ICD9Surgery', 'ICD9Anamniza', 'DifferenceInStayDays', 'AGE', 'Albomin', 'Norton', 'ThroughInput', 'HowToEat', 'DietType', 'TextureFood', 'Desctiption', 'BMI', 'MUST', 'STAMP', 'WieghtLoss', 'Points'];
+  displayedColumns: string[] = ['CaseNumber', 'DepartName', 'PM_ROOM_NUMBER', 'PatientFirstName', 'PM_PATIENT_GENDER', 'DatesInHospital', 'ICD9Surgery', 'ICD9Anamniza', 'DifferenceInStayDays', 'AGE', 'Albomin', 'Norton', 'ThroughInput', 'HowToEat', 'DietType', 'TextureFood', 'Desctiption', 'BMI', 'MUST', 'WieghtLoss', 'Points'];
   dataSource = this.ELEMENT_DATA;
   @ViewChild('printmycontent') printmycontent: ElementRef;
 
@@ -56,6 +56,18 @@ export class GalitPointsReportComponent implements OnInit {
   }
 
   applyFilter(event: Event) {
+    let filterValue;
+    if (event == undefined) {
+      filterValue = "";
+    } else if (event.isTrusted == undefined) {
+      filterValue = event;
+    } else {
+      filterValue = (event.target as HTMLInputElement).value;
+    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+  
+  applyFilter2(event: Event) {
     let filterValue;
     if (event == undefined) {
       filterValue = "";
@@ -123,7 +135,11 @@ export class GalitPointsReportComponent implements OnInit {
         this.ELEMENT_DATA = Response["d"];
         this.ELEMENT_DATA.forEach(element => {
           if (!this.departmentsArray.includes(element.DepartName)) {
-            this.departmentsArray.push(element.DepartName);
+            this.departmentsArray.push({
+              name: element.DepartName,
+              check: false
+            });
+
           }
           if (parseInt(element.AGE) > 70) {
             element.Points++;
@@ -153,7 +169,8 @@ export class GalitPointsReportComponent implements OnInit {
             element.Points += 0;
           } if (element.Desctiption != "") {
             element.Points += 6;
-          } if (parseInt(element.BMI) > 18.5) {
+          } let bmi  = element.BMI.split(" - ", 3)[2]; 
+          if (parseInt(bmi) > 18.5) {
             element.Points += 2;
           } if (parseInt(element.MUST) > 2) {
             element.Points += 2;
