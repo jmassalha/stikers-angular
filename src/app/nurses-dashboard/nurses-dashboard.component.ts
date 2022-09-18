@@ -275,16 +275,13 @@ export class NursesDashboardComponent implements OnInit {
   myDate = new Date();
   constructor(private _snackBar: MatSnackBar,
     public service: VoiceRecognitionService,
-    private router: Router,
-    private _renderer: Renderer2,
     private http: HttpClient,
-    private modalService: NgbModal,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<NursesDashboardComponent>,
     public dialog: MatDialog,
     public datePipe: DatePipe,
-    private confirmationDialogService: ConfirmationDialogService,
-    activeModal: NgbActiveModal) { this.service.init(); }
+    private confirmationDialogService: ConfirmationDialogService
+  ) { this.service.init(); }
 
   searchReportsGroup: FormGroup;
   reportsArr = [];
@@ -484,6 +481,10 @@ export class NursesDashboardComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  openNewBornLink() {
+    window.open("http://srv-apps-prod/app/#/newborn?casenumber=" + this.caseNumber);
   }
 
   closeModal() {
