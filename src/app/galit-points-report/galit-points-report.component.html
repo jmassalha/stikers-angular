@@ -2,14 +2,15 @@
   <div class="row mt-5" dir="rtl" [formGroup]="searchForm" style="border-style: outset;width: 90%;margin: auto;">
     <div class="col-2 text-center" style="margin: auto;">
       <span class="ml-1">היסטוריה</span>
-      <mat-slide-toggle class="example-margin" color="accent" [(ngModel)]="checked" [ngModelOptions]="{standalone: true}">
+      <mat-slide-toggle class="example-margin" color="accent" [(ngModel)]="checked"
+        [ngModelOptions]="{standalone: true}">
       </mat-slide-toggle>
     </div>
     <div class="col-4">
       <div class="form-group">
         <mat-form-field appearance="fill">
-          <input matInput formControlName="DateSearch" (focus)="pickersearch1.open()"
-            [matDatepicker]="pickersearch1" placeholder="דוח בתאריך:">
+          <input matInput formControlName="DateSearch" (focus)="pickersearch1.open()" [matDatepicker]="pickersearch1"
+            placeholder="דוח בתאריך:">
           <mat-datepicker-toggle matSuffix [for]="pickersearch1">
           </mat-datepicker-toggle>
           <mat-datepicker [disabled]="!checked" #pickersearch1></mat-datepicker>
@@ -19,14 +20,10 @@
     <div class="col-6">
       <mat-form-field class="full-width">
         <mat-label>מחלקה</mat-label>
-        <mat-select (selectionChange)="applyFilter2($event.value)">
-          <!-- <mat-option value="">
-            הכל
-          </mat-option> -->
-          <input type="checkbox" [checked]="dept.check" *ngFor="let dept of departmentsArray"/>
-          <!-- <mat-option *ngFor="let dept of departmentsArray" [value]="dept">
-            {{dept}}
-          </mat-option> -->
+        <mat-select multiple formControlName="DepartmentSearch">
+          <mat-option *ngFor="let dept of departmentsArray" [value]="dept.name">
+            {{dept.name}}
+          </mat-option>
         </mat-select>
       </mat-form-field>
     </div>
