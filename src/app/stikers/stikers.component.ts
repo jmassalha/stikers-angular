@@ -72,7 +72,7 @@ export class StikersComponent implements OnInit {
       //event.target.value
       this.http
           .post(
-              "http://localhost:64964/WebService.asmx/GetPersonalDetailsFromDB",
+              "http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetailsFromDB",
               //"http://srv-ipracticom:8080/WebService.asmx/GetPersonalDetails",
               {
                   CaseNumber: casenumber,
