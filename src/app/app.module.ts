@@ -162,6 +162,7 @@ import { GroupedBarChartReleaseComponent } from './hospital-bi-dashboard/grouped
 import { ServersComponent } from './servers/servers.component';
 import {JpTimeMaskModule} from '@julianobrasil/timemask';
 import { StikersComponent } from './stikers/stikers.component';
+import { NgxBarcodeModule } from 'ngx-barcode';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -284,6 +285,7 @@ const maskConfig: Partial<IConfig> = {
   ],
   imports: [
     JpTimeMaskModule,
+    NgxBarcodeModule,
     AngularDualListBoxModule,
     MatTableExporterModule,
     AngularDualListBoxModule,

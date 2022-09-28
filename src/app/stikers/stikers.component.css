@@ -1,7 +1,31 @@
-.stikers{
+.stikers {
     display: block;
     margin: auto;
-    width: 4in;
-    height: 4in;
-    background: #c0c0c0;
+    background: #fff;
 }
+
+.table-data p {
+    margin: 0 !important;
+}
+.pdb-60 {
+    padding-bottom: 60px;
+}
+table {
+    page-break-after: always;
+}
+
+.table-data{
+    width: 600px;
+    margin: auto;
+}
+.ngx-barcode{
+    text-align: center;
+
+}
+#print-stickers{
+    position: fixed;
+    top: 50px;
+    right: 30px;
+}
+
+
