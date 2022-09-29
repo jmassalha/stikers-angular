@@ -47,10 +47,11 @@
                 <mat-radio-button value="2">חדרי ניתוח</mat-radio-button>
             </mat-radio-group> -->
         </div>
-        <div *ngIf="departParam == '5' || departParam == '6'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
-            style="text-align-last: center;" [formGroup]="hospitalDepartTypeGroup">
+        <div *ngIf="departParam == '5' || departParam == '6'"
+            class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
+            [formGroup]="hospitalDepartTypeGroup">
             <mat-radio-group formControlName="hospitalDepartType" aria-label="Select an option"
-                (change)="changeSurgeryType()">
+                (change)="changeSurgeryType()" *ngIf="departParam == '5' || departParam == '6'">
                 <mat-radio-button value="0">סיעודי</mat-radio-button>
                 <mat-radio-button value="1">רפואי</mat-radio-button>
             </mat-radio-group>
@@ -59,7 +60,7 @@
                     אשפוזים חוזרים</mat-checkbox>
             </section>
         </div>
-        <div *ngIf="departParam == '20'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
+        <div *ngIf="departParam == '7'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
             [formGroup]="deliveryPrematureGroup">
             <section class="example-section">
                 <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="deliveryPremature">
@@ -163,17 +164,18 @@
                 <app-grouped-bar-chart2 #group2></app-grouped-bar-chart2>
             </div>
         </div>
-        <div class="row section" dir="rtl" [ngStyle]="{'display': departParam == '5'|| departParam == '6' ? 'block' : 'none' }">
+        <div class="row section" dir="rtl"
+            [ngStyle]="{'display': departParam == '5'|| departParam == '6' ? 'block' : 'none' }">
             <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;text-align-last: center;">
                     <h3>{{groupReleaseTime}}</h3>
                     <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                        formControlName="groupReleaseCtrl" (change)="changeTime($event.target.value,'groupRelease',[]);">
+                        formControlName="groupReleaseCtrl"
+                        (change)="changeTime($event.target.value,'groupRelease',[]);">
                         <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                         </option>
                     </select>
-                    <div style="align-self: center;margin-right: 6%;"
-                        [formGroup]="releaseDeptChooseGroup">
+                    <div style="align-self: center;margin-right: 6%;" [formGroup]="releaseDeptChooseGroup">
                         <mat-radio-group formControlName="releaseDeptChoose" aria-label="Select an option"
                             (change)="changeReleasedDept()">
                             <mat-radio-button value="ספנ-א">פנימית א</mat-radio-button>

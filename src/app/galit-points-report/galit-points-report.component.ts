@@ -22,6 +22,7 @@ export class GalitPointsReportComponent implements OnInit {
   ELEMENT_DATA: any = [];
   displayedColumns: string[] = ['CaseNumber', 'DepartName', 'PM_ROOM_NUMBER', 'PatientFirstName', 'PM_PATIENT_GENDER', 'DatesInHospital', 'ICD9Surgery', 'ICD9Anamniza', 'DifferenceInStayDays', 'AGE', 'Albomin', 'Norton', 'ThroughInput', 'HowToEat', 'DietType', 'TextureFood', 'Desctiption', 'BMI', 'MUST', 'WieghtLoss', 'Points'];
   dataSource = this.ELEMENT_DATA;
+  dataSource2 = this.ELEMENT_DATA;
   @ViewChild('printmycontent') printmycontent: ElementRef;
 
   constructor(public dialog: MatDialog,
@@ -44,15 +45,14 @@ export class GalitPointsReportComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-
   ngOnInit(): void {
     // this.caseNumber = "";
     this.patientFound = true;
-    this.getGalitReportPatient();
     this.searchForm = this.fb.group({
       DateSearch: new FormControl({ value: '', disabled: true }, null),
       DepartmentSearch: new FormControl('', null)
     });
+    this.getGalitReportPatient();
   }
 
   applyFilter(event: Event) {
@@ -66,23 +66,6 @@ export class GalitPointsReportComponent implements OnInit {
     }
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
-  
-  applyFilter2(event: Event) {
-    let filterValue;
-    if (event == undefined) {
-      filterValue = "";
-    } else if (event.isTrusted == undefined) {
-      filterValue = event;
-    } else {
-      filterValue = (event.target as HTMLInputElement).value;
-    }
-    this.dataSource.filter = filterValue.trim().toLowerCase();
-  }
-
-  // clearSearch() {
-  //   this.caseNumber = "";
-  //   this.patientFound = true;
-  // }
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
@@ -96,13 +79,13 @@ export class GalitPointsReportComponent implements OnInit {
     let that = this;
     that.paginator._changePageSize(300);
     setTimeout(function () {
-      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;box-shadow: 0px 1px 0px 2px;background: white;}</style>"
+      var style = "<style>button{background:none!important;border:0;} td.mat-cell{text-align: center;box-shadow: 0px 1px 0px 2px;background: white;transform: scaleY(1.0);}</style>"
       var printContents = that.printmycontent.nativeElement.innerHTML;
       style += printContents;
       var w = window.open();
       w.document.write(style);
       w.print();
-      w.close();
+      // w.close();
       that.paginator._changePageSize(5);
     }, 1000);
   }
@@ -122,24 +105,32 @@ export class GalitPointsReportComponent implements OnInit {
 
   getGalitReportPatient() {
     this.patientFound = false;
-    let dateOfReport = null;
+    let dateOfReport = "";
     if (this.checked) {
       dateOfReport = this.searchForm.controls['DateSearch'].value;
       dateOfReport = this.datePipe.transform(dateOfReport, 'yyyy-MM-dd');
     }
+    let dept = this.searchForm.controls['DepartmentSearch'].value;
+    let deptToSearch = "";
+    for (let i = 0; i < dept.length; i++) {
+      deptToSearch += "'" + dept[i] + "',";
+    }
+    deptToSearch = "(" + deptToSearch.slice(0,deptToSearch.length - 1) + ")";
     this.http
       .post(this.url + "GetGalitReportPatient", {
-        _dateOfReport: dateOfReport
+        _dateOfReport: dateOfReport,
+        _departmentOfReport: deptToSearch
       })
       .subscribe((Response) => {
         this.ELEMENT_DATA = Response["d"];
+        let fileteredArray = [];
         this.ELEMENT_DATA.forEach(element => {
-          if (!this.departmentsArray.includes(element.DepartName)) {
+          if (!fileteredArray.includes(element.DepartName)) {
+            fileteredArray.push(element.DepartName);
             this.departmentsArray.push({
               name: element.DepartName,
               check: false
             });
-
           }
           if (parseInt(element.AGE) > 70) {
             element.Points++;
@@ -169,7 +160,7 @@ export class GalitPointsReportComponent implements OnInit {
             element.Points += 0;
           } if (element.Desctiption != "") {
             element.Points += 6;
-          } let bmi  = element.BMI.split(" - ", 3)[2]; 
+          } let bmi = element.BMI.split(" - ", 3)[2];
           if (parseInt(bmi) > 18.5) {
             element.Points += 2;
           } if (parseInt(element.MUST) > 2) {

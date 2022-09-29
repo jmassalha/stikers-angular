@@ -80,7 +80,7 @@ export class ServersComponent implements OnInit {
       this.http
           .post(
               "http://srv-apps-prod/RCF_WS/WebService.asmx/ServersTable",
-              //"http://localhost:64964/WebService.asmx/ServersTable",
+              //"http://srv-apps-prod/RCF_WS/WebService.asmx/ServersTable",
               {
                  
               }

@@ -61,6 +61,8 @@ export class PieChartComponent implements OnInit {
       url += "PieChartER";
     } else if (this.departParam == "7") {
       url += "PieChartDelivery";
+    } else if (this.departParam == "2" || this.departParam == "11") {
+      url += "PieChartMerpaoot";
     } else if (this.departParam == "5") {
       url += "PieChartDepartments";
     } else if (this.departParam == "3") {

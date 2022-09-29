@@ -901,10 +901,11 @@ export class CprFormComponent implements OnInit {
         .subscribe((Response) => {
           if (Response["d"] != -1) {
             this.openSnackBar("נשמר בהצלחה");
-            this.linkToNamer(Response["d"]);
             this.sendCprFormEmail(Response["d"]);
-            this.ngOnInit();
-            this.returnToSearch();
+            let that = this;
+            setTimeout(() => {
+              that.linkToNamer(Response["d"]);
+            }, 1000);
           } else {
             this.openSnackBar("אירעה תקלה, לא נשמר!");
           }
@@ -938,7 +939,7 @@ export class CprFormComponent implements OnInit {
   sendCprFormEmail(id) {
     this.http
       //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendCprFormEmail", {
-      .post(this.url + "SendCprFormEmail", {
+      .post("http://srv-ipracticom:8080/WebService.asmx/SendCprFormEmail", {
         _userSender: this.UserName,
         users: this.usersToSend,
         _reportArrayID: id,
@@ -962,7 +963,7 @@ export class CprFormComponent implements OnInit {
     } else {
       CaseNumber = this.PatientRecord.PM_CASE_NUMBER;
     }
-
+    $("#loader_2").removeClass("d-none");
     // this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createCprPdfOnServer", {
     this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
       CaseNumber: CaseNumber,
@@ -989,9 +990,11 @@ export class CprFormComponent implements OnInit {
                 Response["d"] ==
                 "success"
               ) {
+                $("#loader_2").addClass("d-none");
                 that.openSnackBar(
                   "! נשמר בהצלחה לתיק מטופל בנמר"
                 );
+                this.returnToSearch();
               } else {
                 that.openSnackBar(
                   "! משהו לא תקין"
