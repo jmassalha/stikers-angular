@@ -59,6 +59,7 @@ export interface NewBorn {
     UserTell: string;
     DateTimeInsert: string;
     TotalRows: string;
+    NewBornPondkyat: string;
 }
 export interface NewBornUsers {
     UserID: string;
@@ -72,7 +73,7 @@ export interface NewBornUsers {
     styleUrls: ["./new-born.component.css"],
 })
 export class NewBornComponent implements OnInit {
-    @ViewChild('newBornBtn') newBornBtn: ElementRef;
+    @ViewChild("newBornBtn") newBornBtn: ElementRef;
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -92,8 +93,8 @@ export class NewBornComponent implements OnInit {
 
     modalOptions: NgbModalOptions = {
         windowClass: "marg-t-60",
-        backdrop : 'static',
-        keyboard : false
+        backdrop: "static",
+        keyboard: false,
     };
     ShowSubmit: Boolean = true;
     closeResult: string;
@@ -121,7 +122,7 @@ export class NewBornComponent implements OnInit {
         private modalServiceresearchespatients: NgbModal,
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal,
-        private _Activatedroute:ActivatedRoute,
+        private _Activatedroute: ActivatedRoute
     ) {
         this.activeModal = activeModal;
     }
@@ -138,10 +139,10 @@ export class NewBornComponent implements OnInit {
     rowIdVal: string;
     UserFrom: string;
     myControl = new FormControl("");
-    casenumber = '';
+    casenumber = "";
     ngOnInit(): void {
         //debugger
-        
+
         this.selectNewBornUsers();
         this.UserFrom = localStorage.getItem("loginUserName");
         this.UserSmsStatus = false;
@@ -158,48 +159,48 @@ export class NewBornComponent implements OnInit {
         this.getReportresearchespatients(this);
         this.filteredOptions = this.myControl.valueChanges.pipe(
             startWith(""),
-            map(value => (typeof value === 'string' ? value : value?.name)),
-            map(name => (name ? this._filter(name) : this.NewBornUsersList.slice()))
-        ); 
-        this._Activatedroute.queryParams.subscribe(
-            params => {
-              console.log(params)
-              if(params['casenumber']){
-                this.casenumber = params['casenumber'];
+            map((value) => (typeof value === "string" ? value : value?.name)),
+            map((name) =>
+                name ? this._filter(name) : this.NewBornUsersList.slice()
+            )
+        );
+        this._Activatedroute.queryParams.subscribe((params) => {
+            console.log(params);
+            if (params["casenumber"]) {
+                this.casenumber = params["casenumber"];
                 document.getElementById("rolesDetailsBtn").click();
                 this.getMotherDetails(null);
-              }
             }
-          )
+        });
     }
     private _filter(value: string): NewBornUsers[] {
         //debugger
-        
+
         const filterValue = value.toLowerCase();
 
         return this.NewBornUsersList.filter((e) =>
             e.UserFullName.toLowerCase().includes(filterValue)
         );
     }
-    updateUser(option){
-       // console.log(option);
+    updateUser(option) {
+        // console.log(option);
         this.patientForm.value.UserName = option.option.value.UserName;
         this.patientForm.patchValue({
-            UserName:  option.option.value.UserName,
-            UserTell:  option.option.value.CellNumber,
-            UserFllName:  option.option.value.UserFullName,
+            UserName: option.option.value.UserName,
+            UserTell: option.option.value.CellNumber,
+            UserFllName: option.option.value.UserFullName,
         });
-        this.UserFrom =  option.option.value.UserName
-        console.log(this.patientForm.value)
+        this.UserFrom = option.option.value.UserName;
+        console.log(this.patientForm.value);
         this.ShowFormNewBorn = true;
     }
     displayFn(user: any): string {
-        console.log(user)
+        console.log(user);
         // if(user != ""){
         //     this.patientForm.value.UserName = user.UserName
         //     this.ShowFormNewBorn = true;
         // }
-        
+
         return user && user.UserFullName ? user.UserFullName : "";
     }
     openSnackBar() {
@@ -213,10 +214,16 @@ export class NewBornComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        this.patientForm.value.UserName = this.UserFrom ;
+        this.patientForm.value.UserName = this.UserFrom;
         this.patientForm.value.NewBornDOB = formatDate(
             this.patientForm.value.NewBornDOB,
             "yyyy-MM-dd",
+            "en-US"
+        );
+        this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 3);
+        this.patientForm.value.NewBornTime = formatDate(
+            this.patientForm.value.NewBornTime,
+            "HH:mm",
             "en-US"
         );
         if (this.patientForm.value.NewBornWeightInProgress == "") {
@@ -250,21 +257,21 @@ export class NewBornComponent implements OnInit {
                 this.openSnackBar();
                 $("#loader").addClass("d-none");
                 this.patientForm.value.UserName = "";
-                 this.ShowFormNewBorn = false;
-                 this.modalServiceresearchespatients.dismissAll();
-                 window.self.close();
+                this.ShowFormNewBorn = false;
+                this.modalServiceresearchespatients.dismissAll();
+                window.self.close();
             });
         // display form values on success
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.patientForm.value, null, 4));
         // this.modalServiceresearchespatients.dismissAll();
     }
     getMotherDetails(event) {
-        var dataCasenumber = '';
+        var dataCasenumber = "";
         console.log(event);
-        if(event == null){
-            dataCasenumber = this.casenumber
-        }else{
-            dataCasenumber = event.target.value
+        if (event == null) {
+            dataCasenumber = this.casenumber;
+        } else {
+            dataCasenumber = event.target.value;
         }
         //event.target.value
         this.http
@@ -294,13 +301,13 @@ export class NewBornComponent implements OnInit {
                 {}
             )
             .subscribe((Response) => {
-                debugger
+                debugger;
                 var json = Response["d"];
                 this.NewBornUsersList = json;
             });
     }
     showRow(content, _type, _element) {
-        debugger
+        debugger;
         this.ShowFormNewBorn = true;
         this.ShowSubmit = false;
         if (_element.NewBornWeightInProgress == "לא") {
@@ -315,107 +322,63 @@ export class NewBornComponent implements OnInit {
         this.NewBornDOB = _element.NewBornDOB;
         this.NewBornTime = _element.NewBornTime;
         this.patientForm = this.formBuilder.group({
-            MotherCaseNumber: [
-                { value: _element.MotherCaseNumber, disabled: true },
-                [Validators.required],
-            ],
-            MotherID: [
-                { value: _element.MotherID, disabled: true },
-                [Validators.required],
-            ],
-            MotherFirstName: [
-                { value: _element.MotherFirstName, disabled: true },
-                Validators.required,
-            ],
-            MotherLastName: [
-                { value: _element.MotherLastName, disabled: true },
-                Validators.required,
-            ],
-            NewBornDOB: [
-                { value: _element.NewBornDOB, disabled: true },
-                Validators.required,
-            ],
-            NewBornTime: [
-                { value: _element.NewBornTime, disabled: true },
-                Validators.required,
-            ],
-            BornProcedure: [
-                { value: _element.BornProcedure, disabled: true },
-                Validators.required,
-            ],
-            NewBornGender: [
-                { value: _element.NewBornGender, disabled: true },
-                Validators.required,
-            ],
-            NewBornWeight: [
-                { value: _element.NewBornWeight, disabled: true },
-                [Validators.required, Validators.pattern(/^[0-9]{1,4}$/)],
-            ],
+            MotherCaseNumber: [_element.MotherCaseNumber],
+            MotherID: [_element.MotherID],
+            MotherFirstName: [_element.MotherFirstName],
+            MotherLastName: [_element.MotherLastName],
+            NewBornDOB: [_element.NewBornDOB],
+            NewBornTime: [_element.NewBornTime],
+            BornProcedure: [_element.BornProcedure],
+            NewBornGender: [_element.NewBornGender],
+            NewBornWeight: [_element.NewBornWeight],
             NewBornWeightInProgress: [
-                { value: _element.NewBornWeightInProgress, disabled: true },
-                null,
+                _element.NewBornWeightInProgress
             ],
             NewBornWeekOfPregnancy: [
-                { value: _element.NewBornWeekOfPregnancy, disabled: true },
-                [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)],
+                _element.NewBornWeekOfPregnancy
             ],
-            MultipleBirth: [
-                { value: _element.MultipleBirth, disabled: true },
-                null,
-            ],
-            NumberOfBirths: [
-                { value: _element.NumberOfBirths, disabled: true },
-                [Validators.required, Validators.pattern(/^[0-9]{1,1}$/)],
-            ],
-            BirthNumber: [
-                { value: _element.BirthNumber, disabled: true },
-                [Validators.required, Validators.pattern(/^[0-9]{1,1}$/)],
-            ],
-            BirthIsDie: [{ value: _element.BirthIsDie, disabled: true }, null],
-            hospitalizedAt: [
-                { value: _element.hospitalizedAt, disabled: true },
-                Validators.required,
-            ],
+            MultipleBirth: [_element.MultipleBirth],
+            NumberOfBirths: [_element.NumberOfBirths],
+            BirthNumber: [_element.BirthNumber],
+            BirthIsDie: [_element.BirthIsDie],
+            hospitalizedAt: [_element.hospitalizedAt],
             UserName: [
-                { value: _element.UserFllName + " - " +_element.UserTell, disabled: true },
-                Validators.required,
+                _element.UserFllName + " - " + _element.UserTell
             ],
-            RowID: [
-                { value: _element.RowID, disabled: true },
-                Validators.required,
-            ],
+            NewBornPondkyat: [_element.NewBornPondkyat],
+            RowID: [_element.RowID],
         });
-        this.modalServiceresearchespatients.open(
-            content,
-            this.modalOptions
-        ).result.then(
-            result => {
-                this.closeResult = `Closed with: ${result}`;
-                if ("Save" == result) {
-                    // //////debugger;
+        this.modalServiceresearchespatients
+            .open(content, this.modalOptions)
+            .result.then(
+                (result) => {
+                    this.closeResult = `Closed with: ${result}`;
+                    if ("Save" == result) {
+                        // //////debugger;
+                    }
+
+                    //debugger
+                },
+                (reason) => {
+                    //debugger
+                    this.patientForm.value.UserName = "";
+                    this.ShowFormNewBorn = false;
+                    this.myControl = new FormControl("");
                 }
-                
-                //debugger
-            },
-            reason => {
-                //debugger
-                this.patientForm.value.UserName = '';
-                this.ShowFormNewBorn = false;
-                this.myControl = new FormControl("");
-            }
-        );;;
+            );
     }
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
         //////debugger
-      //  debugger
+        //  debugger
         let now = new Date();
         let hours = ("0" + now.getHours()).slice(-2);
         let minutes = ("0" + now.getMinutes()).slice(-2);
-        let str = formatDate(new Date(), 'yyyy-MM-dd HH:mm', 'en-US');
-       // debugger
+        let str = formatDate(new Date(), "yyyy-MM-dd HH:mm", "en-US");
+        // debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
+        this.ShowSubmit = true;
         this.patientForm = this.formBuilder.group({
             MotherCaseNumber: [this.casenumber, [Validators.required]],
             MotherID: ["", [Validators.required]],
@@ -446,39 +409,29 @@ export class NewBornComponent implements OnInit {
             ],
             BirthIsDie: ["", null],
             hospitalizedAt: ["", Validators.required],
-            UserName: [
-                "",
-                Validators.required,
-            ],
-             UserFllName: [
-                "",
-                Validators.required,
-            ],
-            UserTell: [
-                "",
-                Validators.required,
-            ],
+            UserName: ["", Validators.required],
+            UserFllName: ["", Validators.required],
+            UserTell: ["", Validators.required],
             RowID: [0, null],
         });
-        this.modalServiceresearchespatients.open(
-            content,
-            this.modalOptions
-        ).result.then(
-            result => {
-                this.closeResult = `Closed with: ${result}`;
-                if ("Save" == result) {
-                    // //////debugger;
+        this.modalServiceresearchespatients
+            .open(content, this.modalOptions)
+            .result.then(
+                (result) => {
+                    this.closeResult = `Closed with: ${result}`;
+                    if ("Save" == result) {
+                        // //////debugger;
+                    }
+
+                    //debugger
+                },
+                (reason) => {
+                    //debugger
+                    this.patientForm.value.UserName = "";
+                    this.ShowFormNewBorn = false;
+                    this.myControl = new FormControl("");
                 }
-                
-                //debugger
-            },
-            reason => {
-                //debugger
-                this.patientForm.value.UserName = '';
-                this.ShowFormNewBorn = false;
-                this.myControl = new FormControl("");
-            }
-        );;
+            );
     }
     getReportresearchespatients($event: any): void {
         //////debugger
