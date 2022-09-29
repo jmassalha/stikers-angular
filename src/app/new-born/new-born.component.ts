@@ -422,7 +422,7 @@ export class NewBornComponent implements OnInit {
             MotherFirstName: ["", Validators.required],
             MotherLastName: ["", Validators.required],
             NewBornDOB: [new Date(), Validators.required],
-            NewBornTime: [str, Validators.required],
+            NewBornTime: ["", Validators.required],
             BornProcedure: ["", Validators.required],
             NewBornGender: ["", Validators.required],
             NewBornWeight: [
@@ -430,6 +430,7 @@ export class NewBornComponent implements OnInit {
                 [Validators.required, Validators.pattern(/^[0-9]{1,4}$/)],
             ],
             NewBornWeightInProgress: ["", null],
+            NewBornPondkyat: ["", null],
             NewBornWeekOfPregnancy: [
                 "",
                 [Validators.required, Validators.pattern(/^[0-9]{1,2}$/)],
