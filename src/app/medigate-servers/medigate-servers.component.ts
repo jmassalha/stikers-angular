@@ -48,7 +48,7 @@ export interface InventoryHighLevelStats {
     TotalOnLine: number;
     TotalHighRisk: number;
     TotalCompromised: number;
-    TotalNewThisWeek: number;    
+    TotalNewThisWeek: number;
 }
 @Component({
     selector: "app-medigate-servers",
@@ -56,7 +56,43 @@ export interface InventoryHighLevelStats {
     styleUrls: ["./medigate-servers.component.css"],
 })
 export class MedigateServersComponent implements OnInit {
-    constructor() {}
-
-    ngOnInit(): void {}
+    constructor(
+        private activeModal: NgbActiveModal,
+        private _snackBar: MatSnackBar,
+        private router: Router,
+        private http: HttpClient,
+        private modalService: NgbModal,
+        private elementRef: ElementRef,
+        //private cdRef:ChangeDetectorRef,
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("medigate");
+        setTimeout(function () {
+            //  debugger
+            if (mMenuPerm.getHasPerm()) {
+            } else {
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 1000);
+    }
+    mInventoryHighLevelStats:InventoryHighLevelStats;
+    ngOnInit(): void {
+        //debugger
+        this.GetInventoryHighLevelStats();
+    }
+    GetInventoryHighLevelStats(){
+       // debugger
+        this.http
+            .post(
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
+                "http://localhost:64964/WebService.asmx/GetInventoryHighLevelStats",
+                {}
+            )
+            .subscribe((Response) => {
+                this.mInventoryHighLevelStats = Response["d"];
+                debugger;
+            }); 
+    }
 }
