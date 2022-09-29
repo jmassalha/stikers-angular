@@ -144,7 +144,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     let _returnedPatients = this.hospitalDepartTypeGroup.controls['returnedPatients'].value;
     let _releaseDeptChoose = this.releaseDeptChooseGroup.controls['releaseDeptChoose'].value;
     this.releasePatient = _releaseDeptChoose;
-    if (this.departParam == "7") {
+    if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
     }
     let valueOfSwitch = _surgeryDeptType;
@@ -302,6 +302,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.hospitalDepartTypeGroup.controls['hospitalDepartType'].setValue('0');
       this.surgeryChooseTypeGroup.controls['surgeryChooseType'].setValue('0');
     }
+    this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(false);
     this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
   }
 
