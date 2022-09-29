@@ -86,6 +86,7 @@
     "ng-circle-progress": "^1.6.0",
     "ng2-charts": "^3.0.0-rc.7",
     "ng2-smart-table": "^1.7.2",
+    "ngx-barcode": "^0.3.0",
     "ngx-barcodeput": "^1.1.0",
     "ngx-bootstrap": "^8.0.0",
     "ngx-mask": "^9.1.4",

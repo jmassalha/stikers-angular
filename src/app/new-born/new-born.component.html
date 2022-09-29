@@ -369,7 +369,7 @@
                                 name="NewBornTime"
                                 type="text"
                                 formControlName="NewBornTime"
-                            />                            
+                            />
                         </mat-form-field>
                     </div>
                 </div>
@@ -390,9 +390,6 @@
                             >&nbsp;&nbsp;
                             <mat-radio-button value="קיסרי"
                                 >קיסרי</mat-radio-button
-                            >&nbsp;&nbsp;
-                            <mat-radio-button value="ואקום"
-                                >ואקום</mat-radio-button
                             >&nbsp;&nbsp;
                             <mat-radio-button value='מחוץ לבי"ח'
                                 >מחוץ לבי"ח</mat-radio-button
@@ -418,6 +415,7 @@
                     <div class="col text-right" dir="rtl">
                         <mat-form-field>
                             <input
+                                onfocus="if(this.value == '0') { this.value = ''; }"
                                 matInput
                                 autocomplete="off"
                                 placeholder="משקל"
@@ -504,13 +502,23 @@
                         &nbsp;&nbsp;
 
                         <mat-radio-group formControlName="hospitalizedAt">
-                            <mat-radio-button value="תינוקייה"
-                                >תינוקייה</mat-radio-button
+                            <mat-radio-button value="ילודים"
+                                >ילודים</mat-radio-button
                             >&nbsp;&nbsp;
                             <mat-radio-button value="פגייה"
                                 >פגייה</mat-radio-button
                             >&nbsp;&nbsp;
                         </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-right" dir="rtl">
+
+                        <mat-checkbox
+                            formControlName="NewBornPondkyat"
+                            value="פונדקאית"
+                            >פונדקאית</mat-checkbox
+                        >
                     </div>
                 </div>
             </div>
