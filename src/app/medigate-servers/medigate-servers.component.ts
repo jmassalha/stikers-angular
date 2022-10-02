@@ -87,7 +87,7 @@ export class MedigateServersComponent implements OnInit {
         this.http
             .post(
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
-                "http://localhost:64964/WebService.asmx/GetInventoryHighLevelStats",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
                 {}
             )
             .subscribe((Response) => {

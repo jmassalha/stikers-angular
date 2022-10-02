@@ -49,6 +49,20 @@ export class BarChartComponent implements OnInit {
     this.discreteBarChart();
   }
 
+  onSelect(event) {
+    let selected = event.selection[0];
+    if (this.columnNames.length == 3) {
+      this.discreteBarChart();
+    } else {
+      let index = selected.column;
+      this.columnNames = [this.columnNames[0], this.columnNames[index]];
+      this.columnNames.push({ role: 'annotation' });
+
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+      }
+    }
+  }
 
   public discreteBarChart() {
     let url = "DiscreteBarChart";

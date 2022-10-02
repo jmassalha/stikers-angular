@@ -44,7 +44,7 @@ export class PieChartComponent implements OnInit {
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
-
+  
   ngOnInit(): void {
     this.innerWidth = window.innerWidth;
     this.width = (this.innerWidth - 100) / 2;
@@ -52,6 +52,10 @@ export class PieChartComponent implements OnInit {
       this.width = this.width * 2;
     }
     this.pieChart();
+  }
+
+  onSelect(event){
+    console.log(event);
   }
 
   public pieChart() {

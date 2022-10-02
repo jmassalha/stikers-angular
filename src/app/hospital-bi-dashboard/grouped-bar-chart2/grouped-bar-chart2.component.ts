@@ -89,23 +89,39 @@ export class GroupedBarChart2Component implements OnInit {
     this.discreteBarChart();
   }
 
-  @HostListener('document:click', ['$event'])
-  clickout(event) {
-    if (this.eRef.nativeElement.contains(event.target)) {
-      let clickedType = event["srcElement"]["localName"];
-      let departClicked = "";
-      if (clickedType == "text") {
-        departClicked = event["srcElement"]["innerHTML"];
-      }
-      if (departClicked == this.filterVal && this.filterVal != "") {
-        this.filterVal = "";
-        this.discreteBarChart();
-      } else if (departClicked != "" && this.columnNames.includes(departClicked)) {
-        this.filterVal = departClicked;
-        this.filterChart();
+  onSelect(event) {
+    let selected = event.selection[0];
+    if (this.columnNames.length == 3) {
+      this.discreteBarChart();
+    } else {
+      this.totalNumberOfOccurincy = 0;
+      let index = selected.column;
+      this.columnNames = [this.columnNames[0], this.columnNames[index]];
+      this.columnNames.push({ role: 'annotation' });
+
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
       }
     }
   }
+
+  // @HostListener('document:click', ['$event'])
+  // clickout(event) {
+  //   if (this.eRef.nativeElement.contains(event.target)) {
+  //     let clickedType = event["srcElement"]["localName"];
+  //     let departClicked = "";
+  //     if (clickedType == "text") {
+  //       departClicked = event["srcElement"]["innerHTML"];
+  //     }
+  //     if (departClicked == this.filterVal && this.filterVal != "") {
+  //       this.filterVal = "";
+  //       this.discreteBarChart();
+  //     } else if (departClicked != "" && this.columnNames.includes(departClicked)) {
+  //       this.filterVal = departClicked;
+  //       this.filterChart();
+  //     }
+  //   }
+  // }
 
   changePercent() {
     let index = this.columnNames.indexOf(this.filterVal);
@@ -123,32 +139,16 @@ export class GroupedBarChart2Component implements OnInit {
     }
   }
 
-  filterChart() {
-    this.totalNumberOfOccurincy = 0;
-    let index = this.columnNames.indexOf(this.filterVal);
-    this.columnNames = [this.columnNames[0], this.columnNames[index]];
-    this.columnNames.push({ role: 'annotation' });
+  // filterChart() {
+  //   this.totalNumberOfOccurincy = 0;
+  //   let index = this.columnNames.indexOf(this.filterVal);
+  //   this.columnNames = [this.columnNames[0], this.columnNames[index]];
+  //   this.columnNames.push({ role: 'annotation' });
 
-    for (let i = 0; i < this.data.length; i++) {
-      this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
-    }
-    // for (let i = 0; i < this.data.length; i++) {
-    //   this.totalNumberOfOccurincy += this.data[i][index];
-    // }
-
-    // if (!this.percent) {
-    //   this.percent = true;
-    //   for (let i = 0; i < this.data.length; i++) {
-    //     let percent = (this.data[i][index] / this.totalNumberOfOccurincy) * 100;
-    //     this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
-    //   }
-    // } else {
-    //   this.percent = false;
-    //   for (let i = 0; i < this.data.length; i++) {
-    //     this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
-    //   }
-    // }
-  }
+  //   for (let i = 0; i < this.data.length; i++) {
+  //     this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+  //   }
+  // }
 
   public discreteBarChart() {
     let url = "LineBarChart";

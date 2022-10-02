@@ -8,12 +8,16 @@
                 <button *ngFor="let dept of departments" (click)="chooseDataType(dept)" mat-menu-item
                     color="primary">{{dept.DIMDataTypeDesc}}</button>
             </mat-menu>
-            <!-- <mat-list role="list">
-                <mat-list-item *ngFor="let dept of departments" role="listitem">
-                    <button class="depts-btn" (click)="chooseDataType(dept)" mat-raised-button
-                        color="primary">{{dept.DIMDataTypeDesc}}</button>
-                </mat-list-item>
-            </mat-list> -->
+            <!-- <script>
+                var btn = document.querySelector(".depts-list-menu");
+                var position;
+                btn.addEventListener("mouseover", function() {
+                    console.log("works");
+                    position ? (position = 0) : (position = 150);
+                    btn.style.transform = `translate(${position}px,0px)`;
+                    btn.style.transition = 'all 0.3s ease'
+                });
+            </script> -->
         </div>
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
             <!-- <select class="form-select" style="margin-right: 26%;"
