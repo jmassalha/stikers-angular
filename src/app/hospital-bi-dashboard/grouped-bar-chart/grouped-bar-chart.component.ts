@@ -78,32 +78,47 @@ export class GroupedBarChartComponent implements OnInit {
     this.waitData();
   }
 
-  @HostListener('document:click', ['$event'])
-  clickout(event) {
-    if (this.eRef.nativeElement.contains(event.target)) {
-      let clickedType = event["srcElement"]["localName"];
-      let departClicked = "";
-      if (clickedType == "text") {
-        departClicked = event["srcElement"]["innerHTML"];
-      }
-      if (departClicked == this.filterVal && this.filterVal != "") {
-        this.filterVal = "";
-        this.waitData();
-      } else if (departClicked != "" && this.columnNames.includes(departClicked)) {
-        this.filterVal = departClicked;
-        this.filterChart();
+
+  onSelect(event) {
+    let selected = event.selection[0];
+    if (this.columnNames.length == 3) {
+      this.waitData();
+    } else {
+      let index = selected.column;
+      this.columnNames = [this.columnNames[0], this.columnNames[index]];
+      this.columnNames.push({ role: 'annotation' });
+      for (let i = 0; i < this.data.length; i++) {
+        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
       }
     }
   }
 
-  filterChart() {
-    let index = this.columnNames.indexOf(this.filterVal);
-    this.columnNames = [this.columnNames[0], this.columnNames[index]];
-    this.columnNames.push({ role: 'annotation' });
-    for (let i = 0; i < this.data.length; i++) {
-      this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
-    }
-  }
+  // @HostListener('document:click', ['$event'])
+  // clickout(event) {
+  //   if (this.eRef.nativeElement.contains(event.target)) {
+  //     let clickedType = event["srcElement"]["localName"];
+  //     let departClicked = "";
+  //     if (clickedType == "text") {
+  //       departClicked = event["srcElement"]["innerHTML"];
+  //     }
+  //     if (departClicked == this.filterVal && this.filterVal != "") {
+  //       this.filterVal = "";
+  //       this.waitData();
+  //     } else if (departClicked != "" && this.columnNames.includes(departClicked)) {
+  //       this.filterVal = departClicked;
+  //       this.filterChart();
+  //     }
+  //   }
+  // }
+
+  // filterChart() {
+  //   let index = this.columnNames.indexOf(this.filterVal);
+  //   this.columnNames = [this.columnNames[0], this.columnNames[index]];
+  //   this.columnNames.push({ role: 'annotation' });
+  //   for (let i = 0; i < this.data.length; i++) {
+  //     this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+  //   }
+  // }
 
   async waitData() {
     // await this.discreteBarChart();

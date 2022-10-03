@@ -124,18 +124,27 @@ export class HospitalBIDashboardComponent implements OnInit {
     setTimeout(() => {
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }, 1500);
-
     this.showYearsPeriod();
+    // this.test();
   }
+
+  // test() {
+  //   var btn = document.querySelector(".depts-list-menu");
+  //   var position = 0 ;
+  //   btn.addEventListener("mouseover", function () {
+  //     position ? (position = 0) : (position = 150);
+  //     btn.setAttribute("style", `transform: translate(${position}px,0px); transition: all 0.2s ease`);
+  //   });
+  // }
 
   changeTime(event, type, periodList) {
     this.TimeLineParam = event;
     let titles = {
-      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'אחוז מטופלים לפי ימים', 'אחוז פעולות לפי מבצע', 'אחוז צנתורים לפי ימי שבוע',''],
-      bar: ['ניתוחים ברמת מחלקה', 'ביקורים לפי מרפאה', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פעולות', 'מספר צנתורים לתקופת','ביקורים לפי מרפאה'],
-      group: ['ניתוחים לפי מחלקה וסוג ניתוח', 'ביקורים לפי מרפאה ומשמרת', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת','ביקורים לפי מרפאה ומשמרת'],
-      group2: ['כמות ניתוחים למחלקה', 'ביקורים לפי מרפאה וזמן', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן', 'מספר מטופלים לפי ציר זמן', 'מספר צנתורים לפי צרי זמן','ביקורים לפי מרפאה וזמן'],
-      groupRelease: ['', '', '', '', 'שחרורים לפי זמן ', '', '', '', '', '',''],
+      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'אחוז מטופלים לפי ימים', 'אחוז פעולות לפי מבצע', 'אחוז צנתורים לפי ימי שבוע', ''],
+      bar: ['ניתוחים ברמת מחלקה', 'ביקורים לפי מרפאה', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פעולות', 'מספר צנתורים לתקופת', 'ביקורים לפי מרפאה'],
+      group: ['ניתוחים לפי מחלקה וסוג ניתוח', 'ביקורים לפי מרפאה ומשמרת', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת', 'ביקורים לפי מרפאה ומשמרת'],
+      group2: ['כמות ניתוחים למחלקה', 'ביקורים לפי מרפאה וזמן', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן', 'מספר מטופלים לפי ציר זמן', 'מספר צנתורים לפי צרי זמן', 'ביקורים לפי מרפאה וזמן'],
+      groupRelease: ['', '', '', '', 'שחרורים לפי זמן ', '', '', '', '', '', ''],
       // line: ['', '', '', '', '', '', ''],
     };
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
@@ -144,7 +153,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     let _returnedPatients = this.hospitalDepartTypeGroup.controls['returnedPatients'].value;
     let _releaseDeptChoose = this.releaseDeptChooseGroup.controls['releaseDeptChoose'].value;
     this.releasePatient = _releaseDeptChoose;
-    if (this.departParam == "7") {
+    if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
     }
     let valueOfSwitch = _surgeryDeptType;
@@ -302,6 +311,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.hospitalDepartTypeGroup.controls['hospitalDepartType'].setValue('0');
       this.surgeryChooseTypeGroup.controls['surgeryChooseType'].setValue('0');
     }
+    this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(false);
     this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
   }
 
