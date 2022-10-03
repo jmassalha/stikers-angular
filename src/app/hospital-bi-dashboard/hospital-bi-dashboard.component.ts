@@ -33,7 +33,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
     { DIMDataTypeID: "2", DIMDataTypeDesc: "מרפאות ומכונים" },
-    { DIMDataTypeID: "11", DIMDataTypeDesc: "מרפאות מיוחדות" },
+    // { DIMDataTypeID: "11", DIMDataTypeDesc: "מרפאות מיוחדות" },
     { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
     // { DIMDataTypeID: "4", DIMDataTypeDesc: "פעולות" },
     { DIMDataTypeID: "5", DIMDataTypeDesc: "קבלות לאשפוז" },
@@ -153,7 +153,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     let _returnedPatients = this.hospitalDepartTypeGroup.controls['returnedPatients'].value;
     let _releaseDeptChoose = this.releaseDeptChooseGroup.controls['releaseDeptChoose'].value;
     this.releasePatient = _releaseDeptChoose;
-    if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1") {
+    if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1" || this.departParam == "2") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
     }
     let valueOfSwitch = _surgeryDeptType;
@@ -345,7 +345,8 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.loader = true;
     this.http
       .post(this.configUrl + "GetStatsValues", {
-        deptCode: this.departParam
+        deptCode: this.departParam,
+        returnedPatients: this.deliveryPrematureGroup.controls['deliveryPremature'].value
       })
       .subscribe((Response) => {
         this.loader = false;
