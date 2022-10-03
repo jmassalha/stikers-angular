@@ -140,6 +140,7 @@ export class NewBornComponent implements OnInit {
     UserFrom: string;
     myControl = new FormControl("");
     casenumber = "";
+    opendCounter = 0;
     ngOnInit(): void {
         //debugger
 
@@ -214,18 +215,40 @@ export class NewBornComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
+        if (this.patientForm.invalid) {
+            // console.log(this.patientForm.controls.errors);
+            return;
+        }
         this.patientForm.value.UserName = this.UserFrom;
         this.patientForm.value.NewBornDOB = formatDate(
             this.patientForm.value.NewBornDOB,
             "yyyy-MM-dd",
             "en-US"
         );
-        this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 3);
-        this.patientForm.value.NewBornTime = formatDate(
-            this.patientForm.value.NewBornTime,
-            "HH:mm",
-            "en-US"
-        );
+        
+        if(this.opendCounter == 1)
+            this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 3);
+        
+        var dateNow = new Date();
+        if(dateNow.getHours() - 2 > this.patientForm.value.NewBornTime._d.getHours() && this.opendCounter == 1){
+            console.log(this.patientForm.value.NewBornTime);
+            this._snackBar.open("שעת לידה קטנה יותר משתי שעות מהשעה הנוכחית !!!!!", "", {
+                duration: 15000,
+                direction: "rtl",
+                panelClass: "error", 
+                horizontalPosition: this.horizontalPosition,
+                verticalPosition: this.verticalPosition,
+            });
+            this.opendCounter++;
+        }else{
+            this.patientForm.value.NewBornTime = formatDate(
+                this.patientForm.value.NewBornTime,
+                "HH:mm",
+                "en-US"
+            );
+        }
+        
+        //return;
         if (this.patientForm.value.NewBornWeightInProgress == "") {
             this.patientForm.value.NewBornWeightInProgress = "לא";
         }
@@ -236,10 +259,7 @@ export class NewBornComponent implements OnInit {
             this.patientForm.value.BirthIsDie = "לא";
         }
         // stop here if form is invalid
-        if (this.patientForm.invalid) {
-            // console.log(this.patientForm.controls.errors);
-            return;
-        }
+        
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
@@ -259,6 +279,7 @@ export class NewBornComponent implements OnInit {
                 this.patientForm.value.UserName = "";
                 this.ShowFormNewBorn = false;
                 this.modalServiceresearchespatients.dismissAll();
+                this.opendCounter = 0;
                 window.self.close();
             });
         // display form values on success
@@ -368,6 +389,7 @@ export class NewBornComponent implements OnInit {
             );
     }
     open(content, _type, _element) {
+        this.opendCounter++;
         //$('#free_text').text(_element.FreeText);
         //////debugger
         //  debugger
