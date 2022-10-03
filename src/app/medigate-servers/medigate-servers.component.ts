@@ -36,6 +36,8 @@ import {
 import { BehaviorSubject } from "rxjs";
 import { formatDate } from "@angular/common";
 import { MenuPerm } from "../menu-perm";
+import { MatDialog } from "@angular/material/dialog";
+import { DataTableComponent } from "./data-table/data-table.component";
 
 export interface InventoryHighLevelStats {
     TotalDevices: number;
@@ -49,6 +51,10 @@ export interface InventoryHighLevelStats {
     TotalHighRisk: number;
     TotalCompromised: number;
     TotalNewThisWeek: number;
+}
+export interface GooglePieChart {
+    Type: string;
+    Total: number;
 }
 @Component({
     selector: "app-medigate-servers",
@@ -65,7 +71,8 @@ export class MedigateServersComponent implements OnInit {
         private elementRef: ElementRef,
         //private cdRef:ChangeDetectorRef,
         private formBuilder: FormBuilder,
-        private mMenuPerm: MenuPerm
+        private mMenuPerm: MenuPerm,
+        public dialog: MatDialog
     ) {
         mMenuPerm.setRoutName("medigate");
         setTimeout(function () {
@@ -77,22 +84,135 @@ export class MedigateServersComponent implements OnInit {
             }
         }, 1000);
     }
-    mInventoryHighLevelStats:InventoryHighLevelStats;
+    ManufacturerDistributiontitle = "";
+    ManufacturerDistributiontype = "PieChart";
+    ManufacturerDistributiondata = [["",0]];
+    DeviceTypeFamilyDistribution:GooglePieChart[];
+    lastSelectedRow;
+    lastSelectedColumn;
+    ManufacturerDistributionoptions = {
+        pieHole: 0.4,
+    };
+    ManufacturerDistributionwidth = 600;
+    ManufacturerDistributionheight = 388;
+    mInventoryHighLevelStats: InventoryHighLevelStats = {
+        TotalDevices: 0,
+        TotalCorporate: 0,
+        TotalGuest: 0,
+        TotalMedical: 0,
+        TotalOT: 0,
+        TotalIoT: 0,
+        TotalIT: 0,
+        TotalOnLine: 0,
+        TotalHighRisk: 0,
+        TotalCompromised: 0,
+        TotalNewThisWeek: 0,
+    };
     ngOnInit(): void {
         //debugger
+        let that = this;
         this.GetInventoryHighLevelStats();
+        setTimeout(function(){
+            that.GetManufacturerDistribution();
+        }, 500)
+        
+        this.GetDeviceTypeFamilyDistribution();
     }
-    GetInventoryHighLevelStats(){
-       // debugger
+    getData(type){
+        console.log(type);
+        const dialogRef = this.dialog.open(DataTableComponent, {
+            data: {
+                selectedData: type,
+                dataType: 'InventoryHighLevelStats'
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
+    }
+    
+    getDataByDevice(dataDevice){
+        console.log(dataDevice);
+        const dialogRef = this.dialog.open(DataTableComponent, {
+            data: {
+                selectedData: dataDevice,
+                dataType: 'DeviceTypeFamilyDistribution'
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
+    }
+    onSelect(event){
+        var row;
+        var column;
+        if(event.selection.length == 0){
+            row = this.lastSelectedRow;
+            column = this.lastSelectedColumn;
+        }else{
+            this.lastSelectedRow = event.selection[0].row;
+            this.lastSelectedColumn = event.selection[0].column;
+            row = event.selection[0].row;
+            column = event.selection[0].column;
+        }
+        
+        console.log(this.ManufacturerDistributiondata[row]);
+        const dialogRef = this.dialog.open(DataTableComponent, {
+            data: {
+                selectedData: this.ManufacturerDistributiondata[row],
+                dataType: 'ManufacturerDistribution'
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
+    }
+    GetManufacturerDistribution() {
+        // debugger
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
-                "http://localhost:64964/WebService.asmx/GetInventoryHighLevelStats",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetManufacturerDistribution",
+                //"http://localhost:64964/WebService.asmx/GetManufacturerDistribution",
+                {}
+            )
+            .subscribe((Response) => {
+                //debugger
+                this.ManufacturerDistributiondata = []
+                for(var i = 0; i <Response["d"].length; i++){
+                    this.ManufacturerDistributiondata.push([Response["d"][i]["Type"], parseFloat(Response["d"][i]["Total"])])
+                }
+                 //debugger;
+            });
+    }
+    GetDeviceTypeFamilyDistribution() {
+        // debugger
+        this.http
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeviceTypeFamilyDistribution",
+                //"http://localhost:64964/WebService.asmx/GetDeviceTypeFamilyDistribution",
+                {}
+            )
+            .subscribe((Response) => {
+                
+                    this.DeviceTypeFamilyDistribution = Response["d"];
+                
+                 //debugger;
+            });
+    }
+    GetInventoryHighLevelStats() {
+        // debugger
+        this.http
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
+                //"http://localhost:64964/WebService.asmx/GetInventoryHighLevelStats",
                 {}
             )
             .subscribe((Response) => {
                 this.mInventoryHighLevelStats = Response["d"];
-                debugger;
-            }); 
+                // debugger;
+            });
     }
 }
