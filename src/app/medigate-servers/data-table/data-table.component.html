@@ -1,0 +1,149 @@
+<h2 mat-dialog-title>
+    <button mat-button mat-dialog-close>X</button>
+</h2>
+<mat-dialog-content dir="ltr" class="mat-typography">
+    <div class="table-responsive-3">
+        <div class="table-spinner-container">
+            <mat-form-field style="width: 100%;">
+                <input
+                    matInput
+                    (keyup)="applyFilter($event.target.value)"
+                    placeholder="Filter"
+                />
+            </mat-form-field>
+            <table class="text-left" mat-table [dataSource]="dataSource">
+                <ng-container matColumnDef="ip_list">
+                    <th
+                        mat-header-cell
+                        *matHeaderCellDef
+                        class="text-left"
+                        width="130"
+                    >
+                        IP
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.ip_list }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="mac_list">
+                    <th
+                        mat-header-cell
+                        width="130"
+                        class="text-left"
+                        *matHeaderCellDef
+                    >
+                        MAC
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.mac_list }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="network_list">
+                    <th
+                        mat-header-cell
+                        width="90"
+                        class="text-left"
+                        *matHeaderCellDef
+                    >
+                        NETWORK
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.network_list }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="device_category">
+                    <th
+                        mat-header-cell
+                        width="110"
+                        class="text-left"
+                        *matHeaderCellDef
+                    >
+                        CATEGORY
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.device_category }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="device_subcategory">
+                    <th
+                        mat-header-cell
+                        width="130"
+                        class="text-left"
+                        *matHeaderCellDef
+                    >
+                        SUB CATEGORY
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.device_subcategory }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="manufacturer">
+                    <th
+                        mat-header-cell
+                        width="130"
+                        class="text-left"
+                        *matHeaderCellDef
+                    >
+                        MANUFACTURER
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.manufacturer }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="device_type">
+                    <th
+                        mat-header-cell
+                        width="100"
+                        class="text-left"
+                        *matHeaderCellDef
+                    >
+                        TYPE
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.device_type }}
+                    </td>
+                </ng-container>
+
+                <ng-container matColumnDef="os_version">
+                    <th mat-header-cell class="text-left" *matHeaderCellDef>
+                        OS
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.os_version }}
+                    </td>
+                </ng-container>
+                <ng-container matColumnDef="vlan_list">
+                    <th
+                        mat-header-cell
+                        width="70"
+                        class="text-left"
+                        *matHeaderCellDef
+                    >
+                        VLAN
+                    </th>
+                    <td mat-cell *matCellDef="let element; let rowIdx = index">
+                        {{ element.vlan_list }}
+                    </td>
+                </ng-container>
+
+                <tr
+                    mat-header-row
+                    *matHeaderRowDef="displayedColumns; sticky: true"
+                ></tr>
+                <tr
+                    mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></tr>
+            </table>
+        </div>
+        <!-- PAGINATION [hidden]="
+                        (!row.hideOrShow)   ? true : false
+                    " -->
+        <mat-paginator
+            [length]="resultsLength"
+            [pageSizeOptions]="[10, 20, 50, 100]"
+            [pageSize]="10"
+            showFirstLastButtons
+        ></mat-paginator>
+    </div>
+</mat-dialog-content>
