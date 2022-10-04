@@ -153,19 +153,6 @@ export class EmployeesManageDashComponent implements OnInit {
     let workPlace = this.searchEmployeesGroup.controls['WorkPlace'].value;
     let StatusRow = this.searchEmployeesGroup.controls['StatusRow'].value;
     let ApprovedToBlossom = this.searchEmployeesGroup.controls['ApprovedToBlossom'].value;
-    // if (managerType == "research") {
-    //   employeesToShow = '';
-    //   employeesWorkPlace = '2';
-    // } else if (managerType == "stager") {
-    //   employeesToShow = '899';
-    //   employeesWorkPlace = '1';
-    // } else if (managerType == "hr") {
-    //   employeesToShow = '';
-    //   employeesWorkPlace = '';
-    // }else{
-    //   employeesToShow = '';
-    //   employeesWorkPlace = '';
-    // }
     this.http
       .post(this.url+"GetEmployeesToUpdate", {
         _empId: empId,
@@ -181,7 +168,8 @@ export class EmployeesManageDashComponent implements OnInit {
         _sektor: sektor,
         _workPlace: workPlace,
         _statusRow: StatusRow,
-        _approvedToBlossom: ApprovedToBlossom
+        _approvedToBlossom: ApprovedToBlossom,
+        _userName: this.UserName
       })
       .subscribe((Response) => {
         this.loaded = true;
@@ -204,7 +192,8 @@ export class EmployeesManageDashComponent implements OnInit {
           _sektor: sektor,
           _workPlace: workPlace,
           _statusRow: StatusRow,
-          _approvedToBlossom: ApprovedToBlossom
+          _approvedToBlossom: ApprovedToBlossom,
+          _userName: this.UserName
         })
         .subscribe((Response) => {
           this.dataSourceExcel = new MatTableDataSource<any>(Response["d"]);
