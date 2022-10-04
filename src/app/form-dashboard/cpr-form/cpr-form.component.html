@@ -609,7 +609,7 @@
                 <ng-container matColumnDef="delete">
                     <th mat-header-cell *matHeaderCellDef> מחיקת טופס </th>
                     <td mat-cell *matCellDef="let element"> <button mat-raised-button ml-2 type="submit"
-                            (click)="deleteForm(element.Row_ID)" *ngIf="UserName == 'emansour' || UserName == 'kmassalha'" class="btn btn-danger btn-raised mb-2"
+                            (click)="deleteForm(element.Row_ID)" *ngIf="UserName == 'emansour' || UserName == 'kmassalha' || UserName == 'adahabre'" class="btn btn-danger btn-raised mb-2"
                             matTooltip="מחיקה">
                             <span class="material-icons">
                                 delete
