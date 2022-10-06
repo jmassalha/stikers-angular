@@ -33,7 +33,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
     { DIMDataTypeID: "2", DIMDataTypeDesc: "מרפאות ומכונים" },
-    { DIMDataTypeID: "11", DIMDataTypeDesc: "מרפאות מיוחדות" },
+    // { DIMDataTypeID: "11", DIMDataTypeDesc: "מרפאות מיוחדות" },
     { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
     // { DIMDataTypeID: "4", DIMDataTypeDesc: "פעולות" },
     { DIMDataTypeID: "5", DIMDataTypeDesc: "קבלות לאשפוז" },
@@ -103,7 +103,8 @@ export class HospitalBIDashboardComponent implements OnInit {
       releaseDeptChoose: new FormControl('ספנ-א', null)
     });
     this.deliveryPrematureGroup = this.fb.group({
-      deliveryPremature: new FormControl(false, null)
+      deliveryPremature: new FormControl(false, null),
+      ByDoctor: new FormControl(false, null)
     });
     this.graphsCtrl = this.fb.group({
       pieCtrl: new FormControl('1', null),
@@ -153,8 +154,11 @@ export class HospitalBIDashboardComponent implements OnInit {
     let _returnedPatients = this.hospitalDepartTypeGroup.controls['returnedPatients'].value;
     let _releaseDeptChoose = this.releaseDeptChooseGroup.controls['releaseDeptChoose'].value;
     this.releasePatient = _releaseDeptChoose;
-    if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1") {
+    if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1" || this.departParam == "2") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
+      if(this.departParam == "2"){
+        _surgeryChooseType = this.deliveryPrematureGroup.controls['ByDoctor'].value;
+      }
     }
     let valueOfSwitch = _surgeryDeptType;
     if (this.departParam == "6" || this.departParam == "5") {
@@ -312,6 +316,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.surgeryChooseTypeGroup.controls['surgeryChooseType'].setValue('0');
     }
     this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(false);
+    this.deliveryPrematureGroup.controls['ByDoctor'].setValue(false);
     this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
   }
 
@@ -345,7 +350,8 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.loader = true;
     this.http
       .post(this.configUrl + "GetStatsValues", {
-        deptCode: this.departParam
+        deptCode: this.departParam,
+        returnedPatients: this.deliveryPrematureGroup.controls['deliveryPremature'].value
       })
       .subscribe((Response) => {
         this.loader = false;

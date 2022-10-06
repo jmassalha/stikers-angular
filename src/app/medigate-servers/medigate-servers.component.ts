@@ -175,7 +175,7 @@ export class MedigateServersComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetManufacturerDistribution",
-                //"http://localhost:64964/WebService.asmx/GetManufacturerDistribution",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetManufacturerDistribution",
                 {}
             )
             .subscribe((Response) => {
@@ -192,7 +192,7 @@ export class MedigateServersComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeviceTypeFamilyDistribution",
-                //"http://localhost:64964/WebService.asmx/GetDeviceTypeFamilyDistribution",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeviceTypeFamilyDistribution",
                 {}
             )
             .subscribe((Response) => {
@@ -207,7 +207,7 @@ export class MedigateServersComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
-                //"http://localhost:64964/WebService.asmx/GetInventoryHighLevelStats",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
                 {}
             )
             .subscribe((Response) => {

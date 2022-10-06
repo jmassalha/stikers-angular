@@ -47,9 +47,7 @@ export class CprFormComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private confirmationDialogService: ConfirmationDialogService,
-    private datePipe: DatePipe,
-    private router: Router,
-    private _sanitizer: DomSanitizer) {
+    private datePipe: DatePipe) {
 
   }
 
@@ -75,7 +73,7 @@ export class CprFormComponent implements OnInit {
   statusDropDown = ['VF', 'PEA', 'ASYSTOLE', 'VT', 'BRADY ARITMIA'];
   rateHeadDropdown = ['יש', 'אין'];
   myDate = new Date();
-  CprFormsColumns: string[] = ['rowid', 'date', 'patientID', 'patientName', 'print', 'sign'];
+  CprFormsColumns: string[] = ['delete', 'rowid', 'date', 'patientID', 'patientName', 'print', 'sign'];
   CprFormsList = [];
   CprFormsList_all = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
@@ -879,6 +877,32 @@ export class CprFormComponent implements OnInit {
       });
   }
 
+  deleteForm(id) {
+    this.confirmationDialogService
+      .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+      .then((confirmed) => {
+        console.log("User confirmed:", confirmed);
+        if (confirmed) {
+          this.http.post(this.url + "DeleteCprForm", {
+            _formId: id,
+          })
+            .subscribe((Response) => {
+              if (Response["d"] != -1) {
+                this.openSnackBar("נמחק בהצלחה");
+              } else {
+                this.openSnackBar("אירעה תקלה, לא נמחק!");
+              }
+            });
+        } else {
+        }
+      })
+      .catch(() =>
+        console.log(
+          "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+        )
+      );
+  }
+
   submit() {
     let defaultCprDate = this.datePipe.transform(this.myDate, 'yyyy-MM-dd');
     this.FirstSection.controls['cprDate'].setValue(defaultCprDate);
@@ -892,24 +916,37 @@ export class CprFormComponent implements OnInit {
     } else if (this.ThirdSection.invalid) {
       this.openSnackBar("שכחת שדה חובה בחלק שלישי");
     } else {
-      this.http.post(this.url + "SaveCprForm", {
-        _first: this.FirstSection.value,
-        _second: this.SecondSection.value,
-        _third: this.ThirdSection.value,
-        _patientDetails: this.PatientRecord,
-      })
-        .subscribe((Response) => {
-          if (Response["d"] != -1) {
-            this.openSnackBar("נשמר בהצלחה");
-            this.sendCprFormEmail(Response["d"]);
-            let that = this;
-            setTimeout(() => {
-              that.linkToNamer(Response["d"]);
-            }, 1000);
+      this.confirmationDialogService
+        .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+        .then((confirmed) => {
+          console.log("User confirmed:", confirmed);
+          if (confirmed) {
+            this.http.post(this.url + "SaveCprForm", {
+              _first: this.FirstSection.value,
+              _second: this.SecondSection.value,
+              _third: this.ThirdSection.value,
+              _patientDetails: this.PatientRecord,
+            })
+              .subscribe((Response) => {
+                if (Response["d"] != -1) {
+                  this.openSnackBar("נשמר בהצלחה");
+                  this.sendCprFormEmail(Response["d"]);
+                  let that = this;
+                  setTimeout(() => {
+                    that.linkToNamer(Response["d"]);
+                  }, 1000);
+                } else {
+                  this.openSnackBar("אירעה תקלה, לא נשמר!");
+                }
+              });
           } else {
-            this.openSnackBar("אירעה תקלה, לא נשמר!");
           }
-        });
+        })
+        .catch(() =>
+          console.log(
+            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+          )
+        );
     }
   }
 

@@ -85,6 +85,17 @@
                     לפי אתרים</mat-checkbox>
             </section>
         </div>
+        <div *ngIf="departParam == '2'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
+            [formGroup]="deliveryPrematureGroup">
+            <section class="example-section">
+                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="deliveryPremature">
+                    מרפאות מיוחדות</mat-checkbox>
+            </section>
+            <section class="example-section">
+                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="ByDoctor">
+                    לפי רופאים</mat-checkbox>
+            </section>
+        </div>
     </div>
     <div class="row">
         <mat-card class="example-card text-center" *ngFor="let card of cardsList">

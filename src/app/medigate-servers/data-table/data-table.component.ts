@@ -146,7 +146,7 @@ export class DataTableComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeviceTypeFamilyDistributionByName",
-                //"http://localhost:64964/WebService.asmx/GetDeviceTypeFamilyDistributionByName",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeviceTypeFamilyDistributionByName",
                 {
                     ManufacturerDistribution: this.data.selectedData,
                 }
@@ -165,7 +165,7 @@ export class DataTableComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStatsByName",
-                //"http://localhost:64964/WebService.asmx/GetInventoryHighLevelStatsByName",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStatsByName",
                 {
                     ManufacturerDistribution: this.data.selectedData,
                 }
@@ -184,7 +184,7 @@ export class DataTableComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetManufacturerDistributionByName",
-                //"http://localhost:64964/WebService.asmx/GetManufacturerDistributionByName",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetManufacturerDistributionByName",
                 {
                     ManufacturerDistribution: this.data.selectedData[0],
                 }
