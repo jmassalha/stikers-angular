@@ -128,17 +128,18 @@ export class CardiologyCalendarComponent implements OnInit {
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
     private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef,    
+    private cdr: ChangeDetectorRef,
     private router: Router,
     private mMenuPerm: MenuPerm
-) {
+  ) {
     mMenuPerm.setRoutName("cardiologycalendar");
     setTimeout(() => {
-        if(!mMenuPerm.getHasPerm()){
-            localStorage.clear();
-            this.router.navigate(["login"]);
-        }
-    }, 2000); }
+      if (!mMenuPerm.getHasPerm()) {
+        localStorage.clear();
+        this.router.navigate(["login"]);
+      }
+    }, 2000);
+  }
 
   ngOnInit(): void {
     if (this.UserName != null) {
@@ -232,11 +233,11 @@ export class CardiologyCalendarComponent implements OnInit {
 
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
-    this.modal.open(this.modalContent, { size: 'md'});
+    this.modal.open(this.modalContent, { size: 'md' });
   }
 
   SetNewTime(event2, event) {
-    event.patientAction.ArrivalTime = event2.srcElement.defaultValue.split('T')[1];
+    event.patientAction.ArrivalTime = event2;//.srcElement.defaultValue.split('T')[1];
   }
 
   addEvent(event): void {
@@ -333,10 +334,10 @@ export class CardiologyCalendarComponent implements OnInit {
           if (Response["d"]) {
             that.modal.dismissAll();
             that.openSnackBar("נשמר בהצלחה");
+            $("#loader").addClass("d-none");
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-          $("#loader").addClass("d-none");
           that.getPatientsQueues(month);
         });
     }, 1000)
