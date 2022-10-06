@@ -61,6 +61,7 @@
     "angularx-flatpickr": "^6.6.0",
     "angularx-qrcode": "^11.0.0",
     "bootstrap": "^4.6.1",
+    "calendar-utils": "^0.10.1",
     "canvasjs": "^1.8.3",
     "chart.js": "^2.9.4",
     "datatables.net": "^1.11.5",

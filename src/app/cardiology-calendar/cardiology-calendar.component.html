@@ -2,15 +2,16 @@
     <div class="row text-center">
         <div class="col-md-4">
             <div class="btn-group">
-                <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarPreviousView [view]="view" [(viewDate)]="viewDate"
-                    (viewDateChange)="closeOpenMonthViewDay()">
+                <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarPreviousView
+                    [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
                     הקודם
                 </div>
-                <div class="btn btn-outline-secondary" style="border-radius: 5px;margin: 1px" mwlCalendarToday [(viewDate)]="viewDate">
+                <div class="btn btn-outline-secondary" style="border-radius: 5px;margin: 1px" mwlCalendarToday
+                    [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
                     היום
                 </div>
-                <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarNextView [view]="view" [(viewDate)]="viewDate"
-                    (viewDateChange)="closeOpenMonthViewDay()">
+                <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarNextView [view]="view"
+                    [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
                     הבא
                 </div>
             </div>
@@ -20,8 +21,8 @@
         </div>
         <div class="col-md-4">
             <div class="btn-group">
-                <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" (click)="setView(CalendarView.Month)"
-                    [class.active]="view === CalendarView.Month">
+                <div class="btn btn-primary" style="border-radius: 5px;margin: 1px"
+                    (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
                     חודש
                 </div>
                 <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" (click)="setView(CalendarView.Week)"
@@ -51,17 +52,17 @@
         </span>
     </ng-template>
     <div [ngSwitch]="view">
-        <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events" [locale]="locale"
-            [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen" [cellTemplate]="customCellTemplate"
-            (dayClicked)="dayClicked($event.day, $event);" (eventClicked)="handleEvent('Clicked', $event.event)"
-            (eventTimesChanged)="eventTimesChanged($event)">
+        <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+            [locale]="locale" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+            [cellTemplate]="customCellTemplate" (dayClicked)="dayClicked($event.day, $event);"
+            (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-month-view>
-        <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [locale]="locale"
-            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+        <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+            [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
             (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-week-view>
-        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events" [locale]="locale"
-            [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+            [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
             (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-day-view>
     </div>
@@ -111,9 +112,10 @@
                                         <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
                                     </td>
                                     <td>
-                                        <input class="form-control" type="date" mwlFlatpickr [(ngModel)]="event.start" (change)="SetNewTime($event,event)"
+                                        <input class="form-control" type="date" mwlFlatpickr [(ngModel)]="event.start"
                                             (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true"
-                                            [enableTime]="true" dateFormat="Y-m-dTH:i" altFormat="F j, Y H:i" placeholder="Not set" />
+                                            [enableTime]="false"/>
+                                        <input type="time" class="form-control" [(ngModel)]="event.time" placeholder="זמן" (focusout)="SetNewTime(event.time, event)"/>
                                     </td>
                                     <td>
                                         <mat-form-field class="example-chip-list" appearance="fill">
