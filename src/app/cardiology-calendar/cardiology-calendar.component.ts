@@ -325,7 +325,7 @@ export class CardiologyCalendarComponent implements OnInit {
     let month = this.datePipe.transform(this.viewDate, 'MM');
     setTimeout(function () {
       let thisDate = that.datePipe.transform(day, 'yyyy-MM-dd');
-      let thisDateEvents = that.events.filter(t => t.patientAction.ArrivalDate === thisDate);
+      let thisDateEvents = that.events.filter(t => that.datePipe.transform(t.patientAction.ArrivalDate, 'yyyy-MM-dd') === thisDate);
       that.http
         .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitUpdateCardiologyPatientQueue", {
           _queueDetails: thisDateEvents
@@ -366,7 +366,8 @@ export class CardiologyCalendarComponent implements OnInit {
               beforeStart: true,
               afterEnd: true,
             },
-            element.start = new Date(element.patientAction.ArrivalDate + " " + element.patientAction.ArrivalTime);
+            element.start = new Date(element.patientAction.ArrivalDate);
+            element.time = element.patientAction.ArrivalTime;
           this.events.push(element);
           this.refresh.next();
         });

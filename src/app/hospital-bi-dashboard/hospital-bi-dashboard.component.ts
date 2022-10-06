@@ -8,6 +8,7 @@ import { LineChartComponent } from './line-chart/line-chart.component';
 import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-chart2.component';
 import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
+import { MatTableDataSource } from '@angular/material/table';
 interface Time {
   DimTimeTypeID: string;
   DimTimeTypeDesc: string;
@@ -68,6 +69,9 @@ export class HospitalBIDashboardComponent implements OnInit {
   phoneMode: string = "0";
   _ifSeode = 'סיעודיות';
   changePercent: number = 0;
+  dataSource = new MatTableDataSource();
+  displayedColumns: string[] = ['doctor', 'department', 'quantity'];
+  tableView = false;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   _changeScale = "Up";
   @ViewChild(PieChartComponent) pie: PieChartComponent;
@@ -156,7 +160,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.releasePatient = _releaseDeptChoose;
     if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1" || this.departParam == "2") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
-      if(this.departParam == "2"){
+      if (this.departParam == "2") {
         _surgeryChooseType = this.deliveryPrematureGroup.controls['ByDoctor'].value;
       }
     }
@@ -326,7 +330,19 @@ export class HospitalBIDashboardComponent implements OnInit {
     } else {
       this._ifSeode = 'רפואיות';
     }
-    this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+    if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
+      this.tableView = true;
+    } else {
+      this.tableView = false;
+      let that = this;
+      setTimeout(() => {
+        that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
+      }, 1000);
+    }
+  }
+
+  getTableViewItems(){
+    
   }
 
   changeReleasedDept() {
