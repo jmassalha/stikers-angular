@@ -240,6 +240,7 @@ export class NewBornComponent implements OnInit {
                 verticalPosition: this.verticalPosition,
             });
             this.opendCounter++;
+            return;
         }else{
             this.patientForm.value.NewBornTime = formatDate(
                 this.patientForm.value.NewBornTime,
