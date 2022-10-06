@@ -165,6 +165,7 @@ import { StikersComponent } from './stikers/stikers.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { MedigateServersComponent } from './medigate-servers/medigate-servers.component';
 import { DataTableComponent } from './medigate-servers/data-table/data-table.component';
+import { DataRowTableComponent } from './medigate-servers/data-row-table/data-row-table.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -285,7 +286,8 @@ const maskConfig: Partial<IConfig> = {
     ServersComponent,
     StikersComponent,
     MedigateServersComponent,
-    DataTableComponent
+    DataTableComponent,
+    DataRowTableComponent
   ],
   imports: [
     JpTimeMaskModule,
