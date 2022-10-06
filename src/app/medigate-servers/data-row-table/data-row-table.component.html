@@ -1,0 +1,68 @@
+<h2 mat-dialog-title>
+    <button mat-button mat-dialog-close>X</button>
+</h2>
+<mat-dialog-content dir="ltr" class="mat-typography">
+    <div class="example-action-buttons">
+        <button mat-button (click)="accordion.openAll()">Expand All</button>
+        <button mat-button (click)="accordion.closeAll()">Collapse All</button>
+    </div>
+    <mat-accordion class="example-headers-align" multi>
+        <mat-expansion-panel>
+            <mat-expansion-panel-header>
+                <mat-panel-title> Device IDs </mat-panel-title>
+                <mat-panel-description>
+                    <mat-icon>devices</mat-icon>
+                </mat-panel-description>
+            </mat-expansion-panel-header>
+            <div class="row">
+                <div class="col">
+                    <div class="title">IP</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">MAC</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">MAC OUI</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">CATEGORY</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">SUB CATEGORY</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">MANUFACTURER</div>
+                    <div class="info"></div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col">
+                    <div class="title">TYPE</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">MODEL</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">MACHINE TYPE</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">MOBILITY</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col">
+                    <div class="title">SERIAL NUMBER</div>
+                    <div class="info"></div>
+                </div>
+                <div class="col"></div>
+            </div>
+        </mat-expansion-panel>
+    </mat-accordion>
+</mat-dialog-content>

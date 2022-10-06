@@ -1,9 +1,10 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Inject, OnInit, ViewChild } from "@angular/core";
-import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
 import { int } from "@zxing/library/esm/customTypings";
+import { DataRowTableComponent } from "../data-row-table/data-row-table.component";
 
 export interface DialogData {
     selectedData: string;
@@ -109,7 +110,8 @@ export class DataTableComponent implements OnInit {
     constructor(
         public dialogRef: MatDialogRef<DataTableComponent>,
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
-        private http: HttpClient
+        private http: HttpClient,
+        public dialog: MatDialog
     ) {}
     
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
@@ -140,6 +142,21 @@ export class DataTableComponent implements OnInit {
                 this.GetDeviceTypeFamilyDistribution();
                 break;
         }
+    }
+    getRecord(row){
+        console.log(row)
+        
+        
+        const dialogRef = this.dialog.open(DataRowTableComponent, {
+            data: {
+                
+                row: row
+            }
+        });
+
+        dialogRef.afterClosed().subscribe(result => {
+            console.log(`Dialog result: ${result}`);
+        });
     }
     GetDeviceTypeFamilyDistribution() {
         // debugger

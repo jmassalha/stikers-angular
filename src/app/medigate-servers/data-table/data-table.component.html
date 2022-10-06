@@ -133,6 +133,7 @@
                 <tr
                     mat-row
                     *matRowDef="let row; columns: displayedColumns"
+                    (click)="getRecord(row)"
                 ></tr>
             </table>
         </div>
