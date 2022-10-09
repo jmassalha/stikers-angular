@@ -9,6 +9,7 @@ import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-chart2.component';
 import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
 import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
 interface Time {
   DimTimeTypeID: string;
   DimTimeTypeDesc: string;
@@ -69,8 +70,8 @@ export class HospitalBIDashboardComponent implements OnInit {
   phoneMode: string = "0";
   _ifSeode = 'סיעודיות';
   changePercent: number = 0;
-  dataSource = new MatTableDataSource();
-  displayedColumns: string[] = ['doctor', 'department', 'quantity'];
+  dataSource = new MatTableDataSource<any>();
+  displayedColumns: string[] = ['doctor', 'department', 'quantity', 'actions'];
   tableView = false;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   _changeScale = "Up";
@@ -79,6 +80,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   @ViewChild(GroupedBarChart2Component) group2: GroupedBarChart2Component;
   @ViewChild(GroupedBarChartReleaseComponent) groupRelease: GroupedBarChartReleaseComponent;
   @ViewChild(BarChartComponent) bar: BarChartComponent;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
   // @ViewChild(LineChartComponent) line: LineChartComponent;
 
   constructor(private http: HttpClient, private fb: FormBuilder) {
@@ -265,6 +267,15 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
   }
 
+  chooseTimeValue(event) {
+    if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
+      this.getTableViewItems(event);
+    } else {
+      this.changeTime(event, 'all', []);
+    }
+
+  }
+
   showYearsPeriod() {
     let date = new Date();
     let current = date.getFullYear();
@@ -332,6 +343,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
       this.tableView = true;
+      this.getTableViewItems("1");
     } else {
       this.tableView = false;
       let that = this;
@@ -341,8 +353,16 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
   }
 
-  getTableViewItems(){
-    
+  getTableViewItems(time) {
+    this.http
+      .post(this.configUrl + "GetTableViewForHospitalDashboard", {
+        param: time,
+        deptCode: "2"
+      })
+      .subscribe((Response) => {
+        this.dataSource = new MatTableDataSource<any>(Response["d"]);
+        this.dataSource.paginator = this.paginator;
+      });
   }
 
   changeReleasedDept() {

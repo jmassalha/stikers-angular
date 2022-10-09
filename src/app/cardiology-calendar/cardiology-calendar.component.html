@@ -116,6 +116,9 @@
                                             (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true"
                                             [enableTime]="false"/>
                                         <input type="time" class="form-control" [(ngModel)]="event.time" placeholder="זמן" (focusout)="SetNewTime(event.time, event)"/>
+                                        <span class="material-icons" matTooltip="AM - לפני שעה 12&#13;PM - אחרי שעה 12">
+                                            help_outline
+                                        </span>
                                     </td>
                                     <td>
                                         <mat-form-field class="example-chip-list" appearance="fill">

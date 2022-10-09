@@ -57,7 +57,7 @@ export class FastCovidSendEamilComponent implements OnInit {
         this.send = true;
         this.http
             .post(
-               // "http://localhost:64964/WebService.asmx/ResendPdfFastCovid",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/ResendPdfFastCovid",
                 "http://srv-ipracticom:8080/WebService.asmx/ResendPdfFastCovid",
                 {
                     data: this.resendEmailForm.value,
