@@ -2,7 +2,7 @@ import { Component, Inject, OnInit, ViewChild } from '@angular/core';
 import { MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatAccordion } from '@angular/material/expansion';
 export interface DialogData {
-  row: string;
+  row: TableData;
 }
 export interface TableData {
   network_list: string;

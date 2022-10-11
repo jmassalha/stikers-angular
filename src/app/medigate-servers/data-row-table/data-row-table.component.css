@@ -1,0 +1,42 @@
+.mat-expansion-panel-header-title, .mat-expansion-panel-header-description{
+    flex-grow: 0 !important;
+}
+.row .col:last-child{
+    border: 0;
+}
+.col{
+    text-align: center;
+    margin-bottom: 10px;
+    padding: 10px 15px;
+    border-right: 1px solid #d3d3d3;
+}
+.title{
+    font-size: 15px;
+    font-weight: bold;
+}
+.change-accordion-css .mat-content{
+    display: block !important;
+}
+.mat-expansion-panel-header-description{
+    float: right;
+}
+.online-green{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: green;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    margin-top: 6px;
+}
+.offline-red{
+    width: 25px;
+    height: 25px;
+    border-radius: 50%;
+    background: red;
+    display: block;
+    float: left;
+    margin-right: 10px;
+    margin-top: 6px;
+}

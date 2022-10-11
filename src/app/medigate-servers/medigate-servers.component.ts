@@ -80,13 +80,14 @@ export class MedigateServersComponent implements OnInit {
             if (mMenuPerm.getHasPerm()) {
             } else {
                 localStorage.clear();
-                this.router.navigate(["login"]);
+                //this.router.navigate(["login"]);
             }
         }, 1000);
     }
     ManufacturerDistributiontitle = "";
     ManufacturerDistributiontype = "PieChart";
     ManufacturerDistributiondata = [["",0]];
+    
     DeviceTypeFamilyDistribution:GooglePieChart[];
     lastSelectedRow;
     lastSelectedColumn;
@@ -108,6 +109,10 @@ export class MedigateServersComponent implements OnInit {
         TotalCompromised: 0,
         TotalNewThisWeek: 0,
     };
+    isOnline = '';
+    AllManufacturerDistributiondata;
+    AllDeviceTypeFamilyDistribution;
+    AllmInventoryHighLevelStats;
     ngOnInit(): void {
         //debugger
         let that = this;
@@ -117,12 +122,56 @@ export class MedigateServersComponent implements OnInit {
         }, 500)
         
         this.GetDeviceTypeFamilyDistribution();
+
+        setInterval(function () {
+            that.GetInventoryHighLevelStats();
+            setTimeout(function(){
+                that.GetManufacturerDistribution();
+            }, 500)
+            
+            that.GetDeviceTypeFamilyDistribution();
+        }, 60*1000*10);
+    }
+    filterData(event){
+        
+        let that = this;
+        switch (event.value) {
+            case "All":
+                this.isOnline = "";
+                this.GetInventoryHighLevelStats();
+                setTimeout(function(){
+                    that.GetManufacturerDistribution();
+                }, 500)
+                
+                this.GetDeviceTypeFamilyDistribution();
+                break;
+            case "False":
+                this.isOnline = 'False';
+                this.GetInventoryHighLevelStats();
+                setTimeout(function(){
+                    that.GetManufacturerDistribution();
+                }, 500)
+                
+                this.GetDeviceTypeFamilyDistribution();
+                break;
+            
+            case "True":
+                this.isOnline = 'True';
+                this.GetInventoryHighLevelStats();
+                setTimeout(function(){
+                    that.GetManufacturerDistribution();
+                }, 500)
+                
+                this.GetDeviceTypeFamilyDistribution();
+                break;
+        }
     }
     getData(type){
         console.log(type);
         const dialogRef = this.dialog.open(DataTableComponent, {
             data: {
                 selectedData: type,
+                isOnline: this.isOnline,
                 dataType: 'InventoryHighLevelStats'
             }
         });
@@ -137,6 +186,7 @@ export class MedigateServersComponent implements OnInit {
         const dialogRef = this.dialog.open(DataTableComponent, {
             data: {
                 selectedData: dataDevice,
+                isOnline: this.isOnline,
                 dataType: 'DeviceTypeFamilyDistribution'
             }
         });
@@ -162,6 +212,7 @@ export class MedigateServersComponent implements OnInit {
         const dialogRef = this.dialog.open(DataTableComponent, {
             data: {
                 selectedData: this.ManufacturerDistributiondata[row],
+                isOnline: this.isOnline,
                 dataType: 'ManufacturerDistribution'
             }
         });
@@ -176,7 +227,9 @@ export class MedigateServersComponent implements OnInit {
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetManufacturerDistribution",
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetManufacturerDistribution",
-                {}
+                {
+                    online: this.isOnline
+                }
             )
             .subscribe((Response) => {
                 //debugger
@@ -184,6 +237,7 @@ export class MedigateServersComponent implements OnInit {
                 for(var i = 0; i <Response["d"].length; i++){
                     this.ManufacturerDistributiondata.push([Response["d"][i]["Type"], parseFloat(Response["d"][i]["Total"])])
                 }
+                this.AllManufacturerDistributiondata = this.ManufacturerDistributiondata
                  //debugger;
             });
     }
@@ -193,12 +247,14 @@ export class MedigateServersComponent implements OnInit {
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeviceTypeFamilyDistribution",
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeviceTypeFamilyDistribution",
-                {}
+                {
+                    online: this.isOnline
+                }
             )
             .subscribe((Response) => {
                 
                     this.DeviceTypeFamilyDistribution = Response["d"];
-                
+                    this.AllDeviceTypeFamilyDistribution = this.DeviceTypeFamilyDistribution
                  //debugger;
             });
     }
@@ -208,10 +264,13 @@ export class MedigateServersComponent implements OnInit {
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStats",
-                {}
+                {
+                    online: this.isOnline
+                }
             )
             .subscribe((Response) => {
                 this.mInventoryHighLevelStats = Response["d"];
+                this.AllmInventoryHighLevelStats = this.mInventoryHighLevelStats
                 // debugger;
             });
     }
