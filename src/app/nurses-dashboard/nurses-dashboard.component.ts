@@ -698,12 +698,12 @@ export class NursesDashboardComponent implements OnInit {
             this.permission = true;
           }
           this.differentReports = [];
-          let patients = this.ELEMENT_DATA.map(item => item.PatientName)
+          let patients = this.ELEMENT_DATA.map(item => item.Patient_CaseNumber)
             .filter((value, index, self) => self.indexOf(value) === index);
 
           for (let j = 0; j < patients.length; j++) {
             for (let k = 0; k < this.ELEMENT_DATA.length; k++) {
-              if (this.ELEMENT_DATA[k].PatientName == patients[j]) {
+              if (this.ELEMENT_DATA[k].Patient_CaseNumber == patients[j]) {
                 if (typeof this.differentReports[j] != 'undefined')
                   this.differentReports[j][this.differentReports[j].length] = this.ELEMENT_DATA[k];
                 else {

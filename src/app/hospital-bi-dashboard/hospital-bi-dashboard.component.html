@@ -23,7 +23,7 @@
             <!-- <select class="form-select" style="margin-right: 26%;"
                 (change)="pie.refresh($event.target.value); bar.refresh($event.target.value); groupedbar.refresh($event.target.value); line.refresh($event.target.value);"> -->
 
-            <select class="form-select" (change)="changeTime($event.target.value,'all',[]);">
+            <select class="form-select" (change)="chooseTimeValue($event.target.value)">
                 <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                 </option>
             </select>
@@ -51,9 +51,8 @@
                 <mat-radio-button value="2">חדרי ניתוח</mat-radio-button>
             </mat-radio-group>
         </div> -->
-        <div *ngIf="departParam == '5' || departParam == '6'"
-            class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
-            [formGroup]="hospitalDepartTypeGroup">
+        <div *ngIf="departParam == '5' || departParam == '6'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+            style="text-align-last: center;" [formGroup]="hospitalDepartTypeGroup">
             <mat-radio-group formControlName="hospitalDepartType" aria-label="Select an option"
                 (change)="changeSurgeryType()" *ngIf="departParam == '5' || departParam == '6'">
                 <mat-radio-button value="0">סיעודי</mat-radio-button>
@@ -142,7 +141,7 @@
             </mat-card-content>
         </mat-card>
     </div>
-    <div class="row" [formGroup]="graphsCtrl">
+    <div class="row" [formGroup]="graphsCtrl" *ngIf="!tableView">
         <div class="row section" dir="rtl">
             <div [ngClass]="phoneMode == '1' ? 'col-12' : 'col-6'" style="border: 1px solid black;border-radius: 10px;">
                 <div class="row" style="justify-content: center;text-align-last: center;">
@@ -236,5 +235,35 @@
                 <app-grouped-bar-chart #groupedbar></app-grouped-bar-chart>
             </div>
         </div>
+    </div>
+    <div class="row" *ngIf="tableView">
+        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;margin-top: 10px;">
+            <ng-container matColumnDef="doctor">
+                <th mat-header-cell *matHeaderCellDef> שם רופא
+                </th>
+                <td mat-cell *matCellDef="let element"> {{ element.DoctorName }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="department">
+                <th mat-header-cell *matHeaderCellDef> מחלקה </th>
+                <td mat-cell *matCellDef="let element"> {{ element.DepartmentName }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="quantity">
+                <th mat-header-cell *matHeaderCellDef> ביקורים
+                </th>
+                <td mat-cell *matCellDef="let element"> {{ element.Q }} </td>
+            </ng-container>
+
+            <ng-container matColumnDef="actions">
+                <th mat-header-cell *matHeaderCellDef> פעולות
+                </th>
+                <td mat-cell *matCellDef="let element"> {{ element.Actions }} </td>
+            </ng-container>
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let element; columns: displayedColumns;" class="example-element-row">
+            </tr>
+        </table>
+        <mat-paginator [pageSizeOptions]="[15,35,70,100]" showFirstLastButtons></mat-paginator>
     </div>
 </div>
