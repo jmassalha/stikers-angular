@@ -111,7 +111,6 @@
                 </span>
                 <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
                 <p *ngIf="!loader">{{card.y}}</p>
-
             </mat-card-content>
             <mat-card-content *ngIf="card.key == 'Down'" class="text-center"
                 style="font-size: 25px;font-weight: bold;color: red;">
@@ -120,6 +119,20 @@
                 </span>
                 <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
                 <p *ngIf="!loader">{{card.y}}</p>
+            </mat-card-content>
+        </mat-card>
+        <mat-card class="example-card text-center">
+            <mat-card-title-group style="justify-content: center;">
+                <div class="text-center">
+                    <mat-card-title style="font-weight: bold;">מחלקות</mat-card-title>
+                    <mat-card-subtitle>בחר מחלקה לסינון</mat-card-subtitle>
+                </div>
+            </mat-card-title-group>
+            <mat-card-content class="text-center" style="overflow: auto;height: 82px;">
+                <select class="form-select text-center" (change)="changeDepartInModal($event.target.value)">
+                    <option value="הכל"> הכל </option>
+                    <option *ngFor="let fill of filterDeparts" [value]="fill"> {{fill}} </option>
+                </select>
             </mat-card-content>
         </mat-card>
         <mat-card class="example-card text-center" *ngIf="departParam == '5'">
@@ -163,7 +176,7 @@
                         </option>
                     </select>
                 </div>
-                <app-bar-chart #bar></app-bar-chart>
+                <app-bar-chart #bar (newItemEvent)="getValuesFromChild($event)" [filterValue]="filterValue"></app-bar-chart>
             </div>
         </div>
         <!-- <div class="row section" dir="rtl">
@@ -189,7 +202,7 @@
                         </option>
                     </select>
                 </div>
-                <app-grouped-bar-chart2 #group2></app-grouped-bar-chart2>
+                <app-grouped-bar-chart2 #group2 [filterValue]="filterValue"></app-grouped-bar-chart2>
             </div>
         </div>
         <div class="row section" dir="rtl"
@@ -206,6 +219,7 @@
                     <div style="align-self: center;margin-right: 6%;" [formGroup]="releaseDeptChooseGroup">
                         <mat-radio-group formControlName="releaseDeptChoose" aria-label="Select an option"
                             (change)="changeReleasedDept()">
+                            <mat-radio-button value="הכל">הכל</mat-radio-button>
                             <mat-radio-button value="ספנ-א">פנימית א</mat-radio-button>
                             <mat-radio-button value="ספנ-ב">פנימית ב</mat-radio-button>
                         </mat-radio-group>
@@ -232,7 +246,7 @@
                         </mat-radio-group>
                     </div>
                 </div>
-                <app-grouped-bar-chart #groupedbar></app-grouped-bar-chart>
+                <app-grouped-bar-chart #groupedbar [filterValue]="filterValue"></app-grouped-bar-chart>
             </div>
         </div>
     </div>
