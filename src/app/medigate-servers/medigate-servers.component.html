@@ -3,6 +3,15 @@
     <div class="container-fluid nopadding rel">
         <div class="row">
             <div class="col">
+                <mat-radio-group aria-label="Filter By:">
+                    <mat-radio-button (change)="filterData($event)" checked="true" value="All">All</mat-radio-button>&nbsp;&nbsp;
+                    <mat-radio-button (change)="filterData($event)" value="True">On Line</mat-radio-button>&nbsp;&nbsp;
+                    <mat-radio-button (change)="filterData($event)" value="False">Off Line</mat-radio-button>
+                  </mat-radio-group>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <mat-card class="example-card">
                     <mat-card-header>
                         <mat-card-title>

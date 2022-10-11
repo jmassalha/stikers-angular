@@ -9,6 +9,7 @@ import { DataRowTableComponent } from "../data-row-table/data-row-table.componen
 export interface DialogData {
     selectedData: string;
     dataType: string;
+    isOnline:string;
 }
 export interface TableData {
     network_list: string;
@@ -130,7 +131,7 @@ export class DataTableComponent implements OnInit {
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     resultsLength = 0;
     ngOnInit(): void {
-        console.log(this.data.selectedData[0]);
+        console.log(this.data);
         switch (this.data.dataType) {
             case "ManufacturerDistribution":
                 this.GetManufacturerDistribution();
@@ -166,6 +167,7 @@ export class DataTableComponent implements OnInit {
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetDeviceTypeFamilyDistributionByName",
                 {
                     ManufacturerDistribution: this.data.selectedData,
+                    isOnline: this.data.isOnline,
                 }
             )
             .subscribe((Response) => {
@@ -185,6 +187,7 @@ export class DataTableComponent implements OnInit {
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetInventoryHighLevelStatsByName",
                 {
                     ManufacturerDistribution: this.data.selectedData,
+                    isOnline: this.data.isOnline
                 }
             )
             .subscribe((Response) => {
@@ -204,6 +207,7 @@ export class DataTableComponent implements OnInit {
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetManufacturerDistributionByName",
                 {
                     ManufacturerDistribution: this.data.selectedData[0],
+                    isOnline: this.data.isOnline,
                 }
             )
             .subscribe((Response) => {
