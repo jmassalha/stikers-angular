@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { GroupedBarChartComponent } from './grouped-bar-chart/grouped-bar-chart.component';
@@ -10,6 +10,7 @@ import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-char
 import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+
 interface Time {
   DimTimeTypeID: string;
   DimTimeTypeDesc: string;
@@ -75,6 +76,9 @@ export class HospitalBIDashboardComponent implements OnInit {
   tableView = false;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   _changeScale = "Up";
+  filterValue: any;
+  filterDeparts = [];
+
   @ViewChild(PieChartComponent) pie: PieChartComponent;
   @ViewChild(GroupedBarChartComponent) group: GroupedBarChartComponent;
   @ViewChild(GroupedBarChart2Component) group2: GroupedBarChart2Component;
@@ -132,7 +136,10 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }, 1500);
     this.showYearsPeriod();
-    // this.test();
+  }
+
+  getValuesFromChild(arr) {
+    this.filterDeparts = arr;
   }
 
   // test() {
@@ -273,7 +280,6 @@ export class HospitalBIDashboardComponent implements OnInit {
     } else {
       this.changeTime(event, 'all', []);
     }
-
   }
 
   showYearsPeriod() {
@@ -332,7 +338,12 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
     this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(false);
     this.deliveryPrematureGroup.controls['ByDoctor'].setValue(false);
-    this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+    this.filterValue = undefined;
+    let that = this;
+    setTimeout(() => {
+      that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
+    }, 1000);
+
   }
 
   changeSurgeryType() {
@@ -364,6 +375,16 @@ export class HospitalBIDashboardComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
   }
+
+  changeDepartInModal(val) {
+    //debugger
+    this.filterValue = val.trim();
+    let that = this;
+    setTimeout(() => {
+      that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
+    }, 1000);
+  }
+
 
   changeReleasedDept() {
     this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);

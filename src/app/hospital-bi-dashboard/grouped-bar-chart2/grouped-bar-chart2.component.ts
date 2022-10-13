@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 
 @Component({
@@ -13,6 +13,8 @@ export class GroupedBarChart2Component implements OnInit {
 
   constructor(private http: HttpClient, private eRef: ElementRef) { }
 
+  @Output() newItemEvent = new EventEmitter<string[]>();
+  @Input() filterValue;
   TimeLineParam: string = "1";
   departParam: string = "1";
   periodList: any;
@@ -34,7 +36,9 @@ export class GroupedBarChart2Component implements OnInit {
   // title = 'Population (in millions)';
   type = 'ColumnChart';
   data = [];
+  allData = [];
   columnNames = [];
+  allColumnNames = [];
   options = {
     hAxis: {
       title: 'זמן'
@@ -86,21 +90,51 @@ export class GroupedBarChart2Component implements OnInit {
     this.innerWidth = window.innerWidth;
     this.height = window.innerWidth / 3.2;
     this.width = this.innerWidth - 70;
-    this.discreteBarChart();
+
+    if (this.filterValue == undefined) {
+      this.discreteBarChart();
+    } else {
+      let selection = {
+        selection: [{
+          column: this.filterValue,
+          row: 0
+        }]
+      }
+      this.universalSelect(selection);
+    }
   }
 
   onSelect(event) {
-    let selected = event.selection[0];
-    if (this.columnNames.length == 3) {
-      this.discreteBarChart();
-    } else {
-      this.totalNumberOfOccurincy = 0;
-      let index = selected.column;
-      this.columnNames = [this.columnNames[0], this.columnNames[index]];
-      this.columnNames.push({ role: 'annotation' });
+    if (event !== undefined) {
+      let selected = event.selection[0];
+      if (this.columnNames.length == 3) {
+        this.discreteBarChart();
+      } else {
+        this.totalNumberOfOccurincy = 0;
+        let index = selected.column;
+        this.columnNames = [this.columnNames[0], this.columnNames[index]];
+        this.columnNames.push({ role: 'annotation' });
 
-      for (let i = 0; i < this.data.length; i++) {
-        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+        for (let i = 0; i < this.data.length; i++) {
+          this.data[i] = [this.allData[i][0], this.allData[i][index], this.allData[i][index]];
+        }
+      }
+    }
+  }
+
+  universalSelect(event) {
+    if (event.selection[0].column !== undefined) {
+      let selected = event.selection[0];
+      if (selected.column == "הכל") {
+        this.discreteBarChart();
+      } else {
+        let index = this.allColumnNames.indexOf(selected.column.trim());
+        this.columnNames = [this.allColumnNames[0], selected.column];
+        this.columnNames.push({ role: 'annotation' });
+        this.data = [];
+        for (let i = 0; i < this.allData.length; i++) {
+          this.data.push([this.allData[i][0], this.allData[i][index], this.allData[i][index]]);
+        }
       }
     }
   }
@@ -176,6 +210,7 @@ export class GroupedBarChart2Component implements OnInit {
         let date = new Date();
         let finalarr = [];
         this.columnNames = ["יום"];
+        this.allColumnNames = ["יום"];
         if (this.TimeLineParam == "4" || this.TimeLineParam == "5") {
           let t = new Date(date);
           inquiriesStatLine[0].forEach((element, index) => {
@@ -353,7 +388,8 @@ export class GroupedBarChart2Component implements OnInit {
           }
         }
         this.columnNames = [...this.columnNames, ...departments];
-
+        this.allColumnNames = [...this.allColumnNames, ...departments];
+        this.allData = this.data;
       });
   }
 }

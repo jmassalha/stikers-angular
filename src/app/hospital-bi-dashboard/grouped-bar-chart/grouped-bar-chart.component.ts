@@ -1,4 +1,4 @@
-import { Component, ElementRef, HostListener, OnInit } from '@angular/core';
+import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -11,6 +11,8 @@ export class GroupedBarChartComponent implements OnInit {
 
   constructor(private http: HttpClient, private eRef: ElementRef) { }
 
+  @Output() newItemEvent = new EventEmitter<string[]>();
+  @Input() filterValue;
   TimeLineParam: string = "1";
   departParam: string = "1";
   periodList: any;
@@ -18,14 +20,17 @@ export class GroupedBarChartComponent implements OnInit {
   _surgeryChooseType: string = "0";
   inquiriesStatLine = [];
   responseDeparts = [];
+  allData = [];
   loader: boolean = false;
   filterVal = "";
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
 
-  // title = 'Population (in millions)';
   type = 'BarChart';
   data = [];
+  allColumnNames = [];
+
+  allDataNew = [];
   columnNames = [];
   options = {
     hAxis: {
@@ -75,22 +80,53 @@ export class GroupedBarChartComponent implements OnInit {
     }
     this.innerWidth = window.innerWidth;
     this.width = this.innerWidth - 70;
-    this.waitData();
+    if (this.filterValue == undefined) {
+      this.waitData();
+    } else {
+      let selection = {
+        selection: [{
+          column: this.filterValue,
+          row: 0
+        }]
+      }
+      this.universalSelect(selection);
+    }
   }
 
 
   onSelect(event) {
-    let selected = event.selection[0];
-    if (this.columnNames.length == 3) {
-      this.waitData();
-    } else {
-      let index = selected.column;
-      this.columnNames = [this.columnNames[0], this.columnNames[index]];
-      this.columnNames.push({ role: 'annotation' });
-      for (let i = 0; i < this.data.length; i++) {
-        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+    if (event !== undefined) {
+      let selected = event.selection[0];
+      if (this.columnNames.length == 3) {
+        this.waitData();
+      } else {
+        let index = selected.column;
+        this.columnNames = [this.columnNames[0], this.columnNames[index]];
+        this.columnNames.push({ role: 'annotation' });
+        for (let i = 0; i < this.data.length; i++) {
+          this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+        }
       }
     }
+  }
+
+  universalSelect(event) {
+    this.allData = this.allDataNew
+    if (event.selection[0].column !== undefined) {
+      let selected = event.selection[0];
+      if (selected.column == "הכל") {
+        this.waitData();
+      } else {
+        let index = this.allColumnNames.indexOf(selected.column.trim());
+        this.columnNames = [this.allColumnNames[0], selected.column];
+        this.columnNames.push({ role: 'annotation' });
+        this.data = [];
+        for (let i = 0; i < this.allData.length; i++) {
+          this.data.push([this.allData[i][0], this.allData[i][index], this.allData[i][index]]);
+        }
+      }
+    }
+    this.allData = this.allDataNew
   }
 
   // @HostListener('document:click', ['$event'])
@@ -121,12 +157,13 @@ export class GroupedBarChartComponent implements OnInit {
   // }
 
   async waitData() {
-    // await this.discreteBarChart();
     this.discreteBarChart().then(() => {
       this.loader = false;
       let departments = [];
       this.data = [];
+      this.allData = [];
       this.columnNames = ['Year'];
+      this.allColumnNames = ['Year'];
       if (this.responseDeparts == undefined) {
         console.log("No Data Returned");
         let that = this;
@@ -142,6 +179,7 @@ export class GroupedBarChartComponent implements OnInit {
 
         }
         this.columnNames = [...this.columnNames, ...departments];
+        this.allColumnNames = [...this.allColumnNames, ...departments];
 
         for (let i = 0; i < this.inquiriesStatLine.length; i++) {
           let temp = [];
@@ -163,10 +201,12 @@ export class GroupedBarChartComponent implements OnInit {
             }
           }
           this.data.push(temp);
+          this.allData.push(temp);
         }
       }
-
+      this.allDataNew = this.allData
     })
+
   }
 
   discreteBarChart(): Promise<any> {

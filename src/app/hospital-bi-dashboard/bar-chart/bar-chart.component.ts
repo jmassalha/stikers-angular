@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 
 @Component({
@@ -11,10 +11,13 @@ export class BarChartComponent implements OnInit {
 
   constructor(private http: HttpClient) { }
 
+  @Output() newItemEvent = new EventEmitter<string[]>();
+  @Input() filterValue;
   loader: boolean = true;
   TimeLineParam;
   departParam: string = "1";
   periodList = [];
+  allData = [];
   _surgerydeptType: string = "0";
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
@@ -46,20 +49,51 @@ export class BarChartComponent implements OnInit {
     if (this.width <= 740) {
       this.width = this.width * 2;
     }
-    this.discreteBarChart();
+    if (this.filterValue == undefined) {
+      this.discreteBarChart();
+    } else {
+      let selection = {
+        selection: [{
+          column: this.filterValue,
+          row: 0
+        }]
+      }
+      this.universalSelect(selection);
+    }
   }
 
   onSelect(event) {
-    let selected = event.selection[0];
-    if (this.columnNames.length == 3) {
-      this.discreteBarChart();
-    } else {
-      let index = selected.column;
-      this.columnNames = [this.columnNames[0], this.columnNames[index]];
-      this.columnNames.push({ role: 'annotation' });
+    if (event !== undefined) {
+      let selected = event.selection[0];
+      if (this.columnNames.length == 3) {
+        this.discreteBarChart();
+      } else {
+        let index = selected.column;
+        this.columnNames = [this.columnNames[0], this.columnNames[index]];
+        this.columnNames.push({ role: 'annotation' });
 
-      for (let i = 0; i < this.data.length; i++) {
-        this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+        for (let i = 0; i < this.data.length; i++) {
+          this.data[i] = [this.data[i][0], this.data[i][index], this.data[i][index]];
+        }
+      }
+    }
+  }
+
+  universalSelect(event) {
+    if (event.selection[0].column !== undefined) {
+      let selected = event.selection[0];
+      if (selected.column == "הכל") {
+        this.discreteBarChart();
+      } else {
+        if (this.data.length == 1 && this.data[0][0].trim() != selected.column) {
+          this.data = this.allData;
+        }
+        for (let i = 0; i < this.data.length; i++) {
+          if (this.data[i][0].trim() == selected.column) {
+            this.data = [];
+            this.data.push([this.allData[i][0], this.allData[i][1], this.allData[i][2]]);
+          }
+        }
       }
     }
   }
@@ -85,10 +119,14 @@ export class BarChartComponent implements OnInit {
         })
         .subscribe((Response) => {
           let inquiriesStatLine = Response["d"];
+          let deptsArr = [];
           this.data = [];
           for (let i = 0; i < inquiriesStatLine.length; i++) {
-            this.data.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);;
+            this.data.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);
+            this.allData = this.data;
+            deptsArr.push(inquiriesStatLine[i].label);
           }
+          this.newItemEvent.emit(deptsArr);
           this.loader = false;
         });
     }
