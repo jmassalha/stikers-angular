@@ -14,6 +14,7 @@ export class GroupedBarChart2Component implements OnInit {
   constructor(private http: HttpClient, private eRef: ElementRef) { }
 
   @Output() newItemEvent = new EventEmitter<string[]>();
+  @Output() secondItemEvent = new EventEmitter<string[]>();
   @Input() filterValue;
   TimeLineParam: string = "1";
   departParam: string = "1";
@@ -120,6 +121,7 @@ export class GroupedBarChart2Component implements OnInit {
         }
       }
     }
+    this.newItemEvent.emit(this.columnNames[1]);
   }
 
   universalSelect(event) {
@@ -132,7 +134,7 @@ export class GroupedBarChart2Component implements OnInit {
         this.columnNames = [this.allColumnNames[0], selected.column];
         this.columnNames.push({ role: 'annotation' });
         this.data = [];
-        for (let i = 0; i < this.allData.length; i++) {
+        for (let i = this.allData.length - 1; i >= 0; i--) {
           this.data.push([this.allData[i][0], this.allData[i][index], this.allData[i][index]]);
         }
       }
@@ -309,6 +311,7 @@ export class GroupedBarChart2Component implements OnInit {
             }
 
             this.data[f] = finalarr[dateDifference];
+            this.allData[f] = finalarr[dateDifference];
           }
           this.data.reverse();
         } else if (this.TimeLineParam == "2") {
@@ -333,6 +336,7 @@ export class GroupedBarChart2Component implements OnInit {
                 counter++;//Math.abs(dateDifference);
               }
               this.data[f] = finalarr[dateDifference];
+              this.allData[f] = finalarr[dateDifference];
             }
             this.data.reverse();
             // for (let f = 0; f < daysInMonth; f++) {
@@ -373,11 +377,13 @@ export class GroupedBarChart2Component implements OnInit {
               counter++;
             }
             this.data[f] = finalarr[monthIndex];
+            this.allData[f] = finalarr[monthIndex];
           }
           this.data.reverse();
         }
         else {
           this.data = finalarr;
+          this.allData = finalarr;
           this.data.reverse();
         }
         let departments = [];
@@ -389,7 +395,6 @@ export class GroupedBarChart2Component implements OnInit {
         }
         this.columnNames = [...this.columnNames, ...departments];
         this.allColumnNames = [...this.allColumnNames, ...departments];
-        this.allData = this.data;
       });
   }
 }

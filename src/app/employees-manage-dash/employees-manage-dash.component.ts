@@ -102,7 +102,7 @@ export class EmployeesManageDashComponent implements OnInit {
 
   getEmployeeDepartmentList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeeDepartmentList", {
+      .post(this.url + "GetEmployeeDepartmentList", {
       })
       .subscribe((Response) => {
         this.DepartmentsList = Response["d"];
@@ -111,7 +111,8 @@ export class EmployeesManageDashComponent implements OnInit {
 
   getEmployeesFunctionsList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesFunctionsList", {
+      .post(this.url + "GetEmployeesFunctionsList", {
+        _userName: this.UserName
       })
       .subscribe((Response) => {
         this.FunctionsList = Response["d"];
@@ -120,7 +121,7 @@ export class EmployeesManageDashComponent implements OnInit {
 
   getSektorsList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getEmployeesBlossomSektorList", {
+      .post(this.url + "getEmployeesBlossomSektorList", {
       })
       .subscribe((Response) => {
         this.SektorsList = Response["d"];
@@ -129,7 +130,7 @@ export class EmployeesManageDashComponent implements OnInit {
 
   getWorkPlacesList() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetWorkPlacesList", {
+      .post(this.url + "GetWorkPlacesList", {
       })
       .subscribe((Response) => {
         this.WorkPlacesList = Response["d"];

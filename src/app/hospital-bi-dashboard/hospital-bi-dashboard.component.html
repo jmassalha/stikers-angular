@@ -121,7 +121,7 @@
                 <p *ngIf="!loader">{{card.y}}</p>
             </mat-card-content>
         </mat-card>
-        <mat-card class="example-card text-center">
+        <!-- <mat-card class="example-card text-center">
             <mat-card-title-group style="justify-content: center;">
                 <div class="text-center">
                     <mat-card-title style="font-weight: bold;">מחלקות</mat-card-title>
@@ -134,7 +134,7 @@
                     <option *ngFor="let fill of filterDeparts" [value]="fill"> {{fill}} </option>
                 </select>
             </mat-card-content>
-        </mat-card>
+        </mat-card> -->
         <mat-card class="example-card text-center" *ngIf="departParam == '5'">
             <mat-card-title-group style="justify-content: center;">
                 <div class="text-center">
@@ -176,7 +176,7 @@
                         </option>
                     </select>
                 </div>
-                <app-bar-chart #bar (newItemEvent)="getValuesFromChild($event)" [filterValue]="filterValue"></app-bar-chart>
+                <app-bar-chart #bar (newItemEvent)="changeDepartInModal($event)" (secondItemEvent)="getUniversalVal($event)" [filterValue]="filterValue"></app-bar-chart>
             </div>
         </div>
         <!-- <div class="row section" dir="rtl">
@@ -202,7 +202,7 @@
                         </option>
                     </select>
                 </div>
-                <app-grouped-bar-chart2 #group2 [filterValue]="filterValue"></app-grouped-bar-chart2>
+                <app-grouped-bar-chart2 #group2 (newItemEvent)="changeDepartInModal($event)" (secondItemEvent)="getUniversalVal($event)" [filterValue]="filterValue"></app-grouped-bar-chart2>
             </div>
         </div>
         <div class="row section" dir="rtl"
@@ -246,7 +246,7 @@
                         </mat-radio-group>
                     </div>
                 </div>
-                <app-grouped-bar-chart #groupedbar [filterValue]="filterValue"></app-grouped-bar-chart>
+                <app-grouped-bar-chart #groupedbar (newItemEvent)="changeDepartInModal($event)" (secondItemEvent)="getUniversalVal($event)" [filterValue]="filterValue" [filterValue]="filterValue"></app-grouped-bar-chart>
             </div>
         </div>
     </div>

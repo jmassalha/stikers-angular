@@ -244,6 +244,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   getEmployeesFunctionsList() {
     this.http
       .post(this.Api + "GetEmployeesFunctionsList", {
+        _userName: this.UserName
       })
       .subscribe((Response) => {
         this.FunctionsList = Response["d"];

@@ -12,6 +12,7 @@ export class BarChartComponent implements OnInit {
   constructor(private http: HttpClient) { }
 
   @Output() newItemEvent = new EventEmitter<string[]>();
+  @Output() secondItemEvent = new EventEmitter<string[]>();
   @Input() filterValue;
   loader: boolean = true;
   TimeLineParam;
@@ -49,6 +50,7 @@ export class BarChartComponent implements OnInit {
     if (this.width <= 740) {
       this.width = this.width * 2;
     }
+    // BUG - when its having a period list and a filter value it doesnt get data from server!! on change of period list we must get data from server
     if (this.filterValue == undefined) {
       this.discreteBarChart();
     } else {
@@ -60,6 +62,10 @@ export class BarChartComponent implements OnInit {
       }
       this.universalSelect(selection);
     }
+  }
+
+  sendToParent(eve){
+    this.secondItemEvent.emit(eve);
   }
 
   onSelect(event) {
@@ -77,6 +83,7 @@ export class BarChartComponent implements OnInit {
         }
       }
     }
+    this.newItemEvent.emit(this.data[event.selection[0].row][0]);
   }
 
   universalSelect(event) {
@@ -85,7 +92,7 @@ export class BarChartComponent implements OnInit {
       if (selected.column == "הכל") {
         this.discreteBarChart();
       } else {
-        if (this.data.length == 1 && this.data[0][0].trim() != selected.column) {
+        if (this.data.length == 1) {
           this.data = this.allData;
         }
         for (let i = 0; i < this.data.length; i++) {
@@ -126,7 +133,7 @@ export class BarChartComponent implements OnInit {
             this.allData = this.data;
             deptsArr.push(inquiriesStatLine[i].label);
           }
-          this.newItemEvent.emit(deptsArr);
+          // this.newItemEvent.emit(deptsArr);
           this.loader = false;
         });
     }

@@ -138,8 +138,12 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.showYearsPeriod();
   }
 
-  getValuesFromChild(arr) {
-    this.filterDeparts = arr;
+  // getValuesFromChild(arr) {
+  //   this.filterDeparts = arr;
+  // }
+  
+  getUniversalVal(val) {
+    let teze = val;
   }
 
   // test() {
@@ -322,8 +326,8 @@ export class HospitalBIDashboardComponent implements OnInit {
         }
       }
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
-    } else if (this.first == "undefined" && this.second == "undefined") {
-      this.periodListToSend = ["-1", "-2", "-3", "-4", "-5"]
+    } else if (this.first == "undefined") {
+      this.periodListToSend = [];//["-1", "-2", "-3", "-4", "-5"]
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }
   }
@@ -377,8 +381,11 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   changeDepartInModal(val) {
-    //debugger
-    this.filterValue = val.trim();
+    if(this.filterValue == undefined){
+      this.filterValue = val.trim();
+    }else{
+      this.filterValue = undefined
+    }
     let that = this;
     setTimeout(() => {
       that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);

@@ -12,6 +12,7 @@ export class GroupedBarChartComponent implements OnInit {
   constructor(private http: HttpClient, private eRef: ElementRef) { }
 
   @Output() newItemEvent = new EventEmitter<string[]>();
+  @Output() secondItemEvent = new EventEmitter<string[]>();
   @Input() filterValue;
   TimeLineParam: string = "1";
   departParam: string = "1";
@@ -30,7 +31,6 @@ export class GroupedBarChartComponent implements OnInit {
   data = [];
   allColumnNames = [];
 
-  allDataNew = [];
   columnNames = [];
   options = {
     hAxis: {
@@ -108,10 +108,10 @@ export class GroupedBarChartComponent implements OnInit {
         }
       }
     }
+    this.newItemEvent.emit(this.columnNames[1]);
   }
 
   universalSelect(event) {
-    this.allData = this.allDataNew
     if (event.selection[0].column !== undefined) {
       let selected = event.selection[0];
       if (selected.column == "הכל") {
@@ -126,7 +126,6 @@ export class GroupedBarChartComponent implements OnInit {
         }
       }
     }
-    this.allData = this.allDataNew
   }
 
   // @HostListener('document:click', ['$event'])
@@ -204,7 +203,6 @@ export class GroupedBarChartComponent implements OnInit {
           this.allData.push(temp);
         }
       }
-      this.allDataNew = this.allData
     })
 
   }
