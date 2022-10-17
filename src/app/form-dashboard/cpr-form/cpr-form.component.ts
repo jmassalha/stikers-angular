@@ -69,7 +69,7 @@ export class CprFormComponent implements OnInit {
   actions = [];
   deathFormShow: boolean;
   cprTeamShow: boolean;
-  secondTableMeds = ['ADRENALINE', 'AMIODARONE', 'ATROPINE', '', '', ''];
+  secondTableMeds = ['ADRENALINE', 'AMIODARONE', '', '', '', ''];
   statusDropDown = ['VF', 'PEA', 'ASYSTOLE', 'VT', 'BRADY ARITMIA'];
   rateHeadDropdown = ['יש', 'אין'];
   myDate = new Date();
