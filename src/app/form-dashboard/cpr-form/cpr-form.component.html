@@ -71,6 +71,9 @@
             <div class="col" style="justify-content: center;">
                 <p>גיל: <b>{{PatientRecord.PM_DOB | number : '1.1-1'}}</b></p>
             </div>
+            <div class="col" style="justify-content: center;">
+                <p>מחלקה: <b>{{ PatientRecord.Depart_Name }}</b></p>
+            </div>
         </div>
 
         <!-- first section questions -->
@@ -246,8 +249,11 @@
                 </div>
             </div>
             <div class="row">
-                <mat-form-field class="full-width">
+                <mat-form-field class="full-width-50">
                     <input formControlName="patientDiagnosis" matInput placeholder="אבחנות המטופל">
+                </mat-form-field>
+                <mat-form-field class="full-width-50">
+                    <input formControlName="Notes" matInput placeholder="הערות">
                 </mat-form-field>
             </div>
         </div>
@@ -829,10 +835,14 @@
                     </div>
                 </div>
             </div>
-            <div class="row" style="float: right;">
-                <div class="inside-col" style="display: flex;align-self: center;">
+            <div class="row" style="float: right;display: inline-flex;">
+                <div class="inside-col4" style="display: flex;align-self: center;">
                     <mat-label style="align-self: center;">אבחנות המטופל:&nbsp; </mat-label>
                     <p style="margin: 0px;"><u>{{CprFormsList[0].patientDiagnosis}}</u></p>
+                </div>
+                <div class="inside-col4" style="display: flex;align-self: center;margin: auto;">
+                    <mat-label style="align-self: center;">הערות:&nbsp; </mat-label>
+                    <p style="margin: 0px;"><u>{{CprFormsList[0].Notes}}</u></p>
                 </div>
             </div>
         </div>

@@ -77,8 +77,8 @@ export class CprFormComponent implements OnInit {
   CprFormsList = [];
   CprFormsList_all = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
-  usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
-  // usersToSend = ['adahabre@poria.health.gov.il'];
+  // usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
+  usersToSend = ['adahabre@poria.health.gov.il'];
   filteredOptions1: Observable<string[]>;
   docfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
@@ -122,6 +122,9 @@ export class CprFormComponent implements OnInit {
       </div>
       <div class="col-2">
           <p>גיל: {{CprFormsList[0].PM_DOB | number : '1.1-1'}}</p>
+      </div>
+      <div class="col-2">
+          <p>מחלקה: {{CprFormsList[0].Depart_Name }}</p>
       </div>
   </div>
 
@@ -240,10 +243,14 @@ export class CprFormComponent implements OnInit {
               </div>
           </div>
       </div>
-      <div class="row" style="float: right;">
-          <div class="inside-col" style="display: flex;align-self: center;">
+      <div class="row" style="float: right;display: inline-flex;">
+          <div class="inside-col4" style="display: flex;align-self: center;">
               <mat-label style="align-self: center;">אבחנות המטופל:&nbsp; </mat-label>
               <p style="margin: 0px;"><u>{{CprFormsList[0].patientDiagnosis}}</u></p>
+          </div>
+          <div class="inside-col4" style="display: flex;align-self: center;margin: auto;">
+              <mat-label style="align-self: center;">הערות:&nbsp; </mat-label>
+              <p style="margin: 0px;"><u>{{CprFormsList[0].Notes}}</u></p>
           </div>
       </div>
   </div>
@@ -545,6 +552,7 @@ export class CprFormComponent implements OnInit {
       replying: new FormControl('', Validators.required),
       resporatoryStat: new FormControl('', Validators.required),
       patientDiagnosis: new FormControl('', Validators.required),
+      Notes: new FormControl('', null),
     });
 
     this.SecondSection = this.formBuilder.group({
