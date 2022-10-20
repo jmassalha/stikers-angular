@@ -956,6 +956,7 @@ export class CprFormComponent implements OnInit {
             this.http.post(this.url + "SaveCprForm", {
               _first: this.FirstSection.value,
               _second: this.SecondSection.value,
+              _secondContinue: this.SecondSectionContinue.value,
               _third: this.ThirdSection.value,
               _patientDetails: this.PatientRecord,
             })
@@ -1107,7 +1108,7 @@ export class CprFormComponent implements OnInit {
       w.document.write(style);
       setTimeout(() => {
         w.print();
-        // w.close();
+        w.close();
       }, 500);
     }, 600);
   }

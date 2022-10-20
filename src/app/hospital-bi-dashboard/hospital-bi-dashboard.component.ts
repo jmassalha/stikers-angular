@@ -312,6 +312,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   changePeriod(event) {
+    this.filterValue = undefined;
     if (event['srcElement'].id == "firstSelect") {
       this.first = event.target.value;
       this.showYearsPeriod2(this.first);
@@ -329,10 +330,16 @@ export class HospitalBIDashboardComponent implements OnInit {
           this.periodListToSend.push(-Math.abs(i));
         }
       }
-      this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+      let that = this;
+      setTimeout(() => {
+        this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+      }, 1000);
     } else if (this.first == "undefined") {
       this.periodListToSend = [];//["-1", "-2", "-3", "-4", "-5"]
-      this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+      let that = this;
+      setTimeout(() => {
+        this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+      }, 1000);
     }
   }
 
