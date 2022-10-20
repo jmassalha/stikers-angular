@@ -24,6 +24,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { DatePipe } from "@angular/common";
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
 import { DialogContentExampleDialog } from "../../fill-survey/fill-survey.component";
+import { AdditionalCprTablesComponent } from "../../form-dashboard/cpr-form/additional-cpr-tables/additional-cpr-tables.component";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -53,6 +54,7 @@ export class CprFormComponent implements OnInit {
 
   FirstSection: FormGroup;
   SecondSection: FormGroup;
+  SecondSectionContinue: FormGroup;
   ThirdSection: FormGroup;
   CaseNumber: string = "";
   searching: string = "notFound";
@@ -294,6 +296,14 @@ export class CprFormComponent implements OnInit {
                               <p style="margin: 0px;font-size: 9px;padding: 0px;"
                                   *ngIf="CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead != 'ASYSTOLE'">
                                   <b>{{CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead}}</b>
+                              </p>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>ETCO2</td>
+                          <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index">
+                              <p style="margin: 0px;font-size: 9px;padding: 0px;">
+                                  <b>{{CprFormsList[0].firstTableArray[i].subArray[0].etcoHead}}</b>
                               </p>
                           </td>
                       </tr>
@@ -564,6 +574,11 @@ export class CprFormComponent implements OnInit {
       forthTableArray: this.forthTableArray
     });
 
+    this.SecondSectionContinue = this.formBuilder.group({
+      firstTableArray: this.firstTableArray,
+      thirdTableArray: this.thirdTableArray
+    });
+
     this.ThirdSection = this.formBuilder.group({
       cprEndTime: new FormControl('', Validators.required),
       cprDeath: new FormControl('', Validators.required),
@@ -737,12 +752,21 @@ export class CprFormComponent implements OnInit {
             id: new FormControl(i, null),
             timeHead: new FormControl('', null),
             rateHead: new FormControl('', null),
-            rateStatusHead: new FormControl('', null)
+            rateStatusHead: new FormControl('', null),
+            etcoHead: new FormControl('', null)
           }
         ));
       }
     }
     return t;
+  }
+
+  openAdditionalTables() {
+    let dialofRef = this.dialog.open(AdditionalCprTablesComponent, { disableClose: true });
+    dialofRef.componentInstance.SecondSection = this.SecondSectionContinue;
+    dialofRef.afterClosed().subscribe(result => {
+      this.SecondSectionContinue = result;
+    });
   }
 
   changeDeathForm() {
@@ -1083,7 +1107,7 @@ export class CprFormComponent implements OnInit {
       w.document.write(style);
       setTimeout(() => {
         w.print();
-        w.close();
+        // w.close();
       }, 500);
     }, 600);
   }

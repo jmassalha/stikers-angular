@@ -1,0 +1,54 @@
+.FormHeader{
+    background-color: antiquewhite;
+    text-align: center;
+}
+
+.radio-style{
+    float: right;
+    margin: 0px 20px 0px 20px;
+}
+.col{
+    display: flex;
+}
+.row{
+    margin-top: 10px;
+}
+.last-paragraph{
+    text-align: center;
+    direction: rtl;
+}
+#firstTable > tbody > tr > td:nth-child(2) {
+    max-width: 114px;
+    font-size: 10px;
+}
+#firstTable > tbody > tr > td {
+    white-space: nowrap; 
+    font-size: 10px;
+}
+.table td, .table th {
+    width: 8%;
+}
+.col-1{
+    max-width: 114px;
+}
+.inside-col{
+    width: 25%;
+    display: flex;
+    font-weight: bold;
+}
+.inside-col3{
+    width: 50%;
+    display: flex;
+    font-weight: bold;
+}
+.inside-col4{
+    width: 50%;
+    display: flex;
+    font-weight: bold;
+}
+.full-width{
+    width: 100%;
+}
+.half-width{
+    width: 50%;
+}

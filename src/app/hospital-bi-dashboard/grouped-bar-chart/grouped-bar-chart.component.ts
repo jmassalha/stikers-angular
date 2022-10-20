@@ -19,6 +19,7 @@ export class GroupedBarChartComponent implements OnInit {
   periodList: any;
   _surgerydeptType: string = "0";
   _surgeryChooseType: string = "0";
+  _surgeryChooseTypeSpare: any = null;
   inquiriesStatLine = [];
   responseDeparts = [];
   allData = [];
@@ -52,6 +53,9 @@ export class GroupedBarChartComponent implements OnInit {
     this._surgerydeptType = _surgeryDeptType;
     this._surgeryChooseType = _surgeryChooseType;
     this._returnedPatients = _returnedPatients;
+    if (this._surgeryChooseTypeSpare == null || (this._surgeryChooseTypeSpare != _surgeryChooseType && this.filterValue == undefined)) {
+      this._surgeryChooseTypeSpare = _surgeryChooseType;
+    }
     this.ngOnInit();
     return this.timesString[parseInt(elem) - 1];
   }
@@ -83,13 +87,18 @@ export class GroupedBarChartComponent implements OnInit {
     if (this.filterValue == undefined) {
       this.waitData();
     } else {
-      let selection = {
-        selection: [{
-          column: this.filterValue,
-          row: 0
-        }]
+      if (this.departParam == "1" && this._surgeryChooseTypeSpare != this._surgeryChooseType) {
+        this.waitData();
+      } else {
+        this._surgeryChooseTypeSpare = this._surgeryChooseType;
+        let selection = {
+          selection: [{
+            column: this.filterValue,
+            row: 0
+          }]
+        }
+        this.universalSelect(selection);
       }
-      this.universalSelect(selection);
     }
   }
 

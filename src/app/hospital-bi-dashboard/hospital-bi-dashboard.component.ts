@@ -279,10 +279,14 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   chooseTimeValue(event) {
+    this.filterValue = undefined;
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
       this.getTableViewItems(event);
     } else {
-      this.changeTime(event, 'all', []);
+      let that = this;
+      setTimeout(() => {
+        that.changeTime(event, 'all', []);
+      }, 1000);
     }
   }
 
