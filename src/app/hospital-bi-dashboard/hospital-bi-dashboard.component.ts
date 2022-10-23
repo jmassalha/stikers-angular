@@ -1,5 +1,5 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { GroupedBarChartComponent } from './grouped-bar-chart/grouped-bar-chart.component';
@@ -10,6 +10,7 @@ import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-char
 import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
+import { MatSort } from '@angular/material/sort';
 
 interface Time {
   DimTimeTypeID: string;
@@ -71,13 +72,13 @@ export class HospitalBIDashboardComponent implements OnInit {
   phoneMode: string = "0";
   _ifSeode = 'סיעודיות';
   changePercent: number = 0;
-  dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['doctor', 'department', 'quantity', 'actions'];
+  displayedColumns: string[] = ['DoctorName', 'DepartmentName', 'Q', 'Actions'];
   tableView = false;
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   _changeScale = "Up";
   filterValue: any;
   filterDeparts = [];
+  dataSource = new MatTableDataSource<any>();
 
   @ViewChild(PieChartComponent) pie: PieChartComponent;
   @ViewChild(GroupedBarChartComponent) group: GroupedBarChartComponent;
@@ -85,6 +86,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   @ViewChild(GroupedBarChartReleaseComponent) groupRelease: GroupedBarChartReleaseComponent;
   @ViewChild(BarChartComponent) bar: BarChartComponent;
   @ViewChild(MatPaginator) paginator: MatPaginator;
+  @ViewChild(MatSort) sort: MatSort;
   // @ViewChild(LineChartComponent) line: LineChartComponent;
 
   constructor(private http: HttpClient, private fb: FormBuilder) {
@@ -277,6 +279,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.getHospitalDepartmentsTableChartList();
     }
   }
+  
 
   chooseTimeValue(event) {
     this.filterValue = undefined;
@@ -379,6 +382,18 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
   }
 
+  applyFilter(event: Event) {
+    let filterValue;
+    if (event == undefined) {
+      filterValue = "";
+    } else if (event.isTrusted == undefined) {
+      filterValue = event;
+    } else {
+      filterValue = (event.target as HTMLInputElement).value;
+    }
+    this.dataSource.filter = filterValue.trim().toLowerCase();
+  }
+
   getTableViewItems(time) {
     this.http
       .post(this.configUrl + "GetTableViewForHospitalDashboard", {
@@ -388,6 +403,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       .subscribe((Response) => {
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
         this.dataSource.paginator = this.paginator;
+        this.dataSource.sort = this.sort;
       });
   }
 

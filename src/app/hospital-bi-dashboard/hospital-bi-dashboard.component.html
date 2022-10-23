@@ -251,26 +251,30 @@
         </div>
     </div>
     <div class="row" *ngIf="tableView">
-        <table mat-table [dataSource]="dataSource" class="mat-elevation-z8" style="width: 100%;margin-top: 10px;">
-            <ng-container matColumnDef="doctor">
-                <th mat-header-cell *matHeaderCellDef> שם רופא
+        <mat-form-field appearance="standard" style="box-shadow: -1px -1px 9px 0px #000;text-align: center;">
+            <mat-label class="filterClass">מסנן</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
+          </mat-form-field>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;margin-top: 10px;">
+            <ng-container matColumnDef="DoctorName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> שם רופא
                 </th>
                 <td mat-cell *matCellDef="let element"> {{ element.DoctorName }} </td>
             </ng-container>
 
-            <ng-container matColumnDef="department">
-                <th mat-header-cell *matHeaderCellDef> מחלקה </th>
+            <ng-container matColumnDef="DepartmentName">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> מחלקה </th>
                 <td mat-cell *matCellDef="let element"> {{ element.DepartmentName }} </td>
             </ng-container>
 
-            <ng-container matColumnDef="quantity">
-                <th mat-header-cell *matHeaderCellDef> ביקורים
+            <ng-container matColumnDef="Q">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> ביקורים
                 </th>
                 <td mat-cell *matCellDef="let element"> {{ element.Q }} </td>
             </ng-container>
 
-            <ng-container matColumnDef="actions">
-                <th mat-header-cell *matHeaderCellDef> פעולות
+            <ng-container matColumnDef="Actions">
+                <th mat-header-cell *matHeaderCellDef mat-sort-header> פעולות
                 </th>
                 <td mat-cell *matCellDef="let element"> {{ element.Actions }} </td>
             </ng-container>
