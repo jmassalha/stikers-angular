@@ -364,7 +364,6 @@ export class EmployeesAddUpdateComponent implements OnInit {
   }
 
   saveEmployee() {
-    this.saveBtnWait = true;
     this.employeeWorkDetails.controls['EmployeeIndex'].setValue(this.getEmployeeIndex());
     let pipe = new DatePipe('en-US');
     this.employeeWorkDetails.controls['StartWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['StartWorkDate'].value, 'yyyy-MM-dd'));
@@ -381,6 +380,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
       this.employeePersonalDetails.controls['LastNameEng'].setValidators(Validators.required);
     }
     if (!this.employeeWorkDetails.invalid && !this.employeePersonalDetails.invalid) {
+      this.saveBtnWait = true;
       this.http
         .post(this.Api + "SaveEmployeeDetails", {
           _personalDetails: this.employeePersonalDetails.getRawValue(),
@@ -395,6 +395,8 @@ export class EmployeesAddUpdateComponent implements OnInit {
             this.openSnackBar("משהו השתבש, לא נשמר");
           }
         });
+    } else {
+      this.openSnackBar("שכחת שדה חובה!");
     }
   }
 

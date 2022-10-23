@@ -10,11 +10,6 @@
 .col{
     display: flex;
 }
-.container1{
-    margin: 10px;
-    padding: 10px;
-    border-style: double;
-}
 .row{
     margin-top: 10px;
 }
@@ -23,20 +18,18 @@
     direction: rtl;
 }
 #firstTable > tbody > tr > td:nth-child(2) {
-    background-color: red;
     max-width: 114px;
+    font-size: 10px;
 }
 #firstTable > tbody > tr > td {
     white-space: nowrap; 
+    font-size: 10px;
 }
 .table td, .table th {
     width: 8%;
 }
 .col-1{
     max-width: 114px;
-}
-.input-error {
-    border: red 1px solid;
 }
 .inside-col{
     width: 25%;

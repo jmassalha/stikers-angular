@@ -24,6 +24,7 @@ import { DomSanitizer } from "@angular/platform-browser";
 import { DatePipe } from "@angular/common";
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
 import { DialogContentExampleDialog } from "../../fill-survey/fill-survey.component";
+import { AdditionalCprTablesComponent } from "../../form-dashboard/cpr-form/additional-cpr-tables/additional-cpr-tables.component";
 import pdfMake from 'pdfmake/build/pdfmake';
 import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
@@ -53,6 +54,7 @@ export class CprFormComponent implements OnInit {
 
   FirstSection: FormGroup;
   SecondSection: FormGroup;
+  SecondSectionContinue: FormGroup;
   ThirdSection: FormGroup;
   CaseNumber: string = "";
   searching: string = "notFound";
@@ -77,8 +79,8 @@ export class CprFormComponent implements OnInit {
   CprFormsList = [];
   CprFormsList_all = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
-  usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
-  // usersToSend = ['adahabre@poria.health.gov.il'];
+  // usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
+  usersToSend = ['adahabre@poria.health.gov.il'];
   filteredOptions1: Observable<string[]>;
   docfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
@@ -122,6 +124,9 @@ export class CprFormComponent implements OnInit {
       </div>
       <div class="col-2">
           <p>גיל: {{CprFormsList[0].PM_DOB | number : '1.1-1'}}</p>
+      </div>
+      <div class="col-2">
+          <p>מחלקה: {{CprFormsList[0].Depart_Name }}</p>
       </div>
   </div>
 
@@ -240,10 +245,14 @@ export class CprFormComponent implements OnInit {
               </div>
           </div>
       </div>
-      <div class="row" style="float: right;">
-          <div class="inside-col" style="display: flex;align-self: center;">
+      <div class="row" style="float: right;display: inline-flex;">
+          <div class="inside-col4" style="display: flex;align-self: center;">
               <mat-label style="align-self: center;">אבחנות המטופל:&nbsp; </mat-label>
               <p style="margin: 0px;"><u>{{CprFormsList[0].patientDiagnosis}}</u></p>
+          </div>
+          <div class="inside-col4" style="display: flex;align-self: center;margin: auto;">
+              <mat-label style="align-self: center;">הערות:&nbsp; </mat-label>
+              <p style="margin: 0px;"><u>{{CprFormsList[0].Notes}}</u></p>
           </div>
       </div>
   </div>
@@ -287,6 +296,14 @@ export class CprFormComponent implements OnInit {
                               <p style="margin: 0px;font-size: 9px;padding: 0px;"
                                   *ngIf="CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead != 'ASYSTOLE'">
                                   <b>{{CprFormsList[0].firstTableArray[i].subArray[0].rateStatusHead}}</b>
+                              </p>
+                          </td>
+                      </tr>
+                      <tr>
+                          <td>ETCO2</td>
+                          <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index">
+                              <p style="margin: 0px;font-size: 9px;padding: 0px;">
+                                  <b>{{CprFormsList[0].firstTableArray[i].subArray[0].etcoHead}}</b>
                               </p>
                           </td>
                       </tr>
@@ -545,6 +562,7 @@ export class CprFormComponent implements OnInit {
       replying: new FormControl('', Validators.required),
       resporatoryStat: new FormControl('', Validators.required),
       patientDiagnosis: new FormControl('', Validators.required),
+      Notes: new FormControl('', null),
     });
 
     this.SecondSection = this.formBuilder.group({
@@ -554,6 +572,11 @@ export class CprFormComponent implements OnInit {
       actionsTableArray: this.actionsTableArray,
       thirdTableArray: this.thirdTableArray,
       forthTableArray: this.forthTableArray
+    });
+
+    this.SecondSectionContinue = this.formBuilder.group({
+      firstTableArray: this.firstTableArray,
+      thirdTableArray: this.thirdTableArray
     });
 
     this.ThirdSection = this.formBuilder.group({
@@ -569,6 +592,7 @@ export class CprFormComponent implements OnInit {
       managingDoc: new FormControl('', Validators.required),
       managingDocSign: new FormControl('', null),
       managingDocLicence: new FormControl('', null),
+      DocUserName: new FormControl('', null),
       responsNurse: new FormControl('', Validators.required),
       responsNurseSign: new FormControl('', Validators.required),
       responsNurseLicence: new FormControl('', null),
@@ -608,6 +632,7 @@ export class CprFormComponent implements OnInit {
     if (depart.length > 0) {
       this.ThirdSection.controls['managingDoc'].setValue(depart[0].firstname);
       this.ThirdSection.controls['managingDocLicence'].setValue(depart[0].doc);
+      this.ThirdSection.controls['DocUserName'].setValue(depart[0].ADUserName);
     }
     return this.employees.filter(option => option.firstname.includes(filterValue1));
   }
@@ -662,6 +687,7 @@ export class CprFormComponent implements OnInit {
             id: element.id,
             email: element.email,
             doc: element.DocLicence,
+            ADUserName: element.ADUserName.toLowerCase()
           });
         })
       });
@@ -729,12 +755,21 @@ export class CprFormComponent implements OnInit {
             id: new FormControl(i, null),
             timeHead: new FormControl('', null),
             rateHead: new FormControl('', null),
-            rateStatusHead: new FormControl('', null)
+            rateStatusHead: new FormControl('', null),
+            etcoHead: new FormControl('', null)
           }
         ));
       }
     }
     return t;
+  }
+
+  openAdditionalTables() {
+    let dialofRef = this.dialog.open(AdditionalCprTablesComponent, { disableClose: true });
+    dialofRef.componentInstance.SecondSection = this.SecondSectionContinue;
+    dialofRef.afterClosed().subscribe(result => {
+      this.SecondSectionContinue = result;
+    });
   }
 
   changeDeathForm() {
@@ -924,6 +959,7 @@ export class CprFormComponent implements OnInit {
             this.http.post(this.url + "SaveCprForm", {
               _first: this.FirstSection.value,
               _second: this.SecondSection.value,
+              _secondContinue: this.SecondSectionContinue.value,
               _third: this.ThirdSection.value,
               _patientDetails: this.PatientRecord,
             })
