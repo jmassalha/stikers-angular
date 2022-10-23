@@ -592,6 +592,7 @@ export class CprFormComponent implements OnInit {
       managingDoc: new FormControl('', Validators.required),
       managingDocSign: new FormControl('', null),
       managingDocLicence: new FormControl('', null),
+      DocUserName: new FormControl('', null),
       responsNurse: new FormControl('', Validators.required),
       responsNurseSign: new FormControl('', Validators.required),
       responsNurseLicence: new FormControl('', null),
@@ -631,6 +632,7 @@ export class CprFormComponent implements OnInit {
     if (depart.length > 0) {
       this.ThirdSection.controls['managingDoc'].setValue(depart[0].firstname);
       this.ThirdSection.controls['managingDocLicence'].setValue(depart[0].doc);
+      this.ThirdSection.controls['DocUserName'].setValue(depart[0].ADUserName);
     }
     return this.employees.filter(option => option.firstname.includes(filterValue1));
   }
@@ -685,6 +687,7 @@ export class CprFormComponent implements OnInit {
             id: element.id,
             email: element.email,
             doc: element.DocLicence,
+            ADUserName: element.ADUserName.toLowerCase()
           });
         })
       });
