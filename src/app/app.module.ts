@@ -167,6 +167,8 @@ import { MedigateServersComponent } from './medigate-servers/medigate-servers.co
 import { DataTableComponent } from './medigate-servers/data-table/data-table.component';
 import { DataRowTableComponent } from './medigate-servers/data-row-table/data-row-table.component';
 import { GraphsModalComponent } from './hospital-bi-dashboard/graphs-modal/graphs-modal.component';
+import { SurgeryControlMainComponent } from './surgery-control-main/surgery-control-main.component';
+import { AddNewNoteComponent } from './surgery-control-main/add-new-note/add-new-note.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -289,7 +291,9 @@ const maskConfig: Partial<IConfig> = {
     MedigateServersComponent,
     DataTableComponent,
     DataRowTableComponent,
-    GraphsModalComponent
+    GraphsModalComponent,
+    SurgeryControlMainComponent,
+    AddNewNoteComponent
   ],
   imports: [
     JpTimeMaskModule,
