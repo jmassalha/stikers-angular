@@ -53,9 +53,13 @@ mat-list{
 }
 .mat-radio-button {
     margin-left: 16px;
-  }
+}
 
 table th{
     font-weight: bold;
-    position: sticky;
+}
+#tableRow{
+    width: 100%;
+    display: table;
+    position: fixed;
 }

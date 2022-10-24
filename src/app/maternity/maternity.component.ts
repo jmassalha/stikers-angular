@@ -125,6 +125,7 @@ export class MaternityComponent implements OnInit {
     parentCheckBox: any = true;
     submitted = false;
     perm: Boolean = false;
+    activityID = "";
     url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
     constructor(
         public datePipe: DatePipe,
@@ -224,6 +225,7 @@ export class MaternityComponent implements OnInit {
         let pipe = new DatePipe('en-US');
         this.maternityForm.controls['ProjectDate'].setValue(pipe.transform(this.maternityForm.controls['ProjectDate'].value, 'yyyy-MM-dd'));
         this.maternityForm.controls['additionalProjectDate'].setValue(pipe.transform(this.maternityForm.controls['additionalProjectDate'].value, 'yyyy-MM-dd'));
+        this.maternityForm.controls['ActivityRelated'].setValue(this.activityID);
         let relatedProj = this.maternityForm.controls['ActivityRelated'].value;
         if (!this.maternityForm.invalid) {
             this.http
@@ -410,6 +412,7 @@ export class MaternityComponent implements OnInit {
         _activeOrNot: string,
         ActivityID: string,
     ) {
+        this.activityID = ActivityID;
         this.http
             .post(this.url + "GetMaternityTable", {
                 _freeText: this.fliterVal,
