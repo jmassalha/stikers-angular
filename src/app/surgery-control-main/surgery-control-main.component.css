@@ -1,0 +1,64 @@
+.mat-elevation-z8 {
+    width: 100%;
+}
+
+table .diff-col{
+    padding: 0 !important;
+}
+.mat-tooltip{
+    max-width: unset !important;
+}
+td.diff-col{
+    background: #555555;
+    width: 15px;
+}
+.table-container {
+}
+.mat-elevation-z8 thead {
+    position: sticky !important;
+    top: 0;
+}
+p {
+    text-align: center;
+    font-weight: bold;
+}
+.verticalTableHeader {
+    text-align: center;
+    white-space: nowrap;
+    transform: rotate(90deg);
+}
+.ml-15 {
+    margin-left: 15px;
+}
+.verticalTableHeader p {
+    margin: 0 30px;
+    display: inline-block;
+    font-weight: bold;
+}
+.verticalTableHeader p:before {
+    content: "";
+    width: 0;
+    padding-top: 110%; /* takes width as reference, + 10% for faking some extra padding */
+    display: inline-block;
+    vertical-align: middle;
+}
+th.mat-header-cell {
+    text-align: right;
+    padding: 0 10px !important;
+    border: 1px solid #d3d3d3;
+}
+.green_1 {
+    background-color: #00ff2682;
+}
+
+.green_2 {
+    background-color: #00ff2638;
+}
+
+.red_1 {
+    background-color: #ff000099;
+}
+
+.red_2 {
+    background-color: #ff000038;
+}

@@ -86,6 +86,7 @@ import { MershamNComponent } from '../mersham-n/mersham-n.component';
 import { ServersComponent } from '../servers/servers.component';
 import { StikersComponent } from '../stikers/stikers.component';
 import { MedigateServersComponent } from '../medigate-servers/medigate-servers.component';
+import { SurgeryControlMainComponent } from '../surgery-control-main/surgery-control-main.component';
 import { AdditionalCprTablesComponent } from '../form-dashboard/cpr-form/additional-cpr-tables/additional-cpr-tables.component';
 const routes: Routes = [
   
@@ -177,6 +178,7 @@ const routes: Routes = [
   { path: "servers", component: ServersComponent },
   { path: "stikers", component: StikersComponent },  
   { path: "medigate", component: MedigateServersComponent },
+  { path: "surgerycontrolmain", component: SurgeryControlMainComponent },
   { path: "cpr-additional-tables", component: AdditionalCprTablesComponent },
   { path: '', component : LoginComponent}
 ];
