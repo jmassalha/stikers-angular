@@ -79,8 +79,8 @@ export class CprFormComponent implements OnInit {
   CprFormsList = [];
   CprFormsList_all = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
-  // usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
-  usersToSend = ['adahabre@poria.health.gov.il'];
+  usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
+  // usersToSend = ['adahabre@poria.health.gov.il'];
   filteredOptions1: Observable<string[]>;
   docfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
@@ -576,7 +576,8 @@ export class CprFormComponent implements OnInit {
 
     this.SecondSectionContinue = this.formBuilder.group({
       firstTableArray: this.firstTableArray,
-      thirdTableArray: this.thirdTableArray
+      thirdTableArray: this.thirdTableArray,
+      toSave: false
     });
 
     this.ThirdSection = this.formBuilder.group({
@@ -767,8 +768,12 @@ export class CprFormComponent implements OnInit {
   openAdditionalTables() {
     let dialofRef = this.dialog.open(AdditionalCprTablesComponent, { disableClose: true });
     dialofRef.componentInstance.SecondSection = this.SecondSectionContinue;
+    dialofRef.componentInstance.toSave = false;
     dialofRef.afterClosed().subscribe(result => {
-      this.SecondSectionContinue = result;
+      if (result.save) {
+        this.SecondSectionContinue = result.form;
+      }
+      this.SecondSectionContinue.controls['toSave'].setValue(result.save);
     });
   }
 
@@ -996,7 +1001,7 @@ export class CprFormComponent implements OnInit {
 
   displayCprForms() {
     this.getAllCprFormsList();
-    this.dialog.open(this.modalContent, { width: '60%', disableClose: true });
+    this.dialog.open(this.modalContent, { width: '60%', height: '60%', disableClose: true });
   }
 
   getAllCprFormsList() {
