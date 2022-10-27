@@ -140,14 +140,6 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.showYearsPeriod();
   }
 
-  // getValuesFromChild(arr) {
-  //   this.filterDeparts = arr;
-  // }
-  
-  getUniversalVal(val) {
-    let teze = val;
-  }
-
   // test() {
   //   var btn = document.querySelector(".depts-list-menu");
   //   var position = 0 ;
@@ -356,6 +348,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
     this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(false);
     this.deliveryPrematureGroup.controls['ByDoctor'].setValue(false);
+    this.tableView = false;
     this.filterValue = undefined;
     let that = this;
     setTimeout(() => {
