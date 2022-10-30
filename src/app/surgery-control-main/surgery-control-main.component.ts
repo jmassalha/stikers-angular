@@ -14,16 +14,24 @@ export interface Surgeries {
     RoomGroup: string;
     Department: string;
     QuarterYear: string;
-    DepartWorkDays: number;
-    DiffWorkDaysLastQ: number;
-    DiffWorkDaysPreviousYearQ: number;
-    DiffTotalMinutesLastQ: number;
-    DiffMinutesPreviousYearQ: number;
-    DiffTotalQuantityLastQ: number;
-    DiffQuantityPreviousYearQ: number;
-    DepartWorkDaysLastQ: number;
-    DepartTotalQuantityLastQ: number;
-    DepartTotalQuantity: number;
+
+    WorkDays: number;
+    WorkDaysLastQ: number
+    WorkDaysPreviousYearQ: number
+    DiffWorkDaysLastQ: number
+    DiffWorkDaysPreviousYearQ: number
+
+    TotalMinutes: number
+    TotalMinutesLastQ: number
+    TotalMinutesPreviousYearQ: number
+    DiffTotalMinutesLastQ: number
+    DiffTotalMinutesPreviousYearQ: number
+
+    TotalQuantity: number
+    TotalQuantityLastQ: number
+    TotalQuantityPreviousYearQ: number
+    DiffDepartTotalQuantityLastQ : number
+    DiffDepartTotalQuantityPreviousYearQ: number
     Blank_1: string;
     Blank_2: string;
 }
@@ -43,10 +51,10 @@ export class SurgeryControlMainComponent implements OnInit {
         "DiffWorkDaysPreviousYearQ",
         "Blank_1",
         "DiffTotalMinutesLastQ",
-        "DiffMinutesPreviousYearQ",
+        "DiffTotalMinutesPreviousYearQ",
         "Blank_2",
-        "DiffTotalQuantityLastQ",
-        "DiffQuantityPreviousYearQ",
+        "DiffDepartTotalQuantityLastQ",
+        "DiffDepartTotalQuantityPreviousYearQ",
         "addNote",
     ];
     selectedBtn = "חדר ניתוח כללי";
@@ -81,10 +89,18 @@ export class SurgeryControlMainComponent implements OnInit {
     }
 
     getToolTipText(row: Surgeries) {
-        return `ימי עבודה ברבעון נוכחי: ${row.DepartWorkDays}
-        ימי עבודה ברבעון הקודם: ${row.DepartWorkDaysLastQ}
-        כמות ברבעון נוכחי: ${row.DepartTotalQuantity}
-        כמות ברבעון הקודם: ${row.DepartTotalQuantityLastQ}`;
+        return `ימי עבודה ברבעון נוכחי: ${row.WorkDays}
+        ימי עבודה ברבעון הקודם: ${row.WorkDaysLastQ}
+        ימי עבודה ברבעון שנה קודמת: ${row.WorkDaysPreviousYearQ}
+
+        כמות ברבעון נוכחי: ${row.TotalQuantity}
+        כמות ברבעון הקודם: ${row.TotalQuantityLastQ}
+        כמות ברבעון שנה קודם: ${row.TotalQuantityLastQ}
+
+        זמן ברבעון נוכחי: ${(row.TotalMinutes/60).toFixed(2)}
+        זמן ברבעון הקודם: ${(row.TotalMinutesLastQ/60).toFixed(2)}
+        זמן ברבעון שנה קודם: ${(row.TotalMinutesPreviousYearQ/60).toFixed(2)}
+        `;
     }
     filterDataBy(RoomGroup) {
         this.selectedBtn = RoomGroup;
@@ -114,8 +130,8 @@ export class SurgeryControlMainComponent implements OnInit {
         }
         this.http
             .post(
-                //"http://localhost:64964/WebService.asmx/GetSurgeryControlMain",
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
+                "http://localhost:64964/WebService.asmx/GetSurgeryControlMain",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
                 {
                     type: type,
                     room: this.selectedBtn,
