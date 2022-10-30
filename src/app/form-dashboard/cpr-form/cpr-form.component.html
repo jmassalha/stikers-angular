@@ -263,8 +263,8 @@
         <div class="container1 m-2" style="overflow: scroll;" dir="rtl" [formGroup]="SecondSection">
             <div class="header">
                 <p class="text-right"><b><u>ב) תהליך החייאה:</u></b></p>
-                <button mat-raised-button ml-2 type="submit" *ngIf="UserName == 'adahabre'"
-                    class="btn btn-primary btn-raised mb-2" (click)="openAdditionalTables()" matTooltip="עוד טבלאות">
+                <button mat-raised-button ml-2 type="submit" class="btn btn-primary btn-raised mb-2"
+                    (click)="openAdditionalTables()" matTooltip="עוד טבלאות">
                     <span class="material-icons">
                         add
                     </span>
@@ -687,8 +687,7 @@
                 <ng-container matColumnDef="sign">
                     <th mat-header-cell *matHeaderCellDef> חתימת רופא</th>
                     <td mat-cell *matCellDef="let element"><button class="full-width"
-                            *ngIf="element.managingDocSign == ''"
-                            [disabled]="element.DocUserName != UserName"
+                            *ngIf="element.managingDocSign == ''" [disabled]="element.DocUserName != UserName"
                             style="font-weight: bold;font-size: 20px;color: white;" color="warn"
                             (click)="signForm('Doctor',element.Row_ID)" type="submit" mat-raised-button>
                             <span>לחתום</span>

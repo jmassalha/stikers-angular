@@ -216,6 +216,11 @@
 <ng-template #patientDetailsModal let-modal>
     <form dir="rtl" class="form col" [formGroup]="patientForm" (ngSubmit)="onSubmit()">
         <div class="modal-header text-right">
+            <section class="example-section text-center" style="float: right;">
+                <mat-checkbox class="example-margin" [(ngModel)]="afterBirthCheckBox"
+                    [ngModelOptions]="{standalone: true}" (change)="afterBirthFunc($event.checked)">אחרי לידה
+                </mat-checkbox>
+            </section>
             <h4 class="modal-title text-center" id="modal-basic-title">
                 משתתף <span id="row_id"></span>
             </h4>

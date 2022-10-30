@@ -110,6 +110,7 @@ export class MaternityComponent implements OnInit {
     closeResult: string;
     ParentProjectsList = [];
     ChildrenProjectsList = [];
+    FilteredChildrenProjectsList = [];
     NewPatientsAlertList = [];
     MaternityActivityList = [];
     TABLE_DATA: Poria_Maternity[] = [];
@@ -178,6 +179,21 @@ export class MaternityComponent implements OnInit {
         this.getMaternityNewPatientsAlert();
         this.getMaternityActivtiesList()
     }
+
+    applyFilter(event: Event) {
+        let filterValue;
+        if (event.isTrusted == undefined) {
+            filterValue = event;
+        } else if ((event.target as HTMLInputElement).value == "") {
+            filterValue = "";
+            this.FilteredChildrenProjectsList = this.ChildrenProjectsList;
+        }
+        else {
+            filterValue = (event.target as HTMLInputElement).value;
+        }
+        this.FilteredChildrenProjectsList = this.FilteredChildrenProjectsList.filter(x => x.MaternityName.includes(filterValue.trim().toLowerCase()));
+    }
+
     openSnackBar(message) {
         this._snackBar.open(message, "", {
             duration: 2500,
@@ -354,6 +370,7 @@ export class MaternityComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.ChildrenProjectsList = Response["d"];
+                this.FilteredChildrenProjectsList = Response["d"];
             });
     }
 
