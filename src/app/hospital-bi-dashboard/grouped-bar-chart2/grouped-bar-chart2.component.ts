@@ -134,8 +134,15 @@ export class GroupedBarChart2Component implements OnInit {
         this.columnNames = [this.allColumnNames[0], selected.column];
         this.columnNames.push({ role: 'annotation' });
         this.data = [];
-        for (let i = this.allData.length - 1; i >= 0; i--) {
-          this.data.push([this.allData[i][0], this.allData[i][index], this.allData[i][index]]);
+        // for (let i = this.allData.length - 1; i >= 0; i--) {
+        //   this.data.push([this.allData[i][0], this.allData[i][index], this.allData[i][index]]);
+        // }
+        for (let i = 0; i < this.allData.length; i++) {
+          if (this.allData[i].length == 3) {
+            this.data.push([this.allData[i][0], this.allData[i][1], this.allData[i][2]]);
+          } else {
+            this.data.push([this.allData[i][0], this.allData[i][index], this.allData[i][index]]);
+          }
         }
       }
     }

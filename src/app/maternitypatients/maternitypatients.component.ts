@@ -54,6 +54,7 @@ export interface MaternityPatients {
     PatientPregnancyWeekAtInsert: string;
     PatientNote: string;
     ConnectionID: string;
+    AfterBirth: string;
     completed: boolean;
 }
 
@@ -106,6 +107,7 @@ export class MaternitypatientsComponent implements OnInit {
     patientForm: FormGroup;
 
     MaternityRowId: string;
+    afterBirthCheckBox: any = true;
     MaternityName: string;
     submitted = false;
     activeModal: NgbActiveModal;
@@ -312,6 +314,15 @@ export class MaternitypatientsComponent implements OnInit {
             });
     }
 
+    afterBirthFunc(event) {
+        if (event) {
+            this.patientForm.controls['AfterBirth'].clearValidators();
+        } else {
+            this.patientForm.controls['AfterBirth'].setValidators([Validators.required]);
+        }
+        this.patientForm.controls['AfterBirth'].setValue(event);
+    }
+
     closeModal() {
         this.dialog.closeAll();
     }
@@ -327,6 +338,7 @@ export class MaternitypatientsComponent implements OnInit {
         } else {
             this.UserEmailStatus = false;
         }
+        this.afterBirthCheckBox = _element.AfterBirth;
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
@@ -354,6 +366,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientMobile: [_element.PatientMobile, Validators.nullValidator],
             PatientEmail: [_element.PatientEmail, Validators.nullValidator],
             ConnectionID: [_element.ConnectionID, Validators.nullValidator],
+            AfterBirth: [_element.AfterBirth, Validators.nullValidator],
         });
         this.activeModal = this.modalServicematernitypatients.open(
             content,
@@ -428,6 +441,7 @@ export class MaternitypatientsComponent implements OnInit {
             PatientMobile: ["", Validators.nullValidator],
             PatientEmail: ["", Validators.nullValidator],
             ConnectionID: ["", Validators.nullValidator],
+            AfterBirth: [false, Validators.nullValidator],
         });
         this.activeModal = this.modalServicematernitypatients.open(
             content,
@@ -475,6 +489,7 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientMobile: [patientDetails.PatientMobile, Validators.nullValidator],
                         PatientEmail: [patientDetails.PatientEmail, Validators.nullValidator],
                         ConnectionID: [patientDetails.ConnectionID, Validators.nullValidator],
+                        AfterBirth: [patientDetails.AfterBirth, Validators.nullValidator],
                     });
                 }
             });
@@ -566,6 +581,7 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientPregnancyWeekAtInsert: PatientPregnancyWeekAtInsert,
                         PatientNote: patientData[i].PatientNote,
                         ConnectionID: patientData[i].ConnectionID,
+                        AfterBirth: patientData[i].AfterBirth,
                         completed: false,
                     });
                 }

@@ -247,6 +247,10 @@
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
+        <mat-form-field appearance="standard" style="box-shadow: -1px -1px 9px 0px #000;text-align: center;">
+            <mat-label class="filterClass">מסנן</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
+        </mat-form-field>
         <div class="modal-body">
             <table class="table" dir="rtl">
                 <thead>
@@ -259,7 +263,7 @@
                     </tr>
                 </thead>
                 <tbody>
-                    <tr *ngFor="let subProj of ChildrenProjectsList">
+                    <tr *ngFor="let subProj of FilteredChildrenProjectsList">
                         <td>{{subProj.MaternityName}}</td>
                         <td>{{subProj.ProjectCost}}</td>
                         <td>
