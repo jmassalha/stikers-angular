@@ -228,7 +228,7 @@ export class NewBornComponent implements OnInit {
         
        
         if(this.opendCounter == 0)   
-            this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 3);
+            this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 2);
         var dateNow = new Date();
         if(dateNow.getHours() - 2 > this.patientForm.value.NewBornTime._d.getHours() && this.opendCounter == 0){
             console.log(this.patientForm.value.NewBornTime);
