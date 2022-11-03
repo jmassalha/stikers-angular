@@ -195,7 +195,7 @@
         </div>
         <div class="col-4">
             <h6><b>{{gender}} {{dob}}</b></h6>
-            <button matTooltip="ילוד חדש" class="btn btn-primary btn-raised" id="BtnStyleNewBorn"
+            <button matTooltip="ילוד חדש" class="btn btn-primary btn-raised" id="BtnStyleNewBorn" *ngIf="Dept_Name == 'חדר לידה'"
                 (click)="openNewBornLink()" type="submit" mat-raised-button>
                 <span class="material-icons">
                     face_retouching_natural

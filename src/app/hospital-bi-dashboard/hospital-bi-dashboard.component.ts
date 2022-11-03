@@ -271,12 +271,16 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.getHospitalDepartmentsTableChartList();
     }
   }
-  
+
 
   chooseTimeValue(event) {
     this.filterValue = undefined;
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
-      this.getTableViewItems(event);
+      if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
+        this.getTableViewItems(event, "11");
+      } else {
+        this.getTableViewItems(event, "2");
+      }
     } else {
       let that = this;
       setTimeout(() => {
@@ -358,14 +362,19 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   changeSurgeryType() {
+    let byDoc = this.deliveryPrematureGroup.controls['ByDoctor'].value;
     if (this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value == "0") {
       this._ifSeode = 'סיעודיות';
     } else {
       this._ifSeode = 'רפואיות';
     }
-    if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
+    if (byDoc) {
+      if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
+        this.getTableViewItems("1", "11");
+      } else {
+        this.getTableViewItems("1", "2");
+      }
       this.tableView = true;
-      this.getTableViewItems("1");
     } else {
       this.tableView = false;
       let that = this;
@@ -387,11 +396,11 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.dataSource.filter = filterValue.trim().toLowerCase();
   }
 
-  getTableViewItems(time) {
+  getTableViewItems(time, depart) {
     this.http
       .post(this.configUrl + "GetTableViewForHospitalDashboard", {
         param: time,
-        deptCode: "2"
+        deptCode: depart
       })
       .subscribe((Response) => {
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
@@ -401,9 +410,9 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   changeDepartInModal(val) {
-    if(this.filterValue == undefined){
+    if (this.filterValue == undefined) {
       this.filterValue = val.trim();
-    }else{
+    } else {
       this.filterValue = undefined
     }
     let that = this;
