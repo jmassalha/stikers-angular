@@ -18,6 +18,18 @@
         </div>
         <div class="row">
             <div class="col">
+                <br />
+                <span *ngFor="let Quarter of QuarterYear">
+                    <mat-checkbox
+                        (change)="filterDataByQuarterYear($event)"
+                    >
+                        {{ Quarter.QuarterYear }}
+                    </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                </span>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
                 <mat-form-field appearance="standard">
                     <mat-label>חפש</mat-label>
                     <input
@@ -357,14 +369,16 @@
                                         mat-header-cell
                                         *matHeaderCellDef
                                     ></th>
-                                    <td
-                                        mat-cell                                        
-                                        *matCellDef="let element"
-                                       
-                                    > 
-                                    <button  title="הוספת הערות"  type="button" (click)="openAddNoteDialog(element)" mat-mini-fab color="accent">
-                                        <mat-icon>note_add</mat-icon>
-                                      </button>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button
+                                            title="הוספת הערות"
+                                            type="button"
+                                            (click)="openAddNoteDialog(element)"
+                                            mat-mini-fab
+                                            color="accent"
+                                        >
+                                            <mat-icon>note_add</mat-icon>
+                                        </button>
                                     </td></ng-container
                                 >
                                 <tr
@@ -376,11 +390,11 @@
                                 ></tr>
                                 <tr
                                     mat-row
-                                    [matTooltip]="getToolTipText(row)"
                                     *matRowDef="
                                         let row;
                                         columns: displayedColumns
                                     "
+                                    [matTooltip]="getToolTipText(row)"
                                 ></tr>
                             </table>
                         </div>
@@ -708,20 +722,23 @@
                                         }}
                                     </td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="addNote"
                                     ><th
                                         class="diff-col"
                                         mat-header-cell
                                         *matHeaderCellDef
                                     ></th>
-                                    <td
-                                        mat-cell
-                                        *matCellDef="let element"
-                                    >
-                                    <button title="הוספת הערות" type="button" (click)="openAddNoteDialog(element)" mat-mini-fab color="accent">
-                                        <mat-icon>note_add</mat-icon>
-                                      </button>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button
+                                            title="הוספת הערות"
+                                            type="button"
+                                            (click)="openAddNoteDialog(element)"
+                                            mat-mini-fab
+                                            color="accent"
+                                        >
+                                            <mat-icon>note_add</mat-icon>
+                                        </button>
                                     </td></ng-container
                                 >
                                 <tr
@@ -733,11 +750,11 @@
                                 ></tr>
                                 <tr
                                     mat-row
-                                    [matTooltip]="getToolTipText(row)"
                                     *matRowDef="
                                         let row;
                                         columns: displayedColumns
                                     "
+                                    [matTooltip]="getToolTipText(row)"
                                 ></tr>
                             </table>
                         </div>

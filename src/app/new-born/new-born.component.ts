@@ -224,9 +224,8 @@ export class NewBornComponent implements OnInit {
             this.patientForm.value.NewBornDOB,
             "yyyy-MM-dd",
             "en-US"
-        );
-        
-       
+        );        
+      
         if(this.opendCounter == 0)   
             this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 2);
         var dateNow = new Date();

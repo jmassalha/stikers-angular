@@ -63,6 +63,8 @@ export class SurgeryControlMainComponent implements OnInit {
     dataSourceTop = new MatTableDataSource(this.dataTable_Top);
     dataSourceMax = new MatTableDataSource(this.dataTable_Max);
     SurgeryRooms: Surgeries[] = [];
+    QuarterYear: Surgeries[] = [];
+    selectedQuarterYear: string[] = [];
     constructor(
         private _snackBarUsers: MatSnackBar,
         private router: Router,
@@ -86,21 +88,38 @@ export class SurgeryControlMainComponent implements OnInit {
         this.getDataFromServer("Top");
         this.getDataFromServer("Max");
         this.getDataFromServer("RoomGroupDesc");
+        this.getDataFromServer("QuarterYear");
     }
 
     getToolTipText(row: Surgeries) {
+        //debugger
+        //console.log(row)
         return `ימי עבודה ברבעון נוכחי: ${row.WorkDays}
         ימי עבודה ברבעון הקודם: ${row.WorkDaysLastQ}
         ימי עבודה ברבעון שנה קודמת: ${row.WorkDaysPreviousYearQ}
 
-        כמות ברבעון נוכחי: ${row.TotalQuantity}
-        כמות ברבעון הקודם: ${row.TotalQuantityLastQ}
-        כמות ברבעון שנה קודם: ${row.TotalQuantityLastQ}
-
         זמן ברבעון נוכחי: ${(row.TotalMinutes/60).toFixed(2)}
         זמן ברבעון הקודם: ${(row.TotalMinutesLastQ/60).toFixed(2)}
         זמן ברבעון שנה קודם: ${(row.TotalMinutesPreviousYearQ/60).toFixed(2)}
+
+        כמות ברבעון נוכחי: ${row.TotalQuantity}
+        כמות ברבעון הקודם: ${row.TotalQuantityLastQ}
+        כמות ברבעון שנה קודם: ${row.TotalQuantityPreviousYearQ}
         `;
+    }
+    filterDataByQuarterYear(event){ 
+         if ( event.checked ) {
+            if(this.selectedQuarterYear.indexOf(event.source._elementRef.nativeElement.innerText) === -1 )
+                this.selectedQuarterYear.push(event.source._elementRef.nativeElement.innerText) 
+         }else{
+            this.selectedQuarterYear.forEach((element,index)=>{
+                if(element==event.source._elementRef.nativeElement.innerText)  this.selectedQuarterYear.splice(index,1);
+             });
+         }
+         console.log(this.selectedQuarterYear)
+        //debugger
+        this.getDataFromServer("Top");
+        this.getDataFromServer("Max");
     }
     filterDataBy(RoomGroup) {
         this.selectedBtn = RoomGroup;
@@ -130,11 +149,12 @@ export class SurgeryControlMainComponent implements OnInit {
         }
         this.http
             .post(
-               // "http://localhost:64964/WebService.asmx/GetSurgeryControlMain",
+                //"http://localhost:64964/WebService.asmx/GetSurgeryControlMain",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
                 {
                     type: type,
                     room: this.selectedBtn,
+                    quarterYear: this.selectedQuarterYear,
                 }
             )
             .subscribe((Response) => {
@@ -163,6 +183,10 @@ export class SurgeryControlMainComponent implements OnInit {
                     this.SurgeryRooms.splice(0, this.SurgeryRooms.length);
                     //debugger
                     this.SurgeryRooms = Response["d"];
+                } else if (type == "QuarterYear") {
+                    this.QuarterYear.splice(0, this.QuarterYear.length);
+                    //debugger
+                    this.QuarterYear = Response["d"];
                 }
                 console.log(this.dataSourceTop);
                 console.log(this.dataSourceMax);
