@@ -196,21 +196,21 @@
                                                 element.DiffTotalMinutesLastQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesLastQ >=
-                                                    element.DiffMinutesPreviousYearQ,
+                                                    element.DiffTotalMinutesPreviousYearQ,
                                             green_2:
                                                 element.DiffTotalMinutesLastQ >=
                                                     0.1 &&
-                                                element.DiffMinutesPreviousYearQ >=
+                                                element.DiffTotalMinutesPreviousYearQ >=
                                                     element.DiffTotalMinutesLastQ,
                                             red_1:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesLastQ &&
                                                 element.DiffTotalMinutesLastQ >=
-                                                    element.DiffMinutesPreviousYearQ,
+                                                    element.DiffTotalMinutesPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesLastQ &&
-                                                element.DiffMinutesPreviousYearQ >=
+                                                element.DiffTotalMinutesPreviousYearQ >=
                                                     element.DiffTotalMinutesLastQ
                                         }"
                                     >
@@ -221,7 +221,7 @@
                                     </td>
                                 </ng-container>
                                 <ng-container
-                                    matColumnDef="DiffMinutesPreviousYearQ"
+                                    matColumnDef="DiffTotalMinutesPreviousYearQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
                                         <p>Diff Time Last Year Q</p>
@@ -232,29 +232,29 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffMinutesPreviousYearQ >=
+                                                element.DiffTotalMinutesPreviousYearQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesLastQ <=
-                                                    element.DiffMinutesPreviousYearQ,
+                                                    element.DiffTotalMinutesPreviousYearQ,
                                             green_2:
-                                                element.DiffMinutesPreviousYearQ >=
+                                                element.DiffTotalMinutesPreviousYearQ >=
                                                     0.1 &&
-                                                element.DiffMinutesPreviousYearQ <=
+                                                element.DiffTotalMinutesPreviousYearQ <=
                                                     element.DiffTotalMinutesLastQ,
                                             red_1:
                                                 -0.1 >=
-                                                    element.DiffMinutesPreviousYearQ &&
+                                                    element.DiffTotalMinutesPreviousYearQ &&
                                                 element.DiffTotalMinutesLastQ <=
-                                                    element.DiffMinutesPreviousYearQ,
+                                                    element.DiffTotalMinutesPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffMinutesPreviousYearQ &&
-                                                element.DiffMinutesPreviousYearQ <=
+                                                    element.DiffTotalMinutesPreviousYearQ &&
+                                                element.DiffTotalMinutesPreviousYearQ <=
                                                     element.DiffTotalMinutesLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffMinutesPreviousYearQ
+                                            element.DiffTotalMinutesPreviousYearQ
                                                 | percent
                                         }}
                                     </td>
@@ -274,7 +274,7 @@
                                     </td></ng-container
                                 >
                                 <ng-container
-                                    matColumnDef="DiffTotalQuantityLastQ"
+                                    matColumnDef="DiffDepartTotalQuantityLastQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
                                         <p>Diff Quentity Last Q</p>
@@ -285,35 +285,35 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffTotalQuantityLastQ >=
+                                                element.DiffDepartTotalQuantityLastQ >=
                                                     0.1 &&
-                                                element.DiffTotalQuantityLastQ >=
-                                                    element.DiffQuantityPreviousYearQ,
+                                                element.DiffDepartTotalQuantityLastQ >=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
                                             green_2:
-                                                element.DiffTotalQuantityLastQ >
+                                                element.DiffDepartTotalQuantityLastQ >
                                                     0.1 &&
-                                                element.DiffQuantityPreviousYearQ >=
-                                                    element.DiffTotalQuantityLastQ,
+                                                element.DiffDepartTotalQuantityPreviousYearQ >=
+                                                    element.DiffDepartTotalQuantityLastQ,
                                             red_1:
                                                 -0.1 >=
-                                                    element.DiffTotalQuantityLastQ &&
-                                                element.DiffTotalQuantityLastQ >=
-                                                    element.DiffQuantityPreviousYearQ,
+                                                    element.DiffDepartTotalQuantityLastQ &&
+                                                element.DiffDepartTotalQuantityLastQ >=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffTotalQuantityLastQ &&
-                                                element.DiffQuantityPreviousYearQ >=
-                                                    element.DiffTotalQuantityLastQ
+                                                    element.DiffDepartTotalQuantityLastQ &&
+                                                element.DiffDepartTotalQuantityPreviousYearQ >=
+                                                    element.DiffDepartTotalQuantityLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffTotalQuantityLastQ
+                                            element.DiffDepartTotalQuantityLastQ
                                                 | percent
                                         }}
                                     </td>
                                 </ng-container>
                                 <ng-container
-                                    matColumnDef="DiffQuantityPreviousYearQ"
+                                    matColumnDef="DiffDepartTotalQuantityPreviousYearQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
                                         <p>Diff Quentity Last Year Q</p>
@@ -324,29 +324,29 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffQuantityPreviousYearQ >
+                                                element.DiffDepartTotalQuantityPreviousYearQ >
                                                     0.1 &&
-                                                element.DiffTotalQuantityLastQ <=
-                                                    element.DiffQuantityPreviousYearQ,
+                                                element.DiffDepartTotalQuantityLastQ <=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
                                             green_2:
-                                                element.DiffQuantityPreviousYearQ >
+                                                element.DiffDepartTotalQuantityPreviousYearQ >
                                                     0.1 &&
-                                                element.DiffQuantityPreviousYearQ <=
-                                                    element.DiffTotalQuantityLastQ,
+                                                element.DiffDepartTotalQuantityPreviousYearQ <=
+                                                    element.DiffDepartTotalQuantityLastQ,
                                             red_1:
                                                 -0.1 >
-                                                    element.DiffQuantityPreviousYearQ &&
-                                                element.DiffTotalQuantityLastQ <=
-                                                    element.DiffQuantityPreviousYearQ,
+                                                    element.DiffDepartTotalQuantityPreviousYearQ &&
+                                                element.DiffDepartTotalQuantityLastQ <=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffQuantityPreviousYearQ &&
-                                                element.DiffQuantityPreviousYearQ <=
-                                                    element.DiffTotalQuantityLastQ
+                                                    element.DiffDepartTotalQuantityPreviousYearQ &&
+                                                element.DiffDepartTotalQuantityPreviousYearQ <=
+                                                    element.DiffDepartTotalQuantityLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffQuantityPreviousYearQ
+                                            element.DiffDepartTotalQuantityPreviousYearQ
                                                 | percent
                                         }}
                                     </td>
@@ -553,21 +553,21 @@
                                                 element.DiffTotalMinutesLastQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesLastQ >=
-                                                    element.DiffMinutesPreviousYearQ,
+                                                    element.DiffTotalMinutesPreviousYearQ,
                                             green_2:
                                                 element.DiffTotalMinutesLastQ >=
                                                     0.1 &&
-                                                element.DiffMinutesPreviousYearQ >=
+                                                element.DiffTotalMinutesPreviousYearQ >=
                                                     element.DiffTotalMinutesLastQ,
                                             red_1:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesLastQ &&
                                                 element.DiffTotalMinutesLastQ >=
-                                                    element.DiffMinutesPreviousYearQ,
+                                                    element.DiffTotalMinutesPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesLastQ &&
-                                                element.DiffMinutesPreviousYearQ >=
+                                                element.DiffTotalMinutesPreviousYearQ >=
                                                     element.DiffTotalMinutesLastQ
                                         }"
                                     >
@@ -578,7 +578,7 @@
                                     </td>
                                 </ng-container>
                                 <ng-container
-                                    matColumnDef="DiffMinutesPreviousYearQ"
+                                    matColumnDef="DiffTotalMinutesPreviousYearQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
                                         <p>Diff Time Last Year Q</p>
@@ -589,29 +589,29 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffMinutesPreviousYearQ >=
+                                                element.DiffTotalMinutesPreviousYearQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesLastQ <=
-                                                    element.DiffMinutesPreviousYearQ,
+                                                    element.DiffTotalMinutesPreviousYearQ,
                                             green_2:
-                                                element.DiffMinutesPreviousYearQ >=
+                                                element.DiffTotalMinutesPreviousYearQ >=
                                                     0.1 &&
-                                                element.DiffMinutesPreviousYearQ <=
+                                                element.DiffTotalMinutesPreviousYearQ <=
                                                     element.DiffTotalMinutesLastQ,
                                             red_1:
                                                 -0.1 >=
-                                                    element.DiffMinutesPreviousYearQ &&
+                                                    element.DiffTotalMinutesPreviousYearQ &&
                                                 element.DiffTotalMinutesLastQ <=
-                                                    element.DiffMinutesPreviousYearQ,
+                                                    element.DiffTotalMinutesPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffMinutesPreviousYearQ &&
-                                                element.DiffMinutesPreviousYearQ <=
+                                                    element.DiffTotalMinutesPreviousYearQ &&
+                                                element.DiffTotalMinutesPreviousYearQ <=
                                                     element.DiffTotalMinutesLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffMinutesPreviousYearQ
+                                            element.DiffTotalMinutesPreviousYearQ
                                                 | percent
                                         }}
                                     </td>
@@ -631,7 +631,7 @@
                                     </td></ng-container
                                 >
                                 <ng-container
-                                    matColumnDef="DiffTotalQuantityLastQ"
+                                    matColumnDef="DiffDepartTotalQuantityLastQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
                                         <p>Diff Quentity Last Q</p>
@@ -642,35 +642,35 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffTotalQuantityLastQ >=
+                                                element.DiffDepartTotalQuantityLastQ >=
                                                     0.1 &&
-                                                element.DiffTotalQuantityLastQ >=
-                                                    element.DiffQuantityPreviousYearQ,
+                                                element.DiffDepartTotalQuantityLastQ >=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
                                             green_2:
-                                                element.DiffTotalQuantityLastQ >
+                                                element.DiffDepartTotalQuantityLastQ >
                                                     0.1 &&
-                                                element.DiffQuantityPreviousYearQ >=
-                                                    element.DiffTotalQuantityLastQ,
+                                                element.DiffDepartTotalQuantityPreviousYearQ >=
+                                                    element.DiffDepartTotalQuantityLastQ,
                                             red_1:
                                                 -0.1 >=
-                                                    element.DiffTotalQuantityLastQ &&
-                                                element.DiffTotalQuantityLastQ >=
-                                                    element.DiffQuantityPreviousYearQ,
+                                                    element.DiffDepartTotalQuantityLastQ &&
+                                                element.DiffDepartTotalQuantityLastQ >=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffTotalQuantityLastQ &&
-                                                element.DiffQuantityPreviousYearQ >=
-                                                    element.DiffTotalQuantityLastQ
+                                                    element.DiffDepartTotalQuantityLastQ &&
+                                                element.DiffDepartTotalQuantityPreviousYearQ >=
+                                                    element.DiffDepartTotalQuantityLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffTotalQuantityLastQ
+                                            element.DiffDepartTotalQuantityLastQ
                                                 | percent
                                         }}
                                     </td>
                                 </ng-container>
                                 <ng-container
-                                    matColumnDef="DiffQuantityPreviousYearQ"
+                                    matColumnDef="DiffDepartTotalQuantityPreviousYearQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
                                         <p>Diff Quentity Last Year Q</p>
@@ -681,29 +681,29 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffQuantityPreviousYearQ >
+                                                element.DiffDepartTotalQuantityPreviousYearQ >
                                                     0.1 &&
-                                                element.DiffTotalQuantityLastQ <=
-                                                    element.DiffQuantityPreviousYearQ,
+                                                element.DiffDepartTotalQuantityLastQ <=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
                                             green_2:
-                                                element.DiffQuantityPreviousYearQ >
+                                                element.DiffDepartTotalQuantityPreviousYearQ >
                                                     0.1 &&
-                                                element.DiffQuantityPreviousYearQ <=
-                                                    element.DiffTotalQuantityLastQ,
+                                                element.DiffDepartTotalQuantityPreviousYearQ <=
+                                                    element.DiffDepartTotalQuantityLastQ,
                                             red_1:
                                                 -0.1 >
-                                                    element.DiffQuantityPreviousYearQ &&
-                                                element.DiffTotalQuantityLastQ <=
-                                                    element.DiffQuantityPreviousYearQ,
+                                                    element.DiffDepartTotalQuantityPreviousYearQ &&
+                                                element.DiffDepartTotalQuantityLastQ <=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffQuantityPreviousYearQ &&
-                                                element.DiffQuantityPreviousYearQ <=
-                                                    element.DiffTotalQuantityLastQ
+                                                    element.DiffDepartTotalQuantityPreviousYearQ &&
+                                                element.DiffDepartTotalQuantityPreviousYearQ <=
+                                                    element.DiffDepartTotalQuantityLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffQuantityPreviousYearQ
+                                            element.DiffDepartTotalQuantityPreviousYearQ
                                                 | percent
                                         }}
                                     </td>
