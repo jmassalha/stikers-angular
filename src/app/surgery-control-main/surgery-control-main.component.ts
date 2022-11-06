@@ -75,7 +75,7 @@ export class SurgeryControlMainComponent implements OnInit {
         private mMenuPerm: MenuPerm,
         public dialog: MatDialog
     ) {
-        mMenuPerm.setRoutName("servers");
+        mMenuPerm.setRoutName("surgerycontrolmain");
         setTimeout(() => {
             if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();
