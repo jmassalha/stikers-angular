@@ -130,7 +130,7 @@ export class SurgeryControlMainComponent implements OnInit {
         }
         this.http
             .post(
-               // "http://localhost:64964/WebService.asmx/GetSurgeryControlMain",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
                 {
                     type: type,
