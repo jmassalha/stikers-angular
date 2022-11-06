@@ -64,9 +64,11 @@ export class CprFormComponent implements OnInit {
   signNurse: any = "";
   firstTablecolumns = Array(15).fill("שעה");
   firstTableArray: FormArray = this.formBuilder.array([]);
+  firstTableContinueArray: FormArray = this.formBuilder.array([]);
   actionsTableArray: FormArray = this.formBuilder.array([]);
   secondTablecolumns = Array(7).fill("שעה");
   thirdTableArray: FormArray = this.formBuilder.array([]);
+  thirdTableContinueArray: FormArray = this.formBuilder.array([]);
   forthTableArray: FormArray = this.formBuilder.array([]);
   actions = [];
   deathFormShow: boolean;
@@ -514,8 +516,11 @@ export class CprFormComponent implements OnInit {
       this.firstTableArray.push(this.formBuilder.group({
         subArray: this.subArrayTest(this.firstTablecolumns.length, 'actions')
       }));
+      this.firstTableContinueArray.push(this.formBuilder.group({
+        subArray: this.subArrayTest(this.firstTablecolumns.length, 'actions')
+      }));
     }
-
+    
     // second table of actions
     for (let i = 0; i < 9; i++) {
       this.actionsTableArray.push(this.formBuilder.group({
@@ -530,8 +535,12 @@ export class CprFormComponent implements OnInit {
         title: this.secondTableMeds[i],
         subArray: this.subArrayTest(this.secondTablecolumns.length, 'third')
       }));
+      this.thirdTableContinueArray.push(this.formBuilder.group({
+        title: this.secondTableMeds[i],
+        subArray: this.subArrayTest(this.secondTablecolumns.length, 'third')
+      }));
     }
-
+    
     // forth table of electricity arrays  -- NOTE (MAKE IT ONE ARRAY NOT TWO !!!!!!!!!)
     for (let i = 0; i < 1; i++) {
       this.forthTableArray.push(this.formBuilder.group({
@@ -575,8 +584,8 @@ export class CprFormComponent implements OnInit {
     });
 
     this.SecondSectionContinue = this.formBuilder.group({
-      firstTableArray: this.firstTableArray,
-      thirdTableArray: this.thirdTableArray,
+      firstTableArray: this.firstTableContinueArray,
+      thirdTableArray: this.thirdTableContinueArray,
       toSave: false
     });
 
