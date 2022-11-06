@@ -140,13 +140,18 @@ textarea{
   }
 .mat-tooltip{
     white-space: pre;
-    text-align: right;
     font-size: larger !important;
 }
 .mat-tooltip{
     direction: ltr  !important;
-    text-align: right  !important;
     max-width: 600px !important;
+}
+.mat-tooltip {
+    white-space: pre-line;
+}
+
+::ng-deep .mat-tooltip {
+    white-space: pre-line;
 }
 .mat-form-field-appearance-fill .mat-form-field-flex {
     border-radius: 4px 4px 0 0;

@@ -16,22 +16,22 @@ export interface Surgeries {
     QuarterYear: string;
 
     WorkDays: number;
-    WorkDaysLastQ: number
-    WorkDaysPreviousYearQ: number
-    DiffWorkDaysLastQ: number
-    DiffWorkDaysPreviousYearQ: number
+    WorkDaysLastQ: number;
+    WorkDaysPreviousYearQ: number;
+    DiffWorkDaysLastQ: number;
+    DiffWorkDaysPreviousYearQ: number;
 
-    TotalMinutes: number
-    TotalMinutesLastQ: number
-    TotalMinutesPreviousYearQ: number
-    DiffTotalMinutesLastQ: number
-    DiffTotalMinutesPreviousYearQ: number
+    TotalMinutes: number;
+    TotalMinutesLastQ: number;
+    TotalMinutesPreviousYearQ: number;
+    DiffTotalMinutesLastQ: number;
+    DiffTotalMinutesPreviousYearQ: number;
 
-    TotalQuantity: number
-    TotalQuantityLastQ: number
-    TotalQuantityPreviousYearQ: number
-    DiffDepartTotalQuantityLastQ : number
-    DiffDepartTotalQuantityPreviousYearQ: number
+    TotalQuantity: number;
+    TotalQuantityLastQ: number;
+    TotalQuantityPreviousYearQ: number;
+    DiffDepartTotalQuantityLastQ: number;
+    DiffDepartTotalQuantityPreviousYearQ: number;
     Blank_1: string;
     Blank_2: string;
 }
@@ -63,6 +63,8 @@ export class SurgeryControlMainComponent implements OnInit {
     dataSourceTop = new MatTableDataSource(this.dataTable_Top);
     dataSourceMax = new MatTableDataSource(this.dataTable_Max);
     SurgeryRooms: Surgeries[] = [];
+    QuarterYear: Surgeries[] = [];
+    selectedQuarterYear: string[] = [];
     constructor(
         private _snackBarUsers: MatSnackBar,
         private router: Router,
@@ -81,26 +83,76 @@ export class SurgeryControlMainComponent implements OnInit {
             }
         }, 2000);
     }
-    
+
     ngOnInit(): void {
         this.getDataFromServer("Top");
         this.getDataFromServer("Max");
         this.getDataFromServer("RoomGroupDesc");
+        this.getDataFromServer("QuarterYear");
     }
 
     getToolTipText(row: Surgeries) {
-        return `ימי עבודה ברבעון נוכחי: ${row.WorkDays}
-        ימי עבודה ברבעון הקודם: ${row.WorkDaysLastQ}
-        ימי עבודה ברבעון שנה קודמת: ${row.WorkDaysPreviousYearQ}
-
-        כמות ברבעון נוכחי: ${row.TotalQuantity}
-        כמות ברבעון הקודם: ${row.TotalQuantityLastQ}
-        כמות ברבעון שנה קודם: ${row.TotalQuantityLastQ}
-
-        זמן ברבעון נוכחי: ${(row.TotalMinutes/60).toFixed(2)}
-        זמן ברבעון הקודם: ${(row.TotalMinutesLastQ/60).toFixed(2)}
-        זמן ברבעון שנה קודם: ${(row.TotalMinutesPreviousYearQ/60).toFixed(2)}
-        `;
+        //debugger
+        //console.log(row)
+        var QuarterYear = row.QuarterYear.split("-");
+        var currentYear = QuarterYear[0];
+        var lastYear = "";
+        var prevYear = "";
+        var cuurentQ = QuarterYear[1];
+        var lastQ = "";
+        var prevQ = "";
+        switch (QuarterYear[1]) {
+            case "Q1":
+                lastYear = (parseInt(currentYear) - 1).toString();
+                prevYear = (parseInt(currentYear) - 1).toString();
+                lastQ = "Q4";
+                prevQ = QuarterYear[1];
+                break;
+            case "Q2":
+                lastYear = parseInt(currentYear).toString();
+                prevYear = (parseInt(currentYear) - 1).toString();
+                lastQ = "Q1";
+                prevQ = QuarterYear[1];
+                break;
+            case "Q3":
+                lastYear = parseInt(currentYear).toString();
+                prevYear = (parseInt(currentYear) - 1).toString();
+                lastQ = "Q2";
+                prevQ = QuarterYear[1];
+                break;
+            case "Q4":
+                lastYear = parseInt(currentYear).toString();
+                prevYear = (parseInt(currentYear) - 1).toString();
+                lastQ = "Q3";
+                prevQ = QuarterYear[1];
+                break;
+        }
+        if (QuarterYear[1] == "Q1") {
+            prevYear = (parseInt(currentYear) - 1).toString();
+            lastQ = "Q4";
+        }
+        return `DAY:\r\n\  ${currentYear}-${cuurentQ}: ${row.WorkDays}\r\n\ ${lastYear}-${lastQ}: ${row.WorkDaysLastQ}\r\n\ ${prevYear}-${prevQ}: ${row.WorkDaysPreviousYearQ}\r\n\ \r\n\ TIME:\r\n\ ${currentYear}-${cuurentQ}: ${(row.TotalMinutes / 60).toFixed(2)}\r\n\ ${lastYear}-${lastQ}: ${(row.TotalMinutesLastQ / 60).toFixed(2)}\r\n\ ${prevYear}-${prevQ}: ${(row.TotalMinutesPreviousYearQ / 60).toFixed(2)}\r\n\ \r\n\ QUENTITY:\r\n\ ${currentYear}-${cuurentQ}: ${row.TotalQuantity}\r\n\ ${lastYear}-${lastQ}: ${row.TotalQuantityLastQ}\r\n\ ${prevYear}-${prevQ}: ${row.TotalQuantityPreviousYearQ}`;
+    }
+    filterDataByQuarterYear(event) {
+        if (event.checked) {
+            if (
+                this.selectedQuarterYear.indexOf(
+                    event.source._elementRef.nativeElement.innerText
+                ) === -1
+            )
+                this.selectedQuarterYear.push(
+                    event.source._elementRef.nativeElement.innerText
+                );
+        } else {
+            this.selectedQuarterYear.forEach((element, index) => {
+                if (element == event.source._elementRef.nativeElement.innerText)
+                    this.selectedQuarterYear.splice(index, 1);
+            });
+        }
+        console.log(this.selectedQuarterYear);
+        //debugger
+        this.getDataFromServer("Top");
+        this.getDataFromServer("Max");
     }
     filterDataBy(RoomGroup) {
         this.selectedBtn = RoomGroup;
@@ -111,7 +163,7 @@ export class SurgeryControlMainComponent implements OnInit {
         const dialogRef = this.dialog.open(AddNewNoteComponent, {
             data: {
                 element: element,
-                dialog: this.dialog
+                dialog: this.dialog,
             },
         });
 
@@ -130,11 +182,12 @@ export class SurgeryControlMainComponent implements OnInit {
         }
         this.http
             .post(
-               // "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
+                //"http://localhost:64964/WebService.asmx/GetSurgeryControlMain",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
                 {
                     type: type,
                     room: this.selectedBtn,
+                    quarterYear: this.selectedQuarterYear,
                 }
             )
             .subscribe((Response) => {
@@ -163,6 +216,10 @@ export class SurgeryControlMainComponent implements OnInit {
                     this.SurgeryRooms.splice(0, this.SurgeryRooms.length);
                     //debugger
                     this.SurgeryRooms = Response["d"];
+                } else if (type == "QuarterYear") {
+                    this.QuarterYear.splice(0, this.QuarterYear.length);
+                    //debugger
+                    this.QuarterYear = Response["d"];
                 }
                 console.log(this.dataSourceTop);
                 console.log(this.dataSourceMax);
