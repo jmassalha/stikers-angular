@@ -20,11 +20,9 @@
             <div class="col">
                 <br />
                 <span *ngFor="let Quarter of QuarterYear">
-                    <mat-checkbox
-                        (change)="filterDataByQuarterYear($event)"
-                    >
-                        {{ Quarter.QuarterYear }}
-                    </mat-checkbox>&nbsp;&nbsp;&nbsp;
+                    <mat-checkbox (change)="filterDataByQuarterYear($event)">
+                        {{ Quarter.QuarterYear }} </mat-checkbox
+                    >&nbsp;&nbsp;&nbsp;
                 </span>
             </div>
         </div>
@@ -204,22 +202,22 @@
                                         mat-cell
                                         *matCellDef="let element"
                                         [ngClass]="{
-                                            green_1:
+                                            red_2:
                                                 element.DiffTotalMinutesLastQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesLastQ >=
                                                     element.DiffTotalMinutesPreviousYearQ,
-                                            green_2:
+                                            red_1:
                                                 element.DiffTotalMinutesLastQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesPreviousYearQ >=
                                                     element.DiffTotalMinutesLastQ,
-                                            red_1:
+                                            green_2:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesLastQ &&
                                                 element.DiffTotalMinutesLastQ >=
                                                     element.DiffTotalMinutesPreviousYearQ,
-                                            red_2:
+                                            green_1:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesLastQ &&
                                                 element.DiffTotalMinutesPreviousYearQ >=
@@ -243,22 +241,22 @@
                                         mat-cell
                                         *matCellDef="let element"
                                         [ngClass]="{
-                                            green_1:
+                                            red_2:
                                                 element.DiffTotalMinutesPreviousYearQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesLastQ <=
                                                     element.DiffTotalMinutesPreviousYearQ,
-                                            green_2:
+                                            red_1:
                                                 element.DiffTotalMinutesPreviousYearQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesPreviousYearQ <=
                                                     element.DiffTotalMinutesLastQ,
-                                            red_1:
+                                            green_2:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesPreviousYearQ &&
                                                 element.DiffTotalMinutesLastQ <=
                                                     element.DiffTotalMinutesPreviousYearQ,
-                                            red_2:
+                                            green_1:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesPreviousYearQ &&
                                                 element.DiffTotalMinutesPreviousYearQ <=
@@ -289,7 +287,7 @@
                                     matColumnDef="DiffDepartTotalQuantityLastQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
-                                        <p>Quentity Last Q</p>
+                                        <p>Quantity Last Q</p>
                                     </th>
                                     <td
                                         class="text-center"
@@ -328,7 +326,7 @@
                                     matColumnDef="DiffDepartTotalQuantityPreviousYearQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
-                                        <p>Quentity Last Year Q</p>
+                                        <p>Quantity Last Year Q</p>
                                     </th>
                                     <td
                                         class="text-center"
@@ -394,7 +392,6 @@
                                         let row;
                                         columns: displayedColumns
                                     "
-                                    
                                     [matTooltip]="getToolTipText(row)"
                                 ></tr>
                             </table>
@@ -564,22 +561,22 @@
                                         mat-cell
                                         *matCellDef="let element"
                                         [ngClass]="{
-                                            green_1:
+                                            red_2:
                                                 element.DiffTotalMinutesLastQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesLastQ >=
                                                     element.DiffTotalMinutesPreviousYearQ,
-                                            green_2:
+                                            red_1:
                                                 element.DiffTotalMinutesLastQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesPreviousYearQ >=
                                                     element.DiffTotalMinutesLastQ,
-                                            red_1:
+                                            green_2:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesLastQ &&
                                                 element.DiffTotalMinutesLastQ >=
                                                     element.DiffTotalMinutesPreviousYearQ,
-                                            red_2:
+                                            green_1:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesLastQ &&
                                                 element.DiffTotalMinutesPreviousYearQ >=
@@ -603,22 +600,22 @@
                                         mat-cell
                                         *matCellDef="let element"
                                         [ngClass]="{
-                                            green_1:
+                                            red_2:
                                                 element.DiffTotalMinutesPreviousYearQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesLastQ <=
                                                     element.DiffTotalMinutesPreviousYearQ,
-                                            green_2:
+                                            red_1:
                                                 element.DiffTotalMinutesPreviousYearQ >=
                                                     0.1 &&
                                                 element.DiffTotalMinutesPreviousYearQ <=
                                                     element.DiffTotalMinutesLastQ,
-                                            red_1:
+                                            green_2:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesPreviousYearQ &&
                                                 element.DiffTotalMinutesLastQ <=
                                                     element.DiffTotalMinutesPreviousYearQ,
-                                            red_2:
+                                            green_1:
                                                 -0.1 >=
                                                     element.DiffTotalMinutesPreviousYearQ &&
                                                 element.DiffTotalMinutesPreviousYearQ <=
@@ -649,7 +646,7 @@
                                     matColumnDef="DiffDepartTotalQuantityLastQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
-                                        <p>Quentity Last Q</p>
+                                        <p>Quantity Last Q</p>
                                     </th>
                                     <td
                                         class="text-center"
@@ -688,7 +685,7 @@
                                     matColumnDef="DiffDepartTotalQuantityPreviousYearQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
-                                        <p>Quentity Last Year Q</p>
+                                        <p>Quantity Last Year Q</p>
                                     </th>
                                     <td
                                         class="text-center"
@@ -755,7 +752,6 @@
                                         let row;
                                         columns: displayedColumns
                                     "
-                                    
                                     [matTooltip]="getToolTipText(row)"
                                 ></tr>
                             </table>
