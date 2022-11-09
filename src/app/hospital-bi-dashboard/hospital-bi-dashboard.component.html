@@ -2,6 +2,10 @@
     <h1 class="page-title text-center">{{choosenDept.DIMDataTypeDesc}}</h1>
     <div class="row head-row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
+            <button mat-mini-fab color="accent" style="float: right;top: 76px;" aria-label="Excel"
+                *ngIf="UserName == 'adahabre'" (click)="exportToExcel()" matTooltip="יצוא לאקסל">
+                <mat-icon>get_app</mat-icon>
+            </button>
             <button mat-button [matMenuTriggerFor]="menu"
                 class="depts-list-menu">{{choosenDept.DIMDataTypeDesc}}</button>
             <mat-menu #menu="matMenu">
@@ -42,15 +46,30 @@
                 </option>
             </select>
         </div>
-        <!-- <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" [formGroup]="surgeryDeptTypeGroup"
-            style="text-align-last: center;">
-            <mat-radio-group formControlName="surgeryDeptType" aria-label="Select an option"
-                (change)="changeSurgeryType()">
-                <mat-radio-button value="0">הכל</mat-radio-button>
-                <mat-radio-button value="1">ח.נ כללי</mat-radio-button>
-                <mat-radio-button value="2">חדרי ניתוח</mat-radio-button>
-            </mat-radio-group>
-        </div> -->
+        <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
+            <div class="row">
+                <div class="col-10">
+                    <mat-form-field [formGroup]="surgeryDeptTypeGroup">
+                        <mat-select [formControl]="selectSurgeryTypes" multiple>
+                            <mat-option *ngFor="let type of surgeryTypesArray" [value]="type.value">{{type.value}}
+                            </mat-option>
+                        </mat-select>
+                    </mat-form-field>
+                </div>
+                <div class="col-2">
+                    <button mat-mini-fab color="primary" (click)="changeSurgeryType()">
+                        <mat-icon>done</mat-icon>
+                    </button>
+                </div>
+            </div>
+            <div style="margin-top: 6px;" [formGroup]="deliveryPrematureGroup">
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" (change)="changeSurgeryType()"
+                        formControlName="deliveryPremature">
+                        לפי אתרים</mat-checkbox>
+                </section>
+            </div>
+        </div>
         <div *ngIf="departParam == '5' || departParam == '6'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
             style="text-align-last: center;" [formGroup]="hospitalDepartTypeGroup">
             <mat-radio-group formControlName="hospitalDepartType" aria-label="Select an option"
@@ -77,13 +96,13 @@
                     מחלקות מזמינות</mat-checkbox>
             </section>
         </div>
-        <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
+        <!-- <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
             [formGroup]="deliveryPrematureGroup">
             <section class="example-section">
                 <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="deliveryPremature">
                     לפי אתרים</mat-checkbox>
             </section>
-        </div>
+        </div> -->
         <div *ngIf="departParam == '2'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
             [formGroup]="deliveryPrematureGroup">
             <section class="example-section">
@@ -176,7 +195,8 @@
                         </option>
                     </select>
                 </div>
-                <app-bar-chart #bar (newItemEvent)="changeDepartInModal($event)" [filterValue]="filterValue"></app-bar-chart>
+                <app-bar-chart #bar (newItemEvent)="changeDepartInModal($event)" [filterValue]="filterValue">
+                </app-bar-chart>
             </div>
         </div>
         <!-- <div class="row section" dir="rtl">
@@ -202,7 +222,8 @@
                         </option>
                     </select>
                 </div>
-                <app-grouped-bar-chart2 #group2 (newItemEvent)="changeDepartInModal($event)" [filterValue]="filterValue"></app-grouped-bar-chart2>
+                <app-grouped-bar-chart2 #group2 (newItemEvent)="changeDepartInModal($event)"
+                    [filterValue]="filterValue"></app-grouped-bar-chart2>
             </div>
         </div>
         <div class="row section" dir="rtl"
@@ -246,7 +267,8 @@
                         </mat-radio-group>
                     </div>
                 </div>
-                <app-grouped-bar-chart #groupedbar (newItemEvent)="changeDepartInModal($event)" [filterValue]="filterValue"></app-grouped-bar-chart>
+                <app-grouped-bar-chart #groupedbar (newItemEvent)="changeDepartInModal($event)"
+                    [filterValue]="filterValue"></app-grouped-bar-chart>
             </div>
         </div>
     </div>
@@ -254,8 +276,9 @@
         <mat-form-field appearance="standard" style="box-shadow: -1px -1px 9px 0px #000;text-align: center;">
             <mat-label class="filterClass">מסנן</mat-label>
             <input matInput (keyup)="applyFilter($event)" placeholder="הקלד מסנן" #input>
-          </mat-form-field>
-        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8" style="width: 100%;margin-top: 10px;">
+        </mat-form-field>
+        <table mat-table [dataSource]="dataSource" matSort class="mat-elevation-z8"
+            style="width: 100%;margin-top: 10px;">
             <ng-container matColumnDef="DoctorName">
                 <th mat-header-cell *matHeaderCellDef mat-sort-header> שם רופא
                 </th>

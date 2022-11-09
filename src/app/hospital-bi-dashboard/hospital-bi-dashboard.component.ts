@@ -11,6 +11,8 @@ import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/gro
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
 
 interface Time {
   DimTimeTypeID: string;
@@ -48,6 +50,55 @@ export class HospitalBIDashboardComponent implements OnInit {
     { DIMDataTypeID: "10", DIMDataTypeDesc: "צנתורים" }
   ];
 
+  sheet_data_1 = [{
+    ID: 10014,
+    NAME: 'A',
+    DEPARTMENT: 'Sales',
+    MONTH: 'Apr',
+    YEAR: 2022,
+    SALES: 223335,
+    CHANGE: 32,
+    LEADS: 234,
+  }];
+  sheet_data_2 = [{
+    ID: 10014,
+    NAME: 'A',
+    DEPARTMENT: 'Sales',
+    MONTH: 'Apr',
+    YEAR: 2022,
+    SALES: 223335,
+    CHANGE: 32,
+    LEADS: 234,
+  }];
+  sheet_data_3 = [{
+    ID: 10014,
+    NAME: 'A',
+    DEPARTMENT: 'Sales',
+    MONTH: 'Apr',
+    YEAR: 2022,
+    SALES: 223335,
+    CHANGE: 32,
+    LEADS: 234,
+  }];
+  sheet_data_4 = [{
+    ID: 10014,
+    NAME: 'A',
+    DEPARTMENT: 'Sales',
+    MONTH: 'Apr',
+    YEAR: 2022,
+    SALES: 223335,
+    CHANGE: 32,
+    LEADS: 234,
+  }];
+
+  surgeryTypesArray = [
+    { id: 1, value: 'אמבולטורי', search: "'_AMBOLATORY','_ELECTIVE_AMBOLATORY'" },
+    { id: 2, value: 'דחוף', search: "'_DHOF_AMBOLATORY','_DHOF_ELECTIVE','_DHOF_SISIA_ELECTIVE'" },
+    { id: 3, value: 'אלקטיב', search: "'_ELECTIVE','_ELECTIVE_ELECTIVE'" },
+    { id: 4, value: 'ססיה אמבולטורי', search: "'_SISIA_AMBOLATORY'" },
+    { id: 5, value: 'ססיה אלקטיב', search: "'_SISIA_ELECTIVE'" }
+  ];
+  selectSurgeryTypes = new FormControl(0, null);
   choosenDept = this.departments[0];
   timeLine: Time[] = [];
   yearsPeriodList = [];
@@ -175,6 +226,11 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (this.departParam == "6" || this.departParam == "5") {
       valueOfSwitch = _hospitalDeptType;
     }
+    // the multiple select form
+    if (this.departParam == "1" && _surgeryDeptType.value != undefined) {
+      valueOfSwitch = _surgeryDeptType.value.map(x => x).join(",");
+    }
+    // choosing the years period of the 5 year screen
     if (periodList.length > 0 && this.TimeLineParam == "5") {
       let tempList = periodList;
       periodList = "(";
@@ -354,6 +410,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.deliveryPrematureGroup.controls['ByDoctor'].setValue(false);
     this.tableView = false;
     this.filterValue = undefined;
+    this.surgeryDeptTypeGroup.controls['selectSurgeryTypes'].setValue('0');
     let that = this;
     setTimeout(() => {
       that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
@@ -367,6 +424,9 @@ export class HospitalBIDashboardComponent implements OnInit {
       this._ifSeode = 'סיעודיות';
     } else {
       this._ifSeode = 'רפואיות';
+    }
+    if (this.selectSurgeryTypes.value != '') {
+      this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue(this.selectSurgeryTypes);
     }
     if (byDoc) {
       if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
@@ -480,6 +540,53 @@ export class HospitalBIDashboardComponent implements OnInit {
     })
   }
 
+  exportToExcel() {
+    //Create a workbook with a worksheet
+    let workbook = new Workbook();
+    let worksheet = workbook.addWorksheet('Pie Chart');
+    let worksheet_2 = workbook.addWorksheet('Bar Chart');
+    let worksheet_3 = workbook.addWorksheet('Line Chart');
+    let worksheet_4 = workbook.addWorksheet('Stacked Chart');
 
+    //Add Row and formatting
+    worksheet.mergeCells('C1', 'F1');
+    worksheet.getCell('C1').value = 'Pie Chart';
+    worksheet_2.mergeCells('C1', 'F1');
+    worksheet_2.getCell('C1').value = 'Bar Chart';
+    worksheet_3.mergeCells('C1', 'F1');
+    worksheet_3.getCell('C1').value = 'Line Chart';
+    worksheet_4.mergeCells('C1', 'F1');
+    worksheet_4.getCell('C1').value = 'Stacked Chart';
 
+    // Add Header Rows
+    worksheet.addRow(Object.keys(this.sheet_data_1[0]));
+    worksheet_2.addRow(Object.keys(this.sheet_data_2[0]));
+    worksheet_3.addRow(Object.keys(this.sheet_data_3[0]));
+    worksheet_4.addRow(Object.keys(this.sheet_data_4[0]));
+
+    // Adding Data with Conditional Formatting
+    this.sheet_data_1.forEach((d: any) => {
+      worksheet.addRow(Object.values(d));
+    });
+
+    this.sheet_data_2.forEach((d: any) => {
+      worksheet_2.addRow(Object.values(d));
+    });
+
+    this.sheet_data_3.forEach((d: any) => {
+      worksheet_3.addRow(Object.values(d));
+    });
+
+    this.sheet_data_4.forEach((d: any) => {
+      worksheet_4.addRow(Object.values(d));
+    });
+
+    //Generate & Save Excel File
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      fs.saveAs(blob, 'my_multi_sheet_doc.xlsx');
+    });
+  }
 }
