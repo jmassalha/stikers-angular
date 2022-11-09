@@ -90,7 +90,7 @@
                                         {{ element.QuarterYear }}
                                     </td>
                                 </ng-container>
-                                <ng-container matColumnDef="DepartWorkDays">
+                                <ng-container matColumnDef="DepartWorkRooms">
                                     <th mat-header-cell *matHeaderCellDef>
                                         <p>ימי עבודה</p>
                                     </th>
@@ -99,12 +99,12 @@
                                         mat-cell
                                         *matCellDef="let element"
                                     >
-                                        {{ element.DepartWorkDays }}
+                                        {{ element.DepartWorkRooms }}
                                     </td>
                                 </ng-container>
-                                <ng-container matColumnDef="DiffWorkDaysLastQ">
+                                <ng-container matColumnDef="DiffWorkRoomsLastQ">
                                     <th mat-header-cell *matHeaderCellDef>
-                                        <p>Day Last Q</p>
+                                        <p>Work Rooms Last Q</p>
                                     </th>
                                     <td
                                         class="text-center"
@@ -112,37 +112,37 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffWorkDaysLastQ >=
+                                                element.DiffWorkRoomsLastQ >=
                                                     0.1 &&
-                                                element.DiffWorkDaysLastQ >=
-                                                    element.DiffWorkDaysPreviousYearQ,
+                                                element.DiffWorkRoomsLastQ >=
+                                                    element.DiffWorkRoomsPreviousYearQ,
                                             green_2:
-                                                element.DiffWorkDaysLastQ >=
+                                                element.DiffWorkRoomsLastQ >=
                                                     0.1 &&
-                                                element.DiffWorkDaysPreviousYearQ >=
-                                                    element.DiffWorkDaysLastQ,
+                                                element.DiffWorkRoomsPreviousYearQ >=
+                                                    element.DiffWorkRoomsLastQ,
                                             red_1:
                                                 -0.1 >=
-                                                    element.DiffWorkDaysLastQ &&
-                                                element.DiffWorkDaysLastQ >=
-                                                    element.DiffWorkDaysPreviousYearQ,
+                                                    element.DiffWorkRoomsLastQ &&
+                                                element.DiffWorkRoomsLastQ >=
+                                                    element.DiffWorkRoomsPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffWorkDaysLastQ &&
-                                                element.DiffWorkDaysPreviousYearQ >=
-                                                    element.DiffWorkDaysLastQ
+                                                    element.DiffWorkRoomsLastQ &&
+                                                element.DiffWorkRoomsPreviousYearQ >=
+                                                    element.DiffWorkRoomsLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffWorkDaysLastQ | percent
+                                            element.DiffWorkRoomsLastQ | percent
                                         }}
                                     </td>
                                 </ng-container>
                                 <ng-container
-                                    matColumnDef="DiffWorkDaysPreviousYearQ"
+                                    matColumnDef="DiffWorkRoomsPreviousYearQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
-                                        <p>Day Last Year Q</p>
+                                        <p>Work Rooms Last Year Q</p>
                                     </th>
                                     <td
                                         class="text-center"
@@ -150,29 +150,29 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffWorkDaysPreviousYearQ >=
+                                                element.DiffWorkRoomsPreviousYearQ >=
                                                     0.1 &&
-                                                element.DiffWorkDaysLastQ <=
-                                                    element.DiffWorkDaysPreviousYearQ,
+                                                element.DiffWorkRoomsLastQ <=
+                                                    element.DiffWorkRoomsPreviousYearQ,
                                             green_2:
-                                                element.DiffWorkDaysPreviousYearQ >=
+                                                element.DiffWorkRoomsPreviousYearQ >=
                                                     0.1 &&
-                                                element.DiffWorkDaysPreviousYearQ <=
-                                                    element.DiffWorkDaysLastQ,
+                                                element.DiffWorkRoomsPreviousYearQ <=
+                                                    element.DiffWorkRoomsLastQ,
                                             red_1:
                                                 -0.1 >=
-                                                    element.DiffWorkDaysPreviousYearQ &&
-                                                element.DiffWorkDaysLastQ <=
-                                                    element.DiffWorkDaysPreviousYearQ,
+                                                    element.DiffWorkRoomsPreviousYearQ &&
+                                                element.DiffWorkRoomsLastQ <=
+                                                    element.DiffWorkRoomsPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffWorkDaysPreviousYearQ &&
-                                                element.DiffWorkDaysPreviousYearQ <=
-                                                    element.DiffWorkDaysLastQ
+                                                    element.DiffWorkRoomsPreviousYearQ &&
+                                                element.DiffWorkRoomsPreviousYearQ <=
+                                                    element.DiffWorkRoomsLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffWorkDaysPreviousYearQ
+                                            element.DiffWorkRoomsPreviousYearQ
                                                 | percent
                                         }}
                                     </td>
@@ -449,7 +449,7 @@
                                         {{ element.QuarterYear }}
                                     </td>
                                 </ng-container>
-                                <ng-container matColumnDef="DepartWorkDays">
+                                <ng-container matColumnDef="DepartWorkRooms">
                                     <th mat-header-cell *matHeaderCellDef>
                                         <p>ימי עבודה</p>
                                     </th>
@@ -458,12 +458,12 @@
                                         mat-cell
                                         *matCellDef="let element"
                                     >
-                                        {{ element.DepartWorkDays }}
+                                        {{ element.DepartWorkRooms }}
                                     </td>
                                 </ng-container>
-                                <ng-container matColumnDef="DiffWorkDaysLastQ">
+                                <ng-container matColumnDef="DiffWorkRoomsLastQ">
                                     <th mat-header-cell *matHeaderCellDef>
-                                        <p>Day Last Q</p>
+                                        <p>Work Rooms Last Q</p>
                                     </th>
                                     <td
                                         class="text-center"
@@ -471,37 +471,37 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffWorkDaysLastQ >=
+                                                element.DiffWorkRoomsLastQ >=
                                                     0.1 &&
-                                                element.DiffWorkDaysLastQ >=
-                                                    element.DiffWorkDaysPreviousYearQ,
+                                                element.DiffWorkRoomsLastQ >=
+                                                    element.DiffWorkRoomsPreviousYearQ,
                                             green_2:
-                                                element.DiffWorkDaysLastQ >=
+                                                element.DiffWorkRoomsLastQ >=
                                                     0.1 &&
-                                                element.DiffWorkDaysPreviousYearQ >=
-                                                    element.DiffWorkDaysLastQ,
+                                                element.DiffWorkRoomsPreviousYearQ >=
+                                                    element.DiffWorkRoomsLastQ,
                                             red_1:
                                                 -0.1 >=
-                                                    element.DiffWorkDaysLastQ &&
-                                                element.DiffWorkDaysLastQ >=
-                                                    element.DiffWorkDaysPreviousYearQ,
+                                                    element.DiffWorkRoomsLastQ &&
+                                                element.DiffWorkRoomsLastQ >=
+                                                    element.DiffWorkRoomsPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffWorkDaysLastQ &&
-                                                element.DiffWorkDaysPreviousYearQ >=
-                                                    element.DiffWorkDaysLastQ
+                                                    element.DiffWorkRoomsLastQ &&
+                                                element.DiffWorkRoomsPreviousYearQ >=
+                                                    element.DiffWorkRoomsLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffWorkDaysLastQ | percent
+                                            element.DiffWorkRoomsLastQ | percent
                                         }}
                                     </td>
                                 </ng-container>
                                 <ng-container
-                                    matColumnDef="DiffWorkDaysPreviousYearQ"
+                                    matColumnDef="DiffWorkRoomsPreviousYearQ"
                                 >
                                     <th mat-header-cell *matHeaderCellDef>
-                                        <p>Day Last Year Q</p>
+                                        <p>Work Rooms Last Year Q</p>
                                     </th>
                                     <td
                                         class="text-center"
@@ -509,29 +509,29 @@
                                         *matCellDef="let element"
                                         [ngClass]="{
                                             green_1:
-                                                element.DiffWorkDaysPreviousYearQ >=
+                                                element.DiffWorkRoomsPreviousYearQ >=
                                                     0.1 &&
-                                                element.DiffWorkDaysLastQ <=
-                                                    element.DiffWorkDaysPreviousYearQ,
+                                                element.DiffWorkRoomsLastQ <=
+                                                    element.DiffWorkRoomsPreviousYearQ,
                                             green_2:
-                                                element.DiffWorkDaysPreviousYearQ >=
+                                                element.DiffWorkRoomsPreviousYearQ >=
                                                     0.1 &&
-                                                element.DiffWorkDaysPreviousYearQ <=
-                                                    element.DiffWorkDaysLastQ,
+                                                element.DiffWorkRoomsPreviousYearQ <=
+                                                    element.DiffWorkRoomsLastQ,
                                             red_1:
                                                 -0.1 >=
-                                                    element.DiffWorkDaysPreviousYearQ &&
-                                                element.DiffWorkDaysLastQ <=
-                                                    element.DiffWorkDaysPreviousYearQ,
+                                                    element.DiffWorkRoomsPreviousYearQ &&
+                                                element.DiffWorkRoomsLastQ <=
+                                                    element.DiffWorkRoomsPreviousYearQ,
                                             red_2:
                                                 -0.1 >=
-                                                    element.DiffWorkDaysPreviousYearQ &&
-                                                element.DiffWorkDaysPreviousYearQ <=
-                                                    element.DiffWorkDaysLastQ
+                                                    element.DiffWorkRoomsPreviousYearQ &&
+                                                element.DiffWorkRoomsPreviousYearQ <=
+                                                    element.DiffWorkRoomsLastQ
                                         }"
                                     >
                                         {{
-                                            element.DiffWorkDaysPreviousYearQ
+                                            element.DiffWorkRoomsPreviousYearQ
                                                 | percent
                                         }}
                                     </td>

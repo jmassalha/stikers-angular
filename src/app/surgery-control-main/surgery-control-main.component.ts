@@ -15,11 +15,11 @@ export interface Surgeries {
     Department: string;
     QuarterYear: string;
 
-    WorkDays: number;
-    WorkDaysLastQ: number;
-    WorkDaysPreviousYearQ: number;
-    DiffWorkDaysLastQ: number;
-    DiffWorkDaysPreviousYearQ: number;
+    WorkRooms: number;
+    WorkRoomsLastQ: number;
+    WorkRoomsPreviousYearQ: number;
+    DiffWorkRoomsLastQ: number;
+    DiffWorkRoomsPreviousYearQ: number;
 
     TotalMinutes: number;
     TotalMinutesLastQ: number;
@@ -46,9 +46,9 @@ export class SurgeryControlMainComponent implements OnInit {
         "RoomGroup",
         "Department",
         "QuarterYear",
-        // "DepartWorkDays",
-        "DiffWorkDaysLastQ",
-        "DiffWorkDaysPreviousYearQ",
+        // "DepartWorkRooms",
+        "DiffWorkRoomsLastQ",
+        "DiffWorkRoomsPreviousYearQ",
         "Blank_1",
         "DiffTotalMinutesLastQ",
         "DiffTotalMinutesPreviousYearQ",
@@ -131,7 +131,7 @@ export class SurgeryControlMainComponent implements OnInit {
             prevYear = (parseInt(currentYear) - 1).toString();
             lastQ = "Q4";
         }
-        return `Day:\r\n\  ${currentYear}-${cuurentQ}: ${row.WorkDays}\r\n\ ${lastYear}-${lastQ}: ${row.WorkDaysLastQ}\r\n\ ${prevYear}-${prevQ}: ${row.WorkDaysPreviousYearQ}\r\n\ \r\n\ Time:\r\n\ ${currentYear}-${cuurentQ}: ${(row.TotalMinutes / 60).toFixed(2)}\r\n\ ${lastYear}-${lastQ}: ${(row.TotalMinutesLastQ / 60).toFixed(2)}\r\n\ ${prevYear}-${prevQ}: ${(row.TotalMinutesPreviousYearQ / 60).toFixed(2)}\r\n\ \r\n\ Quantity:\r\n\ ${currentYear}-${cuurentQ}: ${row.TotalQuantity}\r\n\ ${lastYear}-${lastQ}: ${row.TotalQuantityLastQ}\r\n\ ${prevYear}-${prevQ}: ${row.TotalQuantityPreviousYearQ}`;
+        return `Rooms:\r\n\  ${currentYear}-${cuurentQ}: ${row.WorkRooms}\r\n\ ${lastYear}-${lastQ}: ${row.WorkRoomsLastQ}\r\n\ ${prevYear}-${prevQ}: ${row.WorkRoomsPreviousYearQ}\r\n\ \r\n\ Time:\r\n\ ${currentYear}-${cuurentQ}: ${(row.TotalMinutes / 60).toFixed(2)}\r\n\ ${lastYear}-${lastQ}: ${(row.TotalMinutesLastQ / 60).toFixed(2)}\r\n\ ${prevYear}-${prevQ}: ${(row.TotalMinutesPreviousYearQ / 60).toFixed(2)}\r\n\ \r\n\ Quantity:\r\n\ ${currentYear}-${cuurentQ}: ${row.TotalQuantity}\r\n\ ${lastYear}-${lastQ}: ${row.TotalQuantityLastQ}\r\n\ ${prevYear}-${prevQ}: ${row.TotalQuantityPreviousYearQ}`;
     }
     filterDataByQuarterYear(event) {
         if (event.checked) {
