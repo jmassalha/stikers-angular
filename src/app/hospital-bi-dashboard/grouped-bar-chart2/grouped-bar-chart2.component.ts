@@ -25,16 +25,7 @@ export class GroupedBarChart2Component implements OnInit {
   percent: boolean = false;
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
-  // weekObject = [
-  //   { x: 'Sunday', depart: '', y: 0 },
-  //   { x: 'Monday', depart: '', y: 0 },
-  //   { x: 'Tuesday', depart: '', y: 0 },
-  //   { x: 'Wednesday', depart: '', y: 0 },
-  //   { x: 'Thursday', depart: '', y: 0 },
-  //   { x: 'Friday', depart: '', y: 0 },
-  //   { x: 'Saturday', depart: '', y: 0 }
-  // ]
-  // title = 'Population (in millions)';
+  Excel_Data = [];
   type = 'ColumnChart';
   data = [];
   allData = [];
@@ -103,6 +94,13 @@ export class GroupedBarChart2Component implements OnInit {
       }
       this.universalSelect(selection);
     }
+  }
+
+  sendDataToParent() {
+    let result = [];
+    result.push(this.columnNames);
+    result.push(this.data);
+    return result;
   }
 
   onSelect(event) {

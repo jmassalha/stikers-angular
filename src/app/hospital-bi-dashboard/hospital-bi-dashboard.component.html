@@ -3,7 +3,7 @@
     <div class="row head-row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
             <button mat-mini-fab color="accent" style="float: right;top: 76px;" aria-label="Excel"
-                *ngIf="UserName == 'adahabre'" (click)="exportToExcel()" matTooltip="יצוא לאקסל">
+                (click)="exportToExcel()" matTooltip="יצוא לאקסל">
                 <mat-icon>get_app</mat-icon>
             </button>
             <button mat-button [matMenuTriggerFor]="menu"

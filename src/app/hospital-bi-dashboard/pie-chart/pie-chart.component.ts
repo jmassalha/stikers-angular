@@ -54,8 +54,8 @@ export class PieChartComponent implements OnInit {
     this.pieChart();
   }
 
-  onSelect(event){
-    console.log(event);
+  sendDataToParent(){
+    return this.data;
   }
 
   public pieChart() {

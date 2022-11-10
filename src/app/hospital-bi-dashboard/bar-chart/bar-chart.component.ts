@@ -22,6 +22,7 @@ export class BarChartComponent implements OnInit {
   _surgerydeptType: string = "0";
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
+  Excel_Data = [];
 
   type = 'ColumnChart';
   data = [];
@@ -64,7 +65,19 @@ export class BarChartComponent implements OnInit {
     }
   }
 
-  sendToParent(eve){
+
+  sendDataToParent() {
+    this.data.forEach(element => {
+      for (let i = 0; i < element.length; i++) {
+        if (i % 2 != 0) {
+          delete element[i];
+        }
+      }
+    });
+    return this.data;
+  }
+
+  sendToParent(eve) {
     this.secondItemEvent.emit(eve);
   }
 
@@ -104,6 +117,7 @@ export class BarChartComponent implements OnInit {
       }
     }
   }
+
 
   public discreteBarChart() {
     let url = "DiscreteBarChart";
