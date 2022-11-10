@@ -378,6 +378,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.deliveryPrematureGroup.controls['ByDoctor'].setValue(false);
     this.tableView = false;
     this.filterValue = undefined;
+    this.selectSurgeryTypes.setValue('');
     this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue('0');
     let that = this;
     setTimeout(() => {
@@ -548,7 +549,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     });
 
     worksheet_3.addRow(Object.values(this.sheet_data_3[0]));
-    
+
     this.sheet_data_3[1].forEach((d: any) => {
       worksheet_3.addRow(Object.values(d));
     });

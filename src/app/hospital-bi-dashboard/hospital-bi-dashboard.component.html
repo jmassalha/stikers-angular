@@ -48,7 +48,8 @@
         </div>
         <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
             <div class="row">
-                <div class="col-10">
+                <div class="col-10 text-center">
+                    <mat-label>סינון סוגי ניתוחים</mat-label>
                     <mat-form-field [formGroup]="surgeryDeptTypeGroup">
                         <mat-select [formControl]="selectSurgeryTypes" multiple>
                             <mat-option *ngFor="let type of surgeryTypesArray" [value]="type.value">{{type.value}}
