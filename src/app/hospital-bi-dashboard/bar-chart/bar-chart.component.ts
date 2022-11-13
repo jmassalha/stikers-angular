@@ -66,15 +66,18 @@ export class BarChartComponent implements OnInit {
   }
 
 
-  sendDataToParent() {
-    this.data.forEach(element => {
+  sendDataToParentExcel() {
+    let excel = this.data;
+    excel.forEach(element => {
       for (let i = 0; i < element.length; i++) {
         if (i % 2 != 0) {
           delete element[i];
         }
       }
     });
-    return this.data;
+    let header = ['מחלקה', 'כמות']
+    excel = [header, ...excel];
+    return excel;
   }
 
   sendToParent(eve) {

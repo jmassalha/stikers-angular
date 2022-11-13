@@ -96,7 +96,7 @@ export class GroupedBarChart2Component implements OnInit {
     }
   }
 
-  sendDataToParent() {
+  sendDataToParentExcel() {
     let result = [];
     result.push(this.columnNames);
     result.push(this.data);

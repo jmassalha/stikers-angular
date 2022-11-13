@@ -103,7 +103,7 @@ export class GroupedBarChartComponent implements OnInit {
     }
   }
 
-  sendDataToParent() {
+  sendDataToParentExcel() {
     let result = [];
     this.data.forEach(element => {
       for (let i = 0; i < element.length; i++) {
@@ -187,8 +187,8 @@ export class GroupedBarChartComponent implements OnInit {
       let departments = [];
       this.data = [];
       this.allData = [];
-      this.columnNames = ['Year'];
-      this.allColumnNames = ['Year'];
+      this.columnNames = ['תקופה'];
+      this.allColumnNames = ['תקופה'];
       if (this.responseDeparts == undefined) {
         console.log("No Data Returned");
         let that = this;

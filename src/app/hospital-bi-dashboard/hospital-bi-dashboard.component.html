@@ -2,8 +2,8 @@
     <h1 class="page-title text-center">{{choosenDept.DIMDataTypeDesc}}</h1>
     <div class="row head-row">
         <div class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
-            <button mat-mini-fab color="accent" style="float: right;top: 76px;" aria-label="Excel"
-                (click)="exportToExcel()" matTooltip="יצוא לאקסל">
+            <button mat-mini-fab color="accent" style="float: right;" aria-label="Excel"
+                (click)="chooseExportingToExcel()" matTooltip="יצוא לאקסל">
                 <mat-icon>get_app</mat-icon>
             </button>
             <button mat-button [matMenuTriggerFor]="menu"

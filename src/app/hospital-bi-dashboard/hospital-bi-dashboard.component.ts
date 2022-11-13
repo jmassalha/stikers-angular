@@ -300,6 +300,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   chooseTimeValue(event) {
     this.filterValue = undefined;
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
+      this.TimeLineParam = event;
       if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
         this.getTableViewItems(event, "11");
       } else {
@@ -509,35 +510,66 @@ export class HospitalBIDashboardComponent implements OnInit {
     })
   }
 
-  exportToExcel() {
+  chooseExportingToExcel() {
+    if (this.tableView) {
+      this.exportTablesToExcel();
+    } else {
+      this.exportGraphsToExcel();
+    }
+  }
+
+  exportTablesToExcel() {
     //Create a workbook with a worksheet
     let workbook = new Workbook();
     let title = this.graphsTitles();
-    let worksheet = workbook.addWorksheet('Pie Chart');
-    let worksheet_2 = workbook.addWorksheet('Bar Chart');
-    let worksheet_3 = workbook.addWorksheet('Line Chart');
-    let worksheet_4 = workbook.addWorksheet('Stacked Chart');
+    let worksheet = workbook.addWorksheet('רשימת רופאים');
 
-    //Add Row and formatting
-    worksheet.mergeCells('C1', 'F1');
-    worksheet.getCell('C1').value = title.pie[parseInt(this.departParam) - 1] + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc;
-    worksheet_2.mergeCells('C1', 'F1');
-    worksheet_2.getCell('C1').value = title.bar[parseInt(this.departParam) - 1] + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc;
-    worksheet_3.mergeCells('C1', 'F1');
-    worksheet_3.getCell('C1').value = title.group2[parseInt(this.departParam) - 1] + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc;
-    worksheet_4.mergeCells('C1', 'F1');
-    worksheet_4.getCell('C1').value = title.group[parseInt(this.departParam) - 1] + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc;
+    let data = [];
+    this.dataSource.filteredData.forEach(x => {
+      delete x['__type'];
+      data.push(x);
+    })
+    this.sheet_data_1 = data;
 
-    this.sheet_data_1 = this.pie.sendDataToParent();
-    this.sheet_data_2 = this.bar.sendDataToParent();
-    this.sheet_data_3 = this.group2.sendDataToParent();
-    this.sheet_data_4 = this.group.sendDataToParent();
-
+    let header = [
+      'שם רופא', 'מחלקה', 'ביקורים', 'פעולות'
+    ];
     // Add Header Rows
-    worksheet.addRow(Object.keys(this.sheet_data_1[0]));
-    worksheet_2.addRow(Object.keys(this.sheet_data_2[0]));
-    worksheet_3.addRow(Object.keys(this.sheet_data_3[0]));
-    worksheet_4.addRow(Object.keys(this.sheet_data_4[0]));
+    worksheet.addRow(header);
+
+    // Adding Data with Conditional Formatting
+    this.sheet_data_1.forEach((d: any) => {
+      worksheet.addRow(Object.values(d));
+    });
+
+    //Generate & Save Excel File
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      fs.saveAs(blob, 'נתוני דאשבורד הנהלה' + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + '.xlsx');
+    });
+  }
+
+  exportGraphsToExcel() {
+    //Create a workbook with a worksheet
+    let workbook = new Workbook();
+    let title = this.graphsTitles();
+    let worksheet = workbook.addWorksheet(title.pie[parseInt(this.departParam) - 1]);
+    let worksheet_2 = workbook.addWorksheet(title.bar[parseInt(this.departParam) - 1]);
+    let worksheet_3 = workbook.addWorksheet(title.group2[parseInt(this.departParam) - 1]);
+    let worksheet_4 = workbook.addWorksheet(title.group[parseInt(this.departParam) - 1]);
+
+    this.sheet_data_1 = this.pie.sendDataToParentExcel();
+    this.sheet_data_2 = this.bar.sendDataToParentExcel();
+    this.sheet_data_3 = this.group2.sendDataToParentExcel();
+    this.sheet_data_4 = this.group.sendDataToParentExcel();
+
+    // // Add Header Rows
+    // worksheet.addRow(Object.keys(this.sheet_data_1[0]));
+    // worksheet_2.addRow(Object.keys(this.sheet_data_2[0]));
+    // worksheet_3.addRow(Object.keys(this.sheet_data_3[0]));
+    // worksheet_4.addRow(Object.keys(this.sheet_data_4[0]));
 
     // Adding Data with Conditional Formatting
     this.sheet_data_1.forEach((d: any) => {
@@ -565,7 +597,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      fs.saveAs(blob, 'נתוני דאשבורד הנהלה.xlsx');
+      fs.saveAs(blob, 'נתוני דאשבורד הנהלה' + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + '.xlsx');
     });
   }
 }
