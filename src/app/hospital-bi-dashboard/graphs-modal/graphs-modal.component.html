@@ -1,0 +1,77 @@
+<div class="wrapper" dir="rtl">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="onNoClick()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">תפוקות חדרי ניתוח</h1>
+    <hr>
+    <div class="row section" dir="rtl">
+        <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>{{groupTime2}}</h3>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
+                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                    </option>
+                </select>
+            </div> -->
+            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="1">
+            </app-grouped-bar-chart2>
+        </div>
+    </div>
+    <div class="row section" dir="rtl">
+        <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>{{groupTime2}}</h3>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
+                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                    </option>
+                </select>
+            </div> -->
+            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="2">
+            </app-grouped-bar-chart2>
+        </div>
+    </div>
+    <div class="row section" dir="rtl">
+        <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>{{groupTime2}}</h3>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
+                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                    </option>
+                </select>
+            </div> -->
+            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="3">
+            </app-grouped-bar-chart2>
+        </div>
+    </div>
+    <div class="row section" dir="rtl">
+        <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>{{groupTime2}}</h3>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
+                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                    </option>
+                </select>
+            </div> -->
+            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="4">
+            </app-grouped-bar-chart2>
+        </div>
+    </div>
+    <div class="row section" dir="rtl">
+        <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>{{groupTime2}}</h3>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
+                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
+                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
+                    </option>
+                </select>
+            </div> -->
+            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="5">
+            </app-grouped-bar-chart2>
+        </div>
+    </div>
+</div>

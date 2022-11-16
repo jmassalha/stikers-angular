@@ -5,14 +5,17 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { GroupedBarChartComponent } from './grouped-bar-chart/grouped-bar-chart.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-chart2.component';
 import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
+import { GraphsModalComponent } from './graphs-modal/graphs-modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
 import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
+import { DatePipe } from '@angular/common';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 interface Time {
   DimTimeTypeID: string;
@@ -56,11 +59,11 @@ export class HospitalBIDashboardComponent implements OnInit {
   sheet_data_4 = [];
 
   surgeryTypesArray = [
-    { id: 1, value: 'אמבולטורי', search: "'_AMBOLATORY','_ELECTIVE_AMBOLATORY'" },
-    { id: 2, value: 'דחוף', search: "'_DHOF_AMBOLATORY','_DHOF_ELECTIVE','_DHOF_SISIA_ELECTIVE'" },
-    { id: 3, value: 'אלקטיב', search: "'_ELECTIVE','_ELECTIVE_ELECTIVE'" },
-    { id: 4, value: 'ססיה אמבולטורי', search: "'_SISIA_AMBOLATORY'" },
-    { id: 5, value: 'ססיה אלקטיב', search: "'_SISIA_ELECTIVE'" }
+    { id: 'אמבולטורי', value: 'אמבולטורי', search: "'_AMBOLATORY','_ELECTIVE_AMBOLATORY'" },
+    { id: 'דחוף', value: 'דחוף', search: "'_DHOF_AMBOLATORY','_DHOF_ELECTIVE','_DHOF_SISIA_ELECTIVE'" },
+    { id: 'אלקטיב', value: 'אלקטיב', search: "'_ELECTIVE','_ELECTIVE_ELECTIVE'" },
+    { id: 'ססיה אמבולטורי', value: 'ססיה אמב', search: "'_SISIA_AMBOLATORY'" },
+    { id: 'ססיה אלקטיבי', value: 'ססיה אלק', search: "'_SISIA_ELECTIVE'" }
   ];
   selectSurgeryTypes = new FormControl(0, null);
   choosenDept = this.departments[0];
@@ -93,6 +96,8 @@ export class HospitalBIDashboardComponent implements OnInit {
   _changeScale = "Up";
   filterValue: any;
   filterDeparts = [];
+  surgeryTypesArr = [];
+  graphSource: string = "normal";
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(PieChartComponent) pie: PieChartComponent;
@@ -104,7 +109,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   // @ViewChild(LineChartComponent) line: LineChartComponent;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private datePipe: DatePipe, public dialog: MatDialog) {
   }
   graphsCtrl: FormGroup;
   surgeryDeptTypeGroup: FormGroup;
@@ -195,8 +200,8 @@ export class HospitalBIDashboardComponent implements OnInit {
       valueOfSwitch = _hospitalDeptType;
     }
     // the multiple select form
-    if (this.departParam == "1" && _surgeryDeptType.value != undefined) {
-      valueOfSwitch = _surgeryDeptType.value.map(x => x).join(",");
+    if (this.departParam == "1" && _surgeryDeptType != "0") {
+      valueOfSwitch = _surgeryDeptType.map(x => x).join(",");
     }
     // choosing the years period of the 5 year screen
     if (periodList.length > 0 && this.TimeLineParam == "5") {
@@ -385,7 +390,28 @@ export class HospitalBIDashboardComponent implements OnInit {
     setTimeout(() => {
       that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
     }, 1000);
+  }
 
+  openChartsDialog() {
+    let data = { graphSource: "dialog" }
+    const dialogRef = this.dialog.open(GraphsModalComponent, {
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  onCheckboxChange(e) {
+    let value = e.source.value;
+    if (e.checked) {
+      this.surgeryTypesArr.push(value);
+    } else if (!e.checked) {
+      this.surgeryTypesArr = this.surgeryTypesArr.filter(x => x != value);
+    }
+    this.selectSurgeryTypes.setValue(this.surgeryTypesArr);
+    this.changeSurgeryType();
   }
 
   changeSurgeryType() {
@@ -395,9 +421,6 @@ export class HospitalBIDashboardComponent implements OnInit {
     } else {
       this._ifSeode = 'רפואיות';
     }
-    if (this.selectSurgeryTypes.value != '') {
-      this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue(this.selectSurgeryTypes);
-    }
     if (byDoc) {
       if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
         this.getTableViewItems("1", "11");
@@ -406,6 +429,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       }
       this.tableView = true;
     } else {
+      this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue(this.selectSurgeryTypes.value);
       this.tableView = false;
       let that = this;
       setTimeout(() => {
@@ -591,13 +615,14 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.sheet_data_4[1].forEach((d: any) => {
       worksheet_4.addRow(Object.values(d));
     });
-
+    let myDate = new Date();
+    let today = this.datePipe.transform(myDate, 'yyyy-MM-dd');
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      fs.saveAs(blob, 'נתוני דאשבורד הנהלה' + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + '.xlsx');
+      fs.saveAs(blob, 'נתוני דאשבורד הנהלה' + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + '-' + this.choosenDept.DIMDataTypeDesc + ',' + today + '.xlsx');
     });
   }
 }
