@@ -54,8 +54,10 @@ export class PieChartComponent implements OnInit {
     this.pieChart();
   }
 
-  onSelect(event){
-    console.log(event);
+  sendDataToParentExcel(){
+    let header = ['סוג','כמות']
+    let excel = [header, ...this.data];
+    return excel;
   }
 
   public pieChart() {

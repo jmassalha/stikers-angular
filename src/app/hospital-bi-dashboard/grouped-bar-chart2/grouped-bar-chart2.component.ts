@@ -19,22 +19,15 @@ export class GroupedBarChart2Component implements OnInit {
   TimeLineParam: string = "1";
   departParam: string = "1";
   periodList: any;
+  @Input() graphSource;
+  @Input() graphNumber;
   _surgerydeptType: string = "0";
   filterVal = "";
   totalNumberOfOccurincy = 0;
   percent: boolean = false;
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
-  // weekObject = [
-  //   { x: 'Sunday', depart: '', y: 0 },
-  //   { x: 'Monday', depart: '', y: 0 },
-  //   { x: 'Tuesday', depart: '', y: 0 },
-  //   { x: 'Wednesday', depart: '', y: 0 },
-  //   { x: 'Thursday', depart: '', y: 0 },
-  //   { x: 'Friday', depart: '', y: 0 },
-  //   { x: 'Saturday', depart: '', y: 0 }
-  // ]
-  // title = 'Population (in millions)';
+  Excel_Data = [];
   type = 'ColumnChart';
   data = [];
   allData = [];
@@ -65,6 +58,7 @@ export class GroupedBarChart2Component implements OnInit {
   }
 
   ngOnInit(): void {
+    console.log(this.graphNumber);
     if ((this.TimeLineParam == "2" || this.TimeLineParam == "3") || this.departParam == "5" || this.departParam == "1" || this.departParam == "2") {
       this.options = {
         hAxis: {
@@ -103,6 +97,13 @@ export class GroupedBarChart2Component implements OnInit {
       }
       this.universalSelect(selection);
     }
+  }
+
+  sendDataToParentExcel() {
+    let result = [];
+    result.push(this.columnNames);
+    result.push(this.data);
+    return result;
   }
 
   onSelect(event) {
@@ -195,12 +196,16 @@ export class GroupedBarChart2Component implements OnInit {
 
   public discreteBarChart() {
     let url = "LineBarChart";
-    if (this.departParam == "6") {
-      url = "LineBarChartForER";
-    } else if (this.departParam == "5") {
-      url = "LineBarChartHospitalDeparts";
-    } else if (this.departParam == "3") {
-      url = "LineBarChartRentgenDimot";
+    if (this.graphSource == "normal") {
+      if (this.departParam == "6") {
+        url = "LineBarChartForER";
+      } else if (this.departParam == "5") {
+        url = "LineBarChartHospitalDeparts";
+      } else if (this.departParam == "3") {
+        url = "LineBarChartRentgenDimot";
+      }
+    } else {
+      url = "LineBarChartSurgeryStatistics";
     }
     if (this.periodList == undefined) {
       this.periodList = "";
@@ -212,7 +217,8 @@ export class GroupedBarChart2Component implements OnInit {
         surgerydeptType: this._surgerydeptType,
         filter: this.filterVal,
         returnedPatients: this._returnedPatients,
-        periodList: this.periodList
+        periodList: this.periodList,
+        graphNumber: this.graphNumber,
       })
       .subscribe((Response) => {
         let inquiriesStatLine = Response["d"];

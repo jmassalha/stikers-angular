@@ -5,12 +5,17 @@ import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { GroupedBarChartComponent } from './grouped-bar-chart/grouped-bar-chart.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
 import { LineChartComponent } from './line-chart/line-chart.component';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-chart2.component';
 import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
+import { GraphsModalComponent } from './graphs-modal/graphs-modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
+import { Workbook } from 'exceljs';
+import * as fs from 'file-saver';
+import { DatePipe } from '@angular/common';
+import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 interface Time {
   DimTimeTypeID: string;
@@ -48,6 +53,19 @@ export class HospitalBIDashboardComponent implements OnInit {
     { DIMDataTypeID: "10", DIMDataTypeDesc: "צנתורים" }
   ];
 
+  sheet_data_1 = [];
+  sheet_data_2 = [];
+  sheet_data_3 = [];
+  sheet_data_4 = [];
+
+  surgeryTypesArray = [
+    { id: 'אמבולטורי', value: 'אמבולטורי', search: "'_AMBOLATORY','_ELECTIVE_AMBOLATORY'" },
+    { id: 'דחוף', value: 'דחוף', search: "'_DHOF_AMBOLATORY','_DHOF_ELECTIVE','_DHOF_SISIA_ELECTIVE'" },
+    { id: 'אלקטיב', value: 'אלקטיב', search: "'_ELECTIVE','_ELECTIVE_ELECTIVE'" },
+    { id: 'ססיה אמבולטורי', value: 'ססיה אמב', search: "'_SISIA_AMBOLATORY'" },
+    { id: 'ססיה אלקטיבי', value: 'ססיה אלק', search: "'_SISIA_ELECTIVE'" }
+  ];
+  selectSurgeryTypes = new FormControl(0, null);
   choosenDept = this.departments[0];
   timeLine: Time[] = [];
   yearsPeriodList = [];
@@ -78,6 +96,8 @@ export class HospitalBIDashboardComponent implements OnInit {
   _changeScale = "Up";
   filterValue: any;
   filterDeparts = [];
+  surgeryTypesArr = [];
+  graphSource: string = "normal";
   dataSource = new MatTableDataSource<any>();
 
   @ViewChild(PieChartComponent) pie: PieChartComponent;
@@ -89,7 +109,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   // @ViewChild(LineChartComponent) line: LineChartComponent;
 
-  constructor(private http: HttpClient, private fb: FormBuilder) {
+  constructor(private http: HttpClient, private fb: FormBuilder, private datePipe: DatePipe, public dialog: MatDialog) {
   }
   graphsCtrl: FormGroup;
   surgeryDeptTypeGroup: FormGroup;
@@ -149,16 +169,20 @@ export class HospitalBIDashboardComponent implements OnInit {
   //   });
   // }
 
-  changeTime(event, type, periodList) {
-    this.TimeLineParam = event;
+  graphsTitles() {
     let titles = {
       pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'אחוז מטופלים לפי ימים', 'אחוז פעולות לפי מבצע', 'אחוז צנתורים לפי ימי שבוע', ''],
       bar: ['ניתוחים ברמת מחלקה', 'ביקורים לפי מרפאה', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פעולות', 'מספר צנתורים לתקופת', 'ביקורים לפי מרפאה'],
       group: ['ניתוחים לפי מחלקה וסוג ניתוח', 'ביקורים לפי מרפאה ומשמרת', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת', 'ביקורים לפי מרפאה ומשמרת'],
       group2: ['כמות ניתוחים למחלקה', 'ביקורים לפי מרפאה וזמן', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן', 'מספר מטופלים לפי ציר זמן', 'מספר צנתורים לפי צרי זמן', 'ביקורים לפי מרפאה וזמן'],
       groupRelease: ['', '', '', '', 'שחרורים לפי זמן ', '', '', '', '', '', ''],
-      // line: ['', '', '', '', '', '', ''],
     };
+    return titles;
+  }
+
+  changeTime(event, type, periodList) {
+    this.TimeLineParam = event;
+
     let _surgeryDeptType = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
     let _hospitalDeptType = this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value;
     let _surgeryChooseType = this.surgeryChooseTypeGroup.controls['surgeryChooseType'].value;
@@ -175,6 +199,11 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (this.departParam == "6" || this.departParam == "5") {
       valueOfSwitch = _hospitalDeptType;
     }
+    // the multiple select form
+    if (this.departParam == "1" && _surgeryDeptType != "0") {
+      valueOfSwitch = _surgeryDeptType.map(x => x).join(",");
+    }
+    // choosing the years period of the 5 year screen
     if (periodList.length > 0 && this.TimeLineParam == "5") {
       let tempList = periodList;
       periodList = "(";
@@ -188,20 +217,20 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.getCardsVals();
     switch (type) {
       case "all": {
-        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.pieTime = this.graphsTitles().pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['pieCtrl'].setValue(event);
-        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.barTime = this.graphsTitles().bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['barCtrl'].setValue(event);
-        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
+        this.groupTime = this.graphsTitles().group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
-        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.groupTime2 = this.graphsTitles().group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
         // this.lineTime = this.titles.line[parseInt(this.departParam) - 1] + ' ' + this.line.refresh(event, this.departParam, _surgeryDeptType);
         // this.graphsCtrl.controls['lineCtrl'].setValue(event);
         // let test = this.groupRelease.test();
         if (this.departParam == "5" || this.departParam == "6") {
           try {
-            this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
+            this.groupReleaseTime = this.graphsTitles().groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
           } catch (error) {
             console.log("error");
           }
@@ -211,23 +240,23 @@ export class HospitalBIDashboardComponent implements OnInit {
         break;
       }
       case "pie": {
-        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.pieTime = this.graphsTitles().pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['pieCtrl'].setValue(event);
         break;
       }
       case "group": {
-        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
+        this.groupTime = this.graphsTitles().group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
         break;
       }
       case "group2": {
-        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.groupTime2 = this.graphsTitles().group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
         break;
       }
       case "groupRelease": {
         try {
-          this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
+          this.groupReleaseTime = this.graphsTitles().groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
         } catch (error) {
           console.log("error");
         }
@@ -235,7 +264,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         break;
       }
       case "bar": {
-        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.barTime = this.graphsTitles().bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['barCtrl'].setValue(event);
         break;
       }
@@ -245,17 +274,17 @@ export class HospitalBIDashboardComponent implements OnInit {
       //   break;
       // }
       default: {
-        this.pieTime = titles.pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.pieTime = this.graphsTitles().pie[parseInt(this.departParam) - 1] + ' ' + this.pie.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['pieCtrl'].setValue(event);
-        this.barTime = titles.bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.barTime = this.graphsTitles().bar[parseInt(this.departParam) - 1] + ' ' + this.bar.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['barCtrl'].setValue(event);
-        this.groupTime = titles.group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
+        this.groupTime = this.graphsTitles().group[parseInt(this.departParam) - 1] + ' ' + this.group.refresh(event, this.departParam, valueOfSwitch, _surgeryChooseType, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl'].setValue(event);
-        this.groupTime2 = titles.group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
+        this.groupTime2 = this.graphsTitles().group2[parseInt(this.departParam) - 1] + ' ' + this.group2.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList);
         this.graphsCtrl.controls['groupCtrl2'].setValue(event);
         if (this.departParam == "5" || this.departParam == "6") {
           try {
-            this.groupReleaseTime = titles.groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
+            this.groupReleaseTime = this.graphsTitles().groupRelease[parseInt(this.departParam) - 1] + ' ' + this.groupRelease.refresh(event, this.departParam, valueOfSwitch, _returnedPatients, periodList, this.releasePatient);
           } catch (error) {
             console.log("error");
           }
@@ -276,6 +305,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   chooseTimeValue(event) {
     this.filterValue = undefined;
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
+      this.TimeLineParam = event;
       if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
         this.getTableViewItems(event, "11");
       } else {
@@ -354,11 +384,34 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.deliveryPrematureGroup.controls['ByDoctor'].setValue(false);
     this.tableView = false;
     this.filterValue = undefined;
+    this.selectSurgeryTypes.setValue('');
+    this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue('0');
     let that = this;
     setTimeout(() => {
       that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
     }, 1000);
+  }
 
+  openChartsDialog() {
+    let data = { graphSource: "dialog" }
+    const dialogRef = this.dialog.open(GraphsModalComponent, {
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  onCheckboxChange(e) {
+    let value = e.source.value;
+    if (e.checked) {
+      this.surgeryTypesArr.push(value);
+    } else if (!e.checked) {
+      this.surgeryTypesArr = this.surgeryTypesArr.filter(x => x != value);
+    }
+    this.selectSurgeryTypes.setValue(this.surgeryTypesArr);
+    this.changeSurgeryType();
   }
 
   changeSurgeryType() {
@@ -376,6 +429,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       }
       this.tableView = true;
     } else {
+      this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue(this.selectSurgeryTypes.value);
       this.tableView = false;
       let that = this;
       setTimeout(() => {
@@ -480,6 +534,95 @@ export class HospitalBIDashboardComponent implements OnInit {
     })
   }
 
+  chooseExportingToExcel() {
+    if (this.tableView) {
+      this.exportTablesToExcel();
+    } else {
+      this.exportGraphsToExcel();
+    }
+  }
 
+  exportTablesToExcel() {
+    //Create a workbook with a worksheet
+    let workbook = new Workbook();
+    let title = this.graphsTitles();
+    let worksheet = workbook.addWorksheet('רשימת רופאים');
 
+    let data = [];
+    this.dataSource.filteredData.forEach(x => {
+      delete x['__type'];
+      data.push(x);
+    })
+    this.sheet_data_1 = data;
+
+    let header = [
+      'שם רופא', 'מחלקה', 'ביקורים', 'פעולות'
+    ];
+    // Add Header Rows
+    worksheet.addRow(header);
+
+    // Adding Data with Conditional Formatting
+    this.sheet_data_1.forEach((d: any) => {
+      worksheet.addRow(Object.values(d));
+    });
+
+    //Generate & Save Excel File
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      fs.saveAs(blob, 'נתוני דאשבורד הנהלה' + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + '.xlsx');
+    });
+  }
+
+  exportGraphsToExcel() {
+    //Create a workbook with a worksheet
+    let workbook = new Workbook();
+    let title = this.graphsTitles();
+    let worksheet = workbook.addWorksheet(title.pie[parseInt(this.departParam) - 1]);
+    let worksheet_2 = workbook.addWorksheet(title.bar[parseInt(this.departParam) - 1]);
+    let worksheet_3 = workbook.addWorksheet(title.group2[parseInt(this.departParam) - 1]);
+    let worksheet_4 = workbook.addWorksheet(title.group[parseInt(this.departParam) - 1]);
+
+    this.sheet_data_1 = this.pie.sendDataToParentExcel();
+    this.sheet_data_2 = this.bar.sendDataToParentExcel();
+    this.sheet_data_3 = this.group2.sendDataToParentExcel();
+    this.sheet_data_4 = this.group.sendDataToParentExcel();
+
+    // // Add Header Rows
+    // worksheet.addRow(Object.keys(this.sheet_data_1[0]));
+    // worksheet_2.addRow(Object.keys(this.sheet_data_2[0]));
+    // worksheet_3.addRow(Object.keys(this.sheet_data_3[0]));
+    // worksheet_4.addRow(Object.keys(this.sheet_data_4[0]));
+
+    // Adding Data with Conditional Formatting
+    this.sheet_data_1.forEach((d: any) => {
+      worksheet.addRow(Object.values(d));
+    });
+
+    this.sheet_data_2.forEach((d: any) => {
+      worksheet_2.addRow(Object.values(d));
+    });
+
+    worksheet_3.addRow(Object.values(this.sheet_data_3[0]));
+
+    this.sheet_data_3[1].forEach((d: any) => {
+      worksheet_3.addRow(Object.values(d));
+    });
+
+    worksheet_4.addRow(Object.values(this.sheet_data_4[0]));
+
+    this.sheet_data_4[1].forEach((d: any) => {
+      worksheet_4.addRow(Object.values(d));
+    });
+    let myDate = new Date();
+    let today = this.datePipe.transform(myDate, 'yyyy-MM-dd');
+    //Generate & Save Excel File
+    workbook.xlsx.writeBuffer().then((data) => {
+      let blob = new Blob([data], {
+        type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
+      });
+      fs.saveAs(blob, 'נתוני דאשבורד הנהלה' + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + '-' + this.choosenDept.DIMDataTypeDesc + ',' + today + '.xlsx');
+    });
+  }
 }

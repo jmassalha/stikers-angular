@@ -58,8 +58,8 @@ mat-list{
 table th{
     font-weight: bold;
 }
-#tableRow{
+/* #tableRow{
     width: 100%;
     display: table;
     position: fixed;
-}
+} */

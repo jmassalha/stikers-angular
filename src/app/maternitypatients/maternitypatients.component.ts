@@ -228,6 +228,7 @@ export class MaternitypatientsComponent implements OnInit {
             .subscribe((Response) => {
                 if (Response["d"]) {
                     this.applyFiltermaternitypatients(this.fliterValPatient);
+                    this.ngOnInit();
                     this.openSnackBar("נשמר בהצלחה");
                 } else {
                     this.openSnackBar('לא נשמר');

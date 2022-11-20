@@ -27,6 +27,7 @@ export class GroupedBarChartComponent implements OnInit {
   filterVal = "";
   _returnedPatients: boolean = false;
   timesString = ['', '', '', '', ''];
+  Excel_Data = [];
 
   type = 'BarChart';
   data = [];
@@ -102,6 +103,22 @@ export class GroupedBarChartComponent implements OnInit {
     }
   }
 
+  sendDataToParentExcel() {
+    let result = [];
+    this.data.forEach(element => {
+      for (let i = 0; i < element.length; i++) {
+        if (i % 2 != 0) {
+          delete element[i];
+        } else if (i % 2 == 0 && i != 0) {
+          delete this.columnNames[i];
+        }
+      }
+    });
+    result.push(this.columnNames);
+    result.push(this.data);
+    return result;
+  }
+
 
   onSelect(event) {
     if (event !== undefined) {
@@ -170,8 +187,8 @@ export class GroupedBarChartComponent implements OnInit {
       let departments = [];
       this.data = [];
       this.allData = [];
-      this.columnNames = ['Year'];
-      this.allColumnNames = ['Year'];
+      this.columnNames = ['תקופה'];
+      this.allColumnNames = ['תקופה'];
       if (this.responseDeparts == undefined) {
         console.log("No Data Returned");
         let that = this;
@@ -215,6 +232,7 @@ export class GroupedBarChartComponent implements OnInit {
     })
 
   }
+
 
   discreteBarChart(): Promise<any> {
     this.loader = true;
