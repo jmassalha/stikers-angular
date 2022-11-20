@@ -14,6 +14,7 @@ export interface Surgeries {
     RoomGroup: string;
     Department: string;
     QuarterYear: string;
+    RoomNumber: string;
 
     WorkRooms: number;
     WorkRoomsLastQ: number;
@@ -57,12 +58,32 @@ export class SurgeryControlMainComponent implements OnInit {
         "DiffDepartTotalQuantityPreviousYearQ",
         "addNote",
     ];
+    displayedColumnsRooms: string[] = [
+        "RoomGroup",
+        //"Department",
+        "QuarterYear",
+        "RoomNumber",
+        // "DepartWorkRooms",
+        "DiffWorkRoomsLastQ",
+        "DiffWorkRoomsPreviousYearQ",
+        "Blank_1",
+        "DiffTotalMinutesLastQ",
+        "DiffTotalMinutesPreviousYearQ",
+        "Blank_2",
+        "DiffDepartTotalQuantityLastQ",
+        "DiffDepartTotalQuantityPreviousYearQ",
+        "addNote",
+    ];
     selectedBtn = "חדר ניתוח כללי";
     dataTable_Top: Surgeries[] = [];
     dataTable_Max: Surgeries[] = [];
+    dataTable_Rooms: Surgeries[] = [];
     dataSourceTop = new MatTableDataSource(this.dataTable_Top);
     dataSourceMax = new MatTableDataSource(this.dataTable_Max);
+    dataSourceRooms = new MatTableDataSource(this.dataTable_Rooms);
     SurgeryRooms: Surgeries[] = [];
+    SurgeryRoomsNumber: Surgeries[] = [];
+    RoomsNumbers: string[] = [];
     QuarterYear: Surgeries[] = [];
     selectedQuarterYear: string[] = [];
     constructor(
@@ -87,8 +108,10 @@ export class SurgeryControlMainComponent implements OnInit {
     ngOnInit(): void {
         this.getDataFromServer("Top");
         this.getDataFromServer("Max");
+        this.getDataFromServer("Rooms");
         this.getDataFromServer("RoomGroupDesc");
         this.getDataFromServer("QuarterYear");
+        this.getDataFromServer("RoomsNumbers");
     }
 
     getToolTipText(row: Surgeries) {
@@ -153,11 +176,31 @@ export class SurgeryControlMainComponent implements OnInit {
         //debugger
         this.getDataFromServer("Top");
         this.getDataFromServer("Max");
+        this.getDataFromServer("RoomsNumbers");
     }
     filterDataBy(RoomGroup) {
         this.selectedBtn = RoomGroup;
         this.getDataFromServer("Top");
         this.getDataFromServer("Max");
+        //this.getDataFromServer("RoomsNumbers");
+    }
+    filterDataByRoom(event) {
+        if (event.checked) {
+            if (
+                this.RoomsNumbers.indexOf(
+                    event.source._elementRef.nativeElement.innerText
+                ) === -1
+            )
+                this.RoomsNumbers.push(
+                    event.source._elementRef.nativeElement.innerText
+                );
+        } else {
+            this.RoomsNumbers.forEach((element, index) => {
+                if (element == event.source._elementRef.nativeElement.innerText)
+                    this.RoomsNumbers.splice(index, 1);
+            });
+        }
+        this.getDataFromServer("RoomsNumbers");
     }
     openAddNoteDialog(element) {
         const dialogRef = this.dialog.open(AddNewNoteComponent, {
@@ -188,6 +231,7 @@ export class SurgeryControlMainComponent implements OnInit {
                     type: type,
                     room: this.selectedBtn,
                     quarterYear: this.selectedQuarterYear,
+                    roomnumbers: this.RoomsNumbers,
                 }
             )
             .subscribe((Response) => {
@@ -212,10 +256,26 @@ export class SurgeryControlMainComponent implements OnInit {
                     this.dataSourceMax.filter = this.selectedBtn
                         .trim()
                         .toLowerCase();
+                }else if (type == "RoomsNumbers") {
+                    debugger
+                    this.dataTable_Rooms.splice(0, this.dataTable_Rooms.length);
+                    ////debugger
+                    this.dataTable_Rooms = Response["d"];
+
+                    this.dataSourceRooms = new MatTableDataSource(
+                        this.dataTable_Rooms
+                    );
+                    this.dataSourceRooms.filter = this.selectedBtn
+                        .trim()
+                        .toLowerCase();
                 } else if (type == "RoomGroupDesc") {
                     this.SurgeryRooms.splice(0, this.SurgeryRooms.length);
                     //debugger
                     this.SurgeryRooms = Response["d"];
+                } else if (type == "Rooms") {
+                    this.SurgeryRoomsNumber.splice(0, this.SurgeryRoomsNumber.length);
+                    //debugger
+                    this.SurgeryRoomsNumber = Response["d"];
                 } else if (type == "QuarterYear") {
                     this.QuarterYear.splice(0, this.QuarterYear.length);
                     //debugger

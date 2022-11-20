@@ -759,6 +759,379 @@
                     </div>
                 </div>
             </mat-tab>
+            <mat-tab label="חדרים">
+                <br />
+                <div class="row">
+                    <div class="col">
+                        <span *ngFor="let room of SurgeryRoomsNumber">
+                            <mat-checkbox
+                                (change)="filterDataByRoom($event)"
+                            >
+                                {{ room.RoomNumber }} </mat-checkbox
+                            >&nbsp;&nbsp;&nbsp;
+                        </span>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="table-container">
+                            <br />
+                            <table
+                                mat-table
+                                [dataSource]="dataSourceRooms"
+                                class="mat-elevation-z8"
+                            >
+                                <!--- Note that these columns can be defined in any order.
+                              The actual rendered columns are set as a property on the row definition" -->
+
+                                <!-- Position Column -->
+                                <ng-container matColumnDef="RoomGroup">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>אתר ניתוח</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.RoomGroup }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="RoomNumber">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>חדר</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.RoomNumber }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="QuarterYear">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>Q</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.QuarterYear }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="DepartWorkRooms">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>ימי עבודה</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.DepartWorkRooms }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="DiffWorkRoomsLastQ">
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>Work Rooms Last Q</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                        [ngClass]="{
+                                            green_1:
+                                                element.DiffWorkRoomsLastQ >=
+                                                    0.1 &&
+                                                element.DiffWorkRoomsLastQ >=
+                                                    element.DiffWorkRoomsPreviousYearQ,
+                                            green_2:
+                                                element.DiffWorkRoomsLastQ >=
+                                                    0.1 &&
+                                                element.DiffWorkRoomsPreviousYearQ >=
+                                                    element.DiffWorkRoomsLastQ,
+                                            red_1:
+                                                -0.1 >=
+                                                    element.DiffWorkRoomsLastQ &&
+                                                element.DiffWorkRoomsLastQ >=
+                                                    element.DiffWorkRoomsPreviousYearQ,
+                                            red_2:
+                                                -0.1 >=
+                                                    element.DiffWorkRoomsLastQ &&
+                                                element.DiffWorkRoomsPreviousYearQ >=
+                                                    element.DiffWorkRoomsLastQ
+                                        }"
+                                    >
+                                        {{
+                                            element.DiffWorkRoomsLastQ | percent
+                                        }}
+                                    </td>
+                                </ng-container>
+                                <ng-container
+                                    matColumnDef="DiffWorkRoomsPreviousYearQ"
+                                >
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>Work Rooms Last Year Q</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                        [ngClass]="{
+                                            green_1:
+                                                element.DiffWorkRoomsPreviousYearQ >=
+                                                    0.1 &&
+                                                element.DiffWorkRoomsLastQ <=
+                                                    element.DiffWorkRoomsPreviousYearQ,
+                                            green_2:
+                                                element.DiffWorkRoomsPreviousYearQ >=
+                                                    0.1 &&
+                                                element.DiffWorkRoomsPreviousYearQ <=
+                                                    element.DiffWorkRoomsLastQ,
+                                            red_1:
+                                                -0.1 >=
+                                                    element.DiffWorkRoomsPreviousYearQ &&
+                                                element.DiffWorkRoomsLastQ <=
+                                                    element.DiffWorkRoomsPreviousYearQ,
+                                            red_2:
+                                                -0.1 >=
+                                                    element.DiffWorkRoomsPreviousYearQ &&
+                                                element.DiffWorkRoomsPreviousYearQ <=
+                                                    element.DiffWorkRoomsLastQ
+                                        }"
+                                    >
+                                        {{
+                                            element.DiffWorkRoomsPreviousYearQ
+                                                | percent
+                                        }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Blank_1"
+                                    ><th
+                                        class="diff-col"
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                    ></th>
+                                    <td
+                                        class="diff-col"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.Blank_1 }}
+                                    </td></ng-container
+                                >
+                                <ng-container
+                                    matColumnDef="DiffTotalMinutesLastQ"
+                                >
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>Time Last Q</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                        [ngClass]="{
+                                            red_2:
+                                                element.DiffTotalMinutesLastQ >=
+                                                    0.1 &&
+                                                element.DiffTotalMinutesLastQ >=
+                                                    element.DiffTotalMinutesPreviousYearQ,
+                                            red_1:
+                                                element.DiffTotalMinutesLastQ >=
+                                                    0.1 &&
+                                                element.DiffTotalMinutesPreviousYearQ >=
+                                                    element.DiffTotalMinutesLastQ,
+                                            green_2:
+                                                -0.1 >=
+                                                    element.DiffTotalMinutesLastQ &&
+                                                element.DiffTotalMinutesLastQ >=
+                                                    element.DiffTotalMinutesPreviousYearQ,
+                                            green_1:
+                                                -0.1 >=
+                                                    element.DiffTotalMinutesLastQ &&
+                                                element.DiffTotalMinutesPreviousYearQ >=
+                                                    element.DiffTotalMinutesLastQ
+                                        }"
+                                    >
+                                        {{
+                                            element.DiffTotalMinutesLastQ
+                                                | percent
+                                        }}
+                                    </td>
+                                </ng-container>
+                                <ng-container
+                                    matColumnDef="DiffTotalMinutesPreviousYearQ"
+                                >
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>Time Last Year Q</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                        [ngClass]="{
+                                            red_2:
+                                                element.DiffTotalMinutesPreviousYearQ >=
+                                                    0.1 &&
+                                                element.DiffTotalMinutesLastQ <=
+                                                    element.DiffTotalMinutesPreviousYearQ,
+                                            red_1:
+                                                element.DiffTotalMinutesPreviousYearQ >=
+                                                    0.1 &&
+                                                element.DiffTotalMinutesPreviousYearQ <=
+                                                    element.DiffTotalMinutesLastQ,
+                                            green_2:
+                                                -0.1 >=
+                                                    element.DiffTotalMinutesPreviousYearQ &&
+                                                element.DiffTotalMinutesLastQ <=
+                                                    element.DiffTotalMinutesPreviousYearQ,
+                                            green_1:
+                                                -0.1 >=
+                                                    element.DiffTotalMinutesPreviousYearQ &&
+                                                element.DiffTotalMinutesPreviousYearQ <=
+                                                    element.DiffTotalMinutesLastQ
+                                        }"
+                                    >
+                                        {{
+                                            element.DiffTotalMinutesPreviousYearQ
+                                                | percent
+                                        }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="Blank_2"
+                                    ><th
+                                        class="diff-col"
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                    ></th>
+                                    <td
+                                        class="diff-col"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                    >
+                                        {{ element.Blank_2 }}
+                                    </td></ng-container
+                                >
+                                <ng-container
+                                    matColumnDef="DiffDepartTotalQuantityLastQ"
+                                >
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>Quantity Last Q</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                        [ngClass]="{
+                                            green_1:
+                                                element.DiffDepartTotalQuantityLastQ >=
+                                                    0.1 &&
+                                                element.DiffDepartTotalQuantityLastQ >=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
+                                            green_2:
+                                                element.DiffDepartTotalQuantityLastQ >
+                                                    0.1 &&
+                                                element.DiffDepartTotalQuantityPreviousYearQ >=
+                                                    element.DiffDepartTotalQuantityLastQ,
+                                            red_1:
+                                                -0.1 >=
+                                                    element.DiffDepartTotalQuantityLastQ &&
+                                                element.DiffDepartTotalQuantityLastQ >=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
+                                            red_2:
+                                                -0.1 >=
+                                                    element.DiffDepartTotalQuantityLastQ &&
+                                                element.DiffDepartTotalQuantityPreviousYearQ >=
+                                                    element.DiffDepartTotalQuantityLastQ
+                                        }"
+                                    >
+                                        {{
+                                            element.DiffDepartTotalQuantityLastQ
+                                                | percent
+                                        }}
+                                    </td>
+                                </ng-container>
+                                <ng-container
+                                    matColumnDef="DiffDepartTotalQuantityPreviousYearQ"
+                                >
+                                    <th mat-header-cell *matHeaderCellDef>
+                                        <p>Quantity Last Year Q</p>
+                                    </th>
+                                    <td
+                                        class="text-center"
+                                        mat-cell
+                                        *matCellDef="let element"
+                                        [ngClass]="{
+                                            green_1:
+                                                element.DiffDepartTotalQuantityPreviousYearQ >
+                                                    0.1 &&
+                                                element.DiffDepartTotalQuantityLastQ <=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
+                                            green_2:
+                                                element.DiffDepartTotalQuantityPreviousYearQ >
+                                                    0.1 &&
+                                                element.DiffDepartTotalQuantityPreviousYearQ <=
+                                                    element.DiffDepartTotalQuantityLastQ,
+                                            red_1:
+                                                -0.1 >
+                                                    element.DiffDepartTotalQuantityPreviousYearQ &&
+                                                element.DiffDepartTotalQuantityLastQ <=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ,
+                                            red_2:
+                                                -0.1 >=
+                                                    element.DiffDepartTotalQuantityPreviousYearQ &&
+                                                element.DiffDepartTotalQuantityPreviousYearQ <=
+                                                    element.DiffDepartTotalQuantityLastQ
+                                        }"
+                                    >
+                                        {{
+                                            element.DiffDepartTotalQuantityPreviousYearQ
+                                                | percent
+                                        }}
+                                    </td>
+                                </ng-container>
+
+                                <ng-container matColumnDef="addNote"
+                                    ><th
+                                        class="diff-col"
+                                        mat-header-cell
+                                        *matHeaderCellDef
+                                    ></th>
+                                    <td mat-cell *matCellDef="let element">
+                                        <button
+                                            title="הוספת הערות"
+                                            type="button"
+                                            (click)="openAddNoteDialog(element)"
+                                            mat-mini-fab
+                                            color="accent"
+                                        >
+                                            <mat-icon>note_add</mat-icon>
+                                        </button>
+                                    </td></ng-container
+                                >
+                                <tr
+                                    mat-header-row
+                                    *matHeaderRowDef="
+                                        displayedColumnsRooms;
+                                        sticky: true
+                                    "
+                                ></tr>
+                                <tr
+                                    mat-row
+                                    *matRowDef="
+                                        let row;
+                                        columns: displayedColumnsRooms
+                                    "
+                                    [matTooltip]="getToolTipText(row)"
+                                ></tr>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </mat-tab>
         </mat-tab-group>
     </div>
 </div>
