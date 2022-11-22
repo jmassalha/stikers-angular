@@ -54,6 +54,18 @@
                             <div class="col">
                                 <div class="form-group">
                                     <mat-form-field>
+                                        <mat-label>דחוף</mat-label>
+                                        <mat-select [(value)]="requestDepartDhof" required>
+                                            <mat-option value="-1">הכל</mat-option>
+                                            <mat-option value="דחוף">דחוף</mat-option>
+                                            <mat-option value="רגיל">רגיל</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
                                         <mat-label>סוג בדיקה</mat-label>
                                         <mat-select [(value)]="RequestType" required>
                                             <mat-option value="-1">הכל</mat-option>
@@ -67,7 +79,7 @@
                                 <div class="form-group">
                                     <mat-form-field>
                                         <mat-label>מחלקה</mat-label>
-                                        <mat-select [(value)]="Depart" required>
+                                        <mat-select multiple [(value)]="Depart" required>
                                             <mat-option value="-1">הכל</mat-option>
                                             <mat-option value="דימ-אול">מכון דימות אולטראסאונד</mat-option>
                                             <mat-option value="דימ-א-שד">מכון דימות-אולטרסאונד שד</mat-option>
@@ -184,7 +196,7 @@
         <div dir="rtl" class="col">
             <div class="table-responsive">
                 <div class="export-container mb-10">
-                    <button mat-raised-button color="primary" (click)="exportTable()">Export</button>
+                    <button mat-raised-button color="primary" [class.spinner]="loading" [disabled]="loading" (click)="exportTable()">Export</button>
                 </div>
                 <div class="table-spinner-container">
                         <!-- <mat-form-field>
@@ -203,21 +215,17 @@
                                     <th mat-header-cell *matHeaderCellDef > שירות </th>
                                     <td mat-cell *matCellDef="let element"> {{element.D_SERVICE_NAME}} </td>
                                 </ng-container>
+                                <ng-container matColumnDef="D_REQUEST_DATE">
+                                    <th mat-header-cell *matHeaderCellDef > תאריך ושעת הזמנה </th>
+                                    <td mat-cell *matCellDef="let element"> {{element.D_REQUEST_DATE}} </td>
+                                </ng-container>
                                 <ng-container matColumnDef="D_TECH_DOING_DATE">
-                                    <th mat-header-cell *matHeaderCellDef > תאריך ביצוע </th>
+                                    <th mat-header-cell *matHeaderCellDef > תאריך ושעת ביצוע </th>
                                     <td mat-cell *matCellDef="let element"> {{element.D_TECH_DOING_DATE}} </td>
                                 </ng-container>
-                                <ng-container matColumnDef="D_TECH_DOING_TIME">
-                                    <th mat-header-cell *matHeaderCellDef > שעת ביצוע </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.D_TECH_DOING_TIME}} </td>
-                                </ng-container>
                                 <ng-container matColumnDef="D_DOC_DOING_DATE">
-                                    <th mat-header-cell *matHeaderCellDef > תאריך פענוח </th>
+                                    <th mat-header-cell *matHeaderCellDef > תאריך ושעת פענוח </th>
                                     <td mat-cell *matCellDef="let element"> {{element.D_DOC_DOING_DATE}} </td>
-                                </ng-container>
-                                <ng-container matColumnDef="D_DOC_DOING_TIME">
-                                    <th mat-header-cell *matHeaderCellDef > שעת פענוח </th>
-                                    <td mat-cell *matCellDef="let element"> {{element.D_DOC_DOING_TIME}} </td>
                                 </ng-container>
                                 <ng-container matColumnDef="D_REQUEST_DEPARTMENT">
                                     <th mat-header-cell *matHeaderCellDef > יחידה מזמינה </th>
