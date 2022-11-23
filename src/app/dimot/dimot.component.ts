@@ -19,25 +19,25 @@ const EXCEL_TYPE =
     "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet;charset=UTF-8";
 const EXCEL_EXTENSION = ".xlsx";
 export interface DimotExport {
-    CaseNumber : string;
-    PatieantNumber : string;
-    RequestDepart : string;
-    RequestDate : string;
-    RequestTime : string;
-    ServiceCode : string;
-    ServiceName : string;
-    DoingDepart : string;
-    DoingTechDate : string;
-    DoingTechTime : string;
-    DoingTechName : string;
-    DoingDocDate : string;
-    DoingDocTime : string;
-    DoingDocName : string;
-    DoingDocVer : string;
-    PatientType : string;
-    CheckRequestType : string;
-    DiffTimeTechInMin : string;
-    DiffTimeDocMin : string;
+    CaseNumber: string;
+    PatieantNumber: string;
+    RequestDepart: string;
+    RequestDate: string;
+    RequestTime: string;
+    ServiceCode: string;
+    ServiceName: string;
+    DoingDepart: string;
+    DoingTechDate: string;
+    DoingTechTime: string;
+    DoingTechName: string;
+    DoingDocDate: string;
+    DoingDocTime: string;
+    DoingDocName: string;
+    DoingDocVer: string;
+    PatientType: string;
+    CheckRequestType: string;
+    DiffTimeTechInMin: string;
+    DiffTimeDocMin: string;
 }
 export interface Dimot {
     D_ROW_ID: number;
@@ -71,6 +71,18 @@ export class DimotComponent implements OnInit, AfterViewInit {
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     loading = false;
+    departs: string[] = [
+        "דימ-אול",
+        "דימ-א-שד",
+        "דימ-ממ",
+        "דימ-מרי",
+        "דימ-ס-ט",
+        "דימ-סטלב",
+        "דימ-פרצד",
+        "דימ-צ-די",
+        "דימ-קונ",
+        "דימ-שקוף",
+    ];
     displayedColumns: string[] = [
         // 'ROW_ID',
         "D_CASE_NUMBER",
@@ -146,28 +158,111 @@ export class DimotComponent implements OnInit, AfterViewInit {
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
     }
-    exportTable() {
-        this.loading = true;
+    exportTableParts(
+        _fromDate,
+        _toDate,
+        _depart,
+        _shift,
+        _requestType,
+        _requestDepartDhof,
+        _part,
+        _totparts
+    ) {
         this.http
             .post(
                // "http://localhost:64964/WebService.asmx/GetDimotExportTable",
-                   "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotExportTable",
+                    "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotExportTable",
                 {
-                    _fromDate: this.startdateVal,
-                    _toDate: this.enddateVal,
-                    _depart: this.Depart,
-                    _shift: this.Shift,
-                    _requestType: this.RequestType,
-                    _requestDepartDhof: this.requestDepartDhof,
+                    _fromDate: _fromDate,
+                    _toDate: _toDate,
+                    _depart: _depart,
+                    _shift: _shift,
+                    _requestType: _requestType,
+                    _requestDepartDhof: _requestDepartDhof,
                 }
             )
             .subscribe((Response) => {
                 //TableUtil.exportToExcel("dimotTable");
                 //Response["d"]
                 var fileName = new Date();
-                this.TABLE_DATA_DimotExport = Response["d"];
-                this.exportAsExcelFile(this.TABLE_DATA_DimotExport, fileName.getTime().toString());
+                this.TABLE_DATA_DimotExport = [...this.TABLE_DATA_DimotExport, ...Response["d"]];
+                //debugger;
+                console.log(Response["d"])
+                if (this.Depart.length == 1 && this.Depart[0] == "-1" || this.Depart.length == 0) {
+                    if (_part != _totparts) {
+                        this.exportTableParts(
+                            this.startdateVal,
+                            this.enddateVal,
+                        [this.departs[_part + 1]],
+                            this.Shift,
+                            this.RequestType,
+                            this.requestDepartDhof,
+                            _part + 1,
+                            this.departs.length - 1
+                        );
+                    }
+                }else if(_part != _totparts){
+                    this.exportTableParts(
+                        this.startdateVal,
+                        this.enddateVal,
+                        [this.Depart[_part + 1]],
+                        this.Shift,
+                        this.RequestType,
+                        this.requestDepartDhof,
+                        _part + 1,
+                        this.Depart.length - 1
+                    );
+                }
+
+                if (_part == _totparts) {
+                    this.exportAsExcelFile(
+                        this.TABLE_DATA_DimotExport,
+                        fileName.getTime().toString()
+                    );
+                    //this.TABLE_DATA_DimotExport = [];
+                }
             });
+    }
+    exportTable() {
+        this.loading = true;
+        if (this.Depart.length == 1 && this.Depart[0] == "-1" || this.Depart.length == 0 ) {
+            //debugger;
+            this.exportTableParts(
+                this.startdateVal,
+                this.enddateVal,
+                [this.departs[0]],
+                this.Shift,
+                this.RequestType,
+                this.requestDepartDhof,
+                0,
+                this.departs.length - 1
+            );
+        } else if (this.Depart.length > 1) {
+            if(this.Depart[0] == '-1'){
+                this.Depart.splice(0,1);
+            }
+            this.exportTableParts(
+                this.startdateVal,
+                this.enddateVal,
+                [this.departs[0]],
+                this.Shift,
+                this.RequestType,
+                this.requestDepartDhof,
+                0,
+                this.departs.length - 1
+            );
+        } else  {
+            this.exportTableParts(
+                this.startdateVal,
+                this.enddateVal,
+                this.Depart,
+                this.Shift,
+                this.RequestType,
+                this.requestDepartDhof,
+                1,
+                1
+            );
+        }
     }
     public exportAsExcelFile(json: any[], excelFileName: string): void {
         const worksheet: XLSX.WorkSheet = XLSX.utils.json_to_sheet(json);
@@ -178,11 +273,11 @@ export class DimotComponent implements OnInit, AfterViewInit {
         const excelBuffer: any = XLSX.write(workbook, {
             bookType: "xlsx",
             type: "array",
+            compression: true,
         });
         this.saveAsExcelFile(excelBuffer, excelFileName);
     }
     private saveAsExcelFile(buffer: any, fileName: string): void {
-        
         this.loading = false;
         const data: Blob = new Blob([buffer], { type: EXCEL_TYPE });
         fileSaver.saveAs(
@@ -277,8 +372,8 @@ export class DimotComponent implements OnInit, AfterViewInit {
         }
         this.http
             .post(
-               // "http://localhost:64964/WebService.asmx/GetDimotTableApp",
-                   "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp",
+                // "http://localhost:64964/WebService.asmx/GetDimotTableApp",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,
@@ -358,7 +453,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         ////////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
-            //.post("http://localhost:64964/WebService.asmx/GetDimotApp", {
+                //.post("http://localhost:64964/WebService.asmx/GetDimotApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
