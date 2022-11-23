@@ -219,7 +219,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
                         this.TABLE_DATA_DimotExport,
                         fileName.getTime().toString()
                     );
-                    //this.TABLE_DATA_DimotExport = [];
+                    this.TABLE_DATA_DimotExport = [];
                 }
             });
     }
