@@ -187,7 +187,7 @@ export class EmailmanagementComponent implements OnInit {
   separatorKeysCodes: number[] = [ENTER, COMMA];
   fruitCtrl = new FormControl();
   filteredFruits: Observable<string[]>;
-  fruits: string[] = [];
+  fruits: User[] = [];
   allFruits: string[] = [];
   myControl = new FormControl();
   departmentfilter = new FormControl();
@@ -302,7 +302,11 @@ export class EmailmanagementComponent implements OnInit {
   //   }
   // }
   remove(fruit: User): void {
-    fruit.Status = 'False';
+    let index = this.fruits.findIndex(x => x.Employee_Id === fruit.Employee_Id);
+    delete this.fruits[index];
+    this.fruits.length -= 1;
+    // fruit.Status = 'False';
+
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
