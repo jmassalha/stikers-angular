@@ -152,6 +152,7 @@ export class MershamComponent implements OnInit {
         "Days_Protocol",
         "MedList",
     ];
+    patiant_number_or_id = "";
     drugs: Drug[] = [];
     DeleteRowId: string;
     DeletePreRowId: string;
@@ -1148,6 +1149,9 @@ export class MershamComponent implements OnInit {
         if (this.ID == "") {
             this.ID = this.ID_In;
         }
+        if(this.ID == ""){
+            this.ID = this.patiant_number_or_id
+        }
         //debugger
         //return
         debugger;
@@ -1333,11 +1337,16 @@ export class MershamComponent implements OnInit {
         if (this.ID == "") {
             this.ID = this.ID_In;
         }
+        if(this.ID == ""){
+            this.ID = this.patiant_number_or_id
+        }
         //return
         // //////////debugger
+        debugger
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
+                "http://localhost:64964/WebService.asmx/SubmitPrecpiction",
                 {
                     //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
                     //    prentFromId: '',
@@ -1366,16 +1375,20 @@ export class MershamComponent implements OnInit {
     }
     getReport($event: any): void {
         ////////////////////////debugger
-        if (this.fliterVal.trim() != "")
+        if (this.fliterVal.trim() != ""){
+            
+            this.patiant_number_or_id = this.fliterVal;
             this.getTableFromServer(
                 this.paginator.pageIndex,
                 50,
                 this.fliterVal
             );
+        }
+        console.log(this.patiant_number_or_id)    
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
-
+        this.patiant_number_or_id = this.fliterVal;
         this.getTableFromServer(
             this.paginator.pageIndex,
             this.paginator.pageSize,

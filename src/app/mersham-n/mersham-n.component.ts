@@ -185,6 +185,8 @@ export class MershamNComponent implements OnInit {
         "Days_Protocol",
         "MedList",
     ];
+    
+    patiant_number_or_id = "";
     mPatientDetails: PatientDetails;
     drugs: Drug[] = [];
     DeleteRowId: string;
@@ -1708,6 +1710,9 @@ export class MershamNComponent implements OnInit {
         if (this.ID == "") {
             this.ID = this.ID_In;
         }
+        if(this.ID == ""){
+            this.ID = this.patiant_number_or_id
+        }
         this.mPatientDetails = {
             FIRST_NAME: this.FIRST_NAME,
             LAST_NAME: this.LAST_NAME,
@@ -1749,16 +1754,21 @@ export class MershamNComponent implements OnInit {
     }
     getReport($event: any): void {
         ////////////////////////////debugger
-        if (this.fliterVal.trim() != "")
+        if (this.fliterVal.trim() != ""){
+            
+            this.patiant_number_or_id = this.fliterVal;
             this.getTableFromServer(
                 this.paginator.pageIndex,
                 50,
                 this.fliterVal
             );
+        }
+        console.log(this.patiant_number_or_id)    
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
 
+        this.patiant_number_or_id = this.fliterVal;
         this.getTableFromServer(
             this.paginator.pageIndex,
             this.paginator.pageSize,
