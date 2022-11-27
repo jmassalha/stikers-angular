@@ -1,4 +1,4 @@
-<div class="wrapper" dir="rtl">
+<div class="wrapper" dir="rtl" [hidden]="excelLoader">
     <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="onNoClick()">
         <span aria-hidden="true">&times;</span>
     </button>
@@ -14,64 +14,56 @@
                     </option>
                 </select>
             </div> -->
-            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="1">
-            </app-grouped-bar-chart2>
+            <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>איחור</h3>
+            </div>
+            <google-chart #chart [type]="type" [data]="data1" [columns]="columnNames1" [options]="options"
+                [width]="width" [height]="height">
+            </google-chart>
         </div>
     </div>
     <div class="row section" dir="rtl">
         <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
-            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
-                <h3>{{groupTime2}}</h3>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
-                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
-                    </option>
-                </select>
-            </div> -->
-            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="2">
-            </app-grouped-bar-chart2>
+            <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>ימי אובדן</h3>
+            </div>
+            <google-chart #chart2 [type]="type" [data]="data2" [options]="options2"
+                [columns]="columnNames2" [width]="width" [height]="height">
+            </google-chart>
+            <!-- <google-chart #chart [type]="type" [data]="data2" [columns]="columnNames" [options]="options"
+                [width]="width" [height]="height" (select)="onSelect($event)">
+            </google-chart> -->
         </div>
     </div>
     <div class="row section" dir="rtl">
         <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
-            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
-                <h3>{{groupTime2}}</h3>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
-                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
-                    </option>
-                </select>
-            </div> -->
-            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="3">
-            </app-grouped-bar-chart2>
+            <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>זמן אובדן</h3>
+            </div>
+            <google-chart #chart [type]="type" [data]="data3" [columns]="columnNames3" [options]="options"
+                [width]="width" [height]="height">
+            </google-chart>
         </div>
     </div>
     <div class="row section" dir="rtl">
         <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
-            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
-                <h3>{{groupTime2}}</h3>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
-                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
-                    </option>
-                </select>
-            </div> -->
-            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="4">
-            </app-grouped-bar-chart2>
+            <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>ימי גלישה</h3>
+            </div>
+            <google-chart #chart2 [type]="type" [data]="data4" [options]="options2"
+                [columns]="columnNames4" [width]="width" [height]="height">
+            </google-chart>
         </div>
     </div>
     <div class="row section" dir="rtl">
         <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
-            <!-- <div class="row" style="justify-content: center;text-align-last: center;">
-                <h3>{{groupTime2}}</h3>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg example"
-                    formControlName="groupCtrl2" (change)="changeTime($event.target.value,'group2',[]);">
-                    <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
-                    </option>
-                </select>
-            </div> -->
-            <app-grouped-bar-chart2 #group2 [graphSource]="graphSource" [graphNumber]="5">
-            </app-grouped-bar-chart2>
+            <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>זמן גלישה</h3>
+            </div>
+            <google-chart #chart [type]="type" [data]="data5" [columns]="columnNames5" [options]="options"
+                [width]="width" [height]="height">
+            </google-chart>
+
         </div>
     </div>
 </div>

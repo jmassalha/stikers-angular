@@ -58,7 +58,6 @@ export class GroupedBarChart2Component implements OnInit {
   }
 
   ngOnInit(): void {
-    console.log(this.graphNumber);
     if ((this.TimeLineParam == "2" || this.TimeLineParam == "3") || this.departParam == "5" || this.departParam == "1" || this.departParam == "2") {
       this.options = {
         hAxis: {

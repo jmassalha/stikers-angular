@@ -6,7 +6,7 @@
                 (click)="chooseExportingToExcel()" matTooltip="יצוא לאקסל">
                 <mat-icon>get_app</mat-icon>
             </button>
-            <button mat-mini-fab color="warn" *ngIf="departParam == '1' && UserName == 'adahabre'"
+            <button mat-mini-fab color="warn" *ngIf="departParam == '1'" [disabled]="loader"
                 style="float: right;margin: 2px;" aria-label="Statistics" (click)="openChartsDialog()"
                 matTooltip="סטטיסטיקות">
                 <mat-icon>bar_chart</mat-icon>
@@ -274,6 +274,7 @@
                 </div>
                 <app-grouped-bar-chart #groupedbar (newItemEvent)="changeDepartInModal($event)"
                     [filterValue]="filterValue"></app-grouped-bar-chart>
+                <!-- <app-graphs-modal #graphshidden [hidden]="graphSource == 'normal'"></app-graphs-modal> -->
             </div>
         </div>
     </div>

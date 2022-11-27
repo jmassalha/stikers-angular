@@ -1,10 +1,10 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
-import { Component, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
+import { Component, Injectable, Input, OnInit, ViewChild, ViewEncapsulation } from '@angular/core';
 import { Observable } from 'rxjs';
 import { PieChartComponent } from './pie-chart/pie-chart.component';
 import { GroupedBarChartComponent } from './grouped-bar-chart/grouped-bar-chart.component';
 import { BarChartComponent } from './bar-chart/bar-chart.component';
-import { LineChartComponent } from './line-chart/line-chart.component';
+// import { LineChartComponent } from './line-chart/line-chart.component';
 import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-chart2.component';
 import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
@@ -36,6 +36,7 @@ interface Cards {
   templateUrl: './hospital-bi-dashboard.component.html',
   styleUrls: ['./hospital-bi-dashboard.component.css']
 })
+@Injectable()
 export class HospitalBIDashboardComponent implements OnInit {
 
   configUrl = 'http://srv-apps-prod/RCF_WS/WebService.asmx/';
@@ -57,6 +58,12 @@ export class HospitalBIDashboardComponent implements OnInit {
   sheet_data_2 = [];
   sheet_data_3 = [];
   sheet_data_4 = [];
+  sheet_stat_data_1 = [];
+  sheet_stat_data_2 = [];
+  sheet_stat_data_3 = [];
+  sheet_stat_data_4 = [];
+  sheet_stat_data_5 = [];
+  sheet_data_filters = [];
 
   surgeryTypesArray = [
     { id: 'אמבולטורי', value: 'אמבולטורי', search: "'_AMBOLATORY','_ELECTIVE_AMBOLATORY'" },
@@ -75,6 +82,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   cardsList = [];
   returnedPatients = false;
   hospitalDepartments = [];
+  all_stat_graphs_data = [];
   TimeLineParam;
   first: any = "undefined";
   second: any = "undefined";
@@ -99,7 +107,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   surgeryTypesArr = [];
   graphSource: string = "normal";
   dataSource = new MatTableDataSource<any>();
-
+  @ViewChild(GraphsModalComponent) graphshidden: GraphsModalComponent;
   @ViewChild(PieChartComponent) pie: PieChartComponent;
   @ViewChild(GroupedBarChartComponent) group: GroupedBarChartComponent;
   @ViewChild(GroupedBarChart2Component) group2: GroupedBarChart2Component;
@@ -109,8 +117,8 @@ export class HospitalBIDashboardComponent implements OnInit {
   @ViewChild(MatSort) sort: MatSort;
   // @ViewChild(LineChartComponent) line: LineChartComponent;
 
-  constructor(private http: HttpClient, private fb: FormBuilder, private datePipe: DatePipe, public dialog: MatDialog) {
-  }
+  constructor(private http: HttpClient, private fb: FormBuilder, private datePipe: DatePipe, public dialog: MatDialog) { }
+
   graphsCtrl: FormGroup;
   surgeryDeptTypeGroup: FormGroup;
   hospitalDepartTypeGroup: FormGroup;
@@ -158,6 +166,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }, 1500);
     this.showYearsPeriod();
+    this.getStatisticGraphsToExcel();
   }
 
   // test() {
@@ -303,6 +312,7 @@ export class HospitalBIDashboardComponent implements OnInit {
 
 
   chooseTimeValue(event) {
+    this.loader = true;
     this.filterValue = undefined;
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
       this.TimeLineParam = event;
@@ -393,7 +403,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   openChartsDialog() {
-    let data = { graphSource: "dialog" }
+    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "normal" }
     const dialogRef = this.dialog.open(GraphsModalComponent, {
       data: data,
     });
@@ -486,7 +496,6 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.ManagedGetServerFunction('GetTimeTypes').subscribe({
       next(x) { that.timeLine = x["d"]; },
       error(err) {
-        debugger
         alert('אירעה תקלה');
       },
       complete() { }
@@ -542,11 +551,24 @@ export class HospitalBIDashboardComponent implements OnInit {
     }
   }
 
+  getStatisticGraphsToExcel() {
+
+    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "excel" }
+    const dialogRef = this.dialog.open(GraphsModalComponent, {
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.all_stat_graphs_data = result;
+    });
+  }
+
   exportTablesToExcel() {
     //Create a workbook with a worksheet
     let workbook = new Workbook();
     let title = this.graphsTitles();
     let worksheet = workbook.addWorksheet('רשימת רופאים');
+    let worksheet_filters = workbook.addWorksheet("פילטרים");
 
     let data = [];
     this.dataSource.filteredData.forEach(x => {
@@ -554,6 +576,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       data.push(x);
     })
     this.sheet_data_1 = data;
+    this.sheet_data_filters = ['test'];
 
     let header = [
       'שם רופא', 'מחלקה', 'ביקורים', 'פעולות'
@@ -566,12 +589,20 @@ export class HospitalBIDashboardComponent implements OnInit {
       worksheet.addRow(Object.values(d));
     });
 
+    worksheet_filters.addRow(Object.values(this.sheet_data_filters[0]));
+
+    this.sheet_data_filters[1].forEach((d: any) => {
+      worksheet_filters.addRow(Object.values(d));
+    });
+
+    let myDate = new Date();
+    let today = this.datePipe.transform(myDate, 'yyyy-MM-dd');
     //Generate & Save Excel File
     workbook.xlsx.writeBuffer().then((data) => {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      fs.saveAs(blob, 'נתוני דאשבורד הנהלה' + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + '.xlsx');
+      fs.saveAs(blob, 'נתוני דאשבורד ' + this.choosenDept.DIMDataTypeDesc + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + ' - ' + today + '.xlsx');
     });
   }
 
@@ -583,11 +614,28 @@ export class HospitalBIDashboardComponent implements OnInit {
     let worksheet_2 = workbook.addWorksheet(title.bar[parseInt(this.departParam) - 1]);
     let worksheet_3 = workbook.addWorksheet(title.group2[parseInt(this.departParam) - 1]);
     let worksheet_4 = workbook.addWorksheet(title.group[parseInt(this.departParam) - 1]);
+    // only for surgeries
+    let worksheet_stat_1 = workbook.addWorksheet("איחור");
+    let worksheet_stat_2 = workbook.addWorksheet("ימי אובדן");
+    let worksheet_stat_3 = workbook.addWorksheet("זמן אובדן");
+    let worksheet_stat_4 = workbook.addWorksheet("ימי גלישה");
+    let worksheet_stat_5 = workbook.addWorksheet("זמן גלישה");
+
+    let worksheet_filters = workbook.addWorksheet("פילטרים");
+
 
     this.sheet_data_1 = this.pie.sendDataToParentExcel();
     this.sheet_data_2 = this.bar.sendDataToParentExcel();
     this.sheet_data_3 = this.group2.sendDataToParentExcel();
     this.sheet_data_4 = this.group.sendDataToParentExcel();
+    // only surgeries
+
+    this.sheet_stat_data_1 = [this.all_stat_graphs_data[0].columnnames, this.all_stat_graphs_data[0].arr];
+    this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames.slice(0, -1), this.all_stat_graphs_data[1].arr.slice(0, -1)];
+    this.sheet_stat_data_3 = [this.all_stat_graphs_data[2].columnnames, this.all_stat_graphs_data[2].arr];
+    this.sheet_stat_data_4 = [this.all_stat_graphs_data[3].columnnames.slice(0, -1), this.all_stat_graphs_data[3].arr.slice(0, -1)];
+    this.sheet_stat_data_5 = [this.all_stat_graphs_data[4].columnnames, this.all_stat_graphs_data[4].arr];
+    this.sheet_data_filters = [['test']];
 
     // // Add Header Rows
     // worksheet.addRow(Object.keys(this.sheet_data_1[0]));
@@ -615,6 +663,40 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.sheet_data_4[1].forEach((d: any) => {
       worksheet_4.addRow(Object.values(d));
     });
+
+    worksheet_filters.addRow(Object.values(this.sheet_data_filters[0]));
+
+    this.sheet_data_filters[0].forEach((d: any) => {
+      worksheet_filters.addRow(Object.values(d));
+    });
+
+    // only surgeries
+    worksheet_stat_1.addRow(Object.values(this.sheet_stat_data_1[0]));
+
+    this.sheet_stat_data_1[1].forEach((d: any) => {
+      worksheet_stat_1.addRow(Object.values(d));
+    });
+    worksheet_stat_2.addRow(Object.values(this.sheet_stat_data_2[0]));
+
+    this.sheet_stat_data_2[1].forEach((d: any) => {
+      worksheet_stat_2.addRow(Object.values(d));
+    });
+    worksheet_stat_3.addRow(Object.values(this.sheet_stat_data_3[0]));
+
+    this.sheet_stat_data_3[1].forEach((d: any) => {
+      worksheet_stat_3.addRow(Object.values(d));
+    });
+    worksheet_stat_4.addRow(Object.values(this.sheet_stat_data_4[0]));
+
+    this.sheet_stat_data_4[1].forEach((d: any) => {
+      worksheet_stat_4.addRow(Object.values(d));
+    });
+    worksheet_stat_5.addRow(Object.values(this.sheet_stat_data_5[0]));
+
+    this.sheet_stat_data_5[1].forEach((d: any) => {
+      worksheet_stat_5.addRow(Object.values(d));
+    });
+
     let myDate = new Date();
     let today = this.datePipe.transform(myDate, 'yyyy-MM-dd');
     //Generate & Save Excel File
@@ -622,7 +704,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       let blob = new Blob([data], {
         type: 'application/vnd.openxmlformats-officedocument.spreadsheetml.sheet',
       });
-      fs.saveAs(blob, 'נתוני דאשבורד הנהלה' + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + '-' + this.choosenDept.DIMDataTypeDesc + ',' + today + '.xlsx');
+      fs.saveAs(blob, 'נתוני דאשבורד ' + this.choosenDept.DIMDataTypeDesc + ' ב' + this.timeLine[parseInt(this.TimeLineParam) - 1].DimTimeTypeDesc + ' - ' + today + '.xlsx');
     });
   }
 }

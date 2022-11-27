@@ -171,6 +171,7 @@ import { SurgeryControlMainComponent } from './surgery-control-main/surgery-cont
 import { AddNewNoteComponent } from './surgery-control-main/add-new-note/add-new-note.component';
 import { AdditionalCprTablesComponent } from './form-dashboard/cpr-form/additional-cpr-tables/additional-cpr-tables.component';
 import { ChartsDialogComponent } from './hospital-bi-dashboard/charts-dialog/charts-dialog.component';
+import { HospitalBiService } from './hospital-bi-dashboard/hospital-bi.service';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -388,10 +389,12 @@ const maskConfig: Partial<IConfig> = {
     CalendarModule.forRoot({ provide: DateAdapter, useFactory: adapterFactory })
   ],
   providers: [
-    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }, DatePipe
+    { provide: MAT_DATE_LOCALE, useValue: 'en-GB' }
+    , DatePipe
     , ConfirmationDialogService
     , MenuPerm
     , NgbActiveModal
+    , { provide: GraphsModalComponent, useClass: LogAllRequestsInterceptor, multi: true }
     , { provide: HTTP_INTERCEPTORS, useClass: LogAllRequestsInterceptor, multi: true }
   ],
   bootstrap: [AppComponent],
