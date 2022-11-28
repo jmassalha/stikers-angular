@@ -325,6 +325,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       let that = this;
       setTimeout(() => {
         that.changeTime(event, 'all', []);
+        this.getStatisticGraphsToExcel();
       }, 1000);
     }
   }
@@ -403,7 +404,12 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   openChartsDialog() {
-    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "normal" }
+    let valueOfSwitch = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
+    if (this.departParam == "1" && valueOfSwitch != "0") {
+      valueOfSwitch = valueOfSwitch.map(x => x).join(",");
+    }
+    let surgeriesPlace = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
+    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "normal", filterValue: this.filterValue, surgeriesType: valueOfSwitch, surgeriesPlace: surgeriesPlace }
     const dialogRef = this.dialog.open(GraphsModalComponent, {
       data: data,
     });
@@ -443,6 +449,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.tableView = false;
       let that = this;
       setTimeout(() => {
+        this.getStatisticGraphsToExcel();
         that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
       }, 1000);
     }
@@ -552,8 +559,12 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   getStatisticGraphsToExcel() {
-
-    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "excel" }
+    let valueOfSwitch = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
+    if (this.departParam == "1" && valueOfSwitch != "0") {
+      valueOfSwitch = valueOfSwitch.map(x => x).join(",");
+    }
+    let surgeriesPlace = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
+    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "excel", filterValue: this.filterValue, surgeriesType: valueOfSwitch, surgeriesPlace: surgeriesPlace }
     const dialogRef = this.dialog.open(GraphsModalComponent, {
       data: data,
     });
@@ -631,11 +642,15 @@ export class HospitalBIDashboardComponent implements OnInit {
     // only surgeries
 
     this.sheet_stat_data_1 = [this.all_stat_graphs_data[0].columnnames, this.all_stat_graphs_data[0].arr];
-    this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames.slice(0, -1), this.all_stat_graphs_data[1].arr.slice(0, -1)];
+    this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames.slice(0, -1), this.all_stat_graphs_data[1].arr];
     this.sheet_stat_data_3 = [this.all_stat_graphs_data[2].columnnames, this.all_stat_graphs_data[2].arr];
-    this.sheet_stat_data_4 = [this.all_stat_graphs_data[3].columnnames.slice(0, -1), this.all_stat_graphs_data[3].arr.slice(0, -1)];
+    this.sheet_stat_data_4 = [this.all_stat_graphs_data[3].columnnames.slice(0, -1), this.all_stat_graphs_data[3].arr];
     this.sheet_stat_data_5 = [this.all_stat_graphs_data[4].columnnames, this.all_stat_graphs_data[4].arr];
-    this.sheet_data_filters = [['test']];
+
+    // filters sheet
+    // let filtersArrayToExcel = [];
+    // this.surgeryTypesArray.forEach(x => { if(x.value == )filtersArrayToExcel.push(x.id) });
+    this.sheet_data_filters = [this.surgeryTypesArr];
 
     // // Add Header Rows
     // worksheet.addRow(Object.keys(this.sheet_data_1[0]));
@@ -666,9 +681,9 @@ export class HospitalBIDashboardComponent implements OnInit {
 
     worksheet_filters.addRow(Object.values(this.sheet_data_filters[0]));
 
-    this.sheet_data_filters[0].forEach((d: any) => {
-      worksheet_filters.addRow(Object.values(d));
-    });
+    // this.sheet_data_filters[0].forEach((d: any) => {
+    //   worksheet_filters.addRow(Object.values(d));
+    // });
 
     // only surgeries
     worksheet_stat_1.addRow(Object.values(this.sheet_stat_data_1[0]));
