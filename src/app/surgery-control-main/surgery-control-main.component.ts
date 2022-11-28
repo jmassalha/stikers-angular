@@ -10,6 +10,11 @@ import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MenuPerm } from "../menu-perm";
 import { AddNewNoteComponent } from "./add-new-note/add-new-note.component";
 
+export interface Staff {
+    Department: string;
+    FullName: string;
+    PhoneNumber: string;
+}
 export interface Surgeries {
     RoomGroup: string;
     Department: string;
@@ -21,7 +26,6 @@ export interface Surgeries {
     WorkRoomsPreviousYearQ: number;
     DiffWorkRoomsLastQ: number;
     DiffWorkRoomsPreviousYearQ: number;
-
     TotalMinutes: number;
     TotalMinutesLastQ: number;
     TotalMinutesPreviousYearQ: number;
