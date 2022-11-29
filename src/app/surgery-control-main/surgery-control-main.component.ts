@@ -9,6 +9,7 @@ import { Router } from "@angular/router";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MenuPerm } from "../menu-perm";
 import { AddNewNoteComponent } from "./add-new-note/add-new-note.component";
+import { NotesHistoryComponent } from "./notes-history/notes-history.component";
 
 export interface Staff {
     Department: string;
@@ -39,6 +40,9 @@ export interface Surgeries {
     DiffDepartTotalQuantityPreviousYearQ: number;
     Blank_1: string;
     Blank_2: string;
+    Staffs: Staff;
+    TotalNotes: number;
+    RowType: number;
 }
 
 @Component({
@@ -61,6 +65,7 @@ export class SurgeryControlMainComponent implements OnInit {
         "DiffDepartTotalQuantityLastQ",
         "DiffDepartTotalQuantityPreviousYearQ",
         "addNote",
+        "NotesHistory",
     ];
     displayedColumnsRooms: string[] = [
         "RoomGroup",
@@ -77,6 +82,7 @@ export class SurgeryControlMainComponent implements OnInit {
         "DiffDepartTotalQuantityLastQ",
         "DiffDepartTotalQuantityPreviousYearQ",
         "addNote",
+        "NotesHistory",
     ];
     selectedBtn = "חדר ניתוח כללי";
     dataTable_Top: Surgeries[] = [];
@@ -89,6 +95,7 @@ export class SurgeryControlMainComponent implements OnInit {
     SurgeryRoomsNumber: Surgeries[] = [];
     RoomsNumbers: string[] = [];
     QuarterYear: Surgeries[] = [];
+    SurgeriesStaff: Surgeries[] = [];
     selectedQuarterYear: string[] = [];
     constructor(
         private _snackBarUsers: MatSnackBar,
@@ -113,6 +120,7 @@ export class SurgeryControlMainComponent implements OnInit {
         this.getDataFromServer("Top");
         this.getDataFromServer("Max");
         this.getDataFromServer("Rooms");
+        this.getDataFromServer("Staff");
         this.getDataFromServer("RoomGroupDesc");
         this.getDataFromServer("QuarterYear");
         this.getDataFromServer("RoomsNumbers");
@@ -158,7 +166,23 @@ export class SurgeryControlMainComponent implements OnInit {
             prevYear = (parseInt(currentYear) - 1).toString();
             lastQ = "Q4";
         }
-        return `Rooms:\r\n\  ${currentYear}-${cuurentQ}: ${row.WorkRooms}\r\n\ ${lastYear}-${lastQ}: ${row.WorkRoomsLastQ}\r\n\ ${prevYear}-${prevQ}: ${row.WorkRoomsPreviousYearQ}\r\n\ \r\n\ Time:\r\n\ ${currentYear}-${cuurentQ}: ${(row.TotalMinutes / 60).toFixed(2)}\r\n\ ${lastYear}-${lastQ}: ${(row.TotalMinutesLastQ / 60).toFixed(2)}\r\n\ ${prevYear}-${prevQ}: ${(row.TotalMinutesPreviousYearQ / 60).toFixed(2)}\r\n\ \r\n\ Quantity:\r\n\ ${currentYear}-${cuurentQ}: ${row.TotalQuantity}\r\n\ ${lastYear}-${lastQ}: ${row.TotalQuantityLastQ}\r\n\ ${prevYear}-${prevQ}: ${row.TotalQuantityPreviousYearQ}`;
+        return `Rooms:\r\n\  ${currentYear}-${cuurentQ}: ${
+            row.WorkRooms
+        }\r\n\ ${lastYear}-${lastQ}: ${
+            row.WorkRoomsLastQ
+        }\r\n\ ${prevYear}-${prevQ}: ${
+            row.WorkRoomsPreviousYearQ
+        }\r\n\ \r\n\ Time:\r\n\ ${currentYear}-${cuurentQ}: ${(
+            row.TotalMinutes / 60
+        ).toFixed(2)}\r\n\ ${lastYear}-${lastQ}: ${(
+            row.TotalMinutesLastQ / 60
+        ).toFixed(2)}\r\n\ ${prevYear}-${prevQ}: ${(
+            row.TotalMinutesPreviousYearQ / 60
+        ).toFixed(2)}\r\n\ \r\n\ Quantity:\r\n\ ${currentYear}-${cuurentQ}: ${
+            row.TotalQuantity
+        }\r\n\ ${lastYear}-${lastQ}: ${
+            row.TotalQuantityLastQ
+        }\r\n\ ${prevYear}-${prevQ}: ${row.TotalQuantityPreviousYearQ}`;
     }
     filterDataByQuarterYear(event) {
         if (event.checked) {
@@ -186,6 +210,7 @@ export class SurgeryControlMainComponent implements OnInit {
         this.selectedBtn = RoomGroup;
         this.getDataFromServer("Top");
         this.getDataFromServer("Max");
+        this.getDataFromServer("Rooms");
         //this.getDataFromServer("RoomsNumbers");
     }
     filterDataByRoom(event) {
@@ -206,10 +231,90 @@ export class SurgeryControlMainComponent implements OnInit {
         }
         this.getDataFromServer("RoomsNumbers");
     }
+    openNotesHistoryDialog(element){
+        const dialogRef = this.dialog.open(NotesHistoryComponent, {
+            data: {
+                element: element,
+                dialog: this.dialog,
+            },
+        });
+
+        dialogRef.afterClosed().subscribe((result) => {
+            console.log(`Dialog result: ${result}`);
+        });
+    }
     openAddNoteDialog(element) {
+        var QuarterYear = element.QuarterYear.split("-");
+        var currentYear = QuarterYear[0];
+        var lastYear = "";
+        var prevYear = "";
+        var cuurentQ = QuarterYear[1];
+        var lastQ = "";
+        var prevQ = "";
+        switch (QuarterYear[1]) {
+            case "Q1":
+                lastYear = (parseInt(currentYear) - 1).toString();
+                prevYear = (parseInt(currentYear) - 1).toString();
+                lastQ = "Q4";
+                prevQ = QuarterYear[1];
+                break;
+            case "Q2":
+                lastYear = parseInt(currentYear).toString();
+                prevYear = (parseInt(currentYear) - 1).toString();
+                lastQ = "Q1";
+                prevQ = QuarterYear[1];
+                break;
+            case "Q3":
+                lastYear = parseInt(currentYear).toString();
+                prevYear = (parseInt(currentYear) - 1).toString();
+                lastQ = "Q2";
+                prevQ = QuarterYear[1];
+                break;
+            case "Q4":
+                lastYear = parseInt(currentYear).toString();
+                prevYear = (parseInt(currentYear) - 1).toString();
+                lastQ = "Q3";
+                prevQ = QuarterYear[1];
+                break;
+        }
+        if (QuarterYear[1] == "Q1") {
+            prevYear = (parseInt(currentYear) - 1).toString();
+            lastQ = "Q4";
+        }
+        const smsTxt = `
+        מחלקה: ${element.Department} 
+        אתר ניתוח: ${element.RoomGroup}\r\n\ 
+        Rooms:\r\n\  ${currentYear}-${cuurentQ}: ${
+            element.WorkRooms
+        }\r\n\ ${lastYear}-${lastQ}: ${
+            element.WorkRoomsLastQ
+        }\r\n\ ${prevYear}-${prevQ}: ${
+            element.WorkRoomsPreviousYearQ
+        }\r\n\ \r\n\ Time:\r\n\ ${currentYear}-${cuurentQ}: ${(
+            element.TotalMinutes / 60
+        ).toFixed(2)}\r\n\ ${lastYear}-${lastQ}: ${(
+            element.TotalMinutesLastQ / 60
+        ).toFixed(2)}\r\n\ ${prevYear}-${prevQ}: ${(
+            element.TotalMinutesPreviousYearQ / 60
+        ).toFixed(2)}\r\n\ \r\n\ Quantity:\r\n\ ${currentYear}-${cuurentQ}: ${
+            element.TotalQuantity
+        }\r\n\ ${lastYear}-${lastQ}: ${
+            element.TotalQuantityLastQ
+        }\r\n\ ${prevYear}-${prevQ}: ${element.TotalQuantityPreviousYearQ}`;
+        console.log(element.Department);
+        const result = this.SurgeriesStaff.filter((obj) => {
+            return (
+                obj.Staffs.Department === element.Department ||
+                obj.Staffs.Department === "admin"
+            );
+        });
+        console.log(result);
+        console.log(smsTxt);
         const dialogRef = this.dialog.open(AddNewNoteComponent, {
             data: {
                 element: element,
+                staffs: result,
+                smsTxt: smsTxt,
                 dialog: this.dialog,
             },
         });
@@ -229,8 +334,8 @@ export class SurgeryControlMainComponent implements OnInit {
         }
         this.http
             .post(
-                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMain",
+                //"http://localhost:64964/WebService.asmx/GetSurgeryControlMain",
                 {
                     type: type,
                     room: this.selectedBtn,
@@ -260,10 +365,10 @@ export class SurgeryControlMainComponent implements OnInit {
                     this.dataSourceMax.filter = this.selectedBtn
                         .trim()
                         .toLowerCase();
-                }else if (type == "RoomsNumbers") {
-                    debugger
+                } else if (type == "RoomsNumbers") {
+                    // debugger
                     this.dataTable_Rooms.splice(0, this.dataTable_Rooms.length);
-                    ////debugger
+                    debugger
                     this.dataTable_Rooms = Response["d"];
 
                     this.dataSourceRooms = new MatTableDataSource(
@@ -277,14 +382,22 @@ export class SurgeryControlMainComponent implements OnInit {
                     //debugger
                     this.SurgeryRooms = Response["d"];
                 } else if (type == "Rooms") {
-                    this.SurgeryRoomsNumber.splice(0, this.SurgeryRoomsNumber.length);
+                    this.SurgeryRoomsNumber.splice(
+                        0,
+                        this.SurgeryRoomsNumber.length
+                    );
                     //debugger
                     this.SurgeryRoomsNumber = Response["d"];
                 } else if (type == "QuarterYear") {
                     this.QuarterYear.splice(0, this.QuarterYear.length);
                     //debugger
                     this.QuarterYear = Response["d"];
+                } else if (type == "Staff") {
+                    //debugger;
+                    this.SurgeriesStaff.splice(0, this.SurgeriesStaff.length);
+                    this.SurgeriesStaff = Response["d"];
                 }
+
                 console.log(this.dataSourceTop);
                 console.log(this.dataSourceMax);
                 console.log(this.SurgeryRooms);

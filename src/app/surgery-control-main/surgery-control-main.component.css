@@ -5,6 +5,9 @@
 table .diff-col{
     padding: 0 !important;
 }
+.hasNotes{
+    background: #c9c9c9;
+}
 .mat-tooltip{
     max-width: unset !important;
 }
