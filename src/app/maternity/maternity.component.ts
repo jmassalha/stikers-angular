@@ -4,6 +4,7 @@ import {
     ViewChild,
     AfterViewInit,
     Input,
+    ChangeDetectorRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
@@ -136,7 +137,8 @@ export class MaternityComponent implements OnInit {
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal,
-        private mMenuPerm: MenuPerm
+        private mMenuPerm: MenuPerm,
+        private readonly changeDetectorRef: ChangeDetectorRef
     ) {
         mMenuPerm.setRoutName("maternity");
         setTimeout(() => {
@@ -353,6 +355,9 @@ export class MaternityComponent implements OnInit {
             }
         );
     }
+    ngAfterViewChecked(): void {
+        this.changeDetectorRef.detectChanges();
+      }
 
     getParentProjects() {
         this.http

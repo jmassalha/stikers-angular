@@ -47,6 +47,8 @@ export class GraphsModalComponent implements OnInit {
   @Output() newItemEvent = new EventEmitter<string[]>();
   @Output() secondItemEvent = new EventEmitter<string[]>();
   @Input() filterValue;
+  @Input() surgeriesPlace;
+  @Input() surgeriesType;
   TimeLineParam: string = "1";
   departParam: string = "1";
   periodList: any;
@@ -65,7 +67,7 @@ export class GraphsModalComponent implements OnInit {
   data3 = [];
   data4 = [];
   data5 = [];
-  allData = [];
+  allData1 = [];
   allData2 = [];
   allData3 = [];
   allData4 = [];
@@ -105,6 +107,9 @@ export class GraphsModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.filterValue = this.dataDialog['filterValue'];
+    this.surgeriesPlace = this.dataDialog['surgeriesPlace'];
+    this.surgeriesType = this.dataDialog['surgeriesType'];
     this.excelLoader = true;
     this.TimeLineParam = this.dataDialog['param'];
     this.options = {
@@ -126,29 +131,31 @@ export class GraphsModalComponent implements OnInit {
     }
 
     let that = this;
-    if (this.filterValue == undefined) {
-      this.discreteBarChart(1);
-      setTimeout(() => {
-        that.discreteBarChart(2);
-      }, 1000);
-      setTimeout(() => {
-        that.discreteBarChart(3);
-      }, 1000);
-      setTimeout(() => {
-        that.discreteBarChart(4);
-      }, 1000);
-      setTimeout(() => {
-        that.discreteBarChart(5);
-      }, 1000);
-    } else {
-      let selection = {
-        selection: [{
-          column: this.filterValue,
-          row: 0
-        }]
-      }
-      this.universalSelect(selection);
-    }
+
+    this.discreteBarChart(1);
+    setTimeout(() => {
+      that.discreteBarChart(2);
+    }, 1000);
+    setTimeout(() => {
+      that.discreteBarChart(3);
+    }, 1000);
+    setTimeout(() => {
+      that.discreteBarChart(4);
+    }, 1000);
+    setTimeout(() => {
+      that.discreteBarChart(5);
+    }, 1000);
+    // if (this.filterValue != undefined) {
+    //   let selection = {
+    //     selection: [{
+    //       column: this.filterValue,
+    //       row: 0
+    //     }]
+    //   }
+    //   setTimeout(() => {
+    //     that.universalSelect(selection);
+    //   }, 2000);
+    // }
     if (that.dataDialog['type'] == "excel") {
       setTimeout(() => {
         that.dialogRef.close(that.sendDataToParentExcel());
@@ -163,10 +170,18 @@ export class GraphsModalComponent implements OnInit {
 
   sendDataToParentExcel() {
     let result = [];
+    let data2 = [];
+    let data4 = [];
+    this.data2.forEach(element => {
+      data2.push([element[0], element[1]])
+    })
+    this.data4.forEach(element => {
+      data4.push([element[0], element[1]])
+    })
     result.push({ number: 1, columnnames: this.columnNames1, arr: this.data1 });
-    result.push({ number: 2, columnnames: this.columnNames2, arr: this.data2 });
+    result.push({ number: 2, columnnames: this.columnNames2, arr: data2 });
     result.push({ number: 3, columnnames: this.columnNames3, arr: this.data3 });
-    result.push({ number: 4, columnnames: this.columnNames4, arr: this.data4 });
+    result.push({ number: 4, columnnames: this.columnNames4, arr: data4 });
     result.push({ number: 5, columnnames: this.columnNames5, arr: this.data5 });
     return result;
   }
@@ -200,7 +215,7 @@ export class GraphsModalComponent implements OnInit {
         this.columnNames1.push({ role: 'annotation' });
 
         for (let i = 0; i < this.data1.length; i++) {
-          this.data1[i] = [this.allData[i][0], this.allData[i][index], this.allData[i][index]];
+          this.data1[i] = [this.allData1[i][0], this.allData1[i][index], this.allData1[i][index]];
         }
         for (let i = 0; i < this.data2.length; i++) {
           this.data2[i] = [this.allData2[i][0], this.allData2[i][index], this.allData2[i][index]];
@@ -246,11 +261,11 @@ export class GraphsModalComponent implements OnInit {
         this.data3 = [];
         this.data4 = [];
         this.data5 = [];
-        for (let i = 0; i < this.allData.length; i++) {
-          if (this.allData[i].length == 3) {
-            this.data1.push([this.allData[i][0], this.allData[i][1], this.allData[i][2]]);
+        for (let i = 0; i < this.allData1.length; i++) {
+          if (this.allData1[i].length == 3) {
+            this.data1.push([this.allData1[i][0], this.allData1[i][1], this.allData1[i][2]]);
           } else {
-            this.data1.push([this.allData[i][0], this.allData[i][index], this.allData[i][index]]);
+            this.data1.push([this.allData1[i][0], this.allData1[i][index], this.allData1[i][index]]);
           }
         }
         for (let i = 0; i < this.allData2.length; i++) {
@@ -349,9 +364,9 @@ export class GraphsModalComponent implements OnInit {
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
         param: this.TimeLineParam,
         deptCode: this.departParam,
-        surgerydeptType: this._surgerydeptType,
+        surgerydeptType: this.surgeriesType,
         filter: this.filterVal,
-        returnedPatients: this._returnedPatients,
+        returnedPatients: this.surgeriesPlace,
         periodList: this.periodList,
         graphNumber: graphNumber,
       })
@@ -470,7 +485,7 @@ export class GraphsModalComponent implements OnInit {
         }
 
         this.data1[f] = finalarr[dateDifference];
-        this.allData[f] = finalarr[dateDifference];
+        this.allData1[f] = finalarr[dateDifference];
       }
       this.data1.reverse();
     } else if (this.TimeLineParam == "2") {
@@ -495,7 +510,7 @@ export class GraphsModalComponent implements OnInit {
             counter++;//Math.abs(dateDifference);
           }
           this.data1[f] = finalarr[dateDifference];
-          this.allData[f] = finalarr[dateDifference];
+          this.allData1[f] = finalarr[dateDifference];
         }
         this.data1.reverse();
       }
@@ -524,13 +539,13 @@ export class GraphsModalComponent implements OnInit {
           counter++;
         }
         this.data1[f] = finalarr[monthIndex];
-        this.allData[f] = finalarr[monthIndex];
+        this.allData1[f] = finalarr[monthIndex];
       }
       this.data1.reverse();
     }
     else {
       this.data1 = finalarr;
-      this.allData = finalarr;
+      this.allData1 = finalarr;
       this.data1.reverse();
     }
     let departments = [];
