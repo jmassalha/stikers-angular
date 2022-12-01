@@ -1,17 +1,50 @@
-<form class="form text-right" dir="rtl" [formGroup]="addNoteForm" (ngSubmit)="onSubmit()">
-    <h2 mat-dialog-title>הוספת הערות ל: {{data.element.RoomGroup}} - {{data.element.Department}} - {{data.element.QuarterYear}}</h2>
-    <mat-dialog-content class="mat-typography w-add-note">
+<form
+    class="form text-right"
+    dir="rtl"
+    [formGroup]="smsForm"
+    (ngSubmit)="onSubmit()"
+>
+    <h2 mat-dialog-title>
+        שליחת הודעה ל: {{ data.element.RoomGroup }} -
+        {{ data.element.Department }} - {{ data.element.QuarterYear }}
+    </h2>
+    <mat-dialog-content class="mat-typography">
+        <!-- <div class="row">
+            <div  formArrayName="Staffs" class="col">
+                <br />
+                <span *ngFor="let staff of Staffs.controls; let i = index;">
+                    <span [formGroupName]="i">
+                        <mat-checkbox (change)="logForm()">
+                            {{ staff.controls.FullName.value }} - {{ staff.controls.PhoneNumber.value }} </mat-checkbox
+                        >
+                    </span>
+                    &nbsp;&nbsp;&nbsp;
+                </span>
+                <br />
+            </div>
+        </div> -->
+        <div class="row">
+            <div class="col">
+                <br />
+                <span *ngFor="let staff of this.data.staffs">
+                    <mat-checkbox value="{{staff.Staffs.PhoneNumber}}" (change)="logForm($event)">
+                        {{ staff.Staffs.FullName }} - {{ staff.Staffs.PhoneNumber }} </mat-checkbox
+                    >&nbsp;&nbsp;&nbsp;
+                </span>
+            </div>
+        </div>
         <div class="row">
             <div class="col">
                 <div class="form-group">
                     <mat-form-field>
-                        <textarea 
+                        <textarea
+                            dir="ltr"
                             matInput
                             rows="8"
                             autocomplete="off"
-                            class="form-control"
-                            placeholder="הערות"
-                            formControlName="NoteValue"
+                            class="form-control text-left"
+                            placeholder="תוכן הודעה"
+                            formControlName="SmsValue"
                         ></textarea>
                     </mat-form-field>
                 </div>
@@ -20,6 +53,7 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>בטל</button>
-        <button mat-button color="primary" cdkFocusInitial>שמור</button>
+        <button mat-button color="primary" cdkFocusInitial [class.spinner]="loading"
+        [disabled]="loading">שלח</button>
     </mat-dialog-actions>
 </form>
