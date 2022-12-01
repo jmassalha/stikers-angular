@@ -1346,7 +1346,7 @@ export class MershamComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
-                //"http://localhost:64964/WebService.asmx/SubmitPrecpiction",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
                 {
                     //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
                     //    prentFromId: '',

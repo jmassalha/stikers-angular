@@ -18,7 +18,7 @@
                 <h3>איחור</h3>
             </div>
             <google-chart #chart [type]="type" [data]="data1" [columns]="columnNames1" [options]="options"
-                [width]="width" [height]="height">
+                [width]="width" [height]="height" (select)="onSelect($event);">
             </google-chart>
         </div>
     </div>
@@ -30,9 +30,6 @@
             <google-chart #chart2 [type]="type" [data]="data2" [options]="options2"
                 [columns]="columnNames2" [width]="width" [height]="height">
             </google-chart>
-            <!-- <google-chart #chart [type]="type" [data]="data2" [columns]="columnNames" [options]="options"
-                [width]="width" [height]="height" (select)="onSelect($event)">
-            </google-chart> -->
         </div>
     </div>
     <div class="row section" dir="rtl">
