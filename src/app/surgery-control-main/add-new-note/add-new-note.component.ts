@@ -53,6 +53,7 @@ export interface DialogData {
 })
 export class AddNewNoteComponent implements OnInit {
     smsForm: FormGroup;
+    loading = false;
     SelectedStaffs: string[] = [];
     constructor(
         @Inject(MAT_DIALOG_DATA) public data: DialogData,
@@ -89,6 +90,7 @@ export class AddNewNoteComponent implements OnInit {
         console.log(this.SelectedStaffs);
     }
     onSubmit() {
+        this.loading = true;
         console.log(this.smsForm.value);
         this.http
             .post(
@@ -100,6 +102,7 @@ export class AddNewNoteComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.data.dialog.closeAll();
+                this.loading = false;
                 setTimeout(function () {
                     //////debugger
 

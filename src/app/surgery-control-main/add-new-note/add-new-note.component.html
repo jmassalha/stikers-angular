@@ -53,6 +53,7 @@
     </mat-dialog-content>
     <mat-dialog-actions align="end">
         <button mat-button mat-dialog-close>בטל</button>
-        <button mat-button color="primary" cdkFocusInitial>שלח</button>
+        <button mat-button color="primary" cdkFocusInitial [class.spinner]="loading"
+        [disabled]="loading">שלח</button>
     </mat-dialog-actions>
 </form>
