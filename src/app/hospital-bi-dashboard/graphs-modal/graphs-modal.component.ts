@@ -137,16 +137,16 @@ export class GraphsModalComponent implements OnInit {
     this.discreteBarChart(1);
     setTimeout(() => {
       that.discreteBarChart(2);
-    }, 1000);
+    }, 500);
     setTimeout(() => {
       that.discreteBarChart(3);
-    }, 1500);
+    }, 700);
     setTimeout(() => {
       that.discreteBarChart(4);
-    }, 2000);
+    }, 1000);
     setTimeout(() => {
       that.discreteBarChart(5);
-    }, 2500);
+    }, 1200);
     if (this.filterValue != undefined) {
       let selection = {
         selection: [{
@@ -156,7 +156,7 @@ export class GraphsModalComponent implements OnInit {
       }
       setTimeout(() => {
         that.universalSelect(selection);
-      }, 3000);
+      }, 1500);
     }
     if (that.dataDialog['type'] == "excel") {
       setTimeout(() => {
@@ -192,48 +192,51 @@ export class GraphsModalComponent implements OnInit {
     this.dialogRef.close();
   }
 
-  onSelect(event) {
+  onSelect(event, graphNumber) {
     if (event !== undefined) {
       let selected = event.selection[0];
       let that = this;
       if (this.columnNames1.length == 3) {
         this.discreteBarChart(1);
-        // setTimeout(() => {
-        //   that.discreteBarChart(2);
-        // }, 1000);
         setTimeout(() => {
           that.discreteBarChart(3);
-        }, 1000);
-        // setTimeout(() => {
-        //   that.discreteBarChart(4);
-        // }, 1000);
+        }, 700);
         setTimeout(() => {
           that.discreteBarChart(5);
         }, 1000);
       } else {
         this.totalNumberOfOccurincy = 0;
         let index = selected.column;
-        this.columnNames1 = [this.columnNames1[0], this.columnNames1[index]];
+        let word = "";
+        if (graphNumber == 1) {
+          word = this.columnNames1[index].trim();
+        } else if (graphNumber == 3) {
+          word = this.columnNames3[index].trim();
+        } else if (graphNumber == 5) {
+          word = this.columnNames5[index].trim();
+        }
+        let index1 = this.allColumnNames.indexOf(word);
+        this.columnNames1 = [this.columnNames1[0], this.columnNames1[index1]];
         this.columnNames1.push({ role: 'annotation' });
+        let index3 = this.allColumnNames3.indexOf(word);
+        this.columnNames3 = [this.columnNames3[0], this.columnNames3[index3]];
+        this.columnNames3.push({ role: 'annotation' });
+        let index5 = this.allColumnNames5.indexOf(word);
+        this.columnNames5 = [this.columnNames5[0], this.columnNames5[index5]];
+        this.columnNames5.push({ role: 'annotation' });
 
         for (let i = 0; i < this.data1.length; i++) {
-          this.data1[i] = [this.allData1[i][0], this.allData1[i][index], this.allData1[i][index]];
+          this.data1[i] = [this.allData1[i][0], this.allData1[i][index1], this.allData1[i][index1]];
         }
-        // for (let i = 0; i < this.data2.length; i++) {
-        //   this.data2[i] = [this.allData2[i][0], this.allData2[i][index], this.allData2[i][index]];
-        // }
         for (let i = 0; i < this.data3.length; i++) {
-          this.data3[i] = [this.allData3[i][0], this.allData3[i][index], this.allData3[i][index]];
+          this.data3[i] = [this.allData3[i][0], this.allData3[i][index3], this.allData3[i][index3]];
         }
-        // for (let i = 0; i < this.data4.length; i++) {
-        //   this.data4[i] = [this.allData4[i][0], this.allData4[i][index], this.allData4[i][index]];
-        // }
         for (let i = 0; i < this.data5.length; i++) {
-          this.data5[i] = [this.allData5[i][0], this.allData5[i][index], this.allData5[i][index]];
+          this.data5[i] = [this.allData5[i][0], this.allData5[i][index5], this.allData5[i][index5]];
         }
       }
     }
-    this.newItemEvent.emit(this.columnNames1[1]);
+    // this.newItemEvent.emit(this.columnNames1[1]);
   }
 
   universalSelect(event) {
@@ -242,15 +245,9 @@ export class GraphsModalComponent implements OnInit {
       let that = this;
       if (selected.column == "הכל") {
         this.discreteBarChart(1);
-        // setTimeout(() => {
-        //   that.discreteBarChart(2);
-        // }, 1000);
         setTimeout(() => {
           that.discreteBarChart(3);
         }, 1000);
-        // setTimeout(() => {
-        //   that.discreteBarChart(4);
-        // }, 1000);
         setTimeout(() => {
           that.discreteBarChart(5);
         }, 1000);
@@ -265,9 +262,7 @@ export class GraphsModalComponent implements OnInit {
         this.columnNames5 = [this.allColumnNames5[0], selected.column];
         this.columnNames5.push({ role: 'annotation' });
         this.data1 = [];
-        // this.data2 = [];
         this.data3 = [];
-        // this.data4 = [];
         this.data5 = [];
         for (let i = 0; i < this.allData1.length; i++) {
           if (this.allData1[i].length == 3) {
@@ -276,13 +271,6 @@ export class GraphsModalComponent implements OnInit {
             this.data1.push([this.allData1[i][0], this.allData1[i][index], this.allData1[i][index]]);
           }
         }
-        // for (let i = 0; i < this.allData2.length; i++) {
-        //   if (this.allData2[i].length == 3) {
-        //     this.data2.push([this.allData2[i][0], this.allData2[i][1], this.allData2[i][2]]);
-        //   } else {
-        //     this.data2.push([this.allData2[i][0], this.allData2[i][index], this.allData2[i][index]]);
-        //   }
-        // }
         for (let i = 0; i < this.allData3.length; i++) {
           if (this.allData3[i].length == 3) {
             this.data3.push([this.allData3[i][0], this.allData3[i][1], this.allData3[i][2]]);
@@ -290,13 +278,6 @@ export class GraphsModalComponent implements OnInit {
             this.data3.push([this.allData3[i][0], this.allData3[i][index3], this.allData3[i][index3]]);
           }
         }
-        // for (let i = 0; i < this.allData4.length; i++) {
-        //   if (this.allData4[i].length == 3) {
-        //     this.data4.push([this.allData4[i][0], this.allData4[i][1], this.allData4[i][2]]);
-        //   } else {
-        //     this.data4.push([this.allData4[i][0], this.allData4[i][index], this.allData4[i][index]]);
-        //   }
-        // }
         for (let i = 0; i < this.allData5.length; i++) {
           if (this.allData5[i].length == 3) {
             this.data5.push([this.allData5[i][0], this.allData5[i][1], this.allData5[i][2]]);
@@ -570,6 +551,13 @@ export class GraphsModalComponent implements OnInit {
   proccessData2(inquiriesStatLine) {
     let deptsArr = [];
     this.data2 = [];
+    inquiriesStatLine[0].label = 'ראשון';
+    inquiriesStatLine[1].label = 'שני';
+    inquiriesStatLine[2].label = 'שלישי';
+    inquiriesStatLine[3].label = 'רביעי';
+    inquiriesStatLine[4].label = 'חמישי';
+    inquiriesStatLine[5].label = 'שישי';
+    inquiriesStatLine[6].label = 'שבת';
     for (let i = 0; i < inquiriesStatLine.length; i++) {
       this.data2.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);
       this.allData2 = this.data2;
@@ -747,6 +735,13 @@ export class GraphsModalComponent implements OnInit {
   proccessData4(inquiriesStatLine) {
     let deptsArr = [];
     this.data4 = [];
+    inquiriesStatLine[0].label = 'ראשון';
+    inquiriesStatLine[1].label = 'שני';
+    inquiriesStatLine[2].label = 'שלישי';
+    inquiriesStatLine[3].label = 'רביעי';
+    inquiriesStatLine[4].label = 'חמישי';
+    inquiriesStatLine[5].label = 'שישי';
+    inquiriesStatLine[6].label = 'שבת';
     for (let i = 0; i < inquiriesStatLine.length; i++) {
       this.data4.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);
       this.allData4 = this.data4;

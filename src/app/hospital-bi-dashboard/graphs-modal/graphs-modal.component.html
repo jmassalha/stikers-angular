@@ -18,7 +18,7 @@
                 <h3>איחור</h3>
             </div>
             <google-chart #chart [type]="type" [data]="data1" [columns]="columnNames1" [options]="options"
-                [width]="width" [height]="height" (select)="onSelect($event);">
+                [width]="width" [height]="height" (select)="onSelect($event,1);">
             </google-chart>
         </div>
     </div>
@@ -38,7 +38,7 @@
                 <h3>זמן אובדן</h3>
             </div>
             <google-chart #chart [type]="type" [data]="data3" [columns]="columnNames3" [options]="options"
-                [width]="width" [height]="height">
+                [width]="width" [height]="height" (select)="onSelect($event,3);">
             </google-chart>
         </div>
     </div>
@@ -58,7 +58,7 @@
                 <h3>זמן גלישה</h3>
             </div>
             <google-chart #chart [type]="type" [data]="data5" [columns]="columnNames5" [options]="options"
-                [width]="width" [height]="height">
+                [width]="width" [height]="height" (select)="onSelect($event,5);">
             </google-chart>
 
         </div>

@@ -77,8 +77,8 @@
             <div class="container-fluid pb-60" style="width: 88%;">
                 <div class="row">
                     <div class="col-4" dir="rtl" *ngFor="let act of MaternityActivityList"
-                        [hidden]="dataSource.filteredData.length > 0">
-                        <mat-card class="card activity" (click)="getTableFromServer('','1',act.Row_ID)">
+                        [hidden]="activityID != ''">
+                        <mat-card class="card activity" [hidden]="act.Activity_Name == ''" (click)="getTableFromServer('','1',act.Row_ID)">
                             <span style="font-size: 28px;">{{act.Activity_Name}}</span>
                         </mat-card>
                     </div>
@@ -231,7 +231,7 @@
         </div>
     </div>
 </div>
-<button type="button" id="maternityBtn" (click)="open(maternityModal, 'maternity', ''); getParentProjects();" mat-fab
+<button type="button" id="maternityBtn" [hidden]="activityID == ''" (click)="open(maternityModal, 'maternity', ''); getParentProjects();" mat-fab
     color="primary">
     <i class="material-icons">add</i>
 </button>

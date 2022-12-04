@@ -182,7 +182,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     let titles = {
       pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'אחוז מטופלים לפי ימים', 'אחוז פעולות לפי מבצע', 'אחוז צנתורים לפי ימי שבוע', ''],
       bar: ['ניתוחים ברמת מחלקה', 'ביקורים לפי מרפאה', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פעולות', 'מספר צנתורים לתקופת', 'ביקורים לפי מרפאה'],
-      group: ['ניתוחים לפי מחלקה וסוג ניתוח', 'ביקורים לפי מרפאה ומשמרת', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת', 'ביקורים לפי מרפאה ומשמרת'],
+      group: ['ניתוחים לפי מחלקה וסוג ניתוח', 'ביקורים לפי מרפאה ומשמרת', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת (בוקר: 06:30 עד 14:30)', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת', 'ביקורים לפי מרפאה ומשמרת'],
       group2: ['כמות ניתוחים למחלקה', 'ביקורים לפי מרפאה וזמן', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן', 'מספר מטופלים לפי ציר זמן', 'מספר צנתורים לפי צרי זמן', 'ביקורים לפי מרפאה וזמן'],
       groupRelease: ['', '', '', '', 'שחרורים לפי זמן ', '', '', '', '', '', ''],
     };
@@ -648,9 +648,19 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.sheet_stat_data_5 = [this.all_stat_graphs_data[4].columnnames, this.all_stat_graphs_data[4].arr];
 
     // filters sheet
-    // let filtersArrayToExcel = [];
-    // this.surgeryTypesArray.forEach(x => { if(x.value == )filtersArrayToExcel.push(x.id) });
-    this.sheet_data_filters = [this.surgeryTypesArr];
+    let filtersArrayToExcel = [];
+    for (let i = 0; i < this.surgeryTypesArr.length; i++) {
+      for (let j = 0; j < this.surgeryTypesArray.length; j++) {
+        if (this.surgeryTypesArr[i] == this.surgeryTypesArray[j].value) {
+          filtersArrayToExcel.push(this.surgeryTypesArray[j].id);
+        }
+      }
+    }
+    filtersArrayToExcel.push(this.deliveryPrematureGroup.controls['ByDoctor'].value);
+    filtersArrayToExcel.push(this.hospitalDepartTypeGroup.controls['returnedPatients'].value);
+    filtersArrayToExcel.push(this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value);
+    filtersArrayToExcel.push(this.deliveryPrematureGroup.controls['deliveryPremature'].value);
+    this.sheet_data_filters = [filtersArrayToExcel];
 
     // // Add Header Rows
     // worksheet.addRow(Object.keys(this.sheet_data_1[0]));
