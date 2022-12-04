@@ -143,10 +143,10 @@ export class GraphsModalComponent implements OnInit {
     }, 700);
     setTimeout(() => {
       that.discreteBarChart(4);
-    }, 1000);
+    }, 1200);
     setTimeout(() => {
       that.discreteBarChart(5);
-    }, 1200);
+    }, 1500);
     if (this.filterValue != undefined) {
       let selection = {
         selection: [{
@@ -156,7 +156,7 @@ export class GraphsModalComponent implements OnInit {
       }
       setTimeout(() => {
         that.universalSelect(selection);
-      }, 1500);
+      }, 1700);
     }
     if (that.dataDialog['type'] == "excel") {
       setTimeout(() => {
@@ -549,15 +549,39 @@ export class GraphsModalComponent implements OnInit {
   }
 
   proccessData2(inquiriesStatLine) {
+    let date = new Date();
+    if (this.TimeLineParam == "4" || this.TimeLineParam == "5") {
+      let t = new Date(date);
+      inquiriesStatLine.forEach((element, index) => {
+        let temp = t.getFullYear() + parseInt(element.label);
+        inquiriesStatLine[index].label = temp.toString();
+      });
+      inquiriesStatLine = inquiriesStatLine.reverse();
+    }
     let deptsArr = [];
     this.data2 = [];
-    inquiriesStatLine[0].label = 'ראשון';
-    inquiriesStatLine[1].label = 'שני';
-    inquiriesStatLine[2].label = 'שלישי';
-    inquiriesStatLine[3].label = 'רביעי';
-    inquiriesStatLine[4].label = 'חמישי';
-    inquiriesStatLine[5].label = 'שישי';
-    inquiriesStatLine[6].label = 'שבת';
+    if (this.TimeLineParam == "1") {
+      inquiriesStatLine[0].label = 'ראשון';
+      inquiriesStatLine[1].label = 'שני';
+      inquiriesStatLine[2].label = 'שלישי';
+      inquiriesStatLine[3].label = 'רביעי';
+      inquiriesStatLine[4].label = 'חמישי';
+      inquiriesStatLine[5].label = 'שישי';
+      inquiriesStatLine[6].label = 'שבת';
+    } else if (this.TimeLineParam == "3") {
+      inquiriesStatLine[0].label = 'ינואר';
+      inquiriesStatLine[1].label = 'פברואר';
+      inquiriesStatLine[2].label = 'מרץ';
+      inquiriesStatLine[3].label = 'אפריל';
+      inquiriesStatLine[4].label = 'מאי';
+      inquiriesStatLine[5].label = 'יוני';
+      inquiriesStatLine[6].label = 'יולי';
+      inquiriesStatLine[7].label = 'אוגוסט';
+      inquiriesStatLine[8].label = 'ספטמבר';
+      inquiriesStatLine[9].label = 'אוקטובר';
+      inquiriesStatLine[10].label = 'נובמבר';
+      inquiriesStatLine[11].label = 'דצמבר';
+    }
     for (let i = 0; i < inquiriesStatLine.length; i++) {
       this.data2.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);
       this.allData2 = this.data2;
@@ -733,15 +757,39 @@ export class GraphsModalComponent implements OnInit {
   }
 
   proccessData4(inquiriesStatLine) {
+    let date = new Date();
+    if (this.TimeLineParam == "4" || this.TimeLineParam == "5") {
+      let t = new Date(date);
+      inquiriesStatLine.forEach((element, index) => {
+        let temp = t.getFullYear() + parseInt(element.label);
+        inquiriesStatLine[index].label = temp.toString();
+      });
+      inquiriesStatLine = inquiriesStatLine.reverse();
+    }
     let deptsArr = [];
     this.data4 = [];
-    inquiriesStatLine[0].label = 'ראשון';
-    inquiriesStatLine[1].label = 'שני';
-    inquiriesStatLine[2].label = 'שלישי';
-    inquiriesStatLine[3].label = 'רביעי';
-    inquiriesStatLine[4].label = 'חמישי';
-    inquiriesStatLine[5].label = 'שישי';
-    inquiriesStatLine[6].label = 'שבת';
+    if (this.TimeLineParam == "1") {
+      inquiriesStatLine[0].label = 'ראשון';
+      inquiriesStatLine[1].label = 'שני';
+      inquiriesStatLine[2].label = 'שלישי';
+      inquiriesStatLine[3].label = 'רביעי';
+      inquiriesStatLine[4].label = 'חמישי';
+      inquiriesStatLine[5].label = 'שישי';
+      inquiriesStatLine[6].label = 'שבת';
+    } else if (this.TimeLineParam == "3") {
+      inquiriesStatLine[0].label = 'ינואר';
+      inquiriesStatLine[1].label = 'פברואר';
+      inquiriesStatLine[2].label = 'מרץ';
+      inquiriesStatLine[3].label = 'אפריל';
+      inquiriesStatLine[4].label = 'מאי';
+      inquiriesStatLine[5].label = 'יוני';
+      inquiriesStatLine[6].label = 'יולי';
+      inquiriesStatLine[7].label = 'אוגוסט';
+      inquiriesStatLine[8].label = 'ספטמבר';
+      inquiriesStatLine[9].label = 'אוקטובר';
+      inquiriesStatLine[10].label = 'נובמבר';
+      inquiriesStatLine[11].label = 'דצמבר';
+    }
     for (let i = 0; i < inquiriesStatLine.length; i++) {
       this.data4.push([inquiriesStatLine[i].label, parseInt(inquiriesStatLine[i].value), parseInt(inquiriesStatLine[i].value)]);
       this.allData4 = this.data4;
