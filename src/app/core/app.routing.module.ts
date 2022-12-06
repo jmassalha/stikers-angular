@@ -89,6 +89,7 @@ import { StikersComponent } from '../stikers/stikers.component';
 import { MedigateServersComponent } from '../medigate-servers/medigate-servers.component';
 import { SurgeryControlMainComponent } from '../surgery-control-main/surgery-control-main.component';
 import { AdditionalCprTablesComponent } from '../form-dashboard/cpr-form/additional-cpr-tables/additional-cpr-tables.component';
+import { ServersForOnnlineComponent } from '../servers-for-onnline/servers-for-onnline.component';
 const routes: Routes = [
   
   { path: 'dashboard', component: DashboardComponent },
@@ -182,6 +183,7 @@ const routes: Routes = [
   { path: "medigate", component: MedigateServersComponent },
   { path: "surgerycontrolmain", component: SurgeryControlMainComponent },
   { path: "cpr-additional-tables", component: AdditionalCprTablesComponent },
+  { path: "servers4onnline", component: ServersForOnnlineComponent },
   { path: '', component : LoginComponent}
 ];
  
