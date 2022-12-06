@@ -18,7 +18,7 @@
                 <h3>איחור</h3>
             </div>
             <google-chart #chart [type]="type" [data]="data1" [columns]="columnNames1" [options]="options"
-                [width]="width" [height]="height">
+                [width]="width" [height]="height" (select)="onSelect($event,1);">
             </google-chart>
         </div>
     </div>
@@ -27,12 +27,9 @@
             <div class="row" style="justify-content: center;text-align-last: center;">
                 <h3>ימי אובדן</h3>
             </div>
-            <google-chart #chart2 [type]="type" [data]="data2" [options]="options2"
-                [columns]="columnNames2" [width]="width" [height]="height">
+            <google-chart #chart2 [type]="type" [data]="data2" [options]="options" [columns]="columnNames2"
+                [width]="width" [height]="height" (select)="onSelect($event,2);">
             </google-chart>
-            <!-- <google-chart #chart [type]="type" [data]="data2" [columns]="columnNames" [options]="options"
-                [width]="width" [height]="height" (select)="onSelect($event)">
-            </google-chart> -->
         </div>
     </div>
     <div class="row section" dir="rtl">
@@ -41,7 +38,7 @@
                 <h3>זמן אובדן</h3>
             </div>
             <google-chart #chart [type]="type" [data]="data3" [columns]="columnNames3" [options]="options"
-                [width]="width" [height]="height">
+                [width]="width" [height]="height" (select)="onSelect($event,3);">
             </google-chart>
         </div>
     </div>
@@ -50,8 +47,8 @@
             <div class="row" style="justify-content: center;text-align-last: center;">
                 <h3>ימי גלישה</h3>
             </div>
-            <google-chart #chart2 [type]="type" [data]="data4" [options]="options2"
-                [columns]="columnNames4" [width]="width" [height]="height">
+            <google-chart #chart2 [type]="type" [data]="data4" [options]="options" [columns]="columnNames4"
+                [width]="width" [height]="height" (select)="onSelect($event,4);">
             </google-chart>
         </div>
     </div>
@@ -61,7 +58,7 @@
                 <h3>זמן גלישה</h3>
             </div>
             <google-chart #chart [type]="type" [data]="data5" [columns]="columnNames5" [options]="options"
-                [width]="width" [height]="height">
+                [width]="width" [height]="height" (select)="onSelect($event,5);">
             </google-chart>
 
         </div>

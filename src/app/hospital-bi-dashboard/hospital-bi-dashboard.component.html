@@ -122,7 +122,7 @@
     </div>
     <div class="row">
         <mat-card class="example-card text-center" *ngFor="let card of cardsList">
-            <mat-card-title-group style="justify-content: center;">
+            <mat-card-title-group *ngIf="card.key != null" style="justify-content: center;">
                 <div class="text-center">
                     <mat-card-title style="font-weight: bold;">{{choosenDept.DIMDataTypeDesc}}</mat-card-title>
                     <mat-card-subtitle>{{card.title}}</mat-card-subtitle>
@@ -140,6 +140,19 @@
                 style="font-size: 25px;font-weight: bold;color: red;">
                 <span class="material-icons" style="color: red;">
                     trending_down
+                </span>
+                <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
+                <p *ngIf="!loader">{{card.y}}</p>
+            </mat-card-content>
+            <mat-card-title-group *ngIf="card.key == null && departParam == '1'" style="justify-content: center;">
+                <div class="text-center">
+                    <mat-card-title style="font-weight: bold;">שיעור ניתוחים דחופים</mat-card-title>
+                </div>
+            </mat-card-title-group>
+            <mat-card-content *ngIf="card.key == null && departParam == '1'" class="text-center"
+                style="font-size: 25px;font-weight: bold;">
+                <span class="material-icons">
+                    
                 </span>
                 <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
                 <p *ngIf="!loader">{{card.y}}</p>

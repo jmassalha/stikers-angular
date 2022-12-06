@@ -74,7 +74,7 @@ export class NotesHistoryComponent implements OnInit {
       this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMainNotes",
-                //"http://localhost:64964/WebService.asmx/GetSurgeryControlMainNotes",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetSurgeryControlMainNotes",
                 {
                   RoomGroup: this.data.element.RoomGroup,
                   Department: this.data.element.Department,

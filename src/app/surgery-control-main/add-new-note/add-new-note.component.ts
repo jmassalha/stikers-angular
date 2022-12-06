@@ -95,7 +95,7 @@ export class AddNewNoteComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/SmsToSurgeryControlMain",
-               // "http://localhost:64964/WebService.asmx/SmsToSurgeryControlMain",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/SmsToSurgeryControlMain",
                 {
                     smsForm: this.smsForm.value,
                 }

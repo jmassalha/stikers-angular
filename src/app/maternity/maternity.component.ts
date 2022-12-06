@@ -426,6 +426,7 @@ export class MaternityComponent implements OnInit {
     returnToCards() {
         this.fliterVal = "";
         this.activeOrNot = "";
+        this.activityID = "";
         this.dataSource = new MatTableDataSource();
     }
 
