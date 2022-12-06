@@ -27,8 +27,8 @@
             <div class="row" style="justify-content: center;text-align-last: center;">
                 <h3>ימי אובדן</h3>
             </div>
-            <google-chart #chart2 [type]="type" [data]="data2" [options]="options"
-                [columns]="columnNames2" [width]="width" [height]="height">
+            <google-chart #chart2 [type]="type" [data]="data2" [options]="options" [columns]="columnNames2"
+                [width]="width" [height]="height" (select)="onSelect($event,2);">
             </google-chart>
         </div>
     </div>
@@ -47,8 +47,8 @@
             <div class="row" style="justify-content: center;text-align-last: center;">
                 <h3>ימי גלישה</h3>
             </div>
-            <google-chart #chart2 [type]="type" [data]="data4" [options]="options"
-                [columns]="columnNames4" [width]="width" [height]="height">
+            <google-chart #chart2 [type]="type" [data]="data4" [options]="options" [columns]="columnNames4"
+                [width]="width" [height]="height" (select)="onSelect($event,4);">
             </google-chart>
         </div>
     </div>

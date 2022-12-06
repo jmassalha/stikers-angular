@@ -431,6 +431,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   changeSurgeryType() {
+    this.filterValue = undefined;
     let byDoc = this.deliveryPrematureGroup.controls['ByDoctor'].value;
     if (this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value == "0") {
       this._ifSeode = 'סיעודיות';
@@ -514,12 +515,16 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.http
       .post(this.configUrl + "GetStatsValues", {
         deptCode: this.departParam,
-        returnedPatients: this.deliveryPrematureGroup.controls['deliveryPremature'].value
+        returnedPatients: this.deliveryPrematureGroup.controls['deliveryPremature'].value,
+        timeLine: this.TimeLineParam
       })
       .subscribe((Response) => {
         this.loader = false;
         this.cardsList = Response["d"];
         this.cardsList[0].y = this.cardsList[0].y + "%";
+        if (this.cardsList.length == 3) {
+          this.cardsList[2].y = this.cardsList[2].y + "%";
+        }
       });
   }
 
@@ -626,11 +631,18 @@ export class HospitalBIDashboardComponent implements OnInit {
     let worksheet_3 = workbook.addWorksheet(title.group2[parseInt(this.departParam) - 1]);
     let worksheet_4 = workbook.addWorksheet(title.group[parseInt(this.departParam) - 1]);
     // only for surgeries
-    let worksheet_stat_1 = workbook.addWorksheet("איחור");
-    let worksheet_stat_2 = workbook.addWorksheet("ימי אובדן");
-    let worksheet_stat_3 = workbook.addWorksheet("זמן אובדן");
-    let worksheet_stat_4 = workbook.addWorksheet("ימי גלישה");
-    let worksheet_stat_5 = workbook.addWorksheet("זמן גלישה");
+    let worksheet_stat_1;
+    let worksheet_stat_2;
+    let worksheet_stat_3;
+    let worksheet_stat_4;
+    let worksheet_stat_5;
+    if (this.departParam == "1") {
+      worksheet_stat_1 = workbook.addWorksheet("איחור");
+      worksheet_stat_2 = workbook.addWorksheet("ימי אובדן");
+      worksheet_stat_3 = workbook.addWorksheet("זמן אובדן");
+      worksheet_stat_4 = workbook.addWorksheet("ימי גלישה");
+      worksheet_stat_5 = workbook.addWorksheet("זמן גלישה");
+    }
 
     let worksheet_filters = workbook.addWorksheet("פילטרים");
 
@@ -640,12 +652,13 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.sheet_data_3 = this.group2.sendDataToParentExcel();
     this.sheet_data_4 = this.group.sendDataToParentExcel();
     // only surgeries
-
-    this.sheet_stat_data_1 = [this.all_stat_graphs_data[0].columnnames, this.all_stat_graphs_data[0].arr];
-    this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames.slice(0, -1), this.all_stat_graphs_data[1].arr];
-    this.sheet_stat_data_3 = [this.all_stat_graphs_data[2].columnnames, this.all_stat_graphs_data[2].arr];
-    this.sheet_stat_data_4 = [this.all_stat_graphs_data[3].columnnames.slice(0, -1), this.all_stat_graphs_data[3].arr];
-    this.sheet_stat_data_5 = [this.all_stat_graphs_data[4].columnnames, this.all_stat_graphs_data[4].arr];
+    if (this.departParam == "1") {
+      this.sheet_stat_data_1 = [this.all_stat_graphs_data[0].columnnames, this.all_stat_graphs_data[0].arr];
+      this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames.slice(0, -1), this.all_stat_graphs_data[1].arr];
+      this.sheet_stat_data_3 = [this.all_stat_graphs_data[2].columnnames, this.all_stat_graphs_data[2].arr];
+      this.sheet_stat_data_4 = [this.all_stat_graphs_data[3].columnnames.slice(0, -1), this.all_stat_graphs_data[3].arr];
+      this.sheet_stat_data_5 = [this.all_stat_graphs_data[4].columnnames, this.all_stat_graphs_data[4].arr];
+    }
 
     // filters sheet
     let filtersArrayToExcel = [];
@@ -696,31 +709,34 @@ export class HospitalBIDashboardComponent implements OnInit {
     // });
 
     // only surgeries
-    worksheet_stat_1.addRow(Object.values(this.sheet_stat_data_1[0]));
+    if (this.departParam == "1") {
+      worksheet_stat_1.addRow(Object.values(this.sheet_stat_data_1[0]));
 
-    this.sheet_stat_data_1[1].forEach((d: any) => {
-      worksheet_stat_1.addRow(Object.values(d));
-    });
-    worksheet_stat_2.addRow(Object.values(this.sheet_stat_data_2[0]));
+      this.sheet_stat_data_1[1].forEach((d: any) => {
+        worksheet_stat_1.addRow(Object.values(d));
+      });
+      worksheet_stat_2.addRow(Object.values(this.sheet_stat_data_2[0]));
 
-    this.sheet_stat_data_2[1].forEach((d: any) => {
-      worksheet_stat_2.addRow(Object.values(d));
-    });
-    worksheet_stat_3.addRow(Object.values(this.sheet_stat_data_3[0]));
+      this.sheet_stat_data_2[1].forEach((d: any) => {
+        worksheet_stat_2.addRow(Object.values(d));
+      });
+      worksheet_stat_3.addRow(Object.values(this.sheet_stat_data_3[0]));
 
-    this.sheet_stat_data_3[1].forEach((d: any) => {
-      worksheet_stat_3.addRow(Object.values(d));
-    });
-    worksheet_stat_4.addRow(Object.values(this.sheet_stat_data_4[0]));
+      this.sheet_stat_data_3[1].forEach((d: any) => {
+        worksheet_stat_3.addRow(Object.values(d));
+      });
+      worksheet_stat_4.addRow(Object.values(this.sheet_stat_data_4[0]));
 
-    this.sheet_stat_data_4[1].forEach((d: any) => {
-      worksheet_stat_4.addRow(Object.values(d));
-    });
-    worksheet_stat_5.addRow(Object.values(this.sheet_stat_data_5[0]));
+      this.sheet_stat_data_4[1].forEach((d: any) => {
+        worksheet_stat_4.addRow(Object.values(d));
+      });
+      worksheet_stat_5.addRow(Object.values(this.sheet_stat_data_5[0]));
 
-    this.sheet_stat_data_5[1].forEach((d: any) => {
-      worksheet_stat_5.addRow(Object.values(d));
-    });
+      this.sheet_stat_data_5[1].forEach((d: any) => {
+        worksheet_stat_5.addRow(Object.values(d));
+      });
+    }
+
 
     let myDate = new Date();
     let today = this.datePipe.transform(myDate, 'yyyy-MM-dd');
