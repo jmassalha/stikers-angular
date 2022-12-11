@@ -175,6 +175,8 @@ import { HospitalBiService } from './hospital-bi-dashboard/hospital-bi.service';
 import { NotesHistoryComponent } from './surgery-control-main/notes-history/notes-history.component';
 import { ServersForOnnlineComponent } from './servers-for-onnline/servers-for-onnline.component';
 import { AddOrEditServerComponent } from './servers-for-onnline/add-or-edit-server/add-or-edit-server.component';
+import { IpPointsComponent } from './ip-points/ip-points.component';
+import { AddOrEditIpPointComponent } from './ip-points/add-or-edit-ip-point/add-or-edit-ip-point.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -304,7 +306,9 @@ const maskConfig: Partial<IConfig> = {
     ChartsDialogComponent,
     NotesHistoryComponent,
     ServersForOnnlineComponent,
-    AddOrEditServerComponent
+    AddOrEditServerComponent,
+    IpPointsComponent,
+    AddOrEditIpPointComponent
   ],
   imports: [
     JpTimeMaskModule,

@@ -1,14 +1,15 @@
 <form
-    class="form text-left"
+    class="form text-right"
+    dir="rtl"
     [formGroup]="serverForm"
     (ngSubmit)="onSubmit()"
 >
     <h2 mat-dialog-title *ngIf="data.element.RowId != '0'">
-        Edit Server: {{ data.element.ServerName }}
+        עריכת נקודת רשת: {{ data.element.IP }}
     </h2>
     
     <h2 mat-dialog-title *ngIf="data.element.RowId == '0'">
-        Add Server
+        הוספת נקודת רשת חדשה
     </h2>
     <mat-dialog-content class="mat-typography">        
         
@@ -20,8 +21,8 @@
                             matInput
                             autocomplete="off"
                             class="form-control"
-                            placeholder="Server Name"
-                            formControlName="ServerName"
+                            placeholder="מוקד"
+                            formControlName="CenterName"
                             
                             type="text"
                         />
@@ -35,8 +36,8 @@
                             matInput
                             autocomplete="off"
                             class="form-control"
-                            placeholder="Type"
-                            formControlName="ServerType"
+                            placeholder="מיקום"
+                            formControlName="IPLocation"
                             
                             type="text"
                         />
@@ -50,55 +51,8 @@
                             matInput
                             autocomplete="off"
                             class="form-control"
-                            placeholder="HardWare"
-                            formControlName="HardWare"
-                            
-                            type="text"
-                        />
-                    </mat-form-field>
-                </div>
-            </div>
-        </div>
-        <div class="row">
-            <div class="col">
-                <div class="form-group">
-                    <mat-form-field>
-                        <input
-                            matInput
-                            autocomplete="off"
-                            class="form-control"
-                            placeholder="V Serial Number"
-                            formControlName="VSerialNumber"
-                            
-                            type="text"
-                        />
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <mat-form-field>
-                        <input
-                            matInput
-                            autocomplete="off"
-                            class="form-control"
-                            placeholder="Remarks"
-                            formControlName="ServerRemarks"
-                            
-                            type="text"
-                        />
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <mat-form-field>
-                        <input
-                            matInput
-                            autocomplete="off"
-                            class="form-control"
-                            placeholder="Location"
-                            formControlName="ServerLocation"
+                            placeholder="מס' נקודה"
+                            formControlName="PointNumber"
                             
                             type="text"
                         />
@@ -114,8 +68,8 @@
                             matInput
                             autocomplete="off"
                             class="form-control"
-                            placeholder="OS"
-                            formControlName="ServerOS"
+                            placeholder="מסך"
+                            formControlName="Screen"
                             
                             type="text"
                         />
@@ -129,24 +83,42 @@
                             matInput
                             autocomplete="off"
                             class="form-control"
-                            placeholder="Functions"
-                            formControlName="ServerFunctions"
-                            
-                            type="text"
-                        />
-                    </mat-form-field>
-                </div>
-            </div>
-            <div class="col">
-                <div class="form-group">
-                    <mat-form-field>
-                        <input
-                            matInput
-                            autocomplete="off"
-                            class="form-control"
-                            placeholder="IP Address"
-                            formControlName="ServerIPAddress"
+                            placeholder="IP"
+                            formControlName="IP"
                             mask="IP"
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="GetWay"
+                            formControlName="GetWay"
+                            mask="IP"
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="SubNet"
+                            mask="IP"
+                            formControlName="SubNet"
+                            
                             type="text"
                         />
                     </mat-form-field>
@@ -158,8 +130,8 @@
         <input type="hidden" formControlName="RowId">
         <input type="hidden" formControlName="UserInsert">
         <input type="hidden" formControlName="UserUpdate">
-        <button mat-button mat-dialog-close>Close</button>
+        <button mat-button mat-dialog-close>בטל</button>
         <button mat-button color="primary" type="submit" cdkFocusInitial [class.spinner]="loading"
-        [disabled]="loading">Save</button>
+        [disabled]="loading">שמור</button>
     </mat-dialog-actions>
 </form>

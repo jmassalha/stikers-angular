@@ -90,6 +90,7 @@ import { MedigateServersComponent } from '../medigate-servers/medigate-servers.c
 import { SurgeryControlMainComponent } from '../surgery-control-main/surgery-control-main.component';
 import { AdditionalCprTablesComponent } from '../form-dashboard/cpr-form/additional-cpr-tables/additional-cpr-tables.component';
 import { ServersForOnnlineComponent } from '../servers-for-onnline/servers-for-onnline.component';
+import { IpPointsComponent } from '../ip-points/ip-points.component';
 const routes: Routes = [
   
   { path: 'dashboard', component: DashboardComponent },
@@ -184,6 +185,7 @@ const routes: Routes = [
   { path: "surgerycontrolmain", component: SurgeryControlMainComponent },
   { path: "cpr-additional-tables", component: AdditionalCprTablesComponent },
   { path: "servers4onnline", component: ServersForOnnlineComponent },
+  { path: "ippoints", component: IpPointsComponent },
   { path: '', component : LoginComponent}
 ];
  

@@ -85,6 +85,7 @@ import { StikersComponent } from "./stikers/stikers.component";
 import { MedigateServersComponent } from "./medigate-servers/medigate-servers.component";
 import { SurgeryControlMainComponent } from "./surgery-control-main/surgery-control-main.component";
 import { ServersForOnnlineComponent } from "./servers-for-onnline/servers-for-onnline.component";
+import { IpPointsComponent } from "./ip-points/ip-points.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -191,6 +192,7 @@ const routes: Routes = [
     { path: "surgerycontrolmain", component: SurgeryControlMainComponent },
 
     { path: "servers4onnline", component: ServersForOnnlineComponent },
+    { path: "ippoints", component: IpPointsComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({
