@@ -42,11 +42,11 @@ export class AddOrEditIpPointComponent implements OnInit {
     ) {
         this.serverForm = this.formBuilder.group({
             RowId: [this.data.element.RowId, null],
-            CenterName: [this.data.element.CenterName, Validators.required],
+            CenterName: [this.data.element.CenterName, null],
             IPLocation: [this.data.element.IPLocation, null],
             PointNumber: [this.data.element.PointNumber, null],
             Screen: [this.data.element.Screen, null],
-            IP: [this.data.element.IP, null],
+            IP: [this.data.element.IP, Validators.required],
             GetWay: [this.data.element.GetWay, null],
             SubNet: [this.data.element.SubNet, null],
             UserInsert: [localStorage.getItem("loginUserName"), null],
