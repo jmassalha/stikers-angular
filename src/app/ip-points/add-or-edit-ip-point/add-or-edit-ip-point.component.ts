@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Inject, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -26,6 +26,17 @@ export interface DialogData {
   element: Server;
   dialog: MatDialog;
 }
+export function customIPValidator(): ValidatorFn {
+  return (control: AbstractControl) => {
+    const regex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+
+    if (regex.test(control.value)) {
+      return null;
+    }
+
+    return { ipError: true };
+  };
+}
 @Component({
   selector: 'app-add-or-edit-ip-point',
   templateUrl: './add-or-edit-ip-point.component.html',
@@ -46,7 +57,7 @@ export class AddOrEditIpPointComponent implements OnInit {
             IPLocation: [this.data.element.IPLocation, null],
             PointNumber: [this.data.element.PointNumber, null],
             Screen: [this.data.element.Screen, null],
-            IP: [this.data.element.IP, Validators.required],
+            IP: [this.data.element.IP, [Validators.required, customIPValidator()]],
             GetWay: [this.data.element.GetWay, null],
             SubNet: [this.data.element.SubNet, null],
             UserInsert: [localStorage.getItem("loginUserName"), null],

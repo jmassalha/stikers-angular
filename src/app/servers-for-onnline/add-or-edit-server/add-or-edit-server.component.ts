@@ -1,6 +1,6 @@
 import { HttpClient } from "@angular/common/http";
 import { Component, Inject, OnInit, ViewChild } from "@angular/core";
-import { FormBuilder, FormGroup, Validators } from "@angular/forms";
+import { AbstractControl, FormBuilder, FormGroup, ValidatorFn, Validators } from "@angular/forms";
 import { MatDialog, MAT_DIALOG_DATA } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
@@ -24,6 +24,18 @@ export interface Server {
     UserInsert: string;
     UserUpdate: string;
 }
+
+export function customIPValidator(): ValidatorFn {
+    return (control: AbstractControl) => {
+      const regex = /^(?:[0-9]{1,3}\.){3}[0-9]{1,3}$/;
+  
+      if (regex.test(control.value)) {
+        return null;
+      }
+  
+      return { ipError: true };
+    };
+  }
 export interface DialogData {
     element: Server;
     dialog: MatDialog;
@@ -52,7 +64,7 @@ export class AddOrEditServerComponent implements OnInit {
             ServerLocation: [this.data.element.ServerLocation, null],
             ServerOS: [this.data.element.ServerOS, null],
             ServerFunctions: [this.data.element.ServerFunctions, null],
-            ServerIPAddress: [this.data.element.ServerIPAddress, null],
+            ServerIPAddress: [this.data.element.ServerIPAddress,  [Validators.required, customIPValidator()]],
             UserInsert: [localStorage.getItem("loginUserName"), null],
             UserUpdate: [localStorage.getItem("loginUserName"), null],
         });
