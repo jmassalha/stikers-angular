@@ -639,9 +639,9 @@ export class HospitalBIDashboardComponent implements OnInit {
 
     worksheet_filters.addRow(Object.values(this.sheet_data_filters[0]));
 
-    this.sheet_data_filters[1].forEach((d: any) => {
-      worksheet_filters.addRow(Object.values(d));
-    });
+    // this.sheet_data_filters[1].forEach((d: any) => {
+    //   worksheet_filters.addRow(Object.values(d));
+    // });
 
     let myDate = new Date();
     let today = this.datePipe.transform(myDate, 'yyyy-MM-dd');

@@ -77,7 +77,7 @@ export class AddOrEditServerComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateServers4Onnline",
-               // "http://localhost:64964/WebService.asmx/insertOrUpdateServers4Onnline",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateServers4Onnline",
                 {
                     mRowServers4Onnline: this.serverForm.value,
                 }

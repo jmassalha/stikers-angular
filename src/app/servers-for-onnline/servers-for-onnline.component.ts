@@ -137,7 +137,7 @@ export class ServersForOnnlineComponent implements OnInit {
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllServers4Onnline", {
-            //.post("http://localhost:64964/WebService.asmx/getAllServers4Onnline",{
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllServers4Onnline",{
 
             }
             )
