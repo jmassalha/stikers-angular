@@ -1,0 +1,10 @@
+#GroupBtn{
+    position: fixed;
+    left: 15px;
+    bottom: 55px;
+}
+#SendBtn{
+    position: fixed;
+    left: 85px;
+    bottom: 55px;
+}
