@@ -11,6 +11,11 @@
                 matTooltip="סטטיסטיקות">
                 <mat-icon>bar_chart</mat-icon>
             </button>
+            <button mat-mini-fab color="warn" *ngIf="departParam == '5'" [disabled]="loader"
+                style="float: right;margin: 2px;" aria-label="Statistics" (click)="openEshpozChartsDialog()"
+                matTooltip="סטטיסטיקות">
+                <mat-icon>bar_chart</mat-icon>
+            </button>
             <button mat-button [matMenuTriggerFor]="menu"
                 class="depts-list-menu">{{choosenDept.DIMDataTypeDesc}}</button>
             <mat-menu #menu="matMenu">
@@ -105,7 +110,7 @@
             [formGroup]="deliveryPrematureGroup">
             <section class="example-section">
                 <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="deliveryPremature">
-                    מחלקות מזמינות</mat-checkbox>
+                    מחלקות מזמינות (מכון רנטגן)</mat-checkbox>
             </section>
         </div>
         <div *ngIf="departParam == '2'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
@@ -125,7 +130,7 @@
             <mat-card-title-group *ngIf="card.key != null" style="justify-content: center;">
                 <div class="text-center">
                     <mat-card-title style="font-weight: bold;">{{choosenDept.DIMDataTypeDesc}}</mat-card-title>
-                    <mat-card-subtitle>{{card.title}}</mat-card-subtitle>
+                    <mat-card-subtitle>מתחילת שנה</mat-card-subtitle>
                 </div>
             </mat-card-title-group>
             <mat-card-content *ngIf="card.key == 'Up'" class="text-center"
@@ -147,12 +152,13 @@
             <mat-card-title-group *ngIf="card.key == null && departParam == '1'" style="justify-content: center;">
                 <div class="text-center">
                     <mat-card-title style="font-weight: bold;">שיעור ניתוחים דחופים</mat-card-title>
+                    <mat-card-subtitle>לפי {{timeLine[TimeLineParam - 1].DimTimeTypeDesc}}</mat-card-subtitle>
                 </div>
             </mat-card-title-group>
             <mat-card-content *ngIf="card.key == null && departParam == '1'" class="text-center"
                 style="font-size: 25px;font-weight: bold;">
                 <span class="material-icons">
-                    
+
                 </span>
                 <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
                 <p *ngIf="!loader">{{card.y}}</p>

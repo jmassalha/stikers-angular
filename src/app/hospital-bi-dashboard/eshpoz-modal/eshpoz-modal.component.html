@@ -1,0 +1,27 @@
+<div class="wrapper" dir="rtl" [hidden]="excelLoader">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="onNoClick()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">תפוקות אשפוז</h1>
+    <hr>
+    <div class="row section" dir="rtl">
+        <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+            <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>ממוצע מזמן קבלה עד ביצוע קבלה סיעודית בדקות</h3>
+            </div>
+            <google-chart #chart [type]="type" [data]="data1" [columns]="columnNames1" [options]="options"
+                [width]="width" [height]="height" (select)="onSelect($event,1);">
+            </google-chart>
+        </div>
+    </div>
+    <div class="row section" dir="rtl">
+        <div class="col-12" style="border: 1px solid black;border-radius: 10px;">
+            <div class="row" style="justify-content: center;text-align-last: center;">
+                <h3>ממוצע מזמן קבלה עד ביצוע קבלה רפואית בדקות</h3>
+            </div>
+            <google-chart #chart [type]="type" [data]="data2" [columns]="columnNames2" [options]="options"
+                [width]="width" [height]="height" (select)="onSelect($event,2);">
+            </google-chart>
+        </div>
+    </div>
+</div>

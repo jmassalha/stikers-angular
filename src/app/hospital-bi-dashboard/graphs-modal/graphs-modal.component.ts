@@ -1,29 +1,3 @@
-// import { Component, Inject, OnInit } from "@angular/core";
-// import { MatDialogRef, MAT_DIALOG_DATA } from "@angular/material/dialog";
-// import { DialogData } from "src/app/medigate-servers/data-row-table/data-row-table.component";
-
-// @Component({
-//   selector: 'app-graphs-modal',
-//   templateUrl: './graphs-modal.component.html',
-//   styleUrls: ['./graphs-modal.component.css']
-// })
-// export class GraphsModalComponent implements OnInit {
-
-//   graphSource: string;
-//   constructor(
-//     public dialogRef: MatDialogRef<GraphsModalComponent>,
-//     @Inject(MAT_DIALOG_DATA) public data: DialogData
-//   ) { }
-
-//   ngOnInit(): void {
-//     this.graphSource = this.data["graphSource"];
-//   }
-
-//   onNoClick(): void {
-//     this.dialogRef.close();
-//   }
-// }
-
 import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -172,14 +146,6 @@ export class GraphsModalComponent implements OnInit {
 
   sendDataToParentExcel() {
     let result = [];
-    // let data2 = [];
-    // let data4 = [];
-    // this.data2.forEach(element => {
-    //   data2.push([element[0], element[1]])
-    // })
-    // this.data4.forEach(element => {
-    //   data4.push([element[0], element[1]])
-    // })
     result.push({ number: 1, columnnames: this.columnNames1, arr: this.data1 });
     result.push({ number: 2, columnnames: this.columnNames2, arr: this.data2 });
     result.push({ number: 3, columnnames: this.columnNames3, arr: this.data3 });

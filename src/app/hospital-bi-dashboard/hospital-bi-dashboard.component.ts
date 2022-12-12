@@ -9,6 +9,7 @@ import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { GroupedBarChart2Component } from './grouped-bar-chart2/grouped-bar-chart2.component';
 import { GroupedBarChartReleaseComponent } from './grouped-bar-chart-release/grouped-bar-chart-release.component';
 import { GraphsModalComponent } from './graphs-modal/graphs-modal.component';
+import { EshpozModalComponent } from './eshpoz-modal/eshpoz-modal.component';
 import { MatTableDataSource } from '@angular/material/table';
 import { MatPaginator } from '@angular/material/paginator';
 import { MatSort } from '@angular/material/sort';
@@ -305,7 +306,9 @@ export class HospitalBIDashboardComponent implements OnInit {
       }
     }
 
-    if (this.departParam == "5") {
+    if (this.departParam == "1") {
+      this.getStatisticGraphsToExcel();
+    } else if (this.departParam == "5") {
       this.getHospitalDepartmentsTableChartList();
     }
   }
@@ -401,6 +404,9 @@ export class HospitalBIDashboardComponent implements OnInit {
     setTimeout(() => {
       that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
     }, 1000);
+    if (this.departParam == "5") {
+      this.getStatisticEshpozModalToExcel();
+    }
   }
 
   openChartsDialog() {
@@ -411,6 +417,17 @@ export class HospitalBIDashboardComponent implements OnInit {
     let surgeriesPlace = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
     let data = { graphSource: "dialog", param: this.TimeLineParam, type: "normal", filterValue: this.filterValue, surgeriesType: valueOfSwitch, surgeriesPlace: surgeriesPlace }
     const dialogRef = this.dialog.open(GraphsModalComponent, {
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      console.log('The dialog was closed');
+    });
+  }
+
+  openEshpozChartsDialog() {
+    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "normal" }
+    const dialogRef = this.dialog.open(EshpozModalComponent, {
       data: data,
     });
 
@@ -579,6 +596,21 @@ export class HospitalBIDashboardComponent implements OnInit {
     });
   }
 
+  getStatisticEshpozModalToExcel() {
+    let valueOfSwitch = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
+    if (this.departParam == "1" && valueOfSwitch != "0") {
+      valueOfSwitch = valueOfSwitch.map(x => x).join(",");
+    }
+    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "excel" }
+    const dialogRef = this.dialog.open(EshpozModalComponent, {
+      data: data,
+    });
+
+    dialogRef.afterClosed().subscribe(result => {
+      this.all_stat_graphs_data = result;
+    });
+  }
+
   exportTablesToExcel() {
     //Create a workbook with a worksheet
     let workbook = new Workbook();
@@ -637,11 +669,15 @@ export class HospitalBIDashboardComponent implements OnInit {
     let worksheet_stat_4;
     let worksheet_stat_5;
     if (this.departParam == "1") {
-      worksheet_stat_1 = workbook.addWorksheet("איחור");
+      worksheet_stat_1 = workbook.addWorksheet("ממוצע איחור בדקות");
       worksheet_stat_2 = workbook.addWorksheet("ימי אובדן");
-      worksheet_stat_3 = workbook.addWorksheet("זמן אובדן");
+      worksheet_stat_3 = workbook.addWorksheet("ממוצע זמן אובדן בדקות");
       worksheet_stat_4 = workbook.addWorksheet("ימי גלישה");
-      worksheet_stat_5 = workbook.addWorksheet("זמן גלישה");
+      worksheet_stat_5 = workbook.addWorksheet("ממוצע זמן גלישה בדקות");
+    }
+    if (this.departParam == "5") {
+      worksheet_stat_1 = workbook.addWorksheet("ממוצע זמן עד קבלה סיעודית בדקות");
+      worksheet_stat_2 = workbook.addWorksheet("ממוצע זמן עד קבלה רפואית בדקות");
     }
 
     let worksheet_filters = workbook.addWorksheet("פילטרים");
@@ -654,10 +690,16 @@ export class HospitalBIDashboardComponent implements OnInit {
     // only surgeries
     if (this.departParam == "1") {
       this.sheet_stat_data_1 = [this.all_stat_graphs_data[0].columnnames, this.all_stat_graphs_data[0].arr];
-      this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames.slice(0, -1), this.all_stat_graphs_data[1].arr];
+      this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames, this.all_stat_graphs_data[1].arr];
+      // this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames.slice(0, -1), this.all_stat_graphs_data[1].arr];
       this.sheet_stat_data_3 = [this.all_stat_graphs_data[2].columnnames, this.all_stat_graphs_data[2].arr];
-      this.sheet_stat_data_4 = [this.all_stat_graphs_data[3].columnnames.slice(0, -1), this.all_stat_graphs_data[3].arr];
+      this.sheet_stat_data_4 = [this.all_stat_graphs_data[3].columnnames, this.all_stat_graphs_data[3].arr];
+      // this.sheet_stat_data_4 = [this.all_stat_graphs_data[3].columnnames.slice(0, -1), this.all_stat_graphs_data[3].arr];
       this.sheet_stat_data_5 = [this.all_stat_graphs_data[4].columnnames, this.all_stat_graphs_data[4].arr];
+    }
+    if (this.departParam == "5") {
+      this.sheet_stat_data_1 = [this.all_stat_graphs_data[0].columnnames, this.all_stat_graphs_data[0].arr];
+      this.sheet_stat_data_2 = [this.all_stat_graphs_data[1].columnnames, this.all_stat_graphs_data[1].arr];
     }
 
     // filters sheet
@@ -734,6 +776,18 @@ export class HospitalBIDashboardComponent implements OnInit {
 
       this.sheet_stat_data_5[1].forEach((d: any) => {
         worksheet_stat_5.addRow(Object.values(d));
+      });
+    }
+    if (this.departParam == "5") {
+      worksheet_stat_1.addRow(Object.values(this.sheet_stat_data_1[0]));
+
+      this.sheet_stat_data_1[1].forEach((d: any) => {
+        worksheet_stat_1.addRow(Object.values(d));
+      });
+      worksheet_stat_2.addRow(Object.values(this.sheet_stat_data_2[0]));
+
+      this.sheet_stat_data_2[1].forEach((d: any) => {
+        worksheet_stat_2.addRow(Object.values(d));
       });
     }
 

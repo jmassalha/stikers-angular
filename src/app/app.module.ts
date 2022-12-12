@@ -173,6 +173,7 @@ import { AdditionalCprTablesComponent } from './form-dashboard/cpr-form/addition
 import { ChartsDialogComponent } from './hospital-bi-dashboard/charts-dialog/charts-dialog.component';
 import { HospitalBiService } from './hospital-bi-dashboard/hospital-bi.service';
 import { NotesHistoryComponent } from './surgery-control-main/notes-history/notes-history.component';
+import { EshpozModalComponent } from './hospital-bi-dashboard/eshpoz-modal/eshpoz-modal.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -300,7 +301,8 @@ const maskConfig: Partial<IConfig> = {
     AddNewNoteComponent,
     AdditionalCprTablesComponent,
     ChartsDialogComponent,
-    NotesHistoryComponent
+    NotesHistoryComponent,
+    EshpozModalComponent
   ],
   imports: [
     JpTimeMaskModule,
