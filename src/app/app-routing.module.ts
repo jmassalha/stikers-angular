@@ -73,6 +73,7 @@ import { NursesReinforcementComponent } from "./nurses-manage-dashboard/nurses-r
 // import { OnnLineComponent } from './onn-line/onn-line.component';
 import { HospitalBIDashboardComponent } from "./hospital-bi-dashboard/hospital-bi-dashboard.component";
 import { GraphsModalComponent } from "./hospital-bi-dashboard/graphs-modal/graphs-modal.component";
+import { EshpozModalComponent } from "./hospital-bi-dashboard/eshpoz-modal/eshpoz-modal.component";
 import { InfectionDrugsComponent } from "./infection-drugs/infection-drugs.component";
 import { InfectionReportComponent } from "./infection-report/infection-report.component";
 import { NewBornComponent } from "./new-born/new-born.component";
@@ -176,6 +177,7 @@ const routes: Routes = [
     { path: "reinforcement", component: NursesReinforcementComponent },
     { path: "BIDashboard", component: HospitalBIDashboardComponent },
     { path: "GraphsModalComponent", component: GraphsModalComponent },
+    { path: "EshpozModalComponent", component: EshpozModalComponent },
     { path: "InfectionDrugs", component: InfectionDrugsComponent },
     { path: "InfectionReport", component: InfectionReportComponent },
     { path: "newborn", component: NewBornComponent },

@@ -133,7 +133,7 @@ export class IpPointsComponent implements OnInit {
       //http://srv-apps-prod/RCF_WS/WebService.asmx/
       this.http
           .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllIppoints", {
-          //.post("http://localhost:64964/WebService.asmx/getAllIppoints",{
+          //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllIppoints",{
 
           }
           )

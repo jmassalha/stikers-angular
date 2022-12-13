@@ -173,6 +173,7 @@ import { AdditionalCprTablesComponent } from './form-dashboard/cpr-form/addition
 import { ChartsDialogComponent } from './hospital-bi-dashboard/charts-dialog/charts-dialog.component';
 import { HospitalBiService } from './hospital-bi-dashboard/hospital-bi.service';
 import { NotesHistoryComponent } from './surgery-control-main/notes-history/notes-history.component';
+import { EshpozModalComponent } from './hospital-bi-dashboard/eshpoz-modal/eshpoz-modal.component';
 import { ServersForOnnlineComponent } from './servers-for-onnline/servers-for-onnline.component';
 import { AddOrEditServerComponent } from './servers-for-onnline/add-or-edit-server/add-or-edit-server.component';
 import { IpPointsComponent } from './ip-points/ip-points.component';
@@ -305,6 +306,7 @@ const maskConfig: Partial<IConfig> = {
     AdditionalCprTablesComponent,
     ChartsDialogComponent,
     NotesHistoryComponent,
+    EshpozModalComponent,
     ServersForOnnlineComponent,
     AddOrEditServerComponent,
     IpPointsComponent,

@@ -72,7 +72,7 @@ export class AddOrEditIpPointComponent implements OnInit {
         this.http
             .post(
               "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateIPPoints",
-              // "http://localhost:64964/WebService.asmx/insertOrUpdateIPPoints",
+              // "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateIPPoints",
                 {
                     mRowServers4Onnline: this.serverForm.value,
                 }
