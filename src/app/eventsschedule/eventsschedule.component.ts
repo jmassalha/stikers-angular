@@ -161,15 +161,18 @@ export class EventsscheduleComponent implements OnInit {
             that.getReport(that);
             $("#loader").addClass("d-none");
         }, 1500)
-        
+        setInterval(function(){
+            that.getReport(that);
+            console.log("Re-Load Data...!");
+        }, 60 * 1000)
         //////debugger;
     }
     getDropDownLists(mType): EventsDropDownData[] {
         let mEventsDropDownData: EventsDropDownData[] = [];
         $("#loader").removeClass("d-none");
         this.http
-            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsSelects", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsSelects", {
+            //.post("http://localhost:64964/WebService.asmx/GetDropDownsSelects", {
                 mDropDownType: mType,
                 mUser: localStorage.getItem("loginUserName").toLowerCase()
             })
@@ -255,6 +258,7 @@ export class EventsscheduleComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateEvent",
+                //"http://localhost:64964/WebService.asmx/InsertOrUpdateEvent",
                 {
                     mEventsScheduleRow: this.EventsForm.value,
                 }
@@ -451,8 +455,8 @@ export class EventsscheduleComponent implements OnInit {
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         ////debugger
         this.http
-            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
+            //.post("http://localhost:64964/WebService.asmx/GetEventsSchedule", {
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 serachTxt: serachTxt,
