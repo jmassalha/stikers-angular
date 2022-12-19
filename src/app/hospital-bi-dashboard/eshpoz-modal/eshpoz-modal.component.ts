@@ -2,6 +2,7 @@ import { Component, ElementRef, EventEmitter, HostListener, Inject, Input, OnIni
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { DialogData } from 'src/app/medigate-servers/data-row-table/data-row-table.component';
+import { FormControl } from '@angular/forms';
 
 @Component({
   selector: 'app-eshpoz-modal',
@@ -56,6 +57,9 @@ export class EshpozModalComponent implements OnInit {
   };
   width: number;
   height: number;
+  hospitalDepartType: FormControl;
+
+
   constructor(private http: HttpClient, private eRef: ElementRef,
     public dialogRef: MatDialogRef<EshpozModalComponent>,
     @Inject(MAT_DIALOG_DATA) public dataDialog: DialogData) { }
@@ -71,6 +75,7 @@ export class EshpozModalComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    this.hospitalDepartType = new FormControl(this.dataDialog['eshpozSelectBtn'], null);
     this.filterValue = this.dataDialog['filterValue'];
     this.surgeriesPlace = this.dataDialog['surgeriesPlace'];
     this.surgeriesType = this.dataDialog['surgeriesType'];
@@ -111,9 +116,14 @@ export class EshpozModalComponent implements OnInit {
         that.universalSelect(selection);
       }, 1700);
     }
+
     if (that.dataDialog['type'] == "excel") {
       setTimeout(() => {
-        that.dialogRef.close(that.sendDataToParentExcel());
+        let closeObj = {
+          excel: that.sendDataToParentExcel(),
+          selectBtn: that.hospitalDepartType.value
+        };
+        that.dialogRef.close(closeObj);
       }, 2000);
     } else {
       this.excelLoader = false;
@@ -128,7 +138,18 @@ export class EshpozModalComponent implements OnInit {
   }
 
   onNoClick(): void {
-    this.dialogRef.close();
+    let closeObj = {
+      excel: this.sendDataToParentExcel(),
+      selectBtn: this.hospitalDepartType.value
+    };
+    this.dialogRef.close(closeObj);
+  }
+
+  changeDeaprtOfEshpoz() {
+    this.discreteBarChart(1);
+    setTimeout(() => {
+      this.discreteBarChart(2);
+    }, 500);
   }
 
   onSelect(event, graphNumber) {
@@ -214,7 +235,7 @@ export class EshpozModalComponent implements OnInit {
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
         param: this.TimeLineParam,
         deptCode: this.departParam,
-        surgerydeptType: "this.surgeriesType",
+        surgerydeptType: this.hospitalDepartType.value,
         filter: this.filterVal,
         returnedPatients: "this.surgeriesPlace",
         periodList: this.periodList,

@@ -107,6 +107,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   filterDeparts = [];
   surgeryTypesArr = [];
   graphSource: string = "normal";
+  eshpozDialogSelectBtn = "1";
   dataSource = new MatTableDataSource<any>();
   @ViewChild(GraphsModalComponent) graphshidden: GraphsModalComponent;
   @ViewChild(PieChartComponent) pie: PieChartComponent;
@@ -167,7 +168,6 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
     }, 1500);
     this.showYearsPeriod();
-    this.getStatisticGraphsToExcel();
   }
 
   // test() {
@@ -328,7 +328,11 @@ export class HospitalBIDashboardComponent implements OnInit {
       let that = this;
       setTimeout(() => {
         that.changeTime(event, 'all', []);
-        this.getStatisticGraphsToExcel();
+        if (this.departParam == "1") {
+          this.getStatisticGraphsToExcel();
+        } else if (this.departParam == "5") {
+          this.getStatisticEshpozModalToExcel();
+        }
       }, 1000);
     }
   }
@@ -426,13 +430,15 @@ export class HospitalBIDashboardComponent implements OnInit {
   }
 
   openEshpozChartsDialog() {
-    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "normal" }
+    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "normal", eshpozSelectBtn: this.eshpozDialogSelectBtn }
     const dialogRef = this.dialog.open(EshpozModalComponent, {
       data: data,
+      disableClose: true
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      this.all_stat_graphs_data = result.excel;
+      this.eshpozDialogSelectBtn = result.selectBtn
     });
   }
 
@@ -467,7 +473,11 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.tableView = false;
       let that = this;
       setTimeout(() => {
-        this.getStatisticGraphsToExcel();
+        if (this.departParam == "1") {
+          this.getStatisticGraphsToExcel();
+        } else if (this.departParam == "5") {
+          this.getStatisticEshpozModalToExcel();
+        }
         that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
       }, 1000);
     }
@@ -601,13 +611,14 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (this.departParam == "1" && valueOfSwitch != "0") {
       valueOfSwitch = valueOfSwitch.map(x => x).join(",");
     }
-    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "excel" }
+    let data = { graphSource: "dialog", param: this.TimeLineParam, type: "excel", eshpozSelectBtn: this.eshpozDialogSelectBtn }
     const dialogRef = this.dialog.open(EshpozModalComponent, {
       data: data,
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      this.all_stat_graphs_data = result;
+      this.all_stat_graphs_data = result.excel;
+      this.eshpozDialogSelectBtn = result.selectBtn
     });
   }
 
