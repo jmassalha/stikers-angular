@@ -178,6 +178,8 @@ import { ServersForOnnlineComponent } from './servers-for-onnline/servers-for-on
 import { AddOrEditServerComponent } from './servers-for-onnline/add-or-edit-server/add-or-edit-server.component';
 import { IpPointsComponent } from './ip-points/ip-points.component';
 import { AddOrEditIpPointComponent } from './ip-points/add-or-edit-ip-point/add-or-edit-ip-point.component';
+import { MasterHpidComponent } from './master-hpid/master-hpid.component';
+import { AddOrEditMasterHpidComponent } from './master-hpid/add-or-edit-master-hpid/add-or-edit-master-hpid.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -310,7 +312,9 @@ const maskConfig: Partial<IConfig> = {
     ServersForOnnlineComponent,
     AddOrEditServerComponent,
     IpPointsComponent,
-    AddOrEditIpPointComponent
+    AddOrEditIpPointComponent,
+    MasterHpidComponent,
+    AddOrEditMasterHpidComponent
   ],
   imports: [
     JpTimeMaskModule,
