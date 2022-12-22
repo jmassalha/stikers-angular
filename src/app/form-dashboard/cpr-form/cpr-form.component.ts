@@ -12,7 +12,6 @@ import {
   FormBuilder,
   FormArray,
 } from "@angular/forms";
-import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import {
   MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition,
@@ -20,7 +19,6 @@ import {
 import {
   MatDialog,
 } from "@angular/material/dialog";
-import { DomSanitizer } from "@angular/platform-browser";
 import { DatePipe } from "@angular/common";
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
 import { DialogContentExampleDialog } from "../../fill-survey/fill-survey.component";

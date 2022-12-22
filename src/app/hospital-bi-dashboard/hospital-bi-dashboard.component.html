@@ -57,33 +57,23 @@
             </select>
         </div>
         <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
-            <div class="row" style="justify-content: center;">
+            <div class="row" style="justify-content: center;" *ngIf="!tableView">
                 <div class="col-11 text-center" [formGroup]="surgeryDeptTypeGroup" style="display: inline-flex;">
                     <section class="example-section mr-2" *ngFor="let type of surgeryTypesArray; let i=index">
                         <mat-checkbox class="example-margin" (change)="onCheckboxChange($event)" [value]="type.value">{{
                             type.id }}</mat-checkbox>
                     </section>
                 </div>
-                <!-- <div class="col-10 text-center">
-                    <mat-label>סינון סוגי ניתוחים</mat-label>
-                    <mat-form-field [formGroup]="surgeryDeptTypeGroup">
-                        <mat-select [formControl]="selectSurgeryTypes" multiple>
-                            <mat-option *ngFor="let type of surgeryTypesArray" [value]="type.value">{{type.value}}
-                            </mat-option>
-                        </mat-select>
-                    </mat-form-field>
-                </div> -->
-                <!-- <div class="col-2">
-                    <button mat-mini-fab color="primary" (click)="changeSurgeryType()">
-                        <mat-icon>done</mat-icon>
-                    </button>
-                </div> -->
             </div>
             <div style="margin-top: 6px;" [formGroup]="deliveryPrematureGroup">
-                <section class="example-section">
+                <section class="example-section" *ngIf="!tableView">
                     <mat-checkbox class="example-margin" (change)="changeSurgeryType()"
                         formControlName="deliveryPremature">
                         לפי אתרים</mat-checkbox>
+                </section>
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="ByDoctor">
+                        לפי רופאים</mat-checkbox>
                 </section>
             </div>
         </div>
@@ -99,11 +89,22 @@
                     אשפוזים חוזרים</mat-checkbox>
             </section>
         </div>
+        <div *ngIf="departParam == '9' || departParam == '10'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4"
+            style="text-align-last: center;" [formGroup]="deliveryPrematureGroup">
+            <section class="example-section">
+                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="ByDoctor">
+                    לפי רופאים</mat-checkbox>
+            </section>
+        </div>
         <div *ngIf="departParam == '7'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
             [formGroup]="deliveryPrematureGroup">
             <section class="example-section">
                 <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="deliveryPremature">
                     פגיה</mat-checkbox>
+            </section>
+            <section class="example-section">
+                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="ByDoctor">
+                    לפי רופאים</mat-checkbox>
             </section>
         </div>
         <div *ngIf="departParam == '3'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
@@ -115,14 +116,33 @@
         </div>
         <div *ngIf="departParam == '2'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;"
             [formGroup]="deliveryPrematureGroup">
-            <section class="example-section">
-                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="deliveryPremature">
-                    מרפאות מיוחדות</mat-checkbox>
-            </section>
-            <section class="example-section">
-                <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="ByDoctor">
-                    לפי רופאים</mat-checkbox>
-            </section>
+            <div class="row">
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" (change)="eshpozFilters($event.source.value)" value="1">
+                        מרפאות</mat-checkbox>
+                </section>
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" (change)="eshpozFilters($event.source.value)" value="2">
+                        מכונים</mat-checkbox>
+                </section>
+
+            </div>
+            <div class="row">
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" (change)="eshpozFilters($event.source.value)" value="3">
+                        מרפאות מיוחדות</mat-checkbox>
+                </section>
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" (change)="eshpozFilters($event.source.value)" value="4">
+                        מכונים מיוחדים</mat-checkbox>
+                </section>
+            </div>
+            <div class="row">
+                <section class="example-section">
+                    <mat-checkbox class="example-margin" (change)="changeSurgeryType()" formControlName="ByDoctor">
+                        לפי רופאים</mat-checkbox>
+                </section>
+            </div>
         </div>
     </div>
     <div class="row">
@@ -161,7 +181,7 @@
 
                 </span>
                 <mat-progress-bar mode="indeterminate" *ngIf="loader"></mat-progress-bar>
-                <p *ngIf="!loader">{{card.y}}</p>
+                <p *ngIf="!loader" style="color: cadetblue;">{{card.y}}</p>
             </mat-card-content>
         </mat-card>
         <!-- <mat-card class="example-card text-center">
