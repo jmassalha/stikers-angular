@@ -89,6 +89,7 @@ import { MedigateServersComponent } from "./medigate-servers/medigate-servers.co
 import { SurgeryControlMainComponent } from "./surgery-control-main/surgery-control-main.component";
 import { ServersForOnnlineComponent } from "./servers-for-onnline/servers-for-onnline.component";
 import { IpPointsComponent } from "./ip-points/ip-points.component";
+import { MasterHpidComponent } from "./master-hpid/master-hpid.component";
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -199,6 +200,7 @@ const routes: Routes = [
 
     { path: "servers4onnline", component: ServersForOnnlineComponent },
     { path: "ippoints", component: IpPointsComponent },
+    { path: "masterhpid", component: MasterHpidComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

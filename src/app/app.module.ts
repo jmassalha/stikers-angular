@@ -180,6 +180,8 @@ import { IpPointsComponent } from './ip-points/ip-points.component';
 import { AddOrEditIpPointComponent } from './ip-points/add-or-edit-ip-point/add-or-edit-ip-point.component';
 import { TumorBoardComponent } from './form-dashboard/tumor-board/tumor-board.component';
 import { TumorBoardModalComponent } from './form-dashboard/tumor-board/tumor-board-modal/tumor-board-modal.component';
+import { MasterHpidComponent } from './master-hpid/master-hpid.component';
+import { AddOrEditMasterHpidComponent } from './master-hpid/add-or-edit-master-hpid/add-or-edit-master-hpid.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -314,7 +316,9 @@ const maskConfig: Partial<IConfig> = {
     IpPointsComponent,
     AddOrEditIpPointComponent,
     TumorBoardComponent,
-    TumorBoardModalComponent
+    TumorBoardModalComponent,
+    MasterHpidComponent,
+    AddOrEditMasterHpidComponent
   ],
   imports: [
     JpTimeMaskModule,

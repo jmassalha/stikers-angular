@@ -94,6 +94,7 @@ import { SurgeryControlMainComponent } from '../surgery-control-main/surgery-con
 import { AdditionalCprTablesComponent } from '../form-dashboard/cpr-form/additional-cpr-tables/additional-cpr-tables.component';
 import { ServersForOnnlineComponent } from '../servers-for-onnline/servers-for-onnline.component';
 import { IpPointsComponent } from '../ip-points/ip-points.component';
+import { MasterHpidComponent } from '../master-hpid/master-hpid.component';
 const routes: Routes = [
   
   { path: 'dashboard', component: DashboardComponent },
@@ -192,6 +193,7 @@ const routes: Routes = [
   { path: "cpr-additional-tables", component: AdditionalCprTablesComponent },
   { path: "servers4onnline", component: ServersForOnnlineComponent },
   { path: "ippoints", component: IpPointsComponent },
+  { path: "masterhpid", component: MasterHpidComponent },
   { path: '', component : LoginComponent}
 ];
  
