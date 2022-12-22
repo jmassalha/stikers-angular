@@ -38,6 +38,7 @@ export class TumorBoardComponent implements OnInit {
     'delete', 'FormDate', 'Passport', 'PatientName', 'edit', 'print', 'namer'
   ];
   pdfString: string = ``;
+  loaderPdfNamer = false;
 
   url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
 
@@ -179,6 +180,7 @@ export class TumorBoardComponent implements OnInit {
   }
 
   linkToNamer(data) {
+    this.loaderPdfNamer = true;
     let CaseNumber = "";
     this.pdfString = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>ניטור החייאה</title>
     <style>p,mat-label,span{font-weight: bold;font-size: 30px;}.col-2{width: 20%;justify-content: center;}</style>
@@ -241,22 +243,22 @@ export class TumorBoardComponent implements OnInit {
   </div>
     </body></html>`;
     $("#loader_2").removeClass("d-none");
-    // this.http.post("http://srv-ipracticom:8080/WebService.asmx/createTumorBoardPdf", {
-    this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createTumorBoardPdf", {
+    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createTumorBoardPdf", {
+    // this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createTumorBoardPdf", {
       _tumorForm: data,
       html: this.pdfString,
-      Catigory: "ZPO_ONLINE"
+      Catigory: "ZPO_TMRBRD"
     }
     )
       .subscribe((Response) => {
         let that = this;
         setTimeout(() => {
-          // that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
-          that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
+          that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+          // that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
             CaseNumber:
               data.PatientDetails.CaseNumber,
             FormID: data.RowID,
-            Catigory: "ZPO_ONLINE",
+            Catigory: "ZPO_TMRBRD",
             fileSource:
               Response["d"],
           }
@@ -266,6 +268,8 @@ export class TumorBoardComponent implements OnInit {
                 Response["d"] == "success") {
                 $("#loader_2").addClass("d-none");
                 that.openSnackBar("! נשמר בהצלחה לתיק מטופל בנמר");
+                this.loaderPdfNamer = false;
+                this.getTumorBoardList();
               } else {
                 that.openSnackBar("! משהו לא תקין");
               }
@@ -286,7 +290,7 @@ export class TumorBoardComponent implements OnInit {
       w.document.write(style);
       setTimeout(() => {
         w.print();
-        // w.close();
+        w.close();
       }, 500);
     }, 600);
   }

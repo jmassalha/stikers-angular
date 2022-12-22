@@ -86,7 +86,7 @@
             <ng-container matColumnDef="namer">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> נמר </th>
                 <td mat-cell *matCellDef="let element"> <button type="submit" color="primary" mat-raised-button
-                        [disabled]="element.ToNamer == 'True'" (click)="linkToNamer(element)">
+                        [disabled]="element.ToNamer == 'True' || loaderPdfNamer" (click)="linkToNamer(element)">
                         <mat-icon>reply</mat-icon>
                     </button> </td>
             </ng-container>
