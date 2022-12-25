@@ -183,12 +183,12 @@ export class TumorBoardComponent implements OnInit {
     this.loaderPdfNamer = true;
     let CaseNumber = "";
     this.pdfString = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>ניטור החייאה</title>
-    <style>p,mat-label,span{font-weight: bold;font-size: 30px;}.col-2{width: 20%;justify-content: center;}</style>
+    <style>p,mat-label,span{font-weight: bold;font-size: 18px;}.col-2{width: 20%;justify-content: center;}</style>
     </head><body dir="rtl">
     <div class="d-none-desktop" *ngIf="elementToPrint != undefined" #printmycontent>
       <div class="d-none-desktop" dir="rtl">
           <div class="card-header border-bottomIn rel" style="text-align: center;">
-              <img class="full-width" style="width: 100%;" src="assets/images/covid_2_header.png" />
+              <img class="full-width" style="width: 100%;" src="c:\\pdf\\TumorBoardForms\\covid_header.png" />
               <h1 class="text-center pos-abs-center"><u>Tumor Board Form</u></h1>
           </div>
           <div class="row" dir="rtl" style="display: flex;">
@@ -201,22 +201,22 @@ export class TumorBoardComponent implements OnInit {
           </div>
           <div class="row" dir="rtl" style="display: flex;border-style: outset;">
               <div class="col-2">
-                  <h3>מספר מקרה: `+ data.PatientDetails.CaseNumber + `</h3>
+                  <h5>מספר מקרה: `+ data.PatientDetails.CaseNumber + `</h5>
               </div>
               <div class="col-2">
-                  <h3>ת.ז: `+ data.PatientDetails.Passport + `</h3>
+                  <h5>ת.ז: `+ data.PatientDetails.Passport + `</h5>
               </div>
               <div class="col-2">
-                  <h3>שם מלא: `+ data.PatientDetails.FirstName + ` ` + data.PatientDetails.LastName + `</h3>
+                  <h5>שם מלא: `+ data.PatientDetails.FirstName + ` ` + data.PatientDetails.LastName + `</h5>
               </div>
               <div class="col-2">
-                  <h3>כתובת: `+ data.PatientDetails.Address + `</h3>
+                  <h5>כתובת: `+ data.PatientDetails.Address + `</h5>
               </div>
               <div class="col-2">
-                  <h3>תאריך לידה: `+ data.PatientDetails.DOB + `</h3>
+                  <h5>תאריך לידה: `+ data.PatientDetails.DOB + `</h5>
               </div>
               <div class="col-2">
-                  <h3>מס' טלפון: `+ data.PatientDetails.PhoneNumber + `</h3>
+                  <h5>מס' טלפון: `+ data.PatientDetails.PhoneNumber + `</h5>
               </div>
           </div>
           <div class="row" dir="rtl" style="display: flex;">
@@ -283,7 +283,7 @@ export class TumorBoardComponent implements OnInit {
     this.elementToPrint = element;
     let that = this;
     setTimeout(function () {
-      var style = "<style>p,mat-label,span{font-weight: bold;font-size: 30px;}.col-2{width: 20%;justify-content: center;}</style>";
+      var style = "<style>p,mat-label,span{font-weight: bold;font-size: 18px;}.col-2{width: 20%;justify-content: center;}</style>";
       var printContents = that.printmycontent.nativeElement.innerHTML;
       style = style + printContents;
       var w = window.open();

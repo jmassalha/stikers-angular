@@ -40,7 +40,7 @@ interface Cards {
 @Injectable()
 export class HospitalBIDashboardComponent implements OnInit {
 
-  configUrl = 'http://srv-apps-prod/RCF_WS/WebService.asmx/';
+  configUrl = 'http://localhost:64964/WebService.asmx/';
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
     { DIMDataTypeID: "2", DIMDataTypeDesc: "מרפאות ומכונים" },
@@ -328,9 +328,9 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
       this.TimeLineParam = event;
       if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
-        this.getTableViewItems(event, "11");
+        this.getTableViewItems(event, this.departParam);
       } else {
-        this.getTableViewItems(event, "2");
+        this.getTableViewItems(event, this.departParam);
       }
     } else {
       let that = this;

@@ -70,7 +70,7 @@
             <ng-container matColumnDef="edit">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> עריכה </th>
                 <td mat-cell *matCellDef="let element"> <button type="submit" color="primary" mat-raised-button
-                        [disabled]="element.ToNamer == 'True'" (click)="editFormDialog(element)">
+                        [disabled]="element.ToNamer == 'True' || loaderPdfNamer" (click)="editFormDialog(element)">
                         <mat-icon>edit</mat-icon>
                     </button> </td>
             </ng-container>
@@ -121,22 +121,22 @@
         </div>
         <div class="row" dir="rtl" style="display: flex;border-style: outset;">
             <div class="col-2">
-                <h3>מספר מקרה: {{elementToPrint.PatientDetails.CaseNumber}}</h3>
+                <h5>מספר מקרה: {{elementToPrint.PatientDetails.CaseNumber}}</h5>
             </div>
             <div class="col-2">
-                <h3>ת.ז: {{elementToPrint.PatientDetails.Passport}}</h3>
+                <h5>ת.ז: {{elementToPrint.PatientDetails.Passport}}</h5>
             </div>
             <div class="col-2">
-                <h3>שם מלא: {{elementToPrint.PatientDetails.FirstName}} {{elementToPrint.PatientDetails.LastName}}</h3>
+                <h5>שם מלא: {{elementToPrint.PatientDetails.FirstName}} {{elementToPrint.PatientDetails.LastName}}</h5>
             </div>
             <div class="col-2">
-                <h3>כתובת: {{elementToPrint.PatientDetails.Address}}</h3>
+                <h5>כתובת: {{elementToPrint.PatientDetails.Address}}</h5>
             </div>
             <div class="col-2">
-                <h3>תאריך לידה: {{elementToPrint.PatientDetails.DOB}}</h3>
+                <h5>תאריך לידה: {{elementToPrint.PatientDetails.DOB}}</h5>
             </div>
             <div class="col-2">
-                <h3>מס' טלפון: {{elementToPrint.PatientDetails.PhoneNumber}}</h3>
+                <h5>מס' טלפון: {{elementToPrint.PatientDetails.PhoneNumber}}</h5>
             </div>
         </div>
         <div class="row" dir="rtl" style="display: flex;">
