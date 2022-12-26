@@ -40,7 +40,7 @@ interface Cards {
 @Injectable()
 export class HospitalBIDashboardComponent implements OnInit {
 
-  configUrl = 'http://localhost:64964/WebService.asmx/';
+  configUrl = 'http://srv-apps-prod/RCF_WS/WebService.asmx/';
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
     { DIMDataTypeID: "2", DIMDataTypeDesc: "מרפאות ומכונים" },
