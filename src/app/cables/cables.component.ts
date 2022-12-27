@@ -79,7 +79,7 @@ export class CablesComponent implements OnInit {
         private mMenuPerm: MenuPerm,
         public dialog: MatDialog
     ) {
-        mMenuPerm.setRoutName("Cables");
+        mMenuPerm.setRoutName("cables");
         setTimeout(() => {
             if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();
