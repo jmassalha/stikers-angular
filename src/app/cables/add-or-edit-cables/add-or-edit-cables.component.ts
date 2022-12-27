@@ -65,9 +65,9 @@ export class AddOrEditCablesComponent implements OnInit {
     ) {
         this.serverForm = this.formBuilder.group({
             RowId: [this.data.element.RowId, null],
-            HPID: [this.data.element.HPID, Validators.required],
+            HPID: [this.data.element.HPID, null],
             SourceRoom: [this.data.element.SourceRoom, null],
-            SourceCab: [this.data.element.SourceCab, null],
+            SourceCab: [this.data.element.SourceCab, Validators.required],
             SourceU: [this.data.element.SourceU, null],
             HeightU: [this.data.element.HeightU, null],
             Name:  [this.data.element.Name, null],
