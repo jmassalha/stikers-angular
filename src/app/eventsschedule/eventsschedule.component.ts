@@ -172,7 +172,7 @@ export class EventsscheduleComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsSelects", {
-            //.post("http://localhost:64964/WebService.asmx/GetDropDownsSelects", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsSelects", {
                 mDropDownType: mType,
                 mUser: localStorage.getItem("loginUserName").toLowerCase()
             })
@@ -258,7 +258,7 @@ export class EventsscheduleComponent implements OnInit {
         this.http
             .post(
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateEvent",
-                //"http://localhost:64964/WebService.asmx/InsertOrUpdateEvent",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateEvent",
                 {
                     mEventsScheduleRow: this.EventsForm.value,
                 }
@@ -456,7 +456,7 @@ export class EventsscheduleComponent implements OnInit {
         ////debugger
         this.http
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
-            //.post("http://localhost:64964/WebService.asmx/GetEventsSchedule", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEventsSchedule", {
                 pageIndex: pageIndex,
                 pageSize: pageSize,
                 serachTxt: serachTxt,

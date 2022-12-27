@@ -79,6 +79,8 @@ import { InfectionReportComponent } from "./infection-report/infection-report.co
 import { NewBornComponent } from "./new-born/new-born.component";
 import { MaternityParticipantsComponent } from "./maternity/maternity-participants/maternity-participants.component";
 import { CprFormComponent } from "./form-dashboard/cpr-form/cpr-form.component";
+import { TumorBoardComponent } from "./form-dashboard/tumor-board/tumor-board.component";
+import { TumorBoardModalComponent } from "./form-dashboard/tumor-board/tumor-board-modal/tumor-board-modal.component";
 import { DrugProtocolsComponent } from "./drug-protocols/drug-protocols.component";
 import { MershamNComponent } from "./mersham-n/mersham-n.component";
 import { ServersComponent } from "./servers/servers.component";
@@ -188,6 +190,8 @@ const routes: Routes = [
         component: MaternityParticipantsComponent,
     },
     { path: "CprForm", component: CprFormComponent },
+    { path: "TumorBoardComponent", component: TumorBoardComponent },
+    { path: "TumorBoardModalComponent", component: TumorBoardModalComponent },
     { path: "drugprotocols", component: DrugProtocolsComponent },
     { path: "mershamn", component: MershamNComponent },
     { path: "servers", component: ServersComponent },
@@ -207,4 +211,4 @@ const routes: Routes = [
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
     declarations: [],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

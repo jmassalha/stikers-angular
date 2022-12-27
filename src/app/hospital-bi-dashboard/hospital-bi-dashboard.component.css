@@ -1,5 +1,4 @@
-
-select{
+select {
     background: lightgrey;
     padding: 6px 10px 6px 0px;
     width: 135px;
@@ -9,13 +8,13 @@ select{
     font-weight: bold;
 }
 
-.depts-list-menu{
+.depts-list-menu {
     background: lightgrey;
     font-size: 18px;
     font-weight: bold;
 }
 
-.row.section{
+.row.section {
     margin-top: 20px;
 }
 
@@ -24,40 +23,47 @@ select{
     padding: 0;
     margin: auto;
     height: 170px;
-  }
+}
 
-h3{
+h3 {
     align-self: center;
     font-weight: bold;
 }
 
-mat-list{
+.example-section {
+    margin: auto;
+}
+
+mat-list {
     display: inline-flex;
 }
 
-.depts-btn{
+.depts-btn {
     background: lightgray;
     font-size: 18px;
     font-weight: bold;
     color: black;
 }
 
-.row.head-row{
+.row.head-row {
     border-style: outset;
     padding: 20px;
     width: 101%;
 }
-.wrapper{
+
+.wrapper {
     overflow-x: hidden;
     padding-bottom: 100px;
 }
+
 .mat-radio-button {
     margin-left: 16px;
 }
 
-table th{
+table th {
     font-weight: bold;
 }
+
 /* #tableRow{
     width: 100%;
     display: table;

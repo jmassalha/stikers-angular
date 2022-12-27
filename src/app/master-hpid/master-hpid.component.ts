@@ -163,7 +163,7 @@ export class MasterHpidComponent implements OnInit {
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
-            //.post("http://localhost:64964/WebService.asmx/getAllMasterHPID", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllMasterHPID", {
                 .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllMasterHPID",{
             })
             .subscribe((Response) => {

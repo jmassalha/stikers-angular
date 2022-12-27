@@ -108,6 +108,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   surgeryTypesArr = [];
   graphSource: string = "normal";
   eshpozDialogSelectBtn = "1";
+  arrayOfEshpozFilters = new Array<number>(4);
   dataSource = new MatTableDataSource<any>();
   @ViewChild(GraphsModalComponent) graphshidden: GraphsModalComponent;
   @ViewChild(PieChartComponent) pie: PieChartComponent;
@@ -146,6 +147,10 @@ export class HospitalBIDashboardComponent implements OnInit {
     });
     this.deliveryPrematureGroup = this.fb.group({
       deliveryPremature: new FormControl(false, null),
+      deliveryPrematureMrpaoot: new FormControl(true, null),
+      deliveryPrematureMchonem: new FormControl(false, null),
+      deliveryPrematureSpecialMrpaoot: new FormControl(false, null),
+      deliveryPrematureSpecialMchonem: new FormControl(false, null),
       ByDoctor: new FormControl(false, null)
     });
     this.graphsCtrl = this.fb.group({
@@ -202,6 +207,9 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1" || this.departParam == "2") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
       if (this.departParam == "2") {
+        if (_returnedPatients == true) {
+          _returnedPatients = "1";
+        }
         _surgeryChooseType = this.deliveryPrematureGroup.controls['ByDoctor'].value;
       }
     }
@@ -320,9 +328,9 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
       this.TimeLineParam = event;
       if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
-        this.getTableViewItems(event, "11");
+        this.getTableViewItems(event, this.departParam);
       } else {
-        this.getTableViewItems(event, "2");
+        this.getTableViewItems(event, this.departParam);
       }
     } else {
       let that = this;
@@ -399,6 +407,9 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.surgeryChooseTypeGroup.controls['surgeryChooseType'].setValue('0');
     }
     this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(false);
+    if (this.departParam == "2") {
+      this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(1);
+    }
     this.deliveryPrematureGroup.controls['ByDoctor'].setValue(false);
     this.tableView = false;
     this.filterValue = undefined;
@@ -462,11 +473,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this._ifSeode = 'רפואיות';
     }
     if (byDoc) {
-      if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
-        this.getTableViewItems("1", "11");
-      } else {
-        this.getTableViewItems("1", "2");
-      }
+      this.getTableViewItems("1", this.departParam);
       this.tableView = true;
     } else {
       this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue(this.selectSurgeryTypes.value);
@@ -481,6 +488,26 @@ export class HospitalBIDashboardComponent implements OnInit {
         that.changeTime(that.TimeLineParam, 'all', that.periodListToSend);
       }, 1000);
     }
+  }
+
+  eshpozFilters(event) {
+    if (this.arrayOfEshpozFilters[event] == event) {
+      this.arrayOfEshpozFilters[event] = undefined;
+    } else {
+      this.arrayOfEshpozFilters[event] = event;
+    }
+    let currentValue = "1";
+    this.arrayOfEshpozFilters.forEach(x => {
+      if (x != undefined) {
+        currentValue = currentValue + ',' + x;
+      }
+    });
+    currentValue = currentValue.substring(2, currentValue.length);
+    if (currentValue == "") {
+      currentValue = "1";
+    }
+    this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(currentValue);
+    this.changeSurgeryType();
   }
 
   applyFilter(event: Event) {
@@ -592,7 +619,7 @@ export class HospitalBIDashboardComponent implements OnInit {
 
   getStatisticGraphsToExcel() {
     let valueOfSwitch = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
-    if (this.departParam == "1" && valueOfSwitch != "0") {
+    if (this.departParam == "1" && valueOfSwitch != "0" && valueOfSwitch != "") {
       valueOfSwitch = valueOfSwitch.map(x => x).join(",");
     }
     let surgeriesPlace = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
@@ -608,7 +635,7 @@ export class HospitalBIDashboardComponent implements OnInit {
 
   getStatisticEshpozModalToExcel() {
     let valueOfSwitch = this.surgeryDeptTypeGroup.controls['surgeryDeptType'].value;
-    if (this.departParam == "1" && valueOfSwitch != "0") {
+    if (this.departParam == "1" && valueOfSwitch != "0" && valueOfSwitch != "") {
       valueOfSwitch = valueOfSwitch.map(x => x).join(",");
     }
     let data = { graphSource: "dialog", param: this.TimeLineParam, type: "excel", eshpozSelectBtn: this.eshpozDialogSelectBtn }

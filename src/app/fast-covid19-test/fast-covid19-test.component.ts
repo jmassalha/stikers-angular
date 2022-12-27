@@ -294,7 +294,7 @@ export class FastCovid19TestComponent implements OnInit {
                     Validators.required,
                 ],
                 SupplierDesc: [
-                    { value: "פוריה", disabled: true },
+                    { value: "צפון", disabled: true },
                     Validators.required,
                 ],
                 Origin: [9, Validators.required],

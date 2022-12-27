@@ -178,6 +178,8 @@ import { ServersForOnnlineComponent } from './servers-for-onnline/servers-for-on
 import { AddOrEditServerComponent } from './servers-for-onnline/add-or-edit-server/add-or-edit-server.component';
 import { IpPointsComponent } from './ip-points/ip-points.component';
 import { AddOrEditIpPointComponent } from './ip-points/add-or-edit-ip-point/add-or-edit-ip-point.component';
+import { TumorBoardComponent } from './form-dashboard/tumor-board/tumor-board.component';
+import { TumorBoardModalComponent } from './form-dashboard/tumor-board/tumor-board-modal/tumor-board-modal.component';
 import { MasterHpidComponent } from './master-hpid/master-hpid.component';
 import { AddOrEditMasterHpidComponent } from './master-hpid/add-or-edit-master-hpid/add-or-edit-master-hpid.component';
 import { CablesComponent } from './cables/cables.component';
@@ -315,6 +317,8 @@ const maskConfig: Partial<IConfig> = {
     AddOrEditServerComponent,
     IpPointsComponent,
     AddOrEditIpPointComponent,
+    TumorBoardComponent,
+    TumorBoardModalComponent,
     MasterHpidComponent,
     AddOrEditMasterHpidComponent,
     CablesComponent,
