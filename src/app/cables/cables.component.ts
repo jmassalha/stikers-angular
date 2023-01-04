@@ -59,10 +59,6 @@ export class CablesComponent implements OnInit {
     @ViewChild(MatSort) sort: MatSort;
     displayedColumns: string[] = [
         "SourceRoom",
-        "SourceCab",
-        "SourceU",
-        "HeightU",
-        "HPID",
         "Name",
         "DeviceType",
         "CableType",
