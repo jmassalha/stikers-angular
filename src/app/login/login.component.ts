@@ -43,6 +43,7 @@ export class LoginComponent implements OnInit {
                     response => {
                         $("#loader").addClass("d-none");
                         var arrRes = (response["d"]).split(' -');
+                        
                         if (arrRes[0].replace('"','') == "TRUE") {
                             
                             this.mMenuPerm.setUserName(this.username);
@@ -56,14 +57,14 @@ export class LoginComponent implements OnInit {
                         } else {
                             localStorage.setItem("loginState", "false");
                             localStorage.setItem("loginUserName", "");
-                            this.snackBar.open("Login Error!", "X", {
+                            this.snackBar.open("Login Error! -- " + response["d"], "X", {
                                 duration: 2000
                             });
                         }
                     },
                     error => {
                         $("#loader").addClass("d-none");
-                        this.snackBar.open("Login Error!", "X", {
+                        this.snackBar.open("Login Error! -- " + error, "X", {
                             duration: 2000
                         });
                     }

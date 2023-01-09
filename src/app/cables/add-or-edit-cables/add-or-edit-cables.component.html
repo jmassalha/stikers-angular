@@ -1,0 +1,197 @@
+<form
+    class="form text-left"
+    [formGroup]="serverForm"
+    (ngSubmit)="onSubmit()"
+>
+    <h2 mat-dialog-title *ngIf="data.element.RowId != '0'">
+        Edit Cable: {{ data.element.Name }}
+    </h2>
+    
+    <h2 mat-dialog-title *ngIf="data.element.RowId == '0'">
+        Add Cable
+    </h2>
+    <mat-dialog-content class="mat-typography">        
+        
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Room"
+                            formControlName="SourceRoom"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Cab"
+                            formControlName="SourceCab"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Name"
+                            formControlName="Name"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Device Type"
+                            formControlName="DeviceType"                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Cable Type"
+                            formControlName="CableType"                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Slot / Port"
+                            formControlName="CurrentConnectionSlotPort"                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            
+            
+        </div>
+        <div class="row">  
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Cable"
+                            formControlName="CurrentConnectionCable"                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>          
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="PP1 Name Port"
+                            formControlName="PP1NamePort"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="PP2 Cab"
+                            formControlName="PP2Cable"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            
+
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Target Name"
+                            formControlName="TargetName"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="Target Slot / Port"
+                            formControlName="TargetSlotPort"
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <input type="hidden" formControlName="RowId">
+        <input type="hidden" formControlName="UserInsert">
+        <input type="hidden" formControlName="UserUpdate">
+        <button mat-button mat-dialog-close>Close</button>
+        <button mat-button color="primary" type="submit" cdkFocusInitial [class.spinner]="loading"
+        [disabled]="loading">Save</button>
+    </mat-dialog-actions>
+</form>

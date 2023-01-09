@@ -95,6 +95,7 @@ import { AdditionalCprTablesComponent } from '../form-dashboard/cpr-form/additio
 import { ServersForOnnlineComponent } from '../servers-for-onnline/servers-for-onnline.component';
 import { IpPointsComponent } from '../ip-points/ip-points.component';
 import { MasterHpidComponent } from '../master-hpid/master-hpid.component';
+import { CablesComponent } from '../cables/cables.component';
 const routes: Routes = [
   
   { path: 'dashboard', component: DashboardComponent },
@@ -194,6 +195,7 @@ const routes: Routes = [
   { path: "servers4onnline", component: ServersForOnnlineComponent },
   { path: "ippoints", component: IpPointsComponent },
   { path: "masterhpid", component: MasterHpidComponent },
+  { path: "cables", component: CablesComponent },
   { path: '', component : LoginComponent}
 ];
  

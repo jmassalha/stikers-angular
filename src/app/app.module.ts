@@ -182,6 +182,8 @@ import { TumorBoardComponent } from './form-dashboard/tumor-board/tumor-board.co
 import { TumorBoardModalComponent } from './form-dashboard/tumor-board/tumor-board-modal/tumor-board-modal.component';
 import { MasterHpidComponent } from './master-hpid/master-hpid.component';
 import { AddOrEditMasterHpidComponent } from './master-hpid/add-or-edit-master-hpid/add-or-edit-master-hpid.component';
+import { CablesComponent } from './cables/cables.component';
+import { AddOrEditCablesComponent } from './cables/add-or-edit-cables/add-or-edit-cables.component';
 //import { DragDropModule } from '@angular/cdk/drag-drop';
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -318,7 +320,9 @@ const maskConfig: Partial<IConfig> = {
     TumorBoardComponent,
     TumorBoardModalComponent,
     MasterHpidComponent,
-    AddOrEditMasterHpidComponent
+    AddOrEditMasterHpidComponent,
+    CablesComponent,
+    AddOrEditCablesComponent
   ],
   imports: [
     JpTimeMaskModule,
