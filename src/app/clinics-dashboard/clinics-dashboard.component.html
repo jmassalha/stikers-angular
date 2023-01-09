@@ -108,7 +108,7 @@
 </div>
 
 
-<div id="form-html-templet" class="d-none-desktop" *ngIf="patientFound && print">
+<div #formhtmltemplet class="d-none-desktop" *ngIf="patientFound && print">
     <div dir="rtl" class="card min-h-100 text-right">
         <div class="card-header border-bottomIn rel">
             <img class="full-width" src="assets/images/covid_2_header.png" />
@@ -132,43 +132,45 @@
                 </div>
             </div>
             <br />
-            <div class="row-1 text-up box text-right pad-30 justify-content-md-center">
-                <div class="colr-3">
-                    <label><b>ת.ז</b></label><span class="b-bottom">{{ detailsFormGroup2.PersonID }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>שם משפחה</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.LastName
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>שם פרטי</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.FirstName
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>מגדר</b></label><span class="b-bottom">{{
-                        genderText
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>תאריך לידה</b></label><span class="b-bottom">{{ detailsFormGroup2.DOB
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>כתובת</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.PatientAddress
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>מייל</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.Email
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>נייד</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.PhoneNumber
-                        }}</span>
+            <div class="d-block">
+                <div class="row-1">
+                    <div class="colr-3">
+                        <label><b>ת.ז</b></label><span class="b-bottom">{{ detailsFormGroup2.PersonID }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>שם משפחה</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.LastName
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>שם פרטי</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.FirstName
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>מגדר</b></label><span class="b-bottom">{{
+                            genderText
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>תאריך לידה</b></label><span class="b-bottom">{{ detailsFormGroup2.DOB
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>כתובת</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.PatientAddress
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>מייל</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.Email
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>נייד</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.PhoneNumber
+                            }}</span>
+                    </div>
                 </div>
             </div>
             <div class="row-1 mt-4">

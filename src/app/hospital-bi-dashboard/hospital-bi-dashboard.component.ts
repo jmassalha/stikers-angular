@@ -343,6 +343,7 @@ export class HospitalBIDashboardComponent implements OnInit {
         }
       }, 1000);
     }
+    this.getCardsVals();
   }
 
   showYearsPeriod() {
