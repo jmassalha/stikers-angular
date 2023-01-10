@@ -47,7 +47,6 @@ export class ManageClinicPriceComponent implements OnInit {
     } else {
       this.dataSource.filter = clicked.trim().toLowerCase();
     }
-
   }
 
   constructor(public dialog: MatDialog,
@@ -68,6 +67,7 @@ export class ManageClinicPriceComponent implements OnInit {
   print: boolean = false;
   userDR: boolean = false;
   displayArr = this.fb.array([]);
+  ServiceQuantityList = [];
   url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
   UserName = localStorage.getItem("loginUserName").toLowerCase();
 
@@ -87,6 +87,9 @@ export class ManageClinicPriceComponent implements OnInit {
       DepartCode: ['', Validators.required],
     });
     this.searchPatientDetails();
+    for (let i = 0; i < 10; i++) {
+      this.ServiceQuantityList.push(i + 1);
+    }
 
   }
 

@@ -195,6 +195,10 @@
                             value="מלווה/משפחה">
                             <span style="white-space: break-spaces;">מלווה/משפחה</span>
                         </mat-checkbox>
+                        <mat-checkbox class="radio-style" formControlName="cprWitness4" style="float: right;"
+                            value="החייאה קדם ביה'ח">
+                            <span style="white-space: break-spaces;">החייאה קדם ביה'ח</span>
+                        </mat-checkbox>
                     </mat-radio-group>
                 </div>
             </div>
@@ -625,8 +629,12 @@
         </button>
         <h1 mat-dialog-title style="text-align: center;">רשימת טפסי החייאה</h1>
         <hr>
-        <div class="row mt-5">
-            <table mat-table [dataSource]="CprFormsList_all" dir="rtl" style="width: 100%;" class="mat-elevation-z8">
+        <mat-form-field style="width: 100%;text-align: center;">
+            <mat-label>סינון</mat-label>
+            <input matInput (keyup)="applyFilter($event,'')" placeholder="התחל הקלדה ..." #input>
+        </mat-form-field>
+        <div class="row mt-5" dir="rtl">
+            <table mat-table [dataSource]="dataSource" style="width: 100%;" class="mat-elevation-z8">
                 <ng-container matColumnDef="delete">
                     <th mat-header-cell *matHeaderCellDef> מחיקת טופס </th>
                     <td mat-cell *matCellDef="let element"> <button mat-raised-button ml-2 type="submit"
@@ -697,6 +705,7 @@
                 <tr mat-header-row *matHeaderRowDef="CprFormsColumns"></tr>
                 <tr mat-row *matRowDef="let row; columns: CprFormsColumns;"></tr>
             </table>
+            <mat-paginator [pageSize]="10" showFirstLastButtons></mat-paginator>
         </div>
 
     </ng-template>
@@ -816,8 +825,12 @@
                                     סיעודי</li>
                                 <li style="margin-left: 26px;"
                                     [ngStyle]="{'display': CprFormsList[0].cprWitness3 == 'True' ? 'block' : 'none' }">
-                                    <span></span>מלווה /
+                                    מלווה /
                                     משפחה
+                                </li>
+                                <li style="margin-left: 26px;"
+                                    [ngStyle]="{'display': CprFormsList[0].cprWitness4 == 'True' ? 'block' : 'none' }">
+                                    החייאה קדם ביה"ח
                                 </li>
                             </ul>
                         </div>
@@ -1015,12 +1028,7 @@
                     </div>
                 </div>
             </div>
-
-
-
         </div>
-
-
         <div class="container1 m-2" style="margin-top: 5px;display: grid;" dir="rtl">
             <div class="header">
                 <div class="row" style="width: 100%;">
@@ -1112,6 +1120,104 @@
                     המטופל
                     &nbsp; העתק: למרכז ועדת החייאה.
                     &nbsp; העתק: היחידה לבטיחות הטיפול.</b></p>
+        </div>
+    </div>
+
+    <h1 class="text-center" style="page-break-before: always;" *ngIf="CprFormsList[0].firstTableArray2.length > 0">נספח</h1>
+    <div class="container1 m-2" style="margin-top: 5px;display: grid;"
+        *ngIf="CprFormsList[0].firstTableArray2.length > 0" dir="rtl">
+        <div class="header">
+            <p class="text-right" style="margin: 0px;"><b><u>ב) תהליך החייאה:</u></b></p>
+        </div>
+        <div class="row clearfix">
+            <div class="col-md-12 column">
+                <table id="firstTable" class="table table-bordered table-hover" style="width: 100%;">
+                    <tbody>
+                        <tr>
+                            <td style="background-color: red;text-align: right;">קצב לב ראשוני
+                                שזוהה
+                            </td>
+                            <td class="col-1 text-center" *ngFor="let col of firstTablecolumns; let i = index">
+                                <mat-label style="align-self: center;">שעה:&nbsp;</mat-label>
+                                <p style="margin: 0px;font-size: 9px;padding: 0px;">
+                                    <b>{{CprFormsList[0].firstTableArray2[i].subArray[0].timeHead}}</b>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>בד' דופק יש/אין</td>
+                            <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index">
+                                <p style="margin: 0px;font-size: 9px;padding: 0px;">
+                                    <b>{{CprFormsList[0].firstTableArray2[i].subArray[0].rateHead}}</b>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>הערכת קצב</td>
+                            <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index"
+                                style="text-align: right;">
+                                <p style="margin: 0px;font-size: 5px;padding: 0px;"
+                                    *ngIf="CprFormsList[0].firstTableArray2[i].subArray[0].rateStatusHead == 'ASYSTOLE'">
+                                    <b>ASYS</b>
+                                </p>
+                                <p style="margin: 0px;font-size: 9px;padding: 0px;"
+                                    *ngIf="CprFormsList[0].firstTableArray2[i].subArray[0].rateStatusHead != 'ASYSTOLE'">
+                                    <b>{{CprFormsList[0].firstTableArray2[i].subArray[0].rateStatusHead}}</b>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                            <td>ETCO2</td>
+                            <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index">
+                                <p style="margin: 0px;font-size: 9px;padding: 0px;">
+                                    <b>{{CprFormsList[0].firstTableArray2[i].subArray[0].etcoHead}}</b>
+                                </p>
+                            </td>
+                        </tr>
+                        <tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col" style="width: 100%;float: right;">
+                <div class="row clearfix" style="width: 100%;float: right;">
+                    <div class="col-md-12 column">
+                        <table class="table table-bordered table-hover" style="width: 100%;" id="tab_logic">
+                            <thead>
+                                <tr>
+                                    <th class="text-center">
+                                        התרופה
+                                    </th>
+                                    <th class="text-center" *ngFor="let time of secondTablecolumns">
+                                        {{time}}
+                                    </th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr *ngFor="let action of CprFormsList[0].thirdTableArray2; let i = index"
+                                    class="text-center">
+                                    <td>
+                                        <p style="font-size: 7px;">{{action.subArray[0].title}}</p>
+                                    </td>
+                                    <td
+                                        *ngFor="let time of CprFormsList[0].thirdTableArray2[i].subArray; let j = index">
+                                        <div class="row" style="display: flex;margin: 10px 0px 10px 0px;">
+                                            <div class="col-6"
+                                                style="width: 50%;margin: 0px;border-left: 1px solid black;text-align: center;">
+                                                <p style="margin: 0px;font-size: 8px;">{{time.textMed}}</p>
+                                            </div>
+                                            <div class="col-6" style="width: 50%;margin: 0px;text-align: center;">
+                                                <p style="margin: 0px;font-size: 8px;">{{time.timeMed}}</p>
+                                            </div>
+                                        </div>
+                                    </td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 </div>

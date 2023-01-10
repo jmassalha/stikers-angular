@@ -28,6 +28,8 @@ import pdfFonts from 'pdfmake/build/vfs_fonts';
 pdfMake.vfs = pdfFonts.pdfMake.vfs;
 import { Observable } from "rxjs";
 import { map, startWith } from 'rxjs/operators';
+import { MatPaginator } from "@angular/material/paginator";
+import { MatTableDataSource } from "@angular/material/table";
 
 @Component({
   selector: 'app-cpr-form',
@@ -40,6 +42,8 @@ export class CprFormComponent implements OnInit {
   verticalPosition: MatSnackBarVerticalPosition = "bottom";
   @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
   @ViewChild('printmycontent') printmycontent: ElementRef;
+  @ViewChild(MatPaginator) paginator: MatPaginator;
+  dataSource = new MatTableDataSource<any>();
 
   constructor(public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -207,8 +211,12 @@ export class CprFormComponent implements OnInit {
                               סיעודי</li>
                           <li style="margin-left: 26px;"
                               [ngStyle]="{'display': CprFormsList[0].cprWitness3 == 'True' ? 'block' : 'none' }">
-                              <span></span>מלווה /
+                              מלווה /
                               משפחה
+                          </li>
+                          <li style="margin-left: 26px;"
+                              [ngStyle]="{'display': CprFormsList[0].cprWitness3 == 'True' ? 'block' : 'none' }">
+                              החייאה קדם ביה"ח
                           </li>
                       </ul>
                   </div>
@@ -505,6 +513,15 @@ export class CprFormComponent implements OnInit {
   </div>
 </div></body></html>`;
 
+  applyFilter(event: Event, clicked) {
+    if (clicked == '' || clicked == undefined) {
+      const filterValue = (event.target as HTMLInputElement).value;
+      this.dataSource.filter = filterValue.trim().toLowerCase();
+    } else {
+      this.dataSource.filter = clicked.trim().toLowerCase();
+    }
+  }
+
 
   ngOnInit(): void {
 
@@ -518,9 +535,9 @@ export class CprFormComponent implements OnInit {
         subArray: this.subArrayTest(this.firstTablecolumns.length, 'actions')
       }));
     }
-    
+
     // second table of actions
-    for (let i = 0; i < 9; i++) {
+    for (let i = 0; i < 10; i++) {
       this.actionsTableArray.push(this.formBuilder.group({
         id: new FormControl(i, null),
         actionctrl: new FormControl('', Validators.required)
@@ -538,7 +555,7 @@ export class CprFormComponent implements OnInit {
         subArray: this.subArrayTest(this.secondTablecolumns.length, 'third')
       }));
     }
-    
+
     // forth table of electricity arrays  -- NOTE (MAKE IT ONE ARRAY NOT TWO !!!!!!!!!)
     for (let i = 0; i < 1; i++) {
       this.forthTableArray.push(this.formBuilder.group({
@@ -549,6 +566,7 @@ export class CprFormComponent implements OnInit {
 
     // this.getFormDetails();
     this.FirstSection = this.formBuilder.group({
+      UserNameOfFill: new FormControl(this.UserName, Validators.required),
       cprDate: new FormControl(this.myDate, Validators.required),
       cprTime: new FormControl('', Validators.required),
       cprTeamWork: new FormControl('', Validators.required),
@@ -563,6 +581,7 @@ export class CprFormComponent implements OnInit {
       cprWitness1: new FormControl('', null),
       cprWitness2: new FormControl('', null),
       cprWitness3: new FormControl('', null),
+      cprWitness4: new FormControl('', null),
       cprCause1: new FormControl('', null),
       cprCause2: new FormControl('', null),
       cprCause3: new FormControl('', null),
@@ -1017,7 +1036,9 @@ export class CprFormComponent implements OnInit {
         ID: ""
       })
       .subscribe((Response) => {
-        this.CprFormsList_all = Response["d"];
+        // this.CprFormsList_all = Response["d"];
+        this.dataSource = new MatTableDataSource<any>(Response["d"]);
+        this.dataSource.paginator = this.paginator;
       });
   }
 
@@ -1092,7 +1113,7 @@ export class CprFormComponent implements OnInit {
   }
 
   printCprForm(id) {
-    this.CprFormsList = this.CprFormsList_all.filter(x => x.Row_ID == id);
+    this.CprFormsList = this.dataSource.filteredData.filter(x => x.Row_ID == id);
     // this.CprFormsList[0].PM_DOB = this.CprFormsList[0].PM_DOB.toFixed(1);
     // let that = this;
     // const doc = new jsPDF();

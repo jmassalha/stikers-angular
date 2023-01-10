@@ -172,7 +172,7 @@ export class CablesComponent implements OnInit {
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
-            //.post("http://localhost:64964/WebService.asmx/getAllCables", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllCables", {
                .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllCables",{
             })
             .subscribe((Response) => {

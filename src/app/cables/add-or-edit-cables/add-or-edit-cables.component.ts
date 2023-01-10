@@ -106,7 +106,7 @@ export class AddOrEditCablesComponent implements OnInit {
         console.log(this.serverForm.value);
         this.http
             .post(
-               // "http://localhost:64964/WebService.asmx/insertOrUpdateCables",
+               // "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateCables",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateCables",
                 {
                   mRowCables: this.serverForm.value,

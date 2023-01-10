@@ -137,9 +137,15 @@
                                         <th mat-header-cell *matHeaderCellDef style="text-align: center;"> כמות </th>
                                         <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
                                             <mat-form-field class="text-center">
-                                                <mat-label>כמות</mat-label>
+                                                <mat-select formControlName="ServiceQuantity" ng-model="myVar"
+                                                    (selectionChange)="addSelectedServices(element)">
+                                                    <mat-option *ngFor="let quan of ServiceQuantityList" [value]="quan">
+                                                        {{quan}}
+                                                    </mat-option>
+                                                </mat-select>
+                                                <!-- <mat-label>כמות</mat-label>
                                                 <input matInput min="0" (change)="addSelectedServices(element)"
-                                                    formControlName="ServiceQuantity" type="number">
+                                                    formControlName="ServiceQuantity" type="number"> -->
                                             </mat-form-field>
                                         </td>
                                     </ng-container>
