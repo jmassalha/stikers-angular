@@ -1747,8 +1747,8 @@ input::-webkit-inner-spin-button {
     padding: 3px 17px;
 }
 .row-1 {
-    display: block;
-    float: left;
+    /* display: block;
+    float: left; */
     width: 100%;
 }
 g text {

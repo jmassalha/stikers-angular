@@ -2,7 +2,7 @@ import { SelectionModel } from '@angular/cdk/collections';
 import { NestedTreeControl } from '@angular/cdk/tree';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
@@ -64,6 +64,7 @@ export class ClinicsDashboardComponent implements OnInit {
   time2: string;
   patientRecords = [];
   url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  @ViewChild('formhtmltemplet') formhtmltemplet: ElementRef;
 
 
   ELEMENT_DATA = [];
@@ -76,14 +77,15 @@ export class ClinicsDashboardComponent implements OnInit {
     private router: Router,
     private _snackBar: MatSnackBar,
     private mMenuPerm: MenuPerm
-) {
+  ) {
     mMenuPerm.setRoutName("clinicspricing");
     setTimeout(() => {
-        if(!mMenuPerm.getHasPerm()){
-            localStorage.clear();
-            this.router.navigate(["login"]);
-        }
-    }, 2000); }
+      if (!mMenuPerm.getHasPerm()) {
+        localStorage.clear();
+        this.router.navigate(["login"]);
+      }
+    }, 2000);
+  }
 
   // myControl = new FormControl();
   departments: Department[] = [];

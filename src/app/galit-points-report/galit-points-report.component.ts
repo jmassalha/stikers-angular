@@ -85,7 +85,7 @@ export class GalitPointsReportComponent implements OnInit {
       var w = window.open();
       w.document.write(style);
       w.print();
-      // w.close();
+      w.close();
       that.paginator._changePageSize(5);
     }, 1000);
   }
