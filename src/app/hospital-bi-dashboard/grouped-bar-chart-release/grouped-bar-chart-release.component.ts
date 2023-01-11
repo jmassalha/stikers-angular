@@ -57,7 +57,7 @@ export class GroupedBarChartReleaseComponent implements OnInit {
     return this.timesString[parseInt(elem) - 1];
   }
 
-  test(){
+  test() {
     console.log("Works");
   }
 
@@ -340,10 +340,10 @@ export class GroupedBarChartReleaseComponent implements OnInit {
     this._averageBefore = 0;
     this._averageAfter = 0;
     for (let f = 0; f < this.data.length; f++) {
-      if(this.data[f].length > 1){
+      if (this.data[f].length > 1) {
         this._averageBefore += this.data[f][1];
       }
-      if(this.data[f].length > 3){
+      if (this.data[f].length > 3) {
         this._averageAfter += this.data[f][3];
       }
     }
@@ -353,22 +353,18 @@ export class GroupedBarChartReleaseComponent implements OnInit {
     this._averageBefore = 'ממוצע כללי ' + this.columnNames[1] + ' - ' + this._averageBefore.toFixed(1) + ' %';
 
     this.totalNumberOfOccurincy = 0;
-    let index = this.columnNames.indexOf(this.filterVal);
-
-    // get the total number of all columns
-    // for (let i = 0; i < this.data.length; i++) {
-    //   this.totalNumberOfOccurincy += this.data[i][index];
-    // }
 
     // FOR CALCULATING THE AVERAGE OF EVERY COLUMN IN A SPECIFIC TOOLTIP
     for (let i = 0; i < this.data.length; i++) {
       this.totalNumberOfOccurincy = this.data[i][1] + this.data[i][3];
-      // let percent = (this.data[i][1] / this.totalNumberOfOccurincy) * 100;
-      this.data[i][1] = parseFloat(((this.data[i][1] / this.totalNumberOfOccurincy) * 100).toFixed(1));
-      this.data[i][2] = parseFloat(((this.data[i][2] / this.totalNumberOfOccurincy) * 100).toFixed(1));
-      this.data[i][3] = parseFloat(((this.data[i][3] / this.totalNumberOfOccurincy) * 100).toFixed(1));
-      this.data[i][4] = parseFloat(((this.data[i][4] / this.totalNumberOfOccurincy) * 100).toFixed(1));
-      // this.data[i] = [this.data[i][0], parseFloat(percent.toFixed(0)), parseFloat(percent.toFixed(0))];
+      // this.data[i][1] = parseFloat(((this.data[i][1] / this.totalNumberOfOccurincy) * 100).toFixed(1));
+      // this.data[i][2] = parseFloat(((this.data[i][2] / this.totalNumberOfOccurincy) * 100).toFixed(1));
+      // this.data[i][3] = parseFloat(((this.data[i][3] / this.totalNumberOfOccurincy) * 100).toFixed(1));
+      // this.data[i][4] = parseFloat(((this.data[i][4] / this.totalNumberOfOccurincy) * 100).toFixed(1));
+      this.data[i][1] = parseFloat((this.data[i][1]));
+      this.data[i][2] = parseFloat((this.data[i][2]));
+      this.data[i][3] = parseFloat((this.data[i][3]));
+      this.data[i][4] = parseFloat((this.data[i][4]));
     }
   }
 

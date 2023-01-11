@@ -237,6 +237,7 @@ export class EmailsdashboardComponent implements OnInit {
             .subscribe((Response) => {
               if (Response["d"]) {
                 this.openSnackBar("נמחק בהצלחה");
+                this.searchForm('0', false);
               } else {
                 this.openSnackBar("משהו השתבש, לא נמחק !");
               }
