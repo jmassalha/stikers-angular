@@ -27,7 +27,7 @@ export interface Services {
 })
 export class ManageClinicPriceComponent implements OnInit {
   dataSource = new MatTableDataSource<any>();
-  displayedColumns: string[] = ['code', 'name', 'price', 'quantity'];
+  displayedColumns: string[] = ['code', 'name', 'price', 'teeth', 'quantity'];
   @ViewChild(MatPaginator) paginator: MatPaginator;
 
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
@@ -39,6 +39,7 @@ export class ManageClinicPriceComponent implements OnInit {
   time2: string;
   detailsFormGroup: FormGroup;
   servicesFormGroup: FormGroup;
+  checked = false;
 
   applyFilter(event: Event, clicked) {
     if (clicked == '' || clicked == undefined) {
@@ -68,8 +69,9 @@ export class ManageClinicPriceComponent implements OnInit {
   userDR: boolean = false;
   displayArr = this.fb.array([]);
   ServiceQuantityList = [];
-  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  url = "http://localhost:64964/WebService.asmx/";
   UserName = localStorage.getItem("loginUserName").toLowerCase();
+  teethList: any[] = [];
 
   ngOnInit(): void {
     this.detailsFormGroup = this.fb.group({
@@ -99,6 +101,28 @@ export class ManageClinicPriceComponent implements OnInit {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  TeethNumbers(type) {
+    for (let i = 1; i <= 4; i++) {
+      if (type == "constant") {
+        for (let j = 1; j <= 8; j++) {
+          let obj = {
+            id: i,
+            value: (i + '' + j).toString()
+          };
+          this.teethList.push(obj);
+        }
+      } else if (type == "milkey") {
+        for (let j = 1; j <= 5; j++) {
+          let obj = {
+            id: i,
+            value: (i + '' + j).toString()
+          };
+          this.teethList.push(obj);
+        }
+      }
+    }
   }
 
   searchPatientDetails() {
@@ -170,16 +194,6 @@ export class ManageClinicPriceComponent implements OnInit {
     this.getDepartments();
   }
 
-  // plusService(value) {
-  //   let servVal = parseInt(this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity) + 1;
-  //   this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity = servVal.toString();
-  // }
-
-  // minusService(value) {
-  //   let servVal = parseInt(this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity) - 1;
-  //   this.servicesFormGroup.controls["PatientsServicesList"]["controls"][value].value.ServiceQuantity = servVal.toString();
-  // }
-
   selectedDept() {
     this.searchServices();
   }
@@ -197,6 +211,7 @@ export class ManageClinicPriceComponent implements OnInit {
         _ifEdit: this.ifEdit,
       })
       .subscribe((Response) => {
+        this.TeethNumbers("constant");
         let relevantServices = [];
         relevantServices = Response["d"];
         var PatientsServicesList: any = this.fb.array([]);
@@ -212,7 +227,8 @@ export class ManageClinicPriceComponent implements OnInit {
             ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
             ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
             ServicePrice: [{ value: relevantServices[i].ServicePrice / 100, disabled: true }, null],
-            ServiceQuantity: [relevantServices[i].ServiceQuantity, null],
+            ServiceQuantity: [{value: relevantServices[i].ServiceQuantity, disabled: true}, null],
+            ServiceTeeth: [this.teethList, null]
           });
           let serialNumber = {
             value: i,
@@ -220,6 +236,7 @@ export class ManageClinicPriceComponent implements OnInit {
             number: relevantServices[i].ServiceNumber,
             quantity: relevantServices[i].ServiceQuantity,
             price: relevantServices[i].ServicePrice,
+            teeth: this.teethList,
           }
           ELEMENT_DATA.push(serialNumber);
           PatientsServicesList.push(ServiceItem);
@@ -232,6 +249,7 @@ export class ManageClinicPriceComponent implements OnInit {
         });
         this.dataSource = new MatTableDataSource<any>(ELEMENT_DATA);
         this.dataSource.paginator = this.paginator;
+
         this.searchingProgress = false;
       });
   }
@@ -248,31 +266,46 @@ export class ManageClinicPriceComponent implements OnInit {
     this.dialogR.close(false);
   }
 
+  selectTeeth(event, element){
+    if(event.value.length > 0){
+      this.servicesFormGroup.controls['PatientsServicesList']['controls'][element.value].controls.ServiceQuantity.enable();
+    }
+  }
+
   // adding the selected service to the temp display array
   addSelectedServices(element) {
-    let duplicateVal = this.displayArr.controls.filter(s => s.value.ServiceNumber == element.number);
-    if (duplicateVal.length > 0) {
-      let index = this.displayArr.value.findIndex(x => x.ServiceNumber == element.number);
-      this.displayArr.removeAt(index);
-    }
-    let quantity = "";
-    let value = "";
-    if (element.hasOwnProperty('Row_ID')) {
-      value = "";
-      quantity = element.ServiceQuantity;
+    if (this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth[0].id != null) {
+      this.openSnackBar("לבחור מספרי שיניים קודם");
     } else {
-      value = element.value;
-      quantity = this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceQuantity;
-    }
-    let serviceCtrl = this.fb.group({
-      ServiceId: [element.value, null],
-      ServiceNumber: [element.number, null],
-      ServiceName: [element.name, null],
-      ServicePrice: [element.price, null],
-      ServiceQuantity: [quantity, null],
-    });
-    if (serviceCtrl.controls['ServiceQuantity'].value > 0) {
-      this.selectedServices.push(serviceCtrl);
+      let duplicateVal = this.displayArr.controls.filter(s => s.value.ServiceNumber == element.number);
+      if (duplicateVal.length > 0) {
+        let index = this.displayArr.value.findIndex(x => x.ServiceNumber == element.number);
+        this.displayArr.removeAt(index);
+      }
+      let quantity = "";
+      let value = "";
+      if (element.hasOwnProperty('Row_ID')) {
+        value = "";
+        quantity = element.ServiceQuantity;
+      } else {
+        value = element.value;
+        quantity = this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceQuantity;
+      }
+      try {
+        let serviceCtrl = this.fb.group({
+          ServiceId: [element.value, null],
+          ServiceNumber: [element.number, null],
+          ServiceName: [element.name, null],
+          ServicePrice: [element.price, null],
+          ServiceQuantity: [quantity, null],
+          ServiceTeeth: [this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth, null],
+        });
+        if (serviceCtrl.controls['ServiceQuantity'].value > 0) {
+          this.selectedServices.push(serviceCtrl);
+        }
+      } catch (err) {
+        console.log(err);
+      }
     }
   }
 

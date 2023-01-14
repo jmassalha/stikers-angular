@@ -133,6 +133,22 @@
                                         </td>
                                     </ng-container>
 
+                                    <ng-container matColumnDef="teeth">
+                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מספרי שיניים
+                                        </th>
+                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
+                                            <mat-form-field appearance="fill">
+                                                <!-- <mat-label>Favorite food</mat-label> -->
+                                                <mat-select formControlName="ServiceTeeth" multiple
+                                                    (selectionChange)="selectTeeth($event, element)">
+                                                    <mat-option *ngFor="let tooth of teethList" [value]="tooth.value">
+                                                        {{tooth.value}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </td>
+                                    </ng-container>
+
                                     <ng-container matColumnDef="quantity">
                                         <th mat-header-cell *matHeaderCellDef style="text-align: center;"> כמות </th>
                                         <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
