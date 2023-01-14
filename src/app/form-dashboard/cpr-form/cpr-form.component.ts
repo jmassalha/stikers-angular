@@ -537,7 +537,7 @@ export class CprFormComponent implements OnInit {
     }
 
     // second table of actions
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 9; i++) {
       this.actionsTableArray.push(this.formBuilder.group({
         id: new FormControl(i, null),
         actionctrl: new FormControl('', Validators.required)
