@@ -69,7 +69,7 @@ export class ManageClinicPriceComponent implements OnInit {
   userDR: boolean = false;
   displayArr = this.fb.array([]);
   ServiceQuantityList = [];
-  url = "http://localhost:64964/WebService.asmx/";
+  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   teethList: any[] = [];
 
