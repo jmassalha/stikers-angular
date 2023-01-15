@@ -47,7 +47,7 @@ export interface Patient {
 export class ClinicsDashboardComponent implements OnInit {
 
   displayedColumns: string[] = ['code', 'name', 'quantity'];
-  displayedColumns2: string[] = ['code', 'name', 'quantity', 'price', 'total'];
+  displayedColumns2: string[] = ['code', 'name', 'quantity', 'teeth', 'price', 'total'];
   displayedColumns3: string[] = ['date', 'passport', 'name', 'totalP', 'versions', 'print', 'edit'];
   dataSource = new MatTableDataSource<Services>();
   dataSource2 = new MatTableDataSource<Services>();
@@ -63,7 +63,7 @@ export class ClinicsDashboardComponent implements OnInit {
   date2: string;
   time2: string;
   patientRecords = [];
-  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  url = "http://localhost:64964/WebService.asmx/";
   @ViewChild('formhtmltemplet') formhtmltemplet: ElementRef;
 
 
@@ -191,6 +191,7 @@ export class ClinicsDashboardComponent implements OnInit {
               ServiceNumber: relevantServices[i].ServiceNumber,
               ServiceName: relevantServices[i].ServiceName,
               ServiceQuantity: relevantServices[i].ServiceQuantity,
+              TeethToPrint: relevantServices[i].TeethToPrint,
               ServicePrice: relevantServices[i].ServicePrice,
               Total: total,
             });

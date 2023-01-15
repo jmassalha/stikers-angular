@@ -210,6 +210,15 @@
                                 </td>
                             </ng-container>
 
+                            <ng-container matColumnDef="teeth">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מספרי שיניים </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="b-bottom">{{
+                                        element.value.TeethToPrint
+                                        }}</span>
+                                </td>
+                            </ng-container>
+
                             <ng-container matColumnDef="price">
                                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מחיר יחידה </th>
                                 <td mat-cell *matCellDef="let element">

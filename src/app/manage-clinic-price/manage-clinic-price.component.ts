@@ -227,7 +227,7 @@ export class ManageClinicPriceComponent implements OnInit {
             ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
             ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
             ServicePrice: [{ value: relevantServices[i].ServicePrice / 100, disabled: true }, null],
-            ServiceQuantity: [{value: relevantServices[i].ServiceQuantity, disabled: true}, null],
+            ServiceQuantity: [{ value: relevantServices[i].ServiceQuantity, disabled: false }, null],
             ServiceTeeth: [this.teethList, null]
           });
           let serialNumber = {
@@ -266,46 +266,45 @@ export class ManageClinicPriceComponent implements OnInit {
     this.dialogR.close(false);
   }
 
-  selectTeeth(event, element){
-    if(event.value.length > 0){
-      this.servicesFormGroup.controls['PatientsServicesList']['controls'][element.value].controls.ServiceQuantity.enable();
-    }
-  }
+  // selectTeeth(event, element) {
+  //   if (event.value.length > 0) {
+  //     this.servicesFormGroup.controls['PatientsServicesList']['controls'][element.value].controls.ServiceQuantity.enable();
+  //   }
+  // }
 
   // adding the selected service to the temp display array
   addSelectedServices(element) {
     if (this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth[0].id != null) {
-      this.openSnackBar("לבחור מספרי שיניים קודם");
+      this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth = [];
+    }
+    let duplicateVal = this.displayArr.controls.filter(s => s.value.ServiceNumber == element.number);
+    if (duplicateVal.length > 0) {
+      let index = this.displayArr.value.findIndex(x => x.ServiceNumber == element.number);
+      this.displayArr.removeAt(index);
+    }
+    let quantity = "";
+    let value = "";
+    if (element.hasOwnProperty('Row_ID')) {
+      value = "";
+      quantity = element.ServiceQuantity;
     } else {
-      let duplicateVal = this.displayArr.controls.filter(s => s.value.ServiceNumber == element.number);
-      if (duplicateVal.length > 0) {
-        let index = this.displayArr.value.findIndex(x => x.ServiceNumber == element.number);
-        this.displayArr.removeAt(index);
+      value = element.value;
+      quantity = this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceQuantity;
+    }
+    try {
+      let serviceCtrl = this.fb.group({
+        ServiceId: [element.value, null],
+        ServiceNumber: [element.number, null],
+        ServiceName: [element.name, null],
+        ServicePrice: [element.price, null],
+        ServiceQuantity: [quantity, null],
+        ServiceTeeth: [this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth, null],
+      });
+      if (serviceCtrl.controls['ServiceQuantity'].value > 0) {
+        this.selectedServices.push(serviceCtrl);
       }
-      let quantity = "";
-      let value = "";
-      if (element.hasOwnProperty('Row_ID')) {
-        value = "";
-        quantity = element.ServiceQuantity;
-      } else {
-        value = element.value;
-        quantity = this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceQuantity;
-      }
-      try {
-        let serviceCtrl = this.fb.group({
-          ServiceId: [element.value, null],
-          ServiceNumber: [element.number, null],
-          ServiceName: [element.name, null],
-          ServicePrice: [element.price, null],
-          ServiceQuantity: [quantity, null],
-          ServiceTeeth: [this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth, null],
-        });
-        if (serviceCtrl.controls['ServiceQuantity'].value > 0) {
-          this.selectedServices.push(serviceCtrl);
-        }
-      } catch (err) {
-        console.log(err);
-      }
+    } catch (err) {
+      console.log(err);
     }
   }
 
