@@ -8,7 +8,16 @@ import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
 
+export interface Teeth {
+  value: string;
+  viewValue: string;
+}
 
+export interface TeethGroup {
+  disabled?: boolean;
+  name: string;
+  teeth: Teeth[];
+}
 export interface Department {
   Row_ID: string;
   DepartName: string;
@@ -69,9 +78,9 @@ export class ManageClinicPriceComponent implements OnInit {
   userDR: boolean = false;
   displayArr = this.fb.array([]);
   ServiceQuantityList = [];
-  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  url = "http://localhost:64964/WebService.asmx/";
   UserName = localStorage.getItem("loginUserName").toLowerCase();
-  teethList: any[] = [];
+  teethList: TeethGroup[] = [];
 
   ngOnInit(): void {
     this.detailsFormGroup = this.fb.group({
@@ -103,26 +112,48 @@ export class ManageClinicPriceComponent implements OnInit {
     });
   }
 
-  TeethNumbers(type) {
+  TeethNumbers() {
+    // CONSTANT TEETH
+    let teethTemp;
+    // 11 - 18
+    // 21 - 28
+    // 31 - 38
+    // 41 - 48
+    teethTemp = {
+      name: 'קבועות',
+      teeth: []
+    };
     for (let i = 1; i <= 4; i++) {
-      if (type == "constant") {
-        for (let j = 1; j <= 8; j++) {
-          let obj = {
-            id: i,
-            value: (i + '' + j).toString()
-          };
-          this.teethList.push(obj);
-        }
-      } else if (type == "milkey") {
-        for (let j = 1; j <= 5; j++) {
-          let obj = {
-            id: i,
-            value: (i + '' + j).toString()
-          };
-          this.teethList.push(obj);
-        }
+      for (let j = 1; j <= 8; j++) {
+        let obj = {
+          id: i,
+          value: (i + '' + j).toString()
+        };
+        teethTemp.teeth.push(obj);
       }
     }
+    this.teethList.push(teethTemp);
+
+    // MILKEY TEETH
+    // 51 - 54
+    // 61 - 64
+    // 71 - 74
+    // 81 - 84
+    teethTemp = {
+      name: 'חלביות',
+      teeth: []
+    };
+    for (let i = 5; i <= 8; i++) {
+      for (let j = 1; j <= 4; j++) {
+        let obj = {
+          id: i,
+          value: (i + '' + j).toString()
+        };
+        teethTemp.teeth.push(obj);
+      }
+    }
+    this.teethList.push(teethTemp);
+    // this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth = this.teethList;
   }
 
   searchPatientDetails() {
@@ -211,7 +242,7 @@ export class ManageClinicPriceComponent implements OnInit {
         _ifEdit: this.ifEdit,
       })
       .subscribe((Response) => {
-        this.TeethNumbers("constant");
+        this.TeethNumbers();
         let relevantServices = [];
         relevantServices = Response["d"];
         var PatientsServicesList: any = this.fb.array([]);
@@ -227,7 +258,7 @@ export class ManageClinicPriceComponent implements OnInit {
             ServiceNumber: [{ value: relevantServices[i].ServiceNumber, disabled: true }, null],
             ServiceName: [{ value: relevantServices[i].ServiceName, disabled: true }, null],
             ServicePrice: [{ value: relevantServices[i].ServicePrice / 100, disabled: true }, null],
-            ServiceQuantity: [{ value: relevantServices[i].ServiceQuantity, disabled: false }, null],
+            ServiceQuantity: [relevantServices[i].ServiceQuantity, null],
             ServiceTeeth: [this.teethList, null]
           });
           let serialNumber = {
@@ -265,12 +296,6 @@ export class ManageClinicPriceComponent implements OnInit {
   closeModal() {
     this.dialogR.close(false);
   }
-
-  // selectTeeth(event, element) {
-  //   if (event.value.length > 0) {
-  //     this.servicesFormGroup.controls['PatientsServicesList']['controls'][element.value].controls.ServiceQuantity.enable();
-  //   }
-  // }
 
   // adding the selected service to the temp display array
   addSelectedServices(element) {
