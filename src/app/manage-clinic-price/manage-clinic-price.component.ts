@@ -299,7 +299,7 @@ export class ManageClinicPriceComponent implements OnInit {
 
   // adding the selected service to the temp display array
   addSelectedServices(element) {
-    if (this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth[0].id != null) {
+    if (this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth[0].name != null) {
       this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceTeeth = [];
     }
     let duplicateVal = this.displayArr.controls.filter(s => s.value.ServiceNumber == element.number);
