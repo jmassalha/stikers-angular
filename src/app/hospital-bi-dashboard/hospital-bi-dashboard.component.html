@@ -41,20 +41,23 @@
                 <option *ngFor="let time of timeLine" [value]="time.DimTimeTypeID">{{time.DimTimeTypeDesc}}
                 </option>
             </select>
-            <mat-label *ngIf="this.TimeLineParam == '5'" class="mr-2">מ-שנה</mat-label>
-            <select *ngIf="this.TimeLineParam == '5'" id="firstSelect" class="form-select"
-                (change)="changePeriod($event);">
-                <option value="undefined">הכל</option>
-                <option *ngFor="let year of yearsPeriodList" [value]="year.number">{{year.year}}
-                </option>
-            </select>
-            <mat-label *ngIf="this.TimeLineParam == '5'" class="mr-2">עד-שנה</mat-label>
-            <select *ngIf="this.TimeLineParam == '5'" id="secondSelect" class="form-select"
-                (change)="changePeriod($event);">
-                <option value="undefined">הכל</option>
-                <option *ngFor="let year of yearsPeriodList2" [value]="year.number">{{year.year}}
-                </option>
-            </select>
+            <div *ngIf="this.TimeLineParam == '5' && !deliveryPrematureGroup.get('ByDoctor').value">
+                <mat-label class="mr-2">מ-שנה</mat-label>
+                <select id="firstSelect" class="form-select"
+                    (change)="changePeriod($event);">
+                    <option value="undefined">הכל</option>
+                    <option *ngFor="let year of yearsPeriodList" [value]="year.number">{{year.year}}
+                    </option>
+                </select>
+                <mat-label class="mr-2">עד-שנה</mat-label>
+                <select id="secondSelect" class="form-select"
+                    (change)="changePeriod($event);">
+                    <option value="undefined">הכל</option>
+                    <option *ngFor="let year of yearsPeriodList2" [value]="year.number">{{year.year}}
+                    </option>
+                </select>
+            </div>
+            
         </div>
         <div *ngIf="departParam == '1'" class="col-lg-4 col-md-4 col-sm-4 col-xs-4" style="text-align-last: center;">
             <div class="row" style="justify-content: center;" *ngIf="!tableView">

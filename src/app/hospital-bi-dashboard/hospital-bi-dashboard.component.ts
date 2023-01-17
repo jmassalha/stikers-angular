@@ -17,6 +17,7 @@ import { Workbook } from 'exceljs';
 import * as fs from 'file-saver';
 import { DatePipe } from '@angular/common';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { environment } from 'src/environments/environment';
 
 interface Time {
   DimTimeTypeID: string;
@@ -40,7 +41,6 @@ interface Cards {
 @Injectable()
 export class HospitalBIDashboardComponent implements OnInit {
 
-  configUrl = 'http://srv-apps-prod/RCF_WS/WebService.asmx/';
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
     { DIMDataTypeID: "2", DIMDataTypeDesc: "מרפאות ומכונים" },
@@ -325,6 +325,10 @@ export class HospitalBIDashboardComponent implements OnInit {
   chooseTimeValue(event) {
     this.loader = true;
     this.filterValue = undefined;
+    if (event != '5') {
+      this.first = undefined;
+      this.second = undefined;
+    }
     if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
       this.TimeLineParam = event;
       if (this.deliveryPrematureGroup.controls['deliveryPremature'].value) {
@@ -388,7 +392,11 @@ export class HospitalBIDashboardComponent implements OnInit {
       }
       let that = this;
       setTimeout(() => {
-        this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+        if (this.deliveryPrematureGroup.controls['ByDoctor'].value) {
+          this.getTableViewItems(this.TimeLineParam, this.departParam);
+        } else {
+          this.changeTime(this.TimeLineParam, 'all', this.periodListToSend);
+        }
       }, 1000);
     } else if (this.first == "undefined") {
       this.periodListToSend = [];//["-1", "-2", "-3", "-4", "-5"]
@@ -525,7 +533,7 @@ export class HospitalBIDashboardComponent implements OnInit {
 
   getTableViewItems(time, depart) {
     this.http
-      .post(this.configUrl + "GetTableViewForHospitalDashboard", {
+      .post(environment.url + "GetTableViewForHospitalDashboard", {
         param: time,
         deptCode: depart
       })
@@ -568,7 +576,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   getCardsVals() {
     this.loader = true;
     this.http
-      .post(this.configUrl + "GetStatsValues", {
+      .post(environment.url + "GetStatsValues", {
         deptCode: this.departParam,
         returnedPatients: this.deliveryPrematureGroup.controls['deliveryPremature'].value,
         timeLine: this.TimeLineParam
@@ -585,7 +593,7 @@ export class HospitalBIDashboardComponent implements OnInit {
 
   getHospitalDepartmentsTableChartList() {
     this.http
-      .post(this.configUrl + "GetHospitalDepartmentsTableChartList", {
+      .post(environment.url + "GetHospitalDepartmentsTableChartList", {
         surgerydeptType: this.hospitalDepartTypeGroup.controls['hospitalDepartType'].value
       })
       .subscribe((Response) => {
@@ -597,7 +605,7 @@ export class HospitalBIDashboardComponent implements OnInit {
     //debugger
     let headers = new HttpHeaders();
     headers = headers.set('content-type', 'application/json');
-    return this.http.get(this.configUrl + func, {
+    return this.http.get(environment.url + func, {
       headers
     })
   }
@@ -605,7 +613,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   public ManagedPostServerFunction(func, param): Observable<any> {
     let headers = new HttpHeaders();
     headers = headers.set('content-type', 'application/json');
-    return this.http.post(this.configUrl + func, {
+    return this.http.post(environment.url + func, {
       param: param
     })
   }

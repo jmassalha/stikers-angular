@@ -14,6 +14,7 @@ import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { isEmpty, map, startWith } from 'rxjs/operators';
+import { environment } from 'src/environments/environment';
 
 
 export interface EmailManagement {
@@ -51,22 +52,19 @@ export interface EmailSender {
   CompEmail: string;
   EmailDateTime: string;
 }
-
 export interface EmailDepartment {
   deptVal: string;
 }
-
 export interface DeadLine {
   value: string;
   viewValue: string;
 }
-
 export interface CompDepts {
   value: string;
   viewValue: string;
 }
-
 export interface User {
+  RowID: string;
   Employee_Name: string;
   Employee_Id: string;
   email: string;
@@ -90,7 +88,12 @@ export class EmailmanagementComponent implements OnInit {
   compAmbolatory: any[] = [];
   compDepts: any[] = [];
 
-  
+  formControl = new FormControl(['']);
+  doctors = [];
+  filteredDoctors: Observable<string[]>;
+  @ViewChild('doctorsInput') doctorsInput: ElementRef<HTMLInputElement>;
+
+
   deadline: DeadLine[] = [
     { value: '1', viewValue: 'שבוע' },
     { value: '2', viewValue: 'שבועיים' },
@@ -114,7 +117,12 @@ export class EmailmanagementComponent implements OnInit {
     private http: HttpClient,
     private formBuilder: FormBuilder,
     private dialogRef: MatDialogRef<EmailmanagementComponent>,
-  ) { }
+  ) {
+    this.filteredDoctors = this.formControl.valueChanges.pipe(
+      startWith(null),
+      map((doctor: string | null) => (doctor ? this._filter3(doctor) : this.users.slice())),
+    );
+  }
 
   all_email_management = [];
   all_complaints_filter = [];
@@ -133,14 +141,10 @@ export class EmailmanagementComponent implements OnInit {
   manageComplaintForm: FormGroup;
   emailSenderGroup: FormGroup;
   firstManagementGroup: FormGroup;
-
+  all_doctors_filter = [];
   selectable = true;
   removable = true;
   separatorKeysCodes: number[] = [ENTER, COMMA];
-  fruitCtrl = new FormControl();
-  filteredFruits: Observable<string[]>;
-  fruits: User[] = [];
-  allFruits: string[] = [];
   myControl = new FormControl();
   departmentfilter = new FormControl();
   filteredOptions: Observable<string[]>;
@@ -150,10 +154,6 @@ export class EmailmanagementComponent implements OnInit {
   _ifUpdate: boolean;
   _ifSplit: string;
   _stepper: boolean;
-  // selectData: Array<User> = [];
-  @Output() result = new EventEmitter<{ key: string, data: Array<string> }>();
-  @Input() key: string = '';
-  @ViewChild('fruitInput') fruitInput: ElementRef<HTMLInputElement>;
 
   ngOnInit(): void {
 
@@ -166,12 +166,13 @@ export class EmailmanagementComponent implements OnInit {
       Comp_Sektor: ['', null],
       PersonID: ['', null],
       ImprovementNote: ['', null],
-      EmployeesToAttach: this.formBuilder.array([{
+      EmployeesToAttach: [{
+        RowID: '',
         Employee_Name: '',
         Employee_Id: '',
         email: '',
         Status: ''
-      }]),
+      }],
       Ambolatory: ['', null],
       Comp_Note: ['', null],
       Comp_Answer: ['', null],
@@ -228,51 +229,52 @@ export class EmailmanagementComponent implements OnInit {
         startWith(''),
         map(value => this._filter2(value))
       );
-    this.filteredFruits = this.fruitCtrl.valueChanges.pipe(
-      startWith(null),
-      map((fruit: string | null) => fruit ? this._filter3(fruit) : this.users.slice()));
   }
 
-  // displayFn(user: string): string {
-  //   return user && user.DepartName ? user.DepartName : '';
-  // }
+  removeKeyword(keyword: any, index: number) {
+    this.doctors[index].Status = false;
+  }
 
   add(event: MatChipInputEvent): void {
-    const value: any = (event.value || '').trim();
+    const value = (event.value || '').trim();
+    // Add our keyword
     if (value) {
-      value.Status = 'True';
-      this.fruits.push(value);
+      this.doctors.push({
+        RowID: "",
+        Employee_Name: value,
+        Employee_Id: "",
+        email: "",
+        Status: true
+      });
     }
-    // event.chipInput!.clear();
-    this.fruitCtrl.setValue(null);
-  }
-
-  // remove(fruit: string): void {
-  //   const index = this.fruits.indexOf(fruit);
-  //   if (index >= 0) {
-  //     this.fruits.splice(index, 1);
-  //   }
-  // }
-  remove(fruit: User): void {
-    let index = this.fruits.findIndex(x => x.Employee_Id === fruit.Employee_Id);
-    delete this.fruits[index];
-    this.fruits.length -= 1;
-    // fruit.Status = 'False';
-
+    // Clear the input value
+    this.formControl.setValue(null);
+    this.doctorsInput.nativeElement.value = '';
   }
 
   selected(event: MatAutocompleteSelectedEvent): void {
-    this.fruits.push(event.option.value);
-    this.fruitInput.nativeElement.value = '';
-    this.fruitCtrl.setValue(null);
+    let element = event.option.value;
+    this.doctors.push({
+      RowID: "",
+      Employee_Name: element.Employee_Name,
+      Employee_Id: element.Employee_Id,
+      email: element.email,
+      Status: true
+    });
+    this.doctorsInput.nativeElement.value = '';
+    this.formControl.setValue(null);
   }
 
   private _filter3(value: any): string[] {
-    let filterValue = "";
-    if (value != '' && value.Employee_Name == undefined) {
+    let filterValue;
+    if (value.Employee_Name == undefined) {
+      // string word
       filterValue = value.toLowerCase();
+    } else {
+      // json object
+      filterValue = value.Employee_Name.toLowerCase();
     }
-    return this.users.filter(fruit => fruit.Employee_Name.toLowerCase().includes(filterValue));
+    return this.users.filter(doctor => doctor.Employee_Name.toLowerCase().includes(filterValue));
   }
 
   private _filter(value: string): string[] {
@@ -294,7 +296,7 @@ export class EmailmanagementComponent implements OnInit {
 
   shareComplaintWithOthers() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/AttachCompToUser", {
+      .post(environment.url + "AttachCompToUser", {
         userId: this.myControl.value,
         compId: this.complainID,
       })
@@ -341,13 +343,13 @@ export class EmailmanagementComponent implements OnInit {
     if (_ifSplit == "0") {
       this.manageComplaintForm.setValidators(null);
     }
-    if (this.fruits.length > 0) {
-      this.manageComplaintForm.controls['EmployeesToAttach'].setValue(this.fruits);
+    if (this.doctors.length > 0) {
+      this.manageComplaintForm.controls['EmployeesToAttach'].setValue(this.doctors);
     }
     // this.emailSenderGroup.controls['EmailDateTime'].setValue(this.manageComplaintForm.controls['Comp_Date'].value);
     if (!this.manageComplaintForm.invalid && !this.emailSenderGroup.invalid) {
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateComplaint", {
+        .post(environment.url + "UpdateComplaint", {
           _compToUpdate: this.manageComplaintForm.value,
           _emailToInsert: this.emailSenderGroup.value,
           ifUpdate: _ifUpdate,
@@ -373,7 +375,7 @@ export class EmailmanagementComponent implements OnInit {
 
   getDepatments() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInquiryDeparts", {
+      .post(environment.url + "GetInquiryDeparts", {
 
       })
       .subscribe((Response) => {
@@ -388,7 +390,7 @@ export class EmailmanagementComponent implements OnInit {
   getRelevantComplaints(urlID) {
     let userName = localStorage.getItem("loginUserName").toLowerCase();
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRelevantComplaints", {
+      .post(environment.url + "GetRelevantComplaints", {
         _urlID: urlID,
         _userName: userName
       })
@@ -417,7 +419,7 @@ export class EmailmanagementComponent implements OnInit {
     }
 
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/Manage_Emails", {
+      .post(environment.url + "Manage_Emails", {
         _compID: urlID,
         _ifSplit: ifSplit
       })
@@ -456,7 +458,7 @@ export class EmailmanagementComponent implements OnInit {
             DeadLine: new FormControl(this.all_email_management[0].DeadLine, null),
           });
           this.departmentfilter.setValue(this.all_email_management[0].Comp_Department);
-          this.fruits = this.all_email_management[0].EmployeesToAttach;
+          this.doctors = this.all_email_management[0].EmployeesToAttach;
         }
 
         this.emailSubjectsArr = this.all_email_management[this.all_email_management.length - 1];
@@ -464,7 +466,7 @@ export class EmailmanagementComponent implements OnInit {
 
 
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetInquiryDeparts", {
+      .post(environment.url + "GetInquiryDeparts", {
 
       })
       .subscribe((Response) => {
@@ -476,23 +478,24 @@ export class EmailmanagementComponent implements OnInit {
       });
 
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetUsersForInquiries", {
-
+      .post(environment.url + "GetUsersForInquiries", {
       })
       .subscribe((Response) => {
-        this.all_users_filter = Response["d"];
+        this.all_doctors_filter = Response["d"];
 
-        this.all_users_filter.forEach(element => {
+        this.all_doctors_filter.forEach(element => {
           this.users.push({
+            RowID: "",
             Employee_Name: element.firstname + " " + element.lastname,
             Employee_Id: element.id,
             email: element.email,
-            Status: 'True'
+            Status: true
           });
+          // this.users.push(element.firstname + " " + element.lastname);
         })
       });
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAmbolatory", {
+      .post(environment.url + "GetAmbolatory", {
 
       })
       .subscribe((Response) => {
@@ -501,7 +504,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmailSubject", {
+      .post(environment.url + "GetEmailSubject", {
 
       })
       .subscribe((Response) => {
@@ -510,7 +513,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCompTypes", {
+      .post(environment.url + "GetCompTypes", {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {
@@ -518,7 +521,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCompPesronRelat", {
+      .post(environment.url + "GetCompPesronRelat", {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {
@@ -526,7 +529,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetSektors", {
+      .post(environment.url + "GetSektors", {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {
@@ -534,7 +537,7 @@ export class EmailmanagementComponent implements OnInit {
         })
       });
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetCompDepartments", {
+      .post(environment.url + "GetCompDepartments", {
       })
       .subscribe((Response) => {
         Response["d"].forEach(element => {

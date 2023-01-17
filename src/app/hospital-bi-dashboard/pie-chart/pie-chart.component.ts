@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-pie-chart',
@@ -62,7 +63,7 @@ export class PieChartComponent implements OnInit {
 
   public pieChart() {
     this.loader = true;
-    let url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+    let url = environment.url;
     if (this.departParam == "6") {
       url += "PieChartER";
     } else if (this.departParam == "7") {
