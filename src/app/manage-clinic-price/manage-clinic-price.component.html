@@ -94,105 +94,100 @@
                         <mat-progress-bar mode="indeterminate" *ngIf="searchingProgress"></mat-progress-bar>
                     </div>
                     <div class="row" *ngIf="deptChosen">
-                        <div class="col text-right" style="height: 100%;">
-                            <mat-form-field style="width: 47%;">
-                                <mat-label>סינון לפי תאור שירות</mat-label>
-                                <input matInput (keyup)="applyFilter($event,'')" placeholder="התחל הקלדה ..." #input>
-                            </mat-form-field>
-                            <div class="amin">
-                                <mat-table [dataSource]="dataSource" class="mat-elevation-z8"
-                                    formArrayName="PatientsServicesList">
-                                    <ng-container matColumnDef="code">
-                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> קוד שירות
-                                        </th>
-                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
-                                            <mat-form-field class="text-center">
-                                                <input matInput formControlName="ServiceNumber">
-                                            </mat-form-field>
-                                        </td>
-                                    </ng-container>
+                        <mat-form-field style="width: 100%;">
+                            <mat-label>סינון לפי תאור שירות</mat-label>
+                            <input matInput (keyup)="applyFilter($event,'')" placeholder="התחל הקלדה ..." #input>
+                        </mat-form-field>
+                        <mat-table [dataSource]="dataSource" class="mat-elevation-z8"
+                            formArrayName="PatientsServicesList">
+                            <ng-container matColumnDef="code">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> קוד שירות
+                                </th>
+                                <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
+                                    <mat-form-field class="text-center">
+                                        <input matInput formControlName="ServiceNumber">
+                                    </mat-form-field>
+                                </td>
+                            </ng-container>
 
-                                    <ng-container matColumnDef="name">
-                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> תאור שירות
-                                        </th>
-                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
-                                            <mat-form-field class="text-center" style="width: 400px;">
-                                                <textarea matInput rows="1" formControlName="ServiceName"></textarea>
-                                            </mat-form-field>
-                                        </td>
-                                    </ng-container>
+                            <ng-container matColumnDef="name">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> תאור שירות
+                                </th>
+                                <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
+                                    <mat-form-field class="text-center" style="width: 400px;">
+                                        <textarea matInput rows="1" formControlName="ServiceName"></textarea>
+                                    </mat-form-field>
+                                </td>
+                            </ng-container>
 
-                                    <ng-container matColumnDef="price">
-                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מחיר יחידה
-                                        </th>
-                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
-                                            <mat-form-field class="text-center">
-                                                <mat-label>מחיר יחידה</mat-label>
-                                                <input matInput formControlName="ServicePrice" type="text">
-                                            </mat-form-field>
-                                        </td>
-                                    </ng-container>
+                            <ng-container matColumnDef="price">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מחיר יחידה
+                                </th>
+                                <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
+                                    <mat-form-field class="text-center">
+                                        <mat-label>מחיר יחידה</mat-label>
+                                        <input matInput formControlName="ServicePrice" type="text">
+                                    </mat-form-field>
+                                </td>
+                            </ng-container>
 
-                                    <ng-container matColumnDef="teeth">
-                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מספרי שיניים
-                                        </th>
-                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
-                                            <!-- <mat-form-field appearance="fill" style="width: 50%;">
-                                                <mat-select formControlName="ServiceTeethType" (selectionChange)="TeethNumbers($event.value, element)">
-                                                    <mat-option value="constant">
-                                                        קבועות
-                                                    </mat-option>
-                                                    <mat-option value="milkey">
-                                                        חלביות
-                                                    </mat-option>
-                                                </mat-select>
-                                            </mat-form-field> -->
-                                            <mat-form-field appearance="fill">
-                                                <!-- <mat-label>Favorite food</mat-label> -->
-                                                <!-- <mat-select formControlName="ServiceTeeth" multiple
-                                                    (selectionChange)="selectTeeth($event, element)"> -->
-                                                <mat-select formControlName="ServiceTeeth" multiple>
-                                                    <mat-optgroup *ngFor="let teeth of teethList" [label]="teeth.name">
-                                                    <mat-option *ngFor="let tooth of teeth.teeth"
-                                                        [value]="tooth.value">
-                                                        {{tooth.value}}
-                                                    </mat-option>
-                                                </mat-optgroup>
-                                                    <!-- <mat-option *ngFor="let tooth of teethList" [value]="tooth.value">
-                                                        {{tooth.value}}
-                                                    </mat-option> -->
-                                                </mat-select>
-                                            </mat-form-field>
-                                        </td>
-                                    </ng-container>
+                            <ng-container matColumnDef="teeth">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מספרי שיניים
+                                </th>
+                                <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
+                                    <!-- <mat-form-field appearance="fill" style="width: 50%;">
+                                            <mat-select formControlName="ServiceTeethType" (selectionChange)="TeethNumbers($event.value, element)">
+                                                <mat-option value="constant">
+                                                    קבועות
+                                                </mat-option>
+                                                <mat-option value="milkey">
+                                                    חלביות
+                                                </mat-option>
+                                            </mat-select>
+                                        </mat-form-field> -->
+                                    <mat-form-field appearance="fill">
+                                        <!-- <mat-label>Favorite food</mat-label> -->
+                                        <!-- <mat-select formControlName="ServiceTeeth" multiple
+                                                (selectionChange)="selectTeeth($event, element)"> -->
+                                        <mat-select formControlName="ServiceTeeth" multiple>
+                                            <mat-optgroup *ngFor="let teeth of teethList" [label]="teeth.name">
+                                                <mat-option *ngFor="let tooth of teeth.teeth" [value]="tooth.value">
+                                                    {{tooth.value}}
+                                                </mat-option>
+                                            </mat-optgroup>
+                                            <!-- <mat-option *ngFor="let tooth of teethList" [value]="tooth.value">
+                                                    {{tooth.value}}
+                                                </mat-option> -->
+                                        </mat-select>
+                                    </mat-form-field>
+                                </td>
+                            </ng-container>
 
-                                    <ng-container matColumnDef="quantity">
-                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> כמות </th>
-                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
-                                            <mat-form-field class="text-center">
-                                                <mat-select formControlName="ServiceQuantity" ng-model="myVar"
-                                                    (selectionChange)="addSelectedServices(element)">
-                                                    <mat-option *ngFor="let quan of ServiceQuantityList" [value]="quan">
-                                                        {{quan}}
-                                                    </mat-option>
-                                                </mat-select>
-                                                <!-- <mat-label>כמות</mat-label>
-                                                <input matInput min="0" (change)="addSelectedServices(element)"
-                                                    formControlName="ServiceQuantity" type="number"> -->
-                                            </mat-form-field>
-                                        </td>
-                                    </ng-container>
+                            <ng-container matColumnDef="quantity">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> כמות </th>
+                                <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
+                                    <mat-form-field class="text-center">
+                                        <mat-select formControlName="ServiceQuantity" ng-model="myVar"
+                                            (selectionChange)="addSelectedServices(element)">
+                                            <mat-option *ngFor="let quan of ServiceQuantityList" [value]="quan">
+                                                {{quan}}
+                                            </mat-option>
+                                        </mat-select>
+                                        <!-- <mat-label>כמות</mat-label>
+                                            <input matInput min="0" (change)="addSelectedServices(element)"
+                                                formControlName="ServiceQuantity" type="number"> -->
+                                    </mat-form-field>
+                                </td>
+                            </ng-container>
 
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-                                    </tr>
-                                    <tr class="mat-row" *matNoDataRow>
-                                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"
-                                        </td>
-                                    </tr>
-                                </mat-table>
-                            </div>
-                        </div>
+                            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                            <tr mat-row *matRowDef="let row; columns: displayedColumns;">
+                            </tr>
+                            <tr class="mat-row" *matNoDataRow>
+                                <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"
+                                </td>
+                            </tr>
+                        </mat-table>
                     </div>
                     <div class="mb-3">
                         <mat-paginator [pageSize]="5" showFirstLastButtons></mat-paginator>
@@ -210,10 +205,21 @@
             </mat-step>
             <mat-step>
                 <ng-template matStepLabel>סיום</ng-template>
+                <form [formGroup]="detailsFormGroup">
+                    <ng-template matStepLabel>פרטים דמוגרפיים</ng-template>
+                    <div class="row">
+                        <div class="col">
+                            <mat-form-field>
+                                <mat-label>שם רופא מטפל</mat-label>
+                                <input matInput formControlName="DoctorName">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </form>
                 <div class="button-row">
                     <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
                         color="primary" type="submit" (click)="onSubmit()" mat-raised-button>
-                        <span>שמירה ושליחה לפקידה</span>
+                        <span>סיום ושמירה</span>
                     </button>
                 </div>
                 <div>

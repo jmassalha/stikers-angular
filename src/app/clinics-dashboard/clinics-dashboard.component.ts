@@ -1,15 +1,10 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { NestedTreeControl } from '@angular/cdk/tree';
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { map, startWith } from 'rxjs/operators';
 import { ManageClinicPriceComponent } from '../manage-clinic-price/manage-clinic-price.component';
 import { MenuPerm } from '../menu-perm';
 import { Router } from '@angular/router';
@@ -36,6 +31,8 @@ export interface Patient {
   DOB: string;
   TotalPrice: string;
   DepartName: string;
+  PrintingName: string;
+  DoctorName: string;
   InchargeDoctor: string;
 }
 
@@ -175,6 +172,8 @@ export class ClinicsDashboardComponent implements OnInit {
             DOB: relevantServices[0].DOB,
             TotalPrice: relevantServices[relevantServices.length - 1].TotalVersionPrice.replace(/\B(?=(\d{3})+(?!\d))/g, ","),//.replace(/\B(?=(\d{3})+(?!\d))/g, ","),
             DepartName: relevantServices[1].DepartName,
+            PrintingName: relevantServices[1].PrintingName,
+            DoctorName: relevantServices[0].DoctorName,
             InchargeDoctor: relevantServices[1].InchargeDoctor,
           });
           if (this.detailsFormGroup2.Gender == '1') {
@@ -219,7 +218,7 @@ export class ClinicsDashboardComponent implements OnInit {
     if (this.selectV == "" && element.Row_ID != null && ifEdit == 1) {
       this.openSnackBar("עליך לבחור גרסה");
     } else {
-      let dialogRef = this.dialog.open(ManageClinicPriceComponent, { disableClose: true });
+      let dialogRef = this.dialog.open(ManageClinicPriceComponent, { width: '90%', maxWidth: '100%',disableClose: true });
       dialogRef.componentInstance.PatientElement = element;
       dialogRef.componentInstance.ifEdit = ifEdit;
       dialogRef.componentInstance.versionSelection = this.selectV;

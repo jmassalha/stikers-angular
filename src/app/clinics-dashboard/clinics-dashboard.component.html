@@ -115,6 +115,16 @@
             <h2 class="text-center pos-abs-center">
                 הצעת מחיר לטיפול פה ולסת
             </h2>
+            <div class="col">
+                <h5>שם {{detailsFormGroup2.PrintingName}} המטפלת: <b>{{
+                        detailsFormGroup2.DepartName
+                        }}</b></h5>
+            </div>
+            <div class="col">
+                <h5>מנהל {{detailsFormGroup2.PrintingName}}: <b>{{
+                        detailsFormGroup2.InchargeDoctor
+                        }}</b></h5>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -268,25 +278,17 @@
                     <br>
                     <hr>
                     <div class="row">
-                        <div class="col">
-                            <h3>שם המחלקה המטפלת: </h3>
-                        </div>
-                        <div class="col">
-                            <h2><b>{{
-                                    detailsFormGroup2.DepartName
-                                    }}</b></h2>
-                        </div>
+                        שם רופא מטפל: <b>{{detailsFormGroup2.DoctorName}}</b>
                     </div>
                     <hr>
                     <div class="row">
-                        <div class="col">
-                            <h3>מנהל המחלקה: </h3>
-                        </div>
-                        <div class="col">
-                            <h2><b>{{
-                                    detailsFormGroup2.InchargeDoctor
-                                    }}</b></h2>
-                        </div>
+                        <p *ngIf="detailsFormGroup2.DepartName == 'יחידה לרפואת הפה'">פרטי התקשרות
+                            ל{{detailsFormGroup2.DepartName}}</p>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <h3 *ngIf="detailsFormGroup2.DepartName == 'יחידה לרפואת הפה'">טל: 04-6652430 פקס: 04-6652720
+                            מייל: oralmed@tzmc.gov.il</h3>
                     </div>
                     <hr>
                 </div>

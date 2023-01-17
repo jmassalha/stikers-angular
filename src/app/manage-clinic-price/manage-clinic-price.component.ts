@@ -7,6 +7,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { MatTableDataSource } from '@angular/material/table';
 import { MatDialog, MatDialogRef } from '@angular/material/dialog';
 import { MatPaginator } from '@angular/material/paginator';
+import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
 
 export interface Teeth {
   value: string;
@@ -64,6 +65,7 @@ export class ManageClinicPriceComponent implements OnInit {
     private datePipe: DatePipe,
     private http: HttpClient,
     private _snackBar: MatSnackBar,
+    private confirmationDialogService: ConfirmationDialogService,
     private dialogR: MatDialogRef<ManageClinicPriceComponent>) { }
   resultsLength: any;
   PatientElement: any;
@@ -81,6 +83,7 @@ export class ManageClinicPriceComponent implements OnInit {
   url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   teethList: TeethGroup[] = [];
+  PatientsServicesList: any = this.fb.array([]);
 
   ngOnInit(): void {
     this.detailsFormGroup = this.fb.group({
@@ -92,12 +95,15 @@ export class ManageClinicPriceComponent implements OnInit {
       PhoneNumber: ['', null],
       Email: ['', null],
       Address: ['', null],
+      DoctorName: ['', null],
     });
     this.servicesFormGroup = this.fb.group({
       DepartNumber: ['', Validators.required],
       DepartCode: ['', Validators.required],
+      PatientsServicesList: this.PatientsServicesList,
     });
     this.searchPatientDetails();
+    this.ServiceQuantityList.push("");
     for (let i = 0; i < 10; i++) {
       this.ServiceQuantityList.push(i + 1);
     }
@@ -177,6 +183,7 @@ export class ManageClinicPriceComponent implements OnInit {
             PhoneNumber: new FormControl(mPersonalDetails.PatientPhoneNumber, null),
             Email: new FormControl(mPersonalDetails.PatientEmail, null),
             Address: new FormControl(mPersonalDetails.PatientAddress, null),
+            DoctorName: new FormControl(mPersonalDetails.DoctorName, null),
           });
           this.detailsFormGroup.controls['FirstName'].disable();
           this.detailsFormGroup.controls['LastName'].disable();
@@ -192,14 +199,17 @@ export class ManageClinicPriceComponent implements OnInit {
           for (let i = 0; i < mPersonalDetails.PatientVersionsList.length; i++) {
             let element = {
               Row_ID: mPersonalDetails.PatientVersionsList[i].Row_ID,
+              counter: i,
               value: mPersonalDetails.PatientVersionsList[i].value,
               number: mPersonalDetails.PatientVersionsList[i].ServiceNumber,
               name: mPersonalDetails.PatientVersionsList[i].ServiceName,
               price: mPersonalDetails.PatientVersionsList[i].ServicePrice,
               ServiceQuantity: mPersonalDetails.PatientVersionsList[i].ServiceQuantity,
+              ServiceTeeth: mPersonalDetails.PatientVersionsList[i].ServiceTeeth,
             }
-            this.addSelectedServices(element);
+            this.addSelectedServiceToEdit(element);
           }
+          this.servicesFormGroup.value.PatientsServicesList = this.displayArr.value;
         });
     } else {
       let mPersonalDetails = this.PatientElement;
@@ -213,6 +223,7 @@ export class ManageClinicPriceComponent implements OnInit {
         PhoneNumber: new FormControl(mPersonalDetails.PatientPhoneNumber, null),
         Email: new FormControl(mPersonalDetails.PatientEmail, null),
         Address: new FormControl(mPersonalDetails.PatientAddress, null),
+        DoctorName: new FormControl(mPersonalDetails.DoctorName, null),
       });
       this.detailsFormGroup.controls['FirstName'].disable();
       this.detailsFormGroup.controls['LastName'].disable();
@@ -265,7 +276,7 @@ export class ManageClinicPriceComponent implements OnInit {
             value: i,
             name: relevantServices[i].ServiceName,
             number: relevantServices[i].ServiceNumber,
-            quantity: relevantServices[i].ServiceQuantity,
+            quantity: parseInt(relevantServices[i].ServiceQuantity),
             price: relevantServices[i].ServicePrice,
             teeth: this.teethList,
           }
@@ -333,31 +344,77 @@ export class ManageClinicPriceComponent implements OnInit {
     }
   }
 
+  addSelectedServiceToEdit(element) {
+    let duplicateVal = this.displayArr.controls.filter(s => s.value.ServiceNumber == element.number);
+    if (duplicateVal.length > 0) {
+      let index = this.displayArr.value.findIndex(x => x.ServiceNumber == element.number);
+      this.displayArr.removeAt(index);
+    }
+    let quantity;
+    let value = "";
+    if (element.hasOwnProperty('Row_ID')) {
+      value = "";
+      quantity = parseInt(element.ServiceQuantity);
+    } else {
+      value = element.value;
+      quantity = this.servicesFormGroup.value.PatientsServicesList[element.value].ServiceQuantity;
+    }
+    try {
+      let serviceCtrl = this.fb.group({
+        ServiceId: [element.value, null],
+        ServiceNumber: [element.number, null],
+        ServiceName: [element.name, null],
+        ServicePrice: [element.price, null],
+        ServiceQuantity: [parseInt(quantity), null],
+        ServiceTeeth: [this.teethList, null],
+      });
+      if (serviceCtrl.controls['ServiceQuantity'].value > 0) {
+        this.selectedServices.push(serviceCtrl);
+      }
+    } catch (err) {
+      console.log(err);
+    }
+  }
+
   onSubmit() {
     let departNumber = this.servicesFormGroup.controls['DepartNumber'].value;
     // assign the new array of selected services to the form array
     this.servicesFormGroup.controls.PatientsServicesList = this.displayArr;
     if (departNumber == '' || departNumber == undefined || departNumber == null) {
-      this.openSnackBar("עליך לבחור מחלקה");
+      this.openSnackBar("חייב לבחור מחלקה ושירותים");
     } else {
       if (!this.servicesFormGroup.invalid) {
-        this.http
-          .post(this.url + "SendTreatmentToReception", {
-            _patientDetails: this.detailsFormGroup.getRawValue(),
-            _serviceDetails: this.servicesFormGroup.getRawValue(),
-            _ifEdit: this.ifEdit,
-          })
-          .subscribe((Response) => {
-            let message = Response["d"];
-            if (message == "Success") {
-              // this.openSnackBar("הצעת טיפול נשלחה בהצלחה");
-              this.dialogR.close(true);
-            } else if (message == "noServices") {
-              this.openSnackBar("לא נשמר, לא נבחרו שירותים עבור המטופל");
+        this.confirmationDialogService
+          .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+          .then((confirmed) => {
+            console.log("User confirmed:", confirmed);
+            if (confirmed) {
+              this.http
+                .post(this.url + "SendTreatmentToReception", {
+                  _patientDetails: this.detailsFormGroup.getRawValue(),
+                  _serviceDetails: this.servicesFormGroup.getRawValue(),
+                  _ifEdit: this.ifEdit,
+                })
+                .subscribe((Response) => {
+                  let message = Response["d"];
+                  if (message == "Success") {
+                    // this.openSnackBar("הצעת טיפול נשלחה בהצלחה");
+                    this.dialogR.close(true);
+                  } else if (message == "noServices") {
+                    this.openSnackBar("לא נשמר, לא נבחרו שירותים עבור המטופל");
+                  } else {
+                    this.openSnackBar("משהו השתבש, לא נשלח");
+                  }
+                });
             } else {
-              this.openSnackBar("משהו השתבש, לא נשלח");
             }
-          });
+          })
+          .catch(() =>
+            console.log(
+              "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+            )
+          );
+
       } else {
         this.openSnackBar("לא בחרת שירותים עבור המטופל");
       }
