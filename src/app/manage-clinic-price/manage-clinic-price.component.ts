@@ -95,7 +95,7 @@ export class ManageClinicPriceComponent implements OnInit {
       PhoneNumber: ['', null],
       Email: ['', null],
       Address: ['', null],
-      DoctorName: ['', null],
+      DoctorName: ['', Validators.required],
     });
     this.servicesFormGroup = this.fb.group({
       DepartNumber: ['', Validators.required],
@@ -382,6 +382,8 @@ export class ManageClinicPriceComponent implements OnInit {
     this.servicesFormGroup.controls.PatientsServicesList = this.displayArr;
     if (departNumber == '' || departNumber == undefined || departNumber == null) {
       this.openSnackBar("חייב לבחור מחלקה ושירותים");
+    } else if(this.servicesFormGroup.controls['DoctorName'].value == ""){
+      this.openSnackBar("שכחת למלא את שם הרופא המטפל");
     } else {
       if (!this.servicesFormGroup.invalid) {
         this.confirmationDialogService

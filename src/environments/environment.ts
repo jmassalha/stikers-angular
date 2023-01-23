@@ -3,7 +3,7 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  url: 'http://srv-apps-prod/RCF_WS/WebService.asmx/',
+  url: 'http://localhost:64964/WebService.asmx/',
   production: false
 };
 

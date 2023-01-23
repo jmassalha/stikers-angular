@@ -996,7 +996,6 @@ export class CprFormComponent implements OnInit {
             })
               .subscribe((Response) => {
                 if (Response["d"] != -1) {
-                  this.openSnackBar("נשמר בהצלחה");
                   this.sendCprFormEmail(Response["d"]);
                   let that = this;
                   setTimeout(() => {
@@ -1053,7 +1052,7 @@ export class CprFormComponent implements OnInit {
       })
       .subscribe((Response) => {
         if (Response["d"]) {
-          this.openSnackBar("נשלח בהצלחה");
+          this.openSnackBar("נשלח ל: אמין, מערך החייאה,היחידה לבטיחות בטיפול");
         } else {
           this.openSnackBar("אירעה תקלה, לא נשלח!");
         }
