@@ -382,7 +382,7 @@ export class ManageClinicPriceComponent implements OnInit {
     this.servicesFormGroup.controls.PatientsServicesList = this.displayArr;
     if (departNumber == '' || departNumber == undefined || departNumber == null) {
       this.openSnackBar("חייב לבחור מחלקה ושירותים");
-    } else if(this.servicesFormGroup.controls['DoctorName'].value == ""){
+    } else if(this.detailsFormGroup.controls['DoctorName'].value == ""){
       this.openSnackBar("שכחת למלא את שם הרופא המטפל");
     } else {
       if (!this.servicesFormGroup.invalid) {
