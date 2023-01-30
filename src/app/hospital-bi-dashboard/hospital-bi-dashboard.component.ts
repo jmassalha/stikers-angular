@@ -70,8 +70,8 @@ export class HospitalBIDashboardComponent implements OnInit {
     { id: 'אמבולטורי', value: 'אמבולטורי', search: "'_AMBOLATORY','_ELECTIVE_AMBOLATORY'" },
     { id: 'דחוף', value: 'דחוף', search: "'_DHOF_AMBOLATORY','_DHOF_ELECTIVE','_DHOF_SISIA_ELECTIVE'" },
     { id: 'אלקטיב', value: 'אלקטיב', search: "'_ELECTIVE','_ELECTIVE_ELECTIVE'" },
-    { id: 'ססיה אמבולטורי', value: 'ססיה אמב', search: "'_SISIA_AMBOLATORY'" },
-    { id: 'ססיה אלקטיבי', value: 'ססיה אלק', search: "'_SISIA_ELECTIVE'" }
+    { id: 'ססיה', value: 'ססיה', search: "'_SISIA_AMBOLATORY','_SISIA_ELECTIVE'" },
+    // { id: 'ססיה אלקטיבי', value: 'ססיה אלק', search: "'_SISIA_ELECTIVE'" }
   ];
   selectSurgeryTypes = new FormControl(0, null);
   choosenDept = this.departments[0];
