@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-line-chart',
@@ -84,7 +85,7 @@ export class LineChartComponent implements OnInit {
 
   public discreteBarChart() {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LineBarChart", {
+      .post(environment.url + "LineBarChart", {
         param: this.TimeLineParam,
         deptCode: this.departParam
       })

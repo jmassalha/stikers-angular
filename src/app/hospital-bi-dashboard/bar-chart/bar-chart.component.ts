@@ -1,5 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-bar-chart',
@@ -134,7 +135,7 @@ export class BarChartComponent implements OnInit {
     if (this.TimeLineParam != undefined) {
       this.loader = true;
       this.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
+        .post(environment.url + url, {
           param: this.TimeLineParam,
           deptCode: this.departParam,
           surgerydeptType: this._surgerydeptType,

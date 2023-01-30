@@ -1,5 +1,6 @@
 import { Component, ElementRef, EventEmitter, HostListener, Input, OnInit, Output } from '@angular/core';
 import { HttpClient, HttpHeaders } from '@angular/common/http';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-grouped-bar-chart2',
@@ -210,7 +211,7 @@ export class GroupedBarChart2Component implements OnInit {
       this.periodList = "";
     }
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/" + url, {
+      .post(environment.url + url, {
         param: this.TimeLineParam,
         deptCode: this.departParam,
         surgerydeptType: this._surgerydeptType,
