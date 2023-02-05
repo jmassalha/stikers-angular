@@ -25,6 +25,7 @@ import {
     Validators,
 } from "@angular/forms";
 import * as Fun from "../public.functions";
+import { environment } from "src/environments/environment";
 export interface OrdersToAppointment {
     RowId: string;
     OrderdUser: string;
@@ -109,6 +110,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
     resultsLength = 0;
     startdateVal: string;
     enddateVal: string;
+    calendarNumber: string = "";
+    requestingName: string = "";
     todayDate = new Date();
     Sdate: FormControl;
     Edate: FormControl;
@@ -184,7 +187,6 @@ export class OrdersToAppointmentsComponent implements OnInit {
         let that = this;
         setInterval(function(){
             that.getOrdersToAppointments();
-            console.log("I AM REFRESHING!!!" , new Date())
         }, 60 * 1000 * 5)
     }
     changeStatus(event) {
@@ -211,7 +213,6 @@ export class OrdersToAppointmentsComponent implements OnInit {
         );
     }
     getPaginatorData(event: PageEvent) {
-        //console.log(this.paginator.pageIndex);
 
         this.getOrdersToAppointments();
     }
@@ -335,12 +336,10 @@ export class OrdersToAppointmentsComponent implements OnInit {
                     // ////////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
-                console.log("Hey!!2")
                 this.OrderStatus = _element.OrderStatus = "0";
             },
             (reason) => {
                 this.OrderStatus = _element.OrderStatus = "0";
-                console.log("Hey!!1");
 
             }
         );
@@ -426,7 +425,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
         // ////debugger
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetOrdersToAppointments",
+                environment.url + "GetOrdersToAppointments",
                 //"http://srv-apps-prod/RCF_WS/WebService.asmx/GetOrdersToAppointments",
                 {
                     user: localStorage.getItem("loginUserName"),
@@ -435,6 +434,8 @@ export class OrdersToAppointmentsComponent implements OnInit {
                     FromDate: this.startdateVal,
                     Status: this.statusOrder,
                     ToDate: this.enddateVal,
+                    calendarNumber: this.calendarNumber,
+                    requestingName: this.requestingName,
                 }
             )
             .subscribe((Response) => {
@@ -463,7 +464,6 @@ export class OrdersToAppointmentsComponent implements OnInit {
                 if (this.Permission == "" || this.Permission == null) {
                     this.router.navigate(["login"]);
                 }
-                console.log(this.Permission);
                 
                 setTimeout(function () {
                     //////////////debugger

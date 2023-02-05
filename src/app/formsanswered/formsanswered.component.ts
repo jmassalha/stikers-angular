@@ -28,6 +28,7 @@ import {
     MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { environment } from "src/environments/environment";
 
 export interface Patient {
     FormID: string;
@@ -256,7 +257,7 @@ export class FormsansweredComponent implements OnInit {
 
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetailsForForms",
+                environment.url + "GetPersonalDetailsForForms",
                 {
                     _formID: FormID,
                     _caseNumber: caseNumber,

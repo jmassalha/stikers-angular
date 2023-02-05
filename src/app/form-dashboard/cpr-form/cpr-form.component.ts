@@ -1035,7 +1035,7 @@ export class CprFormComponent implements OnInit {
         ID: ""
       })
       .subscribe((Response) => {
-        // this.CprFormsList_all = Response["d"];
+        this.CprFormsList_all = Response["d"];
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
         this.dataSource.paginator = this.paginator;
       });

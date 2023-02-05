@@ -12,6 +12,7 @@ import * as Fun from "../public.functions";
 import * as $ from "jquery";
 import { Time } from "@angular/common";
 import { FormControl } from "@angular/forms";
+import { environment } from "src/environments/environment";
 export interface Bekorem {
     PM_CASE_NUMBER: number;
     PM_MOVE_NUMBER: string;
@@ -330,7 +331,7 @@ export class EshbozComponent implements OnInit {
         //////debugger;
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EshbozimAppNew", {
+            .post(environment.url + "EshbozimAppNew", {
                 
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/EshbozimAppNew", {
                 _fromDate: this.startdateVal,
@@ -400,7 +401,7 @@ export class EshbozComponent implements OnInit {
         //////debugger
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEshbozemApp", {
+            .post(environment.url + "GetEshbozemApp", {
             
             //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEshbozemApp", {
                 _fromDate: _startDate,
