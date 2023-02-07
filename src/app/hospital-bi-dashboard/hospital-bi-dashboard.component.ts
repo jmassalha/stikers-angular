@@ -779,6 +779,8 @@ export class HospitalBIDashboardComponent implements OnInit {
       worksheet_2.addRow(Object.values(d));
     });
 
+    let tempToExcelTitle = ['יום', 'יום', 'חודש', 'שנה', 'שנה']
+    this.sheet_data_3[0][0] = tempToExcelTitle[parseInt(this.TimeLineParam) - 1]
     worksheet_3.addRow(Object.values(this.sheet_data_3[0]));
 
     this.sheet_data_3[1].forEach((d: any) => {
@@ -804,21 +806,27 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.sheet_stat_data_1[1].forEach((d: any) => {
         worksheet_stat_1.addRow(Object.values(d));
       });
+
       worksheet_stat_2.addRow(Object.values(this.sheet_stat_data_2[0]));
 
       this.sheet_stat_data_2[1].forEach((d: any) => {
         worksheet_stat_2.addRow(Object.values(d));
       });
+
+      let tempToExcelTitle = ['יום', 'יום', 'חודש', 'שנה', 'שנה']
+      this.sheet_stat_data_3[0][0] = tempToExcelTitle[parseInt(this.TimeLineParam) - 1]
       worksheet_stat_3.addRow(Object.values(this.sheet_stat_data_3[0]));
 
       this.sheet_stat_data_3[1].forEach((d: any) => {
         worksheet_stat_3.addRow(Object.values(d));
       });
+
       worksheet_stat_4.addRow(Object.values(this.sheet_stat_data_4[0]));
 
       this.sheet_stat_data_4[1].forEach((d: any) => {
         worksheet_stat_4.addRow(Object.values(d));
       });
+
       worksheet_stat_5.addRow(Object.values(this.sheet_stat_data_5[0]));
 
       this.sheet_stat_data_5[1].forEach((d: any) => {

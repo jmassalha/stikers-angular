@@ -1,0 +1,184 @@
+<div class="container-fluid pb-5" dir="rtl">
+  <div class="row text-center">
+      <div class="col-md-4">
+          <div class="btn-group">
+              <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarPreviousView
+                  [view]="view" [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                  הקודם
+              </div>
+              <div class="btn btn-outline-secondary" style="border-radius: 5px;margin: 1px" mwlCalendarToday
+                  [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                  היום
+              </div>
+              <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarNextView [view]="view"
+                  [(viewDate)]="viewDate" (viewDateChange)="closeOpenMonthViewDay()">
+                  הבא
+              </div>
+          </div>
+      </div>
+      <div class="col-md-4">
+          <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'he' }}</h3>
+      </div>
+      <div class="col-md-4">
+          <div class="btn-group">
+              <div class="btn btn-primary" style="border-radius: 5px;margin: 1px"
+                  (click)="setView(CalendarView.Month)" [class.active]="view === CalendarView.Month">
+                  חודש
+              </div>
+              <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" (click)="setView(CalendarView.Week)"
+                  [class.active]="view === CalendarView.Week">
+                  שבוע
+              </div>
+              <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" (click)="setView(CalendarView.Day)"
+                  [class.active]="view === CalendarView.Day">
+                  יום
+              </div>
+          </div>
+      </div>
+  </div>
+  <br />
+  <ng-template #customCellTemplate let-day="day" let-locale="locale">
+      <div class="cal-cell-top">
+          <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+          <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
+      </div>
+      <small *ngFor="let ev of day.events let i = index">
+          <span dir="rtl" *ngIf="i<3" class="span-cards" [ngStyle]="{'background-color': ev.color}">
+              {{ ev.title }}
+          </span>
+      </small>
+      <span dir="rtl" class="span-cards" *ngIf="day.events.length > 3" style="color: black;border: white;">
+          ועוד {{ day.events.length - 3 }} נוספים
+      </span>
+  </ng-template>
+  <div [ngSwitch]="view">
+      <mwl-calendar-month-view *ngSwitchCase="CalendarView.Month" [viewDate]="viewDate" [events]="events"
+          [locale]="locale" [refresh]="refresh" [activeDayIsOpen]="activeDayIsOpen"
+          [cellTemplate]="customCellTemplate" (dayClicked)="dayClicked($event.day, $event);"
+          (eventClicked)="handleEvent('Clicked', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-month-view>
+      <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events"
+          [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-week-view>
+      <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="events"
+          [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Clicked', $event.event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
+      </mwl-calendar-day-view>
+  </div>
+
+  <br /><br /><br />
+
+  <ng-template #modalContent let-close="close">
+      <div class="modal-header">
+          <h5 class="modal-title float-right">לבצע שינויים</h5>
+          <button type="button" class="close" (click)="close()">
+              <span aria-hidden="true">&times;</span>
+          </button>
+      </div>
+      <div class="modal-body">
+          <div>
+              <pre>
+                  <div class="row">
+                      <div class="col-6">
+                          <button class="btn btn-primary float-left mb-2" (click)="addEvent(modalData?.event.day.date)"><span>הוספה</span>
+                          </button>
+                      </div>
+                      <div class="col-6">
+                          <h4 class="float-right mb-2"> הוסף תור</h4>    
+                      </div>
+                      <div class="clearfix"></div>
+                  </div>
+                  <div class="table-responsive" dir="rtl">
+                      <table class="table table-bordered">
+                          <thead>
+                              <tr>
+                                  <th>שם מטופל</th>
+                                  <th>צבע ראשי</th>
+                                  <th>מתחיל בתאריך</th>
+                                  <th>פעולה</th>
+                                  <th>הוראות לתרופות</th>
+                                  <th>הערות</th>
+                                  <th>מחיקה</th>
+                              </tr>
+                          </thead>
+
+                          <tbody>
+                              <tr *ngFor="let event of modalData?.event.day.events">
+                                  <td matTooltipPosition="above" matTooltip="שם מלא: {{event.patientDetails.FirstName}} {{event.patientDetails.LastName}}&#13;תעודת זהות: {{event.patientDetails.PersonID}}&#13;תאריך לידה: {{event.patientDetails.DOB}}&#13;מגדר: {{event.patientDetails.Gender}}&#13;מספר טלפון: {{event.patientDetails.PhoneNumber}}&#13;מייל: {{event.patientDetails.Email}}&#13;כתובת: {{event.patientDetails.Address}}">
+                                      <input type="text" class="form-control" [(ngModel)]="event.title" placeholder="שם המטופל" (keyup)="refresh.next()" />
+                                  </td>
+                                  <td>
+                                      <input type="color" [(ngModel)]="event.color" (change)="refresh.next()" />
+                                  </td>
+                                  <td>
+                                      <input class="form-control" type="date" mwlFlatpickr [(ngModel)]="event.start"
+                                          (ngModelChange)="refresh.next()" [altInput]="true" [convertModelValue]="true"
+                                          [enableTime]="false"/>
+                                      <input type="time" class="form-control" [(ngModel)]="event.time" placeholder="זמן" (focusout)="SetNewTime(event.time, event)"/>
+                                      <span class="material-icons" matTooltip="AM - לפני שעה 12&#13;PM - אחרי שעה 12">
+                                          help_outline
+                                      </span>
+                                  </td>
+                                  <td>
+                                      <mat-form-field class="example-chip-list" appearance="fill">
+                                          <mat-label>פעולות</mat-label>
+                                          <mat-chip-list #chipList aria-label="action selection">
+                                              <div *ngFor="let action of event.patientAction.PatientAction">
+                                                  <mat-chip
+                                              *ngIf="action.Status == 'True'"
+                                                  [selectable]="selectable"
+                                                  [removable]="removable"
+                                                  (removed)="remove(action,event)">
+                                                  {{action.ActionDesc}}
+                                                  <!-- <button matChipRemove *ngIf="removable"> -->
+                                                    <mat-icon matChipRemove *ngIf="removable">cancel</mat-icon>
+                                                  <!-- </button> -->
+                                                </mat-chip>
+                                              </div>
+                                            
+                                            <input
+                                              placeholder="פעולה חדשה..."
+                                              #actionInput
+                                              [formControl]="actionCtrl"
+                                              [matAutocomplete]="auto"
+                                              [matChipInputFor]="chipList"
+                                              [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                              (matChipInputTokenEnd)="add($event,actionInput,event)">
+                                          </mat-chip-list>
+                                          <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event,actionInput,event)">
+                                            <mat-option *ngFor="let act of filteredActions | async" [value]="act.ActionDesc">
+                                              {{act.ActionDesc}}
+                                            </mat-option>
+                                          </mat-autocomplete>
+                                        </mat-form-field>
+                                      <!-- <textarea type="text" class="form-control" [(ngModel)]="event.patientAction.PatientAction" placeholder="פעולה" (keyup)="refresh.next()"></textarea> -->
+                                  </td>
+                                  <td>
+                                      <textarea type="text" class="form-control" [(ngModel)]="event.patientAction.MidsOrder" placeholder="הוראות לתרופות" (keyup)="refresh.next()"></textarea>
+                                  </td>
+                                  <td>
+                                      <textarea type="text" class="form-control" [(ngModel)]="event.patientAction.Notes" placeholder="הערות" (keyup)="refresh.next()"></textarea>
+                                  </td>
+                                  <td>
+                                      <button class="btn btn-danger" (click)="deleteEvent(event,modalData?.event.day.date)">
+                                          מחיקה
+                                      </button>
+                                      <!-- <button class="btn btn-primary">
+                                          שמירה
+                                      </button> -->
+                                  </td>
+                              </tr>
+                          </tbody>
+                      </table>
+                  </div>
+              </pre>
+          </div>
+      </div>
+      <div class="modal-footer">
+          <button type="button" class="btn btn-outline-secondary" (click)="saveDayEvents(modalData?.event.day.date)">
+              שמירה
+          </button>
+      </div>
+  </ng-template>
+</div>

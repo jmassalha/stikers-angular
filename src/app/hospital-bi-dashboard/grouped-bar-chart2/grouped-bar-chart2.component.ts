@@ -101,6 +101,15 @@ export class GroupedBarChart2Component implements OnInit {
 
   sendDataToParentExcel() {
     let result = [];
+    this.data.forEach(element => {
+      for (let i = 0; i < element.length; i++) {
+        if (i % 2 != 0) {
+          delete element[i];
+        } else if (i % 2 == 0 && i != 0) {
+          delete this.columnNames[i];
+        }
+      }
+    });
     result.push(this.columnNames);
     result.push(this.data);
     return result;

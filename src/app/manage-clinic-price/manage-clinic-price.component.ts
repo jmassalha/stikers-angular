@@ -104,7 +104,7 @@ export class ManageClinicPriceComponent implements OnInit {
     });
     this.searchPatientDetails();
     this.ServiceQuantityList.push("");
-    for (let i = 0; i < 10; i++) {
+    for (let i = 0; i < 28; i++) {
       this.ServiceQuantityList.push(i + 1);
     }
 

@@ -184,7 +184,8 @@ import { MasterHpidComponent } from './master-hpid/master-hpid.component';
 import { AddOrEditMasterHpidComponent } from './master-hpid/add-or-edit-master-hpid/add-or-edit-master-hpid.component';
 import { CablesComponent } from './cables/cables.component';
 import { AddOrEditCablesComponent } from './cables/add-or-edit-cables/add-or-edit-cables.component';
-//import { DragDropModule } from '@angular/cdk/drag-drop';
+import { EyesSurgeryCalendarComponent } from './eyes-surgery-calendar/eyes-surgery-calendar.component';
+
 const maskConfig: Partial<IConfig> = {
   validation: false,
 };
@@ -322,7 +323,8 @@ const maskConfig: Partial<IConfig> = {
     MasterHpidComponent,
     AddOrEditMasterHpidComponent,
     CablesComponent,
-    AddOrEditCablesComponent
+    AddOrEditCablesComponent,
+    EyesSurgeryCalendarComponent
   ],
   imports: [
     JpTimeMaskModule,
