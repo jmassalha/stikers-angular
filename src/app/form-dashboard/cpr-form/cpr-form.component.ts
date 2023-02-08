@@ -30,6 +30,7 @@ import { Observable } from "rxjs";
 import { map, startWith } from 'rxjs/operators';
 import { MatPaginator } from "@angular/material/paginator";
 import { MatTableDataSource } from "@angular/material/table";
+import { environment } from "src/environments/environment";
 
 @Component({
   selector: 'app-cpr-form',
@@ -96,7 +97,7 @@ export class CprFormComponent implements OnInit {
   filteredOptions5: Observable<string[]>;
   clalitfilter = new FormControl();
   employees = [];
-  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  url = environment.url;
   pdfToServer: string = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>ניטור החייאה</title>
   <style>p,mat-label,li{font-weight: bold;font-size: 12px;}.col-2{width: 20%;justify-content: center;}td{border: 1px solid black}
   .container1{margin:2px; padding: 0px 5px 0px 0px; border-style: double;}th{font-size: 14px;}</style>
@@ -1069,11 +1070,11 @@ export class CprFormComponent implements OnInit {
       CaseNumber = this.PatientRecord.PM_CASE_NUMBER;
     }
     $("#loader_2").removeClass("d-none");
-    // this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createCprPdfOnServer", {
-    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
+    this.http.post(this.url + "createCprPdfOnServer", {
+    // this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
       CaseNumber: CaseNumber,
       FormID: "1",
-      Catigory: "ZPO_ONLINE",
+      Catigory: "ZPO_CPRFRM",
       Row_ID: id,
     }
     )
@@ -1081,11 +1082,11 @@ export class CprFormComponent implements OnInit {
         let that = this;
         setTimeout(() => {
           // that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
-          that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+          that.http.post(this.url + "LinkPdfToPatientNamer", {
             CaseNumber:
               CaseNumber,
             FormID: "1",
-            Catigory: "ZPO_ONLINE",
+            Catigory: "ZPO_CPRFRM",
             fileSource:
               Response["d"],
           }

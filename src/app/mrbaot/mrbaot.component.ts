@@ -12,6 +12,7 @@ import { Time } from "@angular/common";
 import { FormControl } from "@angular/forms";
 import * as Fun from "../public.functions";
 import { THIS_EXPR } from "@angular/compiler/src/output/output_ast";
+import { environment } from "src/environments/environment";
 
 export interface Bekorem {
     PM_CASE_NUMBER: number;
@@ -214,7 +215,7 @@ export class MrbaotComponent implements OnInit {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetBekoremAmbolatorimApp",
+                environment.url + "GetBekoremAmbolatorimApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,
