@@ -91,7 +91,7 @@ import { ServersForOnnlineComponent } from "./servers-for-onnline/servers-for-on
 import { IpPointsComponent } from "./ip-points/ip-points.component";
 import { MasterHpidComponent } from "./master-hpid/master-hpid.component";
 import { CablesComponent } from "./cables/cables.component";
-import { EyesSurgeryCalendarComponent } from "./eyes-surgery-calendar/eyes-surgery-calendar.component";
+import { SurgeryCalendarComponent } from "./surgery-calendar/surgery-calendar.component";
 
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
@@ -205,7 +205,7 @@ const routes: Routes = [
     { path: "ippoints", component: IpPointsComponent },
     { path: "masterhpid", component: MasterHpidComponent },
     { path: "cables", component: CablesComponent },
-    { path: "eyes-calendar", component: EyesSurgeryCalendarComponent },
+    { path: "surgery-calendar", component: SurgeryCalendarComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

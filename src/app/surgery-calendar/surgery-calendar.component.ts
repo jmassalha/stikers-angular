@@ -54,12 +54,12 @@ export interface Action {
 registerLocaleData(localeHe);
 
 @Component({
-  selector: 'app-eyes-surgery-calendar',
+  selector: 'app-surgery-calendar',
   changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './eyes-surgery-calendar.component.html',
-  styleUrls: ['./eyes-surgery-calendar.component.css']
+  templateUrl: './surgery-calendar.component.html',
+  styleUrls: ['./surgery-calendar.component.css']
 })
-export class EyesSurgeryCalendarComponent implements OnInit {
+export class SurgeryCalendarComponent implements OnInit {
   
 
   selectable = true;

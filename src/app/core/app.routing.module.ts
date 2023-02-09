@@ -96,7 +96,7 @@ import { ServersForOnnlineComponent } from '../servers-for-onnline/servers-for-o
 import { IpPointsComponent } from '../ip-points/ip-points.component';
 import { MasterHpidComponent } from '../master-hpid/master-hpid.component';
 import { CablesComponent } from '../cables/cables.component';
-import { EyesSurgeryCalendarComponent } from '../eyes-surgery-calendar/eyes-surgery-calendar.component';
+import { SurgeryCalendarComponent } from '../surgery-calendar/surgery-calendar.component';
 
 const routes: Routes = [
   
@@ -198,7 +198,7 @@ const routes: Routes = [
   { path: "ippoints", component: IpPointsComponent },
   { path: "masterhpid", component: MasterHpidComponent },
   { path: "cables", component: CablesComponent },
-  { path: "eye-calendar", component: EyesSurgeryCalendarComponent },
+  { path: "surgery-calendar", component: SurgeryCalendarComponent },
   { path: '', component : LoginComponent}
 ];
  

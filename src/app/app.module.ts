@@ -184,7 +184,7 @@ import { MasterHpidComponent } from './master-hpid/master-hpid.component';
 import { AddOrEditMasterHpidComponent } from './master-hpid/add-or-edit-master-hpid/add-or-edit-master-hpid.component';
 import { CablesComponent } from './cables/cables.component';
 import { AddOrEditCablesComponent } from './cables/add-or-edit-cables/add-or-edit-cables.component';
-import { EyesSurgeryCalendarComponent } from './eyes-surgery-calendar/eyes-surgery-calendar.component';
+import { SurgeryCalendarComponent } from './surgery-calendar/surgery-calendar.component';
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -324,7 +324,7 @@ const maskConfig: Partial<IConfig> = {
     AddOrEditMasterHpidComponent,
     CablesComponent,
     AddOrEditCablesComponent,
-    EyesSurgeryCalendarComponent
+    SurgeryCalendarComponent
   ],
   imports: [
     JpTimeMaskModule,
