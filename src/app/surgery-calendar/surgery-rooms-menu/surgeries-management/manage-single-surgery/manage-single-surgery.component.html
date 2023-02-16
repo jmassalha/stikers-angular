@@ -1,0 +1,30 @@
+<div class="row-title">
+    <h3>
+        <b> עריכת פרטי ניתוח </b>
+    </h3>
+</div>
+<form [formGroup]="SurgeryFormGroup" dir="rtl">
+    <mat-form-field appearance="fill">
+        <mat-label>תאריך ניתוח</mat-label>
+        <input matInput [matDatepicker]="picker" formControlName="ArrivalDate">
+        <mat-hint>MM/DD/YYYY</mat-hint>
+        <mat-datepicker-toggle matIconSuffix [for]="picker"></mat-datepicker-toggle>
+        <mat-datepicker #picker></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>שעת התחלה</mat-label>
+        <input matInput type="time" formControlName="ArrivalTime">
+    </mat-form-field>
+    <mat-form-field appearance="fill">
+        <mat-label>שעת סיום</mat-label>
+        <input matInput type="time" formControlName="EndTime">
+    </mat-form-field>
+    <div class="row-btn">
+        <div class="example-button-container">
+            <button mat-fab color="primary" (click)="saveSurgeyDetails()"
+                aria-label="Example icon button with a delete icon">
+                <mat-icon>save</mat-icon>
+            </button>
+        </div>
+    </div>
+</form>

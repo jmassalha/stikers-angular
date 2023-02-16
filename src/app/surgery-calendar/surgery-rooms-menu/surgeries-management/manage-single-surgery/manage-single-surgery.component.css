@@ -1,0 +1,8 @@
+.row-title {
+    width: 100%;
+    text-align: center;
+}
+.row-btn {
+    width: 100%;
+    justify-content: left;
+}

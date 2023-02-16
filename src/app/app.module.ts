@@ -185,6 +185,10 @@ import { AddOrEditMasterHpidComponent } from './master-hpid/add-or-edit-master-h
 import { CablesComponent } from './cables/cables.component';
 import { AddOrEditCablesComponent } from './cables/add-or-edit-cables/add-or-edit-cables.component';
 import { SurgeryCalendarComponent } from './surgery-calendar/surgery-calendar.component';
+import { SurgeryRoomsMenuComponent } from './surgery-calendar/surgery-rooms-menu/surgery-rooms-menu.component';
+import { SurgeriesManagementComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/surgeries-management.component';
+import { ManageSingleSurgeryComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/manage-single-surgery/manage-single-surgery.component';
+
 
 const maskConfig: Partial<IConfig> = {
   validation: false,
@@ -324,7 +328,10 @@ const maskConfig: Partial<IConfig> = {
     AddOrEditMasterHpidComponent,
     CablesComponent,
     AddOrEditCablesComponent,
-    SurgeryCalendarComponent
+    SurgeryCalendarComponent,
+    SurgeryRoomsMenuComponent,
+    SurgeriesManagementComponent,
+    ManageSingleSurgeryComponent
   ],
   imports: [
     JpTimeMaskModule,

@@ -1,0 +1,13 @@
+<!-- <mat-grid-list cols="4" rowHeight="4:1">
+    <mat-grid-tile *ngFor="let room of surgeryRooms">{{room.RoomGroupDesc}} {{room.SurgeryRoomDesc}}</mat-grid-tile>
+</mat-grid-list> -->
+
+<div class="container" dir="rtl">
+    <div class="row">
+        <h4>{{data.event.day.date | date: 'dd-MM-yyyy'}} -- יום {{todaysName}}</h4>
+    </div>
+    <div class="row">
+        <div class="card" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room);">
+            {{room.RoomGroupDesc}} {{room.SurgeryRoomDesc}}</div>
+    </div>
+</div>

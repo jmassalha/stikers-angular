@@ -188,7 +188,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
     let userName = "";
     if (email != undefined && email != "") {
       let domain = email.split('@')[1];
-      if (domain.toLowerCase() == "pmc.gov.il" || domain.toLowerCase() == "poria.health.gov.il") {
+      if (domain.toLowerCase() == "tzmc.gov.il" || domain.toLowerCase() == "poria.health.gov.il") {
         userName = email.split('@')[0];
         this.employeeWorkDetails.controls['ADUserName'].setValue(userName);
       }

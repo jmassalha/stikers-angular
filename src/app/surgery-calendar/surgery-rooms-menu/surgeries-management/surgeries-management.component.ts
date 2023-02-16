@@ -6,8 +6,10 @@ import {
   OnInit,
   ElementRef,
   ChangeDetectorRef,
+  Inject,
 } from '@angular/core';
 import {
+  endOfDay,
   startOfDay,
   isSameDay,
   isSameMonth,
@@ -24,18 +26,16 @@ import {
 } from "@ng-bootstrap/ng-bootstrap";
 import { COMMA, ENTER } from '@angular/cdk/keycodes';
 import { DatePipe } from '@angular/common';
-import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
-import { AddupdateactionComponent } from '../cardiology-calendar/addupdateaction/addupdateaction.component';
+import { ConfirmationDialogService } from '../../../confirmation-dialog/confirmation-dialog.service';
 import { HttpClient } from '@angular/common/http';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localeHe from '@angular/common/locales/he';
-import { MenuPerm } from '../menu-perm';
 import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
-import { SurgeryRoomsMenuComponent } from './surgery-rooms-menu/surgery-rooms-menu.component';
+import { ManageSingleSurgeryComponent } from './manage-single-surgery/manage-single-surgery.component';
 
 
 const colors: any = {
@@ -51,13 +51,11 @@ export interface Action {
 registerLocaleData(localeHe);
 
 @Component({
-  selector: 'app-surgery-calendar',
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  templateUrl: './surgery-calendar.component.html',
-  styleUrls: ['./surgery-calendar.component.css']
+  selector: 'app-surgeries-management',
+  templateUrl: './surgeries-management.component.html',
+  styleUrls: ['./surgeries-management.component.css']
 })
-export class SurgeryCalendarComponent implements OnInit {
-
+export class SurgeriesManagementComponent {
 
   selectable = true;
   removable = true;
@@ -127,22 +125,17 @@ export class SurgeryCalendarComponent implements OnInit {
     private formBuilder: FormBuilder,
     private cdr: ChangeDetectorRef,
     private router: Router,
-    private mMenuPerm: MenuPerm,
+    public dialogRef: MatDialogRef<SurgeriesManagementComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
-    mMenuPerm.setRoutName("surgery-calendar");
-    setTimeout(() => {
-      if (!mMenuPerm.getHasPerm()) {
-        localStorage.clear();
-        this.router.navigate(["login"]);
-      }
-    }, 2000);
   }
 
   ngOnInit(): void {
     if (this.UserName != null) {
-      let month = this.datePipe.transform(this.viewDate, 'MM');
-      this.getSurgeryRooms(month);
+      let month = this.datePipe.transform(this.viewDate, 'dd');
+      this.getPatientsQueues(month, this.data.ShortRoomGroupDesc, this.data.SurgeryRoomDesc);
     }
+    this.setView(CalendarView.Day);
   }
 
 
@@ -177,14 +170,15 @@ export class SurgeryCalendarComponent implements OnInit {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
-    this.modalData = { event, action };
-    const dialogRef = this.dialog.open(SurgeryRoomsMenuComponent, {
-      data: this.modalData
-    })
-    dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+    let dialogRef = this.dialog.open(ManageSingleSurgeryComponent, {
+      data: {
+        event: event,
+        action: action
+      }
     });
-    // this.modal.open(this.modalContent, { size: 'md' });
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+    })
   }
 
   SetNewTime(event2, event) {
@@ -192,57 +186,12 @@ export class SurgeryCalendarComponent implements OnInit {
   }
 
   addEvent(event): void {
-    const dialogRef = this.dialog.open(AddupdateactionComponent, {
-      width: 'md'
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined) {
-        let date = this.datePipe.transform(event, 'yyyy-MM-dd');
-        let time = this.datePipe.transform(event, 'HH:mm');
-        let event2 = {
-          title: result.FirstName + ' ' + result.LastName,
-          patientAction: {
-            Row_ID: '',
-            PersonID: result.PersonID,
-            PatientAction: [],
-            MidsOrder: '',
-            Notes: '',
-            ArrivalDate: date,
-            ArrivalTime: time,
-            Status: 'True'
-          },
-          patientDetails: {
-            FirstName: result.FirstName,
-            LastName: result.LastName,
-            PersonID: result.PersonID,
-            DOB: result.DOB,
-            Gender: result.Gender,
-            PhoneNumber: result.PhoneNumber,
-            Email: result.Email,
-            Address: result.Address
-          },
-          start: startOfDay(event),
-          color: colors.red,
-          draggable: true,
-          // actions: this.actions,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true,
-          },
-        };
-        this.modalData.event["day"]["events"].push(event2);
-        this.events = [
-          ...this.events,
-          event2
-        ];
-      }
-      this.cdr.detectChanges();
-    });
+
   }
 
   deleteEvent(eventToDelete: CalendarEvent, day) {
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeleteEventInCalendarCardiology", {
+      .post(environment.url + "DeleteEventInCalendarCardiology", {
         _rowID: eventToDelete.patientAction.Row_ID
       })
       .subscribe((Response) => {
@@ -263,9 +212,9 @@ export class SurgeryCalendarComponent implements OnInit {
     this.view = view;
   }
 
-  closeOpenMonthViewDay() {
-    let month = this.datePipe.transform(this.viewDate, 'MM');
-    this.getSurgeryRooms(month);
+  closeOpenDayViewDay() {
+    let month = this.datePipe.transform(this.viewDate, 'dd');
+    // this.getPatientsQueues(month);
     this.activeDayIsOpen = false;
   }
 
@@ -278,7 +227,7 @@ export class SurgeryCalendarComponent implements OnInit {
       let thisDate = that.datePipe.transform(day, 'yyyy-MM-dd');
       let thisDateEvents = that.events.filter(t => that.datePipe.transform(t.patientAction.ArrivalDate, 'yyyy-MM-dd') === thisDate);
       that.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitUpdateCardiologyPatientQueue", {
+        .post(environment.url + "SubmitUpdateCardiologyPatientQueue", {
           _queueDetails: thisDateEvents
         })
         .subscribe((Response) => {
@@ -289,37 +238,37 @@ export class SurgeryCalendarComponent implements OnInit {
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-          that.getSurgeryRooms(month);
+          that.getPatientsQueues(month, this.data.ShortRoomGroupDesc, this.data.SurgeryRoomDesc);
         });
     }, 1000)
 
   }
 
   // get the elements to the main calendar page
-  getSurgeryRooms(month) {
+  getPatientsQueues(month, surgeryRoom, surgeyRoomNumber) {
     this.events = [];
     this.http
-      .post(environment.url + "GetSurgeryRooms", {
+      .post(environment.url + "GetSurgeriesBySurgeryRoomCode", {
         _month: month,
-        _year: this.date.getFullYear()
+        _year: this.date.getFullYear(),
+        _surRoomCode: surgeryRoom
       })
       .subscribe((Response) => {
         let tempArr = [];
         tempArr = Response["d"];
-        tempArr.forEach(element => {
-          element.forEach(element2 => {
-            // element2.draggable = true,
-            // element.actions = this.actions,
-            // element2.resizable = {
-            //   beforeStart: true,
-            //   afterEnd: true,
-            // },
-            element2.start = new Date(element2.ArrivalDate);
-            element2.time = '00:00';
-            element2.title = element2.RoomGroupDesc + " " + element2.SurgeryRoomDesc;
-            element2.color = element2.Color;
-            this.events.push(element2);
-          });
+        tempArr['SurgeriesCalendarClassList'].forEach(element => {
+          element.start = new Date(element.ArrivalDate);
+          element.end = new Date(element.EndDate);
+          let tempTitle = `מספר מקרה: <b>${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> - שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b> - מחלקה מזמינה: 
+          <b>${element.SurgeryRequestDepartments.S_DEPARTMENT_NAME}</b> <br> ניתוח: <b>${element.SurgeryServicesName.S_SERVICE_VAL}</b> 
+          - שעת תחילה: <b>${element.ArrivalDate.split(' ')[1]}</b> - שעת סיום: <b>${element.EndDate.split(' ')[1]}</b>`;
+          element.title = tempTitle;
+          element.resizable = {
+            beforeStart: true,
+            afterEnd: true,
+          }
+          element.draggable = true;
+          this.events.push(element);
         });
         this.refresh.next();
       });
@@ -337,5 +286,6 @@ export class SurgeryCalendarComponent implements OnInit {
       verticalPosition: this.verticalPosition,
     });
   }
+
 
 }

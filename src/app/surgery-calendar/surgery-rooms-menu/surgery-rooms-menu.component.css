@@ -1,0 +1,12 @@
+.row{
+    justify-content: center;
+}
+.card{
+    font-weight: bold;
+    padding: 50px;
+    margin: 16px;
+}
+.card:hover{
+    background: aliceblue;
+    cursor: pointer;
+}
