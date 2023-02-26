@@ -31,7 +31,6 @@ export class SurgeryRoomsMenuComponent implements OnInit {
 
 
   ngOnInit(): void {
-    console.log(this.data);
   }
 
 

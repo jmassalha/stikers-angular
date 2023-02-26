@@ -45,7 +45,7 @@ export class DashboardComponent implements OnInit {
         total: 0,
         resp: 0
     };
-    arrDepartsRefoee: DepartRefoee[]  = [];
+    arrDepartsRefoee: DepartRefoee[] = [];
     _dotsLoader =
         '<div class="spinner">' +
         '<div class="bounce1"></div>' +
@@ -78,13 +78,18 @@ export class DashboardComponent implements OnInit {
             })
             .subscribe((Response) => {
                 let user = Response["d"];
-                this.name = user.FirstName;
-                let currentDate = new Date();
-                let day = user.DateOfBirth.split("-")[1];
-                let month = user.DateOfBirth.split("-")[0];
-                if (parseInt(day) == currentDate.getDate() && parseInt(month) == (currentDate.getMonth() + 1)) {
-                    this.birthdayUser = true;
+                try {
+                    this.name = user.FirstName;
+                    let currentDate = new Date();
+                    let day = user.DateOfBirth.split("-")[1];
+                    let month = user.DateOfBirth.split("-")[0];
+                    if (parseInt(day) == currentDate.getDate() && parseInt(month) == (currentDate.getMonth() + 1)) {
+                        this.birthdayUser = true;
+                    }
+                } catch (error) {
+                    console.log("error in birthday");
                 }
+
             });
     }
     public getDataFormServer(_Depart: string) {
@@ -103,14 +108,14 @@ export class DashboardComponent implements OnInit {
                     var totalBeds = 0;
                     var totalInUsed = 0;
                     var totalMonshame = 0;
-                    for(var i = 0; i < this.arrDepartsRefoee.length; i++){
+                    for (var i = 0; i < this.arrDepartsRefoee.length; i++) {
                         totalBeds += parseInt(this.arrDepartsRefoee[i].DepartBedsNumber + "");
                         totalInUsed += parseInt(this.arrDepartsRefoee[i].DepartBedsInUsed + "");
                         totalMonshame = parseInt(this.arrDepartsRefoee[i].Moshamem + "");
                     }
                     this.resporatoryCount = totalMonshame;
-                    this.aobjTotal = totalBeds  + " / " +  totalInUsed ;
-                   // debugger
+                    this.aobjTotal = totalBeds + " / " + totalInUsed;
+                    // debugger
                     // var obj = JSON.parse(Response["d"]);
                     // var aobjTotal = JSON.parse(obj["total"]);
                     // var aobj = JSON.parse(obj["DepartObjects"]);
@@ -139,11 +144,11 @@ export class DashboardComponent implements OnInit {
                     this.Departmints["total"] = parseInt(
                         ((
                             totalInUsed / totalBeds) * 100).toFixed(
-                            0
-                        )
+                                0
+                            )
                     );
                     this.Departmints["resp"] = parseInt(
-                        ((totalMonshame /totalBeds) * 100).toFixed(
+                        ((totalMonshame / totalBeds) * 100).toFixed(
                             0
                         )
                     );

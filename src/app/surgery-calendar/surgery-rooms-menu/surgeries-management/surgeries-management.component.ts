@@ -69,7 +69,7 @@ export class SurgeriesManagementComponent {
 
   CalendarView = CalendarView;
 
-  viewDate: Date = new Date();
+  viewDate: Date;
   locale: string = 'he';
   _actionsList = [];
   modalData: {
@@ -132,8 +132,9 @@ export class SurgeriesManagementComponent {
 
   ngOnInit(): void {
     if (this.UserName != null) {
-      let month = this.datePipe.transform(this.viewDate, 'dd');
-      this.getPatientsQueues(month, this.data.ShortRoomGroupDesc, this.data.SurgeryRoomDesc);
+      this.viewDate = this.data.start;
+      // let day = this.datePipe.transform(this.viewDate, 'dd');
+      this.getPatientsQueues(this.viewDate, this.data.SurgeryRoom);
     }
     this.setView(CalendarView.Day);
   }
@@ -238,19 +239,19 @@ export class SurgeriesManagementComponent {
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-          that.getPatientsQueues(month, this.data.ShortRoomGroupDesc, this.data.SurgeryRoomDesc);
+          that.getPatientsQueues(this.viewDate, this.data.SurgeryRoom);
         });
     }, 1000)
 
   }
 
   // get the elements to the main calendar page
-  getPatientsQueues(month, surgeryRoom, surgeyRoomNumber) {
+  getPatientsQueues(fullDate, surgeryRoom) {
     this.events = [];
+    fullDate = this.datePipe.transform(this.viewDate, 'yyyy-MM-dd');
     this.http
       .post(environment.url + "GetSurgeriesBySurgeryRoomCode", {
-        _month: month,
-        _year: this.date.getFullYear(),
+        _fullDate: fullDate,
         _surRoomCode: surgeryRoom
       })
       .subscribe((Response) => {

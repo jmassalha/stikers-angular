@@ -2,7 +2,43 @@
     width: 100%;
     text-align: center;
 }
+
 .row-btn {
     width: 100%;
     justify-content: left;
 }
+
+/* form {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}
+.row{
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+} */
+.row.personal-details {
+    display: flex;
+}
+
+.row.personal-details mat-form-field {
+    /* width: 10%; */
+    line-height: 40px;
+    margin-left: auto;
+}
+
+.row.surgery-details mat-form-field {
+    /* width: 30%; */
+    line-height: 40px;
+    margin-left: auto;
+}
+.example-form {
+    min-width: 150px;
+    max-width: 500px;
+    width: 100%;
+  }
+  
+  .example-full-width {
+    width: 100%;
+  }
