@@ -44,9 +44,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   departments: Depart[] = [
     { DIMDataTypeID: "1", DIMDataTypeDesc: "ניתוחים" },
     { DIMDataTypeID: "2", DIMDataTypeDesc: "מרפאות ומכונים" },
-    // { DIMDataTypeID: "11", DIMDataTypeDesc: "מרפאות מיוחדות" },
     { DIMDataTypeID: "3", DIMDataTypeDesc: "מכון רנטגן" },
-    // { DIMDataTypeID: "4", DIMDataTypeDesc: "פעולות" },
     { DIMDataTypeID: "5", DIMDataTypeDesc: "קבלות לאשפוז" },
     { DIMDataTypeID: "6", DIMDataTypeDesc: "מלר'ד" },
     { DIMDataTypeID: "7", DIMDataTypeDesc: "חדר לידה" },
@@ -109,6 +107,7 @@ export class HospitalBIDashboardComponent implements OnInit {
   graphSource: string = "normal";
   eshpozDialogSelectBtn = "1";
   arrayOfEshpozFilters = new Array<number>(4);
+  arrayOfEshpozAmbolatoryFilters = new Array<number>(2);
   dataSource = new MatTableDataSource<any>();
   @ViewChild(GraphsModalComponent) graphshidden: GraphsModalComponent;
   @ViewChild(PieChartComponent) pie: PieChartComponent;
@@ -186,7 +185,7 @@ export class HospitalBIDashboardComponent implements OnInit {
 
   graphsTitles() {
     let titles = {
-      pie: ['TOP 10 ניתוחים', '', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'אחוז מטופלים לפי ימים', 'אחוז פעולות לפי מבצע', 'אחוז צנתורים לפי ימי שבוע', '', 'אחוז פעולות לפי ימי שבוע'],
+      pie: ['TOP 10 ניתוחים', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 צילומים', '', 'מחלקות עם מספר קבלות גבוה', 'TOP 10 אבחנות', 'פילוח סוגי לידות', 'אחוז מטופלים לפי ימים', 'אחוז פעולות לפי מבצע', 'אחוז צנתורים לפי ימי שבוע', '', 'אחוז פעולות לפי ימי שבוע'],
       bar: ['ניתוחים ברמת מחלקה', 'ביקורים לפי מרפאה', 'צילומים ברמת מכון', '', 'כמות קבלות', 'כמות פניות למחלקות ' + this._ifSeode, 'כמות לידות', 'מספר מטופלים', 'מספר פעולות', 'מספר צנתורים לתקופת', 'ביקורים לפי מרפאה', 'מספר פעולות'],
       group: ['ניתוחים לפי מחלקה וסוג ניתוח', 'ביקורים לפי מרפאה ומשמרת', 'צילומים לפי מכון ומשמרת', '', 'קבלות לפי משמרת', 'פניות לפי מחלקות ' + this._ifSeode + ' במשמרת', 'כמות וסוגי לידות לפי משמרת', 'כמות מטופלי דיאליזה במשמרת (בוקר: 06:30 עד 14:30)', 'מספר מטופלים לפי משמרת', 'מספר צנתורים לפי משמרת', 'ביקורים לפי מרפאה ומשמרת', 'כמות פעולות לפי ציר זמן'],
       group2: ['כמות ניתוחים למחלקה', 'ביקורים לפי מרפאה וזמן', 'כמות צילומים למכון', '', 'קבלות לפי ציר זמן ומחלקה', 'פניות למחלקות ' + this._ifSeode, 'לידות לפי ציר זמן', 'מספר מטופלי דיאליזה לפי ציר זמן', 'מספר מטופלים לפי ציר זמן', 'מספר צנתורים לפי צרי זמן', 'ביקורים לפי מרפאה וזמן', 'פעולות לפי משמרת'],
@@ -206,7 +205,9 @@ export class HospitalBIDashboardComponent implements OnInit {
     this.releasePatient = _releaseDeptChoose;
     if (this.departParam == "7" || this.departParam == "3" || this.departParam == "1" || this.departParam == "2") {
       _returnedPatients = this.deliveryPrematureGroup.controls['deliveryPremature'].value;
+      // if clinics and mchonem
       if (this.departParam == "2") {
+        // if doctor table view
         if (_returnedPatients == true) {
           _returnedPatients = "1";
         }
@@ -220,6 +221,10 @@ export class HospitalBIDashboardComponent implements OnInit {
     // the multiple select form
     if (this.departParam == "1" && _surgeryDeptType != "0") {
       valueOfSwitch = _surgeryDeptType.map(x => x).join(",");
+    }
+    // eshpoz ambolatory in clinics view
+    if (this.departParam == "2" && _surgeryDeptType != "0") {
+      valueOfSwitch = _surgeryDeptType;
     }
     // choosing the years period of the 5 year screen
     if (periodList.length > 0 && this.TimeLineParam == "5") {
@@ -485,7 +490,7 @@ export class HospitalBIDashboardComponent implements OnInit {
       this.getTableViewItems("1", this.departParam);
       this.tableView = true;
     } else {
-      this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue(this.selectSurgeryTypes.value);
+      // this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue(this.selectSurgeryTypes.value);
       this.tableView = false;
       let that = this;
       setTimeout(() => {
@@ -516,6 +521,26 @@ export class HospitalBIDashboardComponent implements OnInit {
       currentValue = "1";
     }
     this.deliveryPrematureGroup.controls['deliveryPremature'].setValue(currentValue);
+    this.changeSurgeryType();
+  }
+
+  eshpozAmbolatoryFilters(event) {
+    if (this.arrayOfEshpozAmbolatoryFilters[event] == event) {
+      this.arrayOfEshpozAmbolatoryFilters[event] = undefined;
+    } else {
+      this.arrayOfEshpozAmbolatoryFilters[event] = event;
+    }
+    let currentValue = "0";
+    this.arrayOfEshpozAmbolatoryFilters.forEach(x => {
+      if (x != undefined) {
+        currentValue = currentValue + ',' + x;
+      }
+    });
+    currentValue = currentValue.substring(2, currentValue.length);
+    if (currentValue == "" || currentValue == "1,2") {
+      currentValue = "0";
+    }
+    this.surgeryDeptTypeGroup.controls['surgeryDeptType'].setValue(currentValue);
     this.changeSurgeryType();
   }
 

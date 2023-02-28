@@ -106,15 +106,17 @@ export class GroupedBarChartComponent implements OnInit {
 
   sendDataToParentExcel() {
     let result = [];
-    this.data.forEach(element => {
-      for (let i = 0; i < element.length; i++) {
-        if (i % 2 != 0) {
-          delete element[i];
-        } else if (i % 2 == 0 && i != 0) {
-          delete this.columnNames[i];
+    if (!this.options.isStacked) {
+      this.data.forEach(element => {
+        for (let i = 0; i < element.length; i++) {
+          if (i % 2 != 0) {
+            delete element[i];
+          } else if (i % 2 == 0 && i != 0) {
+            delete this.columnNames[i];
+          }
         }
-      }
-    });
+      });
+    }
     result.push(this.columnNames);
     result.push(this.data);
     return result;
@@ -192,10 +194,6 @@ export class GroupedBarChartComponent implements OnInit {
       this.allColumnNames = ['תקופה'];
       if (this.responseDeparts == undefined) {
         console.log("No Data Returned");
-        let that = this;
-        setTimeout(() => {
-          that.waitData();
-        }, 2000);
       } else {
         for (let s = 0; s < this.responseDeparts.length; s++) {
           departments.push(this.responseDeparts[s]);

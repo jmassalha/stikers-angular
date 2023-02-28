@@ -147,12 +147,31 @@ export class GraphsModalComponent implements OnInit {
 
   sendDataToParentExcel() {
     let result = [];
-    result.push({ number: 1, columnnames: this.columnNames1, arr: this.data1 });
-    result.push({ number: 2, columnnames: this.columnNames2, arr: this.data2 });
-    result.push({ number: 3, columnnames: this.columnNames3, arr: this.data3 });
-    result.push({ number: 4, columnnames: this.columnNames4, arr: this.data4 });
-    result.push({ number: 5, columnnames: this.columnNames5, arr: this.data5 });
+    if (this.data1[0].length <= 3) {
+      result.push({ number: 1, columnnames: this.spliceDataOnFilterToExcel(this.columnNames1), arr: this.spliceDataOnFilterToExcel(this.data1) });
+      result.push({ number: 2, columnnames: this.spliceDataOnFilterToExcel(this.columnNames2), arr: this.spliceDataOnFilterToExcel(this.data2) });
+      result.push({ number: 3, columnnames: this.spliceDataOnFilterToExcel(this.columnNames3), arr: this.spliceDataOnFilterToExcel(this.data3) });
+      result.push({ number: 4, columnnames: this.spliceDataOnFilterToExcel(this.columnNames4), arr: this.spliceDataOnFilterToExcel(this.data4) });
+      result.push({ number: 5, columnnames: this.spliceDataOnFilterToExcel(this.columnNames5), arr: this.spliceDataOnFilterToExcel(this.data5) });
+    } else {
+      result.push({ number: 1, columnnames: this.columnNames1, arr: this.data1 });
+      result.push({ number: 2, columnnames: this.columnNames2, arr: this.data2 });
+      result.push({ number: 3, columnnames: this.columnNames3, arr: this.data3 });
+      result.push({ number: 4, columnnames: this.columnNames4, arr: this.data4 });
+      result.push({ number: 5, columnnames: this.columnNames5, arr: this.data5 });
+    }
     return result;
+  }
+
+  spliceDataOnFilterToExcel(data) {
+    try {
+      data.forEach((element, index) => {
+        data[index] = element.splice(0, 2);
+      });
+    } catch (error) {
+      data = data.splice(0, 2);
+    }
+    return data;
   }
 
   onNoClick(): void {
