@@ -92,6 +92,7 @@ import { IpPointsComponent } from "./ip-points/ip-points.component";
 import { MasterHpidComponent } from "./master-hpid/master-hpid.component";
 import { CablesComponent } from "./cables/cables.component";
 import { SurgeryCalendarComponent } from "./surgery-calendar/surgery-calendar.component";
+import { FollowUpComponent } from "./consultations/follow-up/follow-up.component";
 
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
@@ -206,6 +207,7 @@ const routes: Routes = [
     { path: "masterhpid", component: MasterHpidComponent },
     { path: "cables", component: CablesComponent },
     { path: "surgery-calendar", component: SurgeryCalendarComponent },
+    { path: "follow-up", component: FollowUpComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

@@ -188,6 +188,7 @@ import { SurgeryCalendarComponent } from './surgery-calendar/surgery-calendar.co
 import { SurgeryRoomsMenuComponent } from './surgery-calendar/surgery-rooms-menu/surgery-rooms-menu.component';
 import { SurgeriesManagementComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/surgeries-management.component';
 import { ManageSingleSurgeryComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/manage-single-surgery/manage-single-surgery.component';
+import { FollowUpComponent } from './consultations/follow-up/follow-up.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -331,7 +332,8 @@ const maskConfig: Partial<IConfig> = {
     SurgeryCalendarComponent,
     SurgeryRoomsMenuComponent,
     SurgeriesManagementComponent,
-    ManageSingleSurgeryComponent
+    ManageSingleSurgeryComponent,
+    FollowUpComponent
   ],
   imports: [
     JpTimeMaskModule,

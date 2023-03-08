@@ -112,7 +112,7 @@ export class SurgeryCalendarComponent implements OnInit {
 
   refresh: Subject<any> = new Subject();
   events: CalendarEvent[] = [];
-  activeDayIsOpen: boolean = true;
+  activeDayIsOpen: boolean = false;
   patientSearch: FormGroup;
   date = new Date();
   UserName = localStorage.getItem("loginUserName").toLowerCase();
@@ -149,12 +149,12 @@ export class SurgeryCalendarComponent implements OnInit {
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, event): void {
     if (isSameMonth(date, this.viewDate)) {
       if (
-        (isSameDay(this.viewDate, date) && this.activeDayIsOpen === true || events.length === 0)
+        (isSameDay(this.viewDate, date) || events.length === 0)
       ) {
         this.activeDayIsOpen = false;
         this.handleEvent('NewEvent', event);
       } else {
-        this.activeDayIsOpen = true;
+        // this.activeDayIsOpen = true;
       }
       this.viewDate = date;
     }
@@ -179,10 +179,12 @@ export class SurgeryCalendarComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     const dialogRef = this.dialog.open(SurgeryRoomsMenuComponent, {
-      data: this.modalData
+      data: this.modalData,
+      disableClose: true
     })
     dialogRef.afterClosed().subscribe(result => {
-      console.log('The dialog was closed');
+      let month = this.datePipe.transform(this.viewDate, 'MM');
+      this.getSurgeryRooms(month);
     });
     // this.modal.open(this.modalContent, { size: 'md' });
   }

@@ -3,11 +3,17 @@
 </mat-grid-list> -->
 
 <div class="container" dir="rtl">
+    <button mat-icon-button color="warn" aria-label="Example icon button with a close icon" mat-dialog-close
+        style="float: right;">
+        <mat-icon>close</mat-icon>
+    </button>
     <div class="row">
         <h4>{{data.event.day.date | date: 'dd-MM-yyyy'}} -- יום {{todaysName}}</h4>
     </div>
     <div class="row">
         <div class="card" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room);">
-            {{room.RoomGroupDesc}} {{room.SurgeryRoomDesc}}</div>
+            <b> <u>{{room.RoomGroupDesc}} {{room.SurgeryRoomDesc}} </u> </b> <br> מספר ניתוחים:
+            <b>{{room.NumberOfSurgeries}}</b>
+        </div>
     </div>
 </div>

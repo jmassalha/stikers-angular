@@ -39,16 +39,16 @@
     <br />
     <ng-template #customCellTemplate let-day="day" let-locale="locale">
         <div class="cal-cell-top">
-            <span class="cal-day-badge" *ngIf="day.badgeTotal > 0">{{ day.badgeTotal }}</span>
+            <span class="cal-day-badge" *ngIf="day.badgeTotal > 0" style="background-color: grey;">{{ day.badgeTotal }}</span>
             <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
         </div>
         <small *ngFor="let ev of day.events let i = index">
-            <span dir="rtl" *ngIf="i<3" class="span-cards" [ngStyle]="{'background-color': ev.color}">
+            <span dir="rtl" *ngIf="i<3" class="span-cards" [ngStyle]="{background: ev.color, color: 'black'}">
                 {{ ev.title }}
             </span>
         </small>
         <span dir="rtl" class="span-cards" *ngIf="day.events.length > 3" style="color: black;border: white;">
-            ועוד {{ day.events.length - 3 }} נוספים
+            ועוד {{ day.events.length - 3 }} חדרים נוספים
         </span>
     </ng-template>
     <div [ngSwitch]="view">

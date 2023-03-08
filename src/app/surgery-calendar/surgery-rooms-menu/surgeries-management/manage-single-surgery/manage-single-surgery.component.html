@@ -1,4 +1,8 @@
 <div class="row-title">
+    <button mat-icon-button color="warn" aria-label="Example icon button with a close icon" mat-dialog-close
+        style="float: right;">
+        <mat-icon>close</mat-icon>
+    </button>
     <h3>
         <b> עריכת פרטי ניתוח </b>
     </h3>
@@ -8,7 +12,7 @@
         <div class="col-2">
             <mat-form-field>
                 <mat-label>תעודת זהות</mat-label>
-                <input matInput formControlName="PM_PATIENT_ID">
+                <input matInput formControlName="PM_PATIENT_ID" (focusout)="checkIfPatientExists()">
             </mat-form-field>
         </div>
         <div class="col-2">
@@ -29,16 +33,20 @@
                 <input matInput formControlName="PM_LAST_NAME">
             </mat-form-field>
         </div>
-        <div class="col-2">
-            <mat-form-field>
+        <div class="col-1">
+            <mat-form-field style="line-height: 30px;">
                 <mat-label>מגדר</mat-label>
-                <input matInput formControlName="PM_PATIENT_GENDER">
+                <mat-select formControlName="PM_PATIENT_GENDER">
+                    <mat-option value="1"> זכר </mat-option>
+                    <mat-option value="2"> נקבה </mat-option>
+                </mat-select>
+                <!-- <input matInput formControlName="PM_PATIENT_GENDER"> -->
             </mat-form-field>
         </div>
-        <div class="col-2">
+        <div class="col-1">
             <mat-form-field>
                 <mat-label>גיל</mat-label>
-                <input matInput formControlName="PM_DOB">
+                <input matInput type="number" step="0.1" formControlName="PM_DOB">
             </mat-form-field>
         </div>
         <div class="col-2">
@@ -50,7 +58,7 @@
     </div>
     <hr>
     <div class="row surgery-details">
-        <div class="col-3" formGroupName="SurgeryRequestDepartments">
+        <div class="col-2" formGroupName="SurgeryRequestDepartments">
             <mat-form-field style="line-height: 30px;">
                 <mat-label>מחלקה מזמינה</mat-label>
                 <mat-select formControlName="SD_ROW_ID" (selectionChange)="selectedRequestedDepartment($event.value)">
@@ -60,7 +68,7 @@
                 </mat-select>
             </mat-form-field>
         </div>
-        <div class="col-3">
+        <div class="col-2">
             <mat-form-field>
                 <mat-label>תאריך ניתוח</mat-label>
                 <div style="display: flex;">
@@ -79,7 +87,17 @@
         <div class="col-3">
             <mat-form-field>
                 <mat-label>שעת סיום</mat-label>
-                <input matInput type="time" formControlName="EndTime">
+                <input matInput type="time" formControlName="EndTime" (focusout)="calculateSurgeryDuration('endTime')">
+            </mat-form-field>
+        </div>
+        <div class="col-2">
+            <mat-form-field style="line-height: 30px;">
+                <mat-label>חדר ניתוח</mat-label>
+                <mat-select formControlName="SurgeryRoom" (selectionChange)="selectedSurgeryRoom($event.value)">
+                    <mat-option *ngFor="let room of SurgeryRoomsList" [value]="room.SurgeryRoom">
+                        {{room.RoomGroupDesc}} {{room.SurgeryRoomDesc}}
+                    </mat-option>
+                </mat-select>
             </mat-form-field>
         </div>
     </div>
@@ -108,16 +126,24 @@
         </div>
         <div class="col-2">
             <mat-form-field>
-                <mat-label>זמן משך ניתוח (דקות)</mat-label>
-                <input matInput formControlName="S_SERVICE_DURATION" type="number" step="1">
+                <mat-label>זמן משך ניתוח (שעות)</mat-label>
+                <input matInput formControlName="S_SERVICE_DURATION" type="number" step="1"
+                    (focusout)="calculateSurgeryDuration('duration')">
             </mat-form-field>
         </div>
     </div>
 
     <div class="row-btn">
+        <div class="exists-info" *ngIf="patientsList.length != 0 && patientsList[0].ArrivalDate != ''">
+            <h2>למטופל קיים רשומות!</h2><br>
+            <ul>
+                <li *ngFor="let patient of patientsList">תאריך: {{patient.ArrivalDate}}, חדר: {{patient.SurgeryRoom}}
+                </li>
+            </ul>
+        </div>
         <div class="example-button-container">
-            <button mat-fab color="primary" (click)="saveSurgeyDetails()"
-                aria-label="Example icon button with a delete icon">
+            <button mat-fab color="primary" (click)="saveSurgeryDetails()"
+                aria-label="Example icon button with a save icon">
                 <mat-icon>save</mat-icon>
             </button>
         </div>

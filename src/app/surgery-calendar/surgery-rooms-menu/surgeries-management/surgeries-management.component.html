@@ -1,4 +1,8 @@
 <div class="container-fluid pb-5" dir="rtl">
+  <button mat-icon-button color="warn" aria-label="Example icon button with a close icon" mat-dialog-close
+    style="float: right;">
+    <mat-icon>close</mat-icon>
+  </button>
   <div class="row text-center">
     <div class="col-md-4">
       <div class="btn-group">
@@ -30,7 +34,7 @@
       </div>
     </div>
     <div class="button-container">
-      <button mat-fab style="background-color: burlywood;" (click)="handleEvent('New', $event)"
+      <button mat-fab style="background-color: burlywood;" (click)="handleEvent('New', $event.event)"
         aria-label="Example icon button with a delete icon">
         <mat-icon>add</mat-icon>
       </button>

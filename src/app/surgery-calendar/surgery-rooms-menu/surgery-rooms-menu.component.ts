@@ -36,7 +36,11 @@ export class SurgeryRoomsMenuComponent implements OnInit {
 
   openSurgeryRoomSchedule(room) {
     const dialogRef = this.dialog.open(SurgeriesManagementComponent, {
-      data: room
+      data: {
+        room: room,
+        roomsList: this.surgeryRooms
+      },
+      disableClose: true
     })
     dialogRef.afterClosed().subscribe(result => {
       console.log('The dialog was closed');

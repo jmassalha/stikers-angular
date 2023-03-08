@@ -6,7 +6,7 @@ import {
     ElementRef,
 } from "@angular/core";
 import { ThemePalette } from "@angular/material/core";
-import * as Fun from "../public.functions";
+import * as Fun from "../../public.functions";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatDialog } from "@angular/material/dialog";
@@ -29,46 +29,16 @@ import {
 } from "@angular/forms";
 import { MatRadioChange } from "@angular/material/radio";
 import { data } from "jquery";
-import { MenuPerm } from "../menu-perm";
+import { MenuPerm } from "../../menu-perm";
 import { environment } from "src/environments/environment";
-export interface Departs {
-    id: string;
-    name: string;
-}
-export interface Consultations {
-    Row_Id: string;
-    Case_Number: string;
-    Patient_Numbae: string;
-    Request_Depart: string;
-    Request_Depart_Seode: string;
-    Doing_Depart: string;
-    Request_Persone_Name: string;
-    Doing_Persone_Name: string;
-    Request_Date: string;
-    Request_Time: string;
-    Doing_Date: string;
-    Doing_Time: string;
-    Cancel_Date: string;
-    Cancel_Time: string;
-    Waiting_Time: string;
-    Case_Type: string;
-    Patient_First_Name: string;
-    Patient_Last_Name: string;
-    Patient_ID: string;
-    Patient_DOB: string;
-    Patient_Gender: string;
-    Service_Code: string;
-    Service_Name: string;
-    Hospital_Date: string;
-    Discharge_Date: string;
-    Order_Number: string;
-}
+
 @Component({
-    selector: "app-consultations",
-    templateUrl: "./consultations.component.html",
-    styleUrls: ["./consultations.component.css"],
+    selector: 'app-follow-up',
+    templateUrl: './follow-up.component.html',
+    styleUrls: ['./follow-up.component.css']
 })
-export class ConsultationsComponent implements OnInit {
+export class FollowUpComponent implements OnInit {
+
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
@@ -183,21 +153,18 @@ export class ConsultationsComponent implements OnInit {
 
     EditForm: FormGroup;
     RelevantForm: FormGroup;
-    TABLE_DATA: Consultations[] = [];
+    TABLE_DATA = [];
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     displayedColumns: string[] = [
-        "Case_Number",
-        "Patient_Numbae",
-        "Request_Depart_Seode",
-        "Doing_Depart",
-        "Request_Persone_Name",
-        "Doing_Persone_Name",
-        "Service_Name",
-        "Request_Date",
-        "Request_Time",
-        "Doing_Date",
-        "Doing_Time",
-        "Waiting_Time",
+        "FollowUpDepartSeode",
+        "FollowUpDepart",
+        "FollowUpDate",
+        "FollowUpGroup",
+        "FollowUpCategory",
+        "CaseNumber",
+        "UserFullName",
+        "UserDepart",
+        "WorkerType",
     ];
     public disabled = false;
     public showSpinners = true;
@@ -212,11 +179,11 @@ export class ConsultationsComponent implements OnInit {
     barChartC: string = "BarChart";
     titleDepartsChart: string = "יעוצים לפי מחלקה";
     titleWorkersChart: string = "יעוצים לפי רופא";
-    departsList: Departs[] = [];
-    requestdepartsList: Departs[] = [];
+    departsList = [];
+    requestdepartsList = [];
     departsName: string;
     requestdepartsName: string;
-    workersList: Departs[] = [];
+    workersList = [];
     workersName: string;
     isShow = true;
     startdateVal: string;
@@ -348,7 +315,7 @@ export class ConsultationsComponent implements OnInit {
     */
     titleDepartRequestTotalNotPara: any = 'סה"כ יעוצים לפי מחלקה מבצעת';
     DepartsDataRequestTotalNotPara: any = [["", 0, "", 0]];
-    DepartsRequestTotalColumnsNotPara : any = [
+    DepartsRequestTotalColumnsNotPara: any = [
         "מחלקה מזמינה",
         'סה"כ יעוצים',
         { role: "style" },
@@ -357,7 +324,7 @@ export class ConsultationsComponent implements OnInit {
 
     titleDepartRequestAvgNotPara: any = 'ממוצע זמן לפי מחלקה מבצעת';
     DepartsDataRequestAvgNotPara: any = [["", 0, "", 0]];
-    DepartsRequestAvgColumnsNotPara : any = [
+    DepartsRequestAvgColumnsNotPara: any = [
         "מחלקה מזמינה",
         'סה"כ יעוצים',
         { role: "style" },
@@ -366,7 +333,7 @@ export class ConsultationsComponent implements OnInit {
 
     titleDepartRequestTotalAllNotPara: any = 'סה"כ יעוצים לפי מחלקה מבצעת';
     DepartsDataRequestTotalAllNotPara: any = [["", 0, "", 0]];
-    DepartsRequestTotalColumnsAllNotPara : any = [
+    DepartsRequestTotalColumnsAllNotPara: any = [
         "מחלקה מזמינה",
         'סה"כ יעוצים',
         { role: "style" },
@@ -375,7 +342,7 @@ export class ConsultationsComponent implements OnInit {
 
     titleDepartRequestAvgAllNotPara: any = 'ממוצע זמן לפי מחלקה מבצעת';
     DepartsDataRequestAvgAllNotPara: any = [["", 0, "", 0]];
-    DepartsRequestAvgColumnsAllNotPara : any = [
+    DepartsRequestAvgColumnsAllNotPara: any = [
         "מחלקה מזמינה",
         'סה"כ יעוצים',
         { role: "style" },
@@ -404,19 +371,19 @@ export class ConsultationsComponent implements OnInit {
     MulBarsRequestDepartTotalRows: any;
     MulBarsRequestDepartAvgTime: any;
 
-    
+
     /*
     DepartsDataRequestTotalNotPara
 DepartsDataRequestAvgNotPara
 DepartsDataRequestTotalAllNotPara
 DepartsDataRequestAvgAllNotPara
     */
-   MulBarsRequestDepartNotPara: any;
-   MulBarsRequestDepartTotalRowsNotPara: any;
-   MulBarsRequestDepartAvgTimeNotPara: any;
-   MulBarsRequestDepartAvgTimeAllNotPara: any;
-   MulBarsRequestDepartTotalRowsAllNotPara: any;
-   MulBarsRequestDepartAllNotPara: any;
+    MulBarsRequestDepartNotPara: any;
+    MulBarsRequestDepartTotalRowsNotPara: any;
+    MulBarsRequestDepartAvgTimeNotPara: any;
+    MulBarsRequestDepartAvgTimeAllNotPara: any;
+    MulBarsRequestDepartTotalRowsAllNotPara: any;
+    MulBarsRequestDepartAllNotPara: any;
 
     MulBarsDoingDepart: any;
     MulBarsDoingDepartAvgTime: any;
@@ -472,11 +439,12 @@ DepartsDataRequestAvgAllNotPara
     ) {
         mMenuPerm.setRoutName("consultations");
         setTimeout(() => {
-            if(!mMenuPerm.getHasPerm()){
+            if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();
                 this.router.navigate(["login"]);
             }
-        }, 2000);}
+        }, 2000);
+    }
 
     ngOnInit(): void {
         this.departsName = "הכל";
@@ -512,7 +480,7 @@ DepartsDataRequestAvgAllNotPara
         });
         this.selectedIndexTab = 0;
         this.getDeparts();
-        this.getWorkers("");
+        // this.getWorkers("");
         this.getRequest();
     }
 
@@ -555,7 +523,7 @@ DepartsDataRequestAvgAllNotPara
         let clickedIndex = $event.index;
         this.selectedIndexTab = clickedIndex;
         this.optionsBars = {
-            
+
             height: 1200,
             hAxis: {
                 showTextEvery: 1,
@@ -569,13 +537,13 @@ DepartsDataRequestAvgAllNotPara
         };
         this.optionsBarsV = {
             height: 1200,
-           // bars: "vertical",
+            // bars: "vertical",
             hAxis: {
-               // direction: -1,
+                // direction: -1,
                 // slantedText: true,
                 // slantedTextAngle: 90,
                 showTextEvery: 1,
-                
+
             },
             vAxis: {
                 showTextEvery: 1,
@@ -613,7 +581,7 @@ DepartsDataRequestAvgAllNotPara
                 this.DepartsDataRequestTotal.push(_d);
                 this.DepartsDataRequestAvg.push(_s);
             }
-            if(this.MulBarsRequestDepart.length == 0){
+            if (this.MulBarsRequestDepart.length == 0) {
                 this.DepartsDataRequestTotal = [["", 0, "", 0]];
                 this.DepartsDataRequestAvg = [["", 0, "", 0]];
             }
@@ -638,7 +606,7 @@ DepartsDataRequestAvgAllNotPara
                 this.DepartsDataRequestTotalAll.push(_d);
                 this.DepartsDataRequestAvgAll.push(_s);
             }
-            if(this.MulBarsRequestDepartAll.length == 0){
+            if (this.MulBarsRequestDepartAll.length == 0) {
                 this.DepartsDataRequestTotalAll = [["", 0, "", 0]];
                 this.DepartsDataRequestAvgAll = [["", 0, "", 0]];
             }
@@ -664,7 +632,7 @@ DepartsDataRequestAvgAllNotPara
                 this.DepartsDataDoingTotal.push(_d);
                 this.DepartsDataDoingAvg.push(_s);
             }
-            if(this.MulBarsDoingDepart.length == 0){
+            if (this.MulBarsDoingDepart.length == 0) {
                 this.DepartsDataDoingTotal = [["", 0, "", 0]];
                 this.DepartsDataDoingAvg = [["", 0, "", 0]];
             }
@@ -690,8 +658,8 @@ DepartsDataRequestAvgAllNotPara
                 this.DepartsDataDoingTotalAll.push(_d);
                 this.DepartsDataDoingAvgAll.push(_s);
             }
-            
-            if(this.MulBarsDoingDepartAll.length == 0){
+
+            if (this.MulBarsDoingDepartAll.length == 0) {
                 this.DepartsDataDoingTotalAll = [["", 0, "", 0]];
                 this.DepartsDataDoingAvgAll = [["", 0, "", 0]];
             }
@@ -716,8 +684,8 @@ DepartsDataRequestAvgAllNotPara
                 this.DepartsDataRequestTotalAllNotPara.push(_d);
                 this.DepartsDataRequestAvgAllNotPara.push(_s);
             }
-            
-            if(this.MulBarsRequestDepartAllNotPara.length == 0){
+
+            if (this.MulBarsRequestDepartAllNotPara.length == 0) {
                 this.DepartsDataRequestTotalAllNotPara = [["", 0, "", 0]];
                 this.DepartsDataRequestAvgAllNotPara = [["", 0, "", 0]];
             }
@@ -742,8 +710,8 @@ DepartsDataRequestAvgAllNotPara
                 this.DepartsDataRequestTotalNotPara.push(_d);
                 this.DepartsDataRequestAvgNotPara.push(_s);
             }
-            
-            if(this.MulBarsRequestDepartNotPara.length == 0){
+
+            if (this.MulBarsRequestDepartNotPara.length == 0) {
                 this.DepartsDataRequestTotalNotPara = [["", 0, "", 0]];
                 this.DepartsDataRequestAvgNotPara = [["", 0, "", 0]];
             }
@@ -764,7 +732,7 @@ DepartsDataRequestAvgAllNotPara
                     s++;
                 }
             }
-            if(this.Departs.length == 0){
+            if (this.Departs.length == 0) {
                 this.DepartsDataChart = [["", 0, "", 0]];
             }
         }
@@ -783,14 +751,14 @@ DepartsDataRequestAvgAllNotPara
                     s++;
                 }
             }
-            if(this.Workers.length == 0){
+            if (this.Workers.length == 0) {
                 this.WorkersDataChart = [["", 0, "", 0]];
             }
         }
     }
-    changeWorker(val) {
-        this.getWorkers(val);
-    }
+    // changeWorker(val) {
+    //     this.getWorkers(val);
+    // }
     getReport($event: any): void {
         if (this.startdateVal && this.enddateVal)
             this.getDataFormServer(
@@ -820,7 +788,6 @@ DepartsDataRequestAvgAllNotPara
     }
 
     getPaginatorData(event: PageEvent) {
-        //console.log(this.paginator.pageIndex);
         if (this.startdateVal && this.enddateVal) {
             this.getDataFormServer(
                 this.startdateVal,
@@ -1028,97 +995,68 @@ DepartsDataRequestAvgAllNotPara
             options: optionCall,
         });
     }
+
     getDeparts() {
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNamerDeparts", {})
+            .post(environment.url + "GetNamerDeparts", {})
             .subscribe((Response) => {
-                //// ////////debugger
                 this.departsList = [];
 
                 var json = JSON.parse(Response["d"]);
-                // // ////////debugger
                 var _d = JSON.parse(json["departsList"]);
 
                 for (const [key, value] of Object.entries(_d)) {
-                    //////debugger
-                    var _sD: Departs = { id: key, name: value.toString() };
+                    var _sD = { id: key, name: value.toString() };
 
                     this.departsList.push(_sD);
                 }
 
                 $("#loader").addClass("d-none");
-                /*
-                  $(_d).each(function(i,k){
-                      // ////////debugger
-                      //var _sD: Depart = {id: i, name: k};
-
-                      //this.departs.push(_sD);
-                  })*/
-                //// ////////debugger
             });
     }
-    getWorkers(valDepart) {
-        $("#loader").removeClass("d-none");
-        this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetWorkers", {
-                _Depart: valDepart,
-            })
-            .subscribe((Response) => {
-                ////debugger;
-                this.workersList = [];
-                var json = JSON.parse(Response["d"]);
-                // // ////////debugger
-                var _w = JSON.parse(json["WorkersList"]);
 
-                for (const [key, value] of Object.entries(_w)) {
-                    //////debugger
-                    var _sD: Departs = { id: key, name: value.toString() };
+    // getWorkers(valDepart) {
+    //     $("#loader").removeClass("d-none");
+    //     this.http
+    //         .post(environment.url + "GetWorkers", {
+    //             _Depart: valDepart,
+    //         })
+    //         .subscribe((Response) => {
+    //             this.workersList = [];
+    //             var json = JSON.parse(Response["d"]);
+    //             var _w = JSON.parse(json["WorkersList"]);
 
-                    this.workersList.push(_sD);
-                }
-                $("#loader").addClass("d-none");
-                /*
-                  $(_d).each(function(i,k){
-                      // ////////debugger
-                      //var _sD: Depart = {id: i, name: k};
+    //             for (const [key, value] of Object.entries(_w)) {
+    //                 var _sD = { id: key, name: value.toString() };
 
-                      //this.departs.push(_sD);
-                  })*/
-                //// ////////debugger
-            });
-    }
+    //                 this.workersList.push(_sD);
+    //             }
+    //             $("#loader").addClass("d-none");
+    //         });
+    // }
+
     getRequest() {
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetRequestDeparts", {})
+            .post(environment.url + "GetRequestDeparts", {})
             .subscribe((Response) => {
-                //// ////////debugger
                 this.requestdepartsList = [];
 
                 var json = JSON.parse(Response["d"]);
-                // // ////////debugger
 
                 var _r = JSON.parse(json["seodedepartsList"]);
 
                 for (const [key, value] of Object.entries(_r)) {
-                    //////debugger
-                    var _sD: Departs = { id: key, name: value.toString() };
+                    var _sD = { id: key, name: value.toString() };
 
                     this.requestdepartsList.push(_sD);
                 }
 
                 $("#loader").addClass("d-none");
-                /*
-                  $(_d).each(function(i,k){
-                      // ////////debugger
-                      //var _sD: Depart = {id: i, name: k};
-
-                      //this.departs.push(_sD);
-                  })*/
-                //// ////////debugger
             });
     }
+
     public getDataFormServer(
         _startDate: string,
         _endDate: string,
@@ -1133,7 +1071,7 @@ DepartsDataRequestAvgAllNotPara
         //////debugger;
         $("#loader").removeClass("d-none");
         this.http
-            .post(environment.url + "GetAllConsultations", {
+            .post(environment.url + "GetFollowUpData", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
@@ -1146,130 +1084,11 @@ DepartsDataRequestAvgAllNotPara
             })
             .subscribe(
                 (Response) => {
-                    this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                    var json = JSON.parse(Response["d"]);
-                    ////debugger;
-                    this.Departs = JSON.parse(json["Departs"]);
-                    this.MulBarsRequestDepart = JSON.parse(
-                        json["MulBarsRequestDepart"]
-                    );
-                    this.MulBarsRequestDepartTotalRows = JSON.parse(
-                        json["MulBarsRequestDepartTotalRows"]
-                    );
-                    this.MulBarsRequestDepartAvgTime = JSON.parse(
-                        json["MulBarsRequestDepartAvgTime"]
-                    );
-                    this.MulBarsRequestDepartAll = JSON.parse(
-                        json["MulBarsRequestDepartAll"]
-                    );
-                    this.MulBarsRequestDepartTotalRowsAll = JSON.parse(
-                        json["MulBarsRequestDepartTotalRowsAll"]
-                    );
-                    this.MulBarsRequestDepartAvgTimeAll = JSON.parse(
-                        json["MulBarsRequestDepartAvgTimeAll"]
-                    );
-                    this.MulBarsDoingDepart = JSON.parse(
-                        json["MulBarsDoingDepart"]
-                    );
-                    this.MulBarsDoingDepartAvgTime = JSON.parse(
-                        json["MulBarsDoingDepartAvgTime"]
-                    );
-                    this.MulBarsRequestDepartNotPara = JSON.parse(
-                        json["MulBarsRequestDepartNotPara"]
-                    );
-                    this.MulBarsRequestDepartTotalRowsNotPara = JSON.parse(
-                        json["MulBarsRequestDepartTotalRowsNotPara"]
-                    );
-                    this.MulBarsRequestDepartAvgTimeNotPara = JSON.parse(
-                        json["MulBarsRequestDepartAvgTimeNotPara"]
-                    );
-                    this.MulBarsRequestDepartAvgTimeAllNotPara = JSON.parse(
-                        json["MulBarsRequestDepartAvgTimeAllNotPara"]
-                    );
-                    this.MulBarsRequestDepartTotalRowsAllNotPara = JSON.parse(
-                        json["MulBarsRequestDepartTotalRowsAllNotPara"]
-                    );
-                    this.MulBarsRequestDepartAllNotPara = JSON.parse(
-                        json["MulBarsRequestDepartAllNotPara"]
-                    );
-                    this.MulBarsDoingDepartTotalRows = JSON.parse(
-                        json["MulBarsDoingDepartTotalRows"]
-                    );
-                    this.MulBarsDoingDepartAll = JSON.parse(
-                        json["MulBarsDoingDepartAll"]
-                    );
-                    this.MulBarsDoingDepartAvgTimeAll = JSON.parse(
-                        json["MulBarsDoingDepartAvgTimeAll"]
-                    );
-                    this.MulBarsDoingDepartTotalRowsAll = JSON.parse(
-                        json["MulBarsDoingDepartTotalRowsAll"]
-                    );
-
-                    this.DepartsDoingTotal = JSON.parse(
-                        json["DepartsDoingTotal"]
-                    );
-                    this.WorkersDoingTotal = JSON.parse(
-                        json["WorkersDoingTotal"]
-                    );
-                    this.Workers = JSON.parse(json["Workers"]);
-                    ////debugger;
-                    //////debugger
-                    let Consultations = JSON.parse(json["aaData"]);
-                    for (var i = 0; i < Consultations.length; i++) {
-                        if (Consultations[i].MeasurementStatus != "1") {
-                            this.isShow = false;
-                        } else {
-                            this.isShow = false;
-                        }
-                        this.TABLE_DATA.push({
-                            Row_Id: Consultations[i].Row_Id,
-                            Case_Number: Consultations[i].Case_Number,
-                            Patient_Numbae: Consultations[i].Patient_Numbae,
-                            Request_Depart: Consultations[i].Request_Depart,
-                            Request_Depart_Seode:
-                                Consultations[i].Request_Depart_Seode,
-                            Doing_Depart: Consultations[i].Doing_Depart,
-                            Request_Persone_Name:
-                                Consultations[i].Request_Persone_Name,
-                            Doing_Persone_Name:
-                                Consultations[i].Doing_Persone_Name,
-                            Request_Date: Consultations[i].Request_Date,
-                            Request_Time: Consultations[i].Request_Time,
-                            Doing_Date: Consultations[i].Doing_Date,
-                            Doing_Time: Consultations[i].Doing_Time,
-                            Cancel_Date: Consultations[i].Cancel_Date,
-                            Cancel_Time: Consultations[i].Cancel_Time,
-                            Waiting_Time: Consultations[i].Waiting_Time,
-                            Case_Type: Consultations[i].Case_Type,
-                            Patient_First_Name:
-                                Consultations[i].Patient_First_Name,
-                            Patient_Last_Name:
-                                Consultations[i].Patient_Last_Name,
-                            Patient_ID: Consultations[i].Patient_ID,
-                            Patient_DOB: Consultations[i].Patient_DOB,
-                            Patient_Gender: Consultations[i].Patient_Gender,
-                            Service_Code: Consultations[i].Service_Code,
-                            Service_Name: Consultations[i].Service_Name,
-                            Hospital_Date: Consultations[i].Hospital_Date,
-                            Discharge_Date: Consultations[i].Discharge_Date,
-                            Order_Number: Consultations[i].Order_Number,
-                        });
-                    }
-                    if (this.selectedIndexTab == 1) {
-                        let eventIndex = {
-                            index: 1,
-                        };
-                        this.onTabChanged(eventIndex);
-                    }
+                    console.log(Response["d"]);
                     this.dataSource = new MatTableDataSource<any>(
-                        this.TABLE_DATA
+                        Response["d"]
                     );
-                    this.resultsLength = parseFloat(json["iTotalRecords"]);
-                    //;
-                    /* */
-                    //this.paginator. = parseFloat(json["iTotalRecords"]);
-                    //this.dataSource.sort = this.sort;
-                    // // ////
+                    this.resultsLength = this.dataSource.filteredData.length;
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
@@ -1277,9 +1096,9 @@ DepartsDataRequestAvgAllNotPara
                     //this.dataSource.paginator = this.paginator;
                 },
                 (error) => {
-                    // // ////;
                     $("#loader").addClass("d-none");
                 }
             );
     }
+
 }

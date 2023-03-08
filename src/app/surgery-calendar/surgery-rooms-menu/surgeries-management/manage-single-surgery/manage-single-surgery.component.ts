@@ -1,3 +1,4 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, Inject, OnInit } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
@@ -6,6 +7,7 @@ import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { environment } from 'src/environments/environment';
+import { ConfirmationDialogService } from "../../../../confirmation-dialog/confirmation-dialog.service";
 
 @Component({
   selector: 'app-manage-single-surgery',
@@ -24,20 +26,35 @@ export class ManageSingleSurgeryComponent implements OnInit {
   filteredOptionssurgeries: Observable<any[]>;
 
   constructor(
+    public datePipe: DatePipe,
     private _snackBar: MatSnackBar,
     private http: HttpClient,
     public fb: FormBuilder,
+    private confirmationDialogService: ConfirmationDialogService,
     public dialogRef: MatDialogRef<ManageSingleSurgeryComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any
   ) { }
 
   SurgeryFormGroup: FormGroup;
   SurgeryDepartments = [];
-
+  SurgeryRoomsList = [];
+  patientsList = [{
+    PM_ROW_ID: "",
+    PM_CASE_NUMBER: "",
+    PM_MOVE_DEPART_SEODE: "",
+    PM_PATIENT_GENDER: "",
+    PM_LAST_NAME: "",
+    PM_FIRST_NAME: "",
+    PM_DOB: "",
+    PM_PATIENT_ID: "",
+    RECORD_EXISTS: "",
+    ArrivalDate: "",
+  }];
 
   ngOnInit(): void {
     this.getSurgeryDepartmentsList();
     this.buildFormGroup(this.data.action);
+    this.SurgeryRoomsList = this.data.event.RoomsList;
     this.filteredOptions = this.surgeonCtrl.valueChanges.pipe(
       startWith(''),
       map(value => {
@@ -82,28 +99,30 @@ export class ManageSingleSurgeryComponent implements OnInit {
     if (action == "New") {
       this.SurgeryFormGroup = this.fb.group({
         SurgeryPatientDetails: this.fb.group({
+          PM_ROW_ID: new FormControl('', null),
           PM_PATIENT_ID: new FormControl('', Validators.required),
           PM_CASE_NUMBER: new FormControl('', null),
           PM_FIRST_NAME: new FormControl('', Validators.required),
           PM_LAST_NAME: new FormControl('', Validators.required),
           PM_PATIENT_GENDER: new FormControl('', null),
           PM_DOB: new FormControl('', null),
-          PM_MOVE_DEPART_SEODE: new FormControl('', null)
+          PM_MOVE_DEPART_SEODE: new FormControl('', null),
+          RECORD_EXISTS: new FormControl('', null)
         }),
         SurgeryRequestDepartments: this.fb.group({
           SD_Priority: new FormControl('', null),
-          SD_ROW_ID: new FormControl('', null),
-          S_DEPARTMENT: new FormControl('', null),
-          S_DEPARTMENT_NAME: new FormControl('', null),
+          SD_ROW_ID: new FormControl('', Validators.required),
+          S_DEPARTMENT: new FormControl('', Validators.required),
+          S_DEPARTMENT_NAME: new FormControl('', Validators.required),
           S_DEPARTMENT_SHORT_DESC: new FormControl('', null)
         }),
         SurgeryServicesName: this.fb.group({
           S_CATALOG: new FormControl('', null),
           S_END_DATE: new FormControl('', null),
-          S_ID: new FormControl('', null),
+          S_ID: new FormControl('', Validators.required),
           S_PRIMARY_KEY: new FormControl('', null),
-          S_ROW_ID: new FormControl('', null),
-          S_SERVICE_VAL: new FormControl('', null),
+          S_ROW_ID: new FormControl('', Validators.required),
+          S_SERVICE_VAL: new FormControl('', Validators.required),
           S_START_DATE: new FormControl('', null),
           S_SERVICE_DURATION: new FormControl('', null),
           S_SERVICE_DOC: new FormControl('', null)
@@ -112,39 +131,43 @@ export class ManageSingleSurgeryComponent implements OnInit {
           DocLicence: new FormControl('', null),
           Email: new FormControl('', null),
           EmployeeID: new FormControl('', null),
-          FirstName: new FormControl('', null),
-          LastName: new FormControl('', null),
-          RowID: new FormControl('', null),
+          FirstName: new FormControl('', Validators.required),
+          LastName: new FormControl('', Validators.required),
+          RowID: new FormControl('', Validators.required),
         }),
+        Row_ID: new FormControl(null, null),
         ArrivalDate: new FormControl('', Validators.required),
         ArrivalTime: new FormControl('', Validators.required),
+        SurgeryRoom: new FormControl(this.data.event.SurgeryRoom, Validators.required),
         EndTime: new FormControl('', null),
       });
     } else {
       this.SurgeryFormGroup = this.fb.group({
         SurgeryPatientDetails: this.fb.group({
+          PM_ROW_ID: new FormControl(this.data.event.SurgeryPatientDetails.PM_ROW_ID, null),
           PM_PATIENT_ID: new FormControl(this.data.event.SurgeryPatientDetails.PM_PATIENT_ID, Validators.required),
           PM_CASE_NUMBER: new FormControl(this.data.event.SurgeryPatientDetails.PM_CASE_NUMBER, null),
           PM_FIRST_NAME: new FormControl(this.data.event.SurgeryPatientDetails.PM_FIRST_NAME, Validators.required),
           PM_LAST_NAME: new FormControl(this.data.event.SurgeryPatientDetails.PM_LAST_NAME, Validators.required),
           PM_PATIENT_GENDER: new FormControl(this.data.event.SurgeryPatientDetails.PM_PATIENT_GENDER, null),
           PM_DOB: new FormControl(this.data.event.SurgeryPatientDetails.PM_DOB, null),
-          PM_MOVE_DEPART_SEODE: new FormControl(this.data.event.SurgeryPatientDetails.PM_MOVE_DEPART_SEODE, null)
+          PM_MOVE_DEPART_SEODE: new FormControl(this.data.event.SurgeryPatientDetails.PM_MOVE_DEPART_SEODE, null),
+          RECORD_EXISTS: new FormControl(this.data.event.SurgeryPatientDetails.RECORD_EXISTS, null)
         }),
         SurgeryRequestDepartments: this.fb.group({
           SD_Priority: new FormControl(this.data.event.SurgeryRequestDepartments.SD_Priority, null),
-          SD_ROW_ID: new FormControl(this.data.event.SurgeryRequestDepartments.SD_ROW_ID, null),
-          S_DEPARTMENT: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT, null),
-          S_DEPARTMENT_NAME: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT_NAME, null),
+          SD_ROW_ID: new FormControl(this.data.event.SurgeryRequestDepartments.SD_ROW_ID, Validators.required),
+          S_DEPARTMENT: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT, Validators.required),
+          S_DEPARTMENT_NAME: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT_NAME, Validators.required),
           S_DEPARTMENT_SHORT_DESC: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT_SHORT_DESC, null)
         }),
         SurgeryServicesName: this.fb.group({
           S_CATALOG: new FormControl(this.data.event.SurgeryServicesName.S_CATALOG, null),
           S_END_DATE: new FormControl(this.data.event.SurgeryServicesName.S_END_DATE, null),
-          S_ID: new FormControl(this.data.event.SurgeryServicesName.S_ID, null),
+          S_ID: new FormControl(this.data.event.SurgeryServicesName.S_ID, Validators.required),
           S_PRIMARY_KEY: new FormControl(this.data.event.SurgeryServicesName.S_PRIMARY_KEY, null),
-          S_ROW_ID: new FormControl(this.data.event.SurgeryServicesName.S_ROW_ID, null),
-          S_SERVICE_VAL: new FormControl(this.data.event.SurgeryServicesName.S_SERVICE_VAL, null),
+          S_ROW_ID: new FormControl(this.data.event.SurgeryServicesName.S_ROW_ID, Validators.required),
+          S_SERVICE_VAL: new FormControl(this.data.event.SurgeryServicesName.S_SERVICE_VAL, Validators.required),
           S_START_DATE: new FormControl(this.data.event.SurgeryServicesName.S_START_DATE, null),
           S_SERVICE_DURATION: new FormControl(this.data.event.SurgeryServicesName.S_SERVICE_DURATION, null),
           S_SERVICE_DOC: new FormControl(this.data.event.SurgeryServicesName.S_SERVICE_DOC, null)
@@ -153,16 +176,19 @@ export class ManageSingleSurgeryComponent implements OnInit {
           DocLicence: new FormControl(this.data.event.DoctorSurgeon.DocLicence, null),
           Email: new FormControl(this.data.event.DoctorSurgeon.Email, null),
           EmployeeID: new FormControl(this.data.event.DoctorSurgeon.EmployeeID, null),
-          FirstName: new FormControl(this.data.event.DoctorSurgeon.FirstName, null),
-          LastName: new FormControl(this.data.event.DoctorSurgeon.LastName, null),
-          RowID: new FormControl(this.data.event.DoctorSurgeon.RowID, null),
+          FirstName: new FormControl(this.data.event.DoctorSurgeon.FirstName, Validators.required),
+          LastName: new FormControl(this.data.event.DoctorSurgeon.LastName, Validators.required),
+          RowID: new FormControl(this.data.event.DoctorSurgeon.RowID, Validators.required),
         }),
+        Row_ID: new FormControl(this.data.event.Row_ID, Validators.required),
         ArrivalDate: new FormControl(this.data.event.start, Validators.required),
         ArrivalTime: new FormControl(this.data.event.ArrivalTime, Validators.required),
+        SurgeryRoom: new FormControl(this.data.event.SurgeryRoom, Validators.required),
         EndTime: new FormControl(this.data.event.EndTime, null),
       });
       this.surgeonCtrl.setValue(this.SurgeryFormGroup.controls['DoctorSurgeon'].value);
       this.surgeriesCtrl.setValue(this.SurgeryFormGroup.controls['SurgeryServicesName'].value);
+      this.calculateSurgeryDuration('endTime');
     }
   }
 
@@ -172,11 +198,53 @@ export class ManageSingleSurgeryComponent implements OnInit {
     this.SurgeryFormGroup.controls['SurgeryRequestDepartments'].setValue(department[0]);
   }
 
-  saveSurgeyDetails() {
-    if (this.checkAutoCompleteSelection()) {
-      this.SurgeryFormGroup.controls['DoctorSurgeon'].setValue(this.surgeonCtrl.value);
-      this.SurgeryFormGroup.controls['SurgeryServicesName'].setValue(this.surgeriesCtrl.value);
-      console.log(this.SurgeryFormGroup.value);
+  selectedSurgeryRoom(surgeryRoomRowID) {
+    this.SurgeryFormGroup.controls['SurgeryRoom'].setValue(surgeryRoomRowID);
+  }
+
+  calculateSurgeryDuration(type) {
+    let datefordiff = this.datePipe.transform(this.SurgeryFormGroup.value.ArrivalDate, 'yyyy-MM-dd');
+    let before = new Date(datefordiff + ' ' + this.SurgeryFormGroup.value.ArrivalTime);
+    let after = new Date(datefordiff + ' ' + this.SurgeryFormGroup.value.EndTime);
+    if (type == 'endTime') {
+      let diff = Math.abs(after.getTime() - before.getTime());//difference in time
+      let hours = Math.floor((diff % 86400000) / 3600000);//hours
+      let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
+      this.SurgeryFormGroup.controls['SurgeryServicesName']['controls'].S_SERVICE_DURATION.setValue(hours + '.' + minutes);
+    } else {
+      let duration = this.SurgeryFormGroup.value.SurgeryServicesName.S_SERVICE_DURATION;
+      after.setTime(before.getTime() + (duration * 60 * 60 * 1000));
+      this.SurgeryFormGroup.controls['EndTime'].setValue(this.datePipe.transform(after, 'HH:mm'));
+    }
+  }
+
+  checkIfPatientExists() {
+    if (this.SurgeryFormGroup.value.SurgeryPatientDetails.PM_PATIENT_ID == "") {
+      this.openSnackBar("לא הקלדת ת.ז של מטופל");
+    } else {
+      this.http
+        .post(environment.url + "GetSurgeryCalendarPatientDetailsByIdNumber", {
+          IDNumber: this.SurgeryFormGroup.value.SurgeryPatientDetails.PM_PATIENT_ID
+        })
+        .subscribe((Response) => {
+          this.patientsList = Response["d"];
+          if (this.patientsList.length == 0) {
+            this.openSnackBar("מטופל לא נמצא, הקלד ידנית");
+          } else {
+            let patientDetails = {
+              PM_ROW_ID: this.patientsList[0].PM_ROW_ID,
+              PM_CASE_NUMBER: this.patientsList[0].PM_CASE_NUMBER,
+              PM_MOVE_DEPART_SEODE: this.patientsList[0].PM_MOVE_DEPART_SEODE,
+              PM_PATIENT_GENDER: this.patientsList[0].PM_PATIENT_GENDER,
+              PM_LAST_NAME: this.patientsList[0].PM_LAST_NAME,
+              PM_FIRST_NAME: this.patientsList[0].PM_FIRST_NAME,
+              PM_DOB: this.patientsList[0].PM_DOB,
+              PM_PATIENT_ID: this.patientsList[0].PM_PATIENT_ID,
+              RECORD_EXISTS: this.patientsList[0].RECORD_EXISTS,
+            }
+            this.SurgeryFormGroup.controls['SurgeryPatientDetails'].setValue(patientDetails);
+          }
+        });
     }
   }
 
@@ -192,6 +260,8 @@ export class ManageSingleSurgeryComponent implements OnInit {
     return true;
   }
 
+
+
   getSurgeryDepartmentsList() {
     this.http
       .post(environment.url + "GetSurgeriesServicesNames", {
@@ -201,6 +271,48 @@ export class ManageSingleSurgeryComponent implements OnInit {
         this.surgeriesList = Response["d"].surgeriesList;
         this.surgeonsList = Response["d"].surgeonsList;
       });
+  }
+
+  saveSurgeryDetails() {
+    try {
+      this.SurgeryFormGroup.controls['DoctorSurgeon'].setValue(this.surgeonCtrl.value);
+      this.SurgeryFormGroup.controls['SurgeryServicesName'].setValue(this.surgeriesCtrl.value);
+      this.SurgeryFormGroup.controls['ArrivalDate'].setValue(this.datePipe.transform(this.SurgeryFormGroup.value.ArrivalDate, 'yyyy-MM-dd'));
+    } catch (err) {
+      this.openSnackBar("שדות לא מולאו");
+    }
+    if (this.checkAutoCompleteSelection() && !this.SurgeryFormGroup.invalid) {
+      this.confirmationDialogService
+        .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+        .then((confirmed) => {
+          console.log("User confirmed:", confirmed);
+          if (confirmed) {
+            this.http
+              .post(environment.url + "SubmitNewOrUpdateCalendarSurgeryRecord", {
+                surgeryFormData: this.SurgeryFormGroup.value
+              })
+              .subscribe((Response) => {
+                if (Response["d"] == "Saved") {
+                  this.openSnackBar("נשמר בהצלחה");
+                  this.dialogRef.close(Response["d"]);
+                } else if (Response["d"] == "Exists") {
+                  this.openSnackBar("לא נשמר, מתוכנן ניתוח באותו מקום באותו זמן");
+                } else {
+                  this.openSnackBar("משהו השתבש, לא נשמר!");
+                }
+              });
+          } else {
+          }
+        })
+        .catch(() =>
+          console.log(
+            "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+          )
+        );
+
+    } else {
+      this.openSnackBar("שכחת למלא שדה חובה");
+    }
   }
 
   openSnackBar(message) {

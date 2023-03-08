@@ -132,9 +132,9 @@ export class SurgeriesManagementComponent {
 
   ngOnInit(): void {
     if (this.UserName != null) {
-      this.viewDate = this.data.start;
+      this.viewDate = this.data.room.start;
       // let day = this.datePipe.transform(this.viewDate, 'dd');
-      this.getPatientsQueues(this.viewDate, this.data.SurgeryRoom);
+      this.getPatientsQueues(this.viewDate, this.data.room.SurgeryRoom);
     }
     this.setView(CalendarView.Day);
   }
@@ -171,14 +171,18 @@ export class SurgeriesManagementComponent {
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
+    if (event == undefined) event = this.data.room;
+    event['SurgeryRooms'] = this.data.room.SurgeryRoom;
+    event['RoomsList'] = this.data.roomsList;
     let dialogRef = this.dialog.open(ManageSingleSurgeryComponent, {
       data: {
         event: event,
         action: action
-      }
+      },
+      disableClose: true
     });
     dialogRef.afterClosed().subscribe(res => {
-      console.log(res);
+      if (res != "") this.getPatientsQueues(this.viewDate, this.data.room.SurgeryRoom);
     })
   }
 
@@ -239,7 +243,7 @@ export class SurgeriesManagementComponent {
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-          that.getPatientsQueues(this.viewDate, this.data.SurgeryRoom);
+          that.getPatientsQueues(this.viewDate, this.data.room.SurgeryRoom);
         });
     }, 1000)
 
@@ -257,12 +261,17 @@ export class SurgeriesManagementComponent {
       .subscribe((Response) => {
         let tempArr = [];
         tempArr = Response["d"];
+        let tempTitle;
         tempArr['SurgeriesCalendarClassList'].forEach(element => {
-          element.start = new Date(element.ArrivalDate);
-          element.end = new Date(element.EndDate);
-          let tempTitle = `מספר מקרה: <b>${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> - שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b> - מחלקה מזמינה: 
+          if (element.SurgeryPatientDetails == null) {
+            tempTitle = `<h6 class="text-center"><b>זמן הכנה משעה: </b>${element.ArrivalDate.split(' ')[1]}</h6>`;
+          } else {
+            tempTitle = `מספר מקרה: <b>${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> - שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b> - מחלקה מזמינה: 
           <b>${element.SurgeryRequestDepartments.S_DEPARTMENT_NAME}</b> <br> ניתוח: <b>${element.SurgeryServicesName.S_SERVICE_VAL}</b> 
           - שעת תחילה: <b>${element.ArrivalDate.split(' ')[1]}</b> - שעת סיום: <b>${element.EndDate.split(' ')[1]}</b>`;
+          }
+          element.start = new Date(element.ArrivalDate);
+          element.end = new Date(element.EndDate);
           element.title = tempTitle;
           element.resizable = {
             beforeStart: true,

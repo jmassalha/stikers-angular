@@ -2,7 +2,7 @@
     justify-content: center;
 }
 .card{
-    font-weight: bold;
+    align-items: center;
     padding: 50px;
     margin: 16px;
 }

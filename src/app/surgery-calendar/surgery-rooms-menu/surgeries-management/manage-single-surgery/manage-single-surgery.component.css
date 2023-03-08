@@ -5,7 +5,7 @@
 
 .row-btn {
     width: 100%;
-    justify-content: left;
+    /* justify-content: left; */
 }
 
 /* form {
@@ -41,4 +41,10 @@
   
   .example-full-width {
     width: 100%;
+  }
+  h2, ul{
+    color: red;
+  }
+  .exists-info{
+    float: right;
   }
