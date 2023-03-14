@@ -8,11 +8,16 @@
         <mat-icon>close</mat-icon>
     </button>
     <div class="row">
-        <h4>{{data.event.day.date | date: 'dd-MM-yyyy'}} -- יום {{todaysName}}</h4>
+        <h4><span>יום {{todaysName}}</span><span>{{data.event.day.date | date: 'dd-MM-yyyy'}}</span></h4>
     </div>
+    <hr>
     <div class="row">
-        <div class="card" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room);">
-            <b> <u>{{room.RoomGroupDesc}} {{room.SurgeryRoomDesc}} </u> </b> <br> מספר ניתוחים:
+        <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room);">
+            <b> <u> {{room.RoomGroupDesc}} {{room.SurgeryRoomDesc}} </u> </b>
+            <br>
+            <b> {{room.S_DEPARTMENT_NAME}} </b>
+            <br>
+            מספר ניתוחים:
             <b>{{room.NumberOfSurgeries}}</b>
         </div>
     </div>

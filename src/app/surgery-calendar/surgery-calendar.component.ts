@@ -148,15 +148,10 @@ export class SurgeryCalendarComponent implements OnInit {
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, event): void {
     if (isSameMonth(date, this.viewDate)) {
-      if (
-        (isSameDay(this.viewDate, date) || events.length === 0)
-      ) {
+      this.viewDate = date;
         this.activeDayIsOpen = false;
         this.handleEvent('NewEvent', event);
-      } else {
-        // this.activeDayIsOpen = true;
-      }
-      this.viewDate = date;
+      
     }
   }
 
@@ -179,8 +174,7 @@ export class SurgeryCalendarComponent implements OnInit {
   handleEvent(action: string, event: CalendarEvent): void {
     this.modalData = { event, action };
     const dialogRef = this.dialog.open(SurgeryRoomsMenuComponent, {
-      data: this.modalData,
-      disableClose: true
+      data: this.modalData
     })
     dialogRef.afterClosed().subscribe(result => {
       let month = this.datePipe.transform(this.viewDate, 'MM');

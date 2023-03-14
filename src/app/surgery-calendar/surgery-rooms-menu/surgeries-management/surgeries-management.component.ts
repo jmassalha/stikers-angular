@@ -70,7 +70,7 @@ export class SurgeriesManagementComponent {
   CalendarView = CalendarView;
 
   viewDate: Date;
-  locale: string = 'he';
+  locale: string = 'en';
   _actionsList = [];
   modalData: {
     action: string;
@@ -139,6 +139,9 @@ export class SurgeriesManagementComponent {
     this.setView(CalendarView.Day);
   }
 
+  setView(view: CalendarView) {
+    this.view = view;
+  }
 
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, event): void {
     if (isSameMonth(date, this.viewDate)) {
@@ -167,7 +170,6 @@ export class SurgeriesManagementComponent {
       }
       return iEvent;
     });
-    // this.handleEvent('Dropped or resized', event);
   }
 
   handleEvent(action: string, event: CalendarEvent): void {
@@ -186,36 +188,6 @@ export class SurgeriesManagementComponent {
     })
   }
 
-  SetNewTime(event2, event) {
-    event.patientAction.ArrivalTime = event2;//.srcElement.defaultValue.split('T')[1];
-  }
-
-  addEvent(event): void {
-
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent, day) {
-    this.http
-      .post(environment.url + "DeleteEventInCalendarCardiology", {
-        _rowID: eventToDelete.patientAction.Row_ID
-      })
-      .subscribe((Response) => {
-        if (Response["d"]) {
-          this.openSnackBar("נמחק בהצלחה");
-        } else {
-          this.openSnackBar("משהו השתבש, לא נמחק");
-        }
-        let thisDate = this.datePipe.transform(day, 'yyyy-MM-dd');
-        let thisDateEvents = this.events.filter(t => this.datePipe.transform(t.patientAction.ArrivalDate, 'yyyy-MM-dd') === thisDate);
-        this.events = this.events.filter((event) => event !== eventToDelete);
-        thisDateEvents = thisDateEvents.filter((event) => event !== eventToDelete);
-        this.modalData.event["day"]["events"] = thisDateEvents;
-      });
-  }
-
-  setView(view: CalendarView) {
-    this.view = view;
-  }
 
   closeOpenDayViewDay() {
     let month = this.datePipe.transform(this.viewDate, 'dd');
@@ -267,16 +239,16 @@ export class SurgeriesManagementComponent {
             tempTitle = `<h6 class="text-center"><b>זמן הכנה משעה: </b>${element.ArrivalDate.split(' ')[1]}</h6>`;
           } else {
             tempTitle = `מספר מקרה: <b>${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> - שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b> - מחלקה מזמינה: 
-          <b>${element.SurgeryRequestDepartments.S_DEPARTMENT_NAME}</b> <br> ניתוח: <b>${element.SurgeryServicesName.S_SERVICE_VAL}</b> 
+          <b>${element.SurgeryRequestDepartments.S_DEPARTMENT}</b> <br> ניתוח: <b>${element.SurgeryServicesName.S_SERVICE_VAL}</b> 
           - שעת תחילה: <b>${element.ArrivalDate.split(' ')[1]}</b> - שעת סיום: <b>${element.EndDate.split(' ')[1]}</b>`;
           }
           element.start = new Date(element.ArrivalDate);
           element.end = new Date(element.EndDate);
           element.title = tempTitle;
-          element.resizable = {
-            beforeStart: true,
-            afterEnd: true,
-          }
+          // element.resizable = {
+          //   beforeStart: true,
+          //   afterEnd: true,
+          // }
           element.draggable = true;
           this.events.push(element);
         });

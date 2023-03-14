@@ -72,8 +72,10 @@ export class ManageSingleSurgeryComponent implements OnInit {
   }
 
   displayFnSurgery(surgery: any): string {
+    delete surgery.__type;
     return surgery && surgery.S_SERVICE_VAL ? surgery.S_SERVICE_VAL : '';
   }
+
 
   displayFnSurgeon(user: any): string {
     let fullName = user;
@@ -111,9 +113,9 @@ export class ManageSingleSurgeryComponent implements OnInit {
         }),
         SurgeryRequestDepartments: this.fb.group({
           SD_Priority: new FormControl('', null),
-          SD_ROW_ID: new FormControl('', Validators.required),
+          SD_ROW_ID: new FormControl('', null),
           S_DEPARTMENT: new FormControl('', Validators.required),
-          S_DEPARTMENT_NAME: new FormControl('', Validators.required),
+          S_DEPARTMENT_NAME: new FormControl('', null),
           S_DEPARTMENT_SHORT_DESC: new FormControl('', null)
         }),
         SurgeryServicesName: this.fb.group({
@@ -135,11 +137,13 @@ export class ManageSingleSurgeryComponent implements OnInit {
           LastName: new FormControl('', Validators.required),
           RowID: new FormControl('', Validators.required),
         }),
+        AdditionalDetails: this.buildAdditionalFormGroupByDepartment(""),
         Row_ID: new FormControl(null, null),
-        ArrivalDate: new FormControl('', Validators.required),
+        ArrivalDate: new FormControl(this.data.event.start, Validators.required),
         ArrivalTime: new FormControl('', Validators.required),
         SurgeryRoom: new FormControl(this.data.event.SurgeryRoom, Validators.required),
-        EndTime: new FormControl('', null),
+        EndTime: new FormControl({ value: '', disabled: true }, null),
+        LastUpdateUserName: new FormControl({ value: localStorage.getItem('loginUserName'), disabled: true }, null),
       });
     } else {
       this.SurgeryFormGroup = this.fb.group({
@@ -156,9 +160,9 @@ export class ManageSingleSurgeryComponent implements OnInit {
         }),
         SurgeryRequestDepartments: this.fb.group({
           SD_Priority: new FormControl(this.data.event.SurgeryRequestDepartments.SD_Priority, null),
-          SD_ROW_ID: new FormControl(this.data.event.SurgeryRequestDepartments.SD_ROW_ID, Validators.required),
+          SD_ROW_ID: new FormControl(this.data.event.SurgeryRequestDepartments.SD_ROW_ID, null),
           S_DEPARTMENT: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT, Validators.required),
-          S_DEPARTMENT_NAME: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT_NAME, Validators.required),
+          S_DEPARTMENT_NAME: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT_NAME, null),
           S_DEPARTMENT_SHORT_DESC: new FormControl(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT_SHORT_DESC, null)
         }),
         SurgeryServicesName: this.fb.group({
@@ -180,32 +184,162 @@ export class ManageSingleSurgeryComponent implements OnInit {
           LastName: new FormControl(this.data.event.DoctorSurgeon.LastName, Validators.required),
           RowID: new FormControl(this.data.event.DoctorSurgeon.RowID, Validators.required),
         }),
+        AdditionalDetails: this.buildAdditionalFormGroupByDepartment(this.data.event.AdditionalDetails),
         Row_ID: new FormControl(this.data.event.Row_ID, Validators.required),
         ArrivalDate: new FormControl(this.data.event.start, Validators.required),
         ArrivalTime: new FormControl(this.data.event.ArrivalTime, Validators.required),
         SurgeryRoom: new FormControl(this.data.event.SurgeryRoom, Validators.required),
-        EndTime: new FormControl(this.data.event.EndTime, null),
+        EndTime: new FormControl({ value: this.data.event.EndTime, disabled: true }, null),
+        LastUpdateUserName: new FormControl({ value: localStorage.getItem('loginUserName'), disabled: true }, null),
       });
       this.surgeonCtrl.setValue(this.SurgeryFormGroup.controls['DoctorSurgeon'].value);
       this.surgeriesCtrl.setValue(this.SurgeryFormGroup.controls['SurgeryServicesName'].value);
       this.calculateSurgeryDuration('endTime');
     }
+    this.enableDisableSurgeryNameSelect();
+  }
+
+  buildAdditionalFormGroupByDepartment(details) {
+    /*
+    אף אוזן וגרון 11
+    אורתופדיה 2
+    כירורגיה 1
+    אורולוגיה 8 
+    פה ולסת 24
+    טיפול נמרץ לב 16
+    חדר לידה ??
+    פלסטיקה 18
+    נשים 13
+    קרדיולוגיה 20
+    כירורגיה חזה 38
+    */
+    let x: FormGroup;
+    x = this.fb.group({
+      LAP_OR_OPEN: new FormControl(details.LAP_OR_OPEN, null),
+      SIDE: new FormControl(details.SIDE, null),
+      LEYING_POSITION: new FormControl(details.LEYING_POSITION, null),
+      ISOLATION: new FormControl(details.ISOLATION, null),
+      BLOOD_BANK: new FormControl(details.BLOOD_BANK, null),
+      NOTE: new FormControl(details.NOTE, null),
+      TOOLS: new FormControl(details.TOOLS, null),
+      ANESTHESIA: new FormControl(details.ANESTHESIA, null),
+      DIMOT: new FormControl(details.DIMOT, null),
+      HOSPITALIZATION: new FormControl(details.HOSPITALIZATION, null),
+    });
+
+    // switch (department.SD_ROW_ID) {
+    //   case 11:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 2:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 1:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 8:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 24:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 16:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 0:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 18:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 13:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 20:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    //   case 38:
+    //     x = this.fb.group({
+
+    //     });
+    //     break;
+    // }
+    return x;
   }
 
   selectedRequestedDepartment(departmentRowID) {
-    let department = this.SurgeryDepartments.filter(x => x.SD_ROW_ID == departmentRowID);
+    let department = this.SurgeryDepartments.filter(x => x.S_DEPARTMENT == departmentRowID);
     delete department[0].__type;
     this.SurgeryFormGroup.controls['SurgeryRequestDepartments'].setValue(department[0]);
+    // build the additional fields of the form by the requesting department
+    this.buildAdditionalFormGroupByDepartment(department[0]);
+    // get surgery names by requested department
+    this.getSurgeriesByRequestedDepartment(department);
+  }
+
+  getSurgeriesByRequestedDepartment(department) {
+    this.http
+      .post(environment.url + "GetAllSurgeryServicesNameByRequestingDepartment", {
+        _requestingDepartmentCode: department[0].S_DEPARTMENT
+      })
+      .subscribe((Response) => {
+        this.surgeriesList = Response["d"];
+        // update the surgery names list after getting a response
+        this.filteredOptionssurgeries = this.surgeriesCtrl.valueChanges.pipe(
+          startWith(''),
+          map(value => {
+            const name = typeof value === 'string' ? value : value?.S_SERVICE_VAL;
+            return name ? this._filter2(name as string) : this.surgeriesList.slice();
+          }),
+        );
+      });
   }
 
   selectedSurgeryRoom(surgeryRoomRowID) {
     this.SurgeryFormGroup.controls['SurgeryRoom'].setValue(surgeryRoomRowID);
   }
 
+  selectedSurgeryServiceName() {
+    if (this.surgeriesCtrl.value != "") {
+      setTimeout(() => {
+        this.SurgeryFormGroup.controls['SurgeryServicesName'].setValue(this.surgeriesCtrl.value);
+        this.calculateSurgeryDuration('duration');
+      }, 500);
+    }
+  }
+
+  enableDisableSurgeryNameSelect() {
+    if (this.SurgeryFormGroup.controls['ArrivalTime'].value == "" || this.SurgeryFormGroup.controls['ArrivalDate'].value == "" || this.SurgeryFormGroup.controls['ArrivalDate'].value == null) {
+      this.surgeriesCtrl.disable();
+    } else {
+      this.surgeriesCtrl.enable();
+    }
+  }
+
   calculateSurgeryDuration(type) {
     let datefordiff = this.datePipe.transform(this.SurgeryFormGroup.value.ArrivalDate, 'yyyy-MM-dd');
     let before = new Date(datefordiff + ' ' + this.SurgeryFormGroup.value.ArrivalTime);
-    let after = new Date(datefordiff + ' ' + this.SurgeryFormGroup.value.EndTime);
+    let after = new Date(datefordiff + ' ' + this.SurgeryFormGroup.getRawValue().EndTime);
     if (type == 'endTime') {
       let diff = Math.abs(after.getTime() - before.getTime());//difference in time
       let hours = Math.floor((diff % 86400000) / 3600000);//hours
@@ -267,8 +401,15 @@ export class ManageSingleSurgeryComponent implements OnInit {
       .post(environment.url + "GetSurgeriesServicesNames", {
       })
       .subscribe((Response) => {
-        this.SurgeryDepartments = Response["d"].surgeryRequestDepartments;
-        this.surgeriesList = Response["d"].surgeriesList;
+        // get the requested departments list only if its new or the day is empty of surgeries
+
+        // get the surgeries by the department code on edit view
+        if (this.data.event.SurgeryRequestDepartments != undefined) {
+          this.SurgeryDepartments = [this.data.event.SurgeryRequestDepartments];
+          this.selectedRequestedDepartment(this.data.event.SurgeryRequestDepartments.S_DEPARTMENT);
+        } else {
+          this.SurgeryDepartments = Response["d"].surgeryRequestDepartments;
+        }
         this.surgeonsList = Response["d"].surgeonsList;
       });
   }
@@ -276,7 +417,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
   saveSurgeryDetails() {
     try {
       this.SurgeryFormGroup.controls['DoctorSurgeon'].setValue(this.surgeonCtrl.value);
-      this.SurgeryFormGroup.controls['SurgeryServicesName'].setValue(this.surgeriesCtrl.value);
+      // this.SurgeryFormGroup.controls['SurgeryServicesName'].setValue(this.surgeriesCtrl.value);
       this.SurgeryFormGroup.controls['ArrivalDate'].setValue(this.datePipe.transform(this.SurgeryFormGroup.value.ArrivalDate, 'yyyy-MM-dd'));
     } catch (err) {
       this.openSnackBar("שדות לא מולאו");
@@ -289,7 +430,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
           if (confirmed) {
             this.http
               .post(environment.url + "SubmitNewOrUpdateCalendarSurgeryRecord", {
-                surgeryFormData: this.SurgeryFormGroup.value
+                surgeryFormData: this.SurgeryFormGroup.getRawValue()
               })
               .subscribe((Response) => {
                 if (Response["d"] == "Saved") {

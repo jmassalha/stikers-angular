@@ -2,3 +2,11 @@
     width: 100%;
     text-align: left;
 }
+
+.add-btn {
+    background: linear-gradient(120deg, rgb(201, 193, 75), rgb(250, 250, 250));
+}
+
+.add-btn:hover {
+    transform: scale(1.2);
+}
