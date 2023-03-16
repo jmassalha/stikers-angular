@@ -150,7 +150,7 @@ export class ManageClinicPriceComponent implements OnInit {
       teeth: []
     };
     for (let i = 5; i <= 8; i++) {
-      for (let j = 1; j <= 4; j++) {
+      for (let j = 1; j <= 5; j++) {
         let obj = {
           id: i,
           value: (i + '' + j).toString()
