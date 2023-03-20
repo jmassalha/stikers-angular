@@ -83,27 +83,27 @@
                                     <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 2 </th>
                                     <td mat-cell *matCellDef="let element"> {{element.IpAddress2}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="pc3">
                                     <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 3 </th>
                                     <td mat-cell *matCellDef="let element"> {{element.IpAddress3}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="pc4">
                                     <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 4 </th>
                                     <td mat-cell *matCellDef="let element"> {{element.IpAddress4}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="pc5">
                                     <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 5 </th>
                                     <td mat-cell *matCellDef="let element"> {{element.IpAddress5}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="pc6">
                                     <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 6 </th>
                                     <td mat-cell *matCellDef="let element"> {{element.IpAddress6}} </td>
                                 </ng-container>
-                                
+
                                 <ng-container matColumnDef="pc7">
                                     <th mat-header-cell *matHeaderCellDef> הרשאה למחשב 7 </th>
                                     <td mat-cell *matCellDef="let element"> {{element.IpAddress7}} </td>
@@ -176,3 +176,31 @@
         <button mat-raised-button color="primary" mat-dialog-close (click)="submitUpdate()">בצע</button>
     </div>
 </ng-template>
+<div class="container pb-5" dir="rtl" *ngIf="permission">
+    <form dir="rtl" class="form col">
+        <div class="row">
+            <div class="col-12 bedsUpdate">
+                <h2>chatGpt</h2>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>הכנס שאלה</mat-label>
+                                <input matInput type="text" [(ngModel)]="chatGpt" [ngModelOptions]="{standalone: true}"
+                                    style="font-family: 'math';font-weight: bolder;font-size: 18px;">
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <button (click)="run()"><a style="color: blue">שאל</a></button>
+                </div>
+                <div class="row">
+                    <mat-progress-bar mode="indeterminate" *ngIf="loadingGpt"></mat-progress-bar>
+                    <div class="col-12" *ngIf="!loadingGpt">
+                        תשובה: <br>
+                        <p style="white-space: pre-line">{{chatGptAnswer}}</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+</div>

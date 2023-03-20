@@ -8,6 +8,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { map, startWith } from 'rxjs/operators';
 import { ConfirmationDialogService } from 'src/app/confirmation-dialog/confirmation-dialog.service';
+import { environment } from 'src/environments/environment';
 
 const ELEMENT_DATA: any[] = [];
 @Component({
@@ -33,6 +34,10 @@ export class DevManageComponent implements OnInit {
   IpAddress6: any;
   IpAddress7: any;
   TabletAddress: any;
+  loadingGpt: boolean = false;
+  chatGpt: any;
+  chatGptAnswer: any;
+  OPENAI_API_KEY = environment.OPENAI_API_KEY;
 
   constructor(public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -63,6 +68,36 @@ export class DevManageComponent implements OnInit {
       );
     this.getNursesUsersToUpdatePermission();
   }
+
+
+  run = async () => {
+    this.loadingGpt = true;
+    const options = {
+      method: "POST",
+      headers: {
+        Authorization: `Bearer ${this.OPENAI_API_KEY}`,
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        model: "gpt-3.5-turbo",
+        messages: [
+          {
+            role: "user",
+            content: this.chatGpt,
+          },
+        ],
+      }),
+    };
+
+    const chatGPTResults = await fetch(
+      "https://api.openai.com/v1/chat/completions",
+      options
+    ).then((res) => res.json());
+    this.loadingGpt = false;
+    this.chatGptAnswer = chatGPTResults.choices[0].message.content;
+    // console.log("ChatGPT says:", JSON.stringify(chatGPTResults, null, 2));
+  };
+
 
   private _filter2(value: string): string[] {
     const filterValue2 = value;
@@ -104,9 +139,9 @@ export class DevManageComponent implements OnInit {
         TabletAddress: this.TabletAddress
       })
       .subscribe((Response) => {
-        if(Response["d"]){
+        if (Response["d"]) {
           this.openSnackBar("התחלף בהצלחה");
-        }else{
+        } else {
           this.openSnackBar("משהו השתבש");
         }
       });

@@ -88,7 +88,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
 
-    return this.surgeonsList.filter(option => option.FirstName.toLowerCase().includes(filterValue));
+    return this.surgeonsList.filter(option => option.FirstName.toLowerCase().includes(filterValue) || option.LastName.toLowerCase().includes(filterValue));
   }
 
   private _filter2(name: string): any[] {
