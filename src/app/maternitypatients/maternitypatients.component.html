@@ -401,6 +401,7 @@
         <th>מספר טלפון</th>
         <th>תאריך לידה משוער</th>
         <th>שבוע היריון</th>
+        <th>ילדה בביה"ח</th>
 
     </tr>
     <tr *ngFor="let mat of dataSource.filteredData">
@@ -412,5 +413,6 @@
         <td> {{mat.PatientMobile}} </td>
         <td> {{mat.PatientPregnancyDOB}} </td>
         <td> {{mat.PatientPregnancyWeekAtInsert}} </td>
+        <td> {{mat.H_MOTHER_ID}} </td>
     </tr>
 </table>

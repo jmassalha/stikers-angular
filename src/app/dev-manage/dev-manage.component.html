@@ -182,12 +182,23 @@
             <div class="col-12 bedsUpdate">
                 <h2>chatGpt</h2>
                 <div class="row">
-                    <div class="col-12">
+                    <div class="col-6">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>הכנס טוקין אישי</mat-label>
+                                <input matInput type="text" [(ngModel)]="chatGptToken"
+                                    [ngModelOptions]="{standalone: true}"
+                                    style="font-family: 'math';font-weight: bolder;font-size: 18px;" />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-6">
                         <div class="form-group">
                             <mat-form-field>
                                 <mat-label>הכנס שאלה</mat-label>
-                                <input matInput type="text" [(ngModel)]="chatGpt" [ngModelOptions]="{standalone: true}"
-                                    style="font-family: 'math';font-weight: bolder;font-size: 18px;">
+                                <textarea matInput type="text" [(ngModel)]="chatGpt"
+                                    [ngModelOptions]="{standalone: true}"
+                                    style="font-family: 'math';font-weight: bolder;font-size: 18px;"></textarea>
                             </mat-form-field>
                         </div>
                     </div>
@@ -195,9 +206,9 @@
                 </div>
                 <div class="row">
                     <mat-progress-bar mode="indeterminate" *ngIf="loadingGpt"></mat-progress-bar>
-                    <div class="col-12" *ngIf="!loadingGpt">
+                    <div class="col-12" *ngFor="let answer of chatGptAnswerlist">
                         תשובה: <br>
-                        <p style="white-space: pre-line">{{chatGptAnswer}}</p>
+                        <p style="white-space: pre-line" *ngIf="!loadingGpt">{{answer}}</p>
                     </div>
                 </div>
             </div>

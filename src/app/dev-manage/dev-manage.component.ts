@@ -36,8 +36,8 @@ export class DevManageComponent implements OnInit {
   TabletAddress: any;
   loadingGpt: boolean = false;
   chatGpt: any;
-  chatGptAnswer: any;
-  OPENAI_API_KEY = environment.OPENAI_API_KEY;
+  chatGptToken: any;
+  chatGptAnswerlist: any = [];
 
   constructor(public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -75,7 +75,7 @@ export class DevManageComponent implements OnInit {
     const options = {
       method: "POST",
       headers: {
-        Authorization: `Bearer ${this.OPENAI_API_KEY}`,
+        Authorization: `Bearer ${this.chatGptToken}`,
         "Content-Type": "application/json",
       },
       body: JSON.stringify({
@@ -94,7 +94,7 @@ export class DevManageComponent implements OnInit {
       options
     ).then((res) => res.json());
     this.loadingGpt = false;
-    this.chatGptAnswer = chatGPTResults.choices[0].message.content;
+    this.chatGptAnswerlist.push(chatGPTResults.choices[0].message.content);
     // console.log("ChatGPT says:", JSON.stringify(chatGPTResults, null, 2));
   };
 

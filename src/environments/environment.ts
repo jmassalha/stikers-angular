@@ -4,8 +4,7 @@
 
 export const environment = {
   url: 'http://localhost:64964/WebService.asmx/',
-  production: false,
-  OPENAI_API_KEY: "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"
+  production: false
 };
 
 /*

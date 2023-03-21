@@ -15,10 +15,10 @@ export class LoginComponent implements OnInit {
         private http: HttpClient,
         private router: Router,
         private mMenuPerm: MenuPerm
-    ) {}
+    ) { }
     username: string;
     password: string;
-    hide : boolean = true;
+    hide: boolean = true;
 
     ngOnInit() {
         if (
@@ -30,7 +30,7 @@ export class LoginComponent implements OnInit {
     }
     hidePassword() {
         this.hide = !this.hide;
-      }
+    }
     login(): void {
         $("#loader").removeClass("d-none");
         if (this.username && this.password) {
@@ -41,14 +41,17 @@ export class LoginComponent implements OnInit {
                 })
                 .subscribe(
                     response => {
+                        this.snackBar.open("Login Data -- " + JSON.stringify(response["d"]), "X", {
+                            duration: 2000
+                        });
                         $("#loader").addClass("d-none");
                         var arrRes = (response["d"]).split(' -');
-                        
-                        if (arrRes[0].replace('"','') == "TRUE") {
-                            
+
+                        if (arrRes[0].replace('"', '') == "TRUE") {
+
                             this.mMenuPerm.setUserName(this.username);
                             localStorage.setItem("loginState", "true");
-                            localStorage.setItem("Depart", arrRes[1].trim().replace('"',''));
+                            localStorage.setItem("Depart", arrRes[1].trim().replace('"', ''));
                             localStorage.setItem(
                                 "loginUserName",
                                 this.username
@@ -57,22 +60,23 @@ export class LoginComponent implements OnInit {
                         } else {
                             localStorage.setItem("loginState", "false");
                             localStorage.setItem("loginUserName", "");
-                            this.snackBar.open("Login Error! -- " + response["d"], "X", {
-                                duration: 2000
+                            this.snackBar.open("Login Error! -- " + JSON.stringify(response["d"]), "X", {
+                                duration: 10000
                             });
                         }
                     },
                     error => {
                         $("#loader").addClass("d-none");
-                        this.snackBar.open("Login Error! -- " + error, "X", {
-                            duration: 2000
+                        this.snackBar.open("Login Error! -- " +
+                            JSON.stringify(error), "X", {
+                            duration: 10000
                         });
                     }
                 );
         } else {
             $("#loader").addClass("d-none");
             this.snackBar.open("Login Error!", "X", {
-                duration: 2000
+                duration: 10000
             });
         }
     }

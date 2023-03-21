@@ -33,6 +33,7 @@ import {
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
 import { MatDialog } from "@angular/material/dialog";
 import * as XLSX from 'xlsx';
+import { environment } from "src/environments/environment";
 
 export interface MaternityPatients {
     RowID: number;
@@ -55,6 +56,7 @@ export interface MaternityPatients {
     PatientNote: string;
     ConnectionID: string;
     AfterBirth: string;
+    H_MOTHER_ID: string;
     completed: boolean;
 }
 
@@ -103,7 +105,7 @@ export class MaternitypatientsComponent implements OnInit {
     fliterValPatient = "";
     StatusPatient = "-1";
     listOfEmails = [];
-    Api = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+    Api = environment.url;
     patientForm: FormGroup;
 
     MaternityRowId: string;
@@ -583,6 +585,7 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientNote: patientData[i].PatientNote,
                         ConnectionID: patientData[i].ConnectionID,
                         AfterBirth: patientData[i].AfterBirth,
+                        H_MOTHER_ID: patientData[i].H_MOTHER_ID,
                         completed: false,
                     });
                 }
