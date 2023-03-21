@@ -38,6 +38,9 @@ export class DevManageComponent implements OnInit {
   chatGpt: any;
   chatGptToken: any;
   chatGptAnswerlist: any = [];
+  options: any;
+  api_url: any;
+  modelSelection: any;
 
   constructor(public dialog: MatDialog,
     private _snackBar: MatSnackBar,
@@ -69,32 +72,72 @@ export class DevManageComponent implements OnInit {
     this.getNursesUsersToUpdatePermission();
   }
 
+  chooseModel() {
+    if (this.modelSelection == "completions") {
+      this.api_url = "https://api.openai.com/v1/chat/completions";
+      this.options = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.chatGptToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          model: "gpt-3.5-turbo",
+          messages: [
+            {
+              role: "user",
+              content: this.chatGpt,
+            },
+          ],
+        }),
+      };
+    } else if (this.modelSelection == "moderations") {
+      this.api_url = "https://api.openai.com/v1/moderations";
+      this.options = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.chatGptToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          input: this.chatGpt
+        }),
+      };
+    } else if (this.modelSelection == "images/generations") {
+      this.api_url = "https://api.openai.com/v1/images/generations";
+      this.options = {
+        method: "POST",
+        headers: {
+          Authorization: `Bearer ${this.chatGptToken}`,
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          prompt: this.chatGpt,
+          n: 2,
+          size: "1024x1024"
+        }),
+      };
+    }
+    this.run();
+  }
 
   run = async () => {
     this.loadingGpt = true;
-    const options = {
-      method: "POST",
-      headers: {
-        Authorization: `Bearer ${this.chatGptToken}`,
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        model: "gpt-3.5-turbo",
-        messages: [
-          {
-            role: "user",
-            content: this.chatGpt,
-          },
-        ],
-      }),
-    };
+    const options = this.options;
 
     const chatGPTResults = await fetch(
-      "https://api.openai.com/v1/chat/completions",
+      this.api_url,
       options
     ).then((res) => res.json());
     this.loadingGpt = false;
-    this.chatGptAnswerlist.push(chatGPTResults.choices[0].message.content);
+    if (this.modelSelection == "completions") {
+      this.chatGptAnswerlist.push(chatGPTResults.choices[0].message.content);
+    } else if (this.modelSelection == "moderations") {
+      this.chatGptAnswerlist.push(JSON.stringify(chatGPTResults.results[0].categories));
+    } else if (this.modelSelection == "images/generations") {
+      this.chatGptAnswerlist.push(chatGPTResults.data);
+    }
+
     // console.log("ChatGPT says:", JSON.stringify(chatGPTResults, null, 2));
   };
 

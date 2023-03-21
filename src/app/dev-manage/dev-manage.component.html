@@ -194,6 +194,26 @@
                     </div>
                     <div class="col-6">
                         <div class="form-group">
+                            <mat-form-field appearance="fill">
+                                <mat-label>בחר מודל</mat-label>
+                                <mat-select [(ngModel)]="modelSelection" [ngModelOptions]="{standalone: true}">
+                                    <mat-option value="completions">
+                                        completions
+                                    </mat-option>
+                                    <mat-option value="moderations">
+                                        moderations
+                                    </mat-option>
+                                    <mat-option value="images/generations">
+                                        images/generations
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-12">
+                        <div class="form-group">
                             <mat-form-field>
                                 <mat-label>הכנס שאלה</mat-label>
                                 <textarea matInput type="text" [(ngModel)]="chatGpt"
@@ -202,13 +222,15 @@
                             </mat-form-field>
                         </div>
                     </div>
-                    <button (click)="run()"><a style="color: blue">שאל</a></button>
+                    <button (click)="chooseModel()"><a style="color: blue">שאל</a></button>
                 </div>
                 <div class="row">
                     <mat-progress-bar mode="indeterminate" *ngIf="loadingGpt"></mat-progress-bar>
                     <div class="col-12" *ngFor="let answer of chatGptAnswerlist">
                         תשובה: <br>
                         <p style="white-space: pre-line" *ngIf="!loadingGpt">{{answer}}</p>
+                        <img *ngIf="modelSelection == 'images/generations'" src="{{answer[0].url}}" />
+                        <img *ngIf="modelSelection == 'images/generations'" src="{{answer[1].url}}" />
                     </div>
                 </div>
             </div>
