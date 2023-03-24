@@ -214,6 +214,7 @@ export class NewBornComponent implements OnInit {
         });
     }
     onSubmit() {
+        debugger
         this.submitted = true;
         if (this.patientForm.invalid) {
             // console.log(this.patientForm.controls.errors);
@@ -224,44 +225,39 @@ export class NewBornComponent implements OnInit {
             this.patientForm.value.NewBornDOB,
             "yyyy-MM-dd",
             "en-US"
-        );        
-      
-        if(this.opendCounter == 0)   
-            this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 2);
+        );
+        console.log(this.patientForm.value.NewBornTime)
+        // if(this.opendCounter == 0)   
+        //     this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 3);
         var dateNow = new Date();
-        if(dateNow.getHours() - 2 > this.patientForm.value.NewBornTime._d.getHours() && this.opendCounter == 0){
+
+        if (dateNow.getHours() - 2 > this.patientForm.value.NewBornTime._d.getHours()) {
             console.log(this.patientForm.value.NewBornTime);
             this._snackBar.open("שעת לידה קטנה יותר משתי שעות מהשעה הנוכחית !!!!!", "", {
                 duration: 15000,
                 direction: "rtl",
-                panelClass: "error", 
+                panelClass: "error",
                 horizontalPosition: this.horizontalPosition,
                 verticalPosition: this.verticalPosition,
             });
             this.opendCounter++;
             return;
-        }else if(dateNow.getTime() < this.patientForm.value.NewBornTime._d.getTime()){
+        } else if (dateNow.getTime() < this.patientForm.value.NewBornTime._d.getTime()) {
             console.log(this.patientForm.value.NewBornTime);
             this._snackBar.open("שעת לידה גדולה מהשעה הנוכחית !!!!!", "", {
                 duration: 15000,
                 direction: "rtl",
-                panelClass: "error", 
+                panelClass: "error",
                 horizontalPosition: this.horizontalPosition,
                 verticalPosition: this.verticalPosition,
             });
-            this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() + 3);
-            this.opendCounter = 0
             return;
         }
-        else{
-            
-            this.patientForm.value.NewBornTime = formatDate(
-                this.patientForm.value.NewBornTime,
-                "HH:mm",
-                "en-US"
-            );
-        }
-        
+        this.patientForm.value.NewBornTime = formatDate(
+            this.patientForm.value.NewBornTime,
+            "HH:mm",
+            "en-US"
+        );
         //return;
         if (this.patientForm.value.NewBornWeightInProgress == "") {
             this.patientForm.value.NewBornWeightInProgress = "לא";
@@ -273,7 +269,7 @@ export class NewBornComponent implements OnInit {
             this.patientForm.value.BirthIsDie = "לא";
         }
         // stop here if form is invalid
-        
+
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
@@ -489,7 +485,7 @@ export class NewBornComponent implements OnInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
 
