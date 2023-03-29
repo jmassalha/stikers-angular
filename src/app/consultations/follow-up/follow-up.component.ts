@@ -156,15 +156,15 @@ export class FollowUpComponent implements OnInit {
     TABLE_DATA = [];
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     displayedColumns: string[] = [
-        "FollowUpDepartSeode",
+        // "FollowUpDepartSeode",
         "FollowUpDepart",
         "FollowUpDate",
-        "FollowUpGroup",
+        // "FollowUpGroup",
         "FollowUpCategory",
         "CaseNumber",
         "UserFullName",
-        "UserDepart",
-        "WorkerType",
+        // "UserDepart",
+        // "WorkerType",
     ];
     public disabled = false;
     public showSpinners = true;

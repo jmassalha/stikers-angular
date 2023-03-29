@@ -118,14 +118,11 @@ export class SurgeryCalendarComponent implements OnInit {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
 
   constructor(
-    private modal: NgbModal,
     public datePipe: DatePipe,
     private confirmationDialogService: ConfirmationDialogService,
     private http: HttpClient,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef,
     private router: Router,
     private mMenuPerm: MenuPerm,
   ) {
@@ -187,74 +184,7 @@ export class SurgeryCalendarComponent implements OnInit {
     event.patientAction.ArrivalTime = event2;//.srcElement.defaultValue.split('T')[1];
   }
 
-  addEvent(event): void {
-    const dialogRef = this.dialog.open(AddupdateactionComponent, {
-      width: 'md'
-    });
-    dialogRef.afterClosed().subscribe(result => {
-      if (result != undefined) {
-        let date = this.datePipe.transform(event, 'yyyy-MM-dd');
-        let time = this.datePipe.transform(event, 'HH:mm');
-        let event2 = {
-          title: result.FirstName + ' ' + result.LastName,
-          patientAction: {
-            Row_ID: '',
-            PersonID: result.PersonID,
-            PatientAction: [],
-            MidsOrder: '',
-            Notes: '',
-            ArrivalDate: date,
-            ArrivalTime: time,
-            Status: 'True'
-          },
-          patientDetails: {
-            FirstName: result.FirstName,
-            LastName: result.LastName,
-            PersonID: result.PersonID,
-            DOB: result.DOB,
-            Gender: result.Gender,
-            PhoneNumber: result.PhoneNumber,
-            Email: result.Email,
-            Address: result.Address
-          },
-          start: startOfDay(event),
-          color: colors.red,
-          draggable: true,
-          // actions: this.actions,
-          resizable: {
-            beforeStart: true,
-            afterEnd: true,
-          },
-        };
-        this.modalData.event["day"]["events"].push(event2);
-        this.events = [
-          ...this.events,
-          event2
-        ];
-      }
-      this.cdr.detectChanges();
-    });
-  }
-
-  deleteEvent(eventToDelete: CalendarEvent, day) {
-    this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeleteEventInCalendarCardiology", {
-        _rowID: eventToDelete.patientAction.Row_ID
-      })
-      .subscribe((Response) => {
-        if (Response["d"]) {
-          this.openSnackBar("נמחק בהצלחה");
-        } else {
-          this.openSnackBar("משהו השתבש, לא נמחק");
-        }
-        let thisDate = this.datePipe.transform(day, 'yyyy-MM-dd');
-        let thisDateEvents = this.events.filter(t => this.datePipe.transform(t.patientAction.ArrivalDate, 'yyyy-MM-dd') === thisDate);
-        this.events = this.events.filter((event) => event !== eventToDelete);
-        thisDateEvents = thisDateEvents.filter((event) => event !== eventToDelete);
-        this.modalData.event["day"]["events"] = thisDateEvents;
-      });
-  }
-
+ 
   setView(view: CalendarView) {
     this.view = view;
   }
@@ -263,32 +193,6 @@ export class SurgeryCalendarComponent implements OnInit {
     let month = this.datePipe.transform(this.viewDate, 'MM');
     this.getSurgeryRooms(month);
     this.activeDayIsOpen = false;
-  }
-
-  saveDayEvents(day) {
-
-    $("#loader").removeClass("d-none");
-    let that = this;
-    let month = this.datePipe.transform(this.viewDate, 'MM');
-    setTimeout(function () {
-      let thisDate = that.datePipe.transform(day, 'yyyy-MM-dd');
-      let thisDateEvents = that.events.filter(t => that.datePipe.transform(t.patientAction.ArrivalDate, 'yyyy-MM-dd') === thisDate);
-      that.http
-        .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitUpdateCardiologyPatientQueue", {
-          _queueDetails: thisDateEvents
-        })
-        .subscribe((Response) => {
-          if (Response["d"]) {
-            that.modal.dismissAll();
-            that.openSnackBar("נשמר בהצלחה");
-            $("#loader").addClass("d-none");
-          } else {
-            that.openSnackBar("משהו השתבש, לא נשמר");
-          }
-          that.getSurgeryRooms(month);
-        });
-    }, 1000)
-
   }
 
   // get the elements to the main calendar page
