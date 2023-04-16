@@ -160,7 +160,7 @@ import { MershamNComponent } from './mersham-n/mersham-n.component';
 import { LogAllRequestsInterceptor } from './log-all-requests.interceptor';
 import { GroupedBarChartReleaseComponent } from './hospital-bi-dashboard/grouped-bar-chart-release/grouped-bar-chart-release.component';
 import { ServersComponent } from './servers/servers.component';
-import {JpTimeMaskModule} from '@julianobrasil/timemask';
+import { JpTimeMaskModule } from '@julianobrasil/timemask';
 import { StikersComponent } from './stikers/stikers.component';
 import { NgxBarcodeModule } from 'ngx-barcode';
 import { MedigateServersComponent } from './medigate-servers/medigate-servers.component';
@@ -189,6 +189,7 @@ import { SurgeryRoomsMenuComponent } from './surgery-calendar/surgery-rooms-menu
 import { SurgeriesManagementComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/surgeries-management.component';
 import { ManageSingleSurgeryComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/manage-single-surgery/manage-single-surgery.component';
 import { FollowUpComponent } from './consultations/follow-up/follow-up.component';
+import { SurgeriesReportComponent } from './surgeries-report/surgeries-report.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -218,6 +219,7 @@ const maskConfig: Partial<IConfig> = {
     LaborComponent,
     CoronaformComponent,
     PoriadepartsComponent,
+    SurgeriesReportComponent,
     RolesComponent,
     StaffComponent,
     SendsmsComponent,

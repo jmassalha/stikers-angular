@@ -146,9 +146,9 @@ export class SurgeryCalendarComponent implements OnInit {
   dayClicked({ date, events }: { date: Date; events: CalendarEvent[] }, event): void {
     if (isSameMonth(date, this.viewDate)) {
       this.viewDate = date;
-        this.activeDayIsOpen = false;
-        this.handleEvent('NewEvent', event);
-      
+      this.activeDayIsOpen = false;
+      this.handleEvent('NewEvent', event);
+
     }
   }
 
@@ -184,7 +184,7 @@ export class SurgeryCalendarComponent implements OnInit {
     event.patientAction.ArrivalTime = event2;//.srcElement.defaultValue.split('T')[1];
   }
 
- 
+
   setView(view: CalendarView) {
     this.view = view;
   }
@@ -216,7 +216,7 @@ export class SurgeryCalendarComponent implements OnInit {
             // },
             element2.start = new Date(element2.ArrivalDate);
             element2.time = '00:00';
-            element2.title = element2.RoomGroupDesc + " " + element2.SurgeryRoomDesc;
+            element2.title = element2.CalendarRoomsArea;
             element2.color = element2.Color;
             this.events.push(element2);
           });

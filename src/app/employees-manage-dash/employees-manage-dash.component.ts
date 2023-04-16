@@ -7,6 +7,7 @@ import { MatPaginator } from '@angular/material/paginator';
 import { EmployeesAddUpdateComponent } from '../employees-manage-dash/employees-add-update/employees-add-update.component';
 import { MatSort } from '@angular/material/sort';
 import * as XLSX from 'xlsx';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-employees-manage-dash',
@@ -32,7 +33,7 @@ export class EmployeesManageDashComponent implements OnInit {
   SektorsList = [];
   WorkPlacesList = [];
   loaded: boolean = false;
-  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  url = environment.url;
 
   constructor(
     public dialog: MatDialog,

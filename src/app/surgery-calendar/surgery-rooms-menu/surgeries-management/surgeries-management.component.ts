@@ -134,7 +134,7 @@ export class SurgeriesManagementComponent {
     if (this.UserName != null) {
       this.viewDate = this.data.room.start;
       // let day = this.datePipe.transform(this.viewDate, 'dd');
-      this.getPatientsQueues(this.viewDate, this.data.room.SurgeryRoom);
+      // this.getPatientsQueues(this.viewDate, this.data.room.SurgeryRoom);
     }
     this.setView(CalendarView.Day);
   }

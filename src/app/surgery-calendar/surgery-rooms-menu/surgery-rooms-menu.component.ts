@@ -15,6 +15,8 @@ export class SurgeryRoomsMenuComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   surgeryRooms: any = [];
+  physicalSurgeryRooms: any = [];
+  virtualSurgeryRooms: any = [];
   dayNamesArray = [
     { number: 0, name: "ראשון" },
     { number: 1, name: "שני" },
@@ -28,12 +30,20 @@ export class SurgeryRoomsMenuComponent implements OnInit {
   userName = localStorage.getItem('loginUserName');
   userObject: any;
 
-  constructor(public dialogRef: MatDialogRef<SurgeryRoomsMenuComponent>,
+  constructor(
+    public dialogRef: MatDialogRef<SurgeryRoomsMenuComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar,
     private http: HttpClient,
-    public dialog: MatDialog,) {
+    public dialog: MatDialog
+  ) {
     this.surgeryRooms = data.event.day.events;
+    this.surgeryRooms.forEach(element => {
+      this.physicalSurgeryRooms.push(element.SurgeryRooms.filter(x => x.SurgeryRoom.includes('פז')));
+    });
+    this.surgeryRooms.forEach(element => {
+      this.virtualSurgeryRooms.push(element.SurgeryRooms.filter(x => x.SurgeryRoom.includes('ור')));
+    });
     this.todaysName = this.dayNamesArray[data.event.day.day].name;
   }
 

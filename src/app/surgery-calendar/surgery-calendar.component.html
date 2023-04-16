@@ -39,7 +39,8 @@
     <br />
     <ng-template #customCellTemplate let-day="day" let-locale="locale">
         <div class="cal-cell-top">
-            <span class="cal-day-badge" *ngIf="day.badgeTotal > 0" style="background-color: grey;">{{ day.badgeTotal }}</span>
+            <span class="cal-day-badge" *ngIf="day.badgeTotal > 0" style="background-color: grey;">{{ day.badgeTotal
+                }}</span>
             <span class="cal-day-number">{{ day.date | calendarDate:'monthViewDayNumber':locale }}</span>
         </div>
         <small *ngFor="let ev of day.events let i = index">
