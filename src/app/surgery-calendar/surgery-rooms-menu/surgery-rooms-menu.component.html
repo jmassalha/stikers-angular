@@ -8,38 +8,40 @@
     </div>
     <hr>
     <div class="row area">
-        <mat-label>פיזי</mat-label>
-        <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room);">
-            <div *ngIf="room.SurgeryRooms.length > 0">
-                <u> {{room.title}} </u>
-                <br>
-                <div *ngFor="let s_room of physicalSurgeryRooms">
-                    <b><span>{{s_room.SurgeryRoom}} <p> ניתוחים:
-                                {{s_room.NumberOfSurgeries}}</p></span></b>
-                    <!-- <b> {{room.S_DEPARTMENT_NAME}} </b> -->
-                    <!-- <br>
-                מספר ניתוחים:
-                <b>{{room.NumberOfSurgeries}}</b> -->
+        <div class="row">
+            <mat-label>פיזי</mat-label>
+        </div>
+        <br>
+        <div class="row">
+            <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room, 'פז');">
+                <div *ngIf="room.SurgeryRooms.length > 0">
+                    <u> {{room.title}} </u>
+                    <br>
+                    <p>מספר חדרים: {{room.NumberOfSurgeriesRoomsPhysical}}</p>
+                    <br>
+                    <p>מספר ניתוחים: {{room.NumberOfSurgeriesPhysical}}</p>
                 </div>
             </div>
         </div>
+        
     </div>
     <hr>
     <div class="row area">
-        <mat-label>וירטואלי</mat-label>
-        <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room);">
-            <div *ngIf="room.SurgeryRooms.length > 0">
-                <u> {{room.title}} </u>
-                <br>
-                <div *ngFor="let s_room of virtualSurgeryRooms">
-                    <b><span>{{s_room.SurgeryRoom}} <p> ניתוחים:
-                                {{s_room.NumberOfSurgeries}}</p></span></b>
-                    <!-- <b> {{room.S_DEPARTMENT_NAME}} </b> -->
-                    <!-- <br>
-                מספר ניתוחים:
-                <b>{{room.NumberOfSurgeries}}</b> -->
+        <div class="row">
+            <mat-label>וירטואלי</mat-label>
+        </div>
+        <br>
+        <div class="row">
+            <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room, 'ור');">
+                <div *ngIf="room.SurgeryRooms.length > 0">
+                    <u> {{room.title}} </u>
+                    <br>
+                    <p>מספר חדרים: {{room.NumberOfSurgeriesRoomsVirtual}}</p>
+                    <br>
+                    <p>מספר ניתוחים: {{room.NumberOfSurgeriesVirtual}}</p>
                 </div>
             </div>
         </div>
+        
     </div>
 </div>

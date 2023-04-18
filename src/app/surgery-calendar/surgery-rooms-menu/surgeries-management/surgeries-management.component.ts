@@ -122,9 +122,6 @@ export class SurgeriesManagementComponent {
     private http: HttpClient,
     public dialog: MatDialog,
     private _snackBar: MatSnackBar,
-    private formBuilder: FormBuilder,
-    private cdr: ChangeDetectorRef,
-    private router: Router,
     public dialogRef: MatDialogRef<SurgeriesManagementComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
   ) {
@@ -134,7 +131,7 @@ export class SurgeriesManagementComponent {
     if (this.UserName != null) {
       this.viewDate = this.data.room.start;
       // let day = this.datePipe.transform(this.viewDate, 'dd');
-      // this.getPatientsQueues(this.viewDate, this.data.room.SurgeryRoom);
+      this.getPatientsQueues(this.viewDate, this.data.room.title, this.data.room.type);
     }
     this.setView(CalendarView.Day);
   }
@@ -185,16 +182,15 @@ export class SurgeriesManagementComponent {
         disableClose: true
       });
       dialogRef.afterClosed().subscribe(res => {
-        if (res != "") this.getPatientsQueues(this.viewDate, this.data.room.SurgeryRoom);
+        if (res != "") this.getPatientsQueues(this.viewDate, this.data.room.title, this.data.room.type);
       })
     }
   }
 
 
   closeOpenDayViewDay() {
-    let month = this.datePipe.transform(this.viewDate, 'dd');
-    // this.getPatientsQueues(month);
-    this.activeDayIsOpen = false;
+    this.getPatientsQueues(this.viewDate, this.data.room.title, this.data.room.type);
+    // this.activeDayIsOpen = false;
   }
 
   saveDayEvents(day) {
@@ -217,20 +213,21 @@ export class SurgeriesManagementComponent {
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-          that.getPatientsQueues(this.viewDate, this.data.room.SurgeryRoom);
+          that.getPatientsQueues(this.viewDate, this.data.room.title, this.data.room.type);
         });
     }, 1000)
 
   }
 
   // get the elements to the main calendar page
-  getPatientsQueues(fullDate, surgeryRoom) {
+  getPatientsQueues(fullDate, surgeryRoom, surgeryRoomType) {
     this.events = [];
     fullDate = this.datePipe.transform(this.viewDate, 'yyyy-MM-dd');
     this.http
       .post(environment.url + "GetSurgeriesBySurgeryRoomCode", {
         _fullDate: fullDate,
-        _surRoomCode: surgeryRoom
+        _surRoomCode: surgeryRoom,
+        _surRoomType: surgeryRoomType,
       })
       .subscribe((Response) => {
         let tempArr = [];
