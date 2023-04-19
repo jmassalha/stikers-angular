@@ -98,7 +98,7 @@ import { MasterHpidComponent } from '../master-hpid/master-hpid.component';
 import { CablesComponent } from '../cables/cables.component';
 import { SurgeryCalendarComponent } from '../surgery-calendar/surgery-calendar.component';
 import { FollowUpComponent } from '../consultations/follow-up/follow-up.component';
-import { SurgeriesReportComponent } from '../surgeries-report/surgeries-report.component';
+import { SurgeryReportsComponent } from '../surgery-reports/surgery-reports.component';
 
 const routes: Routes = [
   
@@ -202,7 +202,7 @@ const routes: Routes = [
   { path: "cables", component: CablesComponent },
   { path: "surgery-calendar", component: SurgeryCalendarComponent },
   { path: "follow-up", component: FollowUpComponent },
-  { path: "surgeryreport", component: SurgeriesReportComponent },
+  { path: "surgeryreport", component:  SurgeryReportsComponent},
   { path: '', component : LoginComponent}
 ];
  

@@ -10,3 +10,8 @@
 .add-btn:hover {
     transform: scale(1.2);
 }
+.rooms-list{
+    display: flex;
+    margin: auto;
+    list-style-type: none;
+}

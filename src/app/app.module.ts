@@ -189,7 +189,7 @@ import { SurgeryRoomsMenuComponent } from './surgery-calendar/surgery-rooms-menu
 import { SurgeriesManagementComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/surgeries-management.component';
 import { ManageSingleSurgeryComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/manage-single-surgery/manage-single-surgery.component';
 import { FollowUpComponent } from './consultations/follow-up/follow-up.component';
-import { SurgeriesReportComponent } from './surgeries-report/surgeries-report.component';
+import { SurgeryReportsComponent } from './surgery-reports/surgery-reports.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -219,7 +219,7 @@ const maskConfig: Partial<IConfig> = {
     LaborComponent,
     CoronaformComponent,
     PoriadepartsComponent,
-    SurgeriesReportComponent,
+    SurgeryReportsComponent,
     RolesComponent,
     StaffComponent,
     SendsmsComponent,

@@ -72,6 +72,7 @@ export class SurgeriesManagementComponent {
   viewDate: Date;
   locale: string = 'en';
   _actionsList = [];
+  specificRooms = [];
   modalData: {
     action: string;
     event: CalendarEvent;
@@ -131,7 +132,8 @@ export class SurgeriesManagementComponent {
     if (this.UserName != null) {
       this.viewDate = this.data.room.start;
       // let day = this.datePipe.transform(this.viewDate, 'dd');
-      this.getPatientsQueues(this.viewDate, this.data.room.title, this.data.room.type);
+      this.specificRooms = this.data.room.SurgeryRooms.filter(x => x.SurgeryRoom.includes(this.data.room.type));
+      this.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
     }
     this.setView(CalendarView.Day);
   }
@@ -182,14 +184,14 @@ export class SurgeriesManagementComponent {
         disableClose: true
       });
       dialogRef.afterClosed().subscribe(res => {
-        if (res != "") this.getPatientsQueues(this.viewDate, this.data.room.title, this.data.room.type);
+        if (res != "") this.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
       })
     }
   }
 
 
   closeOpenDayViewDay() {
-    this.getPatientsQueues(this.viewDate, this.data.room.title, this.data.room.type);
+    this.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
     // this.activeDayIsOpen = false;
   }
 
@@ -213,21 +215,20 @@ export class SurgeriesManagementComponent {
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-          that.getPatientsQueues(this.viewDate, this.data.room.title, this.data.room.type);
+          that.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
         });
     }, 1000)
 
   }
 
   // get the elements to the main calendar page
-  getPatientsQueues(fullDate, surgeryRoom, surgeryRoomType) {
+  getPatientsQueues(fullDate, surgeryRoom) {
     this.events = [];
     fullDate = this.datePipe.transform(this.viewDate, 'yyyy-MM-dd');
     this.http
       .post(environment.url + "GetSurgeriesBySurgeryRoomCode", {
         _fullDate: fullDate,
-        _surRoomCode: surgeryRoom,
-        _surRoomType: surgeryRoomType,
+        _surRoomCode: surgeryRoom
       })
       .subscribe((Response) => {
         let tempArr = [];
