@@ -173,19 +173,21 @@ export class SurgeriesManagementComponent {
 
   handleEvent(action: string, event: CalendarEvent): void {
     if (event == undefined) event = this.data.room;
-    event['SurgeryRooms'] = this.data.room.SurgeryRoom;
-    event['RoomsList'] = this.data.roomsList;
-    if (event['ArrivalTime'] != null) {
-      let dialogRef = this.dialog.open(ManageSingleSurgeryComponent, {
-        data: {
-          event: event,
-          action: action
-        },
-        disableClose: true
-      });
-      dialogRef.afterClosed().subscribe(res => {
-        if (res != "") this.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
-      })
+    else {
+      event['SurgeryRooms'] = this.data.room.SurgeryRoom;
+      event['RoomsList'] = this.data.roomsList;
+      if (event['ArrivalTime'] != null) {
+        let dialogRef = this.dialog.open(ManageSingleSurgeryComponent, {
+          data: {
+            event: event,
+            action: action
+          },
+          disableClose: true
+        });
+        dialogRef.afterClosed().subscribe(res => {
+          if (res != "") this.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
+        })
+      }
     }
   }
 
