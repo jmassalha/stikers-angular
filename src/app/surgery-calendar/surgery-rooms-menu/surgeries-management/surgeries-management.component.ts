@@ -133,7 +133,7 @@ export class SurgeriesManagementComponent {
       this.viewDate = this.data.room.start;
       // let day = this.datePipe.transform(this.viewDate, 'dd');
       this.specificRooms = this.data.room.SurgeryRooms.filter(x => x.SurgeryRoom.includes(this.data.room.type));
-      this.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
+      this.getPatientsQueues(this.viewDate);
     }
     this.setView(CalendarView.Day);
   }
@@ -185,7 +185,7 @@ export class SurgeriesManagementComponent {
           disableClose: true
         });
         dialogRef.afterClosed().subscribe(res => {
-          if (res != "") this.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
+          if (res != "") this.getPatientsQueues(this.viewDate);
         })
       }
     }
@@ -193,7 +193,7 @@ export class SurgeriesManagementComponent {
 
 
   closeOpenDayViewDay() {
-    this.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
+    this.getPatientsQueues(this.viewDate);
     // this.activeDayIsOpen = false;
   }
 
@@ -217,30 +217,35 @@ export class SurgeriesManagementComponent {
           } else {
             that.openSnackBar("משהו השתבש, לא נשמר");
           }
-          that.getPatientsQueues(this.viewDate, this.specificRooms[0].SurgeryRoom);
+          that.getPatientsQueues(this.viewDate);
         });
     }, 1000)
 
   }
 
   // get the elements to the main calendar page
-  getPatientsQueues(fullDate, surgeryRoom) {
+  getPatientsQueues(fullDate) {
     this.events = [];
     fullDate = this.datePipe.transform(this.viewDate, 'yyyy-MM-dd');
     this.http
       .post(environment.url + "GetSurgeriesBySurgeryRoomCode", {
         _fullDate: fullDate,
-        _surRoomCode: surgeryRoom
+        _surRoomCode: this.data.room.type
       })
       .subscribe((Response) => {
         let tempArr = [];
         tempArr = Response["d"];
         let tempTitle;
+        let counter = 0;
+        let tempArrOfSurgeryRooms = [];
+        this.specificRooms.forEach(x => {
+          tempArrOfSurgeryRooms.push(x.SurgeryRoom);
+        });
         tempArr['SurgeriesCalendarClassList'].forEach(element => {
           if (element.SurgeryPatientDetails == null) {
             tempTitle = `<h6 class="text-center"><b>זמן הכנה משעה: </b>${element.ArrivalDate.split(' ')[1]}</h6>`;
           } else {
-            tempTitle = `מספר מקרה: <b>${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> - שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b> - מחלקה מזמינה: 
+            tempTitle = `<b>${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> - שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b> - מחלקה מזמינה: 
           <b>${element.SurgeryRequestDepartments.S_DEPARTMENT}</b> <br> ניתוח: <b>${element.SurgeryServicesName.S_SERVICE_VAL}</b> 
           - שעת תחילה: <b>${element.ArrivalDate.split(' ')[1]}</b> - שעת סיום: <b>${element.EndDate.split(' ')[1]}</b>`;
           }
@@ -252,6 +257,14 @@ export class SurgeriesManagementComponent {
           //   afterEnd: true,
           // }
           element.draggable = true;
+          let index = tempArrOfSurgeryRooms.indexOf(element.SurgeryRoom);
+          // when there's no room the index is -1, BUG!
+          if (index >= 0) {
+            // some of the surgeries isn't associated with a room!!
+            if (this.specificRooms[index]['Surgeries'] == undefined && element.SurgeryRoom != "") {
+              this.specificRooms[index]['Surgeries'] = tempArr['SurgeriesCalendarClassList'].filter(x => x.SurgeryRoom == element.SurgeryRoom);
+            }
+          }
           this.events.push(element);
         });
         this.refresh.next();

@@ -22,6 +22,7 @@ import {
     NgbModalOptions,
 } from "@ng-bootstrap/ng-bootstrap";
 import { MenuPerm } from "../menu-perm";
+import { environment } from "src/environments/environment";
 export interface DataTableInterface {
     L_ROW_ID: String;
     L_ORDER_CODE: String;
@@ -194,7 +195,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
     ) {
         mMenuPerm.setRoutName("labor");
         setTimeout(() => {
-            if(!mMenuPerm.getHasPerm()){
+            if (!mMenuPerm.getHasPerm()) {
                 localStorage.clear();
                 this.router.navigate(["login"]);
             }
@@ -247,11 +248,11 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.enddateVal = this.Edate.value;
 
         ////////debugger
-       
+
         this.dataSource = new MatTableDataSource(this.dataTable);
         this.dataSourcePatient = new MatTableDataSource(this.dataTablePatient);
         //console.log(this.paginator.pageIndex);
-        
+
         /*$(document).on("click", "#CheckBefore", function (e) {
            //////debugger
             if ($(document).find('[name="mobile"]').val() == "" ||
@@ -304,11 +305,11 @@ export class LaborComponent implements OnInit, AfterViewInit {
         this.mobile = _element.L_MOBILE;
         this.email = _element.L_EMAIL;
         this.passprot = _element.L_PASSPORT;
-        if(_element.L_DOB != '' && typeof(_element.L_DOB) != 'object'){
+        if (_element.L_DOB != '' && typeof (_element.L_DOB) != 'object') {
             var dArr = (_element.L_DOB).split('-');
             //this.dob = (_element.L_DOB).replace('-', '/');
-           // this.dob = (this.dob).replace('-', '/');
-            this.dob = new FormControl(new Date(parseInt(dArr[2]), parseInt(dArr[1]) - 1 , parseInt(dArr[0]))).value;
+            // this.dob = (this.dob).replace('-', '/');
+            this.dob = new FormControl(new Date(parseInt(dArr[2]), parseInt(dArr[1]) - 1, parseInt(dArr[0]))).value;
         }
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
@@ -324,8 +325,8 @@ export class LaborComponent implements OnInit, AfterViewInit {
                     return;
                 }
                 if ("Save" == result && this.mobile != "" &&
-                this.email != "" &&
-                this.passprot != "") {
+                    this.email != "" &&
+                    this.passprot != "") {
                     // //////debugger;
                     _element.L_PASSWORD = this.sendAttach(_element.L_ROW_ID);
                     _element.L_MOBILE = this.mobile;
@@ -364,7 +365,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                         "-" +
                         m +
                         "-" +
-                        date.getFullYear() 
+                        date.getFullYear()
                     _element.L_DOB = str;
                     ////debugger
                     var date = new Date();
@@ -468,19 +469,19 @@ export class LaborComponent implements OnInit, AfterViewInit {
             mm = date.getMinutes().toString();
         }
         var str =
-            date.getFullYear()  +
+            date.getFullYear() +
             "-" +
             m +
             "-" +
             d
-           
-           ////debugger
+
+        ////debugger
         this.http
             .post(
-               // "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
-               // "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
-                "http://srv-ipracticom:8080/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
-              //  "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
+                // "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
+                environment.url + "UpdateMobileOrEmailOrPassportOrDOB",
+                // "http://srv-ipracticom:8080/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
+                //  "http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateMobileOrEmailOrPassportOrDOB",
                 {
                     _mobile: this.mobile,
                     _email: this.email,
@@ -499,7 +500,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                     });
                     //this.dataSource.paginator = this.paginator;
                     return this._Element['L_PASSWORD'] = Response['d'].toString();
-                   
+
                 },
                 (error) => {
                     // //////debugger;
@@ -507,7 +508,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
                 }
             );
     }
-    mapClicked($event: MouseEvent) {}
+    mapClicked($event: MouseEvent) { }
 
     radioChange(event: MatRadioChange) {
         ////////debugger
@@ -556,7 +557,7 @@ export class LaborComponent implements OnInit, AfterViewInit {
 
         this.CheckTypeStatus = event.value;
     }
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     getReport($event: any): void {
         if (this.startdateVal && this.enddateVal)
             this.getDataFormServer(
