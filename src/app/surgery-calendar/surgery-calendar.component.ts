@@ -116,6 +116,7 @@ export class SurgeryCalendarComponent implements OnInit {
   patientSearch: FormGroup;
   date = new Date();
   UserName = localStorage.getItem("loginUserName").toLowerCase();
+  loader: boolean = true;
 
   constructor(
     public datePipe: DatePipe,
@@ -173,11 +174,10 @@ export class SurgeryCalendarComponent implements OnInit {
     const dialogRef = this.dialog.open(SurgeryRoomsMenuComponent, {
       data: this.modalData
     })
-    dialogRef.afterClosed().subscribe(result => {
-      let month = this.datePipe.transform(this.viewDate, 'MM');
-      this.getSurgeryRooms(month);
-    });
-    // this.modal.open(this.modalContent, { size: 'md' });
+    // dialogRef.afterClosed().subscribe(result => {
+    //   let month = this.datePipe.transform(this.viewDate, 'MM');
+    //   this.getSurgeryRooms(month);
+    // });
   }
 
   SetNewTime(event2, event) {
@@ -197,6 +197,7 @@ export class SurgeryCalendarComponent implements OnInit {
 
   // get the elements to the main calendar page
   getSurgeryRooms(month) {
+    this.loader = true;
     this.events = [];
     this.http
       .post(environment.url + "GetSurgeryRooms", {
@@ -204,6 +205,7 @@ export class SurgeryCalendarComponent implements OnInit {
         _year: this.date.getFullYear()
       })
       .subscribe((Response) => {
+        this.loader = false;
         let tempArr = [];
         tempArr = Response["d"];
         tempArr.forEach(element => {
@@ -222,6 +224,8 @@ export class SurgeryCalendarComponent implements OnInit {
           });
         });
         this.refresh.next();
+        
+        
       });
   }
 

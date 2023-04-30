@@ -1,7 +1,10 @@
 h3 {
     margin: 0 0 10px;
   }
-  
+  mat-spinner{
+    left: 50%;
+    top: 50%;
+  }
   pre {
     background-color: #f5f5f5;
     padding: 15px;
