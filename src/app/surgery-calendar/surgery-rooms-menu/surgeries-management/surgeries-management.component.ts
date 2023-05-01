@@ -115,6 +115,7 @@ export class SurgeriesManagementComponent {
   patientSearch: FormGroup;
   date = new Date();
   UserName = localStorage.getItem("loginUserName").toLowerCase();
+  loader: boolean = true;
 
   constructor(
     private modal: NgbModal,
@@ -225,18 +226,18 @@ export class SurgeriesManagementComponent {
 
   // get the elements to the main calendar page
   getPatientsQueues(fullDate) {
+    this.refresh = new Subject();
+    this.loader = true;
     this.events = [];
     fullDate = this.datePipe.transform(this.viewDate, 'yyyy-MM-dd');
     this.http
       .post(environment.url + "GetSurgeriesBySurgeryRoomCode", {
         _fullDate: fullDate,
-        _surRoomCode: this.data.room.type
+        _surRoomCode: this.data.room.CalendarRoomsArea
       })
       .subscribe((Response) => {
-        let tempArr = [];
-        tempArr = Response["d"];
+        let tempArr = Response["d"];
         let tempTitle;
-        let counter = 0;
         let tempArrOfSurgeryRooms = [];
         this.specificRooms.forEach(x => {
           tempArrOfSurgeryRooms.push(x.SurgeryRoom);
@@ -261,13 +262,15 @@ export class SurgeriesManagementComponent {
           // when there's no room the index is -1, BUG!
           if (index >= 0) {
             // some of the surgeries isn't associated with a room!!
-            if (this.specificRooms[index]['Surgeries'] == undefined && element.SurgeryRoom != "") {
+            // this.specificRooms[index]['Surgeries'] == undefined && 
+            if (element.SurgeryRoom != "") {
               this.specificRooms[index]['Surgeries'] = tempArr['SurgeriesCalendarClassList'].filter(x => x.SurgeryRoom == element.SurgeryRoom);
             }
           }
           this.events.push(element);
         });
         this.refresh.next();
+        this.loader = false;
       });
   }
 

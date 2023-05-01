@@ -1,3 +1,4 @@
+<mat-spinner *ngIf="loader"></mat-spinner>
 <div class="container-fluid pb-5" dir="rtl">
   <button mat-icon-button color="warn" aria-label="Example icon button with a close icon" mat-dialog-close
     style="float: right;">
@@ -53,9 +54,9 @@
     <div class="col text-center" *ngFor="let room of specificRooms">
       <b>{{room.SurgeryRoom}}</b>
       <div [ngSwitch]="view">
-        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="room.Surgeries"
-          [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Edit', $event.event)"
-          (eventTimesChanged)="eventTimesChanged($event)">
+        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [dayStartHour]="6"
+          [events]="room.Surgeries" [locale]="locale" [refresh]="refresh"
+          (eventClicked)="handleEvent('Edit', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-day-view>
         <!-- <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [locale]="locale"
         [refresh]="refresh" (eventClicked)="handleEvent('Edit', $event.event)"
