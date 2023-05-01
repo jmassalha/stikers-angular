@@ -1,0 +1,52 @@
+<form dir="rtl" class="form col" [formGroup]="resendEmailForm">
+    <div class="row">
+        <div class="col-12">
+            <div class="form-group">
+                <mat-form-field>
+                    <input
+                        matInput
+                        autocomplete="off"
+                        class="form-control"
+                        formControlName="FName"
+                        placeholder="שם "
+                        type="text"
+                        readonly
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+
+        <div class="col-6">
+            <div class="form-group">
+                <mat-form-field>
+                    <input
+                        matInput
+                        autocomplete="off"
+                        class="form-control"
+                        formControlName="Tel1"
+                        placeholder="מספר טלפון"
+                        type="tel"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+        <div class="col-6">
+            <div class="form-group">
+                <mat-form-field>
+                    <input
+                        matInput
+                        autocomplete="off"
+                        class="form-control"
+                        formControlName="EMail"
+                        placeholder="אימייל"
+                        type="email"
+                    />
+                </mat-form-field>
+            </div>
+        </div>
+    </div>
+    <button matTooltip="שליחה" class="btn btn-outline-dark ml-4" id="BtnStyle" color="primary" (click)="onSubmit()"
+            type="submit" [disabled]="send" mat-raised-button >
+           שלח
+        </button>
+</form>

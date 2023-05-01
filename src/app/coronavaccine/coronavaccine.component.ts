@@ -25,6 +25,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 export interface TableRow {
     EmployeeID: string;
     EmployeePhone: string;
@@ -153,8 +154,16 @@ export class CoronavaccineComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         public fb: FormBuilder,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("coronavaccine");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         this.WorkerForm = this.fb.group({
             pregnancy: ["", null],
             breastfeeding: ["", null],
@@ -230,28 +239,11 @@ export class CoronavaccineComponent implements OnInit {
             idPatient: ["", null],
             phoneNumber: ["", null],
         });
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "tnapso"
-        ) {
-        } else {
-            //this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
         this.getTableFromServer(
             this.startdateVal,
@@ -282,7 +274,7 @@ export class CoronavaccineComponent implements OnInit {
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SendSmsToCoronaSurvey",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SendSmsToCoronaSurvey",
                 {
                     _FullName: this.fullnameVal,
                     _id: this.idPatient,
@@ -290,7 +282,7 @@ export class CoronavaccineComponent implements OnInit {
                 }
             )
             .subscribe((Response) => {
-                // //debugger 888888
+                // ////debugger 888888
                 this.openSnackBar();
             });
         // display form values on success
@@ -323,16 +315,16 @@ export class CoronavaccineComponent implements OnInit {
 
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        // //debugger
+        // ////debugger
         this.fullnameVal = "";
         this.idPatient = "";
         this.phoneNumber = "";
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -351,7 +343,7 @@ export class CoronavaccineComponent implements OnInit {
         }
     }
     toShortFormat(d: Date) {
-        ////debugger;
+        //////debugger;
         let monthNames = [
             "01",
             "02",
@@ -373,7 +365,7 @@ export class CoronavaccineComponent implements OnInit {
         let monthName = monthNames[monthIndex];
 
         let year = d.getFullYear();
-        ////debugger
+        //////debugger
         return `${day}/${monthName}/${year}`;
     }
 
@@ -392,7 +384,7 @@ export class CoronavaccineComponent implements OnInit {
     }
     releaseRow(row) {}
     public printRowForm(row): void {
-       // debugger
+       // //debugger
         this.viccatnNumber = row.VaccinationForm;
         if (row.VaccinationForm == "1") {
             this.VaccinationForm_1 = true;
@@ -401,7 +393,7 @@ export class CoronavaccineComponent implements OnInit {
             this.VaccinationForm_1 = false;
             this.VaccinationForm_2 = true;
         }
-        // //debugger
+        // ////debugger
         this.rowFormData = row;
         if (this.rowFormData.ChronicLungDisease == "1") {
             this.ChronicLungDisease = true;
@@ -511,22 +503,22 @@ export class CoronavaccineComponent implements OnInit {
             ],
             Covid19afterthefirst: [this.rowFormData.Covid19afterthefirst, null],
         });
-        //debugger
+        ////debugger
         var row = this.WorkerForm.value;
 
         for (var i = 0; i < Object.values(row).length; i++) {
-            //debugger
+            ////debugger
             if (Object.values(row)[i] == "1") {
                 this.showRed = true;
-                debugger;
+                //debugger;
                 break;
             }
         }
-        //debugger
+        ////debugger
         $("#loader").removeClass("d-none");
         /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
             row.CS_SURVEY_Q2_2 = "";
-            //debugger
+            ////debugger
         }*/
 
         setTimeout(function () {
@@ -543,12 +535,12 @@ export class CoronavaccineComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllVaccine", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllVaccine", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
@@ -560,9 +552,9 @@ export class CoronavaccineComponent implements OnInit {
                 var json = JSON.parse(Response["d"]);
                 let json_2 = JSON.parse(json);
                 let CoronaData = JSON.parse(json_2["aaData"]);
-                // debugger;
+                // //debugger;
                 for (var i = 0; i < CoronaData.length; i++) {
-                    ////debugger
+                    //////debugger
                     this.TABLE_DATA.push({
                         EmployeeID: CoronaData[i].EmployeeID,
                         EmployeePhone: CoronaData[i].EmployeePhone,
@@ -640,13 +632,13 @@ export class CoronavaccineComponent implements OnInit {
                     });                    
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
                     JSON.parse(json_2["iTotalRecords"])
                 );
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

@@ -8,3 +8,68 @@
 .redBG{
     background: #ff8484;
 }
+
+.border-1{
+    border: 1px solid !important;
+    padding: 0px 7px 5px 3px !important;
+}
+
+.menuBtns{
+    background-color: burlywood;
+    font-weight: bolder;
+    font-size: 18px;
+    border: 1px solid slategrey;
+    border-radius: 3%;
+}
+
+.col-5{
+    padding-left: 2px;
+    padding-right: 2px;
+}
+
+.col-4,.col-3,h5,h6{
+    font-weight: bolder;
+    font-size: 18px;
+}
+
+#display-line{
+    border: 5px solid #1976d2;
+}
+.material-icons{
+    font-size: 18px;
+}
+
+#BtnStyle{
+    box-shadow: 3px 4px 3px 0px black;
+    min-width: 50px;
+    line-height: 30px;
+}
+
+#formBody{
+    border-style: outset;
+    margin-bottom: 8px;
+}
+.mat-accordion{
+    width: 100%;
+}
+.expantionBox{
+    overflow: auto;
+    width: 100%;
+    height: 132px;
+}
+
+h5{
+    float: right;
+}
+h6{
+    float: right;
+    font-size: 0.90rem;
+}
+.reply-row{
+    border-bottom: 3px solid grey;
+}
+#importantIcon{
+    cursor: pointer;
+    text-align: center;
+    font-size: 30px;
+  }

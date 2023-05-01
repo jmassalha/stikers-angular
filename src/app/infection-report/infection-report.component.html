@@ -1,0 +1,284 @@
+<h1 class="page-title text-center">דוח אנטיביוטיקות</h1>
+
+<div class="example-button-container" style="padding: 60px">
+    <button
+        (click)="getReport($event)"
+        mat-mini-fab
+        color="warn"
+        aria-label="Example icon button with a filter list icon"
+    >
+        <span class="material-icons"> refresh </span>
+    </button>
+</div>
+<div class="container-fluid">
+    <div class="row text-right" dir="rtl">
+        <div class="col">
+            <label id="example-radio-group-label">סינון</label>&nbsp;&nbsp;&nbsp;
+            <mat-radio-group dir="rtl" aria-label="Select an option">
+                <mat-radio-button (change)="filterArray($event)" checked="true" value="-1">הכל</mat-radio-button> &nbsp;&nbsp;
+                <mat-radio-button (change)="filterArray($event)" value="1">עם ייעוץ</mat-radio-button>&nbsp;&nbsp;
+                <mat-radio-button (change)="filterArray($event)"  value="2">בלי ייעוץ</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+    <button mat-raised-button (click)="exporter.exportTable('xlsx', {fileName:'InfectionReport', sheet: 'sheet_name', Props: {Author: 'Onn-Line'}})">Excel</button>
+</div>
+<div class="d-none container-fluid">
+    <div class="row">
+        <div class="col">
+            <div dir="rtl" class="card w-85-p">
+                <div dir="rtl" class="card-body">
+                    <form class="form">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="מ תאריך"
+                                            required
+                                            (focus)="startdate.open()"
+                                            [(ngModel)]="startdateVal"
+                                            name="startdate"
+                                            [matDatepicker]="startdate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="startdate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #startdate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="עד תאריך "
+                                            (focus)="enddate.open()"
+                                            required
+                                            [(ngModel)]="enddateVal"
+                                            name="enddate"
+                                            [matDatepicker]="enddate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="enddate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #enddate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            mat-raised-button
+                            type="submit"
+                            class="btn btn-primary btn-raised"
+                            (click)="getReport($event)"
+                        >
+                            הצג
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<hr />
+<br />
+
+<div class="container-fluid">
+    <div class="row">
+        <div dir="rtl" class="col">
+            <div class="table-responsive">
+                <div class="table-spinner-container">
+                    <mat-form-field appearance="standard">
+                        <mat-label>חפש</mat-label>
+                        <input matInput (keyup)="applyFilter($event)" placeholder="חפש" #input>
+                      </mat-form-field>
+                    <table mat-table
+                        #exporter="matTableExporter"
+                        class="table table-striped table-responsive-md"
+                        matSort
+                        matTableExporter 
+                        [dataSource]="dataSource"
+                    >                        
+                        <ng-container matColumnDef="CaseNumber">
+                            <th mat-header-cell *matHeaderCellDef>מס' מקרה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.CaseNumber }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PatientNumber">
+                            <th mat-header-cell *matHeaderCellDef>מס' מטופל</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PatientNumber }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PatientID">
+                            <th mat-header-cell *matHeaderCellDef>ת.ז</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PatientID }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PatientName">
+                            <th mat-header-cell *matHeaderCellDef>שם מטופל</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PatientName }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Depart">
+                            <th mat-header-cell *matHeaderCellDef>מחלקה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.Depart }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="DrugName">
+                            <th mat-header-cell *matHeaderCellDef>שם תרופה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.DrugName }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PrescribedDrugDose">
+                            <th mat-header-cell *matHeaderCellDef>מינון</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PrescribedDrugDose  | number : '1.2-2'}}
+                            </td>
+                        </ng-container>
+                       
+
+                        <ng-container matColumnDef="DrugDate">
+                            <th mat-header-cell *matHeaderCellDef> תאריך הוראה
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.DrugDate }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Frequency">
+                            <th mat-header-cell *matHeaderCellDef> תדירות
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.Frequency }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="DateDiffInDays">
+                            <th mat-header-cell *matHeaderCellDef> משך ימים
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.DateDiffInDays }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Height">
+                            <th mat-header-cell *matHeaderCellDef> גובה
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.Height }}
+                            </td>
+                        </ng-container>
+
+                        <ng-container matColumnDef="Weight">
+                            <th mat-header-cell *matHeaderCellDef> משקל
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.Weight }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="BMI">
+                            <th mat-header-cell *matHeaderCellDef>
+                                BMI
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.BMI }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="GFR">
+                            <th mat-header-cell *matHeaderCellDef>
+                                GFR
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.GFR }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Creatinine">
+                            <th mat-header-cell *matHeaderCellDef>
+                                Creatinine
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.Creatinine }}
+                            </td>
+                        </ng-container>
+                        
+                        
+                        <ng-container matColumnDef="DocNumber">
+                            <th mat-header-cell *matHeaderCellDef>
+                                 ייעוצים
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                <button
+                                    *ngIf="element.DocNumber != '' && element.DocNumber"
+                                    (click)="
+                                        openConsText(
+                                            HistoryConsoleDetailsModal,
+                                            'HistoryConsoleDetails',
+                                            element
+                                        )
+                                    "
+                                    mat-mini-fab
+                                    color="primary"
+                                >
+                                    <mat-icon>connect_without_contact</mat-icon>
+                                </button>
+                            </td>
+                        </ng-container>
+                        
+                        <tr
+                            mat-header-row
+                            *matHeaderRowDef="displayedColumns"
+                        ></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumns"
+                        ></tr>
+                    </table>
+                </div>
+                <!-- PAGINATION -->
+                <mat-paginator
+                    [length]="resultsLength"
+                    [pageSizeOptions]="[200, 250]"
+                    [pageSize]="200"
+                    showFirstLastButtons
+                    (page)="getPaginatorData($event)"
+                ></mat-paginator>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #HistoryConsoleDetailsModal let-modal>
+    <div dir="rtl" class="card">
+        <div class="card-header">
+            <h3 class="card-title text-center">
+                ייעוצים למקרה: <b>{{ selectedCaseNumber }}</b>
+            </h3>
+        </div>
+        <div class="card-body">
+            <p class="content-text text-right p-15" dir="rtl" *ngFor="let txt of Content; let i = index">
+                {{ txt.Content }}
+            </p>
+        </div>
+    </div>
+</ng-template>
+
+<div class="container-fluid text-right">
+    <div class="row" style="flex-flow: column-reverse">
+        <div class="colde d-nonea" id="totalBarChart"></div>
+    </div>
+</div>
+<br />
+<hr />

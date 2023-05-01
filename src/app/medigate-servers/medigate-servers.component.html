@@ -1,0 +1,179 @@
+<div id="page-toshow" class="bg-blue-light mersham">
+    <h1 class="page-title text-center">Poriya NetWork</h1>
+    <div class="container-fluid nopadding rel">
+        <div class="row">
+            <div class="col">
+                <mat-radio-group aria-label="Filter By:">
+                    <mat-radio-button (change)="filterData($event)" checked="true" value="All">All</mat-radio-button>&nbsp;&nbsp;
+                    <mat-radio-button (change)="filterData($event)" value="True">On Line</mat-radio-button>&nbsp;&nbsp;
+                    <mat-radio-button (change)="filterData($event)" value="False">Off Line</mat-radio-button>
+                  </mat-radio-group>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <br />
+                            Inventory High Level Stats
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="text-center highLight height">
+                        <div class="row">
+                            <div class="col" (click)="getData('Devices')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{
+                                            mInventoryHighLevelStats.TotalDevices
+                                        }}
+                                    </p>
+                                    <p>Devices</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col" (click)="getData('Coporate')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{
+                                            mInventoryHighLevelStats.TotalCorporate
+                                        }}
+                                    </p>
+                                    <p>Coporate</p>
+                                </div>
+                            </div>
+                            <div class="col"  (click)="getData('Guset')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{
+                                            mInventoryHighLevelStats.TotalGuest
+                                        }}
+                                    </p>
+                                    <p>Guset</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"  (click)="getData('Medical')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{
+                                            mInventoryHighLevelStats.TotalMedical
+                                        }}
+                                    </p>
+                                    <p>Medical</p>
+                                </div>
+                            </div>
+                            <div class="col"  (click)="getData('OT')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{ mInventoryHighLevelStats.TotalOT }}
+                                    </p>
+                                    <p>OT</p>
+                                </div>
+                            </div>
+                            <div class="col"  (click)="getData('IoT')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{ mInventoryHighLevelStats.TotalIoT }}
+                                    </p>
+                                    <p>IoT</p>
+                                </div>
+                            </div>
+                            <div class="col"  (click)="getData('IT')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{ mInventoryHighLevelStats.TotalIT }}
+                                    </p>
+                                    <p>IT</p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col"  (click)="getData('Online')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{
+                                            mInventoryHighLevelStats.TotalOnLine
+                                        }}
+                                    </p>
+                                    <p>Online</p>
+                                </div>
+                            </div>
+                            <div class="col"  (click)="getData('High Risk')">
+                                <div class="d-block">
+                                    <p class="p-first">
+                                        {{
+                                            mInventoryHighLevelStats.TotalHighRisk
+                                        }}
+                                    </p>
+                                    <p>High Risk</p>
+                                </div>
+                            </div>
+                            <!-- <div class="col">
+                            <div class="d-block">
+                                <p class="p-first">{{mInventoryHighLevelStats.TotalCompromised}}</p>
+                                <p>Compromised</p>
+                            </div>
+                        </div>
+                        <div class="col">
+                            <div class="d-block">
+                                <p class="p-first">{{mInventoryHighLevelStats.TotalNewThisWeek}}</p>
+                                <p>New this week</p>
+                            </div>
+                        </div> -->
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col">
+                <mat-card class="example-card">
+                    <mat-card-header>
+                        <mat-card-title>
+                            <br />
+                            Manufacturer Distribution
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="text-center height">
+                        <div class="row">
+                            <google-chart
+                                #ManufacturerDistributionchart
+                                [title]="ManufacturerDistributiontitle"
+                                [type]="ManufacturerDistributiontype"
+                                [data]="ManufacturerDistributiondata"
+                                [options]="ManufacturerDistributionoptions"
+                                [width]="ManufacturerDistributionwidth"
+                                [height]="ManufacturerDistributionheight"
+                                (select)="onSelect($event)"
+                            >
+                            </google-chart>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+            <div class="col">
+                <mat-card class="example-card">
+                    <mat-card-header style="border-bottom: 1px solid #d2d2d2;">
+                        <mat-card-title>
+                            <br />
+                            Device Type Family Distribution
+                        </mat-card-title>
+                    </mat-card-header>
+                    <mat-card-content class="text-left height">
+                        <div class="row highLight">
+                            <div class="col-6" *ngFor="let data of DeviceTypeFamilyDistribution;  let i = index ">
+                                <p style="margin: 0;padding: 15px 3px;" (click)="getDataByDevice(data.Type)"><b>{{data.Total}}</b>&nbsp;&nbsp;&nbsp;&nbsp;<span>{{data.Type}}</span></p>
+                            </div>
+                        </div>
+                    </mat-card-content>
+                </mat-card>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col"></div>
+            <div class="col"></div>
+            <div class="col"></div>
+        </div>
+    </div>
+</div>

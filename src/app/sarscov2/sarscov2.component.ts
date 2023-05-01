@@ -25,6 +25,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 export interface TableRow {
     PatientID: string;
     EmployeePhone: string;
@@ -100,8 +101,16 @@ export class Sarscov2Component implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         public fb: FormBuilder,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("sarscov2");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         this.sarsForm = this.fb.group({
             PatientID: ["", null],
             TestSampleDate: ["", null],
@@ -141,25 +150,11 @@ export class Sarscov2Component implements OnInit {
         this.Edate = new FormControl(new Date());
         this.startdateVal = this.Sdate.value;
         this.enddateVal = this.Edate.value;
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            //this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
         this.getTableFromServer(
             this.startdateVal,
@@ -234,7 +229,7 @@ export class Sarscov2Component implements OnInit {
         }else{
             this.DoseCompany = false;
         }
-        debugger
+        //debugger
         this.sarsForm = this.fb.group({
             PatientID: [
                 { value: this.rowFormData.PatientID, disabled: true },
@@ -335,9 +330,9 @@ export class Sarscov2Component implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -356,7 +351,7 @@ export class Sarscov2Component implements OnInit {
         }
     }
     toShortFormat(d: Date) {
-        ////debugger;
+        //////debugger;
         let monthNames = [
             "01",
             "02",
@@ -378,7 +373,7 @@ export class Sarscov2Component implements OnInit {
         let monthName = monthNames[monthIndex];
 
         let year = d.getFullYear();
-        ////debugger
+        //////debugger
         return `${day}/${monthName}/${year}`;
     }
 
@@ -397,14 +392,14 @@ export class Sarscov2Component implements OnInit {
     }
     releaseRow(row) {}
     public printRowForm(): void {
-        // debugger
+        // //debugger
 
-        //debugger
+        ////debugger
 
         $("#loader").removeClass("d-none");
         /*if (row.CS_SURVEY_Q2_2 == "Invalid Date") {
             row.CS_SURVEY_Q2_2 = "";
-            //debugger
+            ////debugger
         }*/
 
         setTimeout(function () {
@@ -421,12 +416,12 @@ export class Sarscov2Component implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllSarscov2", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllSarscov2", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
@@ -438,9 +433,9 @@ export class Sarscov2Component implements OnInit {
                 var json = JSON.parse(Response["d"]);
                 let json_2 = JSON.parse(json);
                 let SarsData = JSON.parse(json_2["aaData"]);
-                // debugger;
+                // //debugger;
                 for (var i = 0; i < SarsData.length; i++) {
-                    debugger
+                    //debugger
                     this.TABLE_DATA.push({
                         PatientID: SarsData[i].PatientID,
                         EmployeePhone: SarsData[i].EmployeePhone,
@@ -478,13 +473,13 @@ export class Sarscov2Component implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
                     JSON.parse(json_2["iTotalRecords"])
                 );
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

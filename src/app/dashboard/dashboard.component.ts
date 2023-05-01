@@ -7,10 +7,17 @@ import {
     ModalDismissReasons,
     NgbModalOptions,
 } from "@ng-bootstrap/ng-bootstrap";
+export interface DepartRefoee {
+    DepartName: string;
+    DepartBedsNumber: number;
+    DepartBedsInUsed: number;
+    DepartBedsInUsedPer: number;
+    Moshamem: number;
+}
 @Component({
     selector: "app-dashboard",
     templateUrl: "./dashboard.component.html",
-    styleUrls: ["./dashboard.component.css"],
+    styleUrls: ["./dashboard.component.scss"],
 })
 export class DashboardComponent implements OnInit {
     @ViewChild("circleProgress", { static: true })
@@ -23,17 +30,22 @@ export class DashboardComponent implements OnInit {
                     .find("svg")
                     .append($("#extra-precent").find("path"));
             }
-
-            ////debugger
             return "";
         },
     };
-    constructor(private router: Router, private http: HttpClient) {}
+    aobjTotal: string;
+    resporatoryCount: number;
+    name: string;
+    birthdayUser: boolean = false;
+    constructor(private router: Router, private http: HttpClient) { }
     today: number = Date.now();
+    // date = new Date();
     Departmints = {
         departs: [],
         total: 0,
+        resp: 0
     };
+    arrDepartsRefoee: DepartRefoee[] = [];
     _dotsLoader =
         '<div class="spinner">' +
         '<div class="bounce1"></div>' +
@@ -41,76 +53,111 @@ export class DashboardComponent implements OnInit {
         '<div class="bounce3"></div>' +
         "</div>";
     ngOnInit() {
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        }
+        $("#Vector_13").append('text').text('This is some information about whatever')
+            .attr('x', 50)
+            .attr('y', 150)
+            .attr('fill', '#938F8F');
+
         this.getDataFormServer("");
+        this.getEmployeesBirthDates();
     }
     // public getData(){
     //     this.Departmints["departs"].forEach((element, key) => {
     //         this.Departmints["departs"][key].Used = "";
-    //        // //debugger
+    //        // ////debugger
     //         //$(document).find("._Departmints li:nth("+key+") .append-dots").append($(this._dotsLoader));
     //         this.getDataFormServer(key, element.Code);
     //     });
     // }
+
+    getEmployeesBirthDates() {
+        let userName = localStorage.getItem("loginUserName").toLowerCase();
+        this.http
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEmployeesBirthDates", {
+                _userName: userName
+            })
+            .subscribe((Response) => {
+                let user = Response["d"];
+                try {
+                    this.name = user.FirstName;
+                    let currentDate = new Date();
+                    let day = user.DateOfBirth.split("-")[1];
+                    let month = user.DateOfBirth.split("-")[0];
+                    if (parseInt(day) == currentDate.getDate() && parseInt(month) == (currentDate.getMonth() + 1)) {
+                        this.birthdayUser = true;
+                    }
+                } catch (error) {
+                    console.log("error in birthday");
+                }
+
+            });
+    }
     public getDataFormServer(_Depart: string) {
         $("#loader").removeClass("d-none");
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/TfosaDashBoardApp",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardAppRefoee",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/TfosaDashBoardAppRefoee",
                 {
                     _depart: _Depart,
                 }
             )
             .subscribe(
-                (Response) => {
-                    ////debugger
-                    //var json = JSON.parse(Response["d"]);
-                    var obj = JSON.parse(Response["d"]);
-                    var aobjTotal = JSON.parse(obj["total"]);
-                    var aobj = JSON.parse(obj["DepartObjects"]);
-                    var totalReal = JSON.parse(obj["totalReal"]);
-                    var aaobj = JSON.parse("[" + aobj[0] + "]");
-                    ////debugger
-                    aobjTotal = JSON.parse(aobjTotal);
-//debugger
-                    aaobj.forEach((element, index) => {
-                        ////debugger
-                        if (element.BedsReal != "0") {
-                            //  //debugger
-                            for (var i = index + 1; i < aaobj.length; i++) {
-                                if (aaobj[i].BedsReal == "0") {
-                                    element.Used =
-                                        parseInt(element.Used) +
-                                        parseInt(aaobj[i].Used);
-                                } else {
-                                    break;
-                                }
-                            }
-                        }else{
-                            //debugger
-                        }
-                    });
+                (Response: DepartRefoee[]) => {
+                    this.arrDepartsRefoee = Response["d"];
+                    var totalBeds = 0;
+                    var totalInUsed = 0;
+                    var totalMonshame = 0;
+                    for (var i = 0; i < this.arrDepartsRefoee.length; i++) {
+                        totalBeds += parseInt(this.arrDepartsRefoee[i].DepartBedsNumber + "");
+                        totalInUsed += parseInt(this.arrDepartsRefoee[i].DepartBedsInUsed + "");
+                        totalMonshame = parseInt(this.arrDepartsRefoee[i].Moshamem + "");
+                    }
+                    this.resporatoryCount = totalMonshame;
+                    this.aobjTotal = totalBeds + " / " + totalInUsed;
+                    // debugger
+                    // var obj = JSON.parse(Response["d"]);
+                    // var aobjTotal = JSON.parse(obj["total"]);
+                    // var aobj = JSON.parse(obj["DepartObjects"]);
+                    // var totalReal = JSON.parse(obj["totalReal"]);
+                    // this.resporatoryCount = JSON.parse(obj["totalReal2"]);
+                    // var aaobj = JSON.parse("[" + aobj[0] + "]");
+                    // aobjTotal = JSON.parse(aobjTotal);
+                    // this.aobjTotal = aobjTotal["total"];
+                    // aaobj.forEach((element, index) => {
+                    //     if (element.BedsReal != "0") {
+                    //         for (var i = index + 1; i < aaobj.length; i++) {
+                    //             if (aaobj[i].BedsReal == "0" && aaobj[i].Name != 'ילוד בריא') {
+                    //                 element.Used =
+                    //                     parseInt(element.Used) +
+                    //                     parseInt(aaobj[i].Used);
+                    //             } else {
+                    //                 break;
+                    //             }
+                    //         }
+                    //     } else {
+                    //     }
+                    // });
 
-                    this.Departmints["departs"] = aaobj;
+                    // this.Departmints["departs"] = aaobj;
+                    // //debugger
                     this.Departmints["total"] = parseInt(
-                        ((aobjTotal.total / parseInt(totalReal)) * 100).toFixed(
+                        ((
+                            totalInUsed / totalBeds) * 100).toFixed(
+                                0
+                            )
+                    );
+                    this.Departmints["resp"] = parseInt(
+                        ((totalMonshame / totalBeds) * 100).toFixed(
                             0
                         )
                     );
-                    // this.Departmints["total"] = 140;
                     setTimeout(() => {
-                        //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
                     });
                 },
                 (error) => {
                     setTimeout(() => {
-                        //this.dataSource.paginator = this.paginator
                         $("#loader").addClass("d-none");
                     });
                 }

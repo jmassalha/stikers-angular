@@ -32,6 +32,7 @@ speed-measure-plugin*.json
 .history/*
 
 # misc
+/.angular/cache
 /.sass-cache
 /connect.lock
 /coverage
@@ -44,3 +45,14 @@ testem.log
 # System Files
 .DS_Store
 Thumbs.db
+src/assets/images/POSTER.jpg
+src/app/onn-line/onn-line.component.css
+src/app/onn-line/onn-line.component.css
+src/app/onn-line/onn-line.component.css
+src/app/onn-line/onn-line.component.html
+src/app/onn-line/onn-line.component.spec.ts
+src/app/onn-line/onn-line.component.ts
+src/app/onn-line/list-item/list-item.component.ts
+src/app/onn-line/list-item/list-item.css
+src/app/onn-line/list-item/list-item.html
+src/app/onn-line/models/item.ts

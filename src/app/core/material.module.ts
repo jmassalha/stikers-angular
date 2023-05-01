@@ -16,6 +16,7 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 import { FormsModule } from '@angular/forms';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import {MatTooltipModule} from '@angular/material/tooltip';
+import {MatFormFieldModule} from '@angular/material/form-field';
 @NgModule({
   imports: [
     MatExpansionModule,
@@ -29,6 +30,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     MatDialogModule,
     MatTableModule,
     MatTooltipModule,
+    MatFormFieldModule,
     MatMenuModule,
     MatAutocompleteModule,
     MatIconModule,
@@ -39,6 +41,7 @@ import {MatTooltipModule} from '@angular/material/tooltip';
     CommonModule,
     DataTablesModule,
     MatToolbarModule, 
+    MatFormFieldModule,
     MatButtonModule, 
     MatCardModule, 
     MatInputModule,

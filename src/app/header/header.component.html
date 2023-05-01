@@ -1,14 +1,44 @@
 <nav dir="rtl" class="navbar navbar-expand-lg navbar-light bg-primary">
     <button class="btn bmd-btn-icon" type="button" id="menu-btn">
         <i class="material-icons closeMe"> close </i>
-        <i class="material-icons open" *ngIf="!personReadInquiry"> menu </i>
-        <i class="material-icons open" matBadgeColor="warn" [matBadge]="numberOfUnread" *ngIf="personReadInquiry"> menu
-        </i>
+        <i class="material-icons open"> menu </i>
     </button>
-    <div dir="rtl" class="text-right" id="app-menu">
+    <div dir="rtl" class="test text-right" id="app-menu">
         <ul class="navbar-nav mr-auto">
             <li class="nav-item" *ngIf="!_shoSofiMenu">
                 <a class="nav-link" routerLink="dashboard">Dashboard</a>
+            </li>
+
+
+            <li class="nav-item">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> מנהל מערכת </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="devmanage">ניהול כללי</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+            <li class="nav-item" *ngIf="employeesManagePermission">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> ניהול עובדים </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="employeesmanagedashboard">דאשבורד</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
             </li>
             <li class="nav-item" *ngIf="!_shoSofiMenu">
                 <mat-accordion>
@@ -26,6 +56,24 @@
                             </li>
                             <li>
                                 <a class="nav-link" routerLink="hearing">סקר שמיעה</a>
+                            </li>
+                            <li>
+                                <a class="nav-link" *ngIf="_galitReport" routerLink="galitpointsreport">דווח גלית</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+            <li class="nav-item" *ngIf="cardiologyPermission">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> אלקטרופיזיולוגיה </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="cardiologycalendar">יומן ניהול מטופלים</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -93,6 +141,22 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
+            <li class="nav-item">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title>ילוד ואם</mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+
+                            <li class="nav-item">
+                                <a class="nav-link" routerLink="motherchildelink">קשר ילוד לאם</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
             <li class="nav-item" *ngIf="_shoNIC">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -130,20 +194,19 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
-            <li class="nav-item" *ngIf="nursesUserPermission">
+            <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
-                            <mat-panel-title>מערכת אחיות </mat-panel-title>
+                            <mat-panel-title>מערכת דיווח סיעודית</mat-panel-title>
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
-
                             <li class="nav-item">
-                                <a class="nav-link" routerLink="nursereportsystem">מערכת דו"חות</a>
+                                <a class="nav-link" routerLink="nursesmanagedashboard">מערכת דיווח סיעודית</a>
                             </li>
-                            <li class="nav-item">
-                                <a class="nav-link" routerLink="nursesmanagedashboard">דאשבורד מחלקות</a>
+                            <li class="nav-item" *ngIf="_nursesSystemManage">
+                                <a class="nav-link" routerLink="systemmanage">ניהול מערכת דיווח</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>
@@ -232,8 +295,12 @@
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
                         <ul>
+
                             <li class="nav-item" *ngIf="_shoCoronavaccine">
                                 <a class="nav-link" routerLink="sarscov2">נוגדנים לקורונה</a>
+                            </li>
+                            <li *ngIf="fastCovidTestPermission">
+                                <a class="nav-link" routerLink="fastcovidtestdashboard">בדיקת קורונה מהירה</a>
                             </li>
 
                             <li class="nav-item" *ngIf="_shoCoronavaccine">
@@ -267,7 +334,15 @@
                     </mat-expansion-panel>
                 </mat-accordion>
             </li>
-
+            <li class="nav-item" *ngIf="_EmSurgiries">
+                <a class="nav-link" routerLink="urgentsurgeries">ניתוחים דחופים</a>
+            </li>
+            <li class="nav-item">
+                <a class="nav-link" routerLink="orderstoappointments"> בקשה לזימון תורים</a>
+            </li>
+            <li class="nav-item" *ngIf="_OnlineAppointments">
+                <a class="nav-link" routerLink="onlineappointments">זימון תורים און-לין</a>
+            </li>
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
@@ -290,19 +365,22 @@
             <li class="nav-item">
                 <mat-accordion>
                     <mat-expansion-panel>
-                        <mat-expansion-panel-header *ngIf="!personReadInquiry">
+                        <mat-expansion-panel-header>
                             <mat-panel-title> פניות ציבור </mat-panel-title>
                             <mat-panel-description> </mat-panel-description>
                         </mat-expansion-panel-header>
-                        <mat-expansion-panel-header *ngIf="personReadInquiry">
+                        <!-- <mat-expansion-panel-header *ngIf="personReadInquiry">
                             <mat-panel-title> פניות ציבור</mat-panel-title>
                             <mat-panel-description style="align-items: center;"><i matBadgeColor="warn"
                                     [matBadge]="numberOfUnread"></i> </mat-panel-description>
-                        </mat-expansion-panel-header>
+                        </mat-expansion-panel-header> -->
                         <ul>
                             <li class="nav-item">
                                 <a class="nav-link" routerLink="emailsdashboard">דאשבורד פניות</a>
                             </li>
+                            <!-- <li class="nav-item" *ngIf="loginUserName == 'matias'">
+                                <a class="nav-link" routerLink="publicinquiriescharts">גרפים</a>
+                            </li> -->
                         </ul>
                     </mat-expansion-panel>
                 </mat-accordion>
@@ -324,10 +402,10 @@
             </li>
 
             <li class="nav-item" *ngIf="_shoGlucose && !_shoSofiMenu">
-                <a class="nav-link" routerLink="glucose">נתוני לסוכרת</a>
+                <a class="nav-link" routerLink="glucose">נתונים לסוכרת</a>
             </li>
 
-            <li class="nav-item" *ngIf="_sendSMS && !_shoSofiMenu">
+            <li class="nav-item" *ngIf="(_sendSMS || _sendSMSADMIN ) && !_shoSofiMenu">
                 <mat-accordion>
                     <mat-expansion-panel>
                         <mat-expansion-panel-header>
@@ -362,6 +440,21 @@
                             </li>
                             <li>
                                 <a class="nav-link" routerLink="staff">צוות</a>
+                            </li>
+                        </ul>
+                    </mat-expansion-panel>
+                </mat-accordion>
+            </li>
+            <li class="nav-item" *ngIf="visitorsUserPermission">
+                <mat-accordion>
+                    <mat-expansion-panel>
+                        <mat-expansion-panel-header>
+                            <mat-panel-title> רישום מבקרים </mat-panel-title>
+                            <mat-panel-description> </mat-panel-description>
+                        </mat-expansion-panel-header>
+                        <ul>
+                            <li>
+                                <a class="nav-link" routerLink="visitorsmonitoring">דאשבורד מחלקות</a>
                             </li>
                         </ul>
                     </mat-expansion-panel>

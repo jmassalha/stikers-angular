@@ -31,6 +31,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Role {
     R_ROW_ID: number;
@@ -71,8 +72,16 @@ export class RolesComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("roles");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     @Input()
     foo: string = "bar";
     startdateVal: string;
@@ -96,24 +105,7 @@ export class RolesComponent implements OnInit {
             rowIdVal: ["", false],
         });
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mbilya" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         this.getReport(this);
     }
     openSnackBar() {
@@ -127,7 +119,7 @@ export class RolesComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.rolesForm.invalid) {
             return;
@@ -135,16 +127,16 @@ export class RolesComponent implements OnInit {
 
         this.rowElement.R_ROLE_NAME = this.rolesForm.value.fullnameVal;
         this.rowElement.R_ROW_ID = this.rolesForm.value.rowIdVal;
-       // //debugger
+       // ////debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaRoles", {
+            .post("http://srv-ipracticom:8080/WebService.asmx/PoriaRoles", {
                 _roleName: this.rolesForm.value.fullnameVal,
                 _roleStatus: 1,
                 _rowId: this.rolesForm.value.rowIdVal,
             })
             .subscribe((Response) => {
                 var json = Response["d"].split(", ");
-                //debugger
+                ////debugger
                 if (" UPDATE" != json[2]) {
                     this.rowElement.R_ROLE_NAME = json[0];
                     this.rowElement.R_ROW_ID = json[1];
@@ -156,8 +148,8 @@ export class RolesComponent implements OnInit {
                 }
 
                 //var vars = json.split
-                // //debugger;
-                // //debugger 888888
+                // ////debugger;
+                // ////debugger 888888
                 this.openSnackBar();
             });
         // display form values on success
@@ -165,7 +157,7 @@ export class RolesComponent implements OnInit {
         this.modalService.dismissAll();
     }
     editRow(content, _type, _element) {
-        ////debugger
+        //////debugger
         this.rowElement = _element;
         this.fullnameVal = _element.R_ROLE_NAME;
         this.rowIdVal = _element.R_ROW_ID;
@@ -176,9 +168,9 @@ export class RolesComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -188,7 +180,7 @@ export class RolesComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
     }
     applyFilter(filterValue: string) {
@@ -205,7 +197,7 @@ export class RolesComponent implements OnInit {
 
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
 
         this.rowElement = {
             R_ROW_ID: 0,
@@ -223,9 +215,9 @@ export class RolesComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -262,12 +254,12 @@ export class RolesComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetPoriaRoles", {
+            .post("http://srv-ipracticom:8080/WebService.asmx/GetPoriaRoles", {
                 _pageIndex: _pageIndex,
                 _pageSize: _pageSize,
                 _FreeText: _FreeText,
@@ -276,9 +268,9 @@ export class RolesComponent implements OnInit {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let RolesData = JSON.parse(json["aaData"]);
-                ////debugger
+                //////debugger
                 for (var i = 0; i < RolesData.length; i++) {
-                    ////debugger
+                    //////debugger
                     this.TABLE_DATA.push({
                         R_ROW_ID: RolesData[i].R_ROW_ID,
                         R_ROLE_NAME: RolesData[i].R_ROLE_NAME,
@@ -286,11 +278,11 @@ export class RolesComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

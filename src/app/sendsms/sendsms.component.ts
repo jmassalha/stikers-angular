@@ -31,6 +31,7 @@ import {
   FormGroup,
   Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 
 @Component({
@@ -57,8 +58,16 @@ export class SendsmsComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("sendsms");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     @Input()
     ngOnInit(): void {
         this.smsText = "";
@@ -70,24 +79,7 @@ export class SendsmsComponent implements OnInit {
           smsNumbers: ["", Validators.required],
           surveyNumber: ["1", Validators.required],
       });
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha"||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn"||
-            localStorage.getItem("loginUserName").toLowerCase() == "dporat"    ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+       
     }
     openSnackBar() {
         this._snackBar.open("נשלח בהצלחה", "", {
@@ -101,7 +93,7 @@ export class SendsmsComponent implements OnInit {
     ngAfterViewInit(): void {}
     
     public sendSms() {
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.sendSmsForm.invalid) {
             return;
@@ -110,14 +102,14 @@ export class SendsmsComponent implements OnInit {
 
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-       // //debugger
+       // ////debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLine",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SendSMSOnLine",
                 {
                     smsText: this.sendSmsForm.value.smsText,
                     smsNumbers: this.sendSmsForm.value.smsNumbers,
@@ -132,7 +124,7 @@ export class SendsmsComponent implements OnInit {
                   surveyNumber: ["1", Validators.required],
               });
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

@@ -157,7 +157,7 @@
                                                    
                                                     #one
                                                     value="1"
-                                                    >פוריה</mat-radio-button
+                                                    >צפון</mat-radio-button
                                                 >
                                             </mat-list-item>
                                         </div>
@@ -193,6 +193,7 @@
                                                     "
                                                     name="Check_status"
                                                     
+                                                    [checked]="true"
                                                     #oneStatus
                                                     value="1"
                                                     >כן</mat-radio-button
@@ -207,7 +208,6 @@
                                                             $event
                                                         )
                                                     "
-                                                    [checked]="true"
                                                     name="Check_status"
                                                     #twoStatus
                                                     value="0"
@@ -567,41 +567,7 @@
 </div>
 <hr />
 <!-- (mapClick)="mapClicked($event)" -->
-<div class="container-fluid text-right">
-    <!-- <agm-map
-        [latitude]="lat"
-        [longitude]="lng"
-        [zoom]="zoom"
-        [disableDefaultUI]="true"
-        [zoomControl]="true"
-        [scrollwheel]="true"
-    >
-        <agm-marker
-            *ngFor="let m of markers; let i = index"
-            (markerClick)="clickedMarker(m.label, i)"
-            [latitude]="m.lat"
-            [longitude]="m.lng"
-            [label]="m.label"
-            [iconUrl]="m.icon"
-            [markerDraggable]="m.draggable"
-            (dragEnd)="markerDragEnd(m, $event)"
-        >
-            <agm-info-window>
-                <strong>{{ m.address }}</strong>
-            </agm-info-window>
-        </agm-marker>
-    </agm-map>
-    <br /> -->
-    <br />
-    <div class="row" style="flex-flow: column-reverse">
-        <div class="colde d-nonea" id="LineChart"></div>
-    </div>
-    <br /><br />
 
-    <div class="row" style="flex-flow: column-reverse">
-        <div class="coil-6" id="totalChart"></div>
-    </div>
-</div>
 
 <div
     dir="rtl"
@@ -1018,3 +984,38 @@
         </button>
     </div>
 </ng-template>
+<div class="container-fluid text-right">
+    <agm-map
+       [latitude]="lat"
+       [longitude]="lng"
+       [zoom]="zoom"
+       [disableDefaultUI]="true"
+       [zoomControl]="true"
+       [scrollwheel]="true"
+   >
+       <agm-marker
+           *ngFor="let m of markers; let i = index"
+           (markerClick)="clickedMarker(m.label, i)"
+           [latitude]="m.lat"
+           [longitude]="m.lng"
+           [label]="m.label"
+           [iconUrl]="m.icon"
+           [markerDraggable]="m.draggable"
+           (dragEnd)="markerDragEnd(m, $event)"
+       >
+           <agm-info-window>
+               <strong>{{ m.address }}</strong>
+           </agm-info-window>
+       </agm-marker>
+   </agm-map>
+   <br /> 
+   <br />
+   <div class="row" style="flex-flow: column-reverse">
+       <div class="colde d-nonea" id="LineChart"></div>
+   </div>
+   <br /><br />
+
+   <div class="row" style="flex-flow: column-reverse">
+       <div class="coil-6" id="totalChart"></div>
+   </div>
+</div>

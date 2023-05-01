@@ -5,7 +5,45 @@
     left: 43px;
     z-index: 10;
 }
+#submaternityBtn{
+    bottom: 6px;
+    left: 20px;
+    z-index: 10;
+}
 .group-border{
     border-top: 3px solid #341d5c;
     padding-top: 20px;;
+}
+table th.mat-header-cell{
+    text-align: center;
+    width: 24%;
+}
+thead{
+    text-align: center;
+}
+tbody{
+    text-align: center;
+}
+p{
+    text-align: center;
+}
+.mat-card{
+    padding-bottom: 10px;
+    box-shadow: 0px 3px 8px 0px;
+}
+mat-card{
+    margin-bottom: 10px;
+}
+.list-of-new{
+    height: 727px;
+    border: #adad87 2px solid;
+    border-radius: 14px;
+    overflow: auto;
+}
+#alertIcon{
+    cursor: pointer;
+}
+.card.activity{
+    cursor: pointer;
+    text-align: center;
 }

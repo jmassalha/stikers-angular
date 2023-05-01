@@ -25,6 +25,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Select {
     code: string;
@@ -176,8 +177,16 @@ export class Covid19reportComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("coronaform");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     startdateVal: string;
     enddateVal: string;
     Sdate: FormControl;
@@ -213,30 +222,12 @@ export class Covid19reportComponent implements OnInit {
             Site_Code: ['469', Validators.required],
             Site_Desc: ['PORIA', Validators.required],
         });
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" 
-                ||             localStorage.getItem("loginUserName").toLowerCase() == "edinisman"
-                ||             localStorage.getItem("loginUserName").toLowerCase() == "whanout"
-                ||             localStorage.getItem("loginUserName").toLowerCase() == "dsalameh"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         this.getReport("");
     }
 
     getReport($event: any): void {
-        //debugger
+        ////debugger
         if (this.startdateVal && this.enddateVal)
             this.getTableFromServer(
                 this.startdateVal,
@@ -300,12 +291,12 @@ export class Covid19reportComponent implements OnInit {
             Site_Desc: ['PORIA', Validators.required],
         });
         //$('#free_text').text(_element.FreeText);
-        // //debugger
+        // ////debugger
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -336,7 +327,7 @@ export class Covid19reportComponent implements OnInit {
         }
     }
     public editRowForm(content, _type, row): void {
-        //debugger
+        ////debugger
         var cRow = row;
         switch (cRow.Reporting_Type_Code) {
             case "1":
@@ -361,7 +352,7 @@ export class Covid19reportComponent implements OnInit {
             (+dateArray[5]),
             (+dateArray[6])
         );
-        debugger
+        //debugger
         this.addOrEditReportForm = this.formBuilder.group({
             RowId: [cRow.RowId, Validators.required],
             Reporting_Date_Time: [
@@ -388,9 +379,9 @@ export class Covid19reportComponent implements OnInit {
         });
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -448,14 +439,14 @@ export class Covid19reportComponent implements OnInit {
         // current seconds
         let seconds = taht.addOrEditReportForm.value.Reporting_Date_Time.getSeconds();
         taht.addOrEditReportForm.value.Reporting_Date_Time = year + "-" + month + "-" + date + " " + hours + ":" + minutes + ":" + seconds;
-        debugger
+        //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitCovid19Report", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitCovid19Report", {
                 mCovid19Report: taht.addOrEditReportForm.value,
             })
             .subscribe((Response) => {
-                //debugger
-                // //debugger 888888
+                ////debugger
+                // ////debugger 888888
                 this.openSnackBar();
                 this.getReport("");
             });
@@ -472,12 +463,12 @@ export class Covid19reportComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetAllReporting", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllReporting", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
@@ -487,9 +478,9 @@ export class Covid19reportComponent implements OnInit {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(JSON.parse(Response["d"]));
                 let CoronaData = JSON.parse(json["aaData"]);
-                ////debugger
+                //////debugger
                 for (var i = 0; i < CoronaData.length; i++) {
-                    ////debugger
+                    //////debugger
                     let Edit = false;
                     if(CoronaData[i].RowStatus == "פעיל"){
                         Edit = true;
@@ -519,11 +510,11 @@ export class Covid19reportComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

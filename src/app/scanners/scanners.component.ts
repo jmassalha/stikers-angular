@@ -3,6 +3,7 @@ import {
     OnInit,
     ViewChild,
     AfterViewInit,
+    ChangeDetectorRef,
     Input,
 } from "@angular/core";
 import { Router } from "@angular/router";
@@ -32,6 +33,8 @@ import {
     Validators,
 } from "@angular/forms";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { SelectionModel } from "@angular/cdk/collections";
+import { MenuPerm } from "../menu-perm";
 export interface Boxes {
     RowID: number;
     BoxID: number;
@@ -51,20 +54,28 @@ export class ScannersComponent implements OnInit {
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
     displayedColumns: string[] = [
-        "RowID",
+        "select",
+       // "RowID",
         "BoxID",
         "TotalCases",
         "CLICK",
         "CLICK_casenumbers",
+        "CLICK_print",
+       // "CLICK_sendtosafe",
     ];
     private activeModal: NgbActiveModal;
     modalOptions: NgbModalOptions;
+    modalOptionsPrint: NgbModalOptions = {
+        windowClass: "modalOptionsPrint",
+    };
     closeResult: string;
     TABLE_DATA: Boxes[] = [];
     rowFormData = {} as Boxes;
-    dataSource = new MatTableDataSource(this.TABLE_DATA);
+    dataSource = new MatTableDataSource<Boxes>(this.TABLE_DATA);
+    selection = new SelectionModel<Boxes>(true, []);
     loader: Boolean;
     tableLoader: Boolean;
+    selectedOn: Boolean = false;
     resultsLength = 0;
     departStatus = 0;
     fliterVal = "";
@@ -81,18 +92,50 @@ export class ScannersComponent implements OnInit {
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
         private confirmationDialogService: ConfirmationDialogService,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private cdr: ChangeDetectorRef,
+        private mMenuPerm: MenuPerm
     ) {
-        // ////debugger
+        mMenuPerm.setRoutName("scanners");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
+        // //////debugger
         this.activeModal = activeModal;
     }
     @Input()
     GroupName: string;
     GroupNumber: string;
-
+    numSelected: number;
+    numRows: number;
+    isAllSelected() {
+        const numSelected = this.selection.selected.length;
+        const numRows = this.dataSource.data.length;
+        return numSelected === numRows;
+    }
+    masterToggle() {
+        ////debugger
+        // this.isAllSelected()
+        //     ? this.selection.clear()
+        //     : this.dataSource.data.forEach((row) => this.selection.select(row));
+    }
+    
+    ngAfterViewInit(): void {
+    }
+    CheckNumberOfSelection(){
+        if(this.selection.selected.length){
+            this.selectedOn = true;
+        }else{
+            this.selectedOn = false;
+        }
+    }
     ngOnInit(): void {
+        this.selectedOn = false;
         this.SendSmsToemergencymembersModal;
-        //debugger;
+        ////debugger;
         $("#loader").removeClass("d-none");
         this.GroupName = "";
         this.GroupNumber = "";
@@ -102,27 +145,14 @@ export class ScannersComponent implements OnInit {
 
         this.BoxForm = this.formBuilder.group({
             BoxID: ["", Validators.required],
-            User: [
-                localStorage.getItem("loginUserName"),
-                Validators.required,
-            ],
+            User: [localStorage.getItem("loginUserName"), Validators.required],
             RowID: ["0", false],
         });
         console.log("sleep");
-        if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         this.getReport(this);
     }
-    
-   
+
     openSnackBar() {
         this._snackBar.open("נשמר בהצלחה", "", {
             duration: 2500,
@@ -132,42 +162,148 @@ export class ScannersComponent implements OnInit {
             verticalPosition: this.verticalPosition,
         });
     }
-    
+    openSnackBarBoxIsFound() {
+        this._snackBar.open("מזהה קרטון נמצא", "", {
+            duration: 2500,
+            direction: "rtl",
+            panelClass: "error",
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+        });
+    }
+    openSendSnackBar() {
+        this._snackBar.open("נשלח בהצלחה", "", {
+            duration: 2500,
+            direction: "rtl",
+            panelClass: "success",
+            horizontalPosition: this.horizontalPosition,
+            verticalPosition: this.verticalPosition,
+        });
+    }
     onSubmit() {
         this.submitted = true;
-        //debugger
+        ////debugger
 
         if (this.BoxForm.invalid) {
             return;
         }
-        //////debugger
+        ////////debugger
         setTimeout(function () {
             $("#loader").removeClass("d-none");
         });
-        ////debugger;
+        //////debugger;
         this.http
-            .post(
-                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateBox",
-                {
-                    boxes: this.BoxForm.value,
-                }
-            )
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateBox", {
+                boxes: this.BoxForm.value,
+            })
             .subscribe((Response) => {
-                this.getReport(null);
-                this.openSnackBar();
-                setTimeout(function () {
+                ////debugger
+                if(!Response["d"]){
+                    this.getReport(null);
+                    this.openSnackBar();
+                    setTimeout(function () {
+                        $("#loader").addClass("d-none");
+                    });
+                    this.modalService.dismissAll();
+                }else{
                     $("#loader").addClass("d-none");
-                });
+                   this.openSnackBarBoxIsFound();
+                }
+                
             });
         // display form values on success
         //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.BoxForm.value, null, 4));
-        this.modalService.dismissAll();
+        
     }
 
+    sendcasenumberstosafeNew() {
+        this.confirmationDialogService
+            .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+            .then((confirmed) => {
+                console.log("User confirmed:", confirmed);
+                if (confirmed) {
+                    //debugger
+                    var BoxIds = "";
+                    for(var i = 0; i < this.selection["_selected"].length; i ++){
+                        BoxIds += this.selection["_selected"][i].RowID+ ",";
+                    }
+                    this.sendToSafe(BoxIds);
+                    //this.sendToSafe();
+                } else {
+                }
+            })
+            .catch(() =>
+                console.log(
+                    "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+                )
+            );
+    }
+
+    sendcasenumberstosafe(_element) {
+        this.confirmationDialogService
+            .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+            .then((confirmed) => {
+                console.log("User confirmed:", confirmed);
+                if (confirmed) {
+                    this.sendToSafe(_element.RowID);
+                } else {
+                }
+            })
+            .catch(() =>
+                console.log(
+                    "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+                )
+            );
+    }
+
+    sendToSafe(RowId) {
+        this.http
+            //.post("http://srv-ipracticom:8080/WebService.asmx/SendBoxCasesToSafe",
+            .post("http://srv-ipracticom:8080/WebService.asmx/SendBoxCasesToSafe",
+                {
+                    RowId: RowId,
+                }
+            )
+            .subscribe((Response) => {
+                this.openSendSnackBar();
+                this.selection = new SelectionModel<Boxes>(true, []);
+                this.selectedOn = false;
+            });
+    }
     showcasenumbers(content, _type, _element) {
-        // //debugger;
+        // ////debugger;
+
+        localStorage.setItem("Print", "false");
         localStorage.setItem("CartoonID", _element.RowID);
-        this.modalService.open(content, this.modalOptions);
+        localStorage.setItem("CartoonUNID", _element.BoxID);
+        localStorage.setItem("TotalCases", _element.TotalCases);
+        this.modalService.open(content, this.modalOptions).result.then(
+            (result) => {
+                this.closeResult = `Closed with: ${result}`;
+                // //debugger
+                if ("Save" == result) {
+                    // ////////debugger;
+                    //this.saveChad(_element.ROW_ID);
+                }
+            },
+            (reason) => {
+                this.getReport(this);
+                this.closeResult = `Dismissed ${this.getDismissReason(reason)}`;
+            }
+        );
+    }
+
+    printcasenumbers(content, _type, _element) {
+        // ////debugger;
+        localStorage.setItem("Print", "true");
+        localStorage.setItem("CartoonID", _element.RowID);
+        localStorage.setItem("CartoonUNID", _element.BoxID);
+        localStorage.setItem("TotalCases", _element.TotalCases);
+        this.activeModal = this.modalService.open(
+            content,
+            this.modalOptionsPrint
+        );
     }
 
     CloseModalSendSms() {
@@ -175,21 +311,18 @@ export class ScannersComponent implements OnInit {
     }
     editRow(content, _type, _element) {
         this.GroupName = _element.GroupName;
-        ////debugger;
+        //////debugger;
         this.BoxForm = this.formBuilder.group({
             BoxID: [_element.BoxID, Validators.required],
-            User: [
-                localStorage.getItem("loginUserName"),
-                Validators.required,
-            ],
+            User: [localStorage.getItem("loginUserName"), Validators.required],
             RowID: [_element.RowID, false],
         });
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////debugger
+                //////////debugger
                 if ("Save" == result) {
-                    // //////debugger;
+                    // ////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -199,8 +332,8 @@ export class ScannersComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////////debugger
-        this.getTableFromServer(this.fliterVal, 0, 10);
+        //////////debugger
+        this.getTableFromServer(this.fliterVal, 0, 100);
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
@@ -213,21 +346,18 @@ export class ScannersComponent implements OnInit {
     open(content, _type, _element) {
         this.GroupNumber = "";
         this.GroupName = "חדש";
-        //////debugger;
+        ////////debugger;
         this.BoxForm = this.formBuilder.group({
             BoxID: ["", Validators.required],
-            User: [
-                localStorage.getItem("loginUserName"),
-                Validators.required,
-            ],
+            User: [localStorage.getItem("loginUserName"), Validators.required],
             RowID: ["0", false],
         });
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////////debugger
+                //////////debugger
                 if ("Save" == result) {
-                    // //////debugger;
+                    // ////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -246,7 +376,6 @@ export class ScannersComponent implements OnInit {
         }
     }
 
-    ngAfterViewInit(): void {}
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
 
@@ -260,40 +389,40 @@ export class ScannersComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //////debugger
+            // ////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //debugger
-        //http://srv-apps/wsrfc/WebService.asmx/
-        //http://srv-apps/wsrfc/WebService.asmx/
+        ////debugger
+        //http://srv-apps-prod/RCF_WS/WebService.asmx/
+        //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetBoxes", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBoxes", {
                 serachTxt: _FreeText,
                 pageIndex: _pageIndex,
                 pageSize: _pageSize,
             })
             .subscribe((Response) => {
-                ////////debugger
+                //////////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 this.TABLE_DATA = Response["d"];
-                //debugger
-                if(this.TABLE_DATA[0]["BoxID"] == null){
-                    
+                ////debugger
+                if (this.TABLE_DATA[0]["BoxID"] == null) {
                     this.TABLE_DATA = [];
 
-                    
-                    this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+                    this.dataSource = new MatTableDataSource<any>(
+                        this.TABLE_DATA
+                    );
                     this.resultsLength = 0;
-                    
-                    
-                }else{
-                    this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-                    this.resultsLength = this.TABLE_DATA[0]["Total"];    
+                } else {
+                    this.dataSource = new MatTableDataSource<any>(
+                        this.TABLE_DATA
+                    );
+                    this.resultsLength = this.TABLE_DATA[0]["Total"];
                 }
-                
+
                 setTimeout(function () {
-                    ////////debugger
+                    //////////debugger
                     //if (tableLoader) {
                     $("#loader").addClass("d-none");
                     // }

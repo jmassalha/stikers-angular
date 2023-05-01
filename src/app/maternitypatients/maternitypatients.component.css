@@ -1,8 +1,8 @@
 
 #rolesDetailsBtn{
-    position: absolute;
-    bottom: 50px;
-    left: 10px;
+    position: fixed;
+    bottom: 65px;
+    left: 25px;
     z-index: 10;
 }
 .form-group {
@@ -14,4 +14,15 @@
     font-family: Roboto, "Helvetica Neue", sans-serif;
     float: right;
     margin-right: 15px;
+}
+.card-img{
+    width: auto;
+    margin: 10px;
+    padding: 15px;
+}
+thead{
+    text-align: center;
+}
+tbody{
+    text-align: center;
 }

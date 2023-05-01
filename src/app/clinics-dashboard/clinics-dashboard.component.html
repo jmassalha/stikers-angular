@@ -1,4 +1,5 @@
 <div class="row" id="page-toshow">
+    <h1 class="page-title text-center">הצעות מחיר פה ולסת</h1>
     <div class="col"></div>
     <div class="col-4">
         <div dir="rtl" class="card w-85-p">
@@ -29,12 +30,8 @@
                             </div>
                         </div>
                     </div>
-<<<<<<< HEAD
                     <h4 class="searchingPatient" *ngIf="!searchPatientProgressBar"> מחפש נבדק ... </h4>
-                    <button type="submit" mat-raised-button color="yello" (click)="getPatients()">
-=======
-                    <button type="submit" mat-raised-button color="yello" (click)="searchPatientDetails()">
->>>>>>> bb3bf51b888e879d0a307d92b8f751da93455712
+                    <button type="submit" mat-raised-button color="yello" (click)="getPatients('false',0)">
                         <mat-icon>search</mat-icon>
                     </button>
                     &nbsp;&nbsp;&nbsp;
@@ -42,13 +39,12 @@
                         <mat-icon>clear</mat-icon>
                     </button>
                     &nbsp;&nbsp;&nbsp;
-<<<<<<< HEAD
                 </form>
             </div>
             <mat-progress-bar mode="buffer" *ngIf="!searchPatientProgressBar"></mat-progress-bar>
         </div>
     </div>
-    
+
     <div class="col"></div>
     <div dir="rtl" class="container-fluid pb-60" *ngIf="newPatient">
         <table mat-table [dataSource]="dataSource3" class="mat-elevation-z8">
@@ -89,7 +85,7 @@
             <ng-container matColumnDef="print">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> הדפסה </th>
                 <td mat-cell *matCellDef="let element"> <button type="submit" mat-raised-button color="primary"
-                        (click)="printClinicPrice(element)">
+                        (click)="printClinicPrice(element,0)">
                         <mat-icon>print</mat-icon>
                     </button> </td>
             </ng-container>
@@ -105,216 +101,30 @@
             <tr mat-header-row *matHeaderRowDef="displayedColumns3"></tr>
             <tr mat-row *matRowDef="let row; columns: displayedColumns3;"> </tr>
         </table>
-        <button (click)="openClinicManagementModel(patientRecords[0],0)" type="button" id="rolesDetailsBtn" mat-fab color="primary"><i
-            class="material-icons">add</i></button>
+        <button (click)="openClinicManagementModel(patientRecords[0],0)" type="button" id="rolesDetailsBtn" mat-fab
+            color="primary"><i class="material-icons">add</i></button>
     </div>
     <br>
 </div>
-=======
-                    <button type="submit" mat-raised-button color="primary" (click)="printClinicPrice()"
-                        *ngIf="patientFound">
-                        <mat-icon>print</mat-icon>
-                    </button>
-                </form>
-            </div>
-        </div>
-    </div>
-    <div class="col"></div>
-    <br>
-</div>
-
-<div class="row" *ngIf="patientFound && permission && !print" id="page-toshow">
-    <div class="col" dir="rtl">
-        <mat-vertical-stepper [linear]="isLinear" #stepper>
-            <mat-step [stepControl]="detailsFormGroup">
-                <form [formGroup]="detailsFormGroup">
-                    <ng-template matStepLabel>פרטים דמוגרפיים</ng-template>
-                    <div class="row">
-                        <div class="col">
-                            <mat-form-field>
-                                <mat-label>שם פרטי</mat-label>
-                                <input matInput formControlName="FirstName">
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field>
-                                <mat-label>שם משפחה</mat-label>
-                                <input matInput formControlName="LastName">
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field>
-                                <mat-label>מספר תעודת זהות</mat-label>
-                                <input matInput formControlName="PersonID">
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field appearance="fill">
-                                <mat-label>תאריך לידה</mat-label>
-                                <input matInput [matDatepicker]="picker" formControlName="DOB">
-                                <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
-                            </mat-form-field>
-                            <mat-datepicker #picker></mat-datepicker>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col text-right">
-                            <mat-label>מגדר : </mat-label>
-                            <mat-radio-group class="example-radio-group" formControlName="Gender">
-                                <mat-radio-button value="1" style="margin-left: 20px;margin-right: 20px;">זכר
-                                </mat-radio-button>
-                                <mat-radio-button value="2" style="margin-left: 20px;">נקבה</mat-radio-button>
-                                <mat-radio-button value="3">אחר</mat-radio-button>
-                            </mat-radio-group>
-                        </div>
-                        <div class="col">
-                            <mat-form-field>
-                                <mat-label>מספר טלפון</mat-label>
-                                <input matInput formControlName="PhoneNumber">
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field>
-                                <mat-label>אימייל</mat-label>
-                                <input matInput formControlName="Email">
-                            </mat-form-field>
-                        </div>
-                        <div class="col">
-                            <mat-form-field>
-                                <mat-label>כתובת</mat-label>
-                                <input matInput formControlName="Address">
-                            </mat-form-field>
-                        </div>
-                    </div>
-
-                    <div>
-                        <button mat-raised-button matStepperNext>הבא</button>
-                    </div>
-                </form>
-            </mat-step>
-            <mat-step [stepControl]="servicesFormGroup">
-                <form [formGroup]="servicesFormGroup">
-                    <ng-template matStepLabel>סוג שירות</ng-template>
-                    <div class="row">
-                        <div class="col-8">
-                            <mat-form-field appearance="fill">
-                                <mat-label>מחלקה</mat-label>
-                                <mat-select formControlName="DepartNumber">
-                                    <mat-option *ngFor="let dept of departments" [value]="dept.DepartNumber">
-                                        {{dept.DepartName}}
-                                    </mat-option>
-                                </mat-select>
-                            </mat-form-field>
-                            <!-- <mat-form-field class="example-full-width">
-                                <mat-label>מחלקה</mat-label>
-                                <input type="text" matInput [formControl]="myControl" [matAutocomplete]="auto">
-                                <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
-                                    <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                                        {{option.DepartName}}
-                                    </mat-option>
-                                </mat-autocomplete>
-                            </mat-form-field> -->
-                        </div>
-                        <div class="col-4 text-right">
-                            <div class="example-button-container">
-                                <button mat-fab color="primary" (click)="searchServices()">
-                                    <mat-icon>search</mat-icon>
-                                </button>
-                            </div>
-                        </div>
-                        <mat-progress-bar mode="indeterminate" *ngIf="searchingProgress"></mat-progress-bar>
-                    </div>
-                    <div class="row" *ngIf="deptChosen">
-                        <div class="col text-right" style="height: 600px;">
-                            <mat-form-field style="width: 47%;">
-                                <mat-label>סינון לפי תאור שירות</mat-label>
-                                <input matInput (keyup)="applyFilter($event)" placeholder="התחל הקלדה ..." #input>
-                            </mat-form-field>
-                            <div class="amin">
-                                <table mat-table [dataSource]="dataSource" class="mat-elevation-z8"
-                                    formArrayName="PatientsServicesList">
-                                    <ng-container matColumnDef="code">
-                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> קוד שירות
-                                        </th>
-                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
-                                            <mat-form-field class="text-center">
-                                                <input matInput formControlName="ServiceNumber">
-                                            </mat-form-field>
-                                        </td>
-                                    </ng-container>
-
-                                    <ng-container matColumnDef="name">
-                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> תאור שירות
-                                        </th>
-                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
-                                            <mat-form-field class="text-center" style="width: 400px;">
-                                                <textarea matInput rows="4">{{ element.name }}</textarea>
-                                            </mat-form-field>
-                                        </td>
-                                    </ng-container>
-
-                                    <ng-container matColumnDef="quantity">
-                                        <th mat-header-cell *matHeaderCellDef style="text-align: center;"> כמות </th>
-                                        <td mat-cell *matCellDef="let element" [formGroupName]="element.value">
-                                            <mat-form-field class="text-center">
-                                                <mat-label>כמות</mat-label>
-                                                <input matInput placeholder="0" min="0"
-                                                    formControlName="ServiceQuantity" type="number">
-                                            </mat-form-field>
-                                        </td>
-                                    </ng-container>
-
-                                    <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-                                    <tr mat-row *matRowDef="let row; columns: displayedColumns;">
-                                    </tr>
-                                    <!-- Row shown when there is no matching data. -->
-                                    <tr class="mat-row" *matNoDataRow>
-                                        <td class="mat-cell" colspan="4">No data matching the filter "{{input.value}}"
-                                        </td>
-                                    </tr>
-                                </table>
-                            </div>
-                        </div>
-                    </div>
-                    <div>
-                        <button mat-raised-button matStepperPrevious>חזרה</button>
-                        <button mat-raised-button matStepperNext>הבא</button>
-                    </div>
-                </form>
-            </mat-step>
-            <mat-step>
-                <ng-template matStepLabel>סיום</ng-template>
-                <div class="button-row">
-                    <button class="full-width mb-5" style="font-weight: bold;font-size: 20px;color: white;"
-                        color="primary" type="submit" (click)="onSubmit()" mat-raised-button>
-                        <span>שמירה ושליחה לפקידה</span>
-                    </button>
-                </div>
-                <div>
-                    <button mat-raised-button matStepperPrevious>חזרה</button>
-                    <button mat-stroked-button (click)="stepper.reset()">איפוס</button>
-                </div>
-            </mat-step>
-        </mat-vertical-stepper>
-    </div>
-</div>
 
 
-
->>>>>>> bb3bf51b888e879d0a307d92b8f751da93455712
-
-
-<div id="form-html-templet" class="d-none-desktop" *ngIf="patientFound && print">
+<div #formhtmltemplet class="d-none-desktop" *ngIf="patientFound && print">
     <div dir="rtl" class="card min-h-100 text-right">
         <div class="card-header border-bottomIn rel">
             <img class="full-width" src="assets/images/covid_2_header.png" />
             <h2 class="text-center pos-abs-center">
                 הצעת מחיר לטיפול פה ולסת
             </h2>
-<<<<<<< HEAD
-=======
-            <!-- <h3 class="text-center pos-abs-center-2" dir="ltr">COVID19 (SARS-COV2IgG)</h3> -->
->>>>>>> bb3bf51b888e879d0a307d92b8f751da93455712
+            <div class="col">
+                <h5>שם {{detailsFormGroup2.PrintingName}} המטפלת: <b>{{
+                        detailsFormGroup2.DepartName
+                        }}</b></h5>
+            </div>
+            <div class="col">
+                <h5>מנהל {{detailsFormGroup2.PrintingName}}: <b>{{
+                        detailsFormGroup2.InchargeDoctor
+                        }}</b></h5>
+            </div>
         </div>
         <br>
         <div class="row">
@@ -332,43 +142,45 @@
                 </div>
             </div>
             <br />
-            <div class="row-1 text-up box text-right pad-30 justify-content-md-center">
-                <div class="colr-3">
-                    <label><b>ת.ז</b></label><span class="b-bottom">{{ detailsFormGroup2.PersonID }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>שם משפחה</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.LastName
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>שם פרטי</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.FirstName
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>מגדר</b></label><span class="b-bottom">{{
-                        genderText
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>תאריך לידה</b></label><span class="b-bottom">{{ detailsFormGroup2.DOB
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>כתובת</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.PatientAddress
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>מייל</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.Email
-                        }}</span>
-                </div>
-                <div class="colr-3">
-                    <label><b>נייד</b></label><span class="b-bottom">{{
-                        detailsFormGroup2.PhoneNumber
-                        }}</span>
+            <div class="d-block">
+                <div class="row-1">
+                    <div class="colr-3">
+                        <label><b>ת.ז</b></label><span class="b-bottom">{{ detailsFormGroup2.PersonID }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>שם משפחה</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.LastName
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>שם פרטי</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.FirstName
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>מגדר</b></label><span class="b-bottom">{{
+                            genderText
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>תאריך לידה</b></label><span class="b-bottom">{{ detailsFormGroup2.DOB
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>כתובת</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.PatientAddress
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>מייל</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.Email
+                            }}</span>
+                    </div>
+                    <div class="colr-3">
+                        <label><b>נייד</b></label><span class="b-bottom">{{
+                            detailsFormGroup2.PhoneNumber
+                            }}</span>
+                    </div>
                 </div>
             </div>
             <div class="row-1 mt-4">
@@ -408,6 +220,15 @@
                                 </td>
                             </ng-container>
 
+                            <ng-container matColumnDef="teeth">
+                                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מספרי שיניים </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <span class="b-bottom">{{
+                                        element.value.TeethToPrint
+                                        }}</span>
+                                </td>
+                            </ng-container>
+
                             <ng-container matColumnDef="price">
                                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מחיר יחידה </th>
                                 <td mat-cell *matCellDef="let element">
@@ -431,12 +252,8 @@
                             </tr>
                         </table>
                     </div><br>
-<<<<<<< HEAD
                     <br>
                     <hr>
-=======
-                    <br><hr>
->>>>>>> bb3bf51b888e879d0a307d92b8f751da93455712
                     <div class="row">
                         <div class="col">
                             <h3>מחיר כולל :</h3>
@@ -444,275 +261,38 @@
                         <div class="col">
                             <h2><b>{{
                                     detailsFormGroup2.TotalPrice
-<<<<<<< HEAD
                                     }} &#8362;</b></h2>
                         </div>
                     </div>
                     <hr><br>
                     <div class="row">
                         <div class="col">
-                            <h3>• הצעת המחיר תקפה למשך 30 יום מתאריך הנפקת הצעה זו.</h3>
-=======
-                                    }}</b></h2>
-                        </div>
-                    </div><hr><br>
-                    <div class="row">
-                        <div class="col">
-                            <h3>•	הצעת המחיר תקפה למשך 30 יום מתאריך הנפקת הצעה זו.</h3>
+                            <h3>• תוכנית הטיפול והצעת המחיר הינו ראשונית ייתכנו שינויים במהלך הטיפול ובמחירים.</h3>
                         </div>
                     </div>
-                    <div class="row">
+                    <!-- <div class="row">
                         <div class="col">
-                            <h3>•	המחירים בהצעה זו צמודים לשינויים במחירון השירותים הרפואיים של המרכז הרפואי ע"ש ברוך פדה - פוריה.</h3>
->>>>>>> bb3bf51b888e879d0a307d92b8f751da93455712
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col">
-<<<<<<< HEAD
                             <h3>• לאחר 30 יום ייתכן ומחיר הטיפולים ישתנה ובמקרה כזה תועבר אליך הצעת מחיר מעודכנת.</h3>
                         </div>
-                    </div>
+                    </div> -->
                     <br>
                     <hr>
-=======
-                            <h3>•	המחיר הקובע הוא המחיר ביום התשלום .</h3>
-                        </div>
-                    </div>
-                    <br><hr>
->>>>>>> bb3bf51b888e879d0a307d92b8f751da93455712
                     <div class="row">
-                        <div class="col">
-                            <h3>שם היחידה המטפלת: </h3>
-                        </div>
-                        <div class="col">
-                            <h2><b>{{
-                                    detailsFormGroup2.DepartName
-                                    }}</b></h2>
-                        </div>
+                        שם רופא מטפל: <b>{{detailsFormGroup2.DoctorName}}</b>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <p *ngIf="detailsFormGroup2.DepartName == 'יחידה לרפואת הפה'">פרטי התקשרות
+                            ל{{detailsFormGroup2.DepartName}}</p>
+                    </div>
+                    <hr>
+                    <div class="row">
+                        <h3 *ngIf="detailsFormGroup2.DepartName == 'יחידה לרפואת הפה'">טל: 04-6652430 פקס: 04-6652720
+                            מייל: oralmed@tzmc.gov.il</h3>
                     </div>
                     <hr>
                 </div>
             </form>
-<<<<<<< HEAD
-=======
-
-
-            <!-- <div class="row-1">
-                <div class="stik"></div>
-            </div> -->
-            <!-- <form class="sars-form-in" [formGroup]="sarsForm">
-                <div class="full-width">
-                    <div class="full-width brs-1">
-                        <p class="">
-                            <label class="label-year">לאיזה צורך אתה מבצע את הבדיקה</label>
-                        </p>
-                        <mat-radio-group name="ForWhatPurposeQuestion" class="inline-radio-group"
-                            formControlName="ForWhatPurposeQuestion">
-                            <mat-radio-button class="inline-radio-group-in w-100100" value="1">
-                                נדבקתי בנגיף בעבר ואני מעוניין לדעת אם יש לי
-                                נוגדנים
-                            </mat-radio-button>
-
-                            <mat-radio-button class="inline-radio-group-in w-100100" value="2">
-                                אני מעוניין לדעת אם נחשפתי לנגיף בעבר ויש לי
-                                נוגדנים
-                            </mat-radio-button>
-
-                            <mat-radio-button class="inline-radio-group-in w-100100" value="3">
-                                התחסנתי לנגיף ואני מעוניין לדעת אם יש לי נוגדנים
-                            </mat-radio-button>
-                        </mat-radio-group>
-
-                        <br />
-                    </div>
-                    <div class="full-width brs-1">
-                        <p class="">
-                            <label class="label-year">האם נבדקת בעבר לקורונה (בדיקת COVID19
-                                RT-PCR)?</label>
-                        </p>
-                        <mat-radio-group name="HaveYouCheckedQuestion" class="inline-radio-group"
-                            formControlName="HaveYouCheckedQuestion">
-                            <mat-radio-button class="inline-radio-group-in" value="1">
-                                כן
-                            </mat-radio-button>
-                            <mat-radio-button class="inline-radio-group-in" value="0">
-                                לא
-                            </mat-radio-button>
-                        </mat-radio-group><br />
-                    </div>
-                    <div *ngIf="HaveYouChecked" class="full-width brs-1">
-                        <div class="full-width">
-                            <div class="full-width-50 brs-1">
-                                <div class="full-width">
-                                    <mat-form-field class="full-width">
-                                        <input matInput autocomplete="off" placeholder="בתאריך" name="TestDateCorona_1"
-                                            formControlName="TestDateCorona_1" />
-                                    </mat-form-field>
-                                </div>
-                                <br />
-                            </div>
-                            <div class="full-width-50 brs-1">
-                                <p class="">
-                                    <label class="label-year">תוצאה</label>
-                                </p>
-                                <mat-radio-group name="TestResultCorona_1" class="inline-radio-group"
-                                    formControlName="TestResultCorona_1">
-                                    <mat-radio-button class="inline-radio-group-in" value="1">
-                                        חיובי
-                                    </mat-radio-button>
-                                    <mat-radio-button class="inline-radio-group-in" value="0">
-                                        שלילי
-                                    </mat-radio-button>
-                                </mat-radio-group><br />
-                            </div>
-                        </div>
-                        <div class="full-width">
-                            <div class="full-width-50 brs-1">
-                                <div class="full-width">
-                                    <mat-form-field class="full-width">
-                                        <input matInput autocomplete="off" placeholder="בתאריך" name="TestDateCorona_2"
-                                            formControlName="TestDateCorona_2" />
-                                    </mat-form-field>
-                                </div>
-                                <br />
-                            </div>
-                            <div class="full-width-50 brs-1">
-                                <p class="">
-                                    <label class="label-year">תוצאה</label>
-                                </p>
-                                <mat-radio-group name="TestResultCorona_2" class="inline-radio-group"
-                                    formControlName="TestResultCorona_2">
-                                    <mat-radio-button class="inline-radio-group-in" value="1">
-                                        חיובי
-                                    </mat-radio-button>
-                                    <mat-radio-button class="inline-radio-group-in" value="0">
-                                        שלילי
-                                    </mat-radio-button>
-                                </mat-radio-group>
-                                <br />
-                            </div>
-                        </div>
-                        <div class="full-width">
-                            <div class="full-width-50 brs-1">
-                                <div class="full-width">
-                                    <mat-form-field class="full-width">
-                                        <input matInput autocomplete="off" placeholder="בתאריך" name="TestDateCorona_3"
-                                            formControlName="TestDateCorona_3" />
-                                    </mat-form-field>
-                                </div>
-                                <br />
-                            </div>
-                            <div class="full-width-50 brs-1">
-                                <p class="">
-                                    <label class="label-year">תוצאה</label>
-                                </p>
-                                <mat-radio-group name="TestResultCorona_3" class="inline-radio-group"
-                                    formControlName="TestResultCorona_3">
-                                    <mat-radio-button class="inline-radio-group-in" value="1">
-                                        חיובי
-                                    </mat-radio-button>
-                                    <mat-radio-button class="inline-radio-group-in" value="0">
-                                        שלילי
-                                    </mat-radio-button>
-                                </mat-radio-group>
-                                <br />
-                            </div>
-                        </div>
-                    </div>
-                    <div class="full-width brs-1" *ngIf="coronaToShowResults">
-                        <div class="full-width-50 brs-1" *ngIf="coronaToShowResults">
-                            <p class="">
-                                <label class="label-year">באם נמצאת חיובי לנגיף, האם היו לך תסמינים
-                                    כלשהם? פרט.
-                                </label>
-                            </p>
-                            <mat-radio-group name="HaveAnySymptomsQuestion" class="inline-radio-group"
-                                formControlName="HaveAnySymptomsQuestion">
-                                <mat-radio-button class="inline-radio-group-in" value="0">
-                                    נמצאתי חיובי ללא תסמינים
-                                </mat-radio-button>
-                                <br />
-                                <mat-radio-button class="inline-radio-group-in" value="1">
-                                    היו לי תסמיני קורונה
-                                </mat-radio-button>
-                            </mat-radio-group>
-                            <br />
-                        </div>
-                        <mat-form-field *ngIf="HaveAnySymptomsQuestionYes" class="full-width-50 brs-1">
-                            <textarea autocomplete="off" matInput placeholder="מלל חופשי  (שדה חובה)"
-                                formControlName="HaveAnySymptomsNoteQuestion" name="HaveAnySymptomsNoteQuestion"
-                                rows="5"></textarea>
-                        </mat-form-field>
-                    </div>
-                    <div class="full-width  brs-1">
-                        <p class="">
-                            <label class="label-year">
-                                האם חוסנת כנגד נגיף הקורונה?
-                            </label>
-                        </p>
-                        <mat-radio-group name="HaveBeenVaccinatedQuestion" class="inline-radio-group"
-                            formControlName="HaveBeenVaccinatedQuestion">
-                            <mat-radio-button class="inline-radio-group-in" value="1">
-                                כן
-                            </mat-radio-button>
-                            <mat-radio-button class="inline-radio-group-in" value="0">
-                                לא
-                            </mat-radio-button>
-                        </mat-radio-group>
-                        <br />
-                    </div>
-                    <div class="full-width  brs-1" *ngIf="HaveBeenVaccinatedQuestionYes">
-
-                        <div class="full-width">
-                            <div class="full-width-50 brs-1" *ngIf="HaveBeenVaccinatedQuestionYes">
-                                <div class="full-width">
-                                    <mat-form-field class="full-width">
-                                        <input matInput autocomplete="off" placeholder="מנה ראשונה בתאריך "
-                                            name="DoseDate_1" formControlName="DoseDate_1" />
-                                    </mat-form-field>
-                                </div>
-                                <br />
-                            </div>
-                            <div class="full-width-50 brs-1" *ngIf="HaveBeenVaccinatedQuestionYes">
-                                <div class="full-width">
-                                    <mat-form-field class="full-width">
-                                        <input matInput autocomplete="off" placeholder="מנה שניה בתאריך "
-                                            name="DoseDate_2" formControlName="DoseDate_2" />
-                                    </mat-form-field>
-                                </div>
-                                <br />
-                            </div>
-                            <div class="full-width-50 brs-1" *ngIf="HaveBeenVaccinatedQuestionYes">
-                                <p class="">
-                                    <label class="label-year">סוג החיסון</label>
-                                </p>
-                                <mat-radio-group name="DoseCompany" class="inline-radio-group"
-                                    formControlName="DoseCompany">
-                                    <mat-radio-button class="inline-radio-group-in" value="Pfizer">
-                                        Pfizer
-                                    </mat-radio-button>
-                                    <mat-radio-button class="inline-radio-group-in" value="Moderna">
-                                        Moderna
-                                    </mat-radio-button>
-                                    <mat-radio-button class="inline-radio-group-in" value="אחר">
-                                        אחר
-                                    </mat-radio-button>
-                                </mat-radio-group>
-                            </div>
-                            <div class="full-width-50 brs-1" *ngIf="
-                                    HaveBeenVaccinatedQuestionYes && DoseCompany
-                                ">
-                                <mat-form-field class="full-width">
-                                    <input autocomplete="off" matInput placeholder="סוג חיסון אחר"
-                                        formControlName="DoseAnotherCompany" type="text" name="DoseAnotherCompany" />
-                                </mat-form-field>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </form> -->
->>>>>>> bb3bf51b888e879d0a307d92b8f751da93455712
         </div>
 
 

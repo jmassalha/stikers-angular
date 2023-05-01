@@ -3,10 +3,11 @@
 
 
     <div class="container-fluid">
-        <button mat-mini-fab color="warn" (click)="onClose()" type="button" class="poll-remove-btn" matTooltip="סגירת חלון">
+        <button mat-mini-fab color="warn" (click)="onClose()" type="button" class="poll-remove-btn"
+            matTooltip="סגירת חלון">
             X
         </button>
-        <div class="row">
+        <!-- <div class="row">
             <div class="col">
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body" style="margin: auto;">
@@ -24,7 +25,7 @@
                                     <div class="form-group">
                                         <mat-form-field>
                                             <input matInput formControlName="personalPassport" autocomplete="off"
-                                                placeholder="חפש לפי תעודת זהות" name="fliterVal" />
+                                                placeholder="חפש לפי תעודת זהות מטופל" name="fliterVal" />
                                         </mat-form-field>
                                     </div>
                                 </div>
@@ -61,10 +62,14 @@
                     </div>
                 </div>
             </div>
-        </div>
+        </div> -->
     </div><br><br>
 
     <div dir="rtl">
+        <mat-form-field appearance="standard">
+            <mat-label>חיפוש</mat-label>
+            <input matInput (keyup)="applyFilter($event)" placeholder="חיפוש" #input>
+        </mat-form-field>
         <mat-table [dataSource]="dataSource" class="mat-elevation-z8">
             <ng-container matColumnDef="PatientID">
                 <mat-header-cell *matHeaderCellDef
@@ -107,20 +112,22 @@
 
             <ng-container matColumnDef="Print">
                 <mat-header-cell *matHeaderCellDef
-                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הדפסה/שמירה 
+                    style="font-size: 20px; background-color: rgb(235, 231, 231);justify-content: center;"> הדפסה/שמירה
                 </mat-header-cell>
-                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button matTooltip="הדפסת הטופס" *ngIf="element.SavedToNamer == '1'" mat-raised-button
-                        color="primary" (click)="printRowForm(element)">
+                <mat-cell *matCellDef="let element" style="justify-content: center;"> <button matTooltip="הדפסת הטופס"
+                         mat-raised-button color="primary"
+                        (click)="printRowForm(element)">
                         <span class="material-icons">
                             zoom_out_map
                         </span>
                     </button>
-                    <button matTooltip="שמירה לתיק מטופל בנמר" *ngIf="element.SavedToNamer == '0'" mat-raised-button
-                    color="primary" (click)="saveFormToNamer(element)">
-                    <span class="material-icons">
-                        save
-                    </span>
-                </button> </mat-cell>
+                    <button style="margin-right: 3px;" *ngIf="UserName == 'adahabre'" matTooltip="שמירה לתיק מטופל בנמר" mat-raised-button
+                        color="primary" (click)="saveFormToNamer(element)">
+                        <span class="material-icons">
+                            save
+                        </span>
+                    </button>
+                </mat-cell>
             </ng-container>
 
             <mat-header-row *matHeaderRowDef="displayedColumns"></mat-header-row>

@@ -1,0 +1,169 @@
+<div dir="rtl">
+    <div class="row">
+        <div class="col">
+            <form [formGroup]="lineSearchForm">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>סוג</mat-label>
+                            <mat-select formControlName="lineType">
+                                <mat-option *ngFor="let type of types" [value]="type.value">
+                                    {{type.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>מחלקה</mat-label>
+                            <mat-select formControlName="lineDepartments">
+                                <mat-option *ngFor="let dept of departments" [value]="dept.value">
+                                    {{dept.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <button id="searchBtn" mat-raised-button type="submit" (click)="getLineChart()"
+                            class="btn btn-primary btn-raised">
+                            <span class="material-icons">
+                                search
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <google-chart #chart [title]="Linetitle" [type]="Linetype" [data]="Linedata" [options]="Lineoptions"
+                [width]="Linewidth" [height]="Lineheight">
+            </google-chart>
+        </div>
+        <div class="col">
+            <form [formGroup]="barSearchForm">
+                <div class="row">
+                    <!-- <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>שנה</mat-label>
+                            <mat-select formControlName="barYears">
+                                <mat-option *ngFor="let year of years" [value]="year">
+                                    {{year}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div> -->
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>מחלקה</mat-label>
+                            <mat-select formControlName="barDepartments">
+                                <mat-option *ngFor="let dept of departments" [value]="dept.value">
+                                    {{dept.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <button id="searchBtn" mat-raised-button type="submit" (click)="getBarChart()"
+                            class="btn btn-primary btn-raised">
+                            <span class="material-icons">
+                                search
+                            </span>
+                        </button>
+                    </div>
+                </div>
+            </form>
+            <google-chart #chart [title]="Bartitle" [type]="Bartype" [data]="Bardata" [options]="Baroptions"
+                [width]="Barwidth" [height]="Barheight">
+            </google-chart>
+            
+        </div>
+    </div>
+    <hr class="devideLine">
+    <div class="row" style="margin-bottom: 190px;">
+        <div class="col">
+            <form [formGroup]="pieSearchForm">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>שנה</mat-label>
+                            <mat-select formControlName="pieYears">
+                                <mat-option *ngFor="let year of years" [value]="year">
+                                    {{year}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>מחלקה</mat-label>
+                            <mat-select formControlName="pieDepartments">
+                                <mat-option *ngFor="let dept of departments" [value]="dept.value">
+                                    {{dept.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <button id="searchBtn" mat-raised-button type="submit" (click)="getPieChart()"
+                            class="btn btn-primary btn-raised">
+                            <span class="material-icons">
+                                search
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <mat-radio-group formControlName="piePercentSearch" (change)="getPieChart()">
+                        <mat-radio-button value="inquiries">אחוז מתוך סה"כ פניות</mat-radio-button>
+                        <mat-radio-button value="patients">אחוז מתוך סה"כ מטופלים במחלקה</mat-radio-button>
+                      </mat-radio-group>
+                </div>
+            </form>
+            <google-chart #chart [title]="Pietitle" [type]="Pietype" [data]="Piedata" [options]="Pieoptions"
+                [width]="Piewidth" [height]="Pieheight">
+            </google-chart>
+        </div>
+        <div class="col">
+            <form [formGroup]="pieSearchForm2">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>שנה</mat-label>
+                            <mat-select formControlName="pieYears2">
+                                <mat-option *ngFor="let year of years" [value]="year">
+                                    {{year}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <mat-form-field appearance="fill">
+                            <mat-label>מחלקה</mat-label>
+                            <mat-select formControlName="pieDepartments2">
+                                <mat-option *ngFor="let dept of departments" [value]="dept.value">
+                                    {{dept.viewValue}}
+                                </mat-option>
+                            </mat-select>
+                        </mat-form-field>
+                    </div>
+                    <div class="col">
+                        <button id="searchBtn" mat-raised-button type="submit" (click)="getPieChart2()"
+                            class="btn btn-primary btn-raised">
+                            <span class="material-icons">
+                                search
+                            </span>
+                        </button>
+                    </div>
+                </div>
+                <div class="row">
+                    <mat-radio-group formControlName="piePercentSearch2" (change)="getPieChart2()">
+                        <mat-radio-button value="inquiries">אחוז מתוך סה"כ פניות</mat-radio-button>
+                        <mat-radio-button value="patients">אחוז מתוך סה"כ מטופלים במחלקה</mat-radio-button>
+                      </mat-radio-group>
+                </div>
+            </form>
+            <google-chart #chart [title]="Pietitle2" [type]="Pietype2" [data]="Piedata2" [options]="Pieoptions2"
+                [width]="Piewidth2" [height]="Pieheight2">
+            </google-chart>
+        </div>
+    </div>
+
+</div>

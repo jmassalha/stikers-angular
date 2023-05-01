@@ -1,0 +1,28 @@
+.card.w-85-p{
+    width: 36%;
+}
+.searchingPatient{
+    float: right;
+  }
+  table {
+    margin-top: 20px;
+    width: 100%;
+    table-layout: fixed;
+  }
+  .mat-form-field {
+    font-size: 14px;
+    width: 100%;
+  }
+  [dir="rtl"] td.mat-cell:first-of-type{
+    padding: 10px !important;
+    word-wrap: break-word;
+  }
+  .filterClass{
+    font-weight: bold;
+  }
+  th.mat-sort-header-sorted {
+    color: black;
+  }
+  .d-block {
+    margin: 0px 15px 5px 15px;
+  }

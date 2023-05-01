@@ -1,0 +1,104 @@
+<button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+</button>
+<h1 mat-dialog-title style="text-align: center;">המשך טבלאות</h1>
+<hr>
+<div class="container1 m-2" dir="rtl" [formGroup]="SecondSection">
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <table id="firstTable" class="table table-bordered table-hover" formArrayName="firstTableArray">
+                <tbody formGroupName="0">
+                    <tr formArrayName="subArray">
+                        <td style="white-space: normal;text-align: right;">קצב לב ראשוני
+                            שזוהה
+                        </td>
+                        <td class="col-1 text-center" *ngFor="let col of firstTablecolumns; let i = index"
+                            [formGroupName]="i">
+                            <mat-label style="align-self: center;">שעה</mat-label>
+                            <input jpTimeMask [useUtc]="true" dir="ltr"
+                                style="align-self: center;text-align: center;width: 111%;" placeholder='שעה'
+                                formControlName="timeHead" class="form-control" />
+                        </td>
+                    </tr>
+                    <tr formArrayName="subArray">
+                        <td>בד' דופק יש/אין</td>
+                        <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index" [formGroupName]="i">
+                            <mat-form-field appearance="fill">
+                                <mat-select formControlName="rateHead">
+                                    <mat-option *ngFor="let rh of rateHeadDropdown" [value]="rh">
+                                        {{rh}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr formArrayName="subArray">
+                        <td>הערכת קצב</td>
+                        <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index" [formGroupName]="i"
+                            style="text-align: right;">
+                            <mat-form-field appearance="fill">
+                                <mat-select formControlName="rateStatusHead">
+                                    <mat-option *ngFor="let st of statusDropDown" [value]="st">
+                                        {{st}}
+                                    </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                    <tr formArrayName="subArray">
+                        <td>ETCO2</td>
+                        <td class="col-1" *ngFor="let inp of firstTablecolumns; let i = index" [formGroupName]="i"
+                            style="text-align: right;">
+                            <mat-form-field appearance="fill">
+                                <input type="text" matInput formControlName="etcoHead" class="form-control" />
+                            </mat-form-field>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <div class="row clearfix">
+        <div class="col-md-12">
+            <p class="text-center"><b>רשום את מינון התרופה והשעה מדויקת של מתן התרופה!</b></p>
+            <table class="table table-bordered table-hover" id="tab_logic">
+                <thead>
+                    <tr>
+                        <th class="text-center">
+                            התרופה (מינון)
+                        </th>
+                        <th class="text-center" *ngFor="let time of secondTablecolumns">
+                            {{time}}
+                            <!-- <input type="time" name='time2[]' placeholder='שעה' class="form-control" /> -->
+                        </th>
+                    </tr>
+                </thead>
+                <tbody formArrayName="thirdTableArray">
+                    <tr *ngFor="let action of secondTableMeds; let i = index" class="text-center" [formGroupName]="i">
+                        <!-- <td *ngIf="action != ''">{{action}}</td> -->
+                        <td><input type="text" formControlName="title" style="font-size: 12px;" value="{{action}}"
+                                class="form-control" />
+                        </td>
+                        <td *ngFor="let time of secondTablecolumns; let j = index" formArrayName="subArray">
+                            <div class="row" [formGroupName]="j">
+                                <input type="text" formControlName="textMed" style="width: 50%;" class="form-control" />
+                                <input formControlName="timeMed" jpTimeMask [useUtc]="true" dir="ltr"
+                                    style="align-self: center;text-align: center;width: 50%;" class="form-control" />
+                            </div>
+                        </td>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<div class="row" style="justify-content: center;">
+    <button class="mb-5" style="font-weight: bold;font-size: 20px;color: white;margin: auto;width: 46%;" color="primary"
+        (click)="submit()" type="submit" mat-raised-button>
+        <span>שמירה</span>
+    </button>
+    <button class="mb-5" style="font-weight: bold;font-size: 20px;color: white;margin: auto;width: 46%;" color="warn"
+        (click)="closeModal()" type="submit" mat-raised-button>
+        <span>ביטול</span>
+    </button>
+</div>

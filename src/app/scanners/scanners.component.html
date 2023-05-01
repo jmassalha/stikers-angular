@@ -51,6 +51,37 @@
                             mat-table
                             [dataSource]="dataSource"
                         >
+                            <ng-container matColumnDef="select">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    <mat-checkbox
+                                        class="d-none"
+                                        (change)="
+                                            $event ? masterToggle() : null
+                                        "
+                                        [checked]="
+                                            selection.hasValue() &&
+                                            isAllSelected()
+                                        "
+                                        [indeterminate]="
+                                            selection.hasValue() &&
+                                            !isAllSelected()
+                                        "
+                                    >
+                                    </mat-checkbox>
+                                </th>
+                                <td mat-cell *matCellDef="let row">
+                                    <mat-checkbox
+                                        (click)="$event.stopPropagation();"
+                                        (change)="
+                                            $event
+                                                ? selection.toggle(row)
+                                                : null;CheckNumberOfSelection()
+                                        "
+                                        [checked]="selection.isSelected(row)"
+                                    >
+                                    </mat-checkbox>
+                                </td>
+                            </ng-container>
                             <ng-container matColumnDef="RowID">
                                 <th mat-header-cell *matHeaderCellDef>
                                     מס' שורה
@@ -58,7 +89,7 @@
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.RowID }}
                                 </td>
-                            </ng-container>                          
+                            </ng-container>
                             <ng-container matColumnDef="BoxID">
                                 <th mat-header-cell *matHeaderCellDef>
                                     מס' קרטון
@@ -66,7 +97,7 @@
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.BoxID }}
                                 </td>
-                            </ng-container> 
+                            </ng-container>
                             <ng-container matColumnDef="TotalCases">
                                 <th mat-header-cell *matHeaderCellDef>
                                     סה"כ מקרים
@@ -74,7 +105,7 @@
                                 <td mat-cell *matCellDef="let element">
                                     {{ element.TotalCases }}
                                 </td>
-                            </ng-container> 
+                            </ng-container>
                             <ng-container matColumnDef="CLICK">
                                 <th
                                     mat-header-cell
@@ -130,6 +161,58 @@
                                     </div>
                                 </td>
                             </ng-container>
+
+                            <ng-container matColumnDef="CLICK_print">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    הדפסה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                printcasenumbers(
+                                                    casenumbersModal,
+                                                    'casenumbersDetails',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>print</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+
+                            <ng-container matColumnDef="CLICK_sendtosafe">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    שליחה לכספת
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                sendcasenumberstosafe(element)
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>exit_to_app</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
                             <tr
                                 mat-header-row
                                 *matHeaderRowDef="displayedColumns"
@@ -137,6 +220,7 @@
                             <tr
                                 mat-row
                                 *matRowDef="let row; columns: displayedColumns"
+                                
                             ></tr>
                         </table>
                     </div>
@@ -144,7 +228,7 @@
                     <mat-paginator
                         [length]="resultsLength"
                         [pageSizeOptions]="[5, 10, 20, 50, 100]"
-                        [pageSize]="10"
+                        [pageSize]="100"
                         showFirstLastButtons
                         (page)="getPaginatorData($event)"
                     ></mat-paginator>
@@ -163,7 +247,16 @@
 >
     <i class="material-icons">add</i>
 </button>
-
+<button
+    *ngIf="selectedOn"
+    id="SendBtn"
+    (click)="sendcasenumberstosafeNew()"
+    class="row-data"
+    mat-fab
+    color="primary"
+>
+    <mat-icon>exit_to_app</mat-icon>
+</button>
 <ng-template #cartoonNumberModal let-modal>
     <form
         dir="rtl"
@@ -195,7 +288,7 @@
                                 placeholder="מזהה קרטון"
                                 formControlName="BoxID"
                                 required
-                                type="text"
+                                type="number"
                             />
                         </mat-form-field>
                     </div>
@@ -207,7 +300,6 @@
         </div>
     </form>
 </ng-template>
-
 <ng-template #casenumbersModal let-modal>
     <app-casenumbers></app-casenumbers>
 </ng-template>

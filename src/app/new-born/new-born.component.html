@@ -1,0 +1,543 @@
+<div id="page-toshow">
+    <h1 class="text-center">לידות</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form" ngbAutofocus>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="חפש"
+                                                [(ngModel)]="fliterValPatient"
+                                                name="fliterValPatient"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="מ תאריך"
+                                                required
+                                                (focus)="startdate.open()"
+                                                [(ngModel)]="startdateVal"
+                                                name="startdate"
+                                                [matDatepicker]="startdate"
+                                            />
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="startdate"
+                                            ></mat-datepicker-toggle>
+                                            <mat-datepicker
+                                                #startdate
+                                            ></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="עד תאריך "
+                                                (focus)="enddate.open()"
+                                                required
+                                                [(ngModel)]="enddateVal"
+                                                name="enddate"
+                                                [matDatepicker]="enddate"
+                                            />
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="enddate"
+                                            ></mat-datepicker-toggle>
+                                            <mat-datepicker
+                                                #enddate
+                                            ></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+
+                            <button
+                                mat-raised-button
+                                type="submit"
+                                class="btn btn-primary btn-raised"
+                                (click)="getReportresearchespatients($event)"
+                            >
+                                חפש
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <div class="container-fluid pb-60">
+        <div class="row">
+            <div dir="rtl" class="col">
+                <div class="table-responsive">
+                    <div class="table-spinner-container">
+                        <!-- <mat-form-field>
+                                <input matInput (keyup)="applyFilterresearchespatients($event.target.value)" placeholder="חפש">
+                            </mat-form-field> -->
+                        <table
+                            class="table"
+                            mat-table
+                            [dataSource]="dataSource"
+                            id="formTable1"
+                        >
+                            <ng-container matColumnDef="MotherCaseNumber">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    מס' מקרה אמא
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.MotherCaseNumber }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="MotherID">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    ת.ז אמא
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.MotherID }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="MotherFirstName">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    שם פרטי
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.MotherFirstName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="MotherLastName">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    שם משפחה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.MotherLastName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="NewBornDOB">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    תאריך לידה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.NewBornTime }}
+                                    {{ element.NewBornDOB }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="hospitalizedAt">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    מחלקת אשפוז
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.hospitalizedAt }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Click">
+                                <th
+                                    mat-header-cell
+                                    *matHeaderCellDef
+                                    width="50"
+                                >
+                                    הצגה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                showRow(
+                                                    patientDetailsModal,
+                                                    'rolesDetails',
+                                                    element
+                                                )
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>details</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="displayedColumns"
+                            ></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
+                        </table>
+                    </div>
+                    <!-- PAGINATION -->
+                    <mat-paginator
+                        [length]="resultsLength"
+                        [pageSizeOptions]="[5, 10, 20, 50, 100]"
+                        [pageSize]="10"
+                        showFirstLastButtons
+                        (page)="getPaginatorData($event)"
+                    ></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<button
+    type="button"
+    #newBornBtn
+    id="rolesDetailsBtn"
+    (click)="open(patientDetailsModal, 'rolesDetails', '')"
+    mat-fab
+    color="primary"
+>
+    <i class="material-icons">add</i>
+</button>
+<ng-template #patientDetailsModal let-modal>
+    <form
+        dir="rtl"
+        class="form col NewBorn"
+        [formGroup]="patientForm"
+        (ngSubmit)="onSubmit()"
+    >
+        <div class="modal-header text-right">
+            <h4 class="modal-title text-center" id="modal-basic-title">
+                לידת ילוד
+            </h4>
+            <button
+                type="button"
+                class="close"
+                aria-label="Close"
+                (click)="modal.dismiss('Cross click')"
+            >
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <div class="" *ngIf="!ShowFormNewBorn">
+                <div class="row">
+                    <div class="col">
+                        <mat-form-field
+                            class="example-full-width"
+                            appearance="fill"
+                        >
+                            <mat-label>שם עובד</mat-label>
+                            <input
+                                type="text"
+                                placeholder="בחר שם עובד"
+                                matInput
+                                [formControl]="myControl"
+                                [matAutocomplete]="auto"
+                            />
+                            <mat-autocomplete
+                                autoActiveFirstOption
+                                #auto="matAutocomplete"
+                                (optionSelected)="updateUser($event)"
+                                [displayWith]="displayFn"
+                            >
+                                <mat-option
+                                    *ngFor="
+                                        let option of filteredOptions | async
+                                    "
+                                    [value]="option"
+                                >
+                                    {{ option.UserFullName }}
+                                </mat-option>
+                            </mat-autocomplete>
+                        </mat-form-field>
+                    </div>
+                </div>
+            </div>
+            <div class="" *ngIf="ShowFormNewBorn">
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <input
+                                    (change)="getMotherDetails($event)"
+                                    matInput
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="מס' מקרה של אמא"
+                                    formControlName="MotherCaseNumber"
+                                    required
+                                    type="tel"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <input
+                                    matInput
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="ת.ז אמא"
+                                    formControlName="MotherID"
+                                    required
+                                    type="tel"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <input
+                                    matInput
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="שם פרטי של אמא"
+                                    formControlName="MotherFirstName"
+                                    required
+                                    type="tel"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <input
+                                    matInput
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder="שם משפחה של אמא"
+                                    formControlName="MotherLastName"
+                                    required
+                                    type="tel"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group" *ngIf="!ShowSubmit">
+                            <label>תאריך לידה</label>
+                            <p>{{ NewBornDOB }}</p>
+                        </div>
+                        <div class="form-group" *ngIf="ShowSubmit">
+                            <mat-form-field>
+                                <input
+                                    matInput
+                                    autocomplete="off"
+                                    placeholder="תאריך לידה"
+                                    required
+                                    (focus)="DOB.open()"
+                                    formControlName="NewBornDOB"
+                                    [matDatepicker]="DOB"
+                                />
+                                <mat-datepicker-toggle
+                                    matSuffix
+                                    [for]="DOB"
+                                ></mat-datepicker-toggle>
+                                <mat-datepicker #DOB></mat-datepicker>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group" *ngIf="!ShowSubmit">
+                            <label>שעת לידה</label>
+                            <p>{{ NewBornTime }}</p>
+                        </div>
+                        <mat-form-field *ngIf="ShowSubmit">
+                            <input
+                                dir="ltr"
+                                matInput
+                                jpTimeMask
+                                autocomplete="off"
+                                placeholder="שעת לידה"
+                                name="NewBornTime"
+                                type="text"
+                                formControlName="NewBornTime"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-right" dir="rtl">
+                        <label>הליך לידה</label>
+                        &nbsp;&nbsp;
+
+                        <mat-radio-group formControlName="BornProcedure">
+                            <mat-radio-button value="רגיל"
+                                >רגיל</mat-radio-button
+                            >&nbsp;&nbsp;
+                            <mat-radio-button value="ואקום"
+                                >ואקום</mat-radio-button
+                            >&nbsp;&nbsp;
+                            <mat-radio-button value="מלקחים"
+                                >מלקחים</mat-radio-button
+                            >&nbsp;&nbsp;
+                            <mat-radio-button value="קיסרי"
+                                >קיסרי</mat-radio-button
+                            >&nbsp;&nbsp;
+                            <mat-radio-button value='מחוץ לבי"ח'
+                                >מחוץ לבי"ח</mat-radio-button
+                            >&nbsp;&nbsp;
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-right" dir="rtl">
+                        <label>מין הילד</label>
+                        &nbsp;&nbsp;
+
+                        <mat-radio-group formControlName="NewBornGender">
+                            <mat-radio-button value="זכר">זכר</mat-radio-button
+                            >&nbsp;&nbsp;
+                            <mat-radio-button value="נקבה"
+                                >נקבה</mat-radio-button
+                            >&nbsp;&nbsp;
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-right" dir="rtl">
+                        <mat-form-field>
+                            <input
+                                onfocus="if(this.value == '0') { this.value = ''; }"
+                                matInput
+                                autocomplete="off"
+                                placeholder="משקל"
+                                type="number"
+                                step="any"
+                                maxlength="4"
+                                formControlName="NewBornWeight"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="col text-right" dir="rtl">
+                        <label>הילוד טרם נשקל</label>
+                        &nbsp;&nbsp;
+
+                        <mat-checkbox
+                            formControlName="NewBornWeightInProgress"
+                            value="כן"
+                            >כן</mat-checkbox
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-right" dir="rtl">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                placeholder="שבוע הריון"
+                                type="number"
+                                step="any"
+                                maxlength="2"
+                                formControlName="NewBornWeekOfPregnancy"
+                            />
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-right" dir="rtl">
+                        <label>לידה מרובה</label>
+                        &nbsp;&nbsp;
+
+                        <mat-checkbox formControlName="MultipleBirth" value="כן"
+                            >כן</mat-checkbox
+                        >
+                    </div>
+                    <div class="col text-right" dir="rtl">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                placeholder="ילד מס'"
+                                type="number"
+                                step="any"
+                                maxlength="1"
+                                formControlName="BirthNumber"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="col text-right" dir="rtl">
+                        <mat-form-field>
+                            <input
+                                matInput
+                                autocomplete="off"
+                                placeholder="מתוך"
+                                type="number"
+                                step="any"
+                                maxlength="1"
+                                formControlName="NumberOfBirths"
+                            />
+                        </mat-form-field>
+                    </div>
+                    <div class="col text-right" dir="rtl">
+                        <label>לידת מת</label>
+                        &nbsp;&nbsp;
+
+                        <mat-checkbox formControlName="BirthIsDie" value="כן"
+                            >כן</mat-checkbox
+                        >
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-right" dir="rtl">
+                        <label>אשפוז הילוד ב</label>
+                        &nbsp;&nbsp;
+
+                        <mat-radio-group formControlName="hospitalizedAt">
+                            <mat-radio-button value="ילודים"
+                                >ילודים</mat-radio-button
+                            >&nbsp;&nbsp;
+                            <mat-radio-button value="פגייה"
+                                >פגייה</mat-radio-button
+                            >&nbsp;&nbsp;<mat-radio-button value="קבורה"
+                            >קבורה</mat-radio-button
+                        >&nbsp;&nbsp;
+                        </mat-radio-group>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col text-right" dir="rtl">
+
+                        <mat-checkbox
+                            formControlName="NewBornPondkyat"
+                            value="פונדקאית"
+                            >פונדקאית</mat-checkbox
+                        >
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="modal-footer text-left">
+            <input
+                id="RowID"
+                type="hidden"
+                id="RowID"
+                formControlName="RowID"
+            />
+            <button
+                *ngIf="ShowSubmit"
+                type="submit"
+                class="btn btn-outline-dark"
+            >
+                שמור
+            </button>
+        </div>
+    </form>
+</ng-template>

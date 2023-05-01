@@ -30,7 +30,7 @@ import { ConsultationsComponent } from "../consultations/consultations.component
 import { ResearchesusersComponent } from "../researchesusers/researchesusers.component";
 import { ResearchespatientsComponent } from "../researchespatients/researchespatients.component";
 import { ResearchesComponent } from "../researches/researches.component";
-
+import { FastCovid19TestComponent } from "../fast-covid19-test/fast-covid19-test.component";
 import { Sarscov2Component } from "../sarscov2/sarscov2.component";
 import { AddpatientcoronaformComponent } from "../addpatientcoronaform/addpatientcoronaform.component";
 import { SarsresultsComponent } from "../sarsresults/sarsresults.component";
@@ -39,7 +39,7 @@ import { MaternitypatientsComponent } from "../maternitypatients/maternitypatien
 import { EmergencycallgroupsComponent } from "../emergencycallgroups/emergencycallgroups.component";
 import { EmergencymembersComponent } from "../emergencymembers/emergencymembers.component";
 import { EmployeesComponent } from "../employees/employees.component";
-
+import { FastCovidTestDashboardComponent } from "../fast-covid-test-dashboard/fast-covid-test-dashboard.component";
 import { FillSurveyComponent } from "../fill-survey/fill-survey.component";
 import { FormDashboardComponent } from '../form-dashboard/form-dashboard.component';
 import { UpdateformComponent } from '../updateform/updateform.component';
@@ -51,7 +51,6 @@ import { EmailsdashboardComponent } from '../emailsdashboard/emailsdashboard.com
 import { CaseinvoisesComponent } from '../caseinvoises/caseinvoises.component';
 import { NursesDashboardComponent } from '../nurses-dashboard/nurses-dashboard.component';
 import { FillReportComponent } from '../fill-report/fill-report.component';
-import { DialogElementsExampleDialog } from '../nurses-dashboard/nurses-dashboard.component';
 import { ManageClinicPriceComponent } from '../manage-clinic-price/manage-clinic-price.component';
 import { NursesManageDashboardComponent } from '../nurses-manage-dashboard/nurses-manage-dashboard.component';
 import { NursesDepartmentManageComponent } from '../nurses-department-manage/nurses-department-manage.component';
@@ -59,7 +58,51 @@ import { ScannersComponent } from "../scanners/scanners.component";
 import { ClinicsDashboardComponent } from '../clinics-dashboard/clinics-dashboard.component';
 import { CheckpatientinsmartclosetComponent } from '../checkpatientinsmartcloset/checkpatientinsmartcloset.component';
 import { DrugsnicComponent } from '../drugsnic/drugsnic.component';
+import { CasenumbersComponent } from "../casenumbers/casenumbers.component";
+import { PublicInquiriesChartsComponent } from "../emailsdashboard/public-inquiries-charts/public-inquiries-charts.component";
+import { VisitorsMonitoringComponent } from "../visitors-monitoring/visitors-monitoring.component";
+import { VisitorsRegistrationComponent } from "../visitors-monitoring/visitors-registration/visitors-registration.component";
+import { UrgentSurgeriesComponent } from "../urgent-surgeries/urgent-surgeries.component";
+import { OnlineAppointmentsComponent } from "../online-appointments/online-appointments.component";
+import { CardiologyCalendarComponent } from "../cardiology-calendar/cardiology-calendar.component";
+import { AddupdateactionComponent } from "../cardiology-calendar/addupdateaction/addupdateaction.component";
+import { MotherChildeLinkComponent } from "../mother-childe-link/mother-childe-link.component";
+import { DevManageComponent } from "../dev-manage/dev-manage.component";
+import { SystemManageComponent } from "../nurses-manage-dashboard/system-manage/system-manage.component";
+import { GalitPointsReportComponent } from "../galit-points-report/galit-points-report.component";
+import { NmrIframeComponent } from '../nmr-iframe/nmr-iframe.component';
+import { EmployeesManageDashComponent } from '../employees-manage-dash/employees-manage-dash.component';
+import { EmployeesAddUpdateComponent } from '../employees-manage-dash/employees-add-update/employees-add-update.component';
+import { OrdersToAppointmentsComponent } from '../orders-to-appointments/orders-to-appointments.component';
+import { NursesReinforcementComponent } from '../nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component';
+import { HospitalBIDashboardComponent } from '../hospital-bi-dashboard/hospital-bi-dashboard.component';
+import { GraphsModalComponent } from '../hospital-bi-dashboard/graphs-modal/graphs-modal.component';
+import { EshpozModalComponent } from '../hospital-bi-dashboard/eshpoz-modal/eshpoz-modal.component';
+import { InfectionDrugsComponent } from '../infection-drugs/infection-drugs.component';
+import { InfectionReportComponent } from "../infection-report/infection-report.component";
+import { NewBornComponent } from "../new-born/new-born.component";
+import { MaternityParticipantsComponent } from "../maternity/maternity-participants/maternity-participants.component";
+import { CprFormComponent } from "../form-dashboard/cpr-form/cpr-form.component";
+import { TumorBoardComponent } from "../form-dashboard/tumor-board/tumor-board.component";
+import { TumorBoardModalComponent } from "../form-dashboard/tumor-board/tumor-board-modal/tumor-board-modal.component";
+import { DrugProtocolsComponent } from '../drug-protocols/drug-protocols.component';
+import { MershamNComponent } from '../mersham-n/mersham-n.component';
+import { ServersComponent } from '../servers/servers.component';
+import { StikersComponent } from '../stikers/stikers.component';
+import { MedigateServersComponent } from '../medigate-servers/medigate-servers.component';
+import { SurgeryControlMainComponent } from '../surgery-control-main/surgery-control-main.component';
+import { AdditionalCprTablesComponent } from '../form-dashboard/cpr-form/additional-cpr-tables/additional-cpr-tables.component';
+import { ServersForOnnlineComponent } from '../servers-for-onnline/servers-for-onnline.component';
+import { IpPointsComponent } from '../ip-points/ip-points.component';
+import { MasterHpidComponent } from '../master-hpid/master-hpid.component';
+import { CablesComponent } from '../cables/cables.component';
+import { SurgeryCalendarComponent } from '../surgery-calendar/surgery-calendar.component';
+import { FollowUpComponent } from '../consultations/follow-up/follow-up.component';
+import { SurgeryReportsComponent } from '../surgery-reports/surgery-reports.component';
+import { WagonComponent } from '../wagon/wagon.component';
+
 const routes: Routes = [
+  
   { path: 'dashboard', component: DashboardComponent },
   { path: 'covid19report', component: Covid19reportComponent },
   { path: 'login', component: LoginComponent },
@@ -98,14 +141,12 @@ const routes: Routes = [
   { path: "emergencycallgroups", component: EmergencycallgroupsComponent },
   { path: "emergencymembers", component: EmergencymembersComponent },
   { path: "employees", component: EmployeesComponent },
-  { path: "historydialog", component: DialogElementsExampleDialog },
   { path: "fillsurvey/:id", component: FillSurveyComponent },
   { path: "formdashboard", component: FormDashboardComponent },
   { path: "digitalforms", component: UpdateformComponent },
   { path: "eventsschedule", component: EventsscheduleComponent },
   { path: "createorupdateform/:id", component: UpdatesingleformComponent },
   { path: "formsanswered/:id", component: FormsansweredComponent },
-
   { path: "emailsdashboard", component: EmailsdashboardComponent },
   { path: "emailmanagement", component: EmailmanagementComponent },
   { path: "nursereportsystem", component: NursesDashboardComponent },
@@ -120,6 +161,50 @@ const routes: Routes = [
   { path: "drugsnic", component: DrugsnicComponent },
   { path: "scanners", component: ScannersComponent },
   { path: "clinicspricing", component: ClinicsDashboardComponent },
+  { path: "casenumbers", component: CasenumbersComponent },
+  { path: "publicinquiriescharts", component: PublicInquiriesChartsComponent },
+  { path: "visitorsmonitoring", component: VisitorsMonitoringComponent },
+  { path: "visitorsregistration", component: VisitorsRegistrationComponent },
+  { path: "fastcovid19test", component: FastCovid19TestComponent },
+  { path: "fastcovidtestdashboard", component: FastCovidTestDashboardComponent },
+  { path: "urgentsurgeries", component: UrgentSurgeriesComponent },
+  { path: "onlineappointments", component: OnlineAppointmentsComponent },
+  { path: "cardiologycalendar", component: CardiologyCalendarComponent },
+  { path: "addupdateaction", component: AddupdateactionComponent },
+  { path: "motherchildelink", component: MotherChildeLinkComponent },
+  { path: "devmanage", component: DevManageComponent },
+  { path: "systemmanage", component: SystemManageComponent },
+  { path: "galitpointsreport", component: GalitPointsReportComponent },
+  { path: "nmriframe", component: NmrIframeComponent },  
+  { path: "employeesmanagedashboard", component: EmployeesManageDashComponent },  
+  { path: "employeesaddupdate", component: EmployeesAddUpdateComponent },  
+  { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
+  { path: "reinforcement", component: NursesReinforcementComponent },
+  { path: "BIDashboard", component: HospitalBIDashboardComponent },
+  { path: "GraphsModalComponent", component: GraphsModalComponent },
+  { path: "EshpozModalComponent", component: EshpozModalComponent },
+  { path: "InfectionDrugs", component: InfectionDrugsComponent },
+  { path: "InfectionReport", component: InfectionReportComponent },
+  { path: "newborn", component: NewBornComponent },
+  { path: "MaternityParticipants", component: MaternityParticipantsComponent },
+  { path: "CprForm", component: CprFormComponent },
+  { path: "TumorBoardComponent", component: TumorBoardComponent },
+  { path: "TumorBoardModalComponent", component: TumorBoardModalComponent },
+  { path: "drugprotocols", component: DrugProtocolsComponent },
+  { path: "mershamn", component: MershamNComponent },
+  { path: "servers", component: ServersComponent },
+  { path: "stikers", component: StikersComponent },  
+  { path: "medigate", component: MedigateServersComponent },
+  { path: "surgerycontrolmain", component: SurgeryControlMainComponent },
+  { path: "cpr-additional-tables", component: AdditionalCprTablesComponent },
+  { path: "servers4onnline", component: ServersForOnnlineComponent },
+  { path: "ippoints", component: IpPointsComponent },
+  { path: "masterhpid", component: MasterHpidComponent },
+  { path: "cables", component: CablesComponent },
+  { path: "surgery-calendar", component: SurgeryCalendarComponent },
+  { path: "follow-up", component: FollowUpComponent },
+  { path: "surgeryreport", component:  SurgeryReportsComponent},  
+  { path: "wagons", component: WagonComponent },
   { path: '', component : LoginComponent}
 ];
  

@@ -174,7 +174,43 @@
                             </mat-form-field>
                         </div>   
                     </div>
-                    
+                    <div class="col">
+                        <div class="form-group">                                    
+                            <mat-form-field
+                                    appearance="fill"
+                                    floatLabel="always"
+                                >
+                                    <mat-label>תמיסה</mat-label>
+                                    <mat-select
+                                        formControlName="Solution"
+                                        
+                                    >
+                                        <mat-option
+                                            *ngFor="
+                                                let SolutionV of Solution
+                                            "
+                                            [value]="SolutionV.value"
+                                        >
+                                            {{ SolutionV.viewValue }}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                        </div>
+                    </div>
+
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <input
+                                    matInput
+                                    class="form-control mb-3"
+                                    placeholder="נפח התמיסה"
+                                    type="text"
+                                    formControlName="SolutionVol"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
                     
                 </div>
         </div>

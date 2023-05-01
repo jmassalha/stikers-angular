@@ -25,6 +25,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 export interface TableRow {
     L_ROW_ID: string;
     L_CASE_NUMBER: string;
@@ -87,8 +88,16 @@ export class SarsresultsComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         public fb: FormBuilder,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("sarsresults");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         this.SarsResultsForm = this.fb.group({
             L_MOBILE: ["", Validators.required],
             L_EMAIL: ["", Validators.required],
@@ -110,68 +119,7 @@ export class SarsresultsComponent implements OnInit {
         });
     }
     ngOnInit(): void {
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "habuzayyad" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "hmizrahi" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mruach" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "yarosenfel" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mmatan" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "etalor" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "batzadok" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mmadmon" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mlehrer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "nsela" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "ssabach" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "dsalameh" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "bmonastirsky" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "mgershovich" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "klibai" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "aasheri" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "obenor" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "ohaccoun" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "iaharon" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "jubartal" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "hseffada" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "waraidy" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "cmagen" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "tlivnat" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mjourno" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "nali" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "emansour" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "kmandel" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "smatta" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "sabuhanna" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "rnakhle" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "aibrahim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "mkheer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "ssarusi" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samos" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "thajouj" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "ssarusi" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "gmoldavsky"  ||
-            localStorage.getItem("loginUserName").toLowerCase() == "ekellerman" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "tklinger"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         let dateIn = new Date();
@@ -180,25 +128,11 @@ export class SarsresultsComponent implements OnInit {
         this.Edate = new FormControl(new Date());
         this.startdateVal = this.Sdate.value;
         this.enddateVal = this.Edate.value;
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            //this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     ////debugger
+        //     //////debugger
         // })
         this.getTableFromServer(
             this.startdateVal,
@@ -235,7 +169,7 @@ export class SarsresultsComponent implements OnInit {
     open(content, _type, _element) {
         this.rowFormData = _element;
 
-        //debugger;
+        ////debugger;
         this.SarsResultsForm = this.fb.group({
             L_MOBILE: [this.rowFormData.L_MOBILE, Validators.required],
             L_EMAIL: [this.rowFormData.L_EMAIL, Validators.required],
@@ -245,9 +179,9 @@ export class SarsresultsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////debugger
+                ////////debugger
                 if ("Save" == result) {
-                    // ////debugger;
+                    // //////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -286,14 +220,14 @@ export class SarsresultsComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //http://srv-apps/wsrfc/WebService.asmx/
+        //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetAllSarscov2Results",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllSarscov2Results",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate,
@@ -305,11 +239,11 @@ export class SarsresultsComponent implements OnInit {
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
-                // //debugger
+                // ////debugger
                 let SarsData = JSON.parse(json["aaData"]);
-                 //debugger;
+                 ////debugger;
                 for (var i = 0; i < SarsData.length; i++) {
-                    ////debugger
+                    //////debugger
                     var dateIn = SarsData[i].L_DOB.split('/');
 
                     this.TABLE_DATA.push({
@@ -326,7 +260,7 @@ export class SarsresultsComponent implements OnInit {
                         L_LABEL: SarsData[i].L_LABEL,
                         L_F_E_NAME: SarsData[i].L_F_E_NAME,
                         L_L_E_NAME: SarsData[i].L_L_E_NAME,
-                        L_DOB: new Date(dateIn[2], dateIn[1], dateIn[0]),
+                        L_DOB: new Date(dateIn[2], parseInt(dateIn[1]) - 1, dateIn[0]),
                         L_PASSPORT: SarsData[i].L_PASSPORT,
                         L_RESULT_TIME: SarsData[i].L_RESULT_TIME,
                         L_SEND_DATE: SarsData[i].L_SEND_DATE,
@@ -335,15 +269,16 @@ export class SarsresultsComponent implements OnInit {
                         L_PATIENT_NUMBER: SarsData[i].L_PATIENT_NUMBER,
                         L_PASSWORD: SarsData[i].L_PASSWORD,
                     });
+                    ////debugger
                 }
 
-                // ////debugger
+                // //////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(
                     JSON.parse(json["iTotalRecords"])
                 );
                 setTimeout(function () {
-                    //////debugger
+                    ////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
@@ -352,7 +287,7 @@ export class SarsresultsComponent implements OnInit {
     }
     onSubmit() {
         $("#loader").removeClass("d-none");
-        //debugger;
+        ////debugger;
         // stop here if form is invalid
         this.SarsResultsForm.value.L_DOB = formatDate(
             this.SarsResultsForm.value.L_DOB,
@@ -363,7 +298,7 @@ export class SarsresultsComponent implements OnInit {
             return;
         }
         //http://srv-ipracticom:8080/WebService.asmx
-        ////debugger
+        //////debugger
         this.http
             .post(
                 "http://srv-ipracticom:8080/WebService.asmx/SarsResultsFormSubmit",
@@ -373,7 +308,7 @@ export class SarsresultsComponent implements OnInit {
             )
             .subscribe(
                 (Response) => {
-                    //////debugger;
+                    ////////debugger;
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
                         this.openSnackBar("נשלח בהצלחה", "success");
@@ -390,7 +325,7 @@ export class SarsresultsComponent implements OnInit {
                     this.modalService.dismissAll();
                 },
                 (error) => {
-                    // //////debugger;
+                    // ////////debugger;
                     $("#loader").addClass("d-none");
                 }
             );

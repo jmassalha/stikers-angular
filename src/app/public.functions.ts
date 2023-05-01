@@ -11,7 +11,8 @@ export class Functions{
     public Edate: FormControl;
     public yearsToSelect = {
         list: [
-            { name: "year", ID: "2021", checked: true },
+            { name: "year", ID: "2022", checked: true },
+            { name: "year", ID: "2021", checked: false },
             { name: "year", ID: "2020", checked: false },
             { name: "year", ID: "2019", checked: false }
         ]
@@ -25,10 +26,19 @@ export class Functions{
                 checked: false
             };
             this.yearsToSelect.list.push(item);
+            
         }
+        this.yearsToSelect.list = this.yearsToSelect.list.sort((a, b) => (a.ID > b.ID) ? -1 : 1);
+        for(var i = 0; i < this.yearsToSelect.list.length; i++ ){
+            this.yearsToSelect.list[i].checked = false;
+            if(i == 0){
+                this.yearsToSelect.list[i].checked = true;
+            }
+        }
+        //debugger
     }
     public radioChange(event: MatRadioChange) {
-        ////debugger
+        //////debugger
         this._selectedYear = event.value; 
         this.Sdate = new FormControl(new Date(event.value, 0, 1));
         this.Edate = new FormControl(new Date(event.value, 11, 31));
@@ -36,7 +46,7 @@ export class Functions{
         this.enddateVal = this.Edate.value;
     }
     public quart_change(event: MatRadioChange) {
-        //////debugger;
+        ////////debugger;
         switch (event.value) {
             case "all":
                 this.Sdate = new FormControl(
@@ -100,7 +110,7 @@ export class Functions{
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
             var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.2)";
-            //////debugger;
+            ////////debugger;
             backgroundColorArray.push(backgound);
 
             backgroundColorArrayOpacity.push(backgoundOpacity);
@@ -121,7 +131,7 @@ export class Functions{
         let bgArray = this.getBackgroundArray(totalDataLength);
         let _yearStart = new Date(this.startdateVal).getFullYear();
         let _yearEnd = _yearStart - 1;
-        // ////debugger;
+        // //////debugger;
         if (_dataType == "line") {
             $("#" + _wrapperId).empty();
             $("#" + _wrapperId).append(
@@ -192,7 +202,7 @@ export class Functions{
                                 //get the concerned dataset
                                 var dataset =
                                     data.datasets[tooltipItem.datasetIndex];
-                                // ////debugger;
+                                // //////debugger;
                                 var total = 0;
                                 for (var t = 0; t < dataset.data.length; t++) {
                                     total += parseInt(dataset.data[t]);
@@ -254,7 +264,7 @@ export class Functions{
                 document.getElementById(_chartId)
             );
             var ctxIn: CanvasRenderingContext2D = canvas.getContext("2d");
-            //////debugger
+            ////////debugger
             var myChart = new Chart(ctxIn, {
                 type: _dataType,
                 data: {

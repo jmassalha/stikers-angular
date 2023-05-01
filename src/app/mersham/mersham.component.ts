@@ -35,6 +35,7 @@ import {
 } from "@angular/forms";
 import { BehaviorSubject } from "rxjs";
 import { formatDate } from "@angular/common";
+import { MenuPerm } from "../menu-perm";
 
 export interface Demograph {
     FIRST_NAME: string;
@@ -151,6 +152,7 @@ export class MershamComponent implements OnInit {
         "Days_Protocol",
         "MedList",
     ];
+    patiant_number_or_id = "";
     drugs: Drug[] = [];
     DeleteRowId: string;
     DeletePreRowId: string;
@@ -269,8 +271,19 @@ export class MershamComponent implements OnInit {
         private modalService: NgbModal,
         private elementRef: ElementRef,
         //private cdRef:ChangeDetectorRef,
-        private formBuilder: FormBuilder
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("mersham");
+        setTimeout(function () {
+            //  debugger
+            if (mMenuPerm.getHasPerm()) {
+            } else {
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 1000);
+
         let that = this;
         window.onbeforeprint = function () {
             console.log("This will be called before the user prints.");
@@ -519,11 +532,31 @@ export class MershamComponent implements OnInit {
                     this.rows.value[i].MenonValVal = 0;
                 switch (this.rows.value[i].groupID) {
                     case "1":
+                        break;
                     case "2":
                         this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
                                 parseFloat(this.PrespictionForm.value.areaVal) *
                                 parseFloat(this.rows.value[i].MenonValVal)
+                            ).toFixed(1)
+                        );
+                        break;
+
+                    case "5":
+                        this.rows.controls[i]["controls"].MenonCalcVal.setValue(
+                            (
+                                parseFloat(this.PrespictionForm.value.areaVal) *
+                                parseFloat(this.rows.value[i].MenonValVal)
+                            ).toFixed(1)
+                        );
+                        break;
+                    case "6":
+                    case "7":
+                        this.rows.controls[i]["controls"].MenonCalcVal.setValue(
+                            (
+                                parseFloat(
+                                    this.PrespictionForm.value.weightVal
+                                ) * parseFloat(this.rows.value[i].MenonValVal)
                             ).toFixed(1)
                         );
                         break;
@@ -549,10 +582,11 @@ export class MershamComponent implements OnInit {
                                 parseFloat(
                                     this.PrespictionForm.value.weightVal
                                 )) /
-                            (72 *
-                                parseFloat(
-                                    this.PrespictionForm.value.levelVal
-                                ))) * this.calcByGender;
+                                (72 *
+                                    parseFloat(
+                                        this.PrespictionForm.value.levelVal
+                                    ))) *
+                            this.calcByGender;
                         //     this.PrespictionForm.value.weightVal
                         // )
                         //     ) ;
@@ -565,8 +599,8 @@ export class MershamComponent implements OnInit {
                         //         this.PrespictionForm.value.levelVal
                         //     )) *
                         // this.calcByGender;
-                        
-                        debugger;
+
+                        //debugger;
                         this.rows.controls[i]["controls"].MenonCalcVal.setValue(
                             (
                                 parseFloat(
@@ -610,7 +644,7 @@ export class MershamComponent implements OnInit {
             if (this.rows.value[d].newRow == "false") {
                 this.http
                     .post(
-                        "http://srv-apps/wsrfc/WebService.asmx/DeletePresRowInside",
+                        "http://srv-apps-prod/RCF_WS/WebService.asmx/DeletePresRowInside",
                         {
                             _rowID: this.DeleteRowId,
                         }
@@ -641,9 +675,12 @@ export class MershamComponent implements OnInit {
     }
     getPermission() {
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/selectPermission", {
-                _UserName: localStorage.getItem("loginUserName"),
-            })
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/selectPermission",
+                {
+                    _UserName: localStorage.getItem("loginUserName"),
+                }
+            )
             .subscribe((Response) => {
                 // //////////debugger
                 var json = JSON.parse(Response["d"]);
@@ -746,7 +783,7 @@ export class MershamComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/DeletePresRow", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/DeletePresRow", {
                 _rowID: this.DeletePreRowId,
             })
             .subscribe((Response) => {
@@ -1036,7 +1073,11 @@ export class MershamComponent implements OnInit {
         this.getPresFromServer(_element.PerscriptionID);
         if (openModal == "true") {
             this.modalService
-                .open(content, { windowClass: "width-1010" })
+                .open(content, {
+                    windowClass: "width-1010",
+                    backdrop: "static",
+                    keyboard: false,
+                })
                 .result.then(
                     (result) => {
                         this.closeResult = `Closed with: ${result}`;
@@ -1060,7 +1101,7 @@ export class MershamComponent implements OnInit {
         //}
     }
     copyRowPres(element) {
-        //debugger
+        debugger;
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
@@ -1105,20 +1146,30 @@ export class MershamComponent implements OnInit {
         }
         var ParentFrom = copyParent;
         var tableFrom = copyrows;
-        ////debugger
-        //return
+        if (this.ID == "") {
+            this.ID = this.ID_In;
+        }
+        if(this.ID == ""){
+            this.ID = this.patiant_number_or_id
+        }
         //debugger
+        //return
+        debugger;
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
-                ParentFrom: ParentFrom,
-                tableFrom: tableFrom,
-                patientId: this.ID,
-                loginUserName: localStorage
-                    .getItem("loginUserName")
-                    .toLowerCase(),
-            })
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
+                {
+                    //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
+                    ParentFrom: ParentFrom,
+                    tableFrom: tableFrom,
+                    patientId: this.ID,
+                    loginUserName: localStorage
+                        .getItem("loginUserName")
+                        .toLowerCase(),
+                }
+            )
             .subscribe((Response) => {
-                //////debugger;
+                debugger;
                 this.openSnackBar("נשמר בהצלחה", "success");
                 this.loadModalAfterCopy = true;
                 this.getReport("");
@@ -1218,7 +1269,7 @@ export class MershamComponent implements OnInit {
         } ////debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpictionNotToServe",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpictionNotToServe",
                 {
                     status: $event,
                     patientId: _element.ROW_ID_PRE,
@@ -1283,18 +1334,30 @@ export class MershamComponent implements OnInit {
                 this.rows.value[i]["Days_ProtocolVal"].join(",");
         }
         var tableFrom = this.rows.value;
-        ////debugger
+        if (this.ID == "") {
+            this.ID = this.ID_In;
+        }
+        if(this.ID == ""){
+            this.ID = this.patiant_number_or_id
+        }
         //return
         // //////////debugger
+        debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/SubmitPrecpiction", {
-                ParentFrom: ParentFrom,
-                tableFrom: tableFrom,
-                patientId: this.ID,
-                loginUserName: localStorage
-                    .getItem("loginUserName")
-                    .toLowerCase(),
-            })
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction",
+                {
+                    //  .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SubmitPrecpiction", {
+                    //    prentFromId: '',
+                    ParentFrom: ParentFrom,
+                    tableFrom: tableFrom,
+                    patientId: this.ID,
+                    loginUserName: localStorage
+                        .getItem("loginUserName")
+                        .toLowerCase(),
+                }
+            )
             .subscribe((Response) => {
                 this.openSnackBar("נשמר בהצלחה", "success");
                 this.getReport("");
@@ -1312,16 +1375,20 @@ export class MershamComponent implements OnInit {
     }
     getReport($event: any): void {
         ////////////////////////debugger
-        if (this.fliterVal.trim() != "")
+        if (this.fliterVal.trim() != ""){
+            
+            this.patiant_number_or_id = this.fliterVal;
             this.getTableFromServer(
                 this.paginator.pageIndex,
                 50,
                 this.fliterVal
             );
+        }
+        console.log(this.patiant_number_or_id)    
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
-
+        this.patiant_number_or_id = this.fliterVal;
         this.getTableFromServer(
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -1423,8 +1490,12 @@ export class MershamComponent implements OnInit {
             statusRowVal: [_status, false],
             statusNotToDo: [_statusNotToDo, false],
         });
+        let ngbModalOptions: NgbModalOptions = {
+            backdrop: "static",
+            keyboard: false,
+        };
         ////////////////////debugger
-        this.modalService.open(content, this.modalOptions).result.then(
+        this.modalService.open(content, ngbModalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
                 //////////////////////////debugger
@@ -1505,7 +1576,7 @@ export class MershamComponent implements OnInit {
 
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetDropDownsOptions",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDropDownsOptions",
                 {}
             )
             .subscribe((Response) => {
@@ -1535,7 +1606,7 @@ export class MershamComponent implements OnInit {
             $("#loader").removeClass("d-none");
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetPresRows", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetPresRows", {
                 ID: _presID,
             })
             .subscribe((Response) => {
@@ -1749,11 +1820,14 @@ export class MershamComponent implements OnInit {
             tableLoader = true;
         }
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetDemographData", {
-                _id: _FreeText,
-                _pageIndex: _pageIndex,
-                _pageSize: _pageSize,
-            })
+            .post(
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDemographData",
+                {
+                    _id: _FreeText,
+                    _pageIndex: _pageIndex,
+                    _pageSize: _pageSize,
+                }
+            )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(JSON.parse(Response["d"]));

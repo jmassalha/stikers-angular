@@ -135,20 +135,12 @@ export class HearingComponent implements OnInit {
             this.startdateVal = this.Sdate.value;
             this.enddateVal = this.Edate.value;
         }
-
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else {
-            ///$("#chadTable").DataTable();
-        }
+        
 
         //console.log(this.paginator.pageIndex);
     }
     radioChange(event: MatRadioChange) {
-        ////debugger
+        //////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -161,7 +153,7 @@ export class HearingComponent implements OnInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event: MatRadioChange) {
-        //////debugger;
+        ////////debugger;
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -178,16 +170,16 @@ export class HearingComponent implements OnInit {
     }
 
     public getDataFormServer(_startDate: string, _endDate: string) {
-        // //debugger
+        // ////debugger
         let _counter = 0;
         let _yearStart = new Date(_startDate).getFullYear();
         let _yearEnd = new Date(_endDate).getFullYear();
         $("#loader").removeClass("d-none");
         this.loader = true;
-        //////debugger
+        ////////debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/RunHearingReportApp",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/RunHearingReportApp",
                 {
                     _fromDate: _startDate,
                     _toDate: _endDate
@@ -195,7 +187,7 @@ export class HearingComponent implements OnInit {
             )
             .subscribe(
                 Response => {
-                    ////debugger
+                    //////debugger
                     var json = JSON.parse(Response["d"]);
                     this.dataTable = json;
                     setTimeout(() => {
@@ -207,7 +199,7 @@ export class HearingComponent implements OnInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 error => {
-                    // ////debugger;
+                    // //////debugger;
                     $("#loader").addClass("d-none");
                     this.loader = false;
                 }

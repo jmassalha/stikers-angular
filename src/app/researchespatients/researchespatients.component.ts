@@ -115,23 +115,7 @@ export class ResearchespatientsComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            this.ReseachRowId != "0"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         this.getReportresearchespatients(this);
     }
     openSnackBar() {
@@ -145,7 +129,7 @@ export class ResearchespatientsComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         this.patientForm.value.StartDate = formatDate(
             this.patientForm.value.StartDate,
             "yyyy-MM-dd",
@@ -161,10 +145,10 @@ export class ResearchespatientsComponent implements OnInit {
             // console.log(this.patientForm.controls.errors);
             return;
         }
-        debugger;
+        //debugger;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateResearchesPatients",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertOrUpdateResearchesPatients",
                 {
                     _patientForm: this.patientForm.value,
                 }
@@ -189,7 +173,7 @@ export class ResearchespatientsComponent implements OnInit {
         } else {
             this.UserEmailStatus = false;
         }
-        //debugger
+        ////debugger
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
@@ -217,7 +201,7 @@ export class ResearchespatientsComponent implements OnInit {
         );
     }
     getReportresearchespatients($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -240,7 +224,7 @@ export class ResearchespatientsComponent implements OnInit {
 
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.patientForm = this.formBuilder.group({
@@ -299,13 +283,13 @@ export class ResearchespatientsComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/getResearchesPatientsTable",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/getResearchesPatientsTable",
                 {
                     _pageIndex: _pageIndex,
                     _pageSize: _pageSize,
@@ -316,11 +300,11 @@ export class ResearchespatientsComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                //debugger
+                ////debugger
                 var json = JSON.parse(Response["d"]);
                 let patientData = JSON.parse(json["Patients"]);
                 for (var i = 0; i < patientData.length; i++) {
-                    ////debugger
+                    //////debugger
                     this.TABLE_DATA.push({
                         RowID: patientData[i].RowID,
                         PatientId: patientData[i].PatientId,
@@ -337,11 +321,11 @@ export class ResearchespatientsComponent implements OnInit {
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-                this.resultsLength = parseInt(json["iTotalRecords"]);
+                this.resultsLength = parseInt(json["totalRows"].toString().replaceAll('"',''));
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

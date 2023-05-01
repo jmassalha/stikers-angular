@@ -113,6 +113,22 @@
                                     </mat-form-field>
                                 </div>
                             </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>סוג יעוץ</mat-label>
+                                        <mat-select
+                                            name="typeOf"
+                                            [(value)]="typeOf"
+                                            required
+                                        >
+                                            <mat-option [value]="-1">הכל</mat-option>
+                                            <mat-option [value]="1">אישפוז</mat-option>
+                                            <mat-option [value]="3">אבולטורי</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
                         </div>
                         <div class="row">
                             <div dir="rtl" class="col-md-12 text-right">
@@ -587,12 +603,12 @@
         </div>
     </mat-tab>
     <mat-tab label="נתונים בגרף">
-        <div class="container-fluid text-right">
+        <div class="container-fluid text-right fix-google-chart-height">
             <!-- 
                     [width]="widthC"
                     [height]="heightC" -->
             <br /><br />
-            <div class="row rel">
+            <div class="row d-none rel">
                 <h6 class="col-12">
                     זמן
 ממוצע
@@ -630,9 +646,9 @@
                     זמן
 ממוצע
 למתן
-יעוץ כולל 30 דקות
+
                 </h6>
-                <div class="col-6">
+                <div class="col-12">
                     <google-chart
                         #departDoingTotalAll
                         [title]="titleDepartDoingTotalAll"
@@ -644,7 +660,7 @@
                     >
                     </google-chart>
                 </div>
-                <div class="col-6">
+                <div class="col-12">
                     <google-chart
                         #departDoingAvgAll
                         [title]="titleDepartDoingAvgAll"
@@ -659,7 +675,7 @@
                 
             </div><br /><br />
             
-            <div class="row rel">
+            <div class="row d-none rel">
                 <h6 class="col-12">
                     זמן
 ממוצע
@@ -693,7 +709,7 @@
                 
             </div>
             <br /><br />
-            <div class="row rel">
+            <div class="row d-none rel">
                 <h6 class="col-12">
                     זמן
 ממוצע
@@ -733,9 +749,9 @@
                     זמן
 ממוצע
 למתן
-יעוץ כולל 30 דקות
+
                 </h6>
-                <div class="col-6">
+                <div class="col-6 d-none">
                     <google-chart
                         #departRequestTotalAll
                         [title]="titleDepartRequestTotalAll"
@@ -747,7 +763,7 @@
                     >
                     </google-chart>
                 </div>
-                <div class="col-6">
+                <div class="col-12">
                     <google-chart
                         #departRequestAvgAll
                         [title]="titleDepartRequestAvgAll"
@@ -762,12 +778,12 @@
                 
             </div>
             <br /><br />
-            <div class="row rel">
+            <div class="row d-none rel">
                 <h6 class="col-12">
                     זמן
 ממוצע
 למתן
-יעוץ כולל 30 דקות
+
 (ללא פרא רפואי)
                 </h6>
                 <div class="col-6">

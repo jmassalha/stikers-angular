@@ -1,85 +1,99 @@
 import {
-  Component,
-  OnInit,
-  ViewChild,
-  AfterViewInit,
-  Input,
+    Component,
+    OnInit,
+    ViewChild,
+    Input,
+    TemplateRef,
 } from "@angular/core";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
-import { MatRadioChange } from "@angular/material/radio";
 import {
-  MatSnackBar,
-  MatSnackBarHorizontalPosition,
-  MatSnackBarVerticalPosition,
+    MatSnackBar,
+    MatSnackBarHorizontalPosition,
+    MatSnackBarVerticalPosition,
 } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
 
 import {
-  NgbModal,
-  ModalDismissReasons,
-  NgbModalOptions,
-  NgbActiveModal,
+    NgbModal,
+    ModalDismissReasons,
+    NgbModalOptions,
+    NgbActiveModal,
 } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
-import * as Fun from "../public.functions";
-import { formatDate, Time } from "@angular/common";
+import { formatDate } from "@angular/common";
 import {
-  FormControl,
-  FormBuilder,
-  FormGroup,
-  Validators,
+    FormControl,
+    FormBuilder,
+    FormGroup,
+    Validators,
 } from "@angular/forms";
+import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { MatDialog } from "@angular/material/dialog";
+import * as XLSX from 'xlsx';
+import { environment } from "src/environments/environment";
 
 export interface MaternityPatients {
-  RowID: number;
-  PatientId: string;
-  PatientFirstName: string;
-  PatientLastName: string;
-  UserIdInsert: string;
-  DateInsert: string;
-  DateUpdate: string;
-  UserIdUpdate: string;
-  PatientStatus: string;
-  PatientNumber: string;
-  PatientDOB: string;
-  PatientPregnancyDOB: string;
-  PatientMobile: string;
-  PatientEmail: string;
-  PatientAddress: string;
-  PatientPregnancyWeekAtInsert: string;
-  PatientNote: string;
+    RowID: number;
+    PatientId: string;
+    PatientFirstName: string;
+    PatientLastName: string;
+    UserIdInsert: string;
+    DateInsert: string;
+    DateUpdate: string;
+    UserIdUpdate: string;
+    PatientStatus: string;
+    PatientNumber: string;
+    PatientDOB: string;
+    PatientPregnancyDOB: string;
+    PatientMobile: string;
+    PatientEmail: string;
+    PatientAddress: string;
+    PatientCategory: string;
+    PatientPregnancyWeekAtInsert: string;
+    PatientNote: string;
+    ConnectionID: string;
+    AfterBirth: string;
+    H_MOTHER_ID: string;
+    completed: boolean;
 }
 
 @Component({
-  selector: 'app-maternitypatients',
-  templateUrl: './maternitypatients.component.html',
-  styleUrls: ['./maternitypatients.component.css']
+    selector: 'app-maternitypatients',
+    templateUrl: './maternitypatients.component.html',
+    styleUrls: ['./maternitypatients.component.css']
 })
 export class MaternitypatientsComponent implements OnInit {
 
-  @ViewChild(MatTable, { static: true }) table: MatTable<any>;
+    @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
+    @ViewChild('modalProjects', { static: true }) modalProjects: TemplateRef<any>;
     displayedColumns: string[] = [
+        "boxes",
         "PatientId",
         "PatientNumber",
         "PatientFirstName",
         "PatientLastName",
         "PatientPregnancyDOB",
         "PatientPregnancyWeekAtInsert",
-        "PatientStatus",
+        // "PatientStatus",
         "Click",
+        "Delete",
+        "Display",
     ];
 
     modalOptions: NgbModalOptions = {
         windowClass: "marg-t-60",
     };
     closeResult: string;
+    projectToAttach: any;
+    projects: any;
+    ParticipantProjectsList = [];
     TABLE_DATA: MaternityPatients[] = [];
     rowFormData = {} as MaternityPatients;
     dataSource = new MatTableDataSource(this.TABLE_DATA);
@@ -90,16 +104,22 @@ export class MaternitypatientsComponent implements OnInit {
     resultsLength = 0;
     fliterValPatient = "";
     StatusPatient = "-1";
+    listOfEmails = [];
+    Api = environment.url;
     patientForm: FormGroup;
 
-    MaternityRowId = localStorage.getItem("MaternityRowId");
+    MaternityRowId: string;
+    afterBirthCheckBox: any = true;
+    MaternityName: string;
     submitted = false;
     activeModal: NgbActiveModal;
     constructor(
+        public dialog: MatDialog,
         private _snackBar: MatSnackBar,
         private router: Router,
         private http: HttpClient,
         private modalServicematernitypatients: NgbModal,
+        private confirmationDialogService: ConfirmationDialogService,
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal
     ) {
@@ -113,8 +133,9 @@ export class MaternitypatientsComponent implements OnInit {
     Edate: FormControl;
     fullnameVal: string;
     rowIdVal: string;
+    AllParticipantProjectsCost: number = 0;
+
     ngOnInit(): void {
-       // debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.fullnameVal = "";
@@ -122,24 +143,12 @@ export class MaternitypatientsComponent implements OnInit {
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            this.MaternityRowId != "0"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
         this.getReportmaternitypatients(this);
     }
-    openSnackBar() {
-        this._snackBar.open("נשמר בהצלחה", "", {
+
+
+    openSnackBar(message) {
+        this._snackBar.open(message, "", {
             duration: 2500,
             direction: "rtl",
             panelClass: "success",
@@ -147,42 +156,180 @@ export class MaternitypatientsComponent implements OnInit {
             verticalPosition: this.verticalPosition,
         });
     }
+    deletePatient(_element) {
+        this.patientForm = this.formBuilder.group({
+            PatientNumber: [
+                _element.PatientNumber,
+                Validators.nullValidator,
+            ],
+            PatientId: [
+                _element.PatientId,
+                Validators.nullValidator
+            ],
+            PatientFirstName: [_element.PatientFirstName, Validators.nullValidator],
+            PatientLastName: [_element.PatientLastName, Validators.nullValidator],
+            PatientStatus: [-1 + "", Validators.nullValidator],
+            UserIdUpdate: [
+                localStorage.getItem("loginUserName"),
+                Validators.nullValidator,
+            ],
+            PatientPregnancyDOB: [_element.PatientPregnancyDOB, Validators.nullValidator],
+            PatientDOB: [_element.PatientDOB, Validators.nullValidator],
+            RowID: [_element.RowID, Validators.nullValidator],
+            MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
+            PatientNote: [_element.PatientNote, Validators.nullValidator],
+            PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.nullValidator],
+            PatientAddress: [_element.PatientAddress, Validators.nullValidator],
+            PatientCategory: [_element.PatientCategory, Validators.nullValidator],
+            PatientMobile: [_element.PatientMobile, Validators.nullValidator],
+            PatientEmail: [_element.PatientEmail, Validators.nullValidator],
+            ConnectionID: [_element.ConnectionID, Validators.nullValidator],
+        });
+        this.confirmationDialogService
+            .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+            .then((confirmed) => {
+                console.log("User confirmed:", confirmed);
+                if (confirmed) {
+                    this.onSubmit();
+                } else {
+                }
+            })
+            .catch(() =>
+                console.log(
+                    "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+                )
+            );
+    }
     onSubmit() {
         this.submitted = true;
-        ////debugger
 
         // stop here if form is invalid
         if (this.patientForm.invalid) {
             // console.log(this.patientForm.controls.errors);
             return;
         }
-        this.patientForm.value.PatientDOB = formatDate(
-            this.patientForm.value.PatientDOB,
-            "yyyy-MM-dd",
-            "en-US"
-        );
-        this.patientForm.value.PatientPregnancyDOB = formatDate(
-            this.patientForm.value.PatientPregnancyDOB,
-            "yyyy-MM-dd",
-            "en-US"
-        );
-        //debugger;
+        if (this.patientForm.value.PatientDOB != '')
+            this.patientForm.value.PatientDOB = formatDate(
+                this.patientForm.value.PatientDOB,
+                "yyyy-MM-dd",
+                "en-US"
+            );
+        if (this.patientForm.value.PatientPregnancyDOB != '')
+            this.patientForm.value.PatientPregnancyDOB = formatDate(
+                this.patientForm.value.PatientPregnancyDOB,
+                "yyyy-MM-dd",
+                "en-US"
+            );
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/InsertOrUpdateMaternityPatients",
+                this.Api + "InsertOrUpdateMaternityPatients",
                 {
                     _patientForm: this.patientForm.value,
                 }
             )
             .subscribe((Response) => {
-                this.applyFiltermaternitypatients(this.fliterValPatient);
-                this.openSnackBar();
+                if (Response["d"]) {
+                    this.applyFiltermaternitypatients(this.fliterValPatient);
+                    this.ngOnInit();
+                    this.openSnackBar("נשמר בהצלחה");
+                } else {
+                    this.openSnackBar('לא נשמר');
+                }
+
             });
-        // display form values on success
-        //alert('SUCCESS!! :-)\n\n' + JSON.stringify(this.patientForm.value, null, 4));
-        // this.modalServicematernitypatients.dismissAll();
         this.activeModal.close();
     }
+
+    displayProjects(patientDetials) {
+        this.http
+            .post(
+                this.Api + "DisplayParticipantProjects",
+                {
+                    Id: patientDetials.RowID
+                }
+            )
+            .subscribe((Response) => {
+                this.ParticipantProjectsList = Response["d"][0];
+                this.AllParticipantProjectsCost = 0;
+                for (let i = 0; i < this.ParticipantProjectsList.length; i++) {
+                    this.AllParticipantProjectsCost += parseInt(this.ParticipantProjectsList[i].ProjectCost);
+                }
+                this.projects = Response["d"][1];
+                this.dialog.open(this.modalProjects, { width: '60%', disableClose: false });
+            });
+    }
+
+    selectAllPatients(event) {
+        if (event.target.checked) {
+            for (let i = 0; i < this.dataSource.filteredData.length; i++) {
+                this.listOfEmails.push(this.dataSource.filteredData[i].PatientEmail);
+                // this.choosePatientsToEmail();
+                this.dataSource.filteredData[i].completed = true;
+            }
+        } else {
+            this.listOfEmails = [];
+            for (let i = 0; i < this.dataSource.filteredData.length; i++) {
+                // this.listOfEmails.push(this.dataSource.filteredData[i].PatientEmail);
+                // this.choosePatientsToEmail();
+                this.dataSource.filteredData[i].completed = false;
+            }
+        }
+
+
+    }
+
+    choosePatientsToEmail(event, email) {
+        if (event.target.checked) {
+            this.listOfEmails.push(email);
+        } else {
+            let index: number = this.listOfEmails.indexOf(email);
+            if (index !== -1) {
+                this.listOfEmails.splice(index, 1);
+            }
+        }
+    }
+
+    sendEmailToPatients() {
+        let stringEmails = "";
+        for (let i = 0; i < this.listOfEmails.length; i++) {
+            stringEmails += this.listOfEmails[i] + ";";
+        }
+        window.location.href = "mailto:" + stringEmails;
+    }
+
+    attachToOtherProject() {
+        this.http
+            .post(
+                this.Api + "AttachPatientToMaternity",
+                {
+                    _patientId: this.ParticipantProjectsList[0].PatientID,
+                    _maternityId: this.projectToAttach
+                }
+            )
+            .subscribe((Response) => {
+                if (Response["d"]) {
+                    this.dialog.closeAll();
+                    this.openSnackBar("שויך בהצלחה");
+                } else {
+                    this.openSnackBar("תקלה בשיוך");
+                }
+
+            });
+    }
+
+    afterBirthFunc(event) {
+        if (event) {
+            this.patientForm.controls['AfterBirth'].clearValidators();
+        } else {
+            this.patientForm.controls['AfterBirth'].setValidators([Validators.required]);
+        }
+        this.patientForm.controls['AfterBirth'].setValue(event);
+    }
+
+    closeModal() {
+        this.dialog.closeAll();
+    }
+
     editRow(content, _type, _element) {
         if (_element.UserSmsStatus == "1") {
             this.UserSmsStatus = true;
@@ -194,7 +341,7 @@ export class MaternitypatientsComponent implements OnInit {
         } else {
             this.UserEmailStatus = false;
         }
-        //debugger
+        this.afterBirthCheckBox = _element.AfterBirth;
         this.patientForm = this.formBuilder.group({
             PatientNumber: [
                 _element.PatientNumber,
@@ -202,24 +349,27 @@ export class MaternitypatientsComponent implements OnInit {
             ],
             PatientId: [
                 _element.PatientId,
-                [Validators.required, Validators.pattern("[0-9].{7,}")],
+                [Validators.nullValidator, Validators.pattern("[0-9].{7,}")],
             ],
-            PatientFirstName: [_element.PatientFirstName, Validators.required],
-            PatientLastName: [_element.PatientLastName, Validators.required],
-            PatientStatus: [_element.PatientStatus + "", Validators.required],
+            PatientFirstName: [_element.PatientFirstName, Validators.nullValidator],
+            PatientLastName: [_element.PatientLastName, Validators.nullValidator],
+            PatientStatus: [_element.PatientStatus + "", Validators.nullValidator],
             UserIdUpdate: [
                 localStorage.getItem("loginUserName"),
-                Validators.required,
+                Validators.nullValidator,
             ],
-            PatientPregnancyDOB: [_element.PatientPregnancyDOB, Validators.required],
-            PatientDOB: [_element.PatientDOB, Validators.required],
-            RowID: [_element.RowID, Validators.required],
-            MaternityRowId: [this.MaternityRowId, Validators.required],
+            PatientPregnancyDOB: [_element.PatientPregnancyDOB, Validators.nullValidator],
+            PatientDOB: [_element.PatientDOB, Validators.nullValidator],
+            RowID: [_element.RowID, Validators.nullValidator],
+            MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
             PatientNote: [_element.PatientNote, Validators.nullValidator],
-            PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.required],
-            PatientAddress: [_element.PatientAddress, Validators.required],
-            PatientMobile: [_element.PatientMobile, Validators.required],
-            PatientEmail: [_element.PatientEmail, Validators.required],
+            PatientPregnancyWeekAtInsert: [_element.PatientPregnancyWeekAtInsert, Validators.nullValidator],
+            PatientAddress: [_element.PatientAddress, Validators.nullValidator],
+            PatientCategory: [_element.PatientCategory, Validators.nullValidator],
+            PatientMobile: [_element.PatientMobile, Validators.nullValidator],
+            PatientEmail: [_element.PatientEmail, Validators.nullValidator],
+            ConnectionID: [_element.ConnectionID, Validators.nullValidator],
+            AfterBirth: [_element.AfterBirth, Validators.nullValidator],
         });
         this.activeModal = this.modalServicematernitypatients.open(
             content,
@@ -227,10 +377,7 @@ export class MaternitypatientsComponent implements OnInit {
         );
     }
     getReportmaternitypatients($event: any): void {
-        ////debugger
         this.getTableFromServer(
-            this.paginator.pageIndex,
-            10,
             this.fliterValPatient,
             this.StatusPatient
         );
@@ -239,13 +386,30 @@ export class MaternitypatientsComponent implements OnInit {
         this.fliterValPatient = filterValue;
 
         this.getTableFromServer(
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
             this.fliterValPatient,
             this.StatusPatient
         );
+    }
 
-        //this.dataSource.filter = filterValue.trim().toLowerCase();
+    fileName = 'Maternity_Participants.xlsx';
+    exportexcel(): void {
+        /* table id is passed over here */
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+
+    }
+    exportToExcel() {
+        this.getTableFromServer("", "-1");
+        setTimeout(() => {
+            this.exportexcel();
+        }, 1000);
     }
 
     open(content, _type, _element) {
@@ -256,30 +420,86 @@ export class MaternitypatientsComponent implements OnInit {
             ],
             PatientId: [
                 "",
-                [Validators.required, Validators.pattern("[0-9].{7,}")],
+                [Validators.nullValidator, Validators.pattern("[0-9].{7,}")],
             ],
-            PatientFirstName: ["", Validators.required],
-            PatientLastName: ["", Validators.required],
-            PatientStatus: [1 + "", Validators.required],
+            PatientFirstName: ["", Validators.nullValidator],
+            PatientLastName: ["", Validators.nullValidator],
+            PatientStatus: [1 + "", Validators.nullValidator],
             UserIdInsert: [
                 localStorage.getItem("loginUserName"),
-                Validators.required,
+                Validators.nullValidator,
             ],
-            PatientPregnancyDOB: ["", Validators.required],
-            PatientDOB: ["", Validators.required],
-            RowID: [0, Validators.required],
-            MaternityRowId: [this.MaternityRowId, Validators.required],
+            UserIdUpdate: [
+                localStorage.getItem("loginUserName"),
+                Validators.nullValidator,
+            ],
+            PatientPregnancyDOB: ["", Validators.nullValidator],
+            PatientDOB: ["", Validators.nullValidator],
+            RowID: [0, Validators.nullValidator],
+            MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
             PatientNote: ["", Validators.nullValidator],
-            PatientPregnancyWeekAtInsert: ["", Validators.required],
-            PatientAddress: ["", Validators.required],
-            PatientMobile: ["", Validators.required],
-            PatientEmail: ["", Validators.required],
+            PatientPregnancyWeekAtInsert: ["", Validators.nullValidator],
+            PatientAddress: ["", Validators.nullValidator],
+            PatientCategory: ["", Validators.nullValidator],
+            PatientMobile: ["", Validators.nullValidator],
+            PatientEmail: ["", Validators.nullValidator],
+            ConnectionID: ["", Validators.nullValidator],
+            AfterBirth: [false, Validators.nullValidator],
         });
         this.activeModal = this.modalServicematernitypatients.open(
             content,
             this.modalOptions
         );
     }
+
+    checkIfExists() {
+        let id = this.patientForm.controls['PatientId'].value;
+        this.http
+            .post(this.Api + "CheckIfMaternityPatientExists", {
+                _EmployeeID: id
+            })
+            .subscribe((Response) => {
+                let patientDetails = Response["d"];
+                if (patientDetails.PatientId != null) {
+                    this.patientForm = this.formBuilder.group({
+                        PatientNumber: [
+                            patientDetails.PatientNumber,
+                            [Validators.nullValidator, Validators.pattern("[0-9].{2,}")],
+                        ],
+                        PatientId: [
+                            patientDetails.PatientId,
+                            [Validators.nullValidator, Validators.pattern("[0-9].{7,}")],
+                        ],
+                        PatientFirstName: [patientDetails.PatientFirstName, Validators.nullValidator],
+                        PatientLastName: [patientDetails.PatientLastName, Validators.nullValidator],
+                        PatientStatus: [1 + "", Validators.nullValidator],
+                        UserIdInsert: [
+                            localStorage.getItem("loginUserName"),
+                            Validators.nullValidator,
+                        ],
+                        UserIdUpdate: [
+                            localStorage.getItem("loginUserName"),
+                            Validators.nullValidator,
+                        ],
+                        PatientPregnancyDOB: [patientDetails.PatientPregnancyDOB, Validators.nullValidator],
+                        PatientDOB: [patientDetails.PatientDOB, Validators.nullValidator],
+                        RowID: [patientDetails.RowID, Validators.nullValidator],
+                        MaternityRowId: [this.MaternityRowId, Validators.nullValidator],
+                        PatientNote: [patientDetails.PatientNote, Validators.nullValidator],
+                        PatientPregnancyWeekAtInsert: [patientDetails.PatientPregnancyWeekAtInsert, Validators.nullValidator],
+                        PatientAddress: [patientDetails.PatientAddress, Validators.nullValidator],
+                        PatientCategory: [patientDetails.PatientCategory, Validators.nullValidator],
+                        PatientMobile: [patientDetails.PatientMobile, Validators.nullValidator],
+                        PatientEmail: [patientDetails.PatientEmail, Validators.nullValidator],
+                        ConnectionID: [patientDetails.ConnectionID, Validators.nullValidator],
+                        AfterBirth: [patientDetails.AfterBirth, Validators.nullValidator],
+                    });
+                }
+            });
+    }
+
+
+
     private getDismissReason(reason: any): string {
         if (reason === ModalDismissReasons.ESC) {
             return "by pressing ESC";
@@ -290,51 +510,48 @@ export class MaternitypatientsComponent implements OnInit {
         }
     }
 
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
 
         this.getTableFromServer(
-            this.paginator.pageIndex,
-            this.paginator.pageSize,
             this.fliterValPatient,
             this.StatusPatient
         );
     }
-    computeEGA( iDueDateYear, iDueDateMonth, iDueDateDay ) {
-        var dToday   = new Date();
-        var dDueDate = new Date( iDueDateYear, iDueDateMonth-1, iDueDateDay );
-      //  debugger
-        var iDaysUntilDueDate = (dDueDate.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24 );
-        var iTotalDaysInPregnancy = 40*7;
+    computeEGA(iDueDateYear, iDueDateMonth, iDueDateDay) {
+        var dToday = new Date();
+        var dDueDate = new Date(iDueDateYear, iDueDateMonth - 1, iDueDateDay);
+        var iDaysUntilDueDate = (dDueDate.getTime() - dToday.getTime()) / (1000 * 60 * 60 * 24);
+        var iTotalDaysInPregnancy = 40 * 7;
         var iGestationalAgeInDays = iTotalDaysInPregnancy - iDaysUntilDueDate;
         var fGestationalAgeInWeeks = iGestationalAgeInDays / 7;
-        var iEGAWeeks = Math.floor( fGestationalAgeInWeeks );
-        var iEGADays = ((fGestationalAgeInWeeks % 1)*7).toFixed(0)
-    
-        console.log( iEGAWeeks + " weeks" );
-        console.log( iEGADays + " days" );
-        return iEGAWeeks+"."+iEGADays
+        var iEGAWeeks = Math.floor(fGestationalAgeInWeeks);
+        var iEGADays = ((fGestationalAgeInWeeks % 1) * 7).toFixed(0)
+
+        // console.log( iEGAWeeks + " weeks" );
+        // console.log( iEGADays + " days" );
+        if (iEGAWeeks > 42) {
+            iEGAWeeks = 42;
+        }
+        return iEGAWeeks + "." + iEGADays
     }
     public getTableFromServer(
-        _pageIndex: number,
-        _pageSize: number,
         _FreeText: string,
         _Status: string
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        //debugger
+        if (this.MaternityRowId == null) {
+            this.MaternityRowId = "";
+        }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/getMaternityPatientsTable",
+                this.Api + "getMaternityPatientsTable",
                 {
-                    _pageIndex: _pageIndex,
-                    _pageSize: _pageSize,
                     _FreeText: _FreeText,
                     _Status: _Status,
                     _MaternityID: this.MaternityRowId,
@@ -342,13 +559,11 @@ export class MaternitypatientsComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                //debugger
                 var json = JSON.parse(Response["d"]);
                 let patientData = JSON.parse(json["Patients"]);
                 for (var i = 0; i < patientData.length; i++) {
-                    ////debugger
                     var date = patientData[i].PatientPregnancyDOB.split("-");
-                    var PatientPregnancyWeekAtInsert = this.computeEGA(date[0], date[1], date[2])
+                    var PatientPregnancyWeekAtInsert = this.computeEGA(date[0], date[1], date[2]);
                     this.TABLE_DATA.push({
                         RowID: patientData[i].RowID,
                         PatientId: patientData[i].PatientId,
@@ -365,21 +580,37 @@ export class MaternitypatientsComponent implements OnInit {
                         PatientMobile: patientData[i].PatientMobile,
                         PatientEmail: patientData[i].PatientEmail,
                         PatientAddress: patientData[i].PatientAddress,
+                        PatientCategory: patientData[i].PatientCategory,
                         PatientPregnancyWeekAtInsert: PatientPregnancyWeekAtInsert,
                         PatientNote: patientData[i].PatientNote,
+                        ConnectionID: patientData[i].ConnectionID,
+                        AfterBirth: patientData[i].AfterBirth,
+                        H_MOTHER_ID: patientData[i].H_MOTHER_ID,
+                        completed: false,
                     });
                 }
 
-                // //debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
-                this.resultsLength = parseInt(json["iTotalRecords"]);
+                this.dataSource.paginator = this.paginator;
+                this.resultsLength = parseInt(json["totalRows"]);
                 setTimeout(function () {
-                    ////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
                 });
             });
+    }
+
+    applyFilter(event: Event) {
+        let filterValue;
+        if (event == undefined) {
+            filterValue = "";
+        } else if (event.isTrusted == undefined) {
+            filterValue = event;
+        } else {
+            filterValue = (event.target as HTMLInputElement).value;
+        }
+        this.dataSource.filter = filterValue.trim().toLowerCase();
     }
 
 }

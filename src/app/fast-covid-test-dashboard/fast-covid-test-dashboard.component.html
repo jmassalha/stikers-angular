@@ -1,0 +1,320 @@
+<h2 class="page-title text-center">בדיקת קורונה מהירה</h2>
+
+<div id="page-toshow">
+    <div class="container-fluid">
+        <div class="row">
+            <div dir="rtl" class="card w-85-p">
+                <div class="card-body">
+                    <form class="form" [formGroup]="searchCovidTestPatients">
+                        <div class="row">
+                            <div
+                                class="
+                                    form-group
+                                    mt-3
+                                    col-lg-12 col-sm-12 col-xs-12
+                                "
+                            >
+                                <mat-form-field>
+                                    <input
+                                        matInput
+                                        formControlName="searchWord"
+                                        autocomplete="off"
+                                        placeholder="חיפוש לפי תעודת זהות"
+                                        type="number"
+                                        name="fliterVal"
+                                    />
+                                </mat-form-field>
+                            </div>
+                            <!-- <div class="form-group mt-2 col-lg-4 col-sm-12">
+                                <mat-form-field appearance="fill">
+                                    <mat-label>מחלקה</mat-label>
+                                    <mat-select formControlName="departmentControl">
+                                        <mat-option [value]="">
+                                            הכל
+                                        </mat-option>
+                                        <mat-option *ngFor="let dept of department" [value]="dept">
+                                            {{dept}}
+                                        </mat-option>
+                                    </mat-select>
+                                </mat-form-field>
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="מ תאריך"
+                                            required
+                                            (focus)="startdate.open()"
+                                            formControlName="startdateVal"
+                                            name="startdate"
+                                            [matDatepicker]="startdate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="startdate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #startdate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input
+                                            matInput
+                                            autocomplete="off"
+                                            placeholder="עד תאריך "
+                                            (focus)="enddate.open()"
+                                            required
+                                            formControlName="enddateVal"
+                                            name="enddate"
+                                            [matDatepicker]="enddate"
+                                        />
+                                        <mat-datepicker-toggle
+                                            matSuffix
+                                            [for]="enddate"
+                                        ></mat-datepicker-toggle>
+                                        <mat-datepicker
+                                            #enddate
+                                        ></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <button
+                            mat-raised-button
+                            type="submit"
+                            class="btn btn-primary btn-raised"
+                            (click)="getAllAntigTestedPatients()"
+                        >
+                            <span class="material-icons"> search </span>
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <br /><br />
+
+        <div dir="rtl">
+            <table
+            class="table mat-elevation-z8"
+            mat-table
+            [dataSource]="dataSource">
+                <!-- Position Column -->
+                <ng-container matColumnDef="SampleDate">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        תאריך דגימה
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        {{ element.SampleDate }}</mat-cell
+                    >
+                </ng-container>
+
+                <!-- Name Column -->
+                <ng-container matColumnDef="IdNumber">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        תעודת זהות
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center; text-align: center"
+                    >
+                    <span *ngIf="element.IdType != '2' ">{{ element.IdNumber }}</span>
+                    </mat-cell>
+                </ng-container>
+                <!-- Name Column -->
+                <ng-container matColumnDef="IdNumber2">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        דרכון
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center; text-align: center"
+                    >
+                        <span *ngIf="element.IdType == '2' ">{{ element.IdNumber }}</span>
+                    </mat-cell>
+                </ng-container>
+
+                <ng-container matColumnDef="FullName">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        שם נבדק
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        {{ element.FullName }}
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Weight Column -->
+                <ng-container matColumnDef="Result">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        תוצאה
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                        >{{ element.Result }}
+                    </mat-cell>
+                </ng-container>
+
+                <!-- Update Column -->
+                <ng-container matColumnDef="QrCode">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        QRCode
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        <img [src]="element.QrCode" width="75"/>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="Print">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        הדפס
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                        <button
+                            matTooltip="הדפס"
+                            class="btn btn-outline-dark ml-4"
+                            id="BtnStyle"
+                            color="primary"
+                            (click)="print(element)"
+                            type="button"
+                            mat-raised-button
+                        >
+                            <span class="material-icons"> print </span>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+                <ng-container matColumnDef="resend">
+                    <mat-header-cell
+                        *matHeaderCellDef
+                        style="
+                            font-size: 20px;
+                            
+                            justify-content: center;
+                        "
+                    >
+                        שלח
+                    </mat-header-cell>
+                    <mat-cell
+                        *matCellDef="let element"
+                        style="justify-content: center"
+                    >
+                    <!-- *ngIf="element.IdType == '2'" -->
+                        <button
+                            
+                            matTooltip="שלח"
+                            class="btn btn-outline-dark ml-4"
+                            id="BtnStyle"
+                            color="primary"
+                            (click)="resendEmail(element)"
+                            type="button"
+                            mat-raised-button
+                        >
+                            <span class="material-icons"> email </span>
+                        </button>
+                    </mat-cell>
+                </ng-container>
+
+                <mat-header-row
+                    *matHeaderRowDef="displayedColumns"
+                ></mat-header-row>
+                <mat-row
+                    *matRowDef="let row; columns: displayedColumns"
+                ></mat-row>
+            </table>
+            <button
+                type="button"
+                id="rolesDetailsBtn"
+                mat-fab
+                color="primary"
+                (click)="openNewTest()"
+            >
+                <i class="material-icons" matTooltip="בדיקה חדשה">add</i>
+            </button>
+            <mat-paginator
+                [pageSizeOptions]="[20, 50]"
+                showFirstLastButtons
+            ></mat-paginator>
+        </div>
+    </div>
+</div>
+<div id="printQrCode" class="modal-header d-none text-right">
+    <div class="row mt-3">
+        <div class="col">
+            <p><b>ת.ז: </b> {{ PatienId }}</p>
+            <p><b>שם מלא: </b> {{ FirstName }}</p>
+            <p><b>תוצאת בדיקה: </b> {{ CheckResuls }}</p>
+            <p><b>מועד הדגימה: </b> {{ date2 }} - {{ time2 }}</p>
+            <p><b>תוקף הדגימה: </b> {{ dateEnd }} - {{ time2 }}</p>
+        </div>
+    </div>
+    <div class="card" id="Qr">
+        <img [src]="QRImage" />
+    </div>
+</div>

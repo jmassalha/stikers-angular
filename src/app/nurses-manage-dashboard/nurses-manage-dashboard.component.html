@@ -1,66 +1,22 @@
-<mat-card dir="rtl" style="background-color: aliceblue;">
-
-
+<mat-spinner style="left: 50%;top: 50%;" *ngIf="!nursesUserPermission && !rightPC"></mat-spinner>
+<mat-card dir="rtl" *ngIf="nursesUserPermission && rightPC" id="page-toshow"
+    style="background-color: aliceblue;padding-top: 0px;">
+    <h1 class="page-title text-center">מערכת דיווח סיעודית - שם משתמש: {{UserName}}</h1>
     <div class="container-fluid">
         <div class="row">
-            <div class="col">
+            <div class="col-12">
                 <div dir="rtl" class="card w-85-p">
                     <div dir="rtl" class="card-body">
                         <form class="form">
                             <div class="row">
-                                <div class="col-4 text-center">
-                                    <div class="row">
-                                        <div class="col-3 text-center">
-                                            <span class="material-icons" (click)="getEROccupancy('next','er')" matTooltip="יום אחרי">
-                                                navigate_next
-                                            </span>
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <h3><b>קבלות מיון</b></h3>
-                                            <h3 style="font-size: 20px;">{{newDate}}</h3>
-                                        </div>
-                                        <div class="col-3 text-center">
-                                            <span class="material-icons" (click)="getEROccupancy('before','er')" matTooltip="יום לפני">
-                                                navigate_before
-                                            </span>
-                                        </div>
-                                    </div>
-                                    <hr>
-                                    <div class="row">
-                                        <div class="col-4">
-                                            <h5>בוקר</h5>
-                                        </div>
-                                        <div class="col-4">
-                                            <h5>ערב</h5>
-                                        </div>
-                                        <div class="col-4">
-                                            <h5>לילה</h5>
-                                        </div>
-                                    </div>
-                                    <div class="row">
-                                        <div class="col-4" *ngFor="let occ of ER_Occupancy">
-                                            <h5>{{occ}}</h5>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="col-4 text-center">
+                                <div class="col-3 text-center colForDash">
                                     <div class="row text-center">
-                                        <div class="col-3 text-center">
-                                            <!-- <span class="material-icons" (click)="getEROccupancy('next','hos')">
-                                                navigate_next
-                                            </span> -->
-                                        </div>
-                                        <div class="col-6 text-center">
-                                            <h3><b>תפוסת בית חולים</b></h3>
-                                            <h3 style="font-size: 20px;">{{ dateToDisplayString}}</h3>
+                                        <div class="col-12 text-center">
+                                            <h3><b>תפוסת</b><br><b>בית החולים</b></h3>
+                                            <h3 style="font-size: 20px;">{{ dateToDisplayString | date: "dd.MM.yyyy"}}
+                                            </h3>
                                             <hr>
                                         </div>
-                                        <div class="col-3 text-center">
-                                            <!-- <span class="material-icons" (click)="getEROccupancy('before','hos')">
-                                                navigate_before
-                                            </span> -->
-                                        </div>
-
                                     </div>
                                     <div class="row">
                                         <div class="col-4">
@@ -74,74 +30,718 @@
                                         </div>
                                     </div>
                                     <div class="row">
-                                        <div class="col-4">
+                                        <div class="col-4 text-center colForDash">
                                             <h5>{{hospitalBedsInUse}}</h5>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 text-center colForDash">
                                             <h5>{{Departmints.total}}%</h5>
                                         </div>
-                                        <div class="col-4">
+                                        <div class="col-4 text-center colForDash">
                                             <h5>{{resparotriesCount}}</h5>
                                         </div>
                                     </div>
                                 </div>
-                                <div class="col-4 text-center">
+                                <div class="col-3 text-center colForDash">
+                                    <div class="row">
+                                        <div class="col-2 text-center">
+                                            <span class="material-icons" (click)="getEROccupancy('next','er')"
+                                                matTooltip="יום אחרי">
+                                                navigate_next
+                                            </span>
+                                        </div>
+                                        <div class="col-8 text-center">
+                                            <h3><b>קבלות מלר"ד</b></h3>
+                                            <h3 style="font-size: 20px;"> סה"כ {{allErOccupancy}} &nbsp;&nbsp; {{newDate
+                                                | date: "dd.MM.yyyy"}}</h3>
+                                            <h3 style="font-size: 20px;"></h3>
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <span class="material-icons" (click)="getEROccupancy('before','er')"
+                                                matTooltip="יום לפני">
+                                                navigate_before
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h5>לילה</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5>בוקר</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5>ערב</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 text-center colForDash" *ngFor="let occ of ER_Occupancy">
+                                            <mat-spinner class="occLoaders" [diameter]="50" style="margin: auto;"
+                                                *ngIf="!occLoaded"></mat-spinner>
+                                            <h5 *ngIf="occLoaded">{{occ}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 text-center colForDash">
+                                    <div class="row">
+                                        <div class="col-2 text-center">
+                                            <span class="material-icons" (click)="getDeliveryEROccupancy('next')"
+                                                matTooltip="יום אחרי">
+                                                navigate_next
+                                            </span>
+                                        </div>
+                                        <div class="col-8 text-center">
+                                            <h3><b>קבלות מ.יולדות</b></h3>
+                                            <h3 style="font-size: 20px;"> סה"כ {{allDeliveryErOccupancy}} &nbsp;&nbsp;
+                                                {{newDate2
+                                                | date: "dd.MM.yyyy"}}</h3>
+                                            <h3 style="font-size: 20px;"></h3>
+                                        </div>
+                                        <div class="col-2 text-center">
+                                            <span class="material-icons" (click)="getDeliveryEROccupancy('before')"
+                                                matTooltip="יום לפני">
+                                                navigate_before
+                                            </span>
+                                        </div>
+                                    </div>
+                                    <hr>
+                                    <div class="row">
+                                        <div class="col-4">
+                                            <h5>לילה</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5>בוקר</h5>
+                                        </div>
+                                        <div class="col-4">
+                                            <h5>ערב</h5>
+                                        </div>
+                                    </div>
+                                    <div class="row">
+                                        <div class="col-4 text-center colForDash"
+                                            *ngFor="let occ of Delivery_ER_Occupancy">
+                                            <mat-spinner class="occLoaders" [diameter]="50" style="margin: auto;"
+                                                *ngIf="!deliveryOccLoaded"></mat-spinner>
+                                            <h5 *ngIf="deliveryOccLoaded">{{occ}}</h5>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-3 text-center colForDash">
                                     <div class="row text-center">
                                         <div class="col-12 text-center">
-                                            <h3><b>סטטוס מחלקות שונות</b></h3>
+                                            <h3><b>סטטוס מחלקות מיוחדות</b></h3>
                                             <hr>
                                         </div>
 
                                     </div>
                                     <div class="row mb-1">
                                         <div class="col-6">
-                                            <mat-card class="other-cards pb-4" (click)="getOtherDepartmentDetails('DeliveryRoom')">
-                                                <h5 style="margin: -12px;">חדר לידה</h5>
+                                            <mat-card class="other-cards pb-4"
+                                                (click)="!onlyDisplay && getOtherDepartmentDetails('DeliveryRoom')">
+                                                <h5 style="margin: -12px;">לאחר לידה</h5>
                                             </mat-card>
                                         </div>
                                         <div class="col-6">
-                                            <mat-card class="other-cards pb-4" (click)="getOtherDepartmentDetails('SurgeryRoom')">
+                                            <mat-card class="other-cards pb-4"
+                                                (click)="!onlyDisplay && getOtherDepartmentDetails('SurgeryRoom')">
                                                 <h5 style="margin: -12px;">חדר ניתוח</h5>
                                             </mat-card>
                                         </div>
                                     </div>
                                     <div class="row">
                                         <div class="col-12">
-                                            <mat-card class="other-cards pb-4" (click)="getOtherDepartmentDetails('ICUDepart')">
+                                            <mat-card class="other-cards pb-4"
+                                                (click)="!onlyDisplay && getOtherDepartmentDetails('ICUDepart')">
                                                 <h5 style="margin: -12px;">מחלקה לרפואה דחופה</h5>
                                             </mat-card>
                                         </div>
                                     </div>
                                 </div>
                             </div>
-                            <!-- <button mat-raised-button type="submit" (click)="getAllDeparts()"
-                                class="btn btn-primary btn-raised">
-                                <span class="material-icons">
-                                    search
-                                </span>
-                            </button> -->
                         </form>
                     </div>
                 </div>
             </div>
+
+
         </div>
-    </div><br><br>
+        <div class="row">
+            <div class="col-4">
+                <ul style="display: flex;margin-bottom: 0px;">
+                    <li><button matTooltip="דווח ניהולי" id="EventBtndisplay" mat-raised-button type="button"
+                            class="btn btn-primary btn-raised"
+                            (click)="!onlyDisplay && openReportDialog('administrative')">
+                            <i class="material-icons">assignment_ind</i>
+                        </button></li>
+                    <li><button matTooltipPosition="left" matTooltip="תקלות ותוכנית שוש'ים" id="EventBtndisplay"
+                            mat-raised-button type="button" class="btn btn-raised mr-1" style="background-color: grey;"
+                            (click)="!onlyDisplay && bugReport()">
+                            <i class="material-icons">info</i>
+                        </button></li>
+                    <li><button matTooltipPosition="left" matTooltip="יישומים" id="EventBtndisplay" mat-raised-button
+                            type="button" class="btn btn-raised mr-1" style="background-color: goldenrod;"
+                            (click)="!onlyDisplay && otherApps()">
+                            <span class="material-icons">
+                                apps
+                            </span>
+                        </button></li>
+                    <!-- <li><button matTooltip="החלפה לאחות מחלקה" id="EventBtndisplay" *ngIf="UserName == 'jubartal'"
+                            mat-raised-button type="submit" class="btn btn-raised" (click)="test()">
+                            <i class="material-icons">face</i>
+                        </button></li> -->
+                </ul>
+            </div>
+            <div class="col-4 text-center">
+                <h3 class="labelName" style="margin-top: 5px;">תפוסה סיעודית</h3>
+            </div>
+            <div class="col-4 text-center">
+                <h6 style="font-size: 15px;margin-top: 20px;"> נתונים מעודכנים ל: {{ updateDate | date:
+                    "dd.MM.yyyy"}} -
+                    {{ updateDate | date: "HH:mm"}}</h6>
+            </div>
+        </div>
+    </div>
+    <hr id="dashLine">
 
-
-
+    <mat-spinner class="loader" *ngIf="!loaded"></mat-spinner>
     <div class="survey-options">
         <div class="poll-options">
-            <div class="row" style="margin-bottom: 20px;">
-                <div class="col-3" *ngFor="let item of all_departments_array"
-                    (click)="openDialogToFill(item.Dept_Number,item.Dept_Name)" style="margin-bottom: 10px;">
-                    <mat-card style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
-                        <div class="list-style text-center" style="font-size: 30px;color: darkblue;">{{item.Dept_Name}}
+            <div class="row nurses" style="margin-bottom: 10px;display: flex;">
+                <div class="col-4" *ngFor="let item of all_nursing_departments_array"
+                    style="margin-bottom: 5px;height: 75px;">
+                    <mat-card *ngIf="item.Dept_Name"
+                        (click)="!onlyDisplay && openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
+                        style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
+                                *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
+                                *ngIf="item.Dept_Name == 'טפול נמרץ פגים ובילוד בחולה'">טיפול נמרץ פגים</span>
+                            <span
+                                *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
                         </div>
-                        <!-- <img class="poria-icon" src="assets/images/mersham-logo.png"> -->
-                        <div class="list-style text-center" style="font-size: 24px;">תפוסה: {{item.OccupancyPerDepart}} </div>
+                        <div class="list-style text-center" style="font-size: 18px;" *ngIf="item.Dept_Name">
+                            <span class="coronaNumber" *ngIf="item.CoronaNumber !== '0'" style="color: red;">מטופלי
+                                קורונה:
+                                {{item.CoronaNumber}}
+                            </span>
+                            סה"כ: {{item.OccupancyPerDepart}}
+                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה:
+                                {{item.PercentOccupancy}}%
+                            </span>
+                            <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">מיטות:
+                                {{item.DepartmentNumberOfBeds}}
+                            </span>
+                        </div>
                     </mat-card>
+                </div>
+            </div>
+            <div class="row" style="justify-content: center;border-style: double;">
+                <h3 class="labelName">תפוסה רפואית</h3>
+            </div>
+            <div class="row medics">
+                <div class="col-2 mt-2">
+                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:0:5">
+                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
+                            <div class="list-style text-center"
+                                style="font-size: 23px;color: darkblue;font-weight: bold;">
+                                {{item.Dept_Name}}
+                            </div>
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                                *ngIf="item.Dept_Name">
+                                סה"כ: {{item.OccupancyPerDepart}}
+                                <span>תפוסה:
+                                    {{item.PercentOccupancy}}%
+                                </span>
+                                <span>מיטות:
+                                    {{item.DepartmentNumberOfBeds}}
+                                </span>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                <div class="col-2 mt-2">
+                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:5:10">
+                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
+                            <div class="list-style text-center"
+                                style="font-size: 23px;color: darkblue;font-weight: bold;">
+                                {{item.Dept_Name}}
+                            </div>
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                                *ngIf="item.Dept_Name">
+                                סה"כ: {{item.OccupancyPerDepart}}
+                                <span>תפוסה:
+                                    {{item.PercentOccupancy}}%
+                                </span>
+                                <span>מיטות:
+                                    {{item.DepartmentNumberOfBeds}}
+                                </span>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                <div class="col-2 mt-2">
+                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:10:15">
+                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
+                            <div class="list-style text-center"
+                                style="font-size: 23px;color: darkblue;font-weight: bold;">
+                                {{item.Dept_Name}}
+                            </div>
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                                *ngIf="item.Dept_Name">
+                                סה"כ: {{item.OccupancyPerDepart}}
+                                <span>תפוסה:
+                                    {{item.PercentOccupancy}}%
+                                </span>
+                                <span>מיטות:
+                                    {{item.DepartmentNumberOfBeds}}
+                                </span>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                <div class="col-2 mt-2">
+                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:15:20">
+                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
+                            <div class="list-style text-center"
+                                style="font-size: 23px;color: darkblue;font-weight: bold;">
+                                {{item.Dept_Name}}
+                            </div>
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                                *ngIf="item.Dept_Name">
+                                סה"כ: {{item.OccupancyPerDepart}}
+                                <span>תפוסה:
+                                    {{item.PercentOccupancy}}%
+                                </span>
+                                <span>מיטות:
+                                    {{item.DepartmentNumberOfBeds}}
+                                </span>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                <div class="col-2 mt-2">
+                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:20:25">
+                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
+                            <div class="list-style text-center"
+                                style="font-size: 23px;color: darkblue;font-weight: bold;">
+                                {{item.Dept_Name}}
+                            </div>
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                                *ngIf="item.Dept_Name">
+                                סה"כ: {{item.OccupancyPerDepart}}
+                                <span>תפוסה:
+                                    {{item.PercentOccupancy}}%
+                                </span>
+                                <span>מיטות:
+                                    {{item.DepartmentNumberOfBeds}}
+                                </span>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+                <div class="col-2 mt-2">
+                    <div class="row" *ngFor="let item of all_medical_departments_array | slice:25:29">
+                        <mat-card style="height: 90%;margin-bottom: 10px;" class="card-med dash-cards text-center">
+                            <div class="list-style text-center"
+                                style="font-size: 23px;color: darkblue;font-weight: bold;">
+                                {{item.Dept_Name}}
+                            </div>
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                                *ngIf="item.Dept_Name">
+                                סה"כ: {{item.OccupancyPerDepart}}
+                                <span>תפוסה:
+                                    {{item.PercentOccupancy}}%
+                                </span>
+                                <span>מיטות:
+                                    {{item.DepartmentNumberOfBeds}}
+                                </span>
+                            </div>
+                        </mat-card>
+
+                    </div>
+                    <div class="row">
+                        <mat-card style="height: 90%;margin-bottom: 10px;background-color: cornflowerblue;"
+                            class="card-med dash-cards text-center">
+                            <div class="list-style text-center"
+                                style="font-size: 23px;color: darkblue;font-weight: bold;">
+                                סה"כ תפוסות
+                            </div>
+                            <div class="list-style text-center" style="font-size: 18px;font-weight: bold;">
+                                סה"כ: {{allMedsDeptsStats.occupancy}}
+                                <span>תפוסה:
+                                    {{allMedsDeptsStats.percent | number : '.2-2'}}%
+                                </span>
+                            </div>
+                        </mat-card>
+                    </div>
+                </div>
+            </div>
+            <!-- <div class="row medics">
+                <div class="col-2 mt-2" *ngFor="let item of all_medical_departments_array">
+                    <mat-card style="height: 90%;" class="card-med dash-cards text-center">
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;font-weight: bold;">
+                            {{item.Dept_Name}}
+                        </div>
+                        <div class="list-style text-center" style="font-size: 18px;font-weight: bold;"
+                            *ngIf="item.Dept_Name">
+                            סה"כ: {{item.OccupancyPerDepart}}
+                            <span>תפוסה:
+                                {{item.PercentOccupancy}}%
+                            </span>
+                        </div>
+                    </mat-card>
+                </div>
+            </div> -->
+        </div>
+    </div>
+</mat-card>
+
+
+<!-- Bugs And Feature Assigntments -->
+<ng-template #modalBug let-close="close">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">דיווח תקלה</h1>
+    <hr>
+    <mat-tab-group mat-align-tabs="start" dir="rtl">
+        <mat-tab label="תקלות">
+            <form mat-dialog-content dir="rtl" style="text-align: right;margin-top: 20px;">
+                <mat-form-field class="example-full-width">
+                    <mat-label>מספר טלפון לחזרה</mat-label>
+                    <input matInput [(ngModel)]="phoneNumber" [ngModelOptions]="{standalone: true}" type="number"
+                        placeholder=".......05" required />
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>מהות התקלה</mat-label>
+                    <textarea matInput rows="6" [(ngModel)]="reportSubject" [ngModelOptions]="{standalone: true}"
+                        cols="15" required></textarea>
+                </mat-form-field>
+            </form>
+            <div mat-dialog-actions>
+                <div class="row">
+                    <button mat-raised-button color="primary" (click)="submitBugReport()"
+                        mat-dialog-close>שליחה</button>
+                    <!-- <button mat-raised-button color="primary" style="float: right;" (click)="showBugsTablef()">הצג
+                        תקלות</button> -->
+                </div>
+            </div>
+            <div class="row mt-5">
+                <table mat-table [dataSource]="bugData" dir="rtl" class="mat-elevation-z8">
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> תאריך התקלה </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Bug_Date}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="user">
+                        <th mat-header-cell *matHeaderCellDef> שם משתמש </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Bug_User}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="subject">
+                        <th mat-header-cell *matHeaderCellDef> תוכן התקלה </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Bug_Subject}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="done">
+                        <th mat-header-cell *matHeaderCellDef> סטטוס </th>
+                        <td mat-cell *matCellDef="let element"> {{element.Bug_Done}} </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="bugColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: bugColumns;"
+                        [style.background]="row.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'"></tr>
+                </table>
+            </div>
+        </mat-tab>
+        <mat-tab label="שושי'ם">
+            <form mat-dialog-content dir="rtl" style="text-align: right;margin-top: 20px;">
+                <mat-form-field class="example-full-width">
+                    <mat-label>עדיפות</mat-label>
+                    <mat-select [(ngModel)]="actionPriority" [ngModelOptions]="{standalone: true}">
+                        <mat-option style="text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;" [value]="'הכל'">הכל</mat-option>
+                        <mat-option style="background: aliceblue;text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;" value="נמוכה">
+                            נמוכה
+                        </mat-option>
+                        <mat-option style="background: antiquewhite;text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;" value="בינוני">
+                            בינוני
+                        </mat-option>
+                        <mat-option style="background: brown;text-align: center;
+                        font-size: 20px;
+                        font-weight: bold;" value="גבוהה">
+                            גבוהה
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+                <mat-form-field class="example-full-width">
+                    <mat-label>תוכן</mat-label>
+                    <textarea matInput rows="6" [(ngModel)]="actionsContent" [ngModelOptions]="{standalone: true}"
+                        cols="15" required></textarea>
+                </mat-form-field>
+            </form>
+            <div mat-dialog-actions>
+                <div class="row">
+                    <button mat-raised-button color="primary" (click)="submitNewAction('','')"
+                        mat-dialog-close>שליחה</button>
+                </div>
+            </div>
+            <div class="row mt-5">
+                <table mat-table [dataSource]="newActionsData" dir="rtl" class="mat-elevation-z8">
+                    <ng-container matColumnDef="date">
+                        <th mat-header-cell *matHeaderCellDef> תאריך </th>
+                        <td mat-cell *matCellDef="let element" style="font-size: 22px;"
+                            [style.color]="element.Action_Priority == 'גבוהה' ? 'white' : 'black'"> {{element.Bug_Date}}
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="subject">
+                        <th mat-header-cell *matHeaderCellDef> תוכן </th>
+                        <td mat-cell *matCellDef="let element" style="font-size: 22px;"
+                            [style.color]="element.Action_Priority == 'גבוהה' ? 'white' : 'black'">
+                            {{element.Bug_Subject}} </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="priority">
+                        <th mat-header-cell *matHeaderCellDef> עדיפות </th>
+                        <td mat-cell *matCellDef="let element" style="font-size: 22px;"
+                            [style.color]="element.Action_Priority == 'גבוהה' ? 'white' : 'black'">
+                            <mat-select [(ngModel)]="element.Action_Priority"
+                                (selectionChange)="submitNewAction($event.value,element.Row_ID)">
+                                <mat-option value="נמוכה">
+                                    נמוכה
+                                </mat-option>
+                                <mat-option value="בינוני">
+                                    בינוני
+                                </mat-option>
+                                <mat-option value="גבוהה">
+                                    גבוהה
+                                </mat-option>
+                            </mat-select>
+                        </td>
+                    </ng-container>
+
+                    <ng-container matColumnDef="done">
+                        <th mat-header-cell *matHeaderCellDef> סטטוס </th>
+                        <td mat-cell *matCellDef="let element" style="font-size: 22px;"
+                            [style.background]="element.Bug_Done == 'טופל' ? 'darkgray': 'aquamarine'">
+                            <span *ngIf="element.Bug_Done == 'טופל'">טופל</span><span
+                                *ngIf="element.Bug_Done == 'בטיפול'">בהמתנה</span>
+                        </td>
+                    </ng-container>
+
+                    <tr mat-header-row *matHeaderRowDef="actionColumns"></tr>
+                    <tr mat-row *matRowDef="let row; columns: actionColumns;" style="font-weight: bold;"
+                        [style.background]="row.Action_Priority == 'גבוהה' ? 'brown' : row.Action_Priority == 'בינוני' ? 'antiquewhite': 'aliceblue'">
+                    </tr>
+                </table>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+</ng-template>
+
+
+<!-- Various apps screen -->
+<ng-template #modalOtherApps let-close="close">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">יישומים</h1>
+    <hr>
+    <div class="row">
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;"
+            (click)="!onlyDisplay && openReinforcementtDialog('')">
+            <div class="card-img" style="background-image:url('../../assets/images/sos.png')"><span
+                    class="tooltiptext">מסך
+                    תגבור</span></div>
+        </mat-card>
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="openShiftsWebsite()">
+            <div class="card-img" style="background-image:url('https://p18.mishmarot.com/images/logo_1.png')"><span
+                    class="tooltiptext">אתר משמרות</span></div>
+        </mat-card>
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="openAranWebsite()">
+            <div class="card-img"
+                style="background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')">
+                <span class="tooltiptext">אתר מטה חירום</span>
+            </div>
+        </mat-card>
+    </div>
+    <hr class="apps-line">
+    <div class="row">
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="openTelBook()">
+            <div class="card-img"
+                style="background-image:url('https://thumbs.dreamstime.com/z/telephone-icon-design-communication-contact-well-organized-fully-editable-vector-any-use-like-print-media-web-stock-images-179894485.jpg')">
+                <span class="tooltiptext">ספר טלפונים</span>
+            </div>
+        </mat-card>
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="MonitorReports()">
+            <div class="card-img"
+                style="background-image:url('https://www.silicon.co.uk/wp-content/uploads/2014/08/Spy-c-Kar-Shutterstock-2014.jpg')">
+                <span class="tooltiptext">ניטור דיווחים</span>
+            </div>
+        </mat-card>
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="openBluZone()">
+            <div class="card-img" style="background-image:url('https://biot.co.il/assets/images/bluzone-logo.png')">
+                <span class="tooltiptext">איתור נכסים</span>
+            </div>
+        </mat-card>
+    </div>
+</ng-template>
+
+
+<!-- Monitor the unreporting departments -->
+<ng-template #monitorReports let-close="close">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">ניטור ומעקב דוחות</h1>
+    <hr>
+    <div class="row" style="justify-content: center;">
+        <h4>רשימת מחלקות שלא דיווחו היום</h4>
+    </div>
+    <mat-chip-list style="float: right;">
+        <div class="row" style="justify-content: right;">
+            <mat-chip *ngFor="let dept of DepartmentsDontReportArray">
+                <b>{{dept.Dept_Name}}</b>
+            </mat-chip>
+        </div>
+
+    </mat-chip-list>
+</ng-template>
+
+
+<!-- Updating Ip Addresses -->
+<ng-template #modalIp let-close="close">
+    <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+        <span aria-hidden="true">&times;</span>
+    </button>
+    <h1 mat-dialog-title style="text-align: center;">מחשב IP עדכון</h1>
+    <hr>
+    <p class="text-center">עקב הקמת הרשאות מיוחדות לאנשי צוות בכירים החל משבוע הבא תהיה כניסה רק ממחשבים מיועדים</p>
+    <p class="text-center">של המחשב במשרד {{ipUpdate}} IP נא לעדכן את מספר ה</p>
+    <form mat-dialog-content dir="rtl" style="text-align: right;">
+        <mat-form-field class="example-full-width">
+            <mat-label>מספר IP למחשב במשרד</mat-label>
+            <input matInput [(ngModel)]="ipUpdate" [ngModelOptions]="{standalone: true}" type="text"
+                placeholder="10.221." required />
+        </mat-form-field>
+    </form>
+    <div mat-dialog-actions>
+        <div class="row">
+            <button mat-raised-button color="primary" (click)="ipAddressUpdate()">עדכון</button>
+            <button mat-raised-button color="warn" style="float: right;" mat-dialog-close>מאוחר יותר</button>
+        </div>
+
+    </div>
+</ng-template>
+
+<!-- Unotherized Device Login -->
+<ng-template #modalContent let-close="close">
+    <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
+        warning
+    </span>
+    <h1 class="text-center">
+        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit" class="btn btn-primary btn-raised float-left"
+            [routerLink]="['']" (click)="closeModal()">
+            <i class="material-icons">home</i>
+        </button>
+        <span class="mr-3">כניסה מותרת רק ממחשב מורשה</span>
+    </h1>
+</ng-template>
+
+
+<!-- Unotherized UserName -->
+<ng-template #modalContent3 let-close="close">
+    <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
+        warning
+    </span>
+    <h1 class="text-center">
+        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit" class="btn btn-primary btn-raised float-left"
+            [routerLink]="['']" (click)="closeModal()">
+            <i class="material-icons">home</i>
+        </button>
+        <span class="mr-3" *ngIf="UserName == 'amabushkar'">&#8734; 😋 אמירה הכניסה רק באישור מיוחד &#8734;</span>
+        <span class="mr-3">&#8734; ייתכן ואין לך הרשאת צפייה במידע זה &#8734;</span>
+    </h1>
+</ng-template>
+
+<!-- Warning When using clalit userName -->
+<ng-template #modalContent2 let-close="close">
+    <span class="material-icons" matTooltip="{{privateIP}}" style="color: red;font-size: 60px;float: right;">
+        warning
+    </span>
+    <h1 class="text-center">
+        <button matTooltip="חזרה לדף הבית" mat-raised-button type="submit" class="btn btn-primary btn-raised float-left"
+            [routerLink]="['']" (click)="closeModal()">
+            <i class="material-icons">home</i>
+        </button>
+        <span class="mr-3">השימוש בשם משתמש: <b>כללית</b> אסור, להחליף לשם משתמש אישי. תודה</span>
+    </h1>
+</ng-template>
+
+
+<!-- Printing Reports -->
+<div class="d-none-desktop" dir="rtl">
+    <div class="row text-right" *ngFor="let tblRow of ELEMENT_DATA"
+        style="border-style: outset;margin-bottom: 20px;padding: 6px;">
+        <div class="col-12">
+            <div class="row">
+                <div class="col-md-4">
+                    <b>תאריך שעה:</b>
+                    {{
+                    tblRow.LastUpdatedDate
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>נושא/מחלקה:</b>
+                    {{ tblRow.ReportMachlol }}
+                </div>
+                <div class="col-md-4">
+                    <b>קטיגוריה:</b>
+                    {{ tblRow.ReportCategory }}
+                </div>
+                <div class="col-md-4">
+                    <b>תת קטיגוריה:</b>
+                    {{
+                    tblRow.ReportSubCategory
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>משמרת:</b>
+                    {{
+                    tblRow.ReportShift
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>מדווח:</b>
+                    {{
+                    tblRow.userFullName
+                    }}
+                </div>
+            </div>
+            <div class="row" *ngIf="tblRow.ReportText != ''" style="border-top: 1px dashed grey;margin-top: 12px;">
+                <div class="col-12">
+                    <h5><b>תוכן הדווח :</b></h5>
+                    <p class="">
+                        {{ tblRow.ReportText }}
+                    </p>
+                </div>
+            </div>
+            <div class="row" *ngFor="let reply of tblRow.ReportsReplyList">
+                <div class="col-12">
+                    <h5><b>תגובות לדווח :</b></h5>
+                    <div class="row">
+                        {{reply.FirstName}} {{reply.LastName}} - {{reply.MessageDate}} {{reply.MessageTime}}
+                    </div>
+                    <div class="row">
+                        <p class="text-right" style="font-weight: bolder;font-size: 18px;">
+                            {{reply.ResponseText}}</p>
+                    </div>
                 </div>
             </div>
         </div>
     </div>
-</mat-card>
+</div>

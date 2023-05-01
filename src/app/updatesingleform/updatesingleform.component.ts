@@ -10,6 +10,8 @@ import {
 } from '@angular/material/snack-bar';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { ConfirmationDialogService } from '../confirmation-dialog/confirmation-dialog.service';
+import { Observable } from 'rxjs';
+import { map, startWith } from 'rxjs/operators';
 export interface QuestionType {
   value: string;
   viewValue: string;
@@ -46,6 +48,9 @@ export class UpdatesingleformComponent implements OnInit {
   _formArr = [];
   _questionArr = [];
   _formTableArr = [];
+  departmentControl = new FormControl();
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
 
 
   questions: QuestionType[] = [
@@ -96,6 +101,24 @@ export class UpdatesingleformComponent implements OnInit {
   ngOnInit() {
     this.initForm();
     this.getFormData(this.urlID);
+    this.filteredOptions = this.departmentControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value)),
+    );
+  }
+
+  displayFn(user: any): string {
+    return user && user.Depart_Name ? user.Depart_Name : '';
+  }
+
+  private _filter(value: any): string[] {
+    var filterValue = "";
+    if (typeof value === "string") {
+      filterValue = value.toLowerCase();
+    } else {
+      filterValue = value.Depart_Name.toLowerCase();
+    }
+    return this.department.filter(option => option.Depart_Name.toLowerCase().includes(filterValue));
   }
 
   ngAfterViewChecked(): void {
@@ -227,6 +250,10 @@ export class UpdatesingleformComponent implements OnInit {
         console.log("User confirmed:", confirmed);
         if (confirmed) {
           this.tableFormGroup.controls.tableArray['controls'][index].controls.TableStatus.patchValue("0");
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.setValidators(null);
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.setValidators(null);
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.colsGroup.updateValueAndValidity();
+          this.tableFormGroup.controls.tableArray['controls'][index].controls.rowsGroup.updateValueAndValidity();
         } else {
         }
       })
@@ -398,8 +425,8 @@ export class UpdatesingleformComponent implements OnInit {
     let TableForm = formData.TableForm;
     let isCaseNumber = formData.isCaseNumber;
     let GeneralForm = formData.GeneralForm;
-    let FormDepartment = formData.FormDepartment;
-    let FormDepartmentID = formData.FormDepartmentID;
+    let FormDepartment = this.departmentControl.value.Depart_Name;
+    let FormDepartmentID = this.departmentControl.value.Row_ID;
     if (isCaseNumber == "" || isCaseNumber == false) {
       isCaseNumber = "0";
     } else {
@@ -507,17 +534,17 @@ export class UpdatesingleformComponent implements OnInit {
       }
     });
 
-    if (!this.surveyForm.invalid && !this.tableFormGroup.invalid) {
+    if (!this.surveyForm.invalid) {
       if (this.urlID === 0) {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/Forms", {
+          .post("http://srv-apps-prod/RCF_WS/WebService.asmx/Forms", {
             _FormValues: survey,
           })
           .subscribe((Response) => {
           });
       } else {
         this.http
-          .post("http://srv-apps/wsrfc/WebService.asmx/UpdateForm", {
+          .post("http://srv-apps-prod/RCF_WS/WebService.asmx/UpdateForm", {
             updateFormValues: survey,
           })
           .subscribe((Response) => {
@@ -526,7 +553,6 @@ export class UpdatesingleformComponent implements OnInit {
       this.openSnackBar("!נשמר בהצלחה");
       this.dialog.closeAll();
       this.router.navigate(['digitalforms']);
-
     } else {
       this.openSnackBar("!שכחת למלא אחד השדות");
     }
@@ -534,7 +560,7 @@ export class UpdatesingleformComponent implements OnInit {
 
   getFormData(urlID) {
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormData", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetFormData", {
         formFormID: urlID,
       })
       .subscribe((Response) => {
@@ -560,9 +586,14 @@ export class UpdatesingleformComponent implements OnInit {
         } else {
           this.TableForm = true;
         }
+        let department = {
+          Depart_Name: this.filter_form_response.FormDepartment,
+          Row_ID: this.filter_form_response.FormDepartmentID
+        }
 
-        this.FormDepartment = this.filter_form_response.FormDepartment;
-        this.FormDepartmentID = this.filter_form_response.FormDepartmentID;
+        // this.FormDepartment = this.filter_form_response.FormDepartment;
+        // this.FormDepartmentID = this.filter_form_response.FormDepartmentID;
+        this.departmentControl.setValue(department);
         this.surveyForm.controls['FormID'].patchValue(this.FormID);
         this.surveyForm.controls['FormName'].patchValue(this.FormName);
         this.surveyForm.controls['FormOpenText'].patchValue(this.FormOpenText);
@@ -596,15 +627,15 @@ export class UpdatesingleformComponent implements OnInit {
       });
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetFormsDeparts", {
 
       })
       .subscribe((Response) => {
-        this.all_departs_filter = Response["d"];
+        this.department = Response["d"];
 
-        this.all_departs_filter.forEach(element => {
-          this.department.push(element);
-        })
+        // this.all_departs_filter.forEach(element => {
+        //   this.department.push(element);
+        // })
       });
 
   }

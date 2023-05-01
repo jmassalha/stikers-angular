@@ -32,6 +32,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface LinkToCatalogTableRowData {
     Row_ID: string;
@@ -117,8 +118,16 @@ export class DrugsnicComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         private modalService_2: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("drugsnic");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     @Input()
     foo: string = "bar";
     startdateVal: string;
@@ -151,24 +160,6 @@ export class DrugsnicComponent implements OnInit {
             AddDrugsOrInstructions: ["", Validators.required],
         });
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" || 
-            localStorage.getItem("loginUserName").toLowerCase() == "emassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "jubartal"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
         this.getNamerDrugs("", 0, 10);
         var that = this;
         setTimeout(function () {
@@ -179,25 +170,25 @@ export class DrugsnicComponent implements OnInit {
         this.getNamerDrugs(this.searchDrugVal, 0, 10);
     }
     getNamerDrugs(freeSearch, pageIndex, pageSize) {
-        ////debugger
+        //////debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetNamerDrugs", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNamerDrugs", {
                 freeSearch: freeSearch,
                 pageIndex: pageIndex,
                 pageSize: pageSize,
             })
             .subscribe((Response) => {
-                //////debugger;
+                ////////debugger;
                 this.TABLE_DATA_Drugs.splice(0, this.TABLE_DATA_Drugs.length);
                 var json = Response["d"];
                 this.TABLE_DATA_Drugs = json;
 
-                // ////////debugger
+                // //////////debugger
                 this.dataSourceDrug = new MatTableDataSource<any>(
                     this.TABLE_DATA_Drugs
                 );
                 this.resultsLengthDrug = parseInt(json[0]["TotalRows"]);
-                ////debugger
+                //////debugger
             });
     }
     search(nameKey, myArray) {
@@ -218,18 +209,18 @@ export class DrugsnicComponent implements OnInit {
         });
     }
     onSubmit() {
-      //debugger
+      ////debugger
         this.submitted = true;
         if (this.drugForm.invalid) {
             return;
         }
-        // ////////debugger
+        // //////////debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/submitConnectDrug", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/submitConnectDrug", {
                 drugRow: this.drugForm.value,
             })
             .subscribe((Response) => {
-                ////////debugger
+                //////////debugger
                 this.getReport(null);
                 this.openSnackBar();
             });
@@ -238,7 +229,7 @@ export class DrugsnicComponent implements OnInit {
         this.modalService.dismissAll();
     }
     chossenDrug(_element) {
-      //debugger
+      ////debugger
         this.drugForm = this.formBuilder.group({
             UpdateRemarks: [this.currenrRowToConnect.UpdateRemarks, false],
             RowId: [this.currenrRowToConnect.Row_ID, false],
@@ -255,9 +246,9 @@ export class DrugsnicComponent implements OnInit {
         this.modalService_2.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////////debugger
+                ////////////debugger
                 if ("Save" == result) {
-                    // ////////debugger;
+                    // //////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -280,9 +271,9 @@ export class DrugsnicComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                //////////debugger
+                ////////////debugger
                 if ("Save" == result) {
-                    // ////////debugger;
+                    // //////////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -292,7 +283,7 @@ export class DrugsnicComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        //////////debugger
+        ////////////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -303,7 +294,7 @@ export class DrugsnicComponent implements OnInit {
     }
     applyFilter(filterValue: string) {
         this.fliterVal = filterValue;
-        // ////////debugger
+        // //////////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             this.paginator.pageSize,
@@ -338,7 +329,7 @@ export class DrugsnicComponent implements OnInit {
         );
     }
     getPaginatorDataDrug(event: PageEvent) {
-        ////debugger
+        //////debugger
         //console.log(this.paginator.pageIndex);
 
         this.getNamerDrugs(this.searchDrugVal, event.pageIndex, event.pageSize);
@@ -351,18 +342,18 @@ export class DrugsnicComponent implements OnInit {
         startdateVal: string,
         enddateVal: string
     ) {
-        // ////////debugger
+        // //////////debugger
 
-        //////debugger;
+        ////////debugger;
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////////debugger
+            // //////////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-       // debugger
+       // //debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetNICDrugs", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNICDrugs", {
                 freeSearch: freeSearch,
                 pageSize: pageSize,
                 pageIndex: pageIndex,
@@ -372,12 +363,12 @@ export class DrugsnicComponent implements OnInit {
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-               // debugger
+               // //debugger
                 var json = Response["d"];
                 if (json[0]["TotalRows"] != null) {
                     this.TABLE_DATA = json;
 
-                    // ////////debugger
+                    // //////////debugger
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA
                     );
@@ -385,7 +376,7 @@ export class DrugsnicComponent implements OnInit {
                 }else{
                     this.TABLE_DATA = [];
 
-                    // ////////debugger
+                    // //////////debugger
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA
                     );
@@ -393,7 +384,7 @@ export class DrugsnicComponent implements OnInit {
                 }
 
                 setTimeout(function () {
-                    //////////debugger
+                    ////////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

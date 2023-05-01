@@ -1,3 +1,4 @@
+
 import {
     Component,
     OnInit,
@@ -6,6 +7,7 @@ import {
     Input,
     ElementRef,
 } from "@angular/core";
+
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
@@ -32,8 +34,11 @@ import {
     FormBuilder,
     FormGroup,
     Validators,
+    
 } from "@angular/forms";
 import { IDetect } from "ngx-barcodeput";
+import { tr } from "date-fns/locale";
+import { MenuPerm } from "../menu-perm";
 
 export interface CaseNumbers {
     RowID: string;
@@ -41,13 +46,18 @@ export interface CaseNumbers {
     PatientID: string;
     FirstName: string;
     LastName: string;
+    DOB: string;
+    HospitalDate: string;
+    PatientNumber: string;
+    Dose: string;
 }
+
 @Component({
     selector: "app-casenumbers",
     templateUrl: "./casenumbers.component.html",
     styleUrls: ["./casenumbers.component.css"],
 })
-export class CasenumbersComponent implements OnInit {
+export class CasenumbersComponent implements OnInit, AfterViewInit  {
     @ViewChild("scannerInput")
     Element;
     set scannerInput(element: ElementRef<HTMLInputElement>) {
@@ -58,16 +68,22 @@ export class CasenumbersComponent implements OnInit {
             }
         }, 100);
     }
+    @ViewChild('formTable1Div') formTable1Div: ElementRef;
+    @Input() activeModal: NgbActiveModal;;
     @ViewChild(MatTable, { static: true }) table: MatTable<any>;
     @ViewChild(MatPaginator, { static: true }) paginator: MatPaginator;
     @ViewChild(MatSort, { static: true }) sort: MatSort;
     horizontalPosition: MatSnackBarHorizontalPosition = "center";
     verticalPosition: MatSnackBarVerticalPosition = "top";
     displayedColumns: string[] = [
+        "Dose",
+        "HospitalDate",
         "CaseNumber",
+        "PatientNumber",
         "PatientID",
         "FirstName",
         "LastName",
+        "DOB",
         "Click",
     ];
 
@@ -88,8 +104,10 @@ export class CasenumbersComponent implements OnInit {
     removeCaseForm: FormGroup;
 
     CartoonID = localStorage.getItem("CartoonID");
+    CartoonUNID = localStorage.getItem("CartoonUNID");
+    TotalCases = localStorage.getItem("TotalCases");
     submitted = false;
-    activeModal: NgbActiveModal;
+    
     constructor(
         private _snackBar: MatSnackBar,
         private router: Router,
@@ -98,7 +116,13 @@ export class CasenumbersComponent implements OnInit {
         private formBuilder: FormBuilder,
         activeModal: NgbActiveModal
     ) {
+       
+        //debugger
         this.activeModal = activeModal;
+    }
+    myModal;
+    ngAfterViewInit(): void {
+        this.myModal = this.activeModal;
     }
     @Input()
     foo: string = "bar";
@@ -108,29 +132,41 @@ export class CasenumbersComponent implements OnInit {
     Edate: FormControl;
     fullnameVal: string;
     rowIdVal: string;
+    hide: boolean = true;
+    printOn: boolean = false;
     ngOnInit(): void {
+        //var macaddress = require('macaddress');
         //debugger
+        this.hide = true;
+        let that = this;
+        window.onafterprint = function(){
+            that.myModal.dismiss();
+            console.log("Printing completed...");
+         }
         this.loader = false;
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            this.CartoonID != "0"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
+     
+        if(localStorage.getItem("Print") == "true"){
+            this.printOn = true;
+            this.displayedColumns = [
+                "Dose",
+                "HospitalDate",
+                "CaseNumber",
+                "PatientNumber",
+                "PatientID",
+                "FirstName",
+                "LastName",
+                "DOB",
+            ];
+            this.hide = true;
         }
         this.getTableFromServer("");
+        
     }
+    
     editRow(content, _type, _element) {
-        // debugger
+        // //debugger
         this.removeCaseForm = this.formBuilder.group({
             CaseNumber: [_element.CaseNumber, Validators.required],
             CartoonID: [_element.BoxID, Validators.required],
@@ -142,20 +178,26 @@ export class CasenumbersComponent implements OnInit {
     }
 
     onDetected(event: IDetect) {
-        //debugger
+        ////debugger
         console.log(event);
-        //debugger
+        ////debugger
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/InsertCaseNumberToBox",
+                //"http://srv-apps-prod/RCF_WS/WebService.asmx/InsertCaseNumberToBox",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/InsertCaseNumberToBox",
                 {
                     CaseNumber: event.value,
                     CartoonID: this.CartoonID,
                 }
             )
             .subscribe((Response) => {
-                this.getTableFromServer("");
-                this.openSnackBar("נשמר בהצלחה", "success");
+                if(!Response["d"]){
+                    this.getTableFromServer("");
+                    this.openSnackBar("נשמר בהצלחה", "success");
+                }else{
+                    this.openSnackBar("מס' מקרה נמצא בקרטון", "error");    
+                }
+                
             });
         this.Element.nativeElement.value = "";
     }
@@ -170,16 +212,16 @@ export class CasenumbersComponent implements OnInit {
     }
 
     onRemoveSubmit() {
-        // debugger
+        // //debugger
 
         // stop here if form is invalid
         if (this.removeCaseForm.invalid) {
             // console.log(this.removeCaseForm.controls.errors);
             return;
         }
-        //debugger;
+        ////debugger;
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/RemoveCaseFromBox", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/RemoveCaseFromBox", {
                 CaseNumber: this.removeCaseForm.value.CaseNumber,
                 CartoonID: this.removeCaseForm.value.CartoonID,
             })
@@ -196,23 +238,23 @@ export class CasenumbersComponent implements OnInit {
     public getTableFromServer(_FreeText: string) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
+            // //////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
-        ////debugger
-        //http://srv-apps/wsrfc/WebService.asmx/
+        //////debugger
+        //http://srv-apps-prod/RCF_WS/WebService.asmx/
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetBoxCases", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetBoxCases", {
                 _freeText: _FreeText,
                 BoxID: this.CartoonID,
             })
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                ////debugger
+                //////debugger
                 this.TABLE_DATA = Response["d"];
 
-                //debugger
+                ////debugger
                 if (this.TABLE_DATA[0]["BoxID"] == null) {
                     this.TABLE_DATA = [];
                     this.dataSource = new MatTableDataSource<any>(
@@ -225,13 +267,26 @@ export class CasenumbersComponent implements OnInit {
                     );
                     this.resultsLength = this.TABLE_DATA.length;
                 }
-
+                this.TotalCases  = this.resultsLength.toString();
                 setTimeout(function () {
-                    //////debugger
+                    ////////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }
                 });
+                if(localStorage.getItem("Print") == "true"){
+                    let that = this;
+                    setTimeout(function(){
+                        var printContents = that.formTable1Div.nativeElement.innerHTML;   
+                        ////debugger                 
+                        var w=window.open();
+                        w.document.write(printContents);
+                        w.print();
+                        w.close();
+                    }, 1000)
+                    
+                    
+                }
             });
     }
 }

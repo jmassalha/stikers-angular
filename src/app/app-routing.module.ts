@@ -49,6 +49,53 @@ import { CheckpatientinsmartclosetComponent } from "./checkpatientinsmartcloset/
 import { DrugsnicComponent } from "./drugsnic/drugsnic.component";
 import { ManageClinicPriceComponent } from "./manage-clinic-price/manage-clinic-price.component";
 import { ScannersComponent } from "./scanners/scanners.component";
+import { CasenumbersComponent } from "./casenumbers/casenumbers.component";
+import { PublicInquiriesChartsComponent } from "./emailsdashboard/public-inquiries-charts/public-inquiries-charts.component";
+import { VisitorsMonitoringComponent } from "./visitors-monitoring/visitors-monitoring.component";
+import { VisitorsRegistrationComponent } from "./visitors-monitoring/visitors-registration/visitors-registration.component";
+import { FastCovid19TestComponent } from "./fast-covid19-test/fast-covid19-test.component";
+import { FastCovidTestDashboardComponent } from "./fast-covid-test-dashboard/fast-covid-test-dashboard.component";
+import { UrgentSurgeriesComponent } from "./urgent-surgeries/urgent-surgeries.component";
+import { OnlineAppointmentsComponent } from "./online-appointments/online-appointments.component";
+import { CardiologyCalendarComponent } from "./cardiology-calendar/cardiology-calendar.component";
+import { AddupdateactionComponent } from "./cardiology-calendar/addupdateaction/addupdateaction.component";
+import { MotherChildeLinkComponent } from "./mother-childe-link/mother-childe-link.component";
+import { DevManageComponent } from "./dev-manage/dev-manage.component";
+import { SystemManageComponent } from "./nurses-manage-dashboard/system-manage/system-manage.component";
+import { DialogBoxComponent } from "./nurses-manage-dashboard/system-manage/dialog-box/dialog-box.component";
+import { GalitPointsReportComponent } from "./galit-points-report/galit-points-report.component";
+import { BugReportComponent } from "./nurses-department-manage/nurses-department-manage.component";
+import { NmrIframeComponent } from "./nmr-iframe/nmr-iframe.component";
+import { EmployeesManageDashComponent } from "./employees-manage-dash/employees-manage-dash.component";
+import { EmployeesAddUpdateComponent } from "./employees-manage-dash/employees-add-update/employees-add-update.component";
+import { OrdersToAppointmentsComponent } from "./orders-to-appointments/orders-to-appointments.component";
+import { NursesReinforcementComponent } from "./nurses-manage-dashboard/nurses-reinforcement/nurses-reinforcement.component";
+// import { OnnLineComponent } from './onn-line/onn-line.component';
+import { HospitalBIDashboardComponent } from "./hospital-bi-dashboard/hospital-bi-dashboard.component";
+import { GraphsModalComponent } from "./hospital-bi-dashboard/graphs-modal/graphs-modal.component";
+import { EshpozModalComponent } from "./hospital-bi-dashboard/eshpoz-modal/eshpoz-modal.component";
+import { InfectionDrugsComponent } from "./infection-drugs/infection-drugs.component";
+import { InfectionReportComponent } from "./infection-report/infection-report.component";
+import { NewBornComponent } from "./new-born/new-born.component";
+import { MaternityParticipantsComponent } from "./maternity/maternity-participants/maternity-participants.component";
+import { CprFormComponent } from "./form-dashboard/cpr-form/cpr-form.component";
+import { TumorBoardComponent } from "./form-dashboard/tumor-board/tumor-board.component";
+import { TumorBoardModalComponent } from "./form-dashboard/tumor-board/tumor-board-modal/tumor-board-modal.component";
+import { DrugProtocolsComponent } from "./drug-protocols/drug-protocols.component";
+import { MershamNComponent } from "./mersham-n/mersham-n.component";
+import { ServersComponent } from "./servers/servers.component";
+import { StikersComponent } from "./stikers/stikers.component";
+import { MedigateServersComponent } from "./medigate-servers/medigate-servers.component";
+import { SurgeryControlMainComponent } from "./surgery-control-main/surgery-control-main.component";
+import { ServersForOnnlineComponent } from "./servers-for-onnline/servers-for-onnline.component";
+import { IpPointsComponent } from "./ip-points/ip-points.component";
+import { MasterHpidComponent } from "./master-hpid/master-hpid.component";
+import { CablesComponent } from "./cables/cables.component";
+import { SurgeryCalendarComponent } from "./surgery-calendar/surgery-calendar.component";
+import { FollowUpComponent } from "./consultations/follow-up/follow-up.component";
+import { SurgeryReportsComponent } from "./surgery-reports/surgery-reports.component";
+import { WagonComponent } from "./wagon/wagon.component";
+
 const routes: Routes = [
     { path: "dashboard", component: DashboardComponent },
     { path: "login", component: LoginComponent },
@@ -94,13 +141,77 @@ const routes: Routes = [
     { path: "nursereportsystem", component: NursesDashboardComponent },
     { path: "fillreport", component: FillReportComponent },
     { path: "clinicspricing", component: ClinicsDashboardComponent },
-    { path: "checkpatientinsmartcloset", component: CheckpatientinsmartclosetComponent },
+    {
+        path: "checkpatientinsmartcloset",
+        component: CheckpatientinsmartclosetComponent,
+    },
     { path: "drugsnic", component: DrugsnicComponent },
     { path: "manageclinicprice", component: ManageClinicPriceComponent },
-    { path: "checkpatientinsmartcloset", component: CheckpatientinsmartclosetComponent },
+    {
+        path: "checkpatientinsmartcloset",
+        component: CheckpatientinsmartclosetComponent,
+    },
     { path: "scanners", component: ScannersComponent },
     { path: "clinicspricing", component: ClinicsDashboardComponent },
     { path: "drugsnic", component: DrugsnicComponent },
+    { path: "casenumbers", component: CasenumbersComponent },
+    {
+        path: "publicinquiriescharts",
+        component: PublicInquiriesChartsComponent,
+    },
+    { path: "visitorsmonitoring", component: VisitorsMonitoringComponent },
+    { path: "visitorsregistration", component: VisitorsRegistrationComponent },
+    { path: "fastcovid19test", component: FastCovid19TestComponent },
+    {
+        path: "fastcovidtestdashboard",
+        component: FastCovidTestDashboardComponent,
+    },
+    { path: "urgentsurgeries", component: UrgentSurgeriesComponent },
+    { path: "onlineappointments", component: OnlineAppointmentsComponent },
+    { path: "cardiologycalendar", component: CardiologyCalendarComponent },
+    { path: "addupdateaction", component: AddupdateactionComponent },
+    { path: "motherchildelink", component: MotherChildeLinkComponent },
+    { path: "devmanage", component: DevManageComponent },
+    { path: "systemmanage", component: SystemManageComponent },
+    { path: "dialogbox", component: DialogBoxComponent },
+    { path: "galitpointsreport", component: GalitPointsReportComponent },
+    { path: "bugreport", component: BugReportComponent },
+    { path: "nmriframe", component: NmrIframeComponent },
+    {
+        path: "employeesmanagedashboard",
+        component: EmployeesManageDashComponent,
+    },
+    { path: "employeesaddupdate", component: EmployeesAddUpdateComponent },
+    { path: "orderstoappointments", component: OrdersToAppointmentsComponent },
+    { path: "reinforcement", component: NursesReinforcementComponent },
+    { path: "BIDashboard", component: HospitalBIDashboardComponent },
+    { path: "GraphsModalComponent", component: GraphsModalComponent },
+    { path: "EshpozModalComponent", component: EshpozModalComponent },
+    { path: "InfectionDrugs", component: InfectionDrugsComponent },
+    { path: "InfectionReport", component: InfectionReportComponent },
+    { path: "newborn", component: NewBornComponent },
+    {
+        path: "MaternityParticipants",
+        component: MaternityParticipantsComponent,
+    },
+    { path: "CprForm", component: CprFormComponent },
+    { path: "TumorBoardComponent", component: TumorBoardComponent },
+    { path: "TumorBoardModalComponent", component: TumorBoardModalComponent },
+    { path: "drugprotocols", component: DrugProtocolsComponent },
+    { path: "mershamn", component: MershamNComponent },
+    { path: "servers", component: ServersComponent },
+    { path: "stikers", component: StikersComponent },
+    { path: "medigate", component: MedigateServersComponent },
+    { path: "surgerycontrolmain", component: SurgeryControlMainComponent },
+
+    { path: "servers4onnline", component: ServersForOnnlineComponent },
+    { path: "ippoints", component: IpPointsComponent },
+    { path: "masterhpid", component: MasterHpidComponent },
+    { path: "cables", component: CablesComponent },
+    { path: "surgery-calendar", component: SurgeryCalendarComponent },
+    { path: "follow-up", component: FollowUpComponent },
+    { path: "surgeryreport", component: SurgeryReportsComponent },
+    { path: "wagons", component: WagonComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({
@@ -109,4 +220,4 @@ const routes: Routes = [
     providers: [{ provide: LocationStrategy, useClass: HashLocationStrategy }],
     declarations: [],
 })
-export class AppRoutingModule {}
+export class AppRoutingModule { }

@@ -88,6 +88,24 @@
                                     {{ element.D_ROW_STATUS }}
                                 </td>
                             </ng-container>
+                            <ng-container matColumnDef="D_LINK">
+                                <th mat-header-cell *matHeaderCellDef width ="50">עריכה</th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="let element"
+                                >
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="openLink(element)"
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>visibility</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
                             <ng-container matColumnDef="D_CLICK">
                                 <th mat-header-cell *matHeaderCellDef width ="50">עריכה</th>
                                 <td
@@ -147,6 +165,23 @@
         </div>
         <div class="modal-body">
                 <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <input
+                                
+                                     id="SEODE_NAME"
+                                    matInput
+                                    autocomplete="off"
+                                    class="form-control"
+                                    placeholder=" מחלקה סיעודית"
+                                    formControlName="SEODE_NAME"
+                                    required
+                                    type="text"
+                                />
+                            </mat-form-field>
+                        </div>
+                    </div>
                     <div class="col">
                         <div class="form-group">
                             <mat-form-field>

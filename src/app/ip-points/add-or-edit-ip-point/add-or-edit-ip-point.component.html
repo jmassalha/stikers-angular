@@ -1,0 +1,137 @@
+<form
+    class="form text-right"
+    dir="rtl"
+    [formGroup]="serverForm"
+    (ngSubmit)="onSubmit()"
+>
+    <h2 mat-dialog-title *ngIf="data.element.RowId != '0'">
+        עריכת נקודת רשת: {{ data.element.IP }}
+    </h2>
+    
+    <h2 mat-dialog-title *ngIf="data.element.RowId == '0'">
+        הוספת נקודת רשת חדשה
+    </h2>
+    <mat-dialog-content class="mat-typography">        
+        
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="מוקד"
+                            formControlName="CenterName"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="מיקום"
+                            formControlName="IPLocation"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="מס' נקודה"
+                            formControlName="PointNumber"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="מסך"
+                            formControlName="Screen"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="IP"
+                            formControlName="IP"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="GetWay"
+                            formControlName="GetWay"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col">
+                <div class="form-group">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            autocomplete="off"
+                            class="form-control"
+                            placeholder="SubNet"
+                            
+                            formControlName="SubNet"
+                            
+                            type="text"
+                        />
+                    </mat-form-field>
+                </div>
+            </div>
+        </div>
+    </mat-dialog-content>
+    <mat-dialog-actions align="end">
+        <input type="hidden" formControlName="RowId">
+        <input type="hidden" formControlName="UserInsert">
+        <input type="hidden" formControlName="UserUpdate">
+        <button mat-button mat-dialog-close>בטל</button>
+        <button mat-button color="primary" type="submit" cdkFocusInitial [class.spinner]="loading"
+        [disabled]="loading">שמור</button>
+    </mat-dialog-actions>
+</form>

@@ -6,6 +6,11 @@
     transition: 0.5s opacity;
     color: #fff;
 }
+#speechBtn{
+    border-radius: 50%;
+    background-color: cornflowerblue;
+    margin: 10px;
+  }
 #menu-btn .closeMe{
     position: absolute;
     opacity: 0;

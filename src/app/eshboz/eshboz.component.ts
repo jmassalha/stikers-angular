@@ -12,6 +12,7 @@ import * as Fun from "../public.functions";
 import * as $ from "jquery";
 import { Time } from "@angular/common";
 import { FormControl } from "@angular/forms";
+import { environment } from "src/environments/environment";
 export interface Bekorem {
     PM_CASE_NUMBER: number;
     PM_MOVE_NUMBER: string;
@@ -152,21 +153,12 @@ export class EshbozComponent implements OnInit {
 
         //this.SurgeryType[0] = true;
         // this.Depart[0] = "-1";
-        this.dataSource = new MatTableDataSource(this.TABLE_DATA);
-
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else {
-            ///$("#chadTable").DataTable();
-        }
+        this.dataSource = new MatTableDataSource(this.TABLE_DATA);       
 
         //console.log(this.paginator.pageIndex);
     }
     radioChange(event: MatRadioChange) {
-        //////debugger
+        ////////debugger
         this._fun.radioChange(event);
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
@@ -194,7 +186,7 @@ export class EshbozComponent implements OnInit {
         //this.dataSource.filter = filterValue.trim().toLowerCase();
     }
     quart_change(event: MatRadioChange) {
-        ////////debugger;
+        //////////debugger;
 
         this._fun.quart_change(event);
         this.startdateVal = this._fun.Sdate.value;
@@ -229,9 +221,9 @@ export class EshbozComponent implements OnInit {
             let eDate = new Date(this.startdateVal);
 
             let diffTime: any = sDate.getTime() - eDate.getTime();
-            // ////debugger
+            // //////debugger
             this.DaysToCalc = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-            //////debugger
+            ////////debugger
             this.getDataFormServer(
                 this.startdateVal,
                 this.enddateVal,
@@ -273,7 +265,8 @@ export class EshbozComponent implements OnInit {
     }
     public newData() {
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/EshbozimAppNew", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/EshbozimAppNew", {
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/EshbozimAppNew", {
                 _fromDate: this.startdateVal,
                 _toDate: this.enddateVal,
                 _freeText: this.fliterVal,
@@ -281,10 +274,10 @@ export class EshbozComponent implements OnInit {
             })
             .subscribe((Response) => {
                 $("#_departments").empty();
-                ////////debugger
+                //debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
-                //debugger
+                ////debugger
                 this.depart = JSON.parse(json["DepartName"]);
                 this.eshpoz = JSON.parse(json["DepartEshpozim"]);
                 this.kabalot = JSON.parse(json["DepartKblot"]);
@@ -332,13 +325,15 @@ export class EshbozComponent implements OnInit {
             _surgeryType = "ALL";
         }
         if (_Depart == undefined || _Depart == null) {
-            //////debugger;
+            ////////debugger;
             _Depart = ["-1"];
         }
-        ////debugger;
+        //////debugger;
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/EshbozimAppNew", {
+            .post(environment.url + "EshbozimAppNew", {
+                
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/EshbozimAppNew", {
                 _fromDate: this.startdateVal,
                 _toDate: this.enddateVal,
                 _freeText: this.fliterVal,
@@ -347,14 +342,15 @@ export class EshbozComponent implements OnInit {
             .subscribe(
                 (Response) => {
                     
-                    ////////debugger
+                    //////////debugger
                     this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                     var json = JSON.parse(Response["d"]);
-                    //debugger
+                    ////debugger
                     this.depart = JSON.parse(json["DepartName"]);
                     this.eshpoz = JSON.parse(json["DepartEshpozim"]);
                     this.kabalot = JSON.parse(json["DepartKblot"]);
                     this.kabalotPast = JSON.parse(json["DepartKblotPast"]);
+                    
                     this.eshpozPast = JSON.parse(json["DepartEshpozimPast"]);
                     this.departPast = JSON.parse(json["DepartNamePast"]);
                     this.departBedsIn = JSON.parse(json["DepartBeds"]);
@@ -366,6 +362,7 @@ export class EshbozComponent implements OnInit {
                     this.depart7ozrem = JSON.parse(json["Eshpoz7ozerDeparts"]);
                     this.depart7ozremTot = JSON.parse(json["Eshpoz7ozer"]);
                     this.depart7ozremPastTot = JSON.parse(json["Eshpoz7ozerPast"]);
+                    //debugger
                     if(this.Depart[0] == "-1"){
                         this.pasttoshow = false;
 
@@ -380,7 +377,7 @@ export class EshbozComponent implements OnInit {
                     //this.dataSource.paginator = this.paginator;
                 },
                 (error) => {
-                    // //////debugger;
+                    // ////////debugger;
                     $("#loader").addClass("d-none");
                 }
             );
@@ -401,10 +398,12 @@ export class EshbozComponent implements OnInit {
         if (_counter == 4) {
             _surgeryType = "ALL";
         }
-        ////debugger
+        //////debugger
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetEshbozemApp", {
+            .post(environment.url + "GetEshbozemApp", {
+            
+            //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetEshbozemApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,

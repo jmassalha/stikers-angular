@@ -25,6 +25,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 export interface CovidResult {
     L_DOB: Date;
     L_FIRST_NAME: string;
@@ -40,7 +41,7 @@ export interface CovidResult {
     L_LAST_NAME_H: string;
     L_FIRST_NAME_H: string;
     L_PASSPORT: string;
-    L_RESULT_TIME: Time
+    L_RESULT_TIME: Time;
 }
 @Component({
     selector: "app-coronaresultform",
@@ -61,50 +62,22 @@ export class CoronaresultformComponent implements OnInit {
         private router: Router,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("coronaresultform");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     ngOnInit() {
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "szidan" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "yshoa" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "sahadar" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "hyakobi" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "atekali" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "yradia" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "zevensaban" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "nstepman" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "sgamliel" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "sabuhanna" ||
-                localStorage.getItem("loginUserName").toLowerCase() == "rnakhle"||
-                localStorage.getItem("loginUserName").toLowerCase() == "aibrahim"||
-                localStorage.getItem("loginUserName").toLowerCase() == "mkheer"||
-                localStorage.getItem("loginUserName").toLowerCase() == "ssarusi"||
-            localStorage.getItem("loginUserName").toLowerCase() == "samos" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "eliberty" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "tnapso"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+        
         //this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         //console.log(this.paginator.pageIndex);
         // $(document).on('submit', '#sendForm', function(e){
-        //     //debugger
+        //     ////debugger
         // })
     }
     openSnackBar() {
@@ -130,7 +103,7 @@ export class CoronaresultformComponent implements OnInit {
     }
 
     toShortFormat(d: Date) {
-        ////debugger;
+        //////debugger;
         let monthNames = [
             "01",
             "02",
@@ -145,7 +118,7 @@ export class CoronaresultformComponent implements OnInit {
             "11",
             "12",
         ];
-        ////debugger;
+        //////debugger;
         let dayNames = [
             "01",
             "02",
@@ -186,7 +159,7 @@ export class CoronaresultformComponent implements OnInit {
         let monthName = monthNames[monthIndex];
 
         let year = d.getFullYear();
-        ////debugger
+        //////debugger
         return `${day}/${monthName}/${year}`;
     }
 
@@ -195,13 +168,13 @@ export class CoronaresultformComponent implements OnInit {
     public getTableFromServer(_ID: string) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/RunGetLastRequestResult",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/RunGetLastRequestResult",
                 {
                     _ID: _ID,
                 }
@@ -209,30 +182,40 @@ export class CoronaresultformComponent implements OnInit {
             .subscribe((Response) => {
                 var json = JSON.parse(Response["d"]);
                 let CoronaData = JSON.parse(json["ITEMSMAP"]);
-              //  //debugger;
+                //debugger;
                 CoronaData.L_DOB = this.toShortFormat(
                     new Date(CoronaData.L_DOB)
                 );
-                CoronaData.L_REQUEST_DATE = this.toShortFormat(
-                    new Date(CoronaData.L_REQUEST_DATE)
-                );
-                CoronaData.L_RESULT_DATE = this.toShortFormat(
-                    new Date(CoronaData.L_RESULT_DATE)
-                );
+                CoronaData.L_REQUEST_DATE =
+                    CoronaData.L_REQUEST_DATE.split(" ")[0];
+                // this.toShortFormat(
+                //     new Date(CoronaData.L_REQUEST_DATE)
+                // );
+                CoronaData.L_RESULT_DATE =
+                    CoronaData.L_REQUEST_DATE.split(" ")[0];
+                // this.toShortFormat(
+                //     new Date(CoronaData.L_RESULT_DATE)
+                // );
                 if (CoronaData.L_RESULTS == "שלילי") {
                     CoronaData.L_RESULTS = "Negative";
                 } else if (CoronaData.L_RESULTS == "חיובי") {
                     CoronaData.L_RESULTS = "Positive";
                 } else if (CoronaData.L_RESULTS == "חיובי גבולי") {
                     CoronaData.L_RESULTS = "Marginal";
-                } else if ((CoronaData.L_RESULTS) == "Not Detected") {
+                } else if (CoronaData.L_RESULTS == "Not Detected") {
                     CoronaData.L_RESULTS = "Negative";
-                } else if ((CoronaData.L_RESULTS) == "פסול") {
+                } else if (CoronaData.L_RESULTS == "פסול") {
                     CoronaData.L_RESULTS = "Rejected";
                 } else {
                     CoronaData.L_RESULTS = CoronaData.L_RESULTS;
                 }
-                if (CoronaData.L_GENDER == "ז" || CoronaData.L_GENDER == "זכר"  || CoronaData.L_GENDER == "male" || CoronaData.L_GENDER == "1" || CoronaData.L_GENDER == 1) {
+                if (
+                    CoronaData.L_GENDER == "ז" ||
+                    CoronaData.L_GENDER == "זכר" ||
+                    CoronaData.L_GENDER == "male" ||
+                    CoronaData.L_GENDER == "1" ||
+                    CoronaData.L_GENDER == 1
+                ) {
                     CoronaData.L_GENDER = "male";
                 } else {
                     CoronaData.L_GENDER = "female";

@@ -1,0 +1,6 @@
+#rolesDetailsBtn{
+    position: fixed;
+    bottom: 105px;
+    left: 45px;
+    z-index: 999;
+}

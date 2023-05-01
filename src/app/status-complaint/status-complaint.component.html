@@ -1,4 +1,4 @@
-<div class="survey-options" *ngIf="! _choosed">
+<div class="survey-options" *ngIf="!_choosed">
     <div class="poll-options">
         <div class="row">
             <div class="col-12" *ngFor="let comp of all_complaints_filter" (click)="getAndSendMessages(comp.Row_ID)">
@@ -16,31 +16,56 @@
     <mat-card class="full-width text-center pb-0 mb-3">
         <div class="row">
             <div class="col-6">
-            <label style="font-size: 20px;">{{ComplaintSubject}}</label>
+                <label style="font-size: 20px;">{{ComplaintSubject}}</label>
+            </div>
+            <div class="col-5" *ngIf="UserName == 'matias'">
+                <form class="example-form">
+                    <mat-form-field class="example-chip-list" appearance="fill">
+                        <mat-label>בחר אחראי מהרשימה</mat-label>
+                        <mat-chip-list #chipList aria-label="Fruit selection">
+                            <mat-chip *ngFor="let fruit of fruits" [selectable]="selectable" [removable]="removable"
+                                (removed)="remove(fruit)">
+                                {{fruit.firstname}}
+                                <mat-icon matChipRemove>cancel</mat-icon>
+                            </mat-chip>
+                            <input placeholder="בחר אחראי מהרשימה" #fruitInput [formControl]="fruitCtrl"
+                                [matAutocomplete]="auto" [matChipInputFor]="chipList"
+                                [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+                                (matChipInputTokenEnd)="add($event)">
+                        </mat-chip-list>
+                        <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                            <mat-option *ngFor="let fruit of filteredFruits | async" [value]="fruit">
+                                {{fruit.firstname}}
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field>
+                    <!-- <mat-form-field class="example-full-width">
+                        <mat-label>קישור אחראי לפנייה</mat-label>
+                        <input type="text" aria-label="manager" matInput [formControl]="myControl"
+                            [matAutocomplete]="auto">
+                        <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFn">
+                            <mat-option *ngFor="let data of filteredOptions | async">
+                                <div (click)="optionClicked($event, data)">
+                                    <mat-checkbox [checked]="data.selected" (change)="toggleSelection(data)"
+                                        (click)="$event.stopPropagation()">
+                                        {{ data.firstname }}
+                                    </mat-checkbox>
+                                </div>
+                            </mat-option>
+                        </mat-autocomplete>
+                    </mat-form-field> -->
+                </form>
+            </div>
+            <div class="col-1" *ngIf="UserName == 'matias'">
+                <button mat-raised-button class="btn btn-primary btn-raised float-left"
+                    (click)="shareComplaintWithOthers()" matTooltip="קישור מנהל לפנייה">
+                    <span class="material-icons">
+                        reply
+                    </span>
+                </button>
+            </div>
         </div>
-        <div class="col-6">
-            <button mat-raised-button class="btn btn-primary btn-raised float-left" (click)="shareComplaintWithOthers()"
-                matTooltip="קישור מנהל לפנייה">
-                <span class="material-icons">
-                    reply
-                </span>
-            </button>
-            <form class="example-form">
-                <mat-form-field class="example-full-width">
-                    <mat-label>קישור אחראי לפנייה</mat-label>
-                    <input type="text" placeholder="התחל הקלדה .." aria-label="manager" matInput
-                        [formControl]="myControl" [matAutocomplete]="auto">
-                    <mat-autocomplete #auto="matAutocomplete">
-                        <mat-option *ngFor="let option of filteredOptions | async"
-                            value="{{option.firstname}} {{option.lastname}}">
-                            {{option.firstname}} {{option.lastname}}
-                        </mat-option>
-                    </mat-autocomplete>
-                </mat-form-field>
-            </form>
-        </div>
-        </div>
-        
+
     </mat-card>
     <div class="full-width" *ngFor="let message of messagesArray">
         <mat-card class="message-card full-width" *ngIf="message.UserName != UserName">

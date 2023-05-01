@@ -1,0 +1,490 @@
+<h1 class="page-title text-center">Follow Up</h1>
+<div class="container-fluid">
+    <div class="row">
+        <div class="col">
+            <div dir="rtl" class="card w-85-p">
+                <div dir="rtl" class="card-body">
+                    <form class="form">
+                        <div class="row">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input matInput autocomplete="off" placeholder="מ תאריך" required
+                                            (focus)="startdate.open()" [(ngModel)]="startdateVal" name="startdate"
+                                            [matDatepicker]="startdate" />
+                                        <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
+                                        <mat-datepicker #startdate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <input matInput autocomplete="off" placeholder="עד תאריך "
+                                            (focus)="enddate.open()" required [(ngModel)]="enddateVal" name="enddate"
+                                            [matDatepicker]="enddate" />
+                                        <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
+                                        <mat-datepicker #enddate></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>מחלקה מזמינה</mat-label>
+                                        <mat-select name="requestdepartsName" [(value)]="requestdepartsName" required>
+                                            <mat-option *ngFor="
+                                                    let depart of requestdepartsList
+                                                " [value]="depart.id">{{ depart.name }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>מחלקה מבצעת</mat-label>
+                                        <mat-select name="departsName" [(value)]="departsName" required>
+                                            <mat-option *ngFor="
+                                                    let depart of departsList
+                                                " [value]="depart.id">{{ depart.name }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <!-- <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>עובד מבצע</mat-label>
+                                        <mat-select name="workerName" [(value)]="workersName" required>
+                                            <mat-option *ngFor="
+                                                    let worker of workersList
+                                                " [value]="worker.id">{{ worker.name }}</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>סוג יעוץ</mat-label>
+                                        <mat-select name="typeOf" [(value)]="typeOf" required>
+                                            <mat-option [value]="-1">הכל</mat-option>
+                                            <mat-option [value]="1">אישפוז</mat-option>
+                                            <mat-option [value]="3">אבולטורי</mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div> -->
+                        </div>
+                        <div class="row">
+                            <div dir="rtl" class="col-md-12 text-right">
+                                <div class="form-group">
+                                    <label class="label-year">בחר שנה</label>
+                                    <mat-radio-group name="years" class="inline-radio-group">
+                                        <mat-radio-button class="inline-radio-group-in" *ngFor="
+                                                let year of yearsToSelect.list
+                                            " name="year" [checked]="year.checked" [value]="year.ID"
+                                            (change)="radioChange($event)">
+                                            {{ year.ID }}
+                                        </mat-radio-button>
+                                    </mat-radio-group>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="form-group">
+                                <mat-label>רבעון</mat-label>
+                            </div>
+                            <mat-list class="row-all">
+                                <div class="row">
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)" name="Quart"
+                                                [checked]="true" #all value="all">הכל</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)" name="Quart" #one
+                                                value="1">I</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)" name="Quart" #two
+                                                value="2">II</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)" name="Quart" #Three
+                                                value="3">III
+                                            </mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                    <div class="col-1">
+                                        <mat-list-item>
+                                            <mat-radio-button (change)="quart_change($event)" name="Quart" #four
+                                                value="4">IV</mat-radio-button>
+                                        </mat-list-item>
+                                    </div>
+                                </div>
+                            </mat-list>
+                        </div>
+
+                        <button mat-raised-button type="submit" class="btn btn-primary btn-raised"
+                            (click)="getReport($event)">
+                            הצג
+                        </button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<mat-tab-group mat-align-tabs="end" (selectedTabChange)="onTabChanged($event)">
+    <mat-tab label="נתונים בטבלה">
+        <div class="container-fluid pb-60">
+            <div class="row">
+                <div dir="rtl" class="col">
+                    <div class="table-responsive">
+                        <div class="table-spinner-container">
+                            <mat-form-field>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="חפש" />
+                            </mat-form-field>
+                            <table class="table" matSort mat-table [dataSource]="dataSource">
+                                <ng-container matColumnDef="Row_Id">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        מס' שורה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.Row_Id }}
+                                    </td>
+                                </ng-container>
+                                <!-- <ng-container matColumnDef="FollowUpDepartSeode">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        מחלקה סיעודית
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.FollowUpDepartSeode }}
+                                    </td>
+                                </ng-container> -->
+                                <ng-container matColumnDef="FollowUpDepart">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        מחלקה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.FollowUpDepart }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="FollowUpDate">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        תאריך
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.FollowUpDate }}
+                                    </td>
+                                </ng-container>
+                                <!-- <ng-container matColumnDef="FollowUpGroup">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        קבוצה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.FollowUpGroup }}
+                                    </td>
+                                </ng-container> -->
+                                <ng-container matColumnDef="FollowUpCategory">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        קטגוריה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.FollowUpCategory }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="CaseNumber">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        מספר מקרה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.CaseNumber }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="UserFullName">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        שם עובד
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.User.UserFirstName }} {{ element.User.UserLastName }}
+                                    </td>
+                                </ng-container>
+                                <!-- <ng-container matColumnDef="UserDepart">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        מחלקה
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.User.UserDepart }}
+                                    </td>
+                                </ng-container>
+                                <ng-container matColumnDef="WorkerType">
+                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
+                                        תפקיד
+                                    </th>
+                                    <td mat-cell *matCellDef="let element">
+                                        {{ element.User.WorkerType }}
+                                    </td>
+                                </ng-container> -->
+                                <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+                                <tr mat-row *matRowDef="
+                                        let row;
+                                        columns: displayedColumns
+                                    "></tr>
+                            </table>
+                        </div>
+                        <!-- PAGINATION -->
+                        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[20, 50, 100]" [pageSize]="20"
+                            showFirstLastButtons (page)="getPaginatorData($event)"></mat-paginator>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </mat-tab>
+    <!-- <mat-tab label="נתונים בגרף">
+        <div class="container-fluid text-right fix-google-chart-height">
+            <br /><br />
+            <div class="row d-none rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ מעל 30 דקות
+                </h6>
+                <div class="col-6">
+                    <google-chart
+                        #departDoingTotal
+                        [title]="titleDepartDoingTotal"
+                        [type]="barChartC"
+                        [data]="DepartsDataDoingTotal"
+                        [columns]="DepartsDoingTotalColumns"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-6">
+                    <google-chart
+                        #departDoingAvg
+                        [title]="titleDepartDoingAvg"
+                        [type]="barChartC"
+                        [data]="DepartsDataDoingAvg"
+                        [columns]="DepartsDoingAvgColumns"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div><br /><br />
+            <div class="row rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+
+                </h6>
+                <div class="col-12">
+                    <google-chart
+                        #departDoingTotalAll
+                        [title]="titleDepartDoingTotalAll"
+                        [type]="barChartC"
+                        [data]="DepartsDataDoingTotalAll"
+                        [columns]="DepartsDoingTotalColumnsAll"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-12">
+                    <google-chart
+                        #departDoingAvgAll
+                        [title]="titleDepartDoingAvgAll"
+                        [type]="barChartC"
+                        [data]="DepartsDataDoingAvgAll"
+                        [columns]="DepartsDoingAvgColumnsAll"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div><br /><br />
+            
+            <div class="row d-none rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ מעל 30 דקות
+                </h6>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestTotal
+                        [title]="titleDepartRequestTotal"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestTotal"
+                        [columns]="DepartsRequestTotalColumns"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestAvg
+                        [title]="titleDepartRequestAvg"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestAvg"
+                        [columns]="DepartsRequestAvgColumns"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div>
+            <br /><br />
+            <div class="row d-none rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+יעוץ מעל 30 דקות
+(ללא פרא רפואי)
+                </h6>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestTotal
+                        [title]="titleDepartRequestTotalNotPara"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestTotalNotPara"
+                        [columns]="DepartsRequestTotalColumnsNotPara"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestAvg
+                        [title]="titleDepartRequestAvgNotPara"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestAvgNotPara"
+                        [columns]="DepartsRequestAvgColumnsNotPara"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div>
+            <br /><br />
+            <div class="row rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+
+                </h6>
+                <div class="col-6 d-none">
+                    <google-chart
+                        #departRequestTotalAll
+                        [title]="titleDepartRequestTotalAll"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestTotalAll"
+                        [columns]="DepartsRequestTotalColumnsAll"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-12">
+                    <google-chart
+                        #departRequestAvgAll
+                        [title]="titleDepartRequestAvgAll"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestAvgAll"
+                        [columns]="DepartsRequestAvgColumnsAll"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div>
+            <br /><br />
+            <div class="row d-none rel">
+                <h6 class="col-12">
+                    זמן
+ממוצע
+למתן
+
+(ללא פרא רפואי)
+                </h6>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestTotalAll
+                        [title]="titleDepartRequestTotalAllNotPara"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestTotalAllNotPara"
+                        [columns]="DepartsRequestTotalColumnsAllNotPara"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-6">
+                    <google-chart
+                        #departRequestAvgAll
+                        [title]="titleDepartRequestAvgAllNotPara"
+                        [type]="barChartC"
+                        [data]="DepartsDataRequestAvgAllNotPara"
+                        [columns]="DepartsRequestAvgColumnsAllNotPara"
+                        [options]="optionsBarsV"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div>
+            <br /><br />
+            <div class="row rel">
+                <div class="col-12">
+                    <google-chart
+                        #chart6min
+                        [title]="titleDepartsChart"
+                        [type]="barChart"
+                        [data]="DepartsDataChart"
+                        [columns]="DepartsColumns"
+                        [options]="optionsBars"
+                        
+                    >
+                    </google-chart>
+                </div>
+                <div class="col-12">
+                    <google-chart
+                        #chartBars
+                        [title]="titleWorkersChart"
+                        [type]="barChart"
+                        [data]="WorkersDataChart"
+                        [columns]="WorkersColumns"
+                        [options]="optionsBars"
+                        
+                    >
+                    </google-chart>
+                </div>
+                
+            </div>
+            
+        </div>
+    </mat-tab> -->
+</mat-tab-group>

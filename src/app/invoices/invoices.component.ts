@@ -113,14 +113,7 @@ export class InvoicesComponent implements OnInit {
       this.PatientType = "-1";
       this.dataSource = new MatTableDataSource(this.TABLE_DATA);
 
-      if (
-          localStorage.getItem("loginState") != "true" ||
-          localStorage.getItem("loginUserName") == ""
-      ) {
-          this.router.navigate(["login"]);
-      } else {
-          ///$("#chadTable").DataTable();
-      }
+      
       //console.log(this.paginator.pageIndex);
   }
   applyFilter(filterValue: string) {
@@ -187,11 +180,11 @@ export class InvoicesComponent implements OnInit {
       let _yearStart = new Date(_startDate).getFullYear();
       let _yearEnd = new Date(_endDate).getFullYear();
 
-      ////////debugger
+      //////////debugger
       $("#loader").removeClass("d-none");
       this.http
           .post(
-              "http://srv-apps/wsrfc/WebService.asmx/GetInvoicesApp",
+              "http://srv-apps-prod/RCF_WS/WebService.asmx/GetInvoicesApp",
               {
                   _fromDate: _startDate,
                   _toDate: _endDate,
@@ -211,7 +204,7 @@ export class InvoicesComponent implements OnInit {
                   //this.dataSource.paginator = this.paginator;
               },
               error => {
-                  // //////debugger;
+                  // ////////debugger;
                   $("#loader").addClass("d-none");
               }
           );

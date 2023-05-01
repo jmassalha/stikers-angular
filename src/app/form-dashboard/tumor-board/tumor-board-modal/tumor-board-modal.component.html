@@ -1,0 +1,78 @@
+<button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+    <span aria-hidden="true">&times;</span>
+</button>
+<h1 mat-dialog-title style="text-align: center;">Tumor Board Form</h1>
+<hr>
+<div class="container" dir="rtl">
+    <form class="form" [formGroup]="fullForm">
+        <!-- DATE TIME -->
+        <div class="row">
+            <!-- DATE -->
+            <div class="col-6 text-center">
+                <mat-label>תאריך: </mat-label>
+                <span>{{fullForm.get('DateOfForm').value}}</span>
+            </div>
+            <!-- TIME -->
+            <div class="col-6 text-center">
+                <mat-label>שעה: </mat-label>
+                <span>{{fullForm.get('TimeOfForm').value}}</span>
+            </div>
+        </div>
+        <hr>
+        <!-- PERSONAL DETAILS -->
+        <div class="row">
+            <div class="col-3 text-center">
+                <mat-label>ת.ז: </mat-label>
+                <span>{{patientGroup.get('Passport').value}}</span>
+            </div>
+            <div class="col-3 text-center">
+                <mat-label>מס' מקרה: </mat-label>
+                <span>{{patientGroup.get('CaseNumber').value}}</span>
+            </div>
+            <div class="col-3 text-center">
+                <mat-label>שם פרטי: </mat-label>
+                <span>{{patientGroup.get('FirstName').value}}</span>
+            </div>
+            <div class="col-3 text-center">
+                <mat-label>שם משפחה: </mat-label>
+                <span>{{patientGroup.get('LastName').value}}</span>
+            </div>
+        </div>
+        <hr>
+        <!-- DOCTORS INPUT -->
+        <div class="row">
+            <mat-form-field appearance="fill" class="example-form-field">
+                <mat-label>הכנס שמות רופאים</mat-label>
+                <mat-chip-list #chipGrid aria-label="Enter keywords">
+                    <mat-chip *ngFor="let doctor of doctors; let i = index;" [selectable]="selectable"
+                        [removable]="removable" (removed)="removeKeyword(doctor,i)">
+                        <div class="teze" *ngIf="doctor.Status">
+                            {{doctor.DoctorEmployeeIDFK}}
+                            <button matChipRemove aria-label="'remove ' + keyword">
+                                <mat-icon>cancel</mat-icon>
+                            </button>
+                        </div>
+                    </mat-chip>
+                </mat-chip-list>
+                <input placeholder="שם רופא" #doctorsInput [matChipInputFor]="chipGrid" [matAutocomplete]="auto"
+                    [formControl]="formControl" (matChipInputTokenEnd)="add($event)" />
+                <mat-autocomplete #auto="matAutocomplete" (optionSelected)="selected($event)">
+                    <mat-option *ngFor="let doctor2 of filteredDoctors | async" [value]="doctor2">
+                        {{doctor2.DoctorEmployeeIDFK}}
+                    </mat-option>
+                </mat-autocomplete>
+            </mat-form-field>
+        </div>
+        <!-- CONTENT INPUT -->
+        <div class="row">
+            <textarea style="width: 100%;" rows="15" placeholder="תוכן הדו'ח" formControlName="ContentData"></textarea>
+        </div>
+        <!-- SAVE BUTTON -->
+        <div class="row">
+            <button class="full-width m-4" color="primary" style="font-size: 20px;font-weight: bold;" type="submit"
+                mat-raised-button (click)="submitForm()">
+                <span>שמירת טופס</span>
+            </button>
+        </div>
+    </form>
+</div>

@@ -29,6 +29,7 @@ import {
     FormGroup,
     Validators,
 } from "@angular/forms";
+import { MenuPerm } from "../menu-perm";
 
 export interface Depart {
     D_ROW_ID: number;
@@ -36,6 +37,7 @@ export interface Depart {
     D_NAME: string;
     D_ROW_STATUS: string;
     D_SEND_SMS: string;
+    SEODE_NAME: string;
     D_SMS_TEXT: string;
 }
 
@@ -54,6 +56,7 @@ export class PoriadepartsComponent implements OnInit {
         "D_NAME", //"D_SHEET_ID",
         "D_SEND_SMS",
         "D_SMS_TEXT",
+        "D_LINK",
         "D_CLICK",
     ];
 
@@ -75,7 +78,16 @@ export class PoriadepartsComponent implements OnInit {
         private http: HttpClient,
         private modalService: NgbModal,
         private formBuilder: FormBuilder
-    ) {}
+        ,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("poriadeparts");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
     @Input()
     foo: string = "bar";
     startdateVal: string;
@@ -94,6 +106,7 @@ export class PoriadepartsComponent implements OnInit {
         D_NAME: '',
         D_ROW_STATUS: '',
         D_SEND_SMS: '',
+        SEODE_NAME: '',
         D_SMS_TEXT: ''
     };
     ngOnInit(): void {
@@ -111,31 +124,19 @@ export class PoriadepartsComponent implements OnInit {
         this.dataSource = new MatTableDataSource(this.TABLE_DATA);
         this.departsForm = this.formBuilder.group({
             fullnameVal: ["", Validators.required],
+            SEODE_NAME: ["", Validators.required],
             active_sheet: ["", false],
             sms_text: ["", Validators.required],
             idSheet: ["", false],
             rowIdVal: ["", false],
         });
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-                localStorage.getItem("loginUserName").toLowerCase() ==
-                    "eonn" ||
-                localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-                localStorage.getItem("loginUserName").toLowerCase() == "mbilya" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim"
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+       
         this.getReport(this);
+    }
+    openLink(element: any){
+      //  //debugger
+        window.open("https://poria.is-great.org/clicktothank/?id="+element.D_SHEET_ID, "_blank");
     }
     openSnackBar() {
         this._snackBar.open("נשמר בהצלחה", "", {
@@ -148,7 +149,7 @@ export class PoriadepartsComponent implements OnInit {
     }
     onSubmit() {
         this.submitted = true;
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.departsForm.invalid) {
             return;
@@ -169,19 +170,20 @@ export class PoriadepartsComponent implements OnInit {
             this.active_sheet = "1";
         }
         this.rowElement.D_SMS_TEXT = this.departsForm.value.sms_text;
-        //debugger
+        ////debugger
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/PoriaDeparts", {
+            .post("http://srv-ipracticom:8080/WebService.asmx/PoriaDeparts", {
                 _departName: this.departsForm.value.fullnameVal,
                 _departStatus: 1,
                 _sheetId: this.departsForm.value.idSheet,
                 _rowId: this.departsForm.value.rowIdVal,
                 _sendSms:  this.active_sheet,
                 _smsText: this.departsForm.value.sms_text,
+                SEODE_NAME: this.departsForm.value.SEODE_NAME,
             })
             .subscribe((Response) => {
                 var json = Response["d"].split(", ");;
-                //debugger       
+                ////debugger       
                 if(" UPDATE" != json[3]){
                     this.rowElement.D_NAME = json[0];
                     this.rowElement.D_SHEET_ID = json[1];
@@ -200,8 +202,8 @@ export class PoriadepartsComponent implements OnInit {
               
                  
                 //var vars = json.split
-               // //debugger;
-                // //debugger 888888
+               // ////debugger;
+                // ////debugger 888888
                 this.openSnackBar();
             });
         // display form values on success
@@ -216,13 +218,13 @@ export class PoriadepartsComponent implements OnInit {
         }
     }
     editRow(content, _type, _element) {
-        ////debugger
+        //////debugger
         this.rowElement = _element;
         this.fullnameVal = _element.D_NAME;
         this.rowIdVal = _element.D_ROW_ID;
         this.idSheet = _element.D_SHEET_ID;
         this.active_sheet = _element.D_SEND_SMS;
-        //debugger
+        ////debugger
         if(this.active_sheet == "0" || this.active_sheet == null || this.active_sheet == "לא" || this.active_sheet == "" ){
             this.active_sheet_bool = false;
         }else{
@@ -231,6 +233,7 @@ export class PoriadepartsComponent implements OnInit {
         this.sms_text = _element.D_SMS_TEXT;
         this.departsForm = this.formBuilder.group({
             fullnameVal: [this.fullnameVal, Validators.required],
+            SEODE_NAME: [_element.SEODE_NAME, Validators.required],
             active_sheet: [ this.active_sheet_bool, false],
             sms_text: [this.sms_text, Validators.required],
             idSheet: [this.idSheet, false],
@@ -244,9 +247,9 @@ export class PoriadepartsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -256,7 +259,7 @@ export class PoriadepartsComponent implements OnInit {
         );
     }
     getReport($event: any): void {
-        ////debugger
+        //////debugger
         this.getTableFromServer(this.paginator.pageIndex, 10, this.fliterVal);
     }
     applyFilter(filterValue: string) {
@@ -273,12 +276,13 @@ export class PoriadepartsComponent implements OnInit {
 
     open(content, _type, _element) {
         //$('#free_text').text(_element.FreeText);
-        ////debugger
+        //////debugger
         
         this.rowElement = {
             D_ROW_ID: 0,
             D_SHEET_ID: '-1',
             D_NAME: '',
+            SEODE_NAME: '',
             D_ROW_STATUS: '',
             D_SEND_SMS: '',
             D_SMS_TEXT: ''
@@ -290,6 +294,7 @@ export class PoriadepartsComponent implements OnInit {
 
         this.departsForm = this.formBuilder.group({
             fullnameVal: ["", Validators.required],
+            SEODE_NAME: ["", Validators.required],
             active_sheet: ["", false],
             sms_text: ["", Validators.required],
             idSheet: ["", false],
@@ -298,9 +303,9 @@ export class PoriadepartsComponent implements OnInit {
         this.modalService.open(content, this.modalOptions).result.then(
             (result) => {
                 this.closeResult = `Closed with: ${result}`;
-                ////debugger
+                //////debugger
                 if ("Save" == result) {
-                    // //debugger;
+                    // ////debugger;
                     //this.saveChad(_element.ROW_ID);
                 }
             },
@@ -337,13 +342,13 @@ export class PoriadepartsComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // //debugger
+            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetPoriaDeparts",
+                "http://srv-ipracticom:8080/WebService.asmx/GetPoriaDeparts",
                 {
                     _pageIndex: _pageIndex,
                     _pageSize: _pageSize,
@@ -354,9 +359,9 @@ export class PoriadepartsComponent implements OnInit {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let DepartsData = JSON.parse(json["aaData"]);
-                ////debugger
+                //////debugger
                 for (var i = 0; i < DepartsData.length; i++) {
-                    ////debugger
+                    //////debugger
                     if( DepartsData[i].D_SEND_SMS == "0"){
                         DepartsData[i].D_SEND_SMS = "לא";
                     }else{
@@ -369,14 +374,15 @@ export class PoriadepartsComponent implements OnInit {
                         D_ROW_STATUS: DepartsData[i].D_ROW_STATUS,
                         D_SEND_SMS: DepartsData[i].D_SEND_SMS,
                         D_SMS_TEXT: DepartsData[i].D_SMS_TEXT,
+                        SEODE_NAME: DepartsData[i].SEODE_NAME,
                     });
                 }
 
-                // //debugger
+                // ////debugger
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
                 this.resultsLength = parseInt(json["iTotalRecords"]);
                 setTimeout(function () {
-                    ////debugger
+                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

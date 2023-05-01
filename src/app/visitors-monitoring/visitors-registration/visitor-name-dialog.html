@@ -1,0 +1,10 @@
+<h1 mat-dialog-title style="text-align: center;">להכניס שם המבקר</h1>
+<form mat-dialog-content dir="rtl" style="text-align: right;" [formGroup]="visitorGroup">
+    <mat-form-field class="example-full-width">
+        <mat-label>שם המבקר</mat-label>
+        <input matInput formControlName="visitorName" required>
+    </mat-form-field>
+</form>
+<div mat-dialog-actions>
+    <button mat-button mat-dialog-close (click)="onNoClick()" [disabled]="visitorGroup.invalid">שמירה</button>
+</div>

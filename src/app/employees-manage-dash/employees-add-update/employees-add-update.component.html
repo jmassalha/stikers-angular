@@ -1,0 +1,406 @@
+<form dir="rtl" autocomplete="off">
+    <div class="row">
+        <mat-card class="text-center">
+            <button mat-mini-fab color="warn" class="close" matTooltip="סגירה" aria-label="Close" mat-dialog-close>
+                <mat-icon>cancel</mat-icon>
+            </button>
+            <div class="row">
+                <div class="col-10">
+                    <label style="font-size: 35px;"
+                        *ngIf="!EmployeeExists">{{employeePersonalDetails.controls['FirstName'].value}}
+                        {{employeePersonalDetails.controls['LastName'].value}} -
+                        {{employeeWorkDetails.controls['ADUserName'].value}} -
+                        {{employeePersonalDetails.controls['EmployeeID'].value}}</label>
+                    <label style="font-size: 40px;color: red;" *ngIf="EmployeeExists">העובד כבר קיים במערכת - ליצור קשר
+                        עם מערכות מידע</label>
+                </div>
+                <div class="col-2">
+                    <button class="submitBtn" (click)="duplicateToNewEmployee()" matTooltip="שכפול" color="primary"
+                        type="submit" mat-fab>
+                        <span class="material-icons">
+                            file_copy
+                        </span>
+                    </button>
+                </div>
+            </div>
+        </mat-card>
+    </div>
+    <div class="row float-right mt-3">
+        <mat-vertical-stepper>
+            <mat-step [stepControl]="employeePersonalDetails">
+                <form dir="rtl" [formGroup]="employeePersonalDetails" autocomplete="off">
+                    <ng-template matStepLabel>פרטים אישיים</ng-template>
+                    <ol class="list-style">
+                        <div class="full-width row">
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                    <div class="col-12 text-right">
+                                    </div>
+                                    <mat-form-field class="example-full-width">
+                                        <input type="text" (focusout)="checkIfExists()" placeholder="ת.ז" matInput
+                                            formControlName="EmployeeID">
+                                    </mat-form-field>
+                                </div>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם פרטי (עברית)"
+                                        formControlName="FirstName">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם פרטי (אנגלית)"
+                                        formControlName="FirstNameEng">
+                                </mat-form-field>
+                            </li>
+                        </div>
+                        <div class="full-width row">
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם משפחה (עברית)"
+                                        formControlName="LastName">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="שם משפחה (אנגלית)"
+                                        formControlName="LastNameEng">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label"
+                                        [ngStyle]="{'color':this.employeePersonalDetails.get('Gender').value === null ? 'red' : 'black' }">מגדר</label>
+                                    <mat-select formControlName="Gender" aria-placeholder="מגדר">
+                                        <mat-option value="Male"> זכר </mat-option>
+                                        <mat-option value="Female"> נקבה </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label"
+                                        [ngStyle]="{'color':this.employeePersonalDetails.get('KupaID').value === null ? 'red' : 'black' }">קופת
+                                        חולים</label>
+                                    <mat-select formControlName="KupaID" aria-placeholder="קופת חולים">
+                                        <mat-option value="10"> כללית </mat-option>
+                                        <mat-option value="11"> מכבי </mat-option>
+                                        <mat-option value="12"> מאוחדת </mat-option>
+                                        <mat-option value="13"> לאומית </mat-option>
+                                        <mat-option value="98"> צה\"ל </mat-option>
+                                        <mat-option value="99"> ללא קופה </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+
+                        </div>
+                        <div class="full-width row">
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput (focusout)="getUserName('')" placeholder="מייל"
+                                        formControlName="Email">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מס' טלפון" formControlName="CellNumber">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
+                                <div class="col-12 text-right">
+                                    <mat-form-field appearance="fill" class="example-full-width">
+                                        <span matPrefix>תאריך לידה &nbsp;</span>
+                                        <input matInput formControlName="DateOfBirth" placeholder="תאריך לידה"
+                                            [matDatepicker]="picker" (focus)="picker.open()">
+                                        <mat-datepicker-toggle matSuffix [for]="picker">
+                                        </mat-datepicker-toggle>
+                                        <mat-datepicker #picker></mat-datepicker>
+                                    </mat-form-field>
+                                </div>
+                            </li>
+                            <!-- <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="עיר" formControlName="CityName">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4">
+                                <div class="col-12 text-right">
+                                </div>
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מיקוד" formControlName="CityCode">
+                                </mat-form-field>
+                            </li> -->
+                        </div>
+
+                    </ol>
+                    <div>
+                        <button mat-raised-button class="btn btn-primary btn-raised mt-3" matStepperNext>הבא</button>
+                    </div>
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="employeeWorkDetails">
+                <form dir="rtl" [formGroup]="employeeWorkDetails" autocomplete="off">
+                    <ng-template matStepLabel>פרטי העובד במרכז הרפואי</ng-template>
+                    <ol class="list-style">
+                        <div class="full-width row">
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
+                                <mat-form-field appearance="fill" class="example-full-width">
+                                    <span matPrefix>תחילת עבודה &nbsp;</span>
+                                    <input matInput formControlName="StartWorkDate" placeholder="תאריך תחילת עבודה"
+                                        [matDatepicker]="picker2" (focus)="picker2.open()" required>
+                                    <mat-datepicker-toggle matSuffix [for]="picker2">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker2></mat-datepicker>
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
+                                <mat-form-field appearance="fill" class="example-full-width">
+                                    <span matPrefix>סיום עבודה &nbsp;</span>
+                                    <input matInput formControlName="EndWorkDate" placeholder="תאריך סיום עבודה"
+                                        [matDatepicker]="picker3" (focus)="picker3.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker3">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker3></mat-datepicker>
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4" id="employees" style="height: 75px;">
+                                <mat-form-field appearance="fill" class="example-full-width">
+                                    <span matPrefix>צפי סיום עבודה &nbsp;</span>
+                                    <input matInput formControlName="DateToEndWork" placeholder="צפי סיום עבודה"
+                                        [matDatepicker]="picker4" (focus)="picker4.open()">
+                                    <mat-datepicker-toggle matSuffix [for]="picker4">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                            </li>
+                            <!-- <li class="border-me col-4">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="תפקיד" formControlName="Title">
+                                </mat-form-field>
+                            </li> -->
+                        </div>
+                        <div class="full-width row">
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">סקטור</label>
+                                    <mat-select formControlName="EmployeeSektorID"
+                                        (selectionChange)="sektorSelection($event.value)" aria-placeholder="סקטור">
+                                        <div *ngIf="managerType == 'stager'">
+                                            <mat-option value="899">
+                                                סקטור סטאזרים לרפואה
+                                            </mat-option>
+                                            <mat-option value="999">
+                                                סקטור רופאים
+                                            </mat-option>
+                                        </div>
+                                        <div *ngIf="managerType == 'research' || managerType == 'hr'">
+                                            <div *ngFor="let sektor of SektorsList">
+                                                <mat-option [value]="sektor.EmployeeSektorID"
+                                                    *ngIf="sektor.EmployeeSektorID != '899'">
+                                                    {{sektor.EmployeeSektorDescription}}
+                                                </mat-option>
+                                            </div>
+                                        </div>
+                                        <div *ngIf="managerType == 'admin'">
+                                            <mat-option *ngFor="let sektor of SektorsList"
+                                                [value]="sektor.EmployeeSektorID">
+                                                {{sektor.EmployeeSektorDescription}}
+                                            </mat-option>
+                                        </div>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-2"
+                                *ngIf="empType == 'stager' && (managerType == 'stager' || managerType == 'admin')">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">מיקום לימודים</label>
+                                    <mat-select formControlName="InternLearnCountry"
+                                        (selectionChange)="setLearnCountry($event)" aria-placeholder="מיקום לימודים">
+                                        <mat-option value="חו'ל"> חו'ל </mat-option>
+                                        <mat-option value="ארץ"> ארץ </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-3"
+                                *ngIf="empType == 'stager' && (managerType == 'stager' || managerType == 'admin')">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="ארץ לימודים"
+                                        formControlName="InternLearnCountryDesc">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-4"
+                                *ngIf="empType == 'stager' && (managerType == 'stager' || managerType == 'admin')">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="אוניברסיטה"
+                                        formControlName="InternUniversity">
+                                </mat-form-field>
+                            </li>
+                            <!-- [ngClass]="empType == 'doctor' && managerType == 'research' || managerType == 'admin' ? 'border-me col-3' : 'border-me col-4'" -->
+                            <li class="border-me col-3" *ngIf="empType == 'doctor' && managerType != 'stager'">
+                                <mat-form-field class="example-full-width">
+                                    <input *ngIf="managerType == 'admin'" type="text" matInput
+                                        placeholder="מספר רישיון רופא" formControlName="DocLicence">
+                                    <input *ngIf="managerType != 'admin'" type="text" matInput
+                                        placeholder="מספר רישיון רופא" formControlName="DocLicence" required>
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3" id="employees"
+                                *ngIf="empType == 'doctor' && managerType != 'stager'" style="height: 75px;">
+                                <mat-form-field appearance="fill" class="example-full-width">
+                                    <span matPrefix>קבלת רישיון &nbsp;</span>
+                                    <input matInput *ngIf="managerType == 'admin'" formControlName="DocStartExperience"
+                                        placeholder="תאריך קבלת רישיון" [matDatepicker]="picker4"
+                                        (focus)="picker4.open()">
+                                    <input matInput *ngIf="managerType != 'admin'" formControlName="DocStartExperience"
+                                        placeholder="תאריך קבלת רישיון" [matDatepicker]="picker4"
+                                        (focus)="picker4.open()" required>
+                                    <mat-datepicker-toggle matSuffix [for]="picker4">
+                                    </mat-datepicker-toggle>
+                                    <mat-datepicker #picker4></mat-datepicker>
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">תיאור תפקיד</label>
+                                    <mat-select formControlName="FunctionID" aria-placeholder="תיאור תפקיד">
+                                        <mat-option *ngFor="let func of FunctionsList" [value]="func.FunctionID">
+                                            {{func.FunctionDescription}} </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-3" *ngIf="managerType == 'admin' || managerType == 'hr'">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">מיקום עבודה</label>
+                                    <mat-select formControlName="WorkPlaceID" aria-placeholder="מיקום עבודה">
+                                        <mat-option *ngFor="let work of WorkPlacesList" [value]="work.WorkPlaceID">
+                                            {{work.WorkPlaceDescription}} </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-3" *ngIf="managerType != 'stager'">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">סקטור בבלוסום</label>
+                                    <mat-select formControlName="EmployeeBlossomSektorID"
+                                        aria-placeholder="סקטור בבלוסום">
+                                        <mat-option *ngFor="let blo of EmployeeBlossomSektors"
+                                            [value]="blo.EmployeeBlossomSektorID">
+                                            {{blo.EmployeeSektorBlossomDescription}} </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-3" *ngIf="managerType != 'stager'">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">דירוג</label>
+                                    <mat-select formControlName="RankID" aria-placeholder="דירוג">
+                                        <mat-option *ngFor="let rank of RanksList" [value]="rank.RankID">
+                                            {{rank.RankDescription}} </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">מחלקה</label>
+                                    <mat-select formControlName="DepartnentCode" aria-placeholder="מחלקה">
+                                        <mat-option *ngFor="let dept of DepartmentsList" [value]="dept.DepartnentCode">
+                                            {{dept.DepartnentDescripton}} </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="הערות" formControlName="Remarks">
+                                </mat-form-field>
+                            </li>
+
+                        </div>
+                        <!-- <div class="full-width row">
+                            
+                        </div> -->
+                    </ol>
+                    <div>
+                        <button mat-raised-button class="btn btn-primary btn-raised" matStepperNext>הבא</button>
+                    </div>
+
+                </form>
+            </mat-step>
+            <mat-step [stepControl]="employeeWorkDetails">
+                <form dir="rtl" [formGroup]="employeeWorkDetails" autocomplete="off">
+                    <ng-template matStepLabel>שונות</ng-template>
+                    <ol class="list-style">
+                        <div class="full-width row">
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="סוג רכב" formControlName="CarType">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מספר רכב" formControlName="CarNumber">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="סוג רכב 2" formControlName="CarType2">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <mat-form-field class="example-full-width">
+                                    <input type="text" matInput placeholder="מספר רכב 2" formControlName="CarNumber2">
+                                </mat-form-field>
+                            </li>
+                            <li class="border-me col-3">
+                                <div class="col-12 text-right">
+                                    <label class="exp-label">מבצע תורנויות</label>
+                                    <mat-select formControlName="Toranot" aria-placeholder="מבצע תורנויות">
+                                        <mat-option value="כן"> כן </mat-option>
+                                        <mat-option value="לא"> לא </mat-option>
+                                    </mat-select>
+                                </div>
+                            </li>
+                            <mat-button-toggle class="mr-2" [value]="_switchHTOK" (click)="switchHTOK()"
+                                [style.background]="_switchHTOK == '1' ? 'green': 'red'"><span
+                                    *ngIf="_switchHTOK != '1'">נדרש אישור משאבי אנוש</span>
+                                <span *ngIf="_switchHTOK == '1'">מאושר משאבי אנוש</span>
+                            </mat-button-toggle>
+                            <mat-button-toggle class="mr-2" [value]="_switchBlossom" (click)="switchBlossom()"
+                                [style.background]="_switchBlossom == '1' ? 'green': 'red'"><span
+                                    *ngIf="_switchBlossom != '1'">לאשר בלוסום</span>
+                                <span *ngIf="_switchBlossom == '1'">מאושר לבלוסום</span>
+                            </mat-button-toggle>
+                            <div style="align-self: center;margin-right: 2%;">
+                                <span *ngIf="AcceptTerms == '1'">חתם על טופס סודיות</span>
+                                <span *ngIf="AcceptTerms == '0'">לא חתם על טופס סודיות</span>
+                            </div>
+                        </div>
+                    </ol>
+                </form>
+
+                <div class="button-row">
+                    <button class="submitBtn mb-2 mt-3" matTooltip="שמירה" [disabled]="employeePersonalDetails.invalid"
+                        (click)="saveEmployee()" [disabled]="saveBtnWait" color="primary" type="submit" mat-fab>
+                        <span *ngIf="!saveBtnWait" class="material-icons">
+                            save
+                        </span>
+                        <p *ngIf="saveBtnWait" style="font-size: 16px;">המתן..</p>
+                    </button>
+                </div>
+            </mat-step>
+        </mat-vertical-stepper>
+    </div>
+</form>

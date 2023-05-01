@@ -1,0 +1,28 @@
+<li *ngFor="let link of data" class="nav-item">
+    <a
+        *ngIf="link.Children.length == 0 && link.LinkId.indexOf('http') == -1 "
+        class="nav-link"
+        [routerLink]="link.LinkId"
+        >{{ link.LinkDescription }}</a>
+        <a
+        *ngIf="link.LinkId.indexOf('http') != -1 "
+        class="nav-link"
+        target="_blank"
+        [href]="link.LinkId"
+        >{{ link.LinkDescription }}</a>
+    <span *ngIf="link.Children && link.Children.length > 0">
+        <mat-accordion>
+            <mat-expansion-panel>
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{ link.LinkDescription }}
+                    </mat-panel-title>
+                    <mat-panel-description> </mat-panel-description>
+                </mat-expansion-panel-header>
+                <ul>
+                    <tree-item [data]="link.Children"></tree-item>
+                </ul>
+            </mat-expansion-panel>
+        </mat-accordion>
+    </span>
+</li>

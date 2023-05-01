@@ -1,282 +1,696 @@
-<div id="page-toshow" class="padding-top-0">
-    <h1 class="page-title text-center">מערכת דיווח אחיות</h1>
-    <div class="container-fluid trans-80">
-        <div class="row">
-            <div class="col">
-                <div dir="rtl" class="card w-85-p">
-                    <div dir="rtl" class="card-body">
-                        <form class="form" [formGroup]="searchReportsGroup">
-                            <div class="row">
-                                <!-- <div class="col-12">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <input matInput autocomplete="off" placeholder="נושא דווח"
-                                                formControlName="OpenText" />
-                                        </mat-form-field>
+<div class="container" #pagetoshow id="pagetoshow">
+    <div class="row" style="justify-content: right;">
+        <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+            <span>&times;</span>
+        </button>
+        <h3 *ngIf="reportType == 'administrative'">דווח מינהלי</h3>
+        <h3 *ngIf="reportType == 'clinical'">דווח קליני</h3>
+        <div class="container-fluid mb-2">
+            <div class="row search-cont">
+                <div class="col">
+                    <div dir="rtl" class="card w-85-p" style="width: 100%;">
+                        <div dir="rtl" class="card-body">
+                            <form class="form" [formGroup]="searchReportsGroup">
+                                <div class="row">
+                                    <div class="col-8" *ngIf="reportType == 'clinical'">
+                                        <div class="form-group">
+                                            <mat-form-field>
+                                                <input matInput autocomplete="off" placeholder="שם מטופל"
+                                                    formControlName="PatientName" />
+                                            </mat-form-field>
+                                        </div>
                                     </div>
-                                </div> -->
-                                <div class="col">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>משמרת</mat-label>
-                                            <mat-select formControlName="ReportShift">
-                                                <mat-option [value]="''">הכל</mat-option>
-                                                <mat-option *ngFor="let sh of shift" [value]="sh.value">
-                                                    {{sh.viewValue}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
+                                    <div class="col-4" style="font-size: 13px;" *ngIf="reportType == 'clinical'">
+                                        <div class="form-group">
+                                            <mat-form-field>
+                                                <mat-label>סוג דיווח</mat-label>
+                                                <mat-select formControlName="ReportTypeSearch">
+                                                    <mat-option [value]="'הכל'">הכל</mat-option>
+                                                    <mat-option *ngFor="let rt of reportTypeArr" [value]="rt.value">
+                                                        {{rt.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>מחלקה</mat-label>
+                                                <input type="text" aria-label="department" name="departmentfilter"
+                                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                                    matInput [formControl]="departmentfilter" [matAutocomplete]="auto2">
+                                                <mat-autocomplete #auto2="matAutocomplete">
+                                                    <mat-option *ngFor="let dept of filteredOptions2 | async"
+                                                        [value]="dept.Dept_Name"
+                                                        style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                                        {{dept.Dept_Name}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>קטגוריה</mat-label>
+                                                <input type="text" aria-label="category"
+                                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                                    matInput [formControl]="categoryfilter2" [matAutocomplete]="auto3">
+                                                <mat-autocomplete #auto3="matAutocomplete">
+                                                    <mat-option *ngFor="let cat of filteredOptions3_2 | async"
+                                                        [value]="cat.Cat_Name"
+                                                        style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                                        {{cat.Cat_Name}}
+                                                    </mat-option>
+                                                </mat-autocomplete>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>קטיגוריה אדומה</mat-label>
+                                                <mat-select formControlName="ImportantCategory">
+                                                    <mat-option [value]="'הכל'">הכל</mat-option>
+                                                    <mat-option *ngFor="let st of importantCat" [value]="st.value"
+                                                        [style.color]="st.value == '1' ? 'red':  'darkgrey'">
+                                                        {{st.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>סוג דיווח</mat-label>
+                                                <mat-select formControlName="ReportTypeSearch">
+                                                    <mat-option [value]="'הכל'">הכל</mat-option>
+                                                    <mat-option *ngFor="let rt of reportTypeArr" [value]="rt.value">
+                                                        {{rt.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field appearance="fill">
-                                            <mat-label>מחלקה</mat-label>
-                                            <input type="text" aria-label="department" matInput [formControl]="departmentfilter"
-                                                [matAutocomplete]="auto2">
-                                            <mat-autocomplete #auto2="matAutocomplete">
-                                                <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Dept_Name">
-                                                    {{dept.Dept_Name}}
-                                                </mat-option>
-                                            </mat-autocomplete>
-                                        </mat-form-field>
+                                <div class="row">
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-4'">
+                                        <div class="form-group">
+                                            <mat-form-field>
+                                                <input matInput formControlName="ReportStartDate"
+                                                    (focus)="startdate.open()" autocomplete="off" placeholder="מ תאריך"
+                                                    name="startdate" [matDatepicker]="startdate" />
+                                                <mat-datepicker-toggle matSuffix [for]="startdate">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #startdate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-4'">
+                                        <div class="form-group">
+                                            <mat-form-field>
+                                                <input matInput formControlName="ReportEndDate" (focus)="enddate.open()"
+                                                    autocomplete="off" placeholder="עד תאריך " required name="enddate"
+                                                    [matDatepicker]="enddate" />
+                                                <mat-datepicker-toggle matSuffix [for]="enddate">
+                                                </mat-datepicker-toggle>
+                                                <mat-datepicker #enddate></mat-datepicker>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div [ngClass]="reportType == 'administrative' ? 'col-3' : 'col-4'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>משמרת</mat-label>
+                                                <mat-select formControlName="ReportShift">
+                                                    <mat-option [value]="''">הכל</mat-option>
+                                                    <mat-option *ngFor="let sh of shift" [value]="sh.value">
+                                                        {{sh.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
+                                    </div>
+                                    <div class="col-3" *ngIf="reportType == 'administrative'">
+                                        <div class="form-group lh-37">
+                                            <mat-form-field>
+                                                <mat-label>סטטוס</mat-label>
+                                                <mat-select formControlName="ReportStatus">
+                                                    <mat-option [value]="'הכל'">הכל</mat-option>
+                                                    <mat-option *ngFor="let st of status" [value]="st.value"
+                                                        [style.color]="st.value == 'טופל' ? 'darkseagreen':  'darkgrey'">
+                                                        {{st.viewValue}}
+                                                    </mat-option>
+                                                </mat-select>
+                                            </mat-form-field>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>קטגוריה</mat-label>
-                                            <mat-select formControlName="ReportCategory">
-                                                <mat-option [value]="''">הכל</mat-option>
-                                                <mat-option *ngFor="let cat of all_categories_filter" [value]="cat.Cat_Name">
-                                                    {{cat.Cat_Name}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group lh-37">
-                                        <mat-form-field>
-                                            <mat-label>סטטוס</mat-label>
-                                            <mat-select formControlName="ReportStatus">
-                                                <mat-option [value]="''">הכל</mat-option>
-                                                <mat-option *ngFor="let st of status" [value]="st.value"
-                                                    [style.color]="st.value == 'טופל' ? 'darkseagreen':  'darkgrey'">
-                                                    {{st.viewValue}}
-                                                </mat-option>
-                                            </mat-select>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <input matInput formControlName="ReportStartDate" (focus)="startdate.open()" autocomplete="off"
-                                                placeholder="מ תאריך" required name="startdate"
-                                                [matDatepicker]="startdate" />
-                                            <mat-datepicker-toggle matSuffix [for]="startdate"></mat-datepicker-toggle>
-                                            <mat-datepicker #startdate></mat-datepicker>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                                <div class="col">
-                                    <div class="form-group">
-                                        <mat-form-field>
-                                            <input matInput formControlName="ReportEndDate" (focus)="enddate.open()" autocomplete="off"
-                                                placeholder="עד תאריך " required name="enddate"
-                                                [matDatepicker]="enddate" />
-                                            <mat-datepicker-toggle matSuffix [for]="enddate"></mat-datepicker-toggle>
-                                            <mat-datepicker #enddate></mat-datepicker>
-                                        </mat-form-field>
-                                    </div>
-                                </div>
-                            </div>
-                            <button matTooltip="חיפוש" mat-raised-button type="submit"
-                                class="btn btn-primary btn-raised" (click)="searchReports()">
-                                <span class="material-icons">
-                                    search
-                                </span>
-                            </button>
-                            &nbsp;&nbsp;
-                            <button matTooltip="הדפסה" mat-raised-button type="button"
-                                class="btn btn-primary btn-raised" (click)="print()">
-                                <span class="material-icons">
-                                    local_printshop
-                                </span>
-                            </button>
+                                <button matTooltip="חיפוש" mat-raised-button type="submit"
+                                    class="btn btn-primary btn-raised" (click)="searchReports()">
+                                    <span class="material-icons">
+                                        search
+                                    </span>
+                                </button>
+                                &nbsp;&nbsp;
+                                <button matTooltip="הדפסה" mat-raised-button type="button"
+                                    class="btn btn-primary btn-raised" (click)="print()">
+                                    <span class="material-icons">
+                                        local_printshop
+                                    </span>
+                                </button>
+                                &nbsp;&nbsp;
+                                <button matTooltip="שליחת דיווח למייל" mat-raised-button type="button"
+                                    class="btn btn-primary btn-raised" (click)="openShareDialog()">
+                                    <span class="material-icons">
+                                        mail
+                                    </span>
+                                </button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <mat-progress-bar mode="buffer" id="buffer" *ngIf="Patientsloading"></mat-progress-bar>
+        </div>
+    </div>
+
+    <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
+        <h5 class="ml-3">סה"כ מספר דיווחים: {{ELEMENT_DATA.length}}</h5>
+    </div>
+    <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
+        <h5>תפוסה סיעודית: {{nursingCount}}</h5>
+    </div>
+    <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
+        <h1>{{Dept_Name}}</h1>
+    </div>
+    <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
+        <div class="col-4">
+
+        </div>
+        <div class="col-4">
+            <h2><b>{{firstname}} {{lastname}}</b></h2>
+        </div>
+        <div class="col-4">
+            <h6><b>{{gender}} {{dob}}</b></h6>
+            <button matTooltip="ילוד חדש" class="btn btn-primary btn-raised" id="BtnStyleNewBorn" *ngIf="Dept_Name == 'חדר לידה'"
+                (click)="openNewBornLink()" type="submit" mat-raised-button>
+                <span class="material-icons">
+                    face_retouching_natural
+                </span>
+            </button>
+        </div>
+    </div>
+    <div dir="rtl" class="row reportHeader" *ngIf="asDialog">
+        <h3><b>{{description}} {{corona}}</b></h3>
+    </div>
+
+    <div id="page-toshow" class="padding-top-0">
+        <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup"
+            *ngIf="(caseNumber != '' || reportType == 'administrative') && !showNewReport"
+            [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
+            <div class="modal-header text-right">
+                <div class="row mt-3">
+                    <div class="col-4 text-center">{{date2}}
+                    </div>
+                    <div class="col-4 text-center" style="font-size: xx-large;">
+                        {{firstName}} {{lastName}}
+                    </div>
+                    <div class="col-4 text-center">
+                        {{time2}}
+                    </div>
+                </div>
+            </div>
+            <div class="modal-body">
+                <div class="row" *ngIf="reportType == 'clinical'">
+                    <div class="col-12">
+                        <mat-form-field class="example-full-width" appearance="fill">
+                            <mat-label>אבחנה</mat-label>
+                            <textarea matInput style="font-family: 'Roboto';font-size: 20px;font-weight: bolder;"
+                                formControlName="Diagnosis" placeholder="אבחנה"></textarea>
+                        </mat-form-field>
+                    </div>
+                </div>
+                <div class="row" *ngIf="reportType == 'administrative'">
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>נושא/מחלקה</mat-label>
+                                <input type="text" aria-label="department"
+                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;" matInput
+                                    [formControl]="departmentfilter" [matAutocomplete]="auto2">
+                                <mat-autocomplete #auto2="matAutocomplete">
+                                    <mat-option *ngFor="let dept of filteredOptions2 | async" [value]="dept.Dept_Name"
+                                        style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                        {{dept.Dept_Name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <form class="example-form">
+                            <mat-form-field class="example-full-width">
+                                <mat-label>קטגוריה</mat-label>
+                                <input type="text" aria-label="category"
+                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;" matInput
+                                    [formControl]="categoryfilter" [matAutocomplete]="auto3">
+                                <mat-autocomplete autoActiveFirstOption #auto3="matAutocomplete">
+                                    <mat-option *ngFor="let cat of filteredOptions3 | async" [value]="cat.Cat_Name"
+                                        style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                        {{cat.Cat_Name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
                         </form>
+                    </div>
+                    <!-- <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>תת קטגוריה</mat-label>
+                                <input type="text" aria-label="subcategory"
+                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;" matInput
+                                    [formControl]="subcategoryfilter" [matAutocomplete]="auto4">
+                                <mat-autocomplete #auto4="matAutocomplete">
+                                    <mat-option *ngFor="let subcat of filteredOptions4 | async"
+                                        [value]="subcat.SubCat_Name"
+                                        style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                        {{subcat.SubCat_Name}}
+                                    </mat-option>
+                                </mat-autocomplete>
+                            </mat-form-field>
+                        </div>
+                    </div> -->
+                    <div class="col">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>סטטוס</mat-label>
+                                <mat-select formControlName="ReportStatus" #mySelect
+                                    (selectionChange)='autoDate($event)'
+                                    style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                    <mat-option *ngFor="let st of status" [value]="st.value"
+                                        style="font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                        {{st.viewValue}} </mat-option>
+                                </mat-select>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-1 text-center">
+                        <span class="material-icons"
+                            [style.color]="ReportGroup.controls['Important'].value == 'True' ? 'red': 'grey'"
+                            (click)="setImportantReport()" matTooltip="סמן כחשוב" id="importantIcon">
+                            notification_important
+                        </span>
+                    </div>
+                    <div class="col" style="align-self: center;">
+                        <section class="example-section">
+                            <mat-checkbox class="example-margin" formControlName="toContinue"
+                                (change)="autoDate($event.checked)"
+                                style="font-family: 'Roboto';font-weight: bolder;font-size: 20px; text-align: center;">
+                                דורש
+                                המשך טיפול</mat-checkbox>
+                        </section>
+                    </div>
+                </div>
+                <div class="row">
+                    <div class="col-2">
+                        <div class="form-group">
+                            <mat-form-field>
+                                <mat-label>משמרת</mat-label>
+                                <b style="font-size: 26px;font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                    <input matInput class="form-control" formControlName="ReportShift" type="text" />
+                                </b>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <div class="col-10">
+                        <div class="form-group">
+                            <mat-form-field id="reportContentField">
+                                <textarea matInput
+                                    style="font-size: 15px;font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                    rows="5" placeholder="תוכן הדוח" class="form-control border-1"
+                                    formControlName="ReportText" required></textarea>
+                            </mat-form-field>
+                        </div>
+                    </div>
+                    <!-- <div class="col-1" *ngIf="UserName == 'adahabre'">
+                        <button id="speechBtn" (mouseup)="stopService()" (mousedown)="startService()"
+                            (touchend)="stopService()" (touchstart)="startService()"><span class="material-icons"
+                                style="font-size: 30px;">
+                                mic
+                            </span></button>
+                    </div> -->
+                </div>
+            </div>
+            <div class="modal-footer text-left">
+                <button matTooltip="דוח חדש" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
+                    (click)="onSubmit('0')" type="submit" [disabled]="waitToSaveBtn" mat-raised-button>
+                    <span class="material-icons">
+                        create_new_folder
+                    </span>
+                </button>
+                <button matTooltip="שמור והמשך דיווח" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
+                    (click)="onSubmit('1')" type="submit" [disabled]="waitToSaveBtn" mat-raised-button>
+                    <span class="material-icons">
+                        save
+                    </span>
+                </button>
+                <br><br><br>
+                <!-- <button *ngIf="reportID != '0'" matTooltip="מחיקה" id="BtnStyle" type="button" mat-raised-button
+                    class="btn btn-outline-dark ml-3" color="warn" (click)="deleteReport(reportID)">
+                    <span class="material-icons">
+                        delete
+                    </span>
+                </button> -->
+            </div>
+        </form>
+        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length" [pageSize]="15"
+            [pageSizeOptions]="[15, 50, 100, 150]">
+        </mat-paginator>
+        <mat-accordion *ngIf="reportType == 'clinical'" class="example-headers-align" multi>
+            <mat-expansion-panel *ngFor="let patient of differentReports" (opened)="panelOpenState = true"
+                (closed)="panelOpenState = false">
+                <mat-expansion-panel-header>
+                    <mat-panel-title>
+                        {{patient[0].Patient_DobGender}}
+                    </mat-panel-title>
+                    <mat-panel-description style="justify-content: center;">
+                        <span style="font-size: 22px;font-weight: bold;margin-right: 15%;">{{patient[0].PatientName}}</span>
+                        <span style="font-size: 22px;font-weight: bold;">{{patient[0].Patient_CaseNumber}}</span>
+                    </mat-panel-description>
+                </mat-expansion-panel-header>
+                <div class="row" style="justify-content: right;">
+                    <mat-icon class="face-icon" (click)="showNewReportButton(patient[0])">account_circle</mat-icon>
+                </div>
+
+                <!-- <p *ngIf="showNewReport && patient[0].Patient_CaseNumber == caseNumber">test</p> -->
+                <form dir="rtl" class="form col" id="formBody" [formGroup]="ReportGroup"
+                    *ngIf="showNewReport && patient[0].Patient_CaseNumber == caseNumber"
+                    [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
+                    <div class="modal-header text-right">
+                        <div class="row mt-3">
+                            <div class="col-4 text-center">{{date2}}
+                            </div>
+                            <div class="col-4 text-center" style="font-size: xx-large;">
+                                {{firstName}} {{lastName}}
+                            </div>
+                            <div class="col-4 text-center">
+                                {{time2}}
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row">
+                            <div class="col-12">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>אבחנה</mat-label>
+                                    <textarea matInput
+                                        style="font-family: 'Roboto';font-size: 20px;font-weight: bolder;"
+                                        formControlName="Diagnosis" placeholder="אבחנה"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-2">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>משמרת</mat-label>
+                                        <b
+                                            style="font-size: 26px;font-family: 'Roboto';font-weight: bolder;font-size: 18px;">
+                                            <input matInput class="form-control" formControlName="ReportShift"
+                                                type="text" />
+                                        </b>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-10">
+                                <div class="form-group">
+                                    <mat-form-field id="reportContentField">
+                                        <textarea matInput
+                                            style="font-size: 15px;font-family: 'Roboto';font-weight: bolder;font-size: 18px;"
+                                            rows="5" placeholder="תוכן הדוח" class="form-control border-1"
+                                            formControlName="ReportText" required></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-footer text-left">
+                        <button matTooltip="דוח חדש" class="btn btn-primary btn-raised ml-3 float-left" id="BtnStyle"
+                            (click)="onSubmit('0')" type="submit" [disabled]="waitToSaveBtn" mat-raised-button>
+                            <span class="material-icons">
+                                create_new_folder
+                            </span>
+                        </button>
+                        <button matTooltip="שמור והמשך דיווח" class="btn btn-primary btn-raised ml-3 float-left"
+                            id="BtnStyle" (click)="onSubmit('1')" type="submit" [disabled]="waitToSaveBtn"
+                            mat-raised-button>
+                            <span class="material-icons">
+                                save
+                            </span>
+                        </button>
+                        <br><br><br>
+                    </div>
+                </form>
+                <app-fill-report *ngFor="let item of patient" style="font-size: small;" [reportID]="item.Row_ID"
+                    [userFullName]="item.userFullName" [ifGeneral]="ifGeneral"></app-fill-report>
+                <hr>
+            </mat-expansion-panel>
+        </mat-accordion>
+        <div *ngIf="reportType == 'administrative'">
+            <app-fill-report *ngFor="let item of currentItemsToShow" style="font-size: small;" [reportID]="item.Row_ID"
+                [userFullName]="item.userFullName" [ifGeneral]="ifGeneral" [offsetFlag]="offsetFlag"></app-fill-report>
+            <!-- <form dir="rtl" class="form col" id="formBody">
+                <div *ngFor="let report of currentItemsToShow; let i = index"
+                    [style.background]="AdminNurse == '1' ? 'floralwhite':  'aliceblue'">
+                    <div class="modal-header text-right">
+                        <div class="row mt-3">
+                            <div class="col-4">
+                                <span>{{date2}} - {{time2}}</span> <br><span>{{userFullName}}</span>
+                            </div>
+                            <div class="col-5">
+                                <span style="font-size: 20px;"
+                                    *ngIf="report.ReportType == 'clinical'">{{report.PatientName}} </span>
+                                <span *ngIf="report.reportType == 'clinical'" style="font-size: 14px;float: left;">
+                                    {{report.Patient_DobGender}}</span><br> <span
+                                    *ngIf="report.reportType == 'clinical'">{{report.PatientNurseStatus}}</span>
+                            </div>
+                            <div class="col-3">
+                                <button mat-icon-button style="float: left;" [matMenuTriggerFor]="menu"
+                                    aria-label="Example icon-button with a menu">
+                                    <mat-icon>more_vert</mat-icon>
+                                </button>
+                                <mat-menu #menu="matMenu" style="background: floralwhite;">
+                                    <button class="menuBtns" mat-menu-item (click)="openShareDialog()">שליחה
+                                        לנמען
+                                        <span class="material-icons">
+                                            reply
+                                        </span>
+                                    </button>
+                                    <button class="menuBtns" mat-menu-item (click)="printSingleReport()">הדפסת דווח
+                                        <span class="material-icons">
+                                            print
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item [disabled]="!creator" class="menuBtns"
+                                        (click)="onSubmit()">שמירה
+                                        <span class="material-icons">
+                                            save
+                                        </span>
+                                    </button>
+                                    <button mat-menu-item class="menuBtns" (click)="addResponseToReport(reportID)">הוספת
+                                        תגובה
+                                        <span class="material-icons">
+                                            add
+                                        </span>
+                                    </button>
+                                    <button [disabled]="!creator" class="menuBtns" style="background: orangered;"
+                                        mat-menu-item (click)="areYouSureDeleteReport(reportID)">מחיקת דיווח
+                                        <span class="material-icons">
+                                            delete
+                                        </span>
+                                    </button>
+                                </mat-menu>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="modal-body">
+                        <div class="row" *ngIf="report.ReportType == 'clinical'">
+                            <div class="col-12">
+                                <mat-form-field class="example-full-width" appearance="fill">
+                                    <mat-label>אבחנה</mat-label>
+                                    <textarea matInput style="font-weight: bolder;font-size: 18px;"
+                                        value="{{report.Diagnosis}}" placeholder="אבחנה"></textarea>
+                                </mat-form-field>
+                            </div>
+                        </div>
+                        <div class="row" *ngIf="report.ReportType == 'administrative'">
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>נושא/מחלקה</mat-label>
+                                        <input type="text" aria-label="department"
+                                            style="font-weight: bolder;font-size: 18px;" matInput
+                                            value="{{report.ReportMachlol}}">
+
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>קטגוריה</mat-label>
+                                        <input type="text" aria-label="category"
+                                            style="font-weight: bolder;font-size: 18px;" matInput
+                                            value="{{report.ReportCategory}}">
+
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>סטטוס</mat-label>
+                                        <mat-select value="{{report.ReportStatus}}" #mySelect
+                                            (selectionChange)='autoDate($event)'
+                                            style="font-weight: bolder;font-size: 18px;">
+                                            <mat-option *ngFor="let st of status" [value]="st.value"
+                                                style="font-weight: bolder;font-size: 18px;">
+                                                {{st.viewValue}} </mat-option>
+                                        </mat-select>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-1 text-center">
+                                <button [disabled]="!creator" (click)="setImportantReport()"
+                                    matTooltip="סמן כחשוב"><span class="material-icons"
+                                        [style.color]="report.Important == 'True' ? 'red': 'grey'" id="importantIcon">
+                                        notification_important
+                                    </span></button>
+                            </div>
+                            <div class="col" style="align-self: center;">
+                                <section class="example-section">
+                                    <mat-checkbox class="example-margin" value="{{report.toContinue}}"
+                                        (change)="autoDate($event.checked)"
+                                        style="font-weight: bolder;font-size: 18px;">
+                                        דורש
+                                        המשך טיפול</mat-checkbox>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-3">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <mat-label>משמרת</mat-label>
+                                        <b style="font-size: 26px;font-weight: bolder;font-size: 18px;">
+                                            <input matInput class="form-control" value="{{report.ReportShift}}"
+                                                type="text" />
+                                        </b>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                            <div class="col-9">
+                                <div class="form-group">
+                                    <mat-form-field>
+                                        <textarea matInput rows="3"
+                                            [disabled]="i >= 20"
+                                            style="font-size: 15px;font-weight: bolder;font-size: 18px;"
+                                            placeholder="תוכן הדוח" class="form-control border-1"
+                                            value="{{report.ReportText}}"></textarea>
+                                    </mat-form-field>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="row">
+                            <div class="col-12">
+                                <h5>תגובות:</h5>
+                                <div class="expantionBox" >
+                                    <div class="mat-accordion">
+                                        
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+            </form> -->
+        </div>
+
+        <span class="material-icons" matTooltip="לראש העמוד" id="takeMeToTheTop" (click)="takeMeToTheTop()">
+            upgrade
+        </span>
+        <mat-paginator (page)="onPageChange($event)" [length]="ELEMENT_DATA.length"
+            *ngIf="currentItemsToShow.length > 0" [pageSize]="15" [pageSizeOptions]="[15, 50, 100, 150]">
+        </mat-paginator>
+    </div>
+</div>
+
+
+<div class="d-none-desktop" #printmycontent style="direction: rtl;">
+    <div class="row" style="text-align: center;">
+        <h2 *ngIf="reportType == 'clinical'">דווח קליני</h2>
+        <h2 *ngIf="reportType == 'administrative'">דווח ניהולי</h2>
+    </div>
+    <div class="row text-right" *ngFor="let tblRow of ELEMENT_DATA"
+        style="border-style: outset;margin-bottom: 20px;padding: 6px;">
+        <div class="col-12" style="width: 100%;direction: rtl;">
+            <div class="row" style="width: 100%;">
+                <div class="col-md-4">
+                    <b>תאריך שעה:</b>
+                    {{
+                    tblRow.LastUpdatedDate
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>נושא/מחלקה:</b>
+                    {{ tblRow.ReportMachlol }}
+                </div>
+                <div class="col-md-4" *ngIf="tblRow.Important == 'True'">
+                    <b [ngStyle]="{color: tblRow.Important == 'True' ? 'red' : ''}">קטיגוריה אדומה</b>
+                </div>
+                <div class="col-md-4">
+                    <b>משמרת:</b>
+                    {{
+                    tblRow.ReportShift
+                    }}
+                </div>
+                <div class="col-md-4">
+                    <b>מדווח:</b>
+                    {{
+                    tblRow.userFullName
+                    }}
+                </div>
+                <div class="col-md-4" *ngIf="reportType == 'clinical'">
+                    <b>שם מטופל:</b>
+                    {{
+                    tblRow.PatientName
+                    }}
+                </div>
+            </div>
+            <div class="row" *ngIf="tblRow.ReportText != ''" style="border-top: 1px dashed grey;margin-top: 12px;">
+                <div class="col-12">
+                    <h5><b>תוכן הדווח :</b></h5>
+                    <p class="">
+                        {{ tblRow.ReportText }}
+                    </p>
+                </div>
+            </div>
+            <div class="row" *ngFor="let reply of tblRow.ReportsReplyList">
+                <div class="col-12">
+                    <h5><b>תגובות לדווח :</b></h5>
+                    <div class="row">
+                        {{reply.FirstName}} {{reply.LastName}} - {{reply.MessageDate}} {{reply.MessageTime}}
+                    </div>
+                    <div class="row">
+                        <p class="text-right" style="font-weight: bolder;font-size: 18px;">
+                            {{reply.ResponseText}}</p>
                     </div>
                 </div>
             </div>
         </div>
     </div>
-    <hr />
-
-    <div dir="rtl" class="container-fluid pb-60">
-        <table mat-table [dataSource]="dataSource" multiTemplateDataRows class="mat-elevation-z8">
-
-            <ng-container matColumnDef="date">
-                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> תאריך ושעה </th>
-                <td mat-cell *matCellDef="let element"> {{element.date}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="title">
-                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> נושא דווח </th>
-                <td mat-cell *matCellDef="let element"> {{element.title}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="status">
-                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> סטטוס דווח </th>
-                <td mat-cell *matCellDef="let element"
-                    [style.background]="element.status == 'טופל' ? 'forestgreen': 'darkgrey'">
-                    {{element.status}} </td>
-            </ng-container>
-
-            <ng-container matColumnDef="edit">
-                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> עריכת דווח </th>
-                <td mat-cell *matCellDef="let element"> <button matTooltip="עריכה" style="border-radius: 18px 0px 18px 0px;" mat-raised-button color="primary"
-                        (click)="fillReportDialog(element.reportID)"><span class="material-icons">
-                            edit
-                        </span></button>
-                    <button matTooltip="היסטוריית שינויים" mat-raised-button style="margin-right: 5px;border-radius: 0px 18px 0px 18px;" color="primary"
-                        *ngIf="UserName == 'adahabre'" (click)="displayHistoryDialog(element.reportID)"><span
-                            class="material-icons">
-                            history
-                        </span></button>
-                </td>
-            </ng-container>
-
-            <ng-container matColumnDef="reply">
-                <th mat-header-cell *matHeaderCellDef style="text-align: center;"> הוסף תגובה לדווח </th>
-                <td mat-cell *matCellDef="let element"> <button matTooltip="התכתבות" style="border-radius: 0px 10px 10px 10px;" mat-raised-button color="primary"
-                        (click)="addReply(element.reportID)"><span class="material-icons">
-                            reply
-                        </span></button></td>
-            </ng-container>
-
-            <ng-container matColumnDef="expandedDetail">
-                <td mat-cell *matCellDef="let element" [attr.colspan]="columnsToDisplay.length">
-                    <div class="example-element-detail"
-                        [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
-                        <div class="col-3">
-                            <div class="example-element-diagram mr-5" style="font-size: inherit;">
-                                <div class="example-element-position"> תאריך עדכון אחרון - {{element.updateDate}}</div>
-                                <div class="example-element-symbol"> משמרת - {{element.shift}} </div>
-                                <!-- <div class="example-element-weight"> עדיפות - <strong
-                                        style="font-weight: bold;">{{element.priority}}</strong> </div> -->
-                                <div class="example-element-name"> שם מדווח - {{element.userFullName}} </div>
-                            </div>
-                        </div>
-                        
-                        <div class="col-9">
-                            <div class="example-element-description">
-                                <span class="example-element-description-attribution"> תוכן הדווח -- </span>
-                                {{element.description}}
-                            </div>
-                        </div>
-                        
-                    </div>
-                </td>
-            </ng-container>
-
-            <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-            <tr mat-row *matRowDef="let element; columns: columnsToDisplay;" class="example-element-row"
-                [class.example-expanded-row]="expandedElement === element"
-                (click)="expandedElement = expandedElement === element ? null : element" [style.background]="element.status == 'טופל' ? 'darkseagreen': 'gainsboro'">
-            </tr>
-            <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="example-detail-row"></tr>
-        </table>
-        <button matTooltip="דווח חדש" type="button" id="EventBtn" mat-fab color="primary" (click)="fillReportDialog(0)" *ngIf="permission">
-            <i class="material-icons">add</i>
-        </button>
-        <mat-paginator [pageSizeOptions]="[5, 10, 20, 50]" showFirstLastButtons></mat-paginator>
-    </div>
 </div>
-<div class="d-none-desktop">
-    <table dir="rtl">
-        <thead>
-            <tr>
-                <th><br></th>
-            </tr>
-            <tr>
-                <th>
-                    <div class="row">
-
-                    </div>
-                </th>
-            </tr>
-
-            <tr>
-                <th class="text-right">
-                    פרטים
-                </th>
-            </tr>
-        </thead>
-        <tbody>
-            <tr *ngFor="let tblRow of ELEMENT_DATA" class="text-right">
-                <td>
-                    <div class="text-right">
-                        <div class="row">
-                            <div class="col-3 bord-l">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <b>תאריך שעה</b>:
-                                        {{
-                                        tblRow.date
-                                        }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>מכלולים</b>:
-                                        {{ tblRow.machlol }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>קטיגוריה</b>:
-                                        {{ tblRow.category }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>עדיפות</b>:
-                                        {{
-                                        tblRow.priority
-                                        }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>סטטוס</b>:
-                                        {{
-                                        tblRow.status
-                                        }}
-                                    </div>
-                                    <div class="col-md-6">
-                                        <b>נוצר ע"י</b>:
-                                        {{
-                                        tblRow.userFullName
-                                        }}
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="col-9 bord-l">
-                                <h3>{{ tblRow.title }}</h3>
-                                <p class="">
-                                    {{ tblRow.description }}
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                </td>
-            </tr>
-        </tbody>
-        <tfoot></tfoot>
-    </table>
-</div>
-
-<!-- element.style {
-    background-color: gainsboro;
-} -->
-
-
-
-<!-- element.style {
-    background: forestgreen;
-} -->

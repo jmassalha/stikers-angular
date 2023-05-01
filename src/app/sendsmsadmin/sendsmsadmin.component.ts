@@ -11,6 +11,7 @@ import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import * as $ from "jquery";
 import { FormBuilder, FormGroup, Validators } from "@angular/forms";
 import { ConfirmationDialogService } from  "../confirmation-dialog/confirmation-dialog.service";
+import { MenuPerm } from "../menu-perm";
 export interface Message {
     ID: number;
     Title: string;
@@ -46,18 +47,26 @@ export class SendsmsadminComponent implements OnInit {
         private modalServicematernitypatients: NgbModal,
         private formBuilder: FormBuilder,
         private confirmationDialogService: ConfirmationDialogService,
-        activeModal: NgbActiveModal
+        activeModal: NgbActiveModal,
+        private mMenuPerm: MenuPerm
     ) {
+        mMenuPerm.setRoutName("sendsmsadmin");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);
         this.activeModal = activeModal;
-        debugger
+        //debugger
         if(localStorage.getItem("textAreaVal") && localStorage.getItem("textAreaVal") != ""){
-            debugger
+            //debugger
             this.smsType = localStorage.getItem("smsType") ;//"SMSMaternity"
             this.emergencyCall = true;
             this.GetMessagesTemp();
             this.textAreaVal = localStorage.getItem("textAreaVal");
             localStorage.setItem("textAreaVal", "");
-            debugger
+            //debugger
         }else{
             this.emergencyCall = false;
             this.smsType = "SMSOnLineAdmin";
@@ -76,45 +85,7 @@ export class SendsmsadminComponent implements OnInit {
         this.surveyNumber = "";
         this.loader = false;
 
-        if (
-            localStorage.getItem("loginState") != "true" ||
-            localStorage.getItem("loginUserName") == ""
-        ) {
-            this.router.navigate(["login"]);
-        } else if (
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "jmassalha" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "eonn" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "dporat" ||
-            localStorage.getItem("loginUserName").toLowerCase() ==
-                "sabuhanna" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "samer" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "owertheim" ||
-            localStorage.getItem("loginUserName").toLowerCase() == "waraidy" ||
-             localStorage.getItem("loginUserName").toLowerCase() == "mmadmon" ||
-             localStorage.getItem("loginUserName").toLowerCase() == "jubartal" ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("kmandel").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("NCaspi").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("BMonastirsky").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("NAli").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("EMansour").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("IAharon").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("KLibai").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("TLivnat").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("OHaccoun").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("AAsheri").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("KMassalha").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("ANujedat").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("NSela").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("GJidovetsk").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("MTsaban").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("MRuach").toLowerCase() ||
-             localStorage.getItem("loginUserName").toLowerCase() == ("LCerem").toLowerCase()  
-        ) {
-        } else {
-            this.router.navigate(["login"]);
-            ///$("#chadTable").DataTable();
-        }
+       
     }
     SetMessageVal(val){
         this.sendSmsForm = this.formBuilder.group({
@@ -135,17 +106,17 @@ export class SendsmsadminComponent implements OnInit {
     ngAfterViewInit(): void {}
     public GetMessagesTemp(){
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/GetMessagesTemp", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetMessagesTemp", {
                 
             })
             .subscribe((Response) => {
-               // debugger
+               // //debugger
                 this.MessagesTemp = Response["d"];
-               // debugger
+               // //debugger
             });
     }
     public sendSms() {
-        ////debugger
+        //////debugger
         // stop here if form is invalid
         if (this.sendSmsForm.invalid) {
             return;
@@ -167,12 +138,12 @@ export class SendsmsadminComponent implements OnInit {
             console.log('User confirmed:', confirmed);
             if(confirmed){
                 if ($("#loader").hasClass("d-none")) {
-                    // //debugger
+                    // ////debugger
                     tableLoader = true;
                     $("#loader").removeClass("d-none");
                 }
                 this.http
-                .post("http://srv-apps/wsrfc/WebService.asmx/SendSMSOnLineAdmin", {
+                .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SendSMSOnLineAdmin", {
                     smsText: this.sendSmsForm.value.smsText,
                     smsNumbers: this.sendSmsForm.value.smsNumbers,
                     surveyNumber: 0,
@@ -189,7 +160,7 @@ export class SendsmsadminComponent implements OnInit {
                     
                     this.parentFun.emit();
                     setTimeout(function () {
-                        ////debugger
+                        //////debugger
                         if (tableLoader) {
                             $("#loader").addClass("d-none");
                         }

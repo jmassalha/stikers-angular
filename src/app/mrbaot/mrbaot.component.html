@@ -32,10 +32,11 @@
                             <div class="col">
                                 <div class="form-group">                                  
                                     <mat-form-field>
-                                        <mat-label>מחלקה</mat-label>
+                                        <mat-label>מרפאה / מכון</mat-label>
                                         <mat-select [(value)]="Depart" required>
                                             <mat-option value="-1">הכל</mat-option>
-                                            <mat-option value="מרפאה גנטיקה">גנטיקה </mat-option>
+                                            <mat-option *ngFor="let depart of ClinicsNames" [value]="depart.DepartID">{{depart.ClinicTitle}}</mat-option>
+                                            <!-- <mat-option value="מרפאה גנטיקה">גנטיקה </mat-option>
                                             <mat-option value="מכון אונקולוגיה">אונקולוגיה</mat-option>
                                             <mat-option value="מכון אי וי אף">אי וי אף </mat-option>
                                             <mat-option value="מכון גסטרו">גסטרו </mat-option>
@@ -75,7 +76,7 @@
 
 
                                             <mat-option value="מרפאה ראומטולוגיה">ראומטולוגיה</mat-option>
-                                            <mat-option value="מרפאה שבץ מוח">שבץ מוח</mat-option>
+                                            <mat-option value="מרפאה שבץ מוח">שבץ מוח</mat-option> -->
                                         </mat-select>
                                     </mat-form-field>
                                 </div>   
@@ -87,6 +88,7 @@
                                             <mat-option value="-1">הכל</mat-option>
                                             <mat-option value="003">אמבולטורי</mat-option>
                                             <mat-option value="001">אשפוז</mat-option>
+                                            <mat-option value="004">טלמדיסין</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>   
@@ -165,20 +167,44 @@
     <div class="colde d-nonea" id="totalLineChart"></div>
 </div>
 <br>
-<div class="row" style="flex-flow: column-reverse;">
-    <div class="colde d-nonea" id="LineChart"></div>
-</div>
-<br>
-<div class="container-fluid text-right">
+<!-- <div class="container-fluid text-right">
     <div class="row" style="flex-flow: column-reverse;">
             <div class="1col1 " id="bekoremCount"></div>
     </div>
-</div>
+</div> -->
 <br>
 <hr>
-<div class="container-fluid text-right pb-60">
-    <div class="row">
-        <div class="col" id="_departments"></div>
+<div dir="rtl" *ngIf="ClinicDoings.length > 0" class="container text-right pb-60">
+    <div class="card" *ngFor="let card of cards;">
+        <div class="card-header">
+            <div class="row">
+                <div class="col-3">{{card}}</div>
+                <div class="col">מס' ביקורים {{_yearStart}}</div>
+                <div class="col">מס' ביקורים {{_yearStart - 1}}</div>
+                <div class="col"> מס' מבקרים חדשים</div>
+                <div class="col">מס' מבקרים חוזרים</div>
+            </div>
+        </div>
+        <!-- <div class="card-body"> -->
+            <p class="row rowBord" *ngFor="let depart of  ClinicDoings">
+                <span class="col-3">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;{{depart.ClinicName}}</span>
+                <span class="col text-center">{{depart.Counter}}</span>
+                <span class="col text-center">{{depart.CounterPast}}</span>
+                <span class="col text-center">{{depart.NewPatientCounter}}</span>
+                <span class="col text-center">{{depart.RepeatPatientCounter}}</span>
+            </p>
+        <!-- </div> -->
+        <div class="card-footer">
+            <div class="row">
+                <div class="col-3 text-left"><b>סה"כ</b></div>
+                <div class="col text-center">{{totalNow}}</div>
+                <div class="col text-center">{{totalPast}}</div>
+                <div class="col text-center">{{totalNew}}</div>
+                <div class="col text-center">{{totalNotNew}}</div>
+            </div>
+        </div>
     </div>
+    
+    
 </div>
 

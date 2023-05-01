@@ -8,6 +8,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { FormsansweredComponent } from '../formsanswered/formsanswered.component';
 import { UpdatesingleformComponent } from '../updatesingleform/updatesingleform.component';
 import { DatePipe } from '@angular/common';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 
 export interface Form {
   FormID: string;
@@ -46,9 +48,6 @@ export class UpdateformComponent implements OnInit {
   all_departs_filter = [];
   department = [];
   _tableArr = [];
-
-
-
   formSearch: FormGroup;
 
   TABLE_DATA: Form[] = [];
@@ -57,7 +56,9 @@ export class UpdateformComponent implements OnInit {
   ];
   dataSource = new MatTableDataSource(this.TABLE_DATA);
   rowFormData = {} as Patient;
-
+  departmentControl = new FormControl();
+  options: string[] = [];
+  filteredOptions: Observable<string[]>;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -81,16 +82,23 @@ export class UpdateformComponent implements OnInit {
     Tables: this.surveyTables
   });
 
-
   ngOnInit(): void {
 
     this.formSearch = new FormGroup({
       'searchWord': new FormControl('', null),
       'departmentControl': new FormControl('', null)
     });
-
     this.searchForm();
+    this.filteredOptions = this.departmentControl.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value)),
+    );
+  }
 
+  private _filter(value: any): string[] {
+    var filterValue = value.toLowerCase();
+
+    return this.department.filter(option => option.toLowerCase().includes(filterValue));
   }
 
   openDialogToUpdate(id) {
@@ -131,7 +139,7 @@ export class UpdateformComponent implements OnInit {
     let UserName = localStorage.getItem("loginUserName").toLowerCase();
 
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetAllUsersForms", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetAllUsersForms", {
         _userName: UserName,
         _searchWord: searchWord,
         _departmentControl: departmentControl
@@ -152,7 +160,7 @@ export class UpdateformComponent implements OnInit {
         this.dataSource.paginator = this.paginator;
       });
     this.http
-      .post("http://srv-apps/wsrfc/WebService.asmx/GetFormsDeparts", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetFormsDeparts", {
       })
       .subscribe((Response) => {
         this.all_departs_filter = Response["d"];

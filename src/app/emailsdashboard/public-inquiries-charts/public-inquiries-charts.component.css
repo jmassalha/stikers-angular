@@ -1,0 +1,12 @@
+
+.devideLine{
+    border: 5px solid black;
+    margin-top: 200px;
+}
+#searchBtn{
+    float: right;
+}
+
+.mat-radio-button{
+    margin: 0px 60px 0px 0px;
+}

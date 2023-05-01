@@ -1,0 +1,433 @@
+<div id="page-toshow">
+    <h1 class="page-title text-center">ניתוחים דחופים</h1>
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <div dir="rtl" class="card w-85-p">
+                    <div dir="rtl" class="card-body">
+                        <form class="form">
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="חפש"
+                                                [(ngModel)]="fliterVal"
+                                                name="fliterVal"
+                                            />
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="מ תאריך"
+                                                required
+                                                (focus)="startdate.open()"
+                                                [(ngModel)]="startdateVal"
+                                                name="startdate"
+                                                [matDatepicker]="startdate"
+                                            />
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="startdate"
+                                            ></mat-datepicker-toggle>
+                                            <mat-datepicker
+                                                #startdate
+                                            ></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                                <div class="col">
+                                    <div class="form-group">
+                                        <mat-form-field>
+                                            <input
+                                                matInput
+                                                autocomplete="off"
+                                                placeholder="עד תאריך "
+                                                (focus)="enddate.open()"
+                                                required
+                                                [(ngModel)]="enddateVal"
+                                                name="enddate"
+                                                [matDatepicker]="enddate"
+                                            />
+                                            <mat-datepicker-toggle
+                                                matSuffix
+                                                [for]="enddate"
+                                            ></mat-datepicker-toggle>
+                                            <mat-datepicker
+                                                #enddate
+                                            ></mat-datepicker>
+                                        </mat-form-field>
+                                    </div>
+                                </div>
+                            </div>
+                            <button
+                                mat-raised-button
+                                type="submit"
+                                class="btn btn-primary btn-raised"
+                                (click)="getReport($event)"
+                            >
+                                הצג
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <br />
+    <hr />
+    <div class="container-fluid pb-60">
+        <div class="row">
+            <div dir="rtl" class="col">
+                <div class="table-responsive">
+                    <div class="table-spinner-container">
+                        <!-- <mat-form-field>
+                                <input matInput (keyup)="applyFilter($event.target.value)" placeholder="חפש">
+                            </mat-form-field> -->
+                        <table
+                            class="table"
+                            mat-table
+                            [dataSource]="dataSource"
+                        >
+                            <ng-container matColumnDef="CaseNumber">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    מס' מקרה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.CaseNumber }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Depart">
+                                <th mat-header-cell *matHeaderCellDef>מחלקה</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.Depart }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SurgeryName">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    שם ניתוח
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.SurgeryName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SurgeryCode">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    קוד ניתוח
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.SurgeryCode }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="PatientId">
+                                <th mat-header-cell *matHeaderCellDef>ת.ז</th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.PatientId }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="PatientFirstName">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    שם פרטי
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.PatientFirstName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="PatientLastName">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    שם משפחה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.PatientLastName }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SurgeryScheduledDate">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    תאריך מתוכנן
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.SurgeryScheduledDate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SurgeryScheduledTime">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    שעה מתוכננת
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.SurgeryScheduledTime }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SurgeryDoneDate">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    תאריך ביצוע
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.SurgeryDoneDate }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="SurgeryDoneTime">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    שעת ביצוע
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    {{ element.SurgeryDoneTime }}
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="Note">
+                                <th mat-header-cell *matHeaderCellDef>
+                                    יש הערה
+                                </th>
+                                <td mat-cell *matCellDef="let element">
+                                    <mat-icon
+                                        *ngIf="
+                                            element.Note != null &&
+                                            element.Note != ''
+                                        "
+                                        class="green"
+                                        >done</mat-icon
+                                    >
+                                    <mat-icon
+                                        *ngIf="
+                                            element.Note == null ||
+                                            element.Note == ''
+                                        "
+                                        class="red"
+                                        >close</mat-icon
+                                    >
+                                </td>
+                            </ng-container>
+                            <ng-container matColumnDef="CLICK">
+                                <th mat-header-cell *matHeaderCellDef>עריכה</th>
+                                <td
+                                    mat-cell
+                                    *matCellDef="let element"
+                                    class="text-center"
+                                >
+                                    <div class="example-button-container">
+                                        <button
+                                            (click)="
+                                                open(addNote, 'edit', element)
+                                            "
+                                            class="row-data"
+                                            mat-mini-fab
+                                            color="primary"
+                                        >
+                                            <mat-icon>edit</mat-icon>
+                                        </button>
+                                    </div>
+                                </td>
+                            </ng-container>
+                            <tr
+                                mat-header-row
+                                *matHeaderRowDef="displayedColumns"
+                            ></tr>
+                            <tr
+                                mat-row
+                                *matRowDef="let row; columns: displayedColumns"
+                            ></tr>
+                        </table>
+                    </div>
+                    <!-- PAGINATION -->
+                    <mat-paginator
+                        [length]="resultsLength"
+                        [pageSizeOptions]="[20, 50, 100]"
+                        [pageSize]="20"
+                        showFirstLastButtons
+                        (page)="getPaginatorData($event)"
+                    ></mat-paginator>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<ng-template #surgeriesListModal let-modal>
+    <div class="row">
+        <div class="col-12">
+            <h2 ngbAutofocus class="text-right">
+                רשימת ניתוחים להיום
+            </h2>
+        </div>
+        <div dir="rtl" class="col">
+            <div class="table-responsive">
+                <div class="table-spinner-container">
+                    <mat-form-field>
+                        <input
+                            matInput
+                            (keyup)="applyFilter($event.target.value)"
+                            placeholder="חפש"
+                        />
+                    </mat-form-field>
+                    <table
+                        class="table"
+                        mat-table
+                        [dataSource]="dataSourceForToday"
+                    >
+                        <ng-container matColumnDef="SurgeryID">
+                            <th mat-header-cell *matHeaderCellDef>
+                                מזהה ניתוח
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.SurgeryID }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="PatientNumber">
+                            <th mat-header-cell *matHeaderCellDef>מס' מטופל</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.PatientNumber }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="SurgeryCode">
+                            <th mat-header-cell *matHeaderCellDef>קוד ניתוח</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.SurgeryCode }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="SurgeryName">
+                            <th mat-header-cell *matHeaderCellDef>שם ניתוח</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.SurgeryName }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Depart">
+                            <th mat-header-cell *matHeaderCellDef>מחלקה</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.Depart }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="Room">
+                            <th mat-header-cell *matHeaderCellDef>חדר</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.SurgeryRoom }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="SurgeryScheduledDate">
+                            <th mat-header-cell *matHeaderCellDef>
+                                תאריך ניתוח
+                            </th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.SurgeryScheduledDate }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="SurgeryScheduledTime">
+                            <th mat-header-cell *matHeaderCellDef>שעת ניתוח</th>
+                            <td mat-cell *matCellDef="let element">
+                                {{ element.SurgeryScheduledTime }}
+                            </td>
+                        </ng-container>
+                        <ng-container matColumnDef="CLICK">
+                            <th mat-header-cell *matHeaderCellDef>הוספה</th>
+                            <td
+                                mat-cell
+                                *matCellDef="let element"
+                                class="text-center"
+                            >
+                                <div class="example-button-container">
+                                    <button
+                                        (click)="add(element)"
+                                        class="row-data"
+                                        mat-mini-fab
+                                        type="button"
+                                        color="primary"
+                                    >
+                                        <mat-icon>add</mat-icon>
+                                    </button>
+                                </div>
+                            </td>
+                        </ng-container>
+                        <tr
+                            mat-header-row
+                            *matHeaderRowDef="displayedColumnsList"
+                        ></tr>
+                        <tr
+                            mat-row
+                            *matRowDef="let row; columns: displayedColumnsList"
+                        ></tr>
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+</ng-template>
+<ng-template #addNote let-modal>
+    <form
+        dir="rtl"
+        class="sars-form-in"
+        [formGroup]="noteForm"
+        (ngSubmit)="onSubmit()"
+    >
+        <h2 ngbAutofocus class="text-right" ngbAutofocus>
+            פרטי דיווח על ניתוח למקרה - <span> {{ CaseNumber }}</span>
+        </h2>
+        <div dir="rtl" class="full-width text-right">
+            <div class="row">
+                <div class="col">
+                    <h5>רשימת הניתוחים שנדחו</h5>
+                    <button
+                        type="button"
+                        id="addBtnU"
+                        (click)="openSurgeriesList(surgeriesListModal, 'surgeriesList', SurgeryID)"
+                        mat-fab
+                        color="primary"
+                    >
+                        <i class="material-icons">add</i>
+                    </button>
+                </div>
+            </div>
+            <div *ngIf="ListToHolde.length > 0" class="row">
+                <div class="col">מס' ניתוח שנדחה</div>
+                <div class="col">תאריך ניתוח</div>
+                <div class="col">שעת ניתוח</div>
+                <div class="col">קוד ניתוח</div>
+                <div class="col">שם ניתוח</div>
+                <div class="col">מחיקה</div>
+            </div>
+            <div *ngIf="ListToHolde.length > 0" class="full-width">
+                <div
+                    *ngFor="let surgery of ListToHolde; let i = index"
+                    class="row boder-me"
+
+                >
+                    <div class="col">{{ surgery.SurgeryIdToHolde }}</div>
+                    <div class="col">{{ surgery.SurgeryDateToHolde }}</div>
+                    <div class="col">{{ surgery.SurgeryTimeToHolde }}</div>
+                    <div class="col">{{ surgery.SurgeryCodeToHolde }}</div>
+                    <div class="col">{{ surgery.SurgeryNameToHolde }}</div>
+                    <div class="col">
+                        <button
+                            mat-mini-fab
+                            color="warn"
+                            (click)="deleteFromList(i)"                            
+                            type="button"
+                        >
+                            <mat-icon>clear</mat-icon>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="full-width">
+            <mat-form-field>
+                <textarea
+                    autocomplete="off"
+                    matInput
+                    placeholder="הערות"
+                    formControlName="Note"
+                    name="Note"
+                    rows="10"
+                ></textarea>
+            </mat-form-field>
+        </div>
+        <div class="modal-footer text-left">
+            <button type="submit" class="btn btn-outline-dark">שמור</button>
+        </div>
+    </form>
+</ng-template>

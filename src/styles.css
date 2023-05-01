@@ -1,9 +1,133 @@
+/* angular-cli file: src/styles.css */
+@import "../node_modules/angular-calendar/css/angular-calendar.css";
 /* width */
 /* ::-webkit-scrollbar {
     width: 5px;
 } */
+/* .drugprotocols .mat-form-field-appearance-legacy .mat-form-field-infix{
+    padding: 0 !important;
+} */
+.mt-3{
+    margin-top: 1rem!important;
+}
+.drugprotocols .mat-form-field-appearance-legacy .mat-form-field-wrapper{
+    padding: 0 !important;
+}
+.ngx-barcode{
+    /*transform: scale(0.6);*/
+}
+body .table-data ,
+body .table-data * {
+    margin: 0;
+    font-family: Arial, Helvetica, sans-serif !important;
+    font-weight: 600  !important;
+}
+.mb-5{
+    margin-bottom: 5px;
+}
+.mat-select-panel  {
+    padding-top: 30px !important;
+}
+.NewBorn .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-outer-circle {
+    border-color: #c90000 !important;
+}
+.NewBorn  .mat-checkbox-indeterminate.mat-accent .mat-checkbox-background, .NewBorn  .mat-checkbox-checked.mat-accent .mat-checkbox-background {
+    background-color: #c90000 !important;
+}
+.NewBorn .mat-radio-button.mat-accent .mat-radio-inner-circle, .NewBorn .mat-radio-button.mat-accent .mat-radio-ripple .mat-ripple-element:not(.mat-radio-persistent-ripple), .NewBorn .mat-radio-button.mat-accent.mat-radio-checked .mat-radio-persistent-ripple, .NewBorn .mat-radio-button.mat-accent:active .mat-radio-persistent-ripple {
+    background-color: #c90000 !important;
+}
+.point-right:after {
+    content: "\25C0" !important;
+    padding-right: 1em !important;
+}
+.record-picker ul{
+    max-height: 500px !important;
+    min-height: 500px !important;
+}
+.point-left:before {
+    content: "\25B6" !important;
+    padding-left: 1em !important;
+}
+.listbox form.filter{
+    margin: 0 0 15px!important;
+    position: relative;
+    padding: 0;
+}
+.listbox .filter:after {
+   left: auto !important;
+    right: calc(100% - 50px) !important;
+    position: absolute !important;
+    top: -5px !important;
+    width: 27px !important;
+}
+.dual-list  .listbox  {
+
+    margin: 30px 0;
+    width: 50%;
+    padding-left: 15px;
+    padding-right: 15px;
+}
 footer {
     z-index: 9000000000 !important;
+}
+.pd-60{
+    padding-bottom: 60px;
+}
+.red-snackbar {
+    background: red;
+    color: black;
+    font-weight: bold;
+  }
+  .navbar-light .navbar-nav .nav-link {
+   
+    color: #fff !important;
+}
+.green-snackbar {
+    background: green;
+    color: white;
+    font-weight: bold;
+  }
+.row.boder-me{
+    margin-bottom: 10px;
+    margin-top: 10px;
+    border: 1px solid #d3d3d3;
+    padding: 27px 0 10px;
+    box-shadow: 0px 0px 3px 0px #000;
+    border-radius: 7px;
+}
+table#patientsTable tbody tr:hover{
+    background-color: lightgrey;
+}
+#addBtnU.mat-fab .mat-button-wrapper {
+    padding: 0px 0 !important;
+}
+.cal-month-view .cal-day-cell:not(:last-child) {
+    border-left: 1px solid  #e1e1e1 !important;
+}
+.pd-25{
+    padding: 25px;
+}
+[dir=rtl] .mat-badge-large.mat-badge-after .mat-badge-content {
+    right: -7px;
+    left: auto;
+}
+textarea{
+    white-space: break-spaces !important;
+}
+.btn-group>.btn-group:not(:last-child)>.btn, .btn-group>.btn:not(:last-child):not(.dropdown-toggle),
+.btn-group>.btn-group:not(:first-child)>.btn, .btn-group>.btn:not(:first-child) {
+    border-top-left-radius: 0;
+    border-bottom-left-radius: 0;
+    border-top-right-radius: 0px;
+    border-bottom-right-radius: 0px;
+    border-top-left-radius: 0px;
+    border-bottom-left-radius: 0;
+}
+.highlightBox{
+    background: rgba(0,0,0,0.1);
+    border-radius: 18px;
+    box-shadow: 1px 1px 4px 1px #000;
 }
 .top-zindex {
     z-index: 9999999999999999 !important;
@@ -11,17 +135,36 @@ footer {
 .m-5 {
     margin: 1rem 0;
 }
-.mat-tooltip{
+.cal-month-view .cal-draggable{
     text-align: right;
+  }
+.mat-tooltip{
+    white-space: pre;
     font-size: larger !important;
+}
+.mat-tooltip{
+    direction: ltr  !important;
+    max-width: 600px !important;
+}
+.mat-tooltip {
+    white-space: pre-line;
+}
+
+::ng-deep .mat-tooltip {
+    white-space: pre-line;
 }
 .mat-form-field-appearance-fill .mat-form-field-flex {
     border-radius: 4px 4px 0 0;
     padding: 0.1em 0.1em 0 0.1em;
 }
-.cdk-overlay-connected-position-bounding-box, 
-.cdk-overlay-pane{
+
+#employees .mat-form-field-flex {
+    border-radius: 4px 4px 0 0;
+    padding: 0.1em 0.1em 0 0.1em;
 }
+
+
+
 .cdk-overlay-connected-position-bounding-box .cdk-overlay-pane,
 .cdk-overlay-connected-position-bounding-box {
     /* position: relative; */
@@ -112,7 +255,7 @@ ol > li {
 } */
 .google-chart {
     width: 100% !important;
-    height: 600px !important;
+    height: 600px !important; 
 }
 .badge-info,
 .bg-blue,
@@ -251,22 +394,16 @@ form {
 .w-85-p {
     width: 85%;
 }
+#loader_2 .mat-spinner {
+    margin: auto;
+}
 #loader .mat-spinner {
     margin: auto;
 }
 .tab-1 {
     padding-right: 25px;
 }
-#loader {
-    display: flex;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    position: fixed;
-    background: rgba(255, 255, 255, 0.5);
-    z-index: 9999999;
-}
+
 .clearCach:hover {
     cursor: pointer;
 }
@@ -414,6 +551,9 @@ th.mat-header-cell {
     width: 48%;
     max-height: 500px;
     margin: auto;
+}
+.mat-expansion-panel:not(.mat-expanded):not([aria-disabled=true]) .mat-expansion-panel-header:hover{
+    background: none !important;
 }
 #app-menu .mat-expansion-panel {
     background: unset;
@@ -608,7 +748,17 @@ mark {
 .marg-t-60 {
     padding-top: 60px;
 }
+/* #page-toshow-nurses-report {
+    padding-bottom: 50px;
+    padding-top: 50px;
+    width: 100%;
+    margin: 0px 140px 0px 0px;
+} */
 #page-toshow {
+    padding-bottom: 50px;
+    padding-top: 50px;
+}
+#pagetoshow {
     padding-bottom: 50px;
     padding-top: 50px;
 }
@@ -771,6 +921,36 @@ mark {
     margin-bottom: 0;
 }
 @media print {
+   .fix-lable-pos .mat-form-field-label-wrapper{
+       top: -30px !important;
+       font-size: 25px !important;
+   }
+   .fix-lable-pos .mat-form-field-label-wrapper label{
+        font-size: 25px !important;
+    }
+    .modalOptionsPrint .modal-content .show-on-print{
+        display: block !important;
+        
+    }
+    .modalOptionsPrint .modal-content{
+        display: block !important;
+        width: 100%  !important;
+        height: 100%  !important;
+
+    }
+    .modalOptionsPrint .modal-dialog{
+        display: block !important;
+        width: 100%  !important;
+        height: 95%  !important;
+
+    }
+    .modalOptionsPrint{
+        background: none !important;
+        display: block !important;
+    }
+    .hide-on-print{
+        display: none !important;
+    }
     #to-print {
         display: block;
     }
@@ -784,6 +964,7 @@ mark {
     #sendSmsBtn,
     footer,
     #page-toshow,
+    #pagetoshow,
     .container-fluid.pb-60 {
         display: none !important;
     }
@@ -840,7 +1021,11 @@ tr.mat-footer-row {
 }
 .cdk-overlay-container {
     position: fixed;
-    z-index: 9999999999 !important;
+    z-index: 9999999999999!important;
+}
+.cdk-overlay-connected-position-bounding-box{
+    position: fixed;
+    z-index: 99999999999999!important;
 }
 .mat-form-field-appearance-fill .mat-form-field-flex {
     border-radius: 4px 4px 0 0;
@@ -1356,9 +1541,8 @@ ngx-material-timepicker-container,
     margin: auto;
     width: 80%;
 }
-.cdk-global-overlay-wrapper, .cdk-overlay-pane{
-    /* z-index: 999999999999999999999999999999999999999999999999 !important; */
-}
+
+
 .border-1 {
     border: 1px solid !important;
     padding: 15px !important;
@@ -1563,8 +1747,8 @@ input::-webkit-inner-spin-button {
     padding: 3px 17px;
 }
 .row-1 {
-    display: block;
-    float: left;
+    /* display: block;
+    float: left; */
     width: 100%;
 }
 g text {
@@ -1585,7 +1769,7 @@ g text {
     min-height: 100vh;
 }
 .lh-37 .mat-form-field-infix {
-    line-height: 37px;
+    line-height: 15px;
 }
 .pos-abs-center {
     position: absolute;
@@ -1607,6 +1791,58 @@ g text {
     left: 0;
     right: 0;
 }
-
+.pos-botom-fixed-2 {
+    position: absolute;
+    bottom: 150px;
+    left: 0;
+    right: 0;
+}
 html, body { height: 100%; }
 body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+#loader {
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 999999999999999 !important;
+}
+#loader_2 {
+    display: flex;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    position: fixed;
+    background: rgba(255, 255, 255, 0.5);
+    z-index: 999999999999999 !important;
+}
+
+
+
+@keyframes spinner {
+    to {
+        transform: rotate(360deg);
+    }
+}
+
+.spinner:before {
+    content: "";
+    box-sizing: border-box;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: 20px;
+    height: 20px;
+    margin-top: -10px;
+    margin-left: -10px;
+    border-radius: 50%;
+    border: 2px solid #ffffff;
+    border-top-color: #000000;
+    animation: spinner 0.8s linear infinite;
+}
+.fix-google-chart-height .google-chart{
+    height: auto !important;
+}

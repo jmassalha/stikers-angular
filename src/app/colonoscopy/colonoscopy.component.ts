@@ -29,6 +29,7 @@ import {
 } from "@angular/forms";
 import { MatRadioChange } from "@angular/material/radio";
 import { data } from "jquery";
+import { MenuPerm } from "../menu-perm";
 export interface Doctor {
     id: string;
     name: string;
@@ -189,8 +190,16 @@ export class ColonoscopyComponent implements OnInit {
         private snackBar: MatSnackBar,
         private http: HttpClient,
         private modalService: NgbModal,
-        private formBuilder: FormBuilder
-    ) {}
+        private formBuilder: FormBuilder,
+        private mMenuPerm: MenuPerm
+    ) {
+        mMenuPerm.setRoutName("colonoscopy");
+        setTimeout(() => {
+            if(!mMenuPerm.getHasPerm()){
+                localStorage.clear();
+                this.router.navigate(["login"]);
+            }
+        }, 2000);}
 
     ngOnInit(): void {
         this.doctorName = "הכל";
@@ -277,7 +286,7 @@ Cecum_Time
         this.EditForm.value.Cecum_Time;
         //return;
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/SaveColonoscopy", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/SaveColonoscopy", {
                 mSaveColonoscopy: this.EditForm.value,
             })
             .subscribe((Response) => {
@@ -297,7 +306,7 @@ Cecum_Time
         //return;
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/SaveRelevantOrNotColonoscopy",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/SaveRelevantOrNotColonoscopy",
                 {
                     mRelevantOrNot: this.RelevantForm.value,
                 }
@@ -313,7 +322,7 @@ Cecum_Time
         let clickedIndex = $event.index;
         this.selectedIndexTab = clickedIndex;
         if (clickedIndex == 1 && this.doctors != null) {
-            //debugger
+            ////debugger
             //let totalDataLength = 2;
             //let bgArray = this.getBackgroundArray(totalDataLength);
             this.titleC = "איתור פוליפים";
@@ -417,7 +426,7 @@ options6min
                 // colors: ["#e0440e", "#e6693e"],
                 //is3D: true,
             };
-            debugger
+            //debugger
             /*
             this.drawCharToDom(
                 "multiBar",
@@ -615,7 +624,7 @@ options6min
             var t = Math.floor(Math.random() * 255 + 1);
             var backgound = "rgba(" + f + ", " + s + ", " + t + ", 1)";
             var backgoundOpacity = "rgba(" + f + ", " + s + ", " + t + ", 0.7)";
-            //// ////debugger;
+            //// //////debugger;
             backgroundColorArray.push(backgound);
 
             backgroundColorArrayOpacity.push(backgoundOpacity);
@@ -632,18 +641,18 @@ options6min
         let optionCall;
         let totalDataLength = _data.length;
         let bgArray = this.getBackgroundArray(totalDataLength);
-        //// ////debugger;
+        //// //////debugger;
         if (_dataType == "multiBar") {
             $("#" + _wrapperId).empty();
             $("#" + _wrapperId).append(
                 '<canvas id="' + _chartId + '"></canvas>'
             );
-            //  // ////debugger
+            //  // //////debugger
             var canvas: HTMLCanvasElement = <HTMLCanvasElement>(
                 document.getElementById(_chartId)
             );
             var ctxIn: CanvasRenderingContext2D = canvas.getContext("2d");
-            ////debugger
+            //////debugger
             var barChartData = {
                 labels: _dataLable,
                 datasets: [
@@ -667,7 +676,7 @@ options6min
                     },
                 ],
             };
-            // ////debugger
+            // //////debugger
             var myChart = new Chart(ctxIn, {
                 type: "bar",
                 data: barChartData,
@@ -710,7 +719,7 @@ options6min
                             //get the concerned dataset
                             var dataset =
                                 data.datasets[tooltipItem.datasetIndex];
-                            // // ////debugger;
+                            // // //////debugger;
                             var total = 0;
                             for (var t = 0; t < dataset.data.length; t++) {
                                 total += parseInt(dataset.data[t]);
@@ -770,7 +779,7 @@ options6min
         }
         $("#" + _wrapperId).empty();
         $("#" + _wrapperId).append('<canvas id="' + _chartId + '"></canvas>');
-        //  // ////debugger
+        //  // //////debugger
         var canvas: HTMLCanvasElement = <HTMLCanvasElement>(
             document.getElementById(_chartId)
         );
@@ -796,28 +805,28 @@ options6min
     getDoctors() {
         this.http
             .post(
-                "http://srv-apps/wsrfc/WebService.asmx/GetColonoscopyDoctorsList",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetColonoscopyDoctorsList",
                 {}
             )
             .subscribe((Response) => {
-                //// ////debugger
+                //// //////debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
-                // // ////debugger
+                // // //////debugger
                 var _d = JSON.parse(json["DoctorsList"]);
                 for (var doctor in _d) {
-                    //// ////debugger
+                    //// //////debugger
                     var _sD: Doctor = { id: doctor, name: doctor };
 
                     this.doctorsList.push(_sD);
                 } /*
                     $(_d).each(function(i,k){
-                        // ////debugger
+                        // //////debugger
                         //var _sD: Depart = {id: i, name: k};
 
                         //this.departs.push(_sD);
                     })*/
-                //// ////debugger
+                //// //////debugger
             });
     }
     public getDataFormServer(
@@ -835,10 +844,10 @@ options6min
         case_type: string,
     ) {
         //;
-        debugger
+        //debugger
         $("#loader").removeClass("d-none");
         this.http
-            .post("http://srv-apps/wsrfc/WebService.asmx/getCOLONOSCOPY", {
+            .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getCOLONOSCOPY", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
@@ -894,7 +903,7 @@ options6min
                         json["totalWithout6min"]
                     );
 
-                    //debugger
+                    ////debugger
                     let COLONOSCOPY = JSON.parse(json["aaData"]);
                     for (var i = 0; i < COLONOSCOPY.length; i++) {
                         if (COLONOSCOPY[i].MeasurementStatus != "1") {
