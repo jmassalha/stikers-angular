@@ -130,8 +130,8 @@ export class WagonComponent implements OnInit {
     //http://srv-apps-prod/RCF_WS/WebService.asmx/
     //http://srv-apps-prod/RCF_WS/WebService.asmx/
     this.http
-      //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllWagons", {
-      .post("http://localhost:64964/WebService.asmx/getAllWagons", {
+      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllWagons", {
+     // .post("http://localhost:64964/WebService.asmx/getAllWagons", {
       })
       .subscribe((Response) => {
         //////////debugger
