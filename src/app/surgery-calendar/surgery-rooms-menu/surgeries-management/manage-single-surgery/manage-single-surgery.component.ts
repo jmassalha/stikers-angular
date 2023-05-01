@@ -23,6 +23,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   surgeriesCtrl = new FormControl('');
   surgeriesList: any[] = [];
+  surgeryNotes: any[] = [];
   filteredOptionssurgeries: Observable<any[]>;
 
   constructor(
@@ -139,6 +140,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
         }),
         AdditionalDetails: this.buildAdditionalFormGroupByDepartment(""),
         Row_ID: new FormControl(null, null),
+        SurgeryNote: new FormControl('', null),
         ArrivalDate: new FormControl(this.data.event.start, Validators.required),
         ArrivalTime: new FormControl('', Validators.required),
         SurgeryRoom: new FormControl(this.data.event.SurgeryRoom, Validators.required),
@@ -186,6 +188,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
         }),
         AdditionalDetails: this.buildAdditionalFormGroupByDepartment(this.data.event.AdditionalDetails),
         Row_ID: new FormControl(this.data.event.Row_ID, Validators.required),
+        SurgeryNote: new FormControl(this.data.event.SurgeryNote.Row_ID, null),
         ArrivalDate: new FormControl(this.data.event.start, Validators.required),
         ArrivalTime: new FormControl(this.data.event.ArrivalTime, Validators.required),
         SurgeryRoom: new FormControl(this.data.event.SurgeryRoom, Validators.required),
@@ -411,6 +414,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
           this.SurgeryDepartments = Response["d"].surgeryRequestDepartments;
         }
         this.surgeonsList = Response["d"].surgeonsList;
+        this.surgeryNotes = Response["d"].surgeriesFixedNotes;
       });
   }
 

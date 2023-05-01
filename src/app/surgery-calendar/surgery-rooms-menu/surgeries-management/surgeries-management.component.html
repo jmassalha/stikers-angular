@@ -24,32 +24,16 @@
     <div class="col-md-4">
       <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'he' }}</h3>
     </div>
-    <!-- <div class="col-md-4">
-      <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" (click)="setView(CalendarView.Week)"
-        [class.active]="view === CalendarView.Week">
-        שבוע
-      </div>
-      <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" (click)="setView(CalendarView.Day)"
-        [class.active]="view === CalendarView.Day">
-        יום
-      </div>
-    </div> -->
-    <!-- <div class="button-container">
-      <button mat-fab class="add-btn" (click)="handleEvent('New', $event.event)"
-        aria-label="Example icon button with a delete icon">
-        <mat-icon>add</mat-icon>
-      </button>
-    </div> -->
+    <div class="col-md-4">
+      <ul>
+        <li>Completed</li>
+        <li>InProgress</li>
+        <li>Planned</li>
+        <li>Canceled</li>
+      </ul>
+    </div>
   </div>
   <br />
-  <!-- <div class="row">
-    <ul class="rooms-list">
-      <li *ngFor="let room of specificRooms">
-        <button mat-stroked-button color="primary"
-          (click)="getPatientsQueues(viewDate, room.SurgeryRoom)">{{room.SurgeryRoom}}</button>
-      </li>
-    </ul>
-  </div> -->
   <div class="row">
     <div class="col text-center" *ngFor="let room of specificRooms">
       <b>{{room.SurgeryRoom}}</b>
@@ -58,10 +42,6 @@
           [events]="room.Surgeries" [locale]="locale" [refresh]="refresh"
           (eventClicked)="handleEvent('Edit', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-day-view>
-        <!-- <mwl-calendar-week-view *ngSwitchCase="CalendarView.Week" [viewDate]="viewDate" [events]="events" [locale]="locale"
-        [refresh]="refresh" (eventClicked)="handleEvent('Edit', $event.event)"
-        (eventTimesChanged)="eventTimesChanged($event)">
-      </mwl-calendar-week-view> -->
       </div>
     </div>
   </div>
