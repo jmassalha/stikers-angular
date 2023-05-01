@@ -28,7 +28,7 @@ export interface DialogData {
 export class AddOrEditWagonsComponent implements OnInit {
   Degems: string[] = [
     "AIO מיטווך",
-    "AIO  דנגוט",
+    "AIO דנגוט",
     "מחשב ישן דנגוט"
   ];
   Types: string[] = [
@@ -37,8 +37,12 @@ export class AddOrEditWagonsComponent implements OnInit {
   ]
   ConnectionTypes: string[] = [
     "Domain",
+    "Domain/Rdp",
+    "Domain/Horizen",    
+    "Domain/Rdp/Horizen",    
     "Rdp",
-    "Horizen"
+    "Rdp/Horizen",
+    "Horizen",
   ]
   Status: string[] = [
     "תקין",
