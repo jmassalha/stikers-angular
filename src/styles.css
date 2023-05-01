@@ -10,11 +10,14 @@
 .mt-3{
     margin-top: 1rem!important;
 }
+.cal-week-view .cal-time-events .cal-events-container{
+    position: unset;
+}
+.cal-day-view .cal-current-time-marker{
+    width: 100%;
+}
 .drugprotocols .mat-form-field-appearance-legacy .mat-form-field-wrapper{
     padding: 0 !important;
-}
-.ngx-barcode{
-    /*transform: scale(0.6);*/
 }
 body .table-data ,
 body .table-data * {

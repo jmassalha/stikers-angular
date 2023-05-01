@@ -258,6 +258,7 @@ export class SurgeriesManagementComponent {
           //   afterEnd: true,
           // }
           element.draggable = true;
+          element.color = '#000000';
           let index = tempArrOfSurgeryRooms.indexOf(element.SurgeryRoom);
           // when there's no room the index is -1, BUG!
           if (index >= 0) {
