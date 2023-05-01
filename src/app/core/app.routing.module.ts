@@ -99,6 +99,7 @@ import { CablesComponent } from '../cables/cables.component';
 import { SurgeryCalendarComponent } from '../surgery-calendar/surgery-calendar.component';
 import { FollowUpComponent } from '../consultations/follow-up/follow-up.component';
 import { SurgeryReportsComponent } from '../surgery-reports/surgery-reports.component';
+import { WagonComponent } from '../wagon/wagon.component';
 
 const routes: Routes = [
   
@@ -202,7 +203,8 @@ const routes: Routes = [
   { path: "cables", component: CablesComponent },
   { path: "surgery-calendar", component: SurgeryCalendarComponent },
   { path: "follow-up", component: FollowUpComponent },
-  { path: "surgeryreport", component:  SurgeryReportsComponent},
+  { path: "surgeryreport", component:  SurgeryReportsComponent},  
+  { path: "wagons", component: WagonComponent },
   { path: '', component : LoginComponent}
 ];
  
