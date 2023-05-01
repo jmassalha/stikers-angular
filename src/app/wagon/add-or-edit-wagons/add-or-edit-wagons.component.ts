@@ -73,8 +73,8 @@ export class AddOrEditWagonsComponent implements OnInit {
     console.log(this.serverForm.value);
     this.http
       .post(
-        // "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateWagons",
-        "http://localhost:64964/WebService.asmx/insertOrUpdateWagons",
+         "http://srv-apps-prod/RCF_WS/WebService.asmx/insertOrUpdateWagons",
+        //"http://localhost:64964/WebService.asmx/insertOrUpdateWagons",
         {
           mRowWagons: this.serverForm.value,
         }
