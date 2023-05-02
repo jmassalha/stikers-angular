@@ -30,10 +30,9 @@ import { ConfirmationDialogService } from '../../../confirmation-dialog/confirma
 import { HttpClient } from '@angular/common/http';
 import { MatDialog, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { FormGroup } from '@angular/forms';
 import { registerLocaleData } from '@angular/common';
 import localeHe from '@angular/common/locales/he';
-import { Router } from '@angular/router';
 import { environment } from 'src/environments/environment';
 import { ManageSingleSurgeryComponent } from './manage-single-surgery/manage-single-surgery.component';
 
@@ -192,6 +191,15 @@ export class SurgeriesManagementComponent {
     }
   }
 
+  showSummaryReport(room) {
+    let dialogRef = this.dialog.open(SummaryDialogComponent, {
+      data: {
+        room: room,
+      },
+      width: '60%',
+      height: '60%'
+    });
+  }
 
   closeOpenDayViewDay() {
     this.getPatientsQueues(this.viewDate);
@@ -288,5 +296,19 @@ export class SurgeriesManagementComponent {
     });
   }
 
+
+}
+@Component({
+  selector: 'app-summary-dialog',
+  templateUrl: './summary-dialog.html',
+  styleUrls: ['./surgeries-management.component.css']
+})
+export class SummaryDialogComponent implements OnInit {
+
+  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+
+  ngOnInit(): void {
+    console.log(this.data);
+  }
 
 }

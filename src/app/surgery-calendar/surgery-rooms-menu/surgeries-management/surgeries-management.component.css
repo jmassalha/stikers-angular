@@ -20,3 +20,10 @@ mat-spinner{
     left: 50%;
     z-index: 2;
 }
+ul.list{
+    display: flex;
+    column-gap: 30px;
+}
+.rooms-btn:hover{
+    background-color: aliceblue;
+}

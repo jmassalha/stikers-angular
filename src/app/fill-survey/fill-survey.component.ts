@@ -63,7 +63,7 @@ export class Table {
         public ColsType: string,
         public ColsSplitNumber: string,
         public TableStatus: string
-    ) {}
+    ) { }
 }
 @Component({
     selector: "signature-dialog",
@@ -80,7 +80,7 @@ export class DialogContentExampleDialog {
     constructor(
         public dialog: MatDialogRef<DialogContentExampleDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any
-    ) {}
+    ) { }
 
     ngAfterViewInit() {
         this.canvasEl = this.canvasinside.nativeElement;
@@ -259,8 +259,9 @@ export class FillSurveyComponent implements OnInit {
         private confirmationDialogService: ConfirmationDialogService,
         private datePipe: DatePipe,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private _sanitizer: DomSanitizer
-    ) {}
+    ) { }
 
     // Digital Signature Section
 
@@ -438,6 +439,10 @@ export class FillSurveyComponent implements OnInit {
     NurseID: number;
 
     ngOnInit() {
+        if (this.activatedRoute.snapshot.params.id != undefined) {
+            this.urlID = this.activatedRoute.snapshot.params.id;
+            this.ifContinueForm = 0;
+        }
         this.urlID;
         this.ifContinueForm;
         this.searchCaseNumber();
@@ -608,25 +613,25 @@ export class FillSurveyComponent implements OnInit {
                                     this.openSnackBar("!נשמר בהצלחה");
                                     this.http
                                         // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/createPdfOnServer", {
-                                       .post("http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer", {
-                                                CaseNumber: this.CaseNumber,
-                                                FormID: survey.FormID,
-                                                Catigory: "ZPO_ONLINE",
-                                                Row_ID: Response["d"],
-                                            }
+                                        .post("http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer", {
+                                            CaseNumber: this.CaseNumber,
+                                            FormID: survey.FormID,
+                                            Catigory: "ZPO_ONLINE",
+                                            Row_ID: Response["d"],
+                                        }
                                         )
                                         .subscribe((Response) => {
                                             //debugger;
                                             this.http
                                                 // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
-                                                .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",{
-                                                        CaseNumber:
-                                                            this.CaseNumber,
-                                                        FormID: survey.FormID,
-                                                        Catigory: "ZPO_ONLINE",
-                                                        fileSource:
-                                                            Response["d"],
-                                                    }
+                                                .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+                                                    CaseNumber:
+                                                        this.CaseNumber,
+                                                    FormID: survey.FormID,
+                                                    Catigory: "ZPO_ONLINE",
+                                                    fileSource:
+                                                        Response["d"],
+                                                }
                                                 )
                                                 .subscribe((Response) => {
                                                     if (

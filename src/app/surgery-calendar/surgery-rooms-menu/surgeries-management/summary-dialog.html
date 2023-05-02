@@ -1,0 +1,31 @@
+<h1 mat-dialog-title class="text-center">{{data.room.SurgeryRoom}}</h1>
+<div mat-dialog-content dir="rtl" class="text-center">
+    מספר ניתוחים: {{data.room.NumberOfSurgeries}}
+    <table class="table text-right">
+        <tr>
+            <th>שם ניתוח</th>
+            <th>זמן התחלה</th>
+            <th>זמן סיום</th>
+            <th>משך ניתוח</th>
+            <th>סטטוס</th>
+        </tr>
+        <tr *ngFor="let su of data.room.Surgeries">
+            <td>{{su.SurgeryServicesName.S_SERVICE_VAL}}</td>
+            <td>{{su.ArrivalTime}}</td>
+            <td>{{su.EndTime}}</td>
+            <td>test</td>
+            <td>test</td>
+        </tr>
+    </table>
+    <!-- <ul>
+        <li>
+            <span *ngIf="data.animal === 'panda'">&#10003;</span> Panda
+        </li>
+        <li>
+            <span *ngIf="data.animal === 'unicorn'">&#10003;</span> Unicorn
+        </li>
+        <li>
+            <span *ngIf="data.animal === 'lion'">&#10003;</span> Lion
+        </li>
+    </ul> -->
+</div>
