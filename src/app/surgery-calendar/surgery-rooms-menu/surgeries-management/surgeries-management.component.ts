@@ -77,37 +77,6 @@ export class SurgeriesManagementComponent {
     event: CalendarEvent;
   };
 
-  actions: CalendarEventAction[] = [
-    {
-      label: '<i class="fas fa-fw fa-pencil-alt"></i>',
-      a11yLabel: 'Edit',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.handleEvent('Edited', event);
-      },
-    },
-    {
-      label: '<i class="fas fa-fw fa-trash-alt"></i>',
-      a11yLabel: 'Delete',
-      onClick: ({ event }: { event: CalendarEvent }): void => {
-        this.confirmationDialogService
-          .confirm("נא לאשר..", "האם אתה בטוח ...? ")
-          .then((confirmed) => {
-            console.log("User confirmed:", confirmed);
-            if (confirmed) {
-              this.events = this.events.filter((iEvent) => iEvent !== event);
-              // this.handleEvent('Deleted', event);
-            } else {
-            }
-          })
-          .catch(() =>
-            console.log(
-              "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
-            )
-          );
-      },
-    },
-  ];
-
   refresh: Subject<any> = new Subject();
   events: CalendarEvent[] = [];
   activeDayIsOpen: boolean = true;
@@ -115,6 +84,7 @@ export class SurgeriesManagementComponent {
   date = new Date();
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   loader: boolean = true;
+  surgerySurf: boolean = true;
 
   constructor(
     private modal: NgbModal,
@@ -206,31 +176,6 @@ export class SurgeriesManagementComponent {
     // this.activeDayIsOpen = false;
   }
 
-  saveDayEvents(day) {
-
-    $("#loader").removeClass("d-none");
-    let that = this;
-    let month = this.datePipe.transform(this.viewDate, 'MM');
-    setTimeout(function () {
-      let thisDate = that.datePipe.transform(day, 'yyyy-MM-dd');
-      let thisDateEvents = that.events.filter(t => that.datePipe.transform(t.patientAction.ArrivalDate, 'yyyy-MM-dd') === thisDate);
-      that.http
-        .post(environment.url + "SubmitUpdateCardiologyPatientQueue", {
-          _queueDetails: thisDateEvents
-        })
-        .subscribe((Response) => {
-          if (Response["d"]) {
-            that.modal.dismissAll();
-            that.openSnackBar("נשמר בהצלחה");
-            $("#loader").addClass("d-none");
-          } else {
-            that.openSnackBar("משהו השתבש, לא נשמר");
-          }
-          that.getPatientsQueues(this.viewDate);
-        });
-    }, 1000)
-
-  }
 
   // get the elements to the main calendar page
   getPatientsQueues(fullDate) {
@@ -247,6 +192,12 @@ export class SurgeriesManagementComponent {
         let tempArr = Response["d"];
         let tempTitle;
         let tempArrOfSurgeryRooms = [];
+        let colors = {
+          Completed: '#0ef12f',
+          InProgress: '#e8abf1',
+          Planned: '#abeff1',
+          Canceled: '#f10e0e'
+        }
         this.specificRooms.forEach(x => {
           tempArrOfSurgeryRooms.push(x.SurgeryRoom);
         });
@@ -261,12 +212,15 @@ export class SurgeriesManagementComponent {
           element.start = new Date(element.ArrivalDate);
           element.end = new Date(element.EndDate);
           element.title = tempTitle;
+          console.log(element.SurgeryStatus+": "+colors[element.SurgeryStatus]);
+          element.color = {
+            primary: '#000000', secondary: colors[element.SurgeryStatus]
+          }
           // element.resizable = {
           //   beforeStart: true,
           //   afterEnd: true,
           // }
           element.draggable = true;
-          element.color = '#000000';
           let index = tempArrOfSurgeryRooms.indexOf(element.SurgeryRoom);
           // when there's no room the index is -1, BUG!
           if (index >= 0) {
@@ -274,6 +228,7 @@ export class SurgeriesManagementComponent {
             // this.specificRooms[index]['Surgeries'] == undefined && 
             if (element.SurgeryRoom != "") {
               this.specificRooms[index]['Surgeries'] = tempArr['SurgeriesCalendarClassList'].filter(x => x.SurgeryRoom == element.SurgeryRoom);
+              this.specificRooms[index] = this.checkSurfingSurgeryDays(this.specificRooms[index]);
             }
           }
           this.events.push(element);
@@ -281,6 +236,28 @@ export class SurgeriesManagementComponent {
         this.refresh.next();
         this.loader = false;
       });
+  }
+
+  checkSurfingSurgeryDays(room) {
+    if (room.Surgeries != undefined) {
+      let ArrivalTime = room.Surgeries[0].ArrivalTime;
+      let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
+      let datefordiff = this.datePipe.transform(room.Surgeries[0].ArrivalDate, 'yyyy-MM-dd');
+      let before = new Date(datefordiff + ' ' + ArrivalTime);
+      let after = new Date(datefordiff + ' ' + EndTime);
+      let diff = Math.abs(after.getTime() - before.getTime());//difference in time
+      let hours = Math.floor((diff % 86400000) / 3600000);//hours
+      let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
+      // the condition that determinds if the room is overtime or not.
+      // if the end time of the last surgery - the start time of the first surgery above 8 hours.
+      // if the last surgery is after 3 Oclock.
+      let totalTime = parseFloat(hours + '.' + minutes);
+      if (totalTime < 1) totalTime = totalTime / 0.6;
+      if (totalTime >= 8.0 || EndTime > '15:00') {
+        room['surgerySurf'] = true;
+      }
+      return room;
+    }
   }
 
   daysInMonth(month, year) {
@@ -300,15 +277,37 @@ export class SurgeriesManagementComponent {
 }
 @Component({
   selector: 'app-summary-dialog',
-  templateUrl: './summary-dialog.html',
-  styleUrls: ['./surgeries-management.component.css']
+  templateUrl: 'summary-dialog.html',
+  styles: ['surgeries-management.component.css']
 })
 export class SummaryDialogComponent implements OnInit {
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
+  totalSurgeriesDuration: number = 0;
+
+  constructor(
+    private datePipe: DatePipe,
+    private dialogRef: MatDialogRef<SummaryDialogComponent>,
+    @Inject(MAT_DIALOG_DATA) public surdata: any
+  ) { }
+
 
   ngOnInit(): void {
-    console.log(this.data);
+    if (this.surdata.room.Surgeries != undefined) this.differenceInTimes();
+  }
+
+  differenceInTimes() {
+    this.surdata.room.Surgeries.forEach(element => {
+      let datefordiff = this.datePipe.transform(element.ArrivalDate, 'yyyy-MM-dd');
+      let before = new Date(datefordiff + ' ' + element.ArrivalTime);
+      let after = new Date(datefordiff + ' ' + element.EndTime);
+      let diff = Math.abs(after.getTime() - before.getTime());//difference in time
+      let hours = Math.floor((diff % 86400000) / 3600000);//hours
+      let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
+      element['duration'] = hours + '.' + minutes;
+      if (hours == 0) element['duration'] = parseFloat(element['duration']) / 0.6;
+      this.totalSurgeriesDuration += parseFloat(element['duration']);
+    });
+    // this.totalSurgeriesDuration += ((this.surdata.room.Surgeries.length * 0.2)/0.6);
   }
 
 }

@@ -192,6 +192,7 @@ import { FollowUpComponent } from './consultations/follow-up/follow-up.component
 import { SurgeryReportsComponent } from './surgery-reports/surgery-reports.component';
 import { WagonComponent } from './wagon/wagon.component';
 import { AddOrEditWagonsComponent } from './wagon/add-or-edit-wagons/add-or-edit-wagons.component';
+import { SummaryDialogComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/surgeries-management.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -240,6 +241,7 @@ const maskConfig: Partial<IConfig> = {
     ConsultationsComponent,
     ResearchesusersComponent,
     ResearchesComponent,
+    SummaryDialogComponent,
     VisitorNameDialog,
     ResearchespatientsComponent,
     Sarscov2Component,

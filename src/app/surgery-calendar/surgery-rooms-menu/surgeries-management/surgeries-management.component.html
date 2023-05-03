@@ -36,11 +36,15 @@
   <br />
   <div class="row">
     <div class="col text-center" *ngFor="let room of specificRooms">
-      <button mat-raised-button class="rooms-btn" (click)="showSummaryReport(room)">{{room.SurgeryRoom}}</button>
+      <button mat-raised-button class="rooms-btn" (click)="showSummaryReport(room)"
+        *ngIf="!room.surgerySurf">{{room.SurgeryRoom}}</button>
+      <button mat-raised-button class="rooms-btn-danger" (click)="showSummaryReport(room)" *ngIf="room.surgerySurf"
+        matTooltip="ניתוחים חורגים בזמן">{{room.SurgeryRoom}}</button>
       <div [ngSwitch]="view">
-        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [dayStartHour]="6"
-          [events]="room.Surgeries" [locale]="locale" [refresh]="refresh"
-          (eventClicked)="handleEvent('Edit', $event.event)" (eventTimesChanged)="eventTimesChanged($event)">
+        <!--  [dayStartHour]="06"  [dayEndHour]="23" -->
+        <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="room.Surgeries"
+          [locale]="locale" [refresh]="refresh" (eventClicked)="handleEvent('Edit', $event.event)"
+          (eventTimesChanged)="eventTimesChanged($event)">
         </mwl-calendar-day-view>
       </div>
     </div>
