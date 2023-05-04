@@ -212,7 +212,6 @@ export class SurgeriesManagementComponent {
           element.start = new Date(element.ArrivalDate);
           element.end = new Date(element.EndDate);
           element.title = tempTitle;
-          console.log(element.SurgeryStatus+": "+colors[element.SurgeryStatus]);
           element.color = {
             primary: '#000000', secondary: colors[element.SurgeryStatus]
           }
