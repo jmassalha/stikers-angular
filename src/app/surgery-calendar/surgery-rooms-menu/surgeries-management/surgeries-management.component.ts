@@ -215,6 +215,7 @@ export class SurgeriesManagementComponent {
           element.color = {
             primary: '#000000', secondary: colors[element.SurgeryStatus]
           }
+          if (element.SurgeryType == '_SISIA_ELECTIVE' || element.SurgeryType == '_SISIA_AMBOLATORY') element.color = { primary: '#000000', secondary: '#F3F5E1' }
           // element.resizable = {
           //   beforeStart: true,
           //   afterEnd: true,

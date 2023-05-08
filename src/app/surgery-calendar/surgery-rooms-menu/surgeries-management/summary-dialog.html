@@ -9,6 +9,7 @@
                 <th>זמן סיום</th>
                 <th>משך ניתוח</th>
                 <th>סטטוס</th>
+                <th>סוג</th>
             </tr>
             <tr *ngFor="let su of surdata.room.Surgeries" style="width: 1%;">
                 <td>{{su.SurgeryServicesName.S_SERVICE_VAL}}</td>
@@ -16,6 +17,7 @@
                 <td>{{su.EndTime}}</td>
                 <td>{{su.duration * 0.6 | number : '1.2-2'}}</td>
                 <td>{{su.SurgeryStatus}}</td>
+                <td>{{su.SurgeryType}}</td>
             </tr>
         </table>
     </div>

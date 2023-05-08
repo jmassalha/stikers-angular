@@ -4,16 +4,18 @@ import {
     ViewChild,
     AfterViewInit,
     ElementRef,
+    Inject,
 } from "@angular/core";
 import { ThemePalette } from "@angular/material/core";
 import * as Fun from "../../public.functions";
 import { Router } from "@angular/router";
 import { HttpClient } from "@angular/common/http";
-import { MatDialog } from "@angular/material/dialog";
+import { MAT_DIALOG_DATA, MatDialog } from "@angular/material/dialog";
 import { MatPaginator, PageEvent } from "@angular/material/paginator";
 import { MatSnackBar } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTable, MatTableDataSource } from "@angular/material/table";
+import * as XLSX from 'xlsx';
 import {
     NgbModal,
     ModalDismissReasons,
@@ -163,6 +165,7 @@ export class FollowUpComponent implements OnInit {
         "FollowUpCategory",
         "CaseNumber",
         "UserFullName",
+        "Content",
         // "UserDepart",
         // "WorkerType",
     ];
@@ -435,7 +438,8 @@ DepartsDataRequestAvgAllNotPara
         private http: HttpClient,
         private modalService: NgbModal,
         private formBuilder: FormBuilder,
-        private mMenuPerm: MenuPerm
+        private mMenuPerm: MenuPerm,
+        public dialog: MatDialog
     ) {
         mMenuPerm.setRoutName("consultations");
         setTimeout(() => {
@@ -1036,6 +1040,12 @@ DepartsDataRequestAvgAllNotPara
     //         });
     // }
 
+    openContentDialog(content) {
+        this.dialog.open(DialogDataExampleDialog, {
+            data: content
+        });
+    }
+
     getRequest() {
         $("#loader").removeClass("d-none");
         this.http
@@ -1084,10 +1094,10 @@ DepartsDataRequestAvgAllNotPara
             })
             .subscribe(
                 (Response) => {
-                    console.log(Response["d"]);
                     this.dataSource = new MatTableDataSource<any>(
                         Response["d"]
                     );
+                    this.dataSource.paginator = this.paginator;
                     this.resultsLength = this.dataSource.filteredData.length;
                     setTimeout(() => {
                         //this.dataSource.paginator = this.paginator
@@ -1101,4 +1111,29 @@ DepartsDataRequestAvgAllNotPara
             );
     }
 
+    fileName = 'follow-up.xlsx';
+    exportexcel(): void {
+        setTimeout(() => {
+            /* table id is passed over here */
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+        }, 1000);
+        
+
+    }
+
+}
+@Component({
+    selector: 'dialog-data-example-dialog',
+    templateUrl: 'content.html',
+})
+export class DialogDataExampleDialog {
+    constructor(@Inject(MAT_DIALOG_DATA) public data: any) { }
 }
