@@ -6,7 +6,7 @@ import {
   OnInit,
   ElementRef,
   ChangeDetectorRef,
-  Inject,
+  Inject
 } from '@angular/core';
 import {
   endOfDay,
@@ -85,6 +85,7 @@ export class SurgeriesManagementComponent {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   loader: boolean = true;
   surgerySurf: boolean = true;
+
 
   constructor(
     private modal: NgbModal,

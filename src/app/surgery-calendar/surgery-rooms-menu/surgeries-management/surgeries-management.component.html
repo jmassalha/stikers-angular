@@ -1,41 +1,40 @@
 <mat-spinner *ngIf="loader"></mat-spinner>
-<div class="container-fluid pb-5" dir="rtl">
+<div class="row head" dir="rtl">
   <button mat-icon-button color="warn" aria-label="Example icon button with a close icon" mat-dialog-close
     style="float: right;">
     <mat-icon>close</mat-icon>
   </button>
-  <div class="row text-center">
-    <div class="col-md-4">
-      <div class="btn-group">
-        <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarPreviousView [view]="view"
-          [(viewDate)]="viewDate" (viewDateChange)="closeOpenDayViewDay()">
-          הקודם
-        </div>
-        <div class="btn btn-outline-secondary" style="border-radius: 5px;margin: 1px" mwlCalendarToday
-          [(viewDate)]="viewDate" (viewDateChange)="closeOpenDayViewDay()">
-          היום
-        </div>
-        <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarNextView [view]="view"
-          [(viewDate)]="viewDate" (viewDateChange)="closeOpenDayViewDay()">
-          הבא
-        </div>
+  <div class="col-md-3">
+    <div class="btn-group">
+      <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarPreviousView [view]="view"
+        [(viewDate)]="viewDate" (viewDateChange)="closeOpenDayViewDay()">
+        הקודם
+      </div>
+      <div class="btn btn-outline-secondary" style="border-radius: 5px;margin: 1px" mwlCalendarToday
+        [(viewDate)]="viewDate" (viewDateChange)="closeOpenDayViewDay()">
+        היום
+      </div>
+      <div class="btn btn-primary" style="border-radius: 5px;margin: 1px" mwlCalendarNextView [view]="view"
+        [(viewDate)]="viewDate" (viewDateChange)="closeOpenDayViewDay()">
+        הבא
       </div>
     </div>
-    <div class="col-md-4">
-      <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'he' }}</h3>
-    </div>
-    <div class="col-md-4">
-      <ul class="list">
-        <li style="color: #F3F5E1;">SISIA</li>
-        <li style="color: #0ef12f;">Completed</li>
-        <li style="color: #e8abf1;">InProgress</li>
-        <li style="color: #abeff1;">Planned</li>
-        <li style="color: #f10e0e;">Canceled</li>
-      </ul>
-    </div>
   </div>
-  <br />
-  <div class="row">
+  <div class="col-md-4">
+    <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'he' }}</h3>
+  </div>
+  <div class="col-md-3">
+    <ul class="list">
+      <li style="color: #F3F5E1;">SISIA</li>
+      <li style="color: #0ef12f;">Completed</li>
+      <li style="color: #e8abf1;">InProgress</li>
+      <li style="color: #abeff1;">Planned</li>
+      <li style="color: #f10e0e;">Canceled</li>
+    </ul>
+  </div>
+</div>
+<div class="container-fluid pb-5" dir="rtl">
+  <div class="row" style="margin-top: 60px;">
     <div class="col text-center" *ngFor="let room of specificRooms">
       <button mat-raised-button class="rooms-btn" (click)="showSummaryReport(room)"
         *ngIf="!room.surgerySurf">{{room.SurgeryRoom}}</button>

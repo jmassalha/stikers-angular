@@ -166,14 +166,6 @@
                                         {{ element.Row_Id }}
                                     </td>
                                 </ng-container>
-                                <!-- <ng-container matColumnDef="FollowUpDepartSeode">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        מחלקה סיעודית
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.FollowUpDepartSeode }}
-                                    </td>
-                                </ng-container> -->
                                 <ng-container matColumnDef="FollowUpDepart">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                         מחלקה
@@ -190,14 +182,6 @@
                                         {{ element.FollowUpDate }}
                                     </td>
                                 </ng-container>
-                                <!-- <ng-container matColumnDef="FollowUpGroup">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        קבוצה
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.FollowUpGroup }}
-                                    </td>
-                                </ng-container> -->
                                 <ng-container matColumnDef="FollowUpCategory">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                         קטגוריה
@@ -228,27 +212,11 @@
                                     </th>
                                     <td mat-cell *matCellDef="let element">
                                         <button mat-raised-button color="primary"
-                                            (click)="openContentDialog(element.Content)">
+                                            (click)="openContentDialog(element)">
                                             <mat-icon>list</mat-icon>
                                         </button>
                                     </td>
                                 </ng-container>
-                                <!-- <ng-container matColumnDef="UserDepart">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        מחלקה
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.User.UserDepart }}
-                                    </td>
-                                </ng-container>
-                                <ng-container matColumnDef="WorkerType">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        תפקיד
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.User.WorkerType }}
-                                    </td>
-                                </ng-container> -->
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="
                                         let row;

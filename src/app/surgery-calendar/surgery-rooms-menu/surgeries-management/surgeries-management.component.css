@@ -26,12 +26,40 @@ mat-spinner {
 ul.list {
     display: flex;
     column-gap: 30px;
+    list-style-type: none;
+}
+ul.second-list {
+    display: flex;
+    column-gap: 118px;
+    list-style-type: none;
 }
 
 .rooms-btn:hover {
     background-color: aliceblue;
 }
-
+.rooms-btn {
+    position: fixed;
+    z-index: 10;
+}
 .rooms-btn-danger {
+    position: fixed;
+    z-index: 10;
     background-color: crimson;
+}
+
+.row.head {
+    top: 0;
+    text-align: center;
+    width: 78%;
+    background-color: white;
+    z-index: 10;
+    position: fixed;
+}
+.row.second-head {
+    top: 40px;
+    justify-content: center;
+    width: 78%;
+    background-color: white;
+    z-index: 10;
+    position: fixed;
 }

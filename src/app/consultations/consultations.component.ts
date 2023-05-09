@@ -30,6 +30,7 @@ import {
 import { MatRadioChange } from "@angular/material/radio";
 import { data } from "jquery";
 import { MenuPerm } from "../menu-perm";
+import * as XLSX from 'xlsx';
 import { environment } from "src/environments/environment";
 export interface Departs {
     id: string;
@@ -1119,6 +1120,21 @@ DepartsDataRequestAvgAllNotPara
                 //// ////////debugger
             });
     }
+    fileName = 'follow-up.xlsx';
+    exportexcel(): void {
+        setTimeout(() => {
+            /* table id is passed over here */
+        let element = document.getElementById('excel-table');
+        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+
+        /* generate workbook and add the worksheet */
+        const wb: XLSX.WorkBook = XLSX.utils.book_new();
+        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+
+        /* save to file */
+        XLSX.writeFile(wb, this.fileName);
+        }, 1000);
+    }
     public getDataFormServer(
         _startDate: string,
         _endDate: string,
@@ -1264,6 +1280,7 @@ DepartsDataRequestAvgAllNotPara
                     this.dataSource = new MatTableDataSource<any>(
                         this.TABLE_DATA
                     );
+                    this.dataSource.paginator = this.paginator;
                     this.resultsLength = parseFloat(json["iTotalRecords"]);
                     //;
                     /* */

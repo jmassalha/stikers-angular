@@ -158,16 +158,12 @@ export class FollowUpComponent implements OnInit {
     TABLE_DATA = [];
     dataSource = new MatTableDataSource(this.TABLE_DATA);
     displayedColumns: string[] = [
-        // "FollowUpDepartSeode",
         "FollowUpDepart",
         "FollowUpDate",
-        // "FollowUpGroup",
         "FollowUpCategory",
         "CaseNumber",
         "UserFullName",
         "Content",
-        // "UserDepart",
-        // "WorkerType",
     ];
     public disabled = false;
     public showSpinners = true;
@@ -1125,8 +1121,6 @@ DepartsDataRequestAvgAllNotPara
         /* save to file */
         XLSX.writeFile(wb, this.fileName);
         }, 1000);
-        
-
     }
 
 }
