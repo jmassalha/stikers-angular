@@ -1071,8 +1071,8 @@ export class CprFormComponent implements OnInit {
     }
     $("#loader_2").removeClass("d-none");
     // this.http.post(this.url + "createCprPdfOnServer", {
-    // this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
-    this.http.post(environment.url + "createCprPdfOnServer", {
+    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
+    // this.http.post(environment.url + "createCprPdfOnServer", {
       CaseNumber: CaseNumber,
       FormID: "1",
       Catigory: "ZPO_CPRFRM",
@@ -1082,8 +1082,8 @@ export class CprFormComponent implements OnInit {
       .subscribe((Response) => {
         let that = this;
         setTimeout(() => {
-          // that.http.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-          that.http.post(environment.url + "LinkPdfToPatientNamer", {
+          that.http.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
+          // that.http.post(environment.url + "LinkPdfToPatientNamer", {
             // that.http.post(this.url + "LinkPdfToPatientNamer", {
             CaseNumber:
               CaseNumber,

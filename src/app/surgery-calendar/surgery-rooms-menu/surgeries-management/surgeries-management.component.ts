@@ -216,7 +216,7 @@ export class SurgeriesManagementComponent {
           element.color = {
             primary: '#000000', secondary: colors[element.SurgeryStatus]
           }
-          if (element.SurgeryType == '_SISIA_ELECTIVE' || element.SurgeryType == '_SISIA_AMBOLATORY') element.color = { primary: '#000000', secondary: '#F3F5E1' }
+          if (element.SurgeryType == 'ססיה') element.color = { primary: '#000000', secondary: '#F3F5E1' }
           // element.resizable = {
           //   beforeStart: true,
           //   afterEnd: true,
@@ -241,8 +241,10 @@ export class SurgeriesManagementComponent {
 
   checkSurfingSurgeryDays(room) {
     if (room.Surgeries != undefined) {
+      let deptsNoSisia = room.Surgeries.filter(x => x.SurgeryType != 'ססיה');
       let ArrivalTime = room.Surgeries[0].ArrivalTime;
       let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
+      let EndTimeNoSisia = room.Surgeries[deptsNoSisia.length - 1].EndTime;
       let datefordiff = this.datePipe.transform(room.Surgeries[0].ArrivalDate, 'yyyy-MM-dd');
       let before = new Date(datefordiff + ' ' + ArrivalTime);
       let after = new Date(datefordiff + ' ' + EndTime);
@@ -254,7 +256,7 @@ export class SurgeriesManagementComponent {
       // if the last surgery is after 3 Oclock.
       let totalTime = parseFloat(hours + '.' + minutes);
       if (totalTime < 1) totalTime = totalTime / 0.6;
-      if (totalTime >= 8.0 || EndTime > '15:00') {
+      if ((totalTime >= 8.0 || EndTimeNoSisia > '15:00')) {
         room['surgerySurf'] = true;
       }
       return room;
