@@ -27,7 +27,7 @@
 <div class="row" dir="rtl" style="display: block;text-align: right;">
     <h4>סה"כ זמן ניתוחים: {{totalSurgeriesDuration | number : '1.2-2'}} שעות</h4>
     <br>
-    <h4>סה"כ זמן הכנה: {{ ((surdata.room.Surgeries.length * 0.2) - 1) /0.6 | number : '1.2-2'}} שעות</h4>
+    <h4 *ngIf="surdata.room.Surgeries.length > 0">סה"כ זמן הכנה: {{ ((surdata.room.Surgeries.length - 1) * 0.2) /0.6 | number : '1.2-2'}} שעות</h4>
     <br>
     <h4>סה"כ זמן ניתוחים כולל זמן הכנה: {{totalSurgeriesDuration + ((surdata.room.Surgeries.length * 0.2)/0.6) | number
         : '1.2-2'}} שעות</h4>

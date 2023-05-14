@@ -84,7 +84,7 @@ export class SurgeriesManagementComponent {
   date = new Date();
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   loader: boolean = true;
-  surgerySurf: boolean = true;
+  surgerySurf: boolean = false;
 
 
   constructor(
@@ -163,6 +163,7 @@ export class SurgeriesManagementComponent {
   }
 
   showSummaryReport(room) {
+    room.Surgeries = room.Surgeries.filter(x => x.SurgeryType != 'ססיה');
     let dialogRef = this.dialog.open(SummaryDialogComponent, {
       data: {
         room: room,
@@ -206,9 +207,9 @@ export class SurgeriesManagementComponent {
           if (element.SurgeryPatientDetails == null) {
             tempTitle = `<h6 class="text-center"><b>זמן הכנה משעה: </b>${element.ArrivalDate.split(' ')[1]}</h6>`;
           } else {
-            tempTitle = `<b>${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> - שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b> - מחלקה מזמינה: 
-          <b>${element.SurgeryRequestDepartments.S_DEPARTMENT}</b> <br> ניתוח: <b>${element.SurgeryServicesName.S_SERVICE_VAL}</b> 
-          - שעת תחילה: <b>${element.ArrivalDate.split(' ')[1]}</b> - שעת סיום: <b>${element.EndDate.split(' ')[1]}</b>`;
+            tempTitle = `שם:  <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b><b> -- ${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> <br>
+            סוג ניתוח: <b>${element.SurgeryType}</b><br>
+            S:<b>${element.ArrivalDate.split(' ')[1]}</b> - E:<b>${element.EndDate.split(' ')[1]}</b>`;
           }
           element.start = new Date(element.ArrivalDate);
           element.end = new Date(element.EndDate);
@@ -216,7 +217,8 @@ export class SurgeriesManagementComponent {
           element.color = {
             primary: '#000000', secondary: colors[element.SurgeryStatus]
           }
-          if (element.SurgeryType == 'ססיה') element.color = { primary: '#000000', secondary: '#F3F5E1' }
+          if (element.SurgeryType == 'ססיה') element.color = { primary: '#000000', secondary: '#FFA100' }
+          if (element.SurgeryType == 'דחוף') element.color = { primary: '#000000', secondary: '#F1F305' }
           // element.resizable = {
           //   beforeStart: true,
           //   afterEnd: true,
@@ -255,6 +257,8 @@ export class SurgeriesManagementComponent {
       // if the end time of the last surgery - the start time of the first surgery above 8 hours.
       // if the last surgery is after 3 Oclock.
       let totalTime = parseFloat(hours + '.' + minutes);
+      // set it to false as initial 
+      room['surgerySurf'] = false;
       if (totalTime < 1) totalTime = totalTime / 0.6;
       if ((totalTime >= 8.0 || EndTimeNoSisia > '15:00')) {
         room['surgerySurf'] = true;
