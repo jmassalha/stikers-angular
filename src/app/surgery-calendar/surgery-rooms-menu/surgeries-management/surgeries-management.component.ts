@@ -145,7 +145,7 @@ export class SurgeriesManagementComponent {
   handleEvent(action: string, event: CalendarEvent): void {
     if (event == undefined) event = this.data.room;
     else {
-      event['SurgeryRooms'] = this.data.room.SurgeryRoom;
+      // event['SurgeryRooms'] = this.data.room.SurgeryRoom;
       event['RoomsList'] = this.data.roomsList;
       if (event['ArrivalTime'] != null) {
         let dialogRef = this.dialog.open(ManageSingleSurgeryComponent, {
@@ -163,7 +163,8 @@ export class SurgeriesManagementComponent {
   }
 
   showSummaryReport(room) {
-    room.Surgeries = room.Surgeries.filter(x => x.SurgeryType != 'ססיה');
+    // let tempRoom = room;
+    room['newSurgeries'] = room.Surgeries.filter(x => (x.SurgeryType != 'ססיה' && x.SurgeryType != 'דחוף'));
     let dialogRef = this.dialog.open(SummaryDialogComponent, {
       data: {
         room: room,
@@ -207,7 +208,8 @@ export class SurgeriesManagementComponent {
           if (element.SurgeryPatientDetails == null) {
             tempTitle = `<h6 class="text-center"><b>זמן הכנה משעה: </b>${element.ArrivalDate.split(' ')[1]}</h6>`;
           } else {
-            tempTitle = `שם:  <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b><b> -- ${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> <br>
+            tempTitle = `מחלקה: <b>${element.SurgeryRequestDepartments.S_DEPARTMENT}</b><br>
+            שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b><b> -- ${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> <br>
             סוג ניתוח: <b>${element.SurgeryType}</b><br>
             S:<b>${element.ArrivalDate.split(' ')[1]}</b> - E:<b>${element.EndDate.split(' ')[1]}</b>`;
           }
@@ -243,7 +245,7 @@ export class SurgeriesManagementComponent {
 
   checkSurfingSurgeryDays(room) {
     if (room.Surgeries != undefined) {
-      let deptsNoSisia = room.Surgeries.filter(x => x.SurgeryType != 'ססיה');
+      let deptsNoSisia = room.Surgeries.filter(x => (x.SurgeryType != 'ססיה' && x.SurgeryType != 'דחוף'));
       let ArrivalTime = room.Surgeries[0].ArrivalTime;
       let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
       let EndTimeNoSisia = room.Surgeries[deptsNoSisia.length - 1].EndTime;
@@ -299,11 +301,12 @@ export class SummaryDialogComponent implements OnInit {
 
 
   ngOnInit(): void {
-    if (this.surdata.room.Surgeries != undefined) this.differenceInTimes();
+    // this.surdata.room.Surgeries = this.surdata.room.Surgeries.filter(x => (x.SurgeryType != 'ססיה' && x.SurgeryType != 'דחוף'));
+    if (this.surdata.room.newSurgeries != undefined) this.differenceInTimes();
   }
 
   differenceInTimes() {
-    this.surdata.room.Surgeries.forEach(element => {
+    this.surdata.room.newSurgeries.forEach(element => {
       let datefordiff = this.datePipe.transform(element.ArrivalDate, 'yyyy-MM-dd');
       let before = new Date(datefordiff + ' ' + element.ArrivalTime);
       let after = new Date(datefordiff + ' ' + element.EndTime);
@@ -311,10 +314,32 @@ export class SummaryDialogComponent implements OnInit {
       let hours = Math.floor((diff % 86400000) / 3600000);//hours
       let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
       element['duration'] = hours + '.' + minutes;
-      if (hours == 0) element['duration'] = parseFloat(element['duration']) / 0.6;
+      // if (hours == 0) element['duration'] = parseFloat(element['duration']) / 0.6;
       this.totalSurgeriesDuration += parseFloat(element['duration']);
     });
     // this.totalSurgeriesDuration += ((this.surdata.room.Surgeries.length * 0.2)/0.6);
   }
+  // differenceInTimes() {
+  //   var totalMin = 0;
+  //   var totalHouers = 0;
+  //   this.surdata.room.newSurgeries.forEach(element => {
+  //     let datefordiff = this.datePipe.transform(element.ArrivalDate, 'yyyy-MM-dd');
+  //     let before = new Date(datefordiff + ' ' + element.ArrivalTime);
+  //     let after = new Date(datefordiff + ' ' + element.EndTime);
+  //     let diff = Math.abs(after.getTime() - before.getTime());//difference in time
+  //     let hours = Math.floor((diff % 86400000) / 3600000);//hours
+  //     let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
+  //     if(minutes < 10) {element['duration'] = hours + ':0' + minutes;}else{
+  //       element['duration'] = hours + ':' + minutes;
+  //     }
+  //     totalMin +=minutes 
+  //     totalHouers +=hours
+  //     //if (hours == 0) element['duration'] = parseFloat(element['duration']) / 0.6;
+
+  //   });
+  //   var totalTime = (totalHouers + Math.floor(totalMin/60)) ;
+  //   this.totalSurgeriesDuration = totalTime + ':' +(totalMin%60);
+  //   // this.totalSurgeriesDuration += ((this.surdata.room.Surgeries.length * 0.2)/0.6);
+  // }
 
 }

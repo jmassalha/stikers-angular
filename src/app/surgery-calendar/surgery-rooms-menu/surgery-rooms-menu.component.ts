@@ -85,7 +85,7 @@ export class SurgeryRoomsMenuComponent implements OnInit {
       const dialogRef = this.dialog.open(SurgeriesManagementComponent, {
         data: {
           room: room,
-          roomsList: this.surgeryRooms,
+          roomsList: room.SurgeryRooms,
           user: this.userObject
         },
         width: '200%',

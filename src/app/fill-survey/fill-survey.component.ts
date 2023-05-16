@@ -39,9 +39,11 @@ import { switchMap, takeUntil, pairwise } from "rxjs/operators";
 import { DomSanitizer } from "@angular/platform-browser";
 import { DatePipe } from "@angular/common";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { environment } from "src/environments/environment";
 
 export class PersonalDetails {
     FirstName: string;
+    FatherName: string;
     LastName: string;
     PersonID: string;
     DOB: string;
@@ -602,7 +604,7 @@ export class FillSurveyComponent implements OnInit {
                     if (confirmed) {
                         this.http
                             .post(
-                                "http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm",
+                                environment.url + "answerForm",
                                 {
                                     _answerValues: survey,
                                     _ifContinue: continueForm,
@@ -684,7 +686,7 @@ export class FillSurveyComponent implements OnInit {
         if (this.Passport != "") {
             this.http
                 .post(
-                    "http://srv-apps-prod/RCF_WS/WebService.asmx/GetRecordAndPatients",
+                    environment.url + "GetRecordAndPatients",
                     {
                         _patientPassport: this.Passport,
                     }
@@ -699,6 +701,8 @@ export class FillSurveyComponent implements OnInit {
                             passPatient[0].PatientEmail;
                         this.mPersonalDetails.FirstName =
                             passPatient[0].PatientFirstName;
+                        this.mPersonalDetails.FatherName =
+                            passPatient[0].PatientFatherName;
                         this.mPersonalDetails.LastName =
                             passPatient[0].PatientLastName;
                         this.mPersonalDetails.PersonID =
@@ -720,7 +724,7 @@ export class FillSurveyComponent implements OnInit {
         } else {
             this.http
                 .post(
-                    "http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetails",
+                    environment.url + "GetPersonalDetails",
                     {
                         CaseNumber: this.CaseNumber,
                     }
@@ -735,6 +739,8 @@ export class FillSurveyComponent implements OnInit {
                             passPatient[0].PatientEmail;
                         this.mPersonalDetails.FirstName =
                             passPatient[0].PatientFirstName;
+                        this.mPersonalDetails.FatherName =
+                            passPatient[0].PatientFatherName;
                         this.mPersonalDetails.LastName =
                             passPatient[0].PatientLastName;
                         this.mPersonalDetails.PersonID =
@@ -1154,6 +1160,21 @@ export class FillSurveyComponent implements OnInit {
                                     answerContent: [
                                         {
                                             value: personalDetails.FirstName,
+                                            disabled: true,
+                                        },
+                                        Validators.compose([
+                                            Validators.required,
+                                        ]),
+                                    ],
+                                });
+                            } else if (
+                                element.QuestionType == "Text" &&
+                                element.QuestionValue == "שם אב"
+                            ) {
+                                surveyAnswersItem = this.formBuilder.group({
+                                    answerContent: [
+                                        {
+                                            value: personalDetails.FatherName,
                                             disabled: true,
                                         },
                                         Validators.compose([
