@@ -245,7 +245,6 @@ export class SurgeriesManagementComponent {
 
   checkSurfingSurgeryDays(room) {
     if (room.Surgeries != undefined) {
-      if(room.SurgeryRoom == "פז01-204") debugger
       let deptsNoSisia = room.Surgeries.filter(x => (x.SurgeryType != 'ססיה' && x.SurgeryType != 'דחוף'));
       let ArrivalTime = room.Surgeries[0].ArrivalTime;
       // let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
