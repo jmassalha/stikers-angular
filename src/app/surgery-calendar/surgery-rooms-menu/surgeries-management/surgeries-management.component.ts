@@ -245,13 +245,14 @@ export class SurgeriesManagementComponent {
 
   checkSurfingSurgeryDays(room) {
     if (room.Surgeries != undefined) {
+      if(room.SurgeryRoom == "פז01-204") debugger
       let deptsNoSisia = room.Surgeries.filter(x => (x.SurgeryType != 'ססיה' && x.SurgeryType != 'דחוף'));
       let ArrivalTime = room.Surgeries[0].ArrivalTime;
-      let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
+      // let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
       let EndTimeNoSisia = room.Surgeries[deptsNoSisia.length - 1].EndTime;
       let datefordiff = this.datePipe.transform(room.Surgeries[0].ArrivalDate, 'yyyy-MM-dd');
       let before = new Date(datefordiff + ' ' + ArrivalTime);
-      let after = new Date(datefordiff + ' ' + EndTime);
+      let after = new Date(datefordiff + ' ' + EndTimeNoSisia);
       let diff = Math.abs(after.getTime() - before.getTime());//difference in time
       let hours = Math.floor((diff % 86400000) / 3600000);//hours
       let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
