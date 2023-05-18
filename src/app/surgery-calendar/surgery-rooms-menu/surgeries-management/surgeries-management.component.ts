@@ -72,6 +72,7 @@ export class SurgeriesManagementComponent {
   locale: string = 'en';
   _actionsList = [];
   specificRooms = [];
+  filteredSpecificRooms = [];
   modalData: {
     action: string;
     event: CalendarEvent;
@@ -179,6 +180,17 @@ export class SurgeriesManagementComponent {
     // this.activeDayIsOpen = false;
   }
 
+  filterDepartment(departmentName) {
+    this.filteredSpecificRooms = this.deepClone(this.specificRooms);
+    if (departmentName != "undo") {
+      this.filteredSpecificRooms.forEach((element, index) => {
+        if (element.Surgeries != undefined) {
+          let shit = element.Surgeries.filter(x => departmentName == x.SurgeryRequestDepartments.S_DEPARTMENT);
+          this.filteredSpecificRooms[index].Surgeries = this.deepClone(shit);
+        }
+      });
+    }
+  }
 
   // get the elements to the main calendar page
   getPatientsQueues(fullDate) {
@@ -201,10 +213,13 @@ export class SurgeriesManagementComponent {
           Planned: '#abeff1',
           Canceled: '#f10e0e'
         }
+        // filter the surgery rooms in array
         this.specificRooms.forEach(x => {
           tempArrOfSurgeryRooms.push(x.SurgeryRoom);
         });
+
         tempArr['SurgeriesCalendarClassList'].forEach(element => {
+          // set the title of the surgeries tabs in the dashboard
           if (element.SurgeryPatientDetails == null) {
             tempTitle = `<h6 class="text-center"><b>זמן הכנה משעה: </b>${element.ArrivalDate.split(' ')[1]}</h6>`;
           } else {
@@ -213,12 +228,14 @@ export class SurgeriesManagementComponent {
             סוג ניתוח: <b>${element.SurgeryType}</b><br>
             S:<b>${element.ArrivalDate.split(' ')[1]}</b> - E:<b>${element.EndDate.split(' ')[1]}</b>`;
           }
+          // set start and end time for surgeries
           element.start = new Date(element.ArrivalDate);
           element.end = new Date(element.EndDate);
           element.title = tempTitle;
           element.color = {
             primary: '#000000', secondary: colors[element.SurgeryStatus]
           }
+          // set uniqe color to sesia and dhof surgeries
           if (element.SurgeryType == 'ססיה') element.color = { primary: '#000000', secondary: '#FFA100' }
           if (element.SurgeryType == 'דחוף') element.color = { primary: '#000000', secondary: '#F1F305' }
           // element.resizable = {
@@ -238,6 +255,21 @@ export class SurgeriesManagementComponent {
           }
           this.events.push(element);
         });
+        // filter the surgery rooms in array
+        this.specificRooms.forEach((x, index) => {
+          let tempArrayOfDepartments = [];
+          // fill the departments array for the menu button use
+          if (x.Surgeries != undefined) {
+            x.Surgeries.forEach(element => {
+              // push only non existing departments -- unique
+              if (!tempArrayOfDepartments.includes(element.SurgeryRequestDepartments.S_DEPARTMENT)) {
+                tempArrayOfDepartments.push(element.SurgeryRequestDepartments.S_DEPARTMENT);
+              }
+            });
+          }
+          this.specificRooms[index]['uniqueDepartments'] = tempArrayOfDepartments;
+        });
+        this.filteredSpecificRooms = this.deepClone(this.specificRooms);
         this.refresh.next();
         this.loader = false;
       });
@@ -248,7 +280,7 @@ export class SurgeriesManagementComponent {
       let deptsNoSisia = room.Surgeries.filter(x => (x.SurgeryType != 'ססיה' && x.SurgeryType != 'דחוף'));
       let ArrivalTime = room.Surgeries[0].ArrivalTime;
       // let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
-      let EndTimeNoSisia = room.Surgeries[deptsNoSisia.length - 1].EndTime;
+      let EndTimeNoSisia = deptsNoSisia[deptsNoSisia.length - 1].EndTime;
       let datefordiff = this.datePipe.transform(room.Surgeries[0].ArrivalDate, 'yyyy-MM-dd');
       let before = new Date(datefordiff + ' ' + ArrivalTime);
       let after = new Date(datefordiff + ' ' + EndTimeNoSisia);
@@ -261,8 +293,8 @@ export class SurgeriesManagementComponent {
       let totalTime = parseFloat(hours + '.' + minutes);
       // set it to false as initial 
       room['surgerySurf'] = false;
-      if (totalTime < 1) totalTime = totalTime / 0.6;
-      if ((totalTime >= 8.0 || EndTimeNoSisia > '15:00')) {
+      // if (totalTime < 1) totalTime = totalTime / 0.6;
+      if (EndTimeNoSisia > '15:00') {
         room['surgerySurf'] = true;
       }
       return room;
@@ -280,6 +312,26 @@ export class SurgeriesManagementComponent {
       horizontalPosition: this.horizontalPosition,
       verticalPosition: this.verticalPosition,
     });
+  }
+
+  deepClone(obj: any): any {
+    if (obj === null || typeof obj !== 'object') {
+      return obj;
+    }
+
+    if (obj instanceof Date) {
+      return new Date(obj.getTime());
+    }
+
+    const cloneObj = Array.isArray(obj) ? [] : {};
+
+    for (const key in obj) {
+      if (Object.prototype.hasOwnProperty.call(obj, key)) {
+        cloneObj[key] = this.deepClone(obj[key]);
+      }
+    }
+
+    return cloneObj;
   }
 
 

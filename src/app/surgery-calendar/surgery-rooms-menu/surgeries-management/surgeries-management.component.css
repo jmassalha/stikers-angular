@@ -38,6 +38,7 @@ ul.second-list {
     background-color: aliceblue;
 }
 .rooms-btn {
+    background-color: burlywood;
     position: fixed;
     z-index: 10;
 }

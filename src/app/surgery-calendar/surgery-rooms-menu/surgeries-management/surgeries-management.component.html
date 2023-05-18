@@ -22,25 +22,43 @@
   </div>
   <div class="col-md-4">
     <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'he' }}</h3>
+    <button mat-raised-button style="background-color: cornflowerblue;" (click)="filterDepartment('undo')">הכל</button>
   </div>
   <div class="col-md-3">
     <ul class="list">
-      <li style="color: #F1F305;">דחוף</li>
-      <li style="color: #FFA100;">ססיה</li>
-      <li style="color: #0ef12f;">Completed</li>
-      <li style="color: #e8abf1;">InProgress</li>
-      <li style="color: #abeff1;">Planned</li>
-      <li style="color: #f10e0e;">Canceled</li>
+      <li style="color: #F1F305;"><b>דחוף</b></li>
+      <li style="color: #FFA100;"><b>ססיה</b></li>
+      <li style="color: #0ef12f;"><b>הושלם</b></li>
+      <li style="color: #e8abf1;"><b>בתהליך</b></li>
+      <li style="color: #abeff1;"><b>מתוכנן</b></li>
+      <li style="color: #f10e0e;"><b>בוטל</b></li>
     </ul>
   </div>
 </div>
 <div class="container-fluid pb-5" dir="rtl">
   <div class="row" style="margin-top: 60px;">
-    <div class="col text-center" *ngFor="let room of specificRooms">
-      <button mat-raised-button class="rooms-btn" (click)="showSummaryReport(room)"
+    <div class="col text-center" *ngFor="let room of filteredSpecificRooms">
+      <!-- <button mat-raised-button class="rooms-btn" (click)="showSummaryReport(room)"
         *ngIf="!room.surgerySurf">{{room.SurgeryRoom}}</button>
       <button mat-raised-button class="rooms-btn-danger" (click)="showSummaryReport(room)" *ngIf="room.surgerySurf"
-        matTooltip="ניתוחים חורגים בזמן">{{room.SurgeryRoom}}</button>
+        matTooltip="ניתוחים חורגים בזמן">{{room.SurgeryRoom}}</button> -->
+      <div *ngIf="!room.surgerySurf">
+        <button mat-button [matMenuTriggerFor]="menu" class="rooms-btn">{{room.SurgeryRoom}}</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="showSummaryReport(room)"><b>סיכום חדר</b></button>
+          <button mat-menu-item (click)="filterDepartment(depart)"
+            *ngFor="let depart of room.uniqueDepartments">{{depart}}</button>
+        </mat-menu>
+      </div>
+      <div *ngIf="room.surgerySurf">
+        <button mat-button [matMenuTriggerFor]="menu" class="rooms-btn-danger">{{room.SurgeryRoom}}</button>
+        <mat-menu #menu="matMenu">
+          <button mat-menu-item (click)="showSummaryReport(room)"><b>סיכום חדר</b></button>
+          <button mat-menu-item (click)="filterDepartment(depart)"
+            *ngFor="let depart of room.uniqueDepartments">{{depart}}</button>
+        </mat-menu>
+      </div>
+
       <div [ngSwitch]="view">
         <!--  [dayStartHour]="06"  [dayEndHour]="23" -->
         <mwl-calendar-day-view *ngSwitchCase="CalendarView.Day" [viewDate]="viewDate" [events]="room.Surgeries"
