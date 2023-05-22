@@ -711,7 +711,7 @@ export class FillSurveyComponent implements OnInit {
                             passPatient.PhoneNumber;
                         this.mPersonalDetails.Gender =
                             passPatient.Gender;
-                        this.CaseNumber = passPatient.caseNumber;
+                        this.CaseNumber = passPatient.CaseNumber;
                         this.caseNumberForm.controls["CaseNumber"].setValue(
                             passPatient.CaseNumber
                         );
