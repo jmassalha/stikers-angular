@@ -1,0 +1,144 @@
+<!-- <div class="search-bar">
+  <mat-form-field appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput type="date" placeholder="Select date">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Date</mat-label>
+    <input matInput type="date" placeholder="Select date">
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Dropdown</mat-label>
+    <mat-select>
+      <mat-option value="option1">Option 1</mat-option>
+      <mat-option value="option2">Option 2</mat-option>
+      <mat-option value="option3">Option 3</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <mat-form-field appearance="fill">
+    <mat-label>Dropdown</mat-label>
+    <mat-select>
+      <mat-option value="option1">Option 1</mat-option>
+      <mat-option value="option2">Option 2</mat-option>
+      <mat-option value="option3">Option 3</mat-option>
+    </mat-select>
+  </mat-form-field>
+  <br>
+  <mat-radio-group>
+    <mat-radio-button value="radio1">Radio 1</mat-radio-button>
+  </mat-radio-group>
+  <mat-radio-group>
+    <mat-radio-button value="radio2">Radio 2</mat-radio-button>
+  </mat-radio-group>
+  <mat-radio-group>
+    <mat-radio-button value="radio3">Radio 3</mat-radio-button>
+  </mat-radio-group>
+</div>
+
+<div class="content-section">
+  <mat-tab-group>
+    <mat-tab label="Table">
+      <table>
+      </table>
+    </mat-tab>
+    <mat-tab label="Charts">
+      <div>
+      </div>
+    </mat-tab>
+  </mat-tab-group>
+</div> -->
+
+<div class="container mt-4" dir="rtl">
+    <div class="row">
+        <div class="col-3">
+            <mat-form-field>
+                <mat-label>מתאריך</mat-label>
+                <input matInput [matDatepicker]="picker1" (focus)="picker1.open()">
+                <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
+                <mat-datepicker #picker1></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-3">
+            <mat-form-field>
+                <mat-label>עד תאריך</mat-label>
+                <input matInput [matDatepicker]="picker2" (focus)="picker2.open()">
+                <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
+                <mat-datepicker #picker2></mat-datepicker>
+            </mat-form-field>
+        </div>
+        <div class="col-3">
+            <mat-form-field appearance="fill">
+                <mat-label>מדד</mat-label>
+                <mat-select>
+                    <mat-option value="option1">Option 1</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+        <div class="col-3">
+            <mat-form-field appearance="fill">
+                <mat-label>מחלקה</mat-label>
+                <mat-select>
+                    <mat-option value="option1">Option 1</mat-option>
+                </mat-select>
+            </mat-form-field>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col" style="display: grid;">
+            <mat-label>לפי זמנים</mat-label>
+            <mat-radio-group>
+                <mat-label>לפי שנה: </mat-label>
+                <mat-radio-button value="2023">2023</mat-radio-button>
+                <mat-radio-button value="2022">2022</mat-radio-button>
+                <mat-radio-button value="2021">2021</mat-radio-button>
+                <mat-radio-button value="2020">2020</mat-radio-button>
+            </mat-radio-group>
+            <mat-radio-group>
+                <mat-label>לפי רבעון: </mat-label>
+                <mat-radio-button value="Q1">Q1</mat-radio-button>
+                <mat-radio-button value="Q2">Q2</mat-radio-button>
+                <mat-radio-button value="Q3">Q3</mat-radio-button>
+                <mat-radio-button value="Q4">Q4</mat-radio-button>
+            </mat-radio-group>
+            <mat-radio-group>
+                <mat-label>לפי חודש: </mat-label>
+                <mat-radio-button value="1">1</mat-radio-button>
+                <mat-radio-button value="2">2</mat-radio-button>
+                <mat-radio-button value="3">3</mat-radio-button>
+                <mat-radio-button value="4">4</mat-radio-button>
+                <mat-radio-button value="5">5</mat-radio-button>
+            </mat-radio-group>
+        </div>
+    </div>
+</div>
+
+<div class="container mt-4" dir="rtl">
+    <mat-tab-group>
+        <mat-tab label="Table">
+            <table>
+            </table>
+        </mat-tab>
+        <mat-tab label="Charts">
+            <div>
+            </div>
+        </mat-tab>
+    </mat-tab-group>
+    <!-- <ul class="nav nav-tabs">
+        <li class="nav-item">
+            <a class="nav-link active" data-toggle="tab" href="#table">Table</a>
+        </li>
+        <li class="nav-item">
+            <a class="nav-link" data-toggle="tab" href="#charts">Charts</a>
+        </li>
+    </ul>
+    <div class="tab-content mt-3">
+        <div id="table" class="tab-pane fade show active">
+            <table class="table">
+            </table>
+        </div>
+        <div id="charts" class="tab-pane fade">
+            <div>
+            </div>
+        </div>
+    </div> -->
+</div>

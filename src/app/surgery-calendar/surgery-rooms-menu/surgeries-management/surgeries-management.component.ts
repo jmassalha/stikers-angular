@@ -278,24 +278,26 @@ export class SurgeriesManagementComponent {
   checkSurfingSurgeryDays(room) {
     if (room.Surgeries != undefined) {
       let deptsNoSisia = room.Surgeries.filter(x => (x.SurgeryType != 'ססיה' && x.SurgeryType != 'דחוף'));
-      let ArrivalTime = room.Surgeries[0].ArrivalTime;
-      // let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
-      let EndTimeNoSisia = deptsNoSisia[deptsNoSisia.length - 1].EndTime;
-      let datefordiff = this.datePipe.transform(room.Surgeries[0].ArrivalDate, 'yyyy-MM-dd');
-      let before = new Date(datefordiff + ' ' + ArrivalTime);
-      let after = new Date(datefordiff + ' ' + EndTimeNoSisia);
-      let diff = Math.abs(after.getTime() - before.getTime());//difference in time
-      let hours = Math.floor((diff % 86400000) / 3600000);//hours
-      let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
-      // the condition that determinds if the room is overtime or not.
-      // if the end time of the last surgery - the start time of the first surgery above 8 hours.
-      // if the last surgery is after 3 Oclock.
-      let totalTime = parseFloat(hours + '.' + minutes);
-      // set it to false as initial 
-      room['surgerySurf'] = false;
-      // if (totalTime < 1) totalTime = totalTime / 0.6;
-      if (EndTimeNoSisia > '15:00') {
-        room['surgerySurf'] = true;
+      if (deptsNoSisia.length > 0) {
+        let ArrivalTime = room.Surgeries[0].ArrivalTime;
+        // let EndTime = room.Surgeries[room.Surgeries.length - 1].EndTime;
+        let EndTimeNoSisia = deptsNoSisia[deptsNoSisia.length - 1].EndTime;
+        let datefordiff = this.datePipe.transform(room.Surgeries[0].ArrivalDate, 'yyyy-MM-dd');
+        let before = new Date(datefordiff + ' ' + ArrivalTime);
+        let after = new Date(datefordiff + ' ' + EndTimeNoSisia);
+        let diff = Math.abs(after.getTime() - before.getTime());//difference in time
+        let hours = Math.floor((diff % 86400000) / 3600000);//hours
+        let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
+        // the condition that determinds if the room is overtime or not.
+        // if the end time of the last surgery - the start time of the first surgery above 8 hours.
+        // if the last surgery is after 3 Oclock.
+        let totalTime = parseFloat(hours + '.' + minutes);
+        // set it to false as initial 
+        room['surgerySurf'] = false;
+        // if (totalTime < 1) totalTime = totalTime / 0.6;
+        if (EndTimeNoSisia > '15:00') {
+          room['surgerySurf'] = true;
+        }
       }
       return room;
     }

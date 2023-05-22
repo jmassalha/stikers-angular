@@ -686,34 +686,34 @@ export class FillSurveyComponent implements OnInit {
         if (this.Passport != "") {
             this.http
                 .post(
-                    environment.url + "GetRecordAndPatients",
+                    environment.url + "selectDetailsFromNamer",
                     {
-                        _patientPassport: this.Passport,
+                        patientId: this.Passport,
                     }
                 )
                 .subscribe((Response) => {
                     if (this.Passport != "") {
                         let passPatient = Response["d"];
                         this.mPersonalDetails.Address =
-                            passPatient[0].PatientAddress;
-                        this.mPersonalDetails.DOB = passPatient[0].PatientDOB;
+                            passPatient.Address;
+                        this.mPersonalDetails.DOB = passPatient.DOB;
                         this.mPersonalDetails.Email =
-                            passPatient[0].PatientEmail;
+                            passPatient.PatientEmail;
                         this.mPersonalDetails.FirstName =
-                            passPatient[0].PatientFirstName;
+                            passPatient.FirstName;
                         this.mPersonalDetails.FatherName =
-                            passPatient[0].PatientFatherName;
+                            passPatient.FatherName;
                         this.mPersonalDetails.LastName =
-                            passPatient[0].PatientLastName;
+                            passPatient.LastName;
                         this.mPersonalDetails.PersonID =
-                            passPatient[0].PatientPersonID;
+                            passPatient.PASSNR;
                         this.mPersonalDetails.PhoneNumber =
-                            passPatient[0].PatientPhoneNumber;
+                            passPatient.PhoneNumber;
                         this.mPersonalDetails.Gender =
-                            passPatient[0].PatientGender;
-                        this.CaseNumber = passPatient[0].caseNumber;
+                            passPatient.Gender;
+                        this.CaseNumber = passPatient.caseNumber;
                         this.caseNumberForm.controls["CaseNumber"].setValue(
-                            passPatient[0].caseNumber
+                            passPatient.CaseNumber
                         );
                     } else {
                         this.mPersonalDetails = Response["d"];

@@ -193,6 +193,7 @@ import { SurgeryReportsComponent } from './surgery-reports/surgery-reports.compo
 import { WagonComponent } from './wagon/wagon.component';
 import { AddOrEditWagonsComponent } from './wagon/add-or-edit-wagons/add-or-edit-wagons.component';
 import { SummaryDialogComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/surgeries-management.component';
+import { QualityMeasuresDashboardComponent } from './quality-measures-dashboard/quality-measures-dashboard.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -341,7 +342,8 @@ const maskConfig: Partial<IConfig> = {
     ManageSingleSurgeryComponent,
     FollowUpComponent,
     WagonComponent,
-    AddOrEditWagonsComponent
+    AddOrEditWagonsComponent,
+    QualityMeasuresDashboardComponent
   ],
   imports: [
     JpTimeMaskModule,
