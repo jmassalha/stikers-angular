@@ -997,22 +997,10 @@ DepartsDataRequestAvgAllNotPara
     }
 
     getDeparts() {
-        $("#loader").removeClass("d-none");
         this.http
-            .post(environment.url + "GetNamerDeparts", {})
+            .post(environment.url + "GetFollowUpDepartments", {})
             .subscribe((Response) => {
-                this.departsList = [];
-
-                var json = JSON.parse(Response["d"]);
-                var _d = JSON.parse(json["departsList"]);
-
-                for (const [key, value] of Object.entries(_d)) {
-                    var _sD = { id: key, name: value.toString() };
-
-                    this.departsList.push(_sD);
-                }
-
-                $("#loader").addClass("d-none");
+                this.departsList = Response["d"];
             });
     }
 
@@ -1111,15 +1099,15 @@ DepartsDataRequestAvgAllNotPara
     exportexcel(): void {
         setTimeout(() => {
             /* table id is passed over here */
-        let element = document.getElementById('excel-table');
-        const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
+            let element = document.getElementById('excel-table');
+            const ws: XLSX.WorkSheet = XLSX.utils.table_to_sheet(element);
 
-        /* generate workbook and add the worksheet */
-        const wb: XLSX.WorkBook = XLSX.utils.book_new();
-        XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
+            /* generate workbook and add the worksheet */
+            const wb: XLSX.WorkBook = XLSX.utils.book_new();
+            XLSX.utils.book_append_sheet(wb, ws, 'Sheet1');
 
-        /* save to file */
-        XLSX.writeFile(wb, this.fileName);
+            /* save to file */
+            XLSX.writeFile(wb, this.fileName);
         }, 1000);
     }
 

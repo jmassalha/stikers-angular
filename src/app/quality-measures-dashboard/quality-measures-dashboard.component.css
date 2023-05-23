@@ -10,7 +10,10 @@
   .container {
     text-align: right;
   }
-  
+  .srch-btn{
+    float: left;
+    margin-top: 20%;
+  }  
   .mt-4 {
     margin-top: 1.5rem;
   }
@@ -45,10 +48,16 @@
   .table th {
     background-color: #f8f9fa;
   }
-
   mat-radio-button {
     margin: 4px 16px 4px 10px;
   }
   mat-radio-label-content{
     padding-right:3px;
+  }
+  table {
+    width: 100%;
+  }
+  
+  button {
+    margin: 16px 8px;
   }
