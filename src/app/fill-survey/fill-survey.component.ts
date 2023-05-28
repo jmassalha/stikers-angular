@@ -706,7 +706,7 @@ export class FillSurveyComponent implements OnInit {
                         this.mPersonalDetails.LastName =
                             passPatient.LastName;
                         this.mPersonalDetails.PersonID =
-                            passPatient.PASSNR;
+                            passPatient.PersonID;
                         this.mPersonalDetails.PhoneNumber =
                             passPatient.PhoneNumber;
                         this.mPersonalDetails.Gender =

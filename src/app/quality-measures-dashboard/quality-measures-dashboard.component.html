@@ -51,20 +51,32 @@
 <div class="container mt-4" dir="rtl" [formGroup]="searchCard">
   <div class="row">
     <div class="col-3">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>לפי שנה: </mat-label>
+        <mat-select multiple formControlName="years">
+          <mat-option *ngFor="let year of yearsList" [value]="year">{{year}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <mat-form-field>
         <mat-label>מתאריך</mat-label>
         <input matInput [matDatepicker]="picker1" formControlName="fromDate" (focus)="picker1.open()">
         <mat-datepicker-toggle matIconSuffix [for]="picker1"></mat-datepicker-toggle>
         <mat-datepicker #picker1></mat-datepicker>
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
     <div class="col-3">
-      <mat-form-field>
+      <mat-form-field appearance="fill">
+        <mat-label>לפי חודשים</mat-label>
+        <mat-select multiple formControlName="months">
+          <mat-option *ngFor="let month of monthsList" [value]="month">{{month}}</mat-option>
+        </mat-select>
+      </mat-form-field>
+      <!-- <mat-form-field>
         <mat-label>עד תאריך</mat-label>
         <input matInput [matDatepicker]="picker2" formControlName="toDate" (focus)="picker2.open()">
         <mat-datepicker-toggle matIconSuffix [for]="picker2"></mat-datepicker-toggle>
         <mat-datepicker #picker2></mat-datepicker>
-      </mat-form-field>
+      </mat-form-field> -->
     </div>
     <div class="col-3">
       <mat-form-field appearance="fill">
@@ -85,14 +97,7 @@
   </div>
   <div class="row">
     <div class="col-6" style="display: grid;">
-      <mat-label>לפי זמנים</mat-label>
-      <mat-radio-group formControlName="year">
-        <mat-label>לפי שנה: </mat-label>
-        <mat-radio-button value="2023">2023</mat-radio-button>
-        <mat-radio-button value="2022">2022</mat-radio-button>
-        <mat-radio-button value="2021">2021</mat-radio-button>
-        <mat-radio-button value="2020">2020</mat-radio-button>
-      </mat-radio-group>
+      <!-- <mat-label>לפי זמנים</mat-label> -->
       <mat-radio-group formControlName="quarter">
         <mat-label>לפי רבעון: </mat-label>
         <mat-radio-button value="Q1">Q1</mat-radio-button>
@@ -100,12 +105,7 @@
         <mat-radio-button value="Q3">Q3</mat-radio-button>
         <mat-radio-button value="Q4">Q4</mat-radio-button>
       </mat-radio-group>
-      <mat-form-field>
-        <mat-label>לפי חודשים</mat-label>
-        <mat-select multiple formControlName="months">
-          <mat-option *ngFor="let month of monthsList" [value]="month">{{month}}</mat-option>
-        </mat-select>
-      </mat-form-field>
+
     </div>
     <div class="col-6">
       <button mat-raised-button class="srch-btn" color="primary" (click)="searchMeasures()">חפש</button>
@@ -114,14 +114,14 @@
 </div>
 
 <div class="container mt-4" dir="rtl">
-  <mat-tab-group>
+  <mat-tab-group (selectedTabChange)="loadCharts($event)">
     <mat-tab label="Table">
       <table mat-table [dataSource]="data" class="mat-elevation-z8">
         <ng-container [matColumnDef]="column" *ngFor="let column of displayedColumns">
           <th mat-header-cell *matHeaderCellDef> {{column}} </th>
           <td mat-cell *matCellDef="let element"> {{element[column]}} </td>
         </ng-container>
-      
+
         <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
         <tr mat-row *matRowDef="let row; columns: columnsToDisplay;"></tr>
       </table>

@@ -562,10 +562,16 @@
             <div class="card-img" style="background-image:url('https://p18.mishmarot.com/images/logo_1.png')"><span
                     class="tooltiptext">אתר משמרות</span></div>
         </mat-card>
-        <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="openAranWebsite()">
-            <div class="card-img"
-                style="background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')">
-                <span class="tooltiptext">אתר מטה חירום</span>
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;">
+            <div class="card-img" (click)="openAranWebsite(false)"
+                style="height:75px;background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')">
+                <b>אמת</b>
+                <span class="tooltiptext">אתר מטה חירום אמת</span>
+            </div>
+            <div class="card-img" (click)="openAranWebsite(true)"
+                style="height:75px;background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')">
+                <b>תרגול</b>
+                <span class="tooltiptext">אתר מטה חירום תרגול</span>
             </div>
         </mat-card>
     </div>
