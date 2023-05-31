@@ -552,24 +552,29 @@
     <h1 mat-dialog-title style="text-align: center;">יישומים</h1>
     <hr>
     <div class="row">
-        <mat-card class="card-img" style="background-color: white;width: 33.333%;"
+        <!-- <mat-card class="card-img" style="background-color: white;width: 33.333%;"
             (click)="!onlyDisplay && openReinforcementtDialog('')">
             <div class="card-img" style="background-image:url('../../assets/images/sos.png')"><span
                     class="tooltiptext">מסך
                     תגבור</span></div>
+        </mat-card> -->
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;"
+            (click)="!onlyDisplay && onCall()">
+            <div class="card-img" style="background-image:url('../../assets/images/oncall.png')"><span
+                    class="tooltiptext">אזעקת עובדים</span></div>
         </mat-card>
         <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="openShiftsWebsite()">
-            <div class="card-img" style="background-image:url('https://p18.mishmarot.com/images/logo_1.png')"><span
+            <div class="card-img" style="background-image:url('../../assets/images/meshmarot.png')"><span
                     class="tooltiptext">אתר משמרות</span></div>
         </mat-card>
         <mat-card class="card-img" style="background-color: white;width: 33.333%;">
             <div class="card-img" (click)="openAranWebsite(false)"
-                style="height:75px;background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')">
+                style="height:75px;background-image:url('../../assets/images/emergency_emergency_room_hospital.png')">
                 <b>אמת</b>
                 <span class="tooltiptext">אתר מטה חירום אמת</span>
             </div>
             <div class="card-img" (click)="openAranWebsite(true)"
-                style="height:75px;background-image:url('http://icongal.com/gallery/image/89245/emergency_emergency_room_hospital.png')">
+                style="height:75px;background-image:url('../../assets/images/emergency_emergency_room_hospital.png')">
                 <b>תרגול</b>
                 <span class="tooltiptext">אתר מטה חירום תרגול</span>
             </div>
@@ -578,19 +583,17 @@
     <hr class="apps-line">
     <div class="row">
         <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="openTelBook()">
-            <div class="card-img"
-                style="background-image:url('https://thumbs.dreamstime.com/z/telephone-icon-design-communication-contact-well-organized-fully-editable-vector-any-use-like-print-media-web-stock-images-179894485.jpg')">
+            <div class="card-img" style="background-image:url('../../assets/images/phonebook.png')">
                 <span class="tooltiptext">ספר טלפונים</span>
             </div>
         </mat-card>
         <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="MonitorReports()">
-            <div class="card-img"
-                style="background-image:url('https://www.silicon.co.uk/wp-content/uploads/2014/08/Spy-c-Kar-Shutterstock-2014.jpg')">
+            <div class="card-img" style="background-image:url('../../assets/images/Spy-c-Kar-Shutterstock-2014.jpg')">
                 <span class="tooltiptext">ניטור דיווחים</span>
             </div>
         </mat-card>
         <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="openBluZone()">
-            <div class="card-img" style="background-image:url('https://biot.co.il/assets/images/bluzone-logo.png')">
+            <div class="card-img" style="background-image:url('../../assets/images/bluzone-logo.png')">
                 <span class="tooltiptext">איתור נכסים</span>
             </div>
         </mat-card>

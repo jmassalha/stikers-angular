@@ -312,6 +312,10 @@ export class NursesManageDashboardComponent implements OnInit {
   openBluZone() {
     window.open("https://biot.co.il/session/lockscreen", "_blank");
   }
+  
+  onCall() {
+    window.open("https://oncall.omnitelecom.com/", "_blank");
+  }
 
   // NursesSystemPermission() {
   //   let userName = localStorage.getItem("loginUserName").toLowerCase();
