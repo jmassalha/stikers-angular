@@ -297,16 +297,24 @@ export class NursesManageDashboardComponent implements OnInit {
     window.open("https://p18.mishmarot.com/?csubDomain=poria", "_blank");
   }
 
-  openAranWebsite() {
-    window.open("http://posapci.poria.health.gov.il:8681/sap(bD1oZSZjPTkzMw==)/bc/bsp/sap/zbsp_miun/poria_aran.htm", "_blank");
+  openAranWebsite(id) {
+    if (!id) {
+      window.open("http://posapci.poria.health.gov.il:8681/sap(bD1oZSZjPTkzMw==)/bc/bsp/sap/zbsp_miun/poria_aran.htm", "_blank");
+    } else {
+      window.open("http://posaptst.poria.health.gov.il:8681/sap(bD1oZSZjPTkzMw==)/bc/bsp/sap/zbsp_miun/poria_aran.htm", "_blank");
+    }
   }
 
   openTelBook() {
     window.open("http://srv-apps-prod/PB/DEfault.aspx", "_blank");
   }
-  
+
   openBluZone() {
     window.open("https://biot.co.il/session/lockscreen", "_blank");
+  }
+  
+  onCall() {
+    window.open("https://oncall.omnitelecom.com/", "_blank");
   }
 
   // NursesSystemPermission() {

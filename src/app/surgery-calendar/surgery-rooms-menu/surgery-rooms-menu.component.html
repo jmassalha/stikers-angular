@@ -15,7 +15,7 @@
         <div class="row">
             <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room, 'פז');">
                 <div *ngIf="room.SurgeryRooms.length > 0">
-                    <u> {{room.title}} </u>
+                    <u> {{room.title2}} </u>
                     <br>
                     <p>מספר חדרים: {{room.NumberOfSurgeriesRoomsPhysical}}</p>
                     <br>
@@ -34,7 +34,7 @@
         <div class="row">
             <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room, 'ור');">
                 <div *ngIf="room.SurgeryRooms.length > 0">
-                    <u> {{room.title}} </u>
+                    <u> {{room.title2}} </u>
                     <br>
                     <p>מספר חדרים: {{room.NumberOfSurgeriesRoomsVirtual}}</p>
                     <br>

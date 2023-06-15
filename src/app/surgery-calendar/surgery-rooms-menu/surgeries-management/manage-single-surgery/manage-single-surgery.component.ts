@@ -59,7 +59,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
     this.filteredOptions = this.surgeonCtrl.valueChanges.pipe(
       startWith(''),
       map(value => {
-        const name = typeof value === 'string' ? value : value?.FirstName;
+        const name = typeof value === 'string' ? value : value;
         return name ? this._filter(name as string) : this.surgeonsList.slice();
       }),
     );
@@ -81,7 +81,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
   displayFnSurgeon(user: any): string {
     let fullName = user;
     if (user !== "") {
-      fullName = user.FirstName + ' ' + user.LastName;
+      fullName = user;
     }
     return fullName && fullName ? fullName : '';
   }
@@ -89,7 +89,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
   private _filter(name: string): any[] {
     const filterValue = name.toLowerCase();
 
-    return this.surgeonsList.filter(option => option.FirstName.toLowerCase().includes(filterValue) || option.LastName.toLowerCase().includes(filterValue));
+    return this.surgeonsList.filter(option => option.toLowerCase().includes(filterValue) || option.toLowerCase().includes(filterValue));
   }
 
   private _filter2(name: string): any[] {
@@ -130,14 +130,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
           S_SERVICE_DURATION: new FormControl('', null),
           S_SERVICE_DOC: new FormControl('', null)
         }),
-        DoctorSurgeon: this.fb.group({
-          DocLicence: new FormControl('', null),
-          Email: new FormControl('', null),
-          EmployeeID: new FormControl('', null),
-          FirstName: new FormControl('', Validators.required),
-          LastName: new FormControl('', Validators.required),
-          RowID: new FormControl('', Validators.required),
-        }),
+        DoctorSurgeon: new FormControl('', Validators.required),
         AdditionalDetails: this.buildAdditionalFormGroupByDepartment(""),
         Row_ID: new FormControl(null, null),
         SurgeryNote: new FormControl('', null),
@@ -178,14 +171,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
           S_SERVICE_DURATION: new FormControl(this.data.event.SurgeryServicesName.S_SERVICE_DURATION, null),
           S_SERVICE_DOC: new FormControl(this.data.event.SurgeryServicesName.S_SERVICE_DOC, null)
         }),
-        DoctorSurgeon: this.fb.group({
-          DocLicence: new FormControl(this.data.event.DoctorSurgeon.DocLicence, null),
-          Email: new FormControl(this.data.event.DoctorSurgeon.Email, null),
-          EmployeeID: new FormControl(this.data.event.DoctorSurgeon.EmployeeID, null),
-          FirstName: new FormControl(this.data.event.DoctorSurgeon.FirstName, Validators.required),
-          LastName: new FormControl(this.data.event.DoctorSurgeon.LastName, Validators.required),
-          RowID: new FormControl(this.data.event.DoctorSurgeon.RowID, Validators.required),
-        }),
+        DoctorSurgeon: new FormControl('', Validators.required),
         AdditionalDetails: this.buildAdditionalFormGroupByDepartment(this.data.event.AdditionalDetails),
         Row_ID: new FormControl(this.data.event.Row_ID, Validators.required),
         SurgeryNote: new FormControl(this.data.event.SurgeryNote.Row_ID, null),
@@ -203,19 +189,6 @@ export class ManageSingleSurgeryComponent implements OnInit {
   }
 
   buildAdditionalFormGroupByDepartment(details) {
-    /*
-    אף אוזן וגרון 11
-    אורתופדיה 2
-    כירורגיה 1
-    אורולוגיה 8 
-    פה ולסת 24
-    טיפול נמרץ לב 16
-    חדר לידה ??
-    פלסטיקה 18
-    נשים 13
-    קרדיולוגיה 20
-    כירורגיה חזה 38
-    */
     let x: FormGroup;
     x = this.fb.group({
       LAP_OR_OPEN: new FormControl(details.LAP_OR_OPEN, null),
@@ -229,64 +202,6 @@ export class ManageSingleSurgeryComponent implements OnInit {
       DIMOT: new FormControl(details.DIMOT, null),
       HOSPITALIZATION: new FormControl(details.HOSPITALIZATION, null),
     });
-
-    // switch (department.SD_ROW_ID) {
-    //   case 11:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 2:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 1:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 8:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 24:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 16:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 0:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 18:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 13:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 20:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    //   case 38:
-    //     x = this.fb.group({
-
-    //     });
-    //     break;
-    // }
     return x;
   }
 
@@ -343,14 +258,13 @@ export class ManageSingleSurgeryComponent implements OnInit {
     let datefordiff = this.datePipe.transform(this.SurgeryFormGroup.value.ArrivalDate, 'yyyy-MM-dd');
     let before = new Date(datefordiff + ' ' + this.SurgeryFormGroup.value.ArrivalTime);
     let after = new Date(datefordiff + ' ' + this.SurgeryFormGroup.getRawValue().EndTime);
+    let diff = Math.abs(after.getTime() - before.getTime());//difference in time
     if (type == 'endTime') {
-      let diff = Math.abs(after.getTime() - before.getTime());//difference in time
       let hours = Math.floor((diff % 86400000) / 3600000);//hours
       let minutes = Math.round(((diff % 86400000) % 3600000) / 60000);//minutes
       this.SurgeryFormGroup.controls['SurgeryServicesName']['controls'].S_SERVICE_DURATION.setValue(hours + '.' + minutes);
     } else {
-      let duration = this.SurgeryFormGroup.value.SurgeryServicesName.S_SERVICE_DURATION;
-      after.setTime(before.getTime() + (duration * 60 * 60 * 1000));
+      after.setTime(before.getTime() + diff);
       this.SurgeryFormGroup.controls['EndTime'].setValue(this.datePipe.transform(after, 'HH:mm'));
     }
   }
@@ -390,7 +304,7 @@ export class ManageSingleSurgeryComponent implements OnInit {
       this.openSnackBar("לבחור ניתוח מתוך הרשימה ולא הקלדה ידנית");
       return false;
     }
-    if (this.surgeonCtrl.value.RowID == undefined) {
+    if (this.surgeonCtrl.value == undefined) {
       this.openSnackBar("לבחור מנתח מתוך הרשימה ולא הקלדה ידנית");
       return false;
     }

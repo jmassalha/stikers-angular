@@ -39,9 +39,11 @@ import { switchMap, takeUntil, pairwise } from "rxjs/operators";
 import { DomSanitizer } from "@angular/platform-browser";
 import { DatePipe } from "@angular/common";
 import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
+import { environment } from "src/environments/environment";
 
 export class PersonalDetails {
     FirstName: string;
+    FatherName: string;
     LastName: string;
     PersonID: string;
     DOB: string;
@@ -63,7 +65,7 @@ export class Table {
         public ColsType: string,
         public ColsSplitNumber: string,
         public TableStatus: string
-    ) {}
+    ) { }
 }
 @Component({
     selector: "signature-dialog",
@@ -80,7 +82,7 @@ export class DialogContentExampleDialog {
     constructor(
         public dialog: MatDialogRef<DialogContentExampleDialog>,
         @Inject(MAT_DIALOG_DATA) public data: any
-    ) {}
+    ) { }
 
     ngAfterViewInit() {
         this.canvasEl = this.canvasinside.nativeElement;
@@ -259,8 +261,9 @@ export class FillSurveyComponent implements OnInit {
         private confirmationDialogService: ConfirmationDialogService,
         private datePipe: DatePipe,
         private router: Router,
+        private activatedRoute: ActivatedRoute,
         private _sanitizer: DomSanitizer
-    ) {}
+    ) { }
 
     // Digital Signature Section
 
@@ -438,6 +441,10 @@ export class FillSurveyComponent implements OnInit {
     NurseID: number;
 
     ngOnInit() {
+        if (this.activatedRoute.snapshot.params.id != undefined) {
+            this.urlID = this.activatedRoute.snapshot.params.id;
+            this.ifContinueForm = 0;
+        }
         this.urlID;
         this.ifContinueForm;
         this.searchCaseNumber();
@@ -597,7 +604,7 @@ export class FillSurveyComponent implements OnInit {
                     if (confirmed) {
                         this.http
                             .post(
-                                "http://srv-apps-prod/RCF_WS/WebService.asmx/answerForm",
+                                environment.url + "answerForm",
                                 {
                                     _answerValues: survey,
                                     _ifContinue: continueForm,
@@ -608,25 +615,25 @@ export class FillSurveyComponent implements OnInit {
                                     this.openSnackBar("!נשמר בהצלחה");
                                     this.http
                                         // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/createPdfOnServer", {
-                                       .post("http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer", {
-                                                CaseNumber: this.CaseNumber,
-                                                FormID: survey.FormID,
-                                                Catigory: "ZPO_ONLINE",
-                                                Row_ID: Response["d"],
-                                            }
+                                        .post("http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer", {
+                                            CaseNumber: this.CaseNumber,
+                                            FormID: survey.FormID,
+                                            Catigory: "ZPO_ONLINE",
+                                            Row_ID: Response["d"],
+                                        }
                                         )
                                         .subscribe((Response) => {
                                             //debugger;
                                             this.http
                                                 // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
-                                                .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",{
-                                                        CaseNumber:
-                                                            this.CaseNumber,
-                                                        FormID: survey.FormID,
-                                                        Catigory: "ZPO_ONLINE",
-                                                        fileSource:
-                                                            Response["d"],
-                                                    }
+                                                .post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+                                                    CaseNumber:
+                                                        this.CaseNumber,
+                                                    FormID: survey.FormID,
+                                                    Catigory: "ZPO_ONLINE",
+                                                    fileSource:
+                                                        Response["d"],
+                                                }
                                                 )
                                                 .subscribe((Response) => {
                                                     if (
@@ -679,32 +686,34 @@ export class FillSurveyComponent implements OnInit {
         if (this.Passport != "") {
             this.http
                 .post(
-                    "http://srv-apps-prod/RCF_WS/WebService.asmx/GetRecordAndPatients",
+                    environment.url + "selectDetailsFromNamer",
                     {
-                        _patientPassport: this.Passport,
+                        patientId: this.Passport,
                     }
                 )
                 .subscribe((Response) => {
                     if (this.Passport != "") {
                         let passPatient = Response["d"];
                         this.mPersonalDetails.Address =
-                            passPatient[0].PatientAddress;
-                        this.mPersonalDetails.DOB = passPatient[0].PatientDOB;
+                            passPatient.Address;
+                        this.mPersonalDetails.DOB = passPatient.DOB;
                         this.mPersonalDetails.Email =
-                            passPatient[0].PatientEmail;
+                            passPatient.PatientEmail;
                         this.mPersonalDetails.FirstName =
-                            passPatient[0].PatientFirstName;
+                            passPatient.FirstName;
+                        this.mPersonalDetails.FatherName =
+                            passPatient.FatherName;
                         this.mPersonalDetails.LastName =
-                            passPatient[0].PatientLastName;
+                            passPatient.LastName;
                         this.mPersonalDetails.PersonID =
-                            passPatient[0].PatientPersonID;
+                            passPatient.PersonID;
                         this.mPersonalDetails.PhoneNumber =
-                            passPatient[0].PatientPhoneNumber;
+                            passPatient.PhoneNumber;
                         this.mPersonalDetails.Gender =
-                            passPatient[0].PatientGender;
-                        this.CaseNumber = passPatient[0].caseNumber;
+                            passPatient.Gender;
+                        this.CaseNumber = passPatient.CaseNumber;
                         this.caseNumberForm.controls["CaseNumber"].setValue(
-                            passPatient[0].caseNumber
+                            passPatient.CaseNumber
                         );
                     } else {
                         this.mPersonalDetails = Response["d"];
@@ -715,7 +724,7 @@ export class FillSurveyComponent implements OnInit {
         } else {
             this.http
                 .post(
-                    "http://srv-apps-prod/RCF_WS/WebService.asmx/GetPersonalDetails",
+                    environment.url + "GetPersonalDetails",
                     {
                         CaseNumber: this.CaseNumber,
                     }
@@ -730,6 +739,8 @@ export class FillSurveyComponent implements OnInit {
                             passPatient[0].PatientEmail;
                         this.mPersonalDetails.FirstName =
                             passPatient[0].PatientFirstName;
+                        this.mPersonalDetails.FatherName =
+                            passPatient[0].PatientFatherName;
                         this.mPersonalDetails.LastName =
                             passPatient[0].PatientLastName;
                         this.mPersonalDetails.PersonID =
@@ -1149,6 +1160,21 @@ export class FillSurveyComponent implements OnInit {
                                     answerContent: [
                                         {
                                             value: personalDetails.FirstName,
+                                            disabled: true,
+                                        },
+                                        Validators.compose([
+                                            Validators.required,
+                                        ]),
+                                    ],
+                                });
+                            } else if (
+                                element.QuestionType == "Text" &&
+                                element.QuestionValue == "שם אב"
+                            ) {
+                                surveyAnswersItem = this.formBuilder.group({
+                                    answerContent: [
+                                        {
+                                            value: personalDetails.FatherName,
                                             disabled: true,
                                         },
                                         Validators.compose([

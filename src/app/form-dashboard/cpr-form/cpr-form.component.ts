@@ -84,8 +84,8 @@ export class CprFormComponent implements OnInit {
   CprFormsList = [];
   CprFormsList_all = [];
   UserName = localStorage.getItem("loginUserName").toLowerCase();
-  usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
-  // usersToSend = ['adahabre@poria.health.gov.il'];
+  // usersToSend = ['adahabre@poria.health.gov.il', 'batzadok@poria.health.gov.il', 'saziv@poria.health.gov.il', 'KMassalha@poria.health.gov.il', 'EMansour@poria.health.gov.il', 'SBenDavid@poria.health.gov.il'];
+  usersToSend = ['adahabre@poria.health.gov.il'];
   filteredOptions1: Observable<string[]>;
   docfilter = new FormControl();
   filteredOptions2: Observable<string[]>;
@@ -1072,6 +1072,7 @@ export class CprFormComponent implements OnInit {
     $("#loader_2").removeClass("d-none");
     // this.http.post(this.url + "createCprPdfOnServer", {
     this.http.post("http://srv-ipracticom:8080/WebService.asmx/createCprPdfOnServer", {
+    // this.http.post(environment.url + "createCprPdfOnServer", {
       CaseNumber: CaseNumber,
       FormID: "1",
       Catigory: "ZPO_CPRFRM",
@@ -1082,7 +1083,8 @@ export class CprFormComponent implements OnInit {
         let that = this;
         setTimeout(() => {
           that.http.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-          // that.http.post(this.url + "LinkPdfToPatientNamer", {
+          // that.http.post(environment.url + "LinkPdfToPatientNamer", {
+            // that.http.post(this.url + "LinkPdfToPatientNamer", {
             CaseNumber:
               CaseNumber,
             FormID: "1",

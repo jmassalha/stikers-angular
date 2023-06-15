@@ -168,10 +168,11 @@ export class DimotComponent implements OnInit, AfterViewInit {
         _part,
         _totparts
     ) {
+        debugger
         this.http
             .post(
-               // "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotExportTable",
-                    "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotExportTable",
+               // "http://localhost:64964/WebService.asmx/GetDimotExportTable",
+                "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotExportTable",
                 {
                     _fromDate: _fromDate,
                     _toDate: _toDate,
@@ -193,7 +194,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
                         this.exportTableParts(
                             this.startdateVal,
                             this.enddateVal,
-                        [this.departs[_part + 1]],
+                            [this.departs[_part + 1]],
                             this.Shift,
                             this.RequestType,
                             this.requestDepartDhof,
@@ -201,7 +202,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
                             this.departs.length - 1
                         );
                     }
-                }else if(_part != _totparts){
+                } else if (_part != _totparts) {
                     this.exportTableParts(
                         this.startdateVal,
                         this.enddateVal,
@@ -225,7 +226,8 @@ export class DimotComponent implements OnInit, AfterViewInit {
     }
     exportTable() {
         this.loading = true;
-        if (this.Depart.length == 1 && this.Depart[0] == "-1" || this.Depart.length == 0 ) {
+        debugger
+        if (this.Depart.length == 1 && this.Depart[0] == "-1" || this.Depart.length == 0) {
             //debugger;
             this.exportTableParts(
                 this.startdateVal,
@@ -238,20 +240,20 @@ export class DimotComponent implements OnInit, AfterViewInit {
                 this.departs.length - 1
             );
         } else if (this.Depart.length > 1) {
-            if(this.Depart[0] == '-1'){
-                this.Depart.splice(0,1);
+            if (this.Depart[0] == '-1') {
+                this.Depart.splice(0, 1);
             }
             this.exportTableParts(
                 this.startdateVal,
                 this.enddateVal,
-                [this.departs[0]],
+                [this.Depart[0]],
                 this.Shift,
                 this.RequestType,
                 this.requestDepartDhof,
                 0,
                 this.departs.length - 1
             );
-        } else  {
+        } else {
             this.exportTableParts(
                 this.startdateVal,
                 this.enddateVal,
@@ -313,7 +315,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         this.startdateVal = this._fun.Sdate.value;
         this.enddateVal = this._fun.Edate.value;
     }
-    ngAfterViewInit(): void {}
+    ngAfterViewInit(): void { }
     getPaginatorData(event: PageEvent) {
         //console.log(this.paginator.pageIndex);
         if (this.startdateVal && this.enddateVal) {
@@ -330,6 +332,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         }
     }
     getReport($event: any): void {
+        debugger
         if (this.startdateVal && this.enddateVal)
             this.getDataFormServer(
                 this.startdateVal,
@@ -364,6 +367,9 @@ export class DimotComponent implements OnInit, AfterViewInit {
         _Shift: string,
         _RequestType: string
     ) {
+        this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
+        this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
+        this.resultsLength = 0;
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
             // ////debugger
@@ -372,7 +378,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
         }
         this.http
             .post(
-                // "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp",
+                //"http://localhost:64964/WebService.asmx/GetDimotTableApp",
                 "http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotTableApp",
                 {
                     _fromDate: _startDate,
@@ -383,9 +389,11 @@ export class DimotComponent implements OnInit, AfterViewInit {
                     _FreeText: _FreeText,
                     _shift: this.Shift,
                     _requestType: this.RequestType,
+                    _requestDepartDhof: this.requestDepartDhof,
                 }
             )
             .subscribe((Response) => {
+                debugger
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
                 var json = JSON.parse(Response["d"]);
                 let DimotData = JSON.parse(json["aaData"]);
@@ -450,10 +458,10 @@ export class DimotComponent implements OnInit, AfterViewInit {
             this.Shift,
             this.RequestType
         );
-        ////////debugger
+        debugger
         this.http
+        //    .post("http://localhost:64964/WebService.asmx/GetDimotApp", {
             .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
-                //.post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetDimotApp", {
                 _fromDate: _startDate,
                 _toDate: _endDate,
                 _pageIndex: _pageIndex,
@@ -461,6 +469,7 @@ export class DimotComponent implements OnInit, AfterViewInit {
                 _depart: _Depart,
                 _shift: this.Shift,
                 _requestType: this.RequestType,
+                _requestDepartDhof: this.requestDepartDhof,
             })
             .subscribe(
                 (Response) => {

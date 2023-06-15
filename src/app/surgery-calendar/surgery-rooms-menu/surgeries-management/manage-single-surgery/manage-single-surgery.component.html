@@ -14,7 +14,8 @@
             <div class="col-2">
                 <mat-form-field>
                     <mat-label>תעודת זהות</mat-label>
-                    <input matInput formControlName="PM_PATIENT_ID" (focusout)="checkIfPatientExists()">
+                    <!--  (focusout)="checkIfPatientExists()" -->
+                    <input matInput formControlName="PM_PATIENT_ID">
                 </mat-form-field>
             </div>
             <div class="col-2">
@@ -88,7 +89,7 @@
                     <mat-label>חדר ניתוח</mat-label>
                     <mat-select formControlName="SurgeryRoom" (selectionChange)="selectedSurgeryRoom($event.value)">
                         <mat-option *ngFor="let room of SurgeryRoomsList" [value]="room.SurgeryRoom">
-                            {{room.RoomGroupDesc}} {{room.SurgeryRoomDesc}}
+                            {{room.SurgeryRoom}}
                         </mat-option>
                     </mat-select>
                 </mat-form-field>
@@ -120,7 +121,7 @@
                     <input type="text" matInput [formControl]="surgeonCtrl" [matAutocomplete]="auto">
                     <mat-autocomplete #auto="matAutocomplete" [displayWith]="displayFnSurgeon">
                         <mat-option *ngFor="let option of filteredOptions | async" [value]="option">
-                            {{option.FirstName}} {{option.LastName}}
+                            {{option}}
                         </mat-option>
                     </mat-autocomplete>
                 </mat-form-field>
