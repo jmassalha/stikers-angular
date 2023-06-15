@@ -549,15 +549,15 @@ export class DimotComponent implements OnInit, AfterViewInit {
                         "פוענח",
                         ""
                     );
-                    this._fun.drawCharToDom(
-                        "bar",
-                        _doingTechRang,
-                        _doingTechVal,
-                        "techCount",
-                        "canvtechCount",
-                        "בוצע",
-                        ""
-                    );
+                    // this._fun.drawCharToDom(
+                    //     "bar",
+                    //     _doingTechRang,
+                    //     _doingTechVal,
+                    //     "techCount",
+                    //     "canvtechCount",
+                    //     "בוצע",
+                    //     ""
+                    // );
                     this._fun.drawCharToDom(
                         "bar",
                         _serviceDocRang,
