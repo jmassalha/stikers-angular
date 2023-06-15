@@ -51,6 +51,7 @@ export class SurgeryRoomsMenuComponent implements OnInit {
       this.surgeryRooms[index]['NumberOfSurgeriesRoomsVirtual'] = numberOfVirtual.length;
       this.surgeryRooms[index]['NumberOfSurgeriesPhysical'] = 0
       this.surgeryRooms[index]['NumberOfSurgeriesVirtual'] = 0
+      this.surgeryRooms[index].title2 = this.surgeryRooms[index].title.split('-')[0];
       for (let i = 0; i < numberOfPhysical.length; i++) {
         this.surgeryRooms[index]['NumberOfSurgeriesPhysical'] += parseInt(numberOfPhysical[i].NumberOfSurgeries);
       }
@@ -84,7 +85,7 @@ export class SurgeryRoomsMenuComponent implements OnInit {
       const dialogRef = this.dialog.open(SurgeriesManagementComponent, {
         data: {
           room: room,
-          roomsList: this.surgeryRooms,
+          roomsList: room.SurgeryRooms,
           user: this.userObject
         },
         width: '200%',

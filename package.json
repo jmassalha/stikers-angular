@@ -47,6 +47,7 @@
     "@ng-bootstrap/ng-bootstrap": "^5.3.1",
     "@ng-select/ng-select": "^5.1.0",
     "@ngneat/input-mask": "^6.0.0",
+    "@types/chart.js": "^2.9.37",
     "@types/googlemaps": "^3.43.3",
     "@types/jquery": "^3.5.14",
     "@zxing/browser": "0.0.8",

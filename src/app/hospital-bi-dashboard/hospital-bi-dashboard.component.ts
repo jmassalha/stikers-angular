@@ -218,9 +218,10 @@ export class HospitalBIDashboardComponent implements OnInit {
     if (this.departParam == "6" || this.departParam == "5") {
       valueOfSwitch = _hospitalDeptType;
     }
-    // the multiple select form
-    if (this.departParam == "1" && _surgeryDeptType != "0") {
-      valueOfSwitch = _surgeryDeptType.map(x => x).join(",");
+    // the multiple select form for surgeries: sesia/ambolatory... any change can cause a bug!!
+    if (this.departParam == "1" && this.selectSurgeryTypes.value.length > 0) {
+      valueOfSwitch = this.selectSurgeryTypes.value.map(x => x).join(",");
+      // valueOfSwitch = _surgeryDeptType.map(x => x).join(",");
     }
     // eshpoz ambolatory in clinics view
     if (this.departParam == "2" && _surgeryDeptType != "0") {

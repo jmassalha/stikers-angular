@@ -181,9 +181,8 @@ export class FormsansweredComponent implements OnInit {
                     this.http
                         .post(
                             "http://srv-ipracticom:8080/WebService.asmx/createPdfOnServer",
+                            // environment.url + "createPdfOnServer",
                             {
-                                //.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
-                                // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
                                 CaseNumber: patientIDPr,
                                 FormID: element.FormID,
                                 Catigory: "ZPO_ONLINE",
@@ -194,6 +193,7 @@ export class FormsansweredComponent implements OnInit {
                             this.http
                                 .post(
                                     "http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer",
+                                    // environment.url + "LinkPdfToPatientNamer",
                                     {
                                         //.post("http://srv-ipracticom:8080/WebService.asmx/LinkPdfToPatientNamer", {
                                         // .post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {

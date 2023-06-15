@@ -216,16 +216,26 @@ export class SurgeryCalendarComponent implements OnInit {
             //   beforeStart: true,
             //   afterEnd: true,
             // },
+            let totalPhysical = 0;
+            let totalVirtual = 0;
+            let roomsOfDayPhysical = element2.SurgeryRooms.filter(x => x.SurgeryRoom.includes('פז'));
+            let roomsOfDayVirtual = element2.SurgeryRooms.filter(x => x.SurgeryRoom.includes('ור'));
+            roomsOfDayPhysical.forEach(ph => {
+              totalPhysical += parseInt(ph.NumberOfSurgeries);
+            });
+            roomsOfDayVirtual.forEach(vi => {
+              totalVirtual += parseInt(vi.NumberOfSurgeries);
+            });
             element2.start = new Date(element2.ArrivalDate);
             element2.time = '00:00';
-            element2.title = element2.CalendarRoomsArea;
+            element2.title = element2.CalendarRoomsArea + ' -פז:' + totalPhysical + ' -ור:' + totalVirtual;
             element2.color = element2.Color;
             this.events.push(element2);
           });
         });
         this.refresh.next();
-        
-        
+
+
       });
   }
 

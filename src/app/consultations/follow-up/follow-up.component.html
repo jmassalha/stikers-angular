@@ -28,7 +28,7 @@
                                     </mat-form-field>
                                 </div>
                             </div>
-                            <div class="col">
+                            <!-- <div class="col">
                                 <div class="form-group">
                                     <mat-form-field>
                                         <mat-label>מחלקה מזמינה</mat-label>
@@ -39,7 +39,7 @@
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
-                            </div>
+                            </div> -->
                             <div class="col">
                                 <div class="form-group">
                                     <mat-form-field>
@@ -47,7 +47,7 @@
                                         <mat-select name="departsName" [(value)]="departsName" required>
                                             <mat-option *ngFor="
                                                     let depart of departsList
-                                                " [value]="depart.id">{{ depart.name }}</mat-option>
+                                                " [value]="depart">{{ depart }}</mat-option>
                                         </mat-select>
                                     </mat-form-field>
                                 </div>
@@ -131,6 +131,10 @@
                                     </div>
                                 </div>
                             </mat-list>
+                            <button mat-fab color="accent" aria-label="Excel" (click)="exportexcel()"
+                                matTooltip="יצוא לאקסל">
+                                <mat-icon>get_app</mat-icon>
+                            </button>
                         </div>
 
                         <button mat-raised-button type="submit" class="btn btn-primary btn-raised"
@@ -162,14 +166,6 @@
                                         {{ element.Row_Id }}
                                     </td>
                                 </ng-container>
-                                <!-- <ng-container matColumnDef="FollowUpDepartSeode">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        מחלקה סיעודית
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.FollowUpDepartSeode }}
-                                    </td>
-                                </ng-container> -->
                                 <ng-container matColumnDef="FollowUpDepart">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                         מחלקה
@@ -186,14 +182,6 @@
                                         {{ element.FollowUpDate }}
                                     </td>
                                 </ng-container>
-                                <!-- <ng-container matColumnDef="FollowUpGroup">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        קבוצה
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.FollowUpGroup }}
-                                    </td>
-                                </ng-container> -->
                                 <ng-container matColumnDef="FollowUpCategory">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
                                         קטגוריה
@@ -218,22 +206,17 @@
                                         {{ element.User.UserFirstName }} {{ element.User.UserLastName }}
                                     </td>
                                 </ng-container>
-                                <!-- <ng-container matColumnDef="UserDepart">
+                                <ng-container matColumnDef="Content">
                                     <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        מחלקה
+                                        תוכן הדו"ח
                                     </th>
                                     <td mat-cell *matCellDef="let element">
-                                        {{ element.User.UserDepart }}
+                                        <button mat-raised-button color="primary"
+                                            (click)="openContentDialog(element)">
+                                            <mat-icon>list</mat-icon>
+                                        </button>
                                     </td>
                                 </ng-container>
-                                <ng-container matColumnDef="WorkerType">
-                                    <th mat-header-cell *matHeaderCellDef mat-sort-header>
-                                        תפקיד
-                                    </th>
-                                    <td mat-cell *matCellDef="let element">
-                                        {{ element.User.WorkerType }}
-                                    </td>
-                                </ng-container> -->
                                 <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
                                 <tr mat-row *matRowDef="
                                         let row;
@@ -242,13 +225,31 @@
                             </table>
                         </div>
                         <!-- PAGINATION -->
-                        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[20, 50, 100]" [pageSize]="20"
+                        <mat-paginator [length]="resultsLength" [pageSizeOptions]="[20, 50, 100, 500]" [pageSize]="20"
                             showFirstLastButtons (page)="getPaginatorData($event)"></mat-paginator>
                     </div>
                 </div>
             </div>
+            <table id="excel-table" dir="rtl" style="display: none;">
+                <tr>
+                    <th>מחלקה</th>
+                    <th>תאריך</th>
+                    <th>קטיגוריה</th>
+                    <th>מספר מקרה</th>
+                    <th>שם עובד</th>
+                    <th>תוכן דו"ח</th>
+                </tr>
+                <tr *ngFor="let fol of dataSource.filteredData">
+                    <td> {{fol.FollowUpDepart}} </td>
+                    <td> {{fol.FollowUpDate}} </td>
+                    <td> {{fol.FollowUpCategory}} </td>
+                    <td> {{fol.CaseNumber}} </td>
+                    <td> {{fol.Content}} </td>
+                </tr>
+            </table>
         </div>
     </mat-tab>
+
     <!-- <mat-tab label="נתונים בגרף">
         <div class="container-fluid text-right fix-google-chart-height">
             <br /><br />
