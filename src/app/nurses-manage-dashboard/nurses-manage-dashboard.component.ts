@@ -11,6 +11,7 @@ import { DatePipe } from '@angular/common';
 import { int } from '@zxing/library/esm/customTypings';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { NgbModal } from '@ng-bootstrap/ng-bootstrap';
+import { environment } from 'src/environments/environment';
 declare let ClientIP: any;
 @Component({
   selector: 'app-nurses-manage-dashboard',
@@ -312,7 +313,6 @@ export class NursesManageDashboardComponent implements OnInit {
   openBluZone() {
     window.open("https://biot.co.il/session/lockscreen", "_blank");
   }
-  
   onCall() {
     window.open("https://oncall.omnitelecom.com/", "_blank");
   }
@@ -360,7 +360,7 @@ export class NursesManageDashboardComponent implements OnInit {
   getAllDeparts() {
     this.loaded = false;
     this.http
-      .post("http://srv-apps-prod/RCF_WS/WebService.asmx/GetNursesSystemDepartments", {
+      .post(environment.url + "GetNursesSystemDepartments", {
         _userName: this.UserName
       })
       .subscribe((Response) => {

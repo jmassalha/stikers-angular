@@ -222,6 +222,12 @@
                                 קורונה:
                                 {{item.CoronaNumber}}
                             </span>
+                            <span class="coronaNumber"
+                                *ngIf="item.NumberOfRespirations !== '0' && item.NumberOfRespirations !== null"
+                                style="color: blue;">
+                                מונשמים:
+                                {{item.NumberOfRespirations}}
+                            </span>
                             סה"כ: {{item.OccupancyPerDepart}}
                             <span *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)'">תפוסה:
                                 {{item.PercentOccupancy}}%
@@ -558,8 +564,7 @@
                     class="tooltiptext">מסך
                     תגבור</span></div>
         </mat-card> -->
-        <mat-card class="card-img" style="background-color: white;width: 33.333%;"
-            (click)="!onlyDisplay && onCall()">
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="!onlyDisplay && onCall()">
             <div class="card-img" style="background-image:url('../../assets/images/oncall.png')"><span
                     class="tooltiptext">אזעקת עובדים</span></div>
         </mat-card>
