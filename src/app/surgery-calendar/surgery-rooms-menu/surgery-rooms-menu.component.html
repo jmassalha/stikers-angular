@@ -6,6 +6,10 @@
     <div class="row">
         <h4><span>יום {{todaysName}}</span><span>{{data.event.day.date | date: 'dd-MM-yyyy'}}</span></h4>
     </div>
+    <button mat-mini-fab color="warn" aria-label="Example icon button with a menu icon"
+        (click)="openUrgentSurgeriesSchedule()">
+        <mat-icon>report_problem</mat-icon>
+    </button>
     <hr>
     <div class="row area">
         <div class="row">
@@ -13,7 +17,8 @@
         </div>
         <br>
         <div class="row">
-            <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room, 'פז');">
+            <div class="card text-center" *ngFor="let room of surgeryRooms"
+                (click)="openSurgeryRoomSchedule(room, 'פז');">
                 <div *ngIf="room.SurgeryRooms.length > 0">
                     <u> {{room.title2}} </u>
                     <br>
@@ -23,7 +28,6 @@
                 </div>
             </div>
         </div>
-        
     </div>
     <hr>
     <div class="row area">
@@ -32,7 +36,8 @@
         </div>
         <br>
         <div class="row">
-            <div class="card text-center" *ngFor="let room of surgeryRooms" (click)="openSurgeryRoomSchedule(room, 'ור');">
+            <div class="card text-center" *ngFor="let room of surgeryRooms"
+                (click)="openSurgeryRoomSchedule(room, 'ור');">
                 <div *ngIf="room.SurgeryRooms.length > 0">
                     <u> {{room.title2}} </u>
                     <br>
@@ -42,6 +47,28 @@
                 </div>
             </div>
         </div>
-        
+
     </div>
+
+
+
+    <!-- Urgent Surgeries Screen -->
+    <ng-template #modalUrgentSurgeries let-close="close">
+        <button type="button" class="close" matTooltip="סגירה" aria-label="Close" (click)="closeModal()">
+            <span aria-hidden="true">&times;</span>
+        </button>
+        <h1 mat-dialog-title style="text-align: center;">ניתוחים דחופים</h1>
+        <hr>
+        <div class="row">
+            <div class="col-4" *ngFor="let urgent of urgentSurgeryRooms">
+                <mat-card class="card-img">
+                    <p>
+                        {{urgent.SurgeryPatientDetails.PM_CASE_NUMBER}}<br>
+                        {{urgent.SurgeryRoom}}  -  {{urgent.SurgeryType}}<br>
+                        {{urgent.SurgeryServicesName.S_SERVICE_VAL}}
+                    </p>
+                </mat-card>
+            </div>
+        </div>
+    </ng-template>
 </div>

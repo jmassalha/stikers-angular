@@ -105,7 +105,7 @@ export class SurgeriesManagementComponent {
       this.viewDate = this.data.room.start;
       // let day = this.datePipe.transform(this.viewDate, 'dd');
       this.specificRooms = this.data.room.SurgeryRooms.filter(x => x.SurgeryRoom.includes(this.data.room.type));
-      this.getPatientsQueues(this.viewDate);
+      this.getPatientsQueues();
     }
     this.setView(CalendarView.Day);
   }
@@ -157,7 +157,7 @@ export class SurgeriesManagementComponent {
           disableClose: true
         });
         dialogRef.afterClosed().subscribe(res => {
-          if (res != "") this.getPatientsQueues(this.viewDate);
+          if (res != "") this.getPatientsQueues();
         })
       }
     }
@@ -176,7 +176,7 @@ export class SurgeriesManagementComponent {
   }
 
   closeOpenDayViewDay() {
-    this.getPatientsQueues(this.viewDate);
+    this.getPatientsQueues();
     // this.activeDayIsOpen = false;
   }
 
@@ -193,11 +193,11 @@ export class SurgeriesManagementComponent {
   }
 
   // get the elements to the main calendar page
-  getPatientsQueues(fullDate) {
+  getPatientsQueues() {
     this.refresh = new Subject();
     this.loader = true;
     this.events = [];
-    fullDate = this.datePipe.transform(this.viewDate, 'yyyy-MM-dd');
+    let fullDate = this.datePipe.transform(this.viewDate, 'yyyy-MM-dd');
     this.http
       .post(environment.url + "GetSurgeriesBySurgeryRoomCode", {
         _fullDate: fullDate,
@@ -223,7 +223,10 @@ export class SurgeriesManagementComponent {
           if (element.SurgeryPatientDetails == null) {
             tempTitle = `<h6 class="text-center"><b>זמן הכנה משעה: </b>${element.ArrivalDate.split(' ')[1]}</h6>`;
           } else {
-            tempTitle = `מחלקה: <b>${element.SurgeryRequestDepartments.S_DEPARTMENT}</b><br>
+            let hr = "";
+            if (element.WithAnesthesia == "False") hr = "<hr>";
+            tempTitle = hr + ` 
+            מחלקה: <b>${element.SurgeryRequestDepartments.S_DEPARTMENT}</b><br>
             שם: <b>${element.SurgeryPatientDetails.PM_FIRST_NAME} ${element.SurgeryPatientDetails.PM_LAST_NAME}</b><b> -- ${element.SurgeryPatientDetails.PM_CASE_NUMBER}</b> <br>
             סוג ניתוח: <b>${element.SurgeryType}</b><br>
             S:<b>${element.ArrivalDate.split(' ')[1]}</b> - E:<b>${element.EndDate.split(' ')[1]}</b>`;
@@ -246,11 +249,12 @@ export class SurgeriesManagementComponent {
           let index = tempArrOfSurgeryRooms.indexOf(element.SurgeryRoom);
           // when there's no room the index is -1, BUG!
           if (index >= 0) {
-            // some of the surgeries isn't associated with a room!!
-            // this.specificRooms[index]['Surgeries'] == undefined && 
+            // group by the surgeries to the associated room
             if (element.SurgeryRoom != "") {
               this.specificRooms[index]['Surgeries'] = tempArr['SurgeriesCalendarClassList'].filter(x => x.SurgeryRoom == element.SurgeryRoom);
               this.specificRooms[index] = this.checkSurfingSurgeryDays(this.specificRooms[index]);
+              // sort the surgeries in each room from the earlier to the last one
+
             }
           }
           this.events.push(element);
@@ -273,6 +277,28 @@ export class SurgeriesManagementComponent {
         this.refresh.next();
         this.loader = false;
       });
+  }
+
+  sortSurgeriesOfEachRoomInDay() {
+    this.loader = true;
+    this.filteredSpecificRooms.forEach((room, index1) => {
+      if (room.Surgeries != undefined) {
+        room.Surgeries.filter(x => x.SurgeryStatus != 'Canceled').forEach((surgery, index2) => {
+          // surgery.start.setTime(this.datePipe.transform(this.viewDate, 'yyyy-MM-dd 07:00:00'));
+          let next_end_time = surgery.end;
+          let next = this.filteredSpecificRooms[index1].Surgeries[index2 + 1];
+          if (next != undefined) {
+            let estimated = next.end - next.start;
+            let hours = Math.floor((estimated % 86400000) / 3600000);//hours
+            let minutes = Math.round(((estimated % 86400000) % 3600000) / 60000);//minutes
+            next.start = new Date(next_end_time);
+            next.end = new Date(next.start.getTime() + estimated);
+          }
+        });
+      }
+    });
+    this.refresh.next();
+    this.loader = false;
   }
 
   checkSurfingSurgeryDays(room) {
@@ -306,7 +332,6 @@ export class SurgeriesManagementComponent {
   daysInMonth(month, year) {
     return new Date(year, month, 0).getDate();
   }
-
 
   openSnackBar(message) {
     this._snackBar.open(message, 'X', {
