@@ -63,8 +63,8 @@
             <div class="col-4" *ngFor="let urgent of urgentSurgeryRooms">
                 <mat-card class="card-img">
                     <p>
-                        {{urgent.SurgeryPatientDetails.PM_CASE_NUMBER}}<br>
-                        {{urgent.SurgeryRoom}}  -  {{urgent.SurgeryType}}<br>
+                        {{urgent.SurgeryPatientDetails.PM_CASE_NUMBER}} - {{urgent.SurgeryType}}<br>
+                        {{urgent.SurgeryRoom}} - {{urgent.S_DEPARTMENT}}<br>
                         {{urgent.SurgeryServicesName.S_SERVICE_VAL}}
                     </p>
                 </mat-card>

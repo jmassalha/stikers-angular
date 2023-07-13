@@ -285,29 +285,23 @@ export class SurgeriesManagementComponent {
       if (room.Surgeries != undefined) {
         let temp = room.Surgeries.filter(x => x.SurgeryStatus != 'Canceled');
         temp.forEach((surgery, index2) => {
-          let current_end_time = surgery.end;
-          let hr = "";
-          if (surgery.WithAnesthesia == "False") hr = "<hr>";
-          temp[index2].title = hr + ` 
-            מחלקה: <b>${surgery.SurgeryRequestDepartments.S_DEPARTMENT}</b><br>
-            שם: <b>${surgery.SurgeryPatientDetails.PM_FIRST_NAME} ${surgery.SurgeryPatientDetails.PM_LAST_NAME}</b><b> -- ${surgery.SurgeryPatientDetails.PM_CASE_NUMBER}</b> <br>
-            סוג ניתוח: <b>${surgery.SurgeryType}</b><br>
-            S:<b>${this.datePipe.transform(surgery.start,'HH:MM')}</b> - E:<b>${this.datePipe.transform(surgery.end,'HH:MM')}</b>`;
-          // for (let i = index2; i < this.filteredSpecificRooms[index1].Surgeries.length; i++) {
-          //   index2 = i;
-          //   if (this.filteredSpecificRooms[index1].Surgeries[index2 + 1] == undefined || this.filteredSpecificRooms[index1].Surgeries[index2 + 1].SurgeryStatus != 'Canceled') {
-          //     break;
-          //   }
-          // }
+          // ADDING SETUPTIME TO EACH SURGERY
+          let setuptime = {
+            title: `Setup Time: <b>20min</b>`,
+            start: new Date(surgery.start.getTime() - 1200000),
+            end: surgery.start
+          }
+          this.filteredSpecificRooms[index1].Surgeries.splice(index2, 0, setuptime);
           let next = temp[index2 + 1];
-          temp[index2].start = new Date(surgery.start.getTime() - 1200000);
+          temp[index2].start = new Date(surgery.start.getTime());
           // check if the next surgery isn't defined
           if (next != undefined && next.SurgeryStatus != 'Canceled') {
             let estimated = next.end - next.start;
+            let current_end_time = surgery.end;
             // change the start time of the next surgery to begin after the end of the current surgery
             next.start = new Date(current_end_time.getTime() + 1200000);
             // change the end time of the next surgery to suit the new start time of the next surgery
-            next.end = new Date(next.start.getTime() + estimated + 1200000);
+            next.end = new Date(next.start.getTime() + estimated);
           }
         });
       }
