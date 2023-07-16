@@ -22,10 +22,12 @@
   </div>
   <div class="col-md-4">
     <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'he' }}</h3>
-    <button mat-raised-button (click)="getPatientsQueues()" style="margin-left: 20px;">מקור</button>
+    <button mat-raised-button (click)="getPatientsQueues()"
+      [ngStyle]="{'background-color': IfPlannedSurgeries ? '' : 'cornflowerblue' }">מקור</button>
     <!-- <button mat-raised-button style="background-color: cornflowerblue;" (click)="filterDepartment('undo')">כל
       המחלקות</button> -->
-    <button mat-raised-button (click)="sortSurgeriesOfEachRoomInDay()">תכנון</button>
+    <button mat-raised-button (click)="sortSurgeriesOfEachRoomInDay()"
+      [ngStyle]="{'background-color': IfPlannedSurgeries ? 'cornflowerblue' : '' }">תכנון</button>
   </div>
   <div class="col-md-3">
     <ul class="list">

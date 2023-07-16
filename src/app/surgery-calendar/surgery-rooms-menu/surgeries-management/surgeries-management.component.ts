@@ -86,6 +86,7 @@ export class SurgeriesManagementComponent {
   UserName = localStorage.getItem("loginUserName").toLowerCase();
   loader: boolean = true;
   surgerySurf: boolean = false;
+  IfPlannedSurgeries: boolean = false;
 
 
   constructor(
@@ -217,7 +218,7 @@ export class SurgeriesManagementComponent {
         this.specificRooms.forEach(x => {
           tempArrOfSurgeryRooms.push(x.SurgeryRoom);
         });
-
+        this.IfPlannedSurgeries = false;
         tempArr['SurgeriesCalendarClassList'].forEach(element => {
           // set the title of the surgeries tabs in the dashboard
           if (element.SurgeryPatientDetails == null) {
@@ -281,32 +282,35 @@ export class SurgeriesManagementComponent {
 
   sortSurgeriesOfEachRoomInDay() {
     this.loader = true;
-    this.filteredSpecificRooms.forEach((room, index1) => {
-      if (room.Surgeries != undefined) {
-        let temp = room.Surgeries.filter(x => x.SurgeryStatus != 'Canceled');
-        temp.forEach((surgery, index2) => {
-          // ADDING SETUPTIME TO EACH SURGERY
-          let setuptime = {
-            title: `Setup Time: <b>20min</b>`,
-            start: new Date(surgery.start.getTime() - 1200000),
-            end: surgery.start
-          }
-          this.filteredSpecificRooms[index1].Surgeries.splice(index2, 0, setuptime);
-          let next = temp[index2 + 1];
-          temp[index2].start = new Date(surgery.start.getTime());
-          // check if the next surgery isn't defined
-          if (next != undefined && next.SurgeryStatus != 'Canceled') {
-            let estimated = next.end - next.start;
-            let current_end_time = surgery.end;
-            // change the start time of the next surgery to begin after the end of the current surgery
-            next.start = new Date(current_end_time.getTime() + 1200000);
-            // change the end time of the next surgery to suit the new start time of the next surgery
-            next.end = new Date(next.start.getTime() + estimated);
-          }
-        });
-      }
-    });
-    this.refresh.next();
+    if (!this.IfPlannedSurgeries) {
+      this.filteredSpecificRooms.forEach((room, index1) => {
+        if (room.Surgeries != undefined) {
+          let temp = room.Surgeries.filter(x => x.SurgeryStatus != 'Canceled');
+          temp.forEach((surgery, index2) => {
+            // ADDING SETUPTIME TO EACH SURGERY
+            let setuptime = {
+              title: `Setup Time: <b>20min</b>`,
+              start: new Date(surgery.start.getTime() - 1200000),
+              end: surgery.start
+            }
+            this.filteredSpecificRooms[index1].Surgeries.splice(index2, 0, setuptime);
+            let next = temp[index2 + 1];
+            temp[index2].start = new Date(surgery.start.getTime());
+            // check if the next surgery isn't defined
+            if (next != undefined && next.SurgeryStatus != 'Canceled') {
+              let estimated = next.end - next.start;
+              let current_end_time = surgery.end;
+              // change the start time of the next surgery to begin after the end of the current surgery
+              next.start = new Date(current_end_time.getTime() + 1200000);
+              // change the end time of the next surgery to suit the new start time of the next surgery
+              next.end = new Date(next.start.getTime() + estimated);
+            }
+          });
+        }
+      });
+      this.IfPlannedSurgeries = true;
+      this.refresh.next();
+    }
     this.loader = false;
   }
 
