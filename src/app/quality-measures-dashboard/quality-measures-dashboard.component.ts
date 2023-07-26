@@ -54,6 +54,11 @@ export class QualityMeasuresDashboardComponent implements OnInit {
     this.searchMeasures();
   }
 
+  getRandomInt(max) {
+    return Math.floor(Math.random() * max);
+  }
+
+
   returnLabelsAndColorsToChart(chartData) {
     let dataList = [];
     let colorList = [];
@@ -62,7 +67,7 @@ export class QualityMeasuresDashboardComponent implements OnInit {
     for (let i = 0; i < chartData.length; i++) {
       const random = Math.floor(Math.random() * chartData.length);
       dataList.push(chartData[i].Year + '/' + chartData[i].Measure_TimeLine);
-      colorList.push(this.chartLabels[i].color);
+      colorList.push(this.chartLabels[this.getRandomInt(this.chartLabels.length)].color);
     }
     returnList.push(dataList);
     returnList.push(colorList);
@@ -87,7 +92,7 @@ export class QualityMeasuresDashboardComponent implements OnInit {
   }
 
   loadCharts(event) {
-    if(event == 1 || event == true) this.chartTab = true;
+    if (event == 1 || event == true) this.chartTab = true;
     else this.chartTab = false;
     if (event) {
       let data = this.returnLabelsAndColorsToChart(this.dataSource.filteredData)[0];
@@ -121,7 +126,7 @@ export class QualityMeasuresDashboardComponent implements OnInit {
         _searchCard: this.searchCard.getRawValue(),
       }).subscribe((Response) => {
         this.dataSource = new MatTableDataSource<any>(Response["d"]);
-        if(this.chartTab){
+        if (this.chartTab) {
           this.loadCharts(this.chartTab);
         }
       });
