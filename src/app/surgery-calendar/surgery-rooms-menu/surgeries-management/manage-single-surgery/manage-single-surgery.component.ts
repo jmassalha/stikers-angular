@@ -23,7 +23,8 @@ export class ManageSingleSurgeryComponent implements OnInit {
   filteredOptions: Observable<any[]>;
   surgeriesCtrl = new FormControl('');
   surgeriesList: any[] = [];
-  surgeryNotes: any[] = [];
+  surgeryLateNotes: any[] = [];
+  surgeryCancelNotes: any[] = [];
   filteredOptionssurgeries: Observable<any[]>;
 
   constructor(
@@ -133,7 +134,8 @@ export class ManageSingleSurgeryComponent implements OnInit {
         DoctorSurgeon: new FormControl('', Validators.required),
         AdditionalDetails: this.buildAdditionalFormGroupByDepartment(""),
         Row_ID: new FormControl(null, null),
-        SurgeryNote: new FormControl('', null),
+        SurgeryLateNote: new FormControl('', null),
+        SurgeryCancelNote: new FormControl('', null),
         ArrivalDate: new FormControl(this.data.event.start, Validators.required),
         ArrivalTime: new FormControl('', Validators.required),
         SurgeryRoom: new FormControl(this.data.event.SurgeryRoom, Validators.required),
@@ -174,7 +176,8 @@ export class ManageSingleSurgeryComponent implements OnInit {
         DoctorSurgeon: new FormControl('', Validators.required),
         AdditionalDetails: this.buildAdditionalFormGroupByDepartment(this.data.event.AdditionalDetails),
         Row_ID: new FormControl(this.data.event.Row_ID, Validators.required),
-        SurgeryNote: new FormControl(this.data.event.SurgeryNote.Row_ID, null),
+        SurgeryLateNote: new FormControl(this.data.event.SurgeryLateNote.Row_ID, null),
+        SurgeryCancelNote: new FormControl(this.data.event.SurgeryCancelNote.Row_ID, null),
         ArrivalDate: new FormControl(this.data.event.start, Validators.required),
         ArrivalTime: new FormControl(this.data.event.ArrivalTime, Validators.required),
         SurgeryRoom: new FormControl(this.data.event.SurgeryRoom, Validators.required),
@@ -186,6 +189,27 @@ export class ManageSingleSurgeryComponent implements OnInit {
       this.calculateSurgeryDuration('endTime');
     }
     this.enableDisableSurgeryNameSelect();
+  }
+
+  getNoteObject(type){
+    let obj = {
+      Row_ID: '',
+      Description: '',
+      Priority: '',
+      Status: 1,
+      Type: ''
+    }
+    if(type == 'late'){
+      this.SurgeryFormGroup.controls['SurgeryLateNote'].setValue(this.surgeryLateNotes.filter(x => x.Row_ID == this.SurgeryFormGroup.controls['SurgeryLateNote'].value)[0]);
+    }else{
+      this.SurgeryFormGroup.controls['SurgeryCancelNote'].setValue(this.surgeryCancelNotes.filter(x => x.Row_ID == this.SurgeryFormGroup.controls['SurgeryCancelNote'].value)[0]);
+    }
+    if(this.SurgeryFormGroup.controls['SurgeryLateNote'].value == null){
+      this.SurgeryFormGroup.controls['SurgeryLateNote'].setValue(obj);
+    }
+    if(this.SurgeryFormGroup.controls['SurgeryCancelNote'].value == null){
+      this.SurgeryFormGroup.controls['SurgeryCancelNote'].setValue(obj);
+    }
   }
 
   buildAdditionalFormGroupByDepartment(details) {
@@ -328,7 +352,8 @@ export class ManageSingleSurgeryComponent implements OnInit {
           this.SurgeryDepartments = Response["d"].surgeryRequestDepartments;
         }
         this.surgeonsList = Response["d"].surgeonsList;
-        this.surgeryNotes = Response["d"].surgeriesFixedNotes;
+        this.surgeryLateNotes = Response["d"].surgeriesFixedNotes.filter(x => x.Type == 'Late');
+        this.surgeryCancelNotes = Response["d"].surgeriesFixedNotes.filter(x => x.Type == 'Cancel');
       });
   }
 

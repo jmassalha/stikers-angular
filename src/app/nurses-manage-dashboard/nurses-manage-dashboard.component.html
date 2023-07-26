@@ -211,8 +211,14 @@
                     <mat-card *ngIf="item.Dept_Name"
                         (click)="!onlyDisplay && openDialogToFill(item.Dept_Number,item.Dept_Name,'1')"
                         style="height: 100%;" class="card dash-cards m-2 p-2 text-center">
-                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;"><span
-                                *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
+                        <div class="list-style text-center" style="font-size: 23px;color: darkblue;">
+                            <span class="coronaNumber"
+                                *ngIf="item.NumberOfRespirations !== '0' && item.NumberOfRespirations !== null"
+                                style="color: blue;">
+                                מונשמים:
+                                {{item.NumberOfRespirations}}
+                            </span>
+                            <span *ngIf="item.Dept_Name == 'מיון יולדות (חדר לידה)'">מיון יולדות</span><span
                                 *ngIf="item.Dept_Name == 'טפול נמרץ פגים ובילוד בחולה'">טיפול נמרץ פגים</span>
                             <span
                                 *ngIf="item.Dept_Name != 'מיון יולדות (חדר לידה)' && item.Dept_Name != 'טפול נמרץ פגים ובילוד בחולה'">{{item.Dept_Name}}</span>
@@ -558,8 +564,7 @@
                     class="tooltiptext">מסך
                     תגבור</span></div>
         </mat-card> -->
-        <mat-card class="card-img" style="background-color: white;width: 33.333%;"
-            (click)="!onlyDisplay && onCall()">
+        <mat-card class="card-img" style="background-color: white;width: 33.333%;" (click)="!onlyDisplay && onCall()">
             <div class="card-img" style="background-image:url('../../assets/images/oncall.png')"><span
                     class="tooltiptext">אזעקת עובדים</span></div>
         </mat-card>

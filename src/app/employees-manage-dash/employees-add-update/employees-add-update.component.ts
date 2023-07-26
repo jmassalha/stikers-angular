@@ -23,6 +23,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   employee: any;
   employeePersonalDetails: FormGroup;
   employeeWorkDetails: FormGroup;
+  gymDetails: FormGroup;
   RanksList = [];
   SektorsList = [];
   FunctionsList = [];
@@ -79,6 +80,15 @@ export class EmployeesAddUpdateComponent implements OnInit {
       // KupaID: new FormControl(this.employee.KupaID, null),
       // KupaName: new FormControl(this.employee.KupaName, null),
       DateOfBirth: new FormControl(this.employee.DateOfBirth, [Validators.required]),
+    });
+    if (this.employee.PausePeriod == undefined) this.employee.PausePeriod = false;
+    this.gymDetails = this.formBuilder.group({
+      StartGymDate: new FormControl(this.employee.startGymDate, null),
+      EndGymDate: new FormControl(this.employee.endGymDate, null),
+      MedicalProblems: new FormControl(this.employee.MedicalProblems, null),
+      MedicalApproval: new FormControl(this.employee.MedicalApproval, null),
+      PausePeriod: new FormControl(this.employee.PausePeriod, null),
+      PausePeriodExplain: new FormControl(this.employee.PausePeriodExplain, null),
     });
     this.employeeWorkDetails = this.formBuilder.group({
       RowID: new FormControl(this.employee.RowID, null),
@@ -154,6 +164,10 @@ export class EmployeesAddUpdateComponent implements OnInit {
       this._switchBlossom = "0";
       this.employeeWorkDetails.controls['ApprovedToBlossom'].setValue(this._switchBlossom);
     }
+  }
+
+  goToSignForm() {
+
   }
 
   markRequiredFields() {

@@ -1,5 +1,6 @@
+import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { MatDialog, MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
@@ -15,6 +16,7 @@ export class SurgeryRoomsMenuComponent implements OnInit {
   horizontalPosition: MatSnackBarHorizontalPosition = 'start';
   verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   surgeryRooms: any = [];
+  urgentSurgeryRooms: any = [];
   physicalSurgeryRooms: any = {
     roomsNumber: 0,
     SurgeriesNumber: 0
@@ -35,11 +37,14 @@ export class SurgeryRoomsMenuComponent implements OnInit {
   todaysName: string = "";
   userName = localStorage.getItem('loginUserName');
   userObject: any;
+  @ViewChild('modalUrgentSurgeries', { static: true }) modalUrgentSurgeries: TemplateRef<any>;
+  viewDate: Date;
 
   constructor(
     public dialogRef: MatDialogRef<SurgeryRoomsMenuComponent>,
     @Inject(MAT_DIALOG_DATA) public data: any,
     private _snackBar: MatSnackBar,
+    public datePipe: DatePipe,
     private http: HttpClient,
     public dialog: MatDialog
   ) {
@@ -65,6 +70,7 @@ export class SurgeryRoomsMenuComponent implements OnInit {
 
   ngOnInit(): void {
     this.getUserTypeForPermissions(this.userName.toLowerCase());
+    this.viewDate = this.data.event.day.date;
   }
 
   getUserTypeForPermissions(userName) {
@@ -97,6 +103,27 @@ export class SurgeryRoomsMenuComponent implements OnInit {
     } else {
       this.openSnackBar("אינך מורשה לפתוח תיבה זו");
     }
+  }
+
+  openUrgentSurgeriesSchedule() {
+    let fullDate = this.datePipe.transform(this.viewDate, 'yyyy-MM-dd');
+    this.http
+      .post(environment.url + "GetUrgentSurgeriesByDate", {
+        _fullDate: fullDate,
+      })
+      .subscribe((Response) => {
+        this.urgentSurgeryRooms = Response["d"].SurgeriesCalendarClassList;
+        this.urgentSurgeryRooms = this.urgentSurgeryRooms.sort((a, b) => a.SurgeryRoom.localeCompare(b.SurgeryRoom));
+        this.dialog.open(this.modalUrgentSurgeries, {
+          width: '60%',
+          data: this.urgentSurgeryRooms,
+          disableClose: false
+        });
+      });
+  }
+
+  closeModal() {
+    this.dialog.closeAll();
   }
 
   openSnackBar(message) {

@@ -142,7 +142,6 @@ export class NewBornComponent implements OnInit {
     casenumber = "";
     opendCounter = 0;
     ngOnInit(): void {
-        //debugger
 
         this.selectNewBornUsers();
         this.UserFrom = localStorage.getItem("loginUserName");
@@ -175,7 +174,6 @@ export class NewBornComponent implements OnInit {
         });
     }
     private _filter(value: string): NewBornUsers[] {
-        //debugger
 
         const filterValue = value.toLowerCase();
 
@@ -214,10 +212,8 @@ export class NewBornComponent implements OnInit {
         });
     }
     onSubmit() {
-        debugger
         this.submitted = true;
         if (this.patientForm.invalid) {
-            // console.log(this.patientForm.controls.errors);
             return;
         }
         this.patientForm.value.UserName = this.UserFrom;
@@ -226,14 +222,11 @@ export class NewBornComponent implements OnInit {
             "yyyy-MM-dd",
             "en-US"
         );
-        console.log(this.patientForm.value.NewBornTime)
-        // if(this.opendCounter == 0)   
-        //     this.patientForm.value.NewBornTime._d.setHours(this.patientForm.value.NewBornTime._d.getHours() - 3);
         var dateNow = new Date();
 
         if (dateNow.getHours() - 2 > this.patientForm.value.NewBornTime._d.getHours()) {
             console.log(this.patientForm.value.NewBornTime);
-            this._snackBar.open("שעת לידה קטנה יותר משתי שעות מהשעה הנוכחית !!!!!", "", {
+            this._snackBar.open("עברו שעתיים מאז שעת הלידה!", "", {
                 duration: 15000,
                 direction: "rtl",
                 panelClass: "error",
@@ -244,7 +237,7 @@ export class NewBornComponent implements OnInit {
             return;
         } else if (dateNow.getTime() < this.patientForm.value.NewBornTime._d.getTime()) {
             console.log(this.patientForm.value.NewBornTime);
-            this._snackBar.open("שעת לידה גדולה מהשעה הנוכחית !!!!!", "", {
+            this._snackBar.open("שעת הרישום לא נכונה!", "", {
                 duration: 15000,
                 direction: "rtl",
                 panelClass: "error",
@@ -273,7 +266,6 @@ export class NewBornComponent implements OnInit {
         if ($("#loader").hasClass("d-none")) {
             $("#loader").removeClass("d-none");
         }
-        //debugger;
         this.http
             .post(
                 // "http://srv-apps-prod/RCF_WS/WebService.asmx/SaveNewBornForm",
@@ -332,13 +324,11 @@ export class NewBornComponent implements OnInit {
                 {}
             )
             .subscribe((Response) => {
-                debugger;
                 var json = Response["d"];
                 this.NewBornUsersList = json;
             });
     }
     showRow(content, _type, _element) {
-        debugger;
         this.ShowFormNewBorn = true;
         this.ShowSubmit = false;
         if (_element.NewBornWeightInProgress == "לא") {
@@ -385,13 +375,10 @@ export class NewBornComponent implements OnInit {
                 (result) => {
                     this.closeResult = `Closed with: ${result}`;
                     if ("Save" == result) {
-                        // //////debugger;
                     }
 
-                    //debugger
                 },
                 (reason) => {
-                    //debugger
                     this.patientForm.value.UserName = "";
                     this.ShowFormNewBorn = false;
                     this.myControl = new FormControl("");
@@ -401,13 +388,10 @@ export class NewBornComponent implements OnInit {
     open(content, _type, _element) {
         //this.opendCounter++;
         //$('#free_text').text(_element.FreeText);
-        //////debugger
-        //  debugger
         let now = new Date();
         let hours = ("0" + now.getHours()).slice(-2);
         let minutes = ("0" + now.getMinutes()).slice(-2);
         let str = formatDate(new Date(), "yyyy-MM-dd HH:mm", "en-US");
-        // debugger
         this.UserSmsStatus = false;
         this.UserEmailStatus = false;
         this.ShowSubmit = true;
@@ -452,13 +436,10 @@ export class NewBornComponent implements OnInit {
                 (result) => {
                     this.closeResult = `Closed with: ${result}`;
                     if ("Save" == result) {
-                        // //////debugger;
                     }
 
-                    //debugger
                 },
                 (reason) => {
-                    //debugger
                     this.patientForm.value.UserName = "";
                     this.ShowFormNewBorn = false;
                     this.myControl = new FormControl("");
@@ -466,7 +447,6 @@ export class NewBornComponent implements OnInit {
             );
     }
     getReportresearchespatients($event: any): void {
-        //////debugger
         this.getTableFromServer(
             this.paginator.pageIndex,
             10,
@@ -503,7 +483,6 @@ export class NewBornComponent implements OnInit {
     ) {
         let tableLoader = false;
         if ($("#loader").hasClass("d-none")) {
-            // ////debugger
             tableLoader = true;
             $("#loader").removeClass("d-none");
         }
@@ -521,7 +500,6 @@ export class NewBornComponent implements OnInit {
             )
             .subscribe((Response) => {
                 this.TABLE_DATA.splice(0, this.TABLE_DATA.length);
-                // debugger;
                 var json = Response["d"];
                 this.TABLE_DATA = json;
                 this.dataSource = new MatTableDataSource<any>(this.TABLE_DATA);
@@ -532,7 +510,6 @@ export class NewBornComponent implements OnInit {
                 }
 
                 setTimeout(function () {
-                    //////debugger
                     if (tableLoader) {
                         $("#loader").addClass("d-none");
                     }

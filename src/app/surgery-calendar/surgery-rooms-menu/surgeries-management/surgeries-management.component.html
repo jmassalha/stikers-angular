@@ -22,16 +22,21 @@
   </div>
   <div class="col-md-4">
     <h3>{{ viewDate | calendarDate:(view + 'ViewTitle'):'he' }}</h3>
-    <button mat-raised-button style="background-color: cornflowerblue;" (click)="filterDepartment('undo')">כל המחלקות</button>
+    <button mat-raised-button (click)="getPatientsQueues()"
+      [ngStyle]="{'background-color': IfPlannedSurgeries ? '' : 'cornflowerblue' }">מקור</button>
+    <!-- <button mat-raised-button style="background-color: cornflowerblue;" (click)="filterDepartment('undo')">כל
+      המחלקות</button> -->
+    <button mat-raised-button (click)="sortSurgeriesOfEachRoomInDay()"
+      [ngStyle]="{'background-color': IfPlannedSurgeries ? 'cornflowerblue' : '' }">תכנון</button>
   </div>
   <div class="col-md-3">
     <ul class="list">
-      <li style="color: #F1F305;"><b>דחוף</b></li>
-      <li style="color: #FFA100;"><b>ססיה</b></li>
-      <li style="color: #0ef12f;"><b>הושלם</b></li>
-      <li style="color: #e8abf1;"><b>בתהליך</b></li>
-      <li style="color: #abeff1;"><b>מתוכנן</b></li>
-      <li style="color: #f10e0e;"><b>בוטל</b></li>
+      <li style="background-color: #F1F305;font-size: 22px;"><b>דחוף</b></li>
+      <li style="background-color: #FFA100;font-size: 22px;"><b>ססיה</b></li>
+      <li style="background-color: #0ef12f;font-size: 22px;"><b>הושלם</b></li>
+      <li style="background-color: #e8abf1;font-size: 22px;"><b>בתהליך</b></li>
+      <li style="background-color: #abeff1;font-size: 22px;"><b>מתוכנן</b></li>
+      <li style="background-color: #f10e0e;font-size: 22px;"><b>בוטל</b></li>
     </ul>
   </div>
 </div>

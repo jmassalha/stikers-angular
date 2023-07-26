@@ -218,14 +218,26 @@
             </div>
         </div>
         <div class="row surgery-details">
-            <mat-form-field class="example-full-width" appearance="fill">
-                <mat-label>הערה כללית</mat-label>
-                <mat-select formControlName="SurgeryNote">
-                    <mat-option *ngFor="let nt of surgeryNotes" [value]="nt.Row_ID">
-                        {{nt.Description}}
-                    </mat-option>
-                </mat-select>
-            </mat-form-field>
+            <div class="col-6">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>סיבת עיכוב</mat-label>
+                    <mat-select formControlName="SurgeryLateNote" (selectionChange)="getNoteObject('late')">
+                        <mat-option *ngFor="let lnt of surgeryLateNotes" [value]="lnt.Row_ID">
+                            {{lnt.Description}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
+            <div class="col-6">
+                <mat-form-field class="example-full-width" appearance="fill">
+                    <mat-label>סיבת ביטול</mat-label>
+                    <mat-select formControlName="SurgeryCancelNote" (selectionChange)="getNoteObject('cancel')">
+                        <mat-option *ngFor="let cnt of surgeryCancelNotes" [value]="cnt.Row_ID">
+                            {{cnt.Description}}
+                        </mat-option>
+                    </mat-select>
+                </mat-form-field>
+            </div>
         </div>
         <div class="row-btn">
             <div class="exists-info" *ngIf="patientsList.length != 0 && patientsList[0].ArrivalDate != ''">
