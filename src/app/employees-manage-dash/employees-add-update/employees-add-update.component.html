@@ -146,7 +146,6 @@
                                 </mat-form-field>
                             </li> -->
                         </div>
-
                     </ol>
                     <div>
                         <button mat-raised-button class="btn btn-primary btn-raised mt-3" matStepperNext>הבא</button>
@@ -330,13 +329,11 @@
 
                         </div>
                         <!-- <div class="full-width row">
-                            
                         </div> -->
                     </ol>
                     <div>
                         <button mat-raised-button class="btn btn-primary btn-raised" matStepperNext>הבא</button>
                     </div>
-
                 </form>
             </mat-step>
             <mat-step [stepControl]="gymDetails" *ngIf="UserName == 'adahabre'">
@@ -448,7 +445,6 @@
                         </div>
                     </ol>
                 </form>
-
                 <div class="button-row">
                     <button class="submitBtn mb-2 mt-3" matTooltip="שמירה" [disabled]="employeePersonalDetails.invalid"
                         (click)="saveEmployee()" [disabled]="saveBtnWait" color="primary" type="submit" mat-fab>
