@@ -339,7 +339,7 @@
 
                 </form>
             </mat-step>
-            <mat-step [stepControl]="gymDetails">
+            <mat-step [stepControl]="gymDetails" *ngIf="UserName == 'adahabre'">
                 <form dir="rtl" [formGroup]="gymDetails" autocomplete="off">
                     <ng-template matStepLabel>חדר כושר</ng-template>
                     <div>
