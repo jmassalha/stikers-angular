@@ -29,7 +29,7 @@ export class AddOrEditWagonsComponent implements OnInit {
   Degems: string[] = [
     "AIO מיטווך",
     "AIO דנגוט",
-    "AIO דנגוט-חדש",
+    "AIO דנגוט - חדש",
     "מחשב ישן דנגוט"
   ];
   Types: string[] = [
