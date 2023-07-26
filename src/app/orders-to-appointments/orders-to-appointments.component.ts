@@ -110,6 +110,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
     resultsLength = 0;
     startdateVal: string;
     enddateVal: string;
+    freeTxt: string = "";
     calendarNumber: string = "";
     requestingName: string = "";
     todayDate = new Date();
@@ -435,6 +436,7 @@ export class OrdersToAppointmentsComponent implements OnInit {
                     Status: this.statusOrder,
                     ToDate: this.enddateVal,
                     calendarNumber: this.calendarNumber,
+                    freeTxt: this.freeTxt,
                     requestingName: this.requestingName,
                 }
             )
