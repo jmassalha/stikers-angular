@@ -3,13 +3,14 @@ import { Component, OnInit, ViewChild } from "@angular/core";
 import { FormBuilder } from "@angular/forms";
 import { MatDialog } from "@angular/material/dialog";
 import { MatPaginator } from "@angular/material/paginator";
-import { MatSnackBar } from "@angular/material/snack-bar";
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from "@angular/material/snack-bar";
 import { MatSort } from "@angular/material/sort";
 import { MatTableDataSource } from "@angular/material/table";
 import { Router } from "@angular/router";
 import { NgbActiveModal, NgbModal } from "@ng-bootstrap/ng-bootstrap";
 import { MenuPerm } from "../menu-perm";
 import { AddOrEditWagonsComponent } from "./add-or-edit-wagons/add-or-edit-wagons.component";
+import { ConfirmationDialogService } from "../confirmation-dialog/confirmation-dialog.service";
 export interface Wagon {
   RowId: string;
   WagonName: string;
@@ -30,7 +31,7 @@ export interface Wagon {
   styleUrls: ['./wagon.component.css']
 })
 export class WagonComponent implements OnInit {
-  
+
   TABLE_DATA: Wagon[] = [];
   dataSource = new MatTableDataSource<Wagon>(this.TABLE_DATA);
   @ViewChild(MatPaginator) paginator: MatPaginator;
@@ -45,12 +46,16 @@ export class WagonComponent implements OnInit {
     "Status",
     "editWagon",
   ];
+  horizontalPosition: MatSnackBarHorizontalPosition = 'start';
+  verticalPosition: MatSnackBarVerticalPosition = 'bottom';
   resultsLength = 0;
   constructor(
     private _snackBarUsers: MatSnackBar,
-    private router: Router,
+    private router: Router,    
+    private _snackBar: MatSnackBar,
     private http: HttpClient,
     private modalServiceresearchesusers: NgbModal,
+    private confirmationDialogService: ConfirmationDialogService,
     private formBuilderUsers: FormBuilder,
     activeModal: NgbActiveModal,
     private mMenuPerm: MenuPerm,
@@ -70,6 +75,26 @@ export class WagonComponent implements OnInit {
   }
   ngOnInit(): void {
     this.getTableFromWagons();
+    var username = localStorage.getItem("loginUserName").toLowerCase();
+    switch(username){
+      case "jmassalha":
+      case "olari":
+      case "tk":
+      case "tklinger":
+        this.displayedColumns = [
+          "WagonName",
+          "SerialNumber",
+          "Degem",
+          "Type",
+          "Location",
+          "ConnectionType",
+          "Status",
+          "editWagon",
+          "deleteWagon",
+        ];
+        break;
+
+    }
   }
   open(): void {
     const element: Wagon = {
@@ -97,6 +122,45 @@ export class WagonComponent implements OnInit {
       console.log(`Dialog result: ${result}`);
       this.getTableFromWagons();
     });
+  }
+  openSnackBar(message) {
+    this._snackBar.open(message, 'X', {
+      duration: 5000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
+  }
+  deleteRow(element: Wagon): void {
+    debugger
+    this.confirmationDialogService
+      .confirm("נא לאשר..", "האם אתה בטוח ...? ")
+      .then((confirmed) => {
+        console.log("User confirmed:", confirmed);
+        if (confirmed) {
+          this.http
+            .post(
+              "http://srv-apps-prod/RCF_WS/WebService.asmx/DeleteWagon",
+              {
+                WagonID: element.RowId
+              }
+            )
+            .subscribe((Response) => {
+              if (Response["d"]) {
+                this.openSnackBar("נמחק בהצלחה");
+                this.getTableFromWagons()
+              } else {
+                this.openSnackBar("משהו השתבש, לא נמחק !");
+                this.getTableFromWagons()
+              }
+            });
+        } else {
+        }
+      })
+      .catch(() =>
+        console.log(
+          "User dismissed the dialog (e.g., by using ESC, clicking the cross icon, or clicking outside the dialog)"
+        )
+      );
   }
   editRow(element: Wagon): void {
     const dialogRef = this.dialog.open(AddOrEditWagonsComponent, {
@@ -131,7 +195,7 @@ export class WagonComponent implements OnInit {
     //http://srv-apps-prod/RCF_WS/WebService.asmx/
     this.http
       .post("http://srv-apps-prod/RCF_WS/WebService.asmx/getAllWagons", {
-     // .post("http://localhost:64964/WebService.asmx/getAllWagons", {
+        // .post("http://localhost:64964/WebService.asmx/getAllWagons", {
       })
       .subscribe((Response) => {
         //////////debugger
