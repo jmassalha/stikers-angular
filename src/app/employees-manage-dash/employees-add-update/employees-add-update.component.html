@@ -336,11 +336,20 @@
                     </div>
                 </form>
             </mat-step>
-            <mat-step [stepControl]="gymDetails" *ngIf="UserName == 'adahabre'">
+            <mat-step [stepControl]="gymDetails">
                 <form dir="rtl" [formGroup]="gymDetails" autocomplete="off">
                     <ng-template matStepLabel>חדר כושר</ng-template>
                     <div>
                         <div class="row">
+                            <div class="col-12" style="align-self: center;">
+                                <section class="example-section">
+                                    <mat-checkbox class="example-margin" formControlName="GymParticipant">הרשמה לחדר
+                                        כושר</mat-checkbox>
+                                </section>
+                            </div>
+                        </div>
+                        <div class="row"
+                            *ngIf="gymDetails.controls['GymParticipant'].value">
                             <div class="col-4">
                                 <mat-form-field appearance="fill" class="example-full-width">
                                     <span matPrefix>תאריך תחילת מנוי &nbsp;</span>
@@ -348,13 +357,13 @@
                                         [matDatepicker]="picker5" (focus)="picker5.open()">
                                     <mat-datepicker-toggle matSuffix [for]="picker5">
                                     </mat-datepicker-toggle>
-                                    <mat-datepicker #picker5></mat-datepicker>
+                                    <mat-datepicker #picker5 (closed)="setEndTime()"></mat-datepicker>
                                 </mat-form-field>
                             </div>
                             <div class="col-4">
                                 <mat-form-field appearance="fill" class="example-full-width">
-                                    <span matPrefix>תאריך סיום מנוי &nbsp;</span>
-                                    <input matInput formControlName="EndGymDate" placeholder="תאריך סיום מנוי"
+                                    <span matPrefix>תאריך משוער לסיום מנוי &nbsp;</span>
+                                    <input matInput formControlName="EndGymDate" placeholder="תאריך משוער לסיום מנוי"
                                         [matDatepicker]="picker6" (focus)="picker6.open()">
                                     <mat-datepicker-toggle matSuffix [for]="picker6">
                                     </mat-datepicker-toggle>

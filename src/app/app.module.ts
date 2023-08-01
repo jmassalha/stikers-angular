@@ -194,6 +194,8 @@ import { WagonComponent } from './wagon/wagon.component';
 import { AddOrEditWagonsComponent } from './wagon/add-or-edit-wagons/add-or-edit-wagons.component';
 import { SummaryDialogComponent } from './surgery-calendar/surgery-rooms-menu/surgeries-management/surgeries-management.component';
 import { QualityMeasuresDashboardComponent } from './quality-measures-dashboard/quality-measures-dashboard.component';
+import { BoneMarrowComponent } from './form-dashboard/bone-marrow/bone-marrow.component';
+import { BoneMarrowModalComponent } from './form-dashboard/bone-marrow/bone-marrow-modal/bone-marrow-modal.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -343,7 +345,9 @@ const maskConfig: Partial<IConfig> = {
     FollowUpComponent,
     WagonComponent,
     AddOrEditWagonsComponent,
-    QualityMeasuresDashboardComponent
+    QualityMeasuresDashboardComponent,
+    BoneMarrowComponent,
+    BoneMarrowModalComponent
   ],
   imports: [
     JpTimeMaskModule,
