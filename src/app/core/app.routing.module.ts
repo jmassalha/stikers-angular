@@ -99,6 +99,8 @@ import { CablesComponent } from '../cables/cables.component';
 import { SurgeryCalendarComponent } from '../surgery-calendar/surgery-calendar.component';
 import { FollowUpComponent } from '../consultations/follow-up/follow-up.component';
 import { SurgeryReportsComponent } from '../surgery-reports/surgery-reports.component';
+import { BoneMarrowComponent } from '../form-dashboard/bone-marrow/bone-marrow.component';
+import { BoneMarrowModalComponent } from '../form-dashboard/bone-marrow/bone-marrow-modal/bone-marrow-modal.component';
 import { QualityMeasuresDashboardComponent } from '../quality-measures-dashboard/quality-measures-dashboard.component';
 import { WagonComponent } from '../wagon/wagon.component';
 
@@ -206,6 +208,8 @@ const routes: Routes = [
   { path: "follow-up", component: FollowUpComponent },
   { path: "surgeryreport", component:  SurgeryReportsComponent},  
   { path: "quality-measures", component:  QualityMeasuresDashboardComponent},  
+  { path: "bone-marrow", component:  BoneMarrowComponent},  
+  { path: "bone-marrow-modal", component:  BoneMarrowModalComponent},  
   { path: "wagons", component: WagonComponent },
   { path: '', component : LoginComponent}
 ];

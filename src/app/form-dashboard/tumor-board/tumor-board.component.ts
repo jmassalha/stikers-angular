@@ -1,17 +1,10 @@
-import { SelectionModel } from '@angular/cdk/collections';
-import { NestedTreeControl } from '@angular/cdk/tree';
-import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { FormBuilder, FormGroup } from '@angular/forms';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
-import { MatTreeNestedDataSource } from '@angular/material/tree';
-import { Observable } from 'rxjs';
 import { MatDialog } from '@angular/material/dialog';
-import { map, startWith } from 'rxjs/operators';
-import { Router } from '@angular/router';
-import { PatientDetails, TumorBoardDoctors, TumorBoardForm } from './Tumor-data';
+import { PatientDetails } from './Tumor-data';
 import { TumorBoardModalComponent } from './tumor-board-modal/tumor-board-modal.component';
 import { MatPaginator } from '@angular/material/paginator';
 import { ConfirmationDialogService } from "../../confirmation-dialog/confirmation-dialog.service";
@@ -45,9 +38,7 @@ export class TumorBoardComponent implements OnInit {
   constructor(
     public dialog: MatDialog,
     private fb: FormBuilder,
-    private datePipe: DatePipe,
     private http: HttpClient,
-    private router: Router,
     private _snackBar: MatSnackBar,
     private confirmationDialogService: ConfirmationDialogService
   ) {
@@ -244,7 +235,7 @@ export class TumorBoardComponent implements OnInit {
     </body></html>`;
     $("#loader_2").removeClass("d-none");
     this.http.post("http://srv-ipracticom:8080/WebService.asmx/createTumorBoardPdf", {
-    // this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createTumorBoardPdf", {
+      // this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createTumorBoardPdf", {
       _tumorForm: data,
       html: this.pdfString,
       Catigory: "ZPO_TMRBRD"
@@ -254,7 +245,7 @@ export class TumorBoardComponent implements OnInit {
         let that = this;
         setTimeout(() => {
           that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
-          // that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
+            // that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
             CaseNumber:
               data.PatientDetails.CaseNumber,
             FormID: data.RowID,

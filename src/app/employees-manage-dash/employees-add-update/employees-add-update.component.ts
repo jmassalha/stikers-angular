@@ -9,6 +9,7 @@ import {
   MatSnackBarHorizontalPosition,
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-employees-add-update',
@@ -39,7 +40,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
   _switchBlossom: any = "0";
   AcceptTerms: any;
   saveBtnWait: boolean = false;
-  Api = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  Api = environment.url;
 
   constructor(private _snackBar: MatSnackBar,
     public dialog: MatDialog,
@@ -81,14 +82,19 @@ export class EmployeesAddUpdateComponent implements OnInit {
       // KupaName: new FormControl(this.employee.KupaName, null),
       DateOfBirth: new FormControl(this.employee.DateOfBirth, [Validators.required]),
     });
-    if (this.employee.PausePeriod == undefined) this.employee.PausePeriod = false;
+    // if(this.employee.GymParticipation.StartGymDate == null) this.employee.GymParticipation.StartGymDate = '2023-07-27'
+    // if(this.employee.GymParticipation.EndGymDate == null) this.employee.GymParticipation.EndGymDate = '2023-07-27'
     this.gymDetails = this.formBuilder.group({
-      StartGymDate: new FormControl(this.employee.startGymDate, null),
-      EndGymDate: new FormControl(this.employee.endGymDate, null),
-      MedicalProblems: new FormControl(this.employee.MedicalProblems, null),
-      MedicalApproval: new FormControl(this.employee.MedicalApproval, null),
-      PausePeriod: new FormControl(this.employee.PausePeriod, null),
-      PausePeriodExplain: new FormControl(this.employee.PausePeriodExplain, null),
+      GymParticipant: new FormControl(this.employee.GymParticipation.Row_ID != null, null),
+      Row_ID: new FormControl(this.employee.GymParticipation.Row_ID, null),
+      StartGymDate: new FormControl(this.employee.GymParticipation.StartGymDate, null),
+      EndGymDate: new FormControl(this.employee.GymParticipation.EndGymDate, null),
+      MedicalProblems: new FormControl(this.employee.GymParticipation.MedicalProblems, null),
+      MedicalApproval: new FormControl(this.employee.GymParticipation.MedicalApproval.toLowerCase() == 'true', null),
+      PausePeriod: new FormControl(this.employee.GymParticipation.PausePeriod.toLowerCase() == 'true', null),
+      PausePeriodExplain: new FormControl(this.employee.GymParticipation.PausePeriodExplain, null),
+      EmployeesID: new FormControl(this.employee.GymParticipation.EmployeesID, null),
+      Status: new FormControl(this.employee.GymParticipation.Status, null),
     });
     this.employeeWorkDetails = this.formBuilder.group({
       RowID: new FormControl(this.employee.RowID, null),
@@ -377,6 +383,18 @@ export class EmployeesAddUpdateComponent implements OnInit {
     }
   }
 
+  setEndTime() {
+    let pipe = new DatePipe('en-US');
+    // if(this.gymDetails.controls['EndGymDate'].value == null){
+    //   this.gymDetails.controls['EndGymDate'] = this.gymDetails.controls['StartGymDate'];
+    //   this.gymDetails.controls['EndGymDate'].setValue(this.gymDetails.controls['StartGymDate'].value);
+    // }
+    this.gymDetails.controls['EndGymDate'].setValue(new Date());
+    this.gymDetails.controls['EndGymDate'].value.setMonth(this.gymDetails.controls['StartGymDate'].value.getMonth() + 3);
+    this.gymDetails.controls['EndGymDate'].value.setDate(this.gymDetails.controls['StartGymDate'].value.getDate());
+    this.gymDetails.controls['EndGymDate'].setValue(pipe.transform(this.gymDetails.controls['EndGymDate'].value, 'yyyy-MM-dd'));
+  }
+
   saveEmployee() {
     this.employeeWorkDetails.controls['EmployeeIndex'].setValue(this.getEmployeeIndex());
     let pipe = new DatePipe('en-US');
@@ -385,6 +403,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
     this.employeeWorkDetails.controls['EndWorkDate'].setValue(pipe.transform(this.employeeWorkDetails.controls['EndWorkDate'].value, 'yyyy-MM-dd'));
     this.employeeWorkDetails.controls['DateToEndWork'].setValue(pipe.transform(this.employeeWorkDetails.controls['DateToEndWork'].value, 'yyyy-MM-dd'));
     this.employeePersonalDetails.controls['DateOfBirth'].setValue(pipe.transform(this.employeePersonalDetails.controls['DateOfBirth'].value, 'yyyy-MM-dd'));
+    this.gymDetails.controls['StartGymDate'].setValue(pipe.transform(this.gymDetails.controls['StartGymDate'].value, 'yyyy-MM-dd'));
     if (this.employeeWorkDetails.controls['StatusRow'].value == null || this.employeeWorkDetails.controls['StatusRow'].value == "0") {
       this.employeeWorkDetails.controls['StatusRow'].setValue('0');
       this.employeePersonalDetails.controls['FirstNameEng'].setValidators(null);
@@ -399,6 +418,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
         .post(this.Api + "SaveEmployeeDetails", {
           _personalDetails: this.employeePersonalDetails.getRawValue(),
           _workDetails: this.employeeWorkDetails.getRawValue(),
+          _gymDetails: this.gymDetails.getRawValue(),
           _userName: this.UserName,
         })
         .subscribe((Response) => {

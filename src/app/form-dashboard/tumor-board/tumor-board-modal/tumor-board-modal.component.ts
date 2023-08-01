@@ -1,15 +1,15 @@
 import { DatePipe } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material/autocomplete';
 import { MatChipInputEvent } from '@angular/material/chips';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
-import { COMMA, ENTER } from '@angular/cdk/keycodes';
-import { PatientDetails, TumorBoardDoctors, TumorBoardForm } from '../Tumor-data';
+import { PatientDetails, TumorBoardForm } from '../Tumor-data';
 import { map, startWith } from 'rxjs/operators';
 import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-tumor-board-modal',
@@ -37,7 +37,7 @@ export class TumorBoardModalComponent implements OnInit {
     );
   }
 
-  url = "http://srv-apps-prod/RCF_WS/WebService.asmx/";
+  url = environment.url;
 
   selectable = true;
   removable = true;
