@@ -45,7 +45,7 @@
             <ng-container matColumnDef="delete">
                 <th mat-header-cell *matHeaderCellDef style="text-align: center;"> מחיקה </th>
                 <td mat-cell *matCellDef="let element"> <button type="submit" color="warn" mat-raised-button
-                        (click)="deleteForm(element)">
+                        [disabled]="element.ToNamer == 'True' || loaderPdfNamer" (click)="deleteForm(element)">
                         <mat-icon>delete</mat-icon>
                     </button> </td>
             </ng-container>
@@ -138,7 +138,7 @@
             </div>
         </div>
         <div class="row" dir="rtl" style="display: block;">
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.RecievingType != ''">
                 <div class="row">
                     <h1><u>התקבלה מח עצם:</u></h1>
                 </div>
@@ -146,7 +146,7 @@
                     <p>{{elementToPrint.RecievingType}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.RedRow != ''">
                 <div class="row">
                     <h1><u>שורה אדומה:</u></h1>
                 </div>
@@ -154,7 +154,7 @@
                     <p>{{elementToPrint.RedRow}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.WhiteRow != ''">
                 <div class="row">
                     <h1><u>שורה לבנה:</u></h1>
                 </div>
@@ -162,7 +162,7 @@
                     <p>{{elementToPrint.WhiteRow}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.Eosinophils != ''">
                 <div class="row">
                     <h1><u>אאוזינופילים:</u></h1>
                 </div>
@@ -170,7 +170,7 @@
                     <p>{{elementToPrint.Eosinophils}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.Lymphocytes != ''">
                 <div class="row">
                     <h1><u>לימפוציטים:</u></h1>
                 </div>
@@ -178,7 +178,7 @@
                     <p>{{elementToPrint.Lymphocytes}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.PlasmaCells != ''">
                 <div class="row">
                     <h1><u>תאי פלסמה:</u></h1>
                 </div>
@@ -186,7 +186,7 @@
                     <p>{{elementToPrint.PlasmaCells}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.Megakaryocytes != ''">
                 <div class="row">
                     <h1><u>מגקריוציטים:</u></h1>
                 </div>
@@ -194,7 +194,7 @@
                     <p>{{elementToPrint.Megakaryocytes}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.IronPainting != ''">
                 <div class="row">
                     <h1><u>צביעת ברזל:</u></h1>
                 </div>
@@ -202,7 +202,7 @@
                     <p>{{elementToPrint.IronPainting}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.Summary != ''">
                 <div class="row">
                     <h1><u>סיכום:</u></h1>
                 </div>
@@ -210,7 +210,7 @@
                     <p>{{elementToPrint.Summary}}</p>
                 </div>
             </div>
-            <div class="col-12">
+            <div class="col-12" *ngIf="elementToPrint.DoctorSign != ''">
                 <div class="row">
                     <h1><u>חתימת רופא:</u></h1>
                 </div>
