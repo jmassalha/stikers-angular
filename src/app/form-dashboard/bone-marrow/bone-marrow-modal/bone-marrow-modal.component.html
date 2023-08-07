@@ -41,10 +41,30 @@
         <hr>
         <!-- CONTENT INPUT -->
         <div class="row">
+            <!-- <div class="col-12 text-right">
+                <mat-label>העלאת קובץ</mat-label><br>
+                <input (change)="onFileSelect($event.target.files)" #fileInput type="file" id="file">
+                <img *ngFor="let img of imagesList" src={{img.Path}} [hidden]="imagesList.length == 0" height="100"
+                    width="100">
+            </div> -->
+            <br>
             <div class="col-12">
-                <mat-form-field class="example-full-width">
-                    <mat-label>התקבלה מח עצם</mat-label>
-                    <input matInput placeholder="התקבלה מח עצם" formControlName="RecievingType">
+                <mat-form-field appearance="fill" style="margin: -12px;">
+                    <mat-label style="align-self: center;">תאריך לקיחת בדיקה</mat-label>
+                    <input matInput formControlName="ReceiveDate" [matDatepicker]="picker">
+
+                    <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+                    <mat-datepicker #picker></mat-datepicker>
+                </mat-form-field>
+            </div>
+            <div class="col-12">
+                <mat-form-field>
+                    <mat-label>צלולריות</mat-label>
+                    <mat-select formControlName="RecievingType">
+                        <mat-option *ngFor="let receive of RecievingTypeList" [value]="receive">
+                            {{receive}}
+                        </mat-option>
+                    </mat-select>
                 </mat-form-field>
             </div>
             <div class="col-12">

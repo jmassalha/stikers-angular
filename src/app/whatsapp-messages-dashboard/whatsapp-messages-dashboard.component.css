@@ -1,0 +1,27 @@
+.mat-elevation-z8{
+    width: 100%;
+    margin-bottom: 30px;
+}
+
+.search-bar{
+    display: flex;
+}
+
+.header{
+    margin-bottom: 40px;
+    background-color: #00a884;
+    color: whitesmoke;
+}
+
+mat-form-field{
+    margin-left: 30px;
+}
+
+.dynamic-fields{
+    display: flex;
+}
+
+.contacts-numbers{
+    margin-left: 18px;
+    align-self: center;
+}

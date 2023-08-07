@@ -95,6 +95,7 @@ import { SurgeryCalendarComponent } from "./surgery-calendar/surgery-calendar.co
 import { FollowUpComponent } from "./consultations/follow-up/follow-up.component";
 import { SurgeryReportsComponent } from "./surgery-reports/surgery-reports.component";
 import { BoneMarrowComponent } from "./form-dashboard/bone-marrow/bone-marrow.component";
+import { WhatsappMessagesDashboardComponent } from "./whatsapp-messages-dashboard/whatsapp-messages-dashboard.component";
 import { BoneMarrowModalComponent } from "./form-dashboard/bone-marrow/bone-marrow-modal/bone-marrow-modal.component";
 import { QualityMeasuresDashboardComponent } from "./quality-measures-dashboard/quality-measures-dashboard.component";
 import { WagonComponent } from "./wagon/wagon.component";
@@ -218,6 +219,7 @@ const routes: Routes = [
     { path: "quality-measures", component: QualityMeasuresDashboardComponent },
     { path: "bone-marrow", component: BoneMarrowComponent },
     { path: "bone-marrow-modal", component: BoneMarrowModalComponent },
+    { path: "whatsapp-dashboard", component: WhatsappMessagesDashboardComponent },
     { path: "", component: LoginComponent },
 ];
 @NgModule({

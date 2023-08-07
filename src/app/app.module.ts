@@ -196,6 +196,7 @@ import { SummaryDialogComponent } from './surgery-calendar/surgery-rooms-menu/su
 import { QualityMeasuresDashboardComponent } from './quality-measures-dashboard/quality-measures-dashboard.component';
 import { BoneMarrowComponent } from './form-dashboard/bone-marrow/bone-marrow.component';
 import { BoneMarrowModalComponent } from './form-dashboard/bone-marrow/bone-marrow-modal/bone-marrow-modal.component';
+import { WhatsappMessagesDashboardComponent } from './whatsapp-messages-dashboard/whatsapp-messages-dashboard.component';
 
 
 const maskConfig: Partial<IConfig> = {
@@ -347,7 +348,8 @@ const maskConfig: Partial<IConfig> = {
     AddOrEditWagonsComponent,
     QualityMeasuresDashboardComponent,
     BoneMarrowComponent,
-    BoneMarrowModalComponent
+    BoneMarrowModalComponent,
+    WhatsappMessagesDashboardComponent
   ],
   imports: [
     JpTimeMaskModule,

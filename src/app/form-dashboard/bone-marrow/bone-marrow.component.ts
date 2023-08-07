@@ -173,7 +173,7 @@ export class BoneMarrowComponent implements OnInit {
   linkToNamer(data) {
     this.loaderPdfNamer = true;
     let CaseNumber = "";
-    this.pdfString = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>ניטור החייאה</title>
+    this.pdfString = `<!doctype html><html lang="he"><head><meta charset="utf-8"/><title>אספרציה מח עצם</title>
     <style>p,mat-label,span{font-weight: bold;font-size: 18px;}h1{font-size: 14px}.col-2{width: 16.66667%;justify-content: center;}.row{display: flex;border-style: outset;}</style>
     </head><body dir="rtl">
     <div class="d-none-desktop">
@@ -208,53 +208,53 @@ export class BoneMarrowComponent implements OnInit {
               <div class="col-2" style="float: right;">
                   <h5>מס' טלפון: <br>`+ data.PatientDetails.PhoneNumber + `</h5>
               </div>
-          <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.RecievingType + ` != ''">
                   <div class="row">
                       <h1><u>התקבלה מח עצם:</u><br><p>`+ data.RecievingType + `</p></h1>
                   </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.RedRow + ` != ''">
                   <div class="row">
                       <h1><u>שורה אדומה:</u><br><p>`+ data.RedRow + `</p></h1>
                   </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.WhiteRow + ` != ''">
                   <div class="row">
                       <h1><u>שורה לבנה:</u><br>
                       <p>`+ data.WhiteRow + `</p></h1>
                   </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.Eosinophils + ` != ''">
                   <div class="row">
                       <h1><u>אאוזינופילים:</u><br>
                       <p>`+ data.Eosinophils + `</p></h1>
                   </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.Lymphocytes + ` != ''">
                   <div class="row">
                       <h1><u>לימפוציטים:</u><br>
                       <p>`+ data.Lymphocytes + `</p></h1>
                   </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.PlasmaCells + ` != ''">
                   <div class="row">
                       <h1><u>תאי פלסמה:</u><br>
                       <p>`+ data.PlasmaCells + `</p></h1>
                   </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.Megakaryocytes + ` != ''">
                   <div class="row">
                       <h1><u>מגקריוציטים:</u><br>
                       <p>`+ data.Megakaryocytes + `</p></h1>
                   </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.IronPainting + ` != ''">
                   <div class="row">
                       <h1><u>צביעת ברזל:</u><br>
                       <p>`+ data.IronPainting + `</p></h1>
                   </div>
               </div>
-              <div class="col-12">
+              <div class="col-12" *ngIf="`+ data.Summary + ` != ''">
                   <div class="row">
                       <h1><u>סיכום:</u><br>
                       <p>`+ data.Summary + `</p></h1>
@@ -266,12 +266,13 @@ export class BoneMarrowComponent implements OnInit {
                       <p>`+ data.DoctorSign + `</p></h1>
                   </div>
               </div>
+          </div>
       </div>
-  </div>
     </body></html>`;
     $("#loader_2").removeClass("d-none");
-    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createBoneMarrowPdf", {
-      // this.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/createTumorBoardPdf", {
+    // this.http.post("http://srv-ipracticom:8080/WebService.asmx/createBoneMarrowPdf", {
+    this.http.post(environment.url + "createBoneMarrowPdf", {
+      _patient: data.PatientDetails,
       html: this.pdfString,
       Catigory: "ZPO_BONMRW"
     }
@@ -279,8 +280,8 @@ export class BoneMarrowComponent implements OnInit {
       .subscribe((Response) => {
         let that = this;
         setTimeout(() => {
-          that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
-            // that.http.post("http://srv-apps-prod/RCF_WS/WebService.asmx/LinkPdfToPatientNamer", {
+          // that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+          that.http.post(environment.url + "LinkPdfToPatientNamer", {
             CaseNumber:
               data.PatientDetails.CaseNumber,
             FormID: data.Row_ID,

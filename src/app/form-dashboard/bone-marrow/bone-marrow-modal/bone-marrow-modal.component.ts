@@ -1,7 +1,7 @@
 import { DatePipe } from '@angular/common';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, ElementRef, Inject, OnInit, ViewChild } from '@angular/core';
-import { FormBuilder, FormControl, FormGroup } from '@angular/forms';
+import { FormArray, FormBuilder, FormControl, FormGroup } from '@angular/forms';
 import { MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { Observable } from 'rxjs';
 import { BoneMarrowForm, PatientDetails } from '../../tumor-board/Tumor-data';
@@ -27,6 +27,8 @@ export class BoneMarrowModalComponent implements OnInit {
   filteredOptions1: Observable<string[]>;
   docfilter = new FormControl();
   UserName = localStorage.getItem("loginUserName");
+  imagesList: any[] = [];
+  RecievingTypeList = ['היפרצלולרי', 'נורמוצלולרי', 'היפוצלולרי']
 
   constructor(
     public dialog: MatDialogRef<BoneMarrowModalComponent>,
@@ -75,13 +77,15 @@ export class BoneMarrowModalComponent implements OnInit {
       this.fullForm = this.fb.group({
         Row_ID: form.Row_ID,
         DateOfForm: this.pipe.transform(this.myDate, 'yyyy-MM-dd'),
-        TimeOfForm: this.pipe.transform(this.myDate, 'hh:mm'),
+        TimeOfForm: this.pipe.transform(this.myDate, 'HH:mm'),
+        ReceiveDate: new FormControl('', null),
         RecievingType: new FormControl('', null),
         RedRow: new FormControl('', null),
         WhiteRow: new FormControl('', null),
         Eosinophils: new FormControl('', null),
         Lymphocytes: new FormControl('', null),
         PlasmaCells: new FormControl('', null),
+        ImagesList: this.fb.array([]),
         Megakaryocytes: new FormControl('', null),
         IronPainting: new FormControl('', null),
         Summary: new FormControl('', null),
@@ -107,7 +111,8 @@ export class BoneMarrowModalComponent implements OnInit {
     this.fullForm = this.fb.group({
       Row_ID: data.Row_ID,
       DateOfForm: this.pipe.transform(this.myDate, 'yyyy-MM-dd'),
-      TimeOfForm: this.pipe.transform(this.myDate, 'hh:mm'),
+      TimeOfForm: this.pipe.transform(this.myDate, 'HH:mm'),
+      ReceiveDate: data.ReceiveDate,
       RecievingType: data.RecievingType,
       RedRow: data.RedRow,
       WhiteRow: data.WhiteRow,
@@ -121,9 +126,9 @@ export class BoneMarrowModalComponent implements OnInit {
       UpdateUser: this.UserName,
       Status: true
     });
-
     this.docfilter.setValue(data.DoctorSign);
   }
+
 
   getEmployeesList() {
     this.http
@@ -149,7 +154,64 @@ export class BoneMarrowModalComponent implements OnInit {
     return this.employees.filter(option => option.firstname.includes(filterValue1));
   }
 
+  // convert new image selection to base64 to display for the user
+  selectFile(event: any) { //Angular 11, for stricter type
+    // if (event.type == undefined) event['type'] = "image/jpeg";
+    var mimeType = event.type;
+    // if (mimeType.match(/image\/*/) == null) {
+    //   this.msg = "Only images are supported";
+    //   return;
+    // }
+    var reader = new FileReader();
+    reader.readAsDataURL(event);
+    reader.onload = (_event) => {
+      // this.msg = "";
+      let imageObj = {
+        Path: reader.result,
+        Row_ID: null,
+        Status: true
+      }
+      this.imagesList.push(imageObj);
+    }
+  }
+
+  onFileSelect(imageFile) {
+    if (imageFile.length > 0) {
+      const file = imageFile[0];
+      if (imageFile[0].lastModified != undefined) this.selectFile(file);
+      const files = this.fullForm.get('ImagesList') as FormArray;
+      files.push(new FormControl(file));
+    }
+  }
+
+  // submitForm() {
+  //   this.fullForm.controls['ReceiveDate'].setValue(this.pipe.transform(this.fullForm.controls['ReceiveDate'].value, 'yyyy-MM-dd'));
+  //   //this.prepareFormData(this.fullForm);
+  //   const headers = new HttpHeaders({
+  //     'Content-Type': 'multipart/form-data',
+  //     'Accept': 'application/json'
+  //   });
+  //   let options = { headers: headers };
+  //   let formData: FormData = new FormData();
+  //   // formData.append('dataForm', this.fullForm.value);
+  //   // formData.append('dataPatient', this.patientGroup.value);
+  //   let body = {
+  //     'imageStream': formData
+  //   }
+  //   this.http
+  //     .post(environment.url + "SaveBoneMarrowForm", body.imageStream, options)
+  //     .subscribe((Response) => {
+  //       if (Response["d"]) {
+  //         this.openSnackBar("נשמר בהצלחה");
+  //         // this.closeModal();
+  //       } else {
+  //         this.openSnackBar("משהו השתבש, לא נשמר");
+  //       }
+  //     });
+  // }
+  
   submitForm() {
+    this.fullForm.controls['ReceiveDate'].setValue(this.pipe.transform(this.fullForm.controls['ReceiveDate'].value, 'yyyy-MM-dd'));
     this.http
       .post(environment.url + "SaveBoneMarrowForm", {
         _fullForm: this.fullForm.value,
@@ -158,11 +220,42 @@ export class BoneMarrowModalComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"]) {
           this.openSnackBar("נשמר בהצלחה");
-          this.closeModal();
+          // this.closeModal();
         } else {
           this.openSnackBar("משהו השתבש, לא נשמר");
         }
       });
+  }
+
+  prepareFormData(formGroupData) {
+    var formData = new FormData();
+    let editimagecount = 0;
+    let images = formGroupData.controls['ImagesList'].value;
+    for (const key in formGroupData.controls) {
+      formData.append(key, formGroupData.controls[key].value);
+    }
+    let newImageCounter = 0;
+    for (let i = 0; i < images.length; i++) {
+      // if new image
+      if (images[i].Row_ID == undefined) {
+        formData = this.newImageInsert(formData, newImageCounter, images[i]);
+        newImageCounter++;
+      }
+      // if update image
+      else if (images[i].Row_ID != undefined && images[i].Status != undefined) {
+        formData.append(`image${i}`, images[i].Row_ID + ',' + images[i].Status);
+        editimagecount++;
+      }
+    }
+
+    // Add the image to update count to the FormData object
+    formData.append('editimagecount', editimagecount.toString());
+    return formData;
+  }
+
+  newImageInsert(formData, counter, image) {
+    formData.append(`newimage${counter}`, image);
+    return formData;
   }
 
   openSnackBar(message) {
