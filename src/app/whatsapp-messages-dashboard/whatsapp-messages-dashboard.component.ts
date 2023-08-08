@@ -1,6 +1,10 @@
+import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormArray, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { MatSnackBar, MatSnackBarHorizontalPosition, MatSnackBarVerticalPosition } from '@angular/material/snack-bar';
 import { MatTableDataSource } from '@angular/material/table';
+import { Observable } from 'rxjs';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-whatsapp-messages-dashboard',
@@ -9,6 +13,9 @@ import { MatTableDataSource } from '@angular/material/table';
 })
 export class WhatsappMessagesDashboardComponent implements OnInit {
 
+
+  horizontalPosition: MatSnackBarHorizontalPosition = "start";
+  verticalPosition: MatSnackBarVerticalPosition = "bottom";
   displayedColumns: string[] = ['name', 'number', 'content'];
   dataSource = new MatTableDataSource([]);
   searchForm: FormGroup;
@@ -19,7 +26,9 @@ export class WhatsappMessagesDashboardComponent implements OnInit {
   screenTitle = 'יחידים';
 
   constructor(
+    private http: HttpClient,
     private fb: FormBuilder,
+    private _snackBar: MatSnackBar,
     private cd: ChangeDetectorRef
   ) { }
 
@@ -36,6 +45,7 @@ export class WhatsappMessagesDashboardComponent implements OnInit {
       ContactPhoneNumber: new FormControl('', null),
       ContactContent: new FormControl('', null)
     });
+    this.getWhatsAppMessagesFromServer();
   }
 
   get customFormArray(): FormArray {
@@ -79,6 +89,38 @@ export class WhatsappMessagesDashboardComponent implements OnInit {
 
   startSearch() {
     console.log(this.searchForm.value);
+  }
+
+  getWhatsAppMessagesFromServer() {
+    let that = this;
+    this.getWhatsAppMessagesFromServerService('GetWhatsAppMessagesFromServer').subscribe({
+      next(res) {
+        that.dataSource = new MatTableDataSource<any>(res["d"]);
+      },
+      error(err) {
+        alert('אירעה תקלה');
+        console.log(err);
+      },
+      complete() {
+        console.log('נטען בהצלחה');
+      }
+    });
+  }
+
+  public getWhatsAppMessagesFromServerService(func): Observable<any> {
+    let headers = new HttpHeaders();
+    headers = headers.set('content-type', 'application/json');
+    return this.http.get(environment.url + func, {
+      headers
+    });
+  }
+
+  openSnackBar(message) {
+    this._snackBar.open(message, "X", {
+      duration: 2000,
+      horizontalPosition: this.horizontalPosition,
+      verticalPosition: this.verticalPosition,
+    });
   }
 
 }

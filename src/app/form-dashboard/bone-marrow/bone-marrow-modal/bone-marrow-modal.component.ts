@@ -220,7 +220,7 @@ export class BoneMarrowModalComponent implements OnInit {
       .subscribe((Response) => {
         if (Response["d"]) {
           this.openSnackBar("נשמר בהצלחה");
-          // this.closeModal();
+          this.closeModal();
         } else {
           this.openSnackBar("משהו השתבש, לא נשמר");
         }
