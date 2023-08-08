@@ -268,8 +268,8 @@ export class BoneMarrowComponent implements OnInit {
       </div>
     </body></html>`;
     $("#loader_2").removeClass("d-none");
-    // this.http.post("http://srv-ipracticom:8080/WebService.asmx/createBoneMarrowPdf", {
-    this.http.post(environment.url + "createBoneMarrowPdf", {
+    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createBoneMarrowPdf", {
+    // this.http.post(environment.url + "createBoneMarrowPdf", {
       _patient: data.PatientDetails,
       html: this.pdfString,
       Catigory: "ZPO_BONMRW"
@@ -278,8 +278,8 @@ export class BoneMarrowComponent implements OnInit {
       .subscribe((Response) => {
         let that = this;
         setTimeout(() => {
-          // that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
-          that.http.post(environment.url + "LinkPdfToPatientNamer", {
+          that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+          // that.http.post(environment.url + "LinkPdfToPatientNamer", {
             CaseNumber:
               data.PatientDetails.CaseNumber,
             FormID: data.Row_ID,
