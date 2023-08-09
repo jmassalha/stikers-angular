@@ -16,8 +16,9 @@ export class WhatsappMessagesDashboardComponent implements OnInit {
 
   horizontalPosition: MatSnackBarHorizontalPosition = "start";
   verticalPosition: MatSnackBarVerticalPosition = "bottom";
-  displayedColumns: string[] = ['name', 'number', 'content'];
+  displayedColumns: string[] = ['sender', 'name', 'number', 'content', 'date'];
   dataSource = new MatTableDataSource([]);
+  sendersList = [];
   searchForm: FormGroup;
   customInputs: any[] = [];
   customForm: FormGroup;
@@ -42,10 +43,12 @@ export class WhatsappMessagesDashboardComponent implements OnInit {
       customInputs: this.fb.array([])
     });
     this.manyContacts = this.fb.group({
-      ContactPhoneNumber: new FormControl('', null),
-      ContactContent: new FormControl('', null)
+      Phone_Number: new FormControl('', null),
+      Message_Content: new FormControl('', null),
+      SenderIDFK: new FormControl('', null)
     });
     this.getWhatsAppMessagesFromServer();
+    this.getWhatsAppSendersFromServer();
   }
 
   get customFormArray(): FormArray {
@@ -58,10 +61,11 @@ export class WhatsappMessagesDashboardComponent implements OnInit {
 
   addInput() {
     const contact = new FormGroup({
-      ContactType: new FormControl('0', Validators.required),
-      ContactPhoneNumber: new FormControl('', Validators.required),
-      ContactName: new FormControl('', null),
-      ContactContent: new FormControl('', Validators.required),
+      Recipient_Type: new FormControl('0', Validators.required),
+      Phone_Number: new FormControl('', Validators.required),
+      Recipient: new FormControl('', null),
+      Message_Content: new FormControl('', Validators.required),
+      SenderIDFK: new FormControl('', Validators.required),
     });
     (<FormArray>this.customForm.get('customInputs')).push(contact);
   }
@@ -73,11 +77,38 @@ export class WhatsappMessagesDashboardComponent implements OnInit {
     }
   }
 
+  deleteAllRow() {
+    (this.customForm.get('customInputs') as FormArray).clear();
+  }
+
   sendMessages() {
     if (!this.typeOfScreen) {
-      console.log(this.customForm.value);
+      if (!this.customForm.invalid) {
+        this.http
+          .post(environment.url + "Send_Custom_WhatsApp_Messages", {
+            customForm: this.customForm.value
+          })
+          .subscribe((Response) => {
+            if (Response["d"]) this.openSnackBar('נוסף לתור השליחה');
+            else this.openSnackBar('תקלה!');
+          });
+      } else {
+        this.openSnackBar("למלא שדות חובה");
+      }
     } else {
-      console.log(this.manyContacts.value);
+      if (!this.manyContacts.invalid) {
+        this.http
+          .post(environment.url + "Send_ToMany_WhatsApp_Messages", {
+            manyForm: this.manyContacts.value
+          })
+          .subscribe((Response) => {
+            if (Response["d"]) this.openSnackBar('נוסף לתור השליחה');
+            else this.openSnackBar('תקלה!');
+          });
+      } else {
+        this.openSnackBar("למלא שדות חובה");
+      }
+
     }
   }
 
@@ -96,6 +127,22 @@ export class WhatsappMessagesDashboardComponent implements OnInit {
     this.getWhatsAppMessagesFromServerService('GetWhatsAppMessagesFromServer').subscribe({
       next(res) {
         that.dataSource = new MatTableDataSource<any>(res["d"]);
+      },
+      error(err) {
+        alert('אירעה תקלה');
+        console.log(err);
+      },
+      complete() {
+        console.log('נטען בהצלחה');
+      }
+    });
+  }
+
+  getWhatsAppSendersFromServer() {
+    let that = this;
+    this.getWhatsAppMessagesFromServerService('GetWhatsAppSendersFromServer').subscribe({
+      next(res) {
+        that.sendersList = res["d"];
       },
       error(err) {
         alert('אירעה תקלה');
