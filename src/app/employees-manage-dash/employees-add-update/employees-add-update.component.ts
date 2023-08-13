@@ -1,7 +1,7 @@
 import { HttpClient } from '@angular/common/http';
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, TemplateRef, ViewChild } from '@angular/core';
 import { FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
-import { MatDialog } from '@angular/material/dialog';
+import { MatDialog, MatDialogConfig } from '@angular/material/dialog';
 import { Router } from '@angular/router';
 import { DatePipe } from '@angular/common';
 import {
@@ -10,6 +10,7 @@ import {
   MatSnackBarVerticalPosition,
 } from '@angular/material/snack-bar';
 import { environment } from 'src/environments/environment';
+import { FillSurveyComponent } from 'src/app/fill-survey/fill-survey.component';
 
 @Component({
   selector: 'app-employees-add-update',
@@ -41,9 +42,11 @@ export class EmployeesAddUpdateComponent implements OnInit {
   AcceptTerms: any;
   saveBtnWait: boolean = false;
   Api = environment.url;
+  @ViewChild('modalContent', { static: true }) modalContent: TemplateRef<any>;
 
   constructor(private _snackBar: MatSnackBar,
     public dialog: MatDialog,
+    public dialog2: MatDialog,
     private router: Router,
     private http: HttpClient,
     private formBuilder: FormBuilder
@@ -77,6 +80,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
       Gender: new FormControl(this.employee.Gender, [Validators.required]),
       KupaID: new FormControl(this.employee.KupaID, null),
       Email: new FormControl(this.employee.Email, null),
+      PersonalEmail: new FormControl(this.employee.PersonalEmail, null),
       CellNumber: new FormControl(this.employee.CellNumber, [Validators.required, Validators.pattern("[0-9 ]{10}")]),
       // KupaID: new FormControl(this.employee.KupaID, null),
       // KupaName: new FormControl(this.employee.KupaName, null),
@@ -173,7 +177,13 @@ export class EmployeesAddUpdateComponent implements OnInit {
   }
 
   goToSignForm() {
-
+    let dialogRef = this.dialog.open(FillSurveyComponent, { disableClose: true });
+    dialogRef.componentInstance.urlID = 121;
+    dialogRef.componentInstance.ifContinueForm = 0;
+    dialogRef.componentInstance.NurseID = 0;
+    dialogRef.afterClosed().subscribe(res => {
+      console.log(res);
+    });
   }
 
   markRequiredFields() {
@@ -314,6 +324,7 @@ export class EmployeesAddUpdateComponent implements OnInit {
               Gender: new FormControl(this.employee.Gender, [Validators.required]),
               KupaID: new FormControl(this.employee.KupaID, null),
               Email: new FormControl(this.employee.Email, [Validators.required]),
+              PersonalEmail: new FormControl(this.employee.PersonalEmail, [Validators.required]),
               CellNumber: new FormControl(this.employee.CellNumber, [Validators.required, Validators.pattern("[0-9 ]{10}")]),
               // KupaID: new FormControl(this.employee.KupaID, null),
               // KupaName: new FormControl(this.employee.KupaName, null),
