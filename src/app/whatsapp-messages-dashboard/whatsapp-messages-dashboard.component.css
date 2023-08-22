@@ -1,27 +1,55 @@
-.mat-elevation-z8{
+.mat-elevation-z8 {
     width: 100%;
     margin-bottom: 30px;
 }
 
-.search-bar{
+.search-bar {
     display: flex;
 }
 
-.header{
+.header {
     margin-bottom: 40px;
     background-color: #00a884;
     color: whitesmoke;
 }
 
-mat-form-field{
+mat-form-field {
     margin-left: 30px;
 }
 
-.dynamic-fields{
+.dynamic-fields {
     display: flex;
 }
 
-.contacts-numbers{
+.contacts-numbers {
     margin-left: 18px;
     align-self: center;
+}
+
+table {
+    height: 480px;
+    overflow-y: scroll;
+    display: block;
+}
+
+.container {
+    padding-bottom: 100px;
+}
+
+::ng-deep .mat-progress-bar-fill::after {
+    background-color: #21f106;
+}
+
+::ng-deep .mat-progress-bar-buffer {
+    background: #bff0cd;
+}
+
+::ng-deep .mat-progress-bar {
+    border-radius: 2px;
+}
+
+@media screen and (max-width: 768px) {
+    .dynamic-fields {
+        display: block;
+    }
 }

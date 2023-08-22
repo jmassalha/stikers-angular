@@ -179,15 +179,12 @@ export class BoneMarrowComponent implements OnInit {
     <div class="d-none-desktop">
       <div class="d-none-desktop" dir="rtl">
           <div class="card-header border-bottomIn rel" style="text-align: center;">
-              <img class="full-width" style="width: 100%;" src="c:\\pdf\\TumorBoardForms\\covid_header.png" />
+              <img class="full-width" style="width: 100%;" src="c:\\pdf\\BoneMarrowForms\\covid_header.png" />
               <h1 class="text-center pos-abs-center"><u>אספרציה מח עצם</u></h1>
           </div>
           <div class="row" dir="rtl" style="display: flex;">
-              <div class="col-6" style="width: 50%;text-align: center;float: right;">
-                  <p>תאריך: `+ data.DateOfForm + `</p>
-              </div>
-              <div class="col-6" style="width: 50%;text-align: center;float: right;">
-                  <p>שעה: `+ data.TimeOfForm + `</p>
+              <div class="col-12" style="width: 100%;text-align: center;float: right;">
+                  <p>תאריך: `+ data.RecievingDate + `</p>
               </div>
           </div>
           <div class="col-2" style="float: right;">
@@ -207,60 +204,61 @@ export class BoneMarrowComponent implements OnInit {
               </div>
               <div class="col-2" style="float: right;">
                   <h5>מס' טלפון: <br>`+ data.PatientDetails.PhoneNumber + `</h5>
-              </div>
-              <div class="col-12" *ngIf="`+ data.RecievingType + ` != ''">
+              </div>`;
+    if (data.RecievingType != '') this.pdfString += `
+              <div class="col-12">
                   <div class="row">
                       <h1><u>התקבלה מח עצם:</u><br><p>`+ data.RecievingType + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12" *ngIf="`+ data.RedRow + ` != ''">
+              </div>`;
+    if (data.RedRow != '') this.pdfString += `<div class="col-12">
                   <div class="row">
                       <h1><u>שורה אדומה:</u><br><p>`+ data.RedRow + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12" *ngIf="`+ data.WhiteRow + ` != ''">
+              </div>`;
+    if (data.WhiteRow != '') this.pdfString += `<div class="col-12">
                   <div class="row">
                       <h1><u>שורה לבנה:</u><br>
                       <p>`+ data.WhiteRow + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12" *ngIf="`+ data.Eosinophils + ` != ''">
+              </div>`;
+    if (data.Eosinophils != '') this.pdfString += `<div class="col-12">
                   <div class="row">
                       <h1><u>אאוזינופילים:</u><br>
                       <p>`+ data.Eosinophils + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12" *ngIf="`+ data.Lymphocytes + ` != ''">
+              </div>`;
+    if (data.Lymphocytes != '') this.pdfString += `<div class="col-12">
                   <div class="row">
                       <h1><u>לימפוציטים:</u><br>
                       <p>`+ data.Lymphocytes + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12" *ngIf="`+ data.PlasmaCells + ` != ''">
+              </div>`;
+    if (data.PlasmaCells != '') this.pdfString += `<div class="col-12">
                   <div class="row">
                       <h1><u>תאי פלסמה:</u><br>
                       <p>`+ data.PlasmaCells + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12" *ngIf="`+ data.Megakaryocytes + ` != ''">
+              </div>`;
+    if (data.Megakaryocytes != '') this.pdfString += `<div class="col-12">
                   <div class="row">
                       <h1><u>מגקריוציטים:</u><br>
                       <p>`+ data.Megakaryocytes + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12" *ngIf="`+ data.IronPainting + ` != ''">
+              </div>`;
+    if (data.IronPainting != '') this.pdfString += `<div class="col-12">
                   <div class="row">
                       <h1><u>צביעת ברזל:</u><br>
                       <p>`+ data.IronPainting + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12" *ngIf="`+ data.Summary + ` != ''">
+              </div>`;
+    if (data.Summary != '') this.pdfString += `<div class="col-12">
                   <div class="row">
                       <h1><u>סיכום:</u><br>
                       <p>`+ data.Summary + `</p></h1>
                   </div>
-              </div>
-              <div class="col-12">
+              </div>`;
+    this.pdfString += `<div class="col-12">
                   <div class="row text-center">
                       <h1><u>חתימת רופא:</u><br>
                       <p>`+ data.DoctorSign + `</p></h1>
@@ -270,8 +268,8 @@ export class BoneMarrowComponent implements OnInit {
       </div>
     </body></html>`;
     $("#loader_2").removeClass("d-none");
-    // this.http.post("http://srv-ipracticom:8080/WebService.asmx/createBoneMarrowPdf", {
-    this.http.post(environment.url + "createBoneMarrowPdf", {
+    this.http.post("http://srv-ipracticom:8080/WebService.asmx/createBoneMarrowPdf", {
+    // this.http.post(environment.url + "createBoneMarrowPdf", {
       _patient: data.PatientDetails,
       html: this.pdfString,
       Catigory: "ZPO_BONMRW"
@@ -280,8 +278,8 @@ export class BoneMarrowComponent implements OnInit {
       .subscribe((Response) => {
         let that = this;
         setTimeout(() => {
-          // that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
-          that.http.post(environment.url + "LinkPdfToPatientNamer", {
+          that.http.post("http://srv-ipracticom:756/WebService.asmx/LinkPdfToPatientNamer", {
+          // that.http.post(environment.url + "LinkPdfToPatientNamer", {
             CaseNumber:
               data.PatientDetails.CaseNumber,
             FormID: data.Row_ID,
