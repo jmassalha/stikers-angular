@@ -1,5 +1,0 @@
-<mat-spinner *ngIf="loader"></mat-spinner>
-<google-chart #chart *ngIf="!loader" [type]="type" [data]="data" [options]="options" [columns]="columnNames"
-   [width]="width" [height]="height"
-   (select)="onSelect($event); sendToParent($event);">
-</google-chart>

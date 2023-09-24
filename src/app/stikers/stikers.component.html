@@ -1,102 +1,86 @@
+
+    <mat-form-field class="example-full-width">
+        <mat-label>ת.ז</mat-label>
+        <input type="tel" (blur)='GetData($event)' matInput placeholder="ת.ז" [value]="id">
+    </mat-form-field>
 <div #stickers>
-    <table
-        *ngFor="let number of [0,1,2,3,4,5,6,7]; let i = index"
-        dir="ltr"
-        class="text-right table-data"
-    >
+    <table *ngFor="let number of [0]; let i = index" dir="ltr" class="text-right table-data">
         <tr dir="rtl">
-            <td 
-            *ngFor="let number of [0,1,2];">
+            <td *ngFor="let number of [0,1,2];">
                 <div class="d-block pos-1">
                     <div class="row pos-1-1">
-                        <span class="col"
-                            >{{ mPersonalDetails.LastName }}
-                            {{ mPersonalDetails.FirstName }}</span
-                        >
+                        <span class="col">{{ mPersonalDetails?.LastName }}
+                            {{ mPersonalDetails?.FirstName }}</span>
                     </div>
                     <div class="row  pos-1-2">
-                        <span class="col-4">מ.ז: </span
-                        ><span class="col-8 text-left">{{
-                            mPersonalDetails.PersonID
-                        }}</span>
+                        <span class="col-4">מ.ז: </span><span class="col-8 text-left">{{
+                            mPersonalDetails?.PersonID
+                            }}</span>
                     </div>
                     <div class="ngx-barcode  pos-1-3">
-                        <ngx-barcode
-                            [bc-font-size]="13"
-                            [bc-height]="32"
-                            [bc-value]="mPersonalDetails.CaseNumber"
-                            [bc-display-value]="false"
-                        ></ngx-barcode>
+                        <ngx-barcode [bc-font-size]="13" [bc-height]="32" [bc-value]="mPersonalDetails?.PatientNumber"
+                            [bc-display-value]="false"></ngx-barcode>
                     </div>
                     <div class="row  pos-1-4">
                         <span class="col text-center">{{
-                            mPersonalDetails.CaseNumber
-                        }}</span>
+                            mPersonalDetails?.PatientNumber
+                            }}</span>
                     </div>
                     <div class="row pos-1-5">
                         <span class="col-3 text-right">{{
-                            mPersonalDetails.SeodeDepart
-                        }}</span>
+                            mPersonalDetails?.SeodeDepart
+                            }}</span>
                         <span class="col-3 text-center">{{
-                            mPersonalDetails.Gender
-                        }}</span>
+                            mPersonalDetails?.Gender
+                            }}</span>
                         <span class="col-3 text-right">גיל:</span>
                         <span class="col-3 text-left">{{
-                            mPersonalDetails.Age
-                        }}</span>
+                            mPersonalDetails?.Age
+                            }}</span>
                     </div>
                 </div>
-            </td>          
+            </td>
         </tr>
         <tr dir="rtl">
-            <td  *ngFor="let number of [0,1,2];">
+            <td *ngFor="let number of [0,1,2];">
                 <div class="d-block">
                     <div class="row p-20">
-                        <span class="col"
-                            >{{ mPersonalDetails.LastName }}
-                            {{ mPersonalDetails.FirstName }}</span
-                        >
+                        <span class="col">{{ mPersonalDetails?.LastName }}
+                            {{ mPersonalDetails?.FirstName }}</span>
                     </div>
                     <div class="row p-20">
                         <span class="col-6">{{
-                            mPersonalDetails.FatherName
-                        }}</span
-                        ><span class="col-6 text-left">{{
-                            mPersonalDetails.Age
-                        }}</span>
+                            mPersonalDetails?.FatherName
+                            }}</span><span class="col-6 text-left">{{
+                            mPersonalDetails?.Age
+                            }}</span>
                     </div>
                     <div class="row  p-20">
-                        <span class="col-4">מ.ז: </span
-                        ><span class="col-8 text-left">{{
-                            mPersonalDetails.PersonID
-                        }}</span>
+                        <span class="col-4">מ.ז: </span><span class="col-8 text-left">{{
+                            mPersonalDetails?.PersonID
+                            }}</span>
                     </div>
                     <div class="row p-20">
                         <span class="col-6">{{
-                            mPersonalDetails.SeodeDepartDescription
-                        }}</span
-                        ><span class="col-6 text-left">{{
-                            mPersonalDetails.InDate
-                        }}</span>
+                            mPersonalDetails?.SeodeDepartDescription
+                            }}</span><span class="col-6 text-left">{{
+                            mPersonalDetails?.InDate
+                            }}</span>
                     </div>
                     <div class="row p-20">
                         <span class="col">{{
-                            mPersonalDetails.DepartDescription
-                        }}</span>
+                            mPersonalDetails?.DepartDescription
+                            }}</span>
                     </div>
                     <div class="row p-20">
-                        <span class="col-4 text-right">מקרה: </span>
-                        <span class="col-8 text-left">{{
-                            mPersonalDetails.CaseNumber
-                        }}</span>
+                        <span class="col-5 text-right">מס' מטופל: </span>
+                        <span class="col-7 text-left">{{
+                            mPersonalDetails?.PatientNumber
+                            }}</span>
                     </div>
                     <div class="ngx-barcode pl-20">
-                        <ngx-barcode
-                            [bc-font-size]="13"
-                            [bc-height]="32"
-                            [bc-value]="mPersonalDetails.CaseNumber"
-                            [bc-display-value]="false"
-                        ></ngx-barcode>
+                        <ngx-barcode [bc-font-size]="13" [bc-height]="32" [bc-value]="mPersonalDetails?.PatientNumber"
+                            [bc-display-value]="false"></ngx-barcode>
                     </div>
                     <div class="row p-20">
                         <span class="col">בי"ח צפון</span>
@@ -108,75 +92,46 @@
             <td colspan="3">
                 <div class="d-block  fz-b">
                     <div class="row p-20">
-                        <span class="col-4"
-                            >מיון:
-                            {{ mPersonalDetails.SeodeDepartDescription }}</span
-                        >
+                        <span class="col-4">מיון:
+                            {{ mPersonalDetails?.SeodeDepartDescription }}</span>
                         <span class="col-4">
-                            {{ mPersonalDetails.DepartDescription }}</span
-                        >
-                        <span class="col-4"
-                            >מקרה: {{ mPersonalDetails.CaseNumber }}</span
-                        >
-                    </div>
-                    <div class="row p-20" >
-                        <span class="col-6"
-                            >מ.ז: {{ mPersonalDetails.PersonID }}</span
-                        >
-
-                        <span class="col-6 text-left"
-                            >שם: {{ mPersonalDetails.FirstName }}
-                            {{ mPersonalDetails.LastName }}</span
-                        >
+                            {{ mPersonalDetails?.DepartDescription }}</span>
+                        <span class="col-4">מס' מטופל: {{ mPersonalDetails?.PatientNumber }}</span>
                     </div>
                     <div class="row p-20">
-                        <span class="col-4"
-                            >אב: {{ mPersonalDetails.FatherName }}</span
-                        >
+                        <span class="col-6">מ.ז: {{ mPersonalDetails?.PersonID }}</span>
 
-                        <span class="col-4"
-                            >כתובת: {{ mPersonalDetails.Address }}</span
-                        >
-
-                        <span class="col-4 text-left"
-                            >מין: {{ mPersonalDetails.Gender }}</span
-                        >
+                        <span class="col-6 text-left">שם: {{ mPersonalDetails?.FirstName }}
+                            {{ mPersonalDetails?.LastName }}</span>
                     </div>
                     <div class="row p-20">
-                        <span class="col-6"
-                            >טל: {{ mPersonalDetails.PhoneNumber }}</span
-                        >
+                        <span class="col-4">אב: {{ mPersonalDetails?.FatherName }}</span>
 
-                        <span class="col-6 text-left"
-                            >תאריך לידה: {{ mPersonalDetails.DOB }}</span
-                        >
+                        <span class="col-4">כתובת: {{ mPersonalDetails?.Address }}</span>
+
+                        <span class="col-4 text-left">מין: {{ mPersonalDetails?.Gender }}</span>
                     </div>
                     <div class="row p-20">
-                        <span class="col-6"
-                            >תאריך קבלה: {{ mPersonalDetails.InDate }}
-                            {{ mPersonalDetails.InTime }}</span
-                        >
+                        <span class="col-6">טל: {{ mPersonalDetails?.PhoneNumber }}</span>
+
+                        <span class="col-6 text-left">תאריך לידה: {{ mPersonalDetails?.DOB }}</span>
+                    </div>
+                    <div class="row p-20">
+                        <span class="col-6">תאריך קבלה: {{ mPersonalDetails?.InDate }}
+                            {{ mPersonalDetails?.InTime }}</span>
 
                         <span class="col-6 text-left">
-                            <ngx-barcode
-                                [bc-font-size]="13"
-                                [bc-height]="32"
-                                [bc-value]="mPersonalDetails.CaseNumber"
-                                [bc-display-value]="false"
-                            ></ngx-barcode
-                        ></span>
+                            <ngx-barcode [bc-font-size]="13" [bc-height]="32" [bc-value]="mPersonalDetails?.PatientNumber"
+                                [bc-display-value]="false"></ngx-barcode></span>
                     </div>
                 </div>
             </td>
         </tr>
     </table>
 </div>
-<button
-    type="button"
-    id="print-stickers"
-    (click)="openPrintWindow()"
-    mat-fab
-    color="primary"
->
-    <i class="material-icons">print</i>
-</button>
+<div class="full-width">
+    <button [disabled]="disabled" type="button" id="print-stickers" (click)="openPrintWindow()" mat-fab color="primary">
+        <i *ngIf="!disabled" class="material-icons">print</i>
+        <mat-spinner diameter="25" *ngIf="disabled" class="fit-size"></mat-spinner>
+    </button>
+</div>
